@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 3 - Power Analysis + Missing Data – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../regression-analysis/week-9.html" rel="next">
+<link href="../regression-analysis/week-2.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-567b30ad711c8693efb6495feb883fb3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-3.html">Week 3</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#part-1---power-analysis" id="toc-part-1---power-analysis" class="nav-link" data-scroll-target="#part-1---power-analysis">Part 1 - Power Analysis</a>
+  <ul class="collapse">
+  <li><a href="#what-is-statistical-power" id="toc-what-is-statistical-power" class="nav-link" data-scroll-target="#what-is-statistical-power">1. What is statistical power?</a>
+  <ul class="collapse">
+  <li><a href="#how-to-think-about-it" id="toc-how-to-think-about-it" class="nav-link" data-scroll-target="#how-to-think-about-it">How to think about it</a></li>
+  </ul></li>
+  <li><a href="#why-do-we-need-power-analysis" id="toc-why-do-we-need-power-analysis" class="nav-link" data-scroll-target="#why-do-we-need-power-analysis">2. Why do we need power analysis?</a>
+  <ul class="collapse">
+  <li><a href="#real-world-meaning" id="toc-real-world-meaning" class="nav-link" data-scroll-target="#real-world-meaning">Real-world meaning</a></li>
+  </ul></li>
+  <li><a href="#the-four-linked-quantities" id="toc-the-four-linked-quantities" class="nav-link" data-scroll-target="#the-four-linked-quantities">3. The four linked quantities</a>
+  <ul class="collapse">
+  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why this matters</a></li>
+  <li><a href="#general-pattern" id="toc-general-pattern" class="nav-link" data-scroll-target="#general-pattern">General pattern</a></li>
+  <li><a href="#intuition" id="toc-intuition" class="nav-link" data-scroll-target="#intuition">Intuition</a></li>
+  </ul></li>
+  <li><a href="#effect-size-in-power-analysis" id="toc-effect-size-in-power-analysis" class="nav-link" data-scroll-target="#effect-size-in-power-analysis">4. Effect size in power analysis</a>
+  <ul class="collapse">
+  <li><a href="#important-idea" id="toc-important-idea" class="nav-link" data-scroll-target="#important-idea">Important idea</a></li>
+  <li><a href="#real-world-example-from-the-lecture" id="toc-real-world-example-from-the-lecture" class="nav-link" data-scroll-target="#real-world-example-from-the-lecture">Real-world example from the lecture</a></li>
+  </ul></li>
+  <li><a href="#chemical-company-example" id="toc-chemical-company-example" class="nav-link" data-scroll-target="#chemical-company-example">5. Chemical company example</a></li>
+  <li><a href="#step-1---state-the-hypotheses" id="toc-step-1---state-the-hypotheses" class="nav-link" data-scroll-target="#step-1---state-the-hypotheses">6. Step 1 - State the hypotheses</a>
+  <ul class="collapse">
+  <li><a href="#why-one-tailed" id="toc-why-one-tailed" class="nav-link" data-scroll-target="#why-one-tailed">Why one-tailed?</a></li>
+  </ul></li>
+  <li><a href="#step-2---type-i-and-type-ii-errors-in-context" id="toc-step-2---type-i-and-type-ii-errors-in-context" class="nav-link" data-scroll-target="#step-2---type-i-and-type-ii-errors-in-context">7. Step 2 - Type I and Type II errors in context</a>
+  <ul class="collapse">
+  <li><a href="#type-i-error" id="toc-type-i-error" class="nav-link" data-scroll-target="#type-i-error">Type I error</a></li>
+  <li><a href="#type-ii-error" id="toc-type-ii-error" class="nav-link" data-scroll-target="#type-ii-error">Type II error</a></li>
+  <li><a href="#why-type-ii-error-matters-here" id="toc-why-type-ii-error-matters-here" class="nav-link" data-scroll-target="#why-type-ii-error-matters-here">Why Type II error matters here</a></li>
+  </ul></li>
+  <li><a href="#step-3---carry-out-the-hypothesis-test" id="toc-step-3---carry-out-the-hypothesis-test" class="nav-link" data-scroll-target="#step-3---carry-out-the-hypothesis-test">8. Step 3 - Carry out the hypothesis test</a>
+  <ul class="collapse">
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#important-interpretation" id="toc-important-interpretation" class="nav-link" data-scroll-target="#important-interpretation">Important interpretation</a></li>
+  </ul></li>
+  <li><a href="#p-value-and-lower-confidence-bound" id="toc-p-value-and-lower-confidence-bound" class="nav-link" data-scroll-target="#p-value-and-lower-confidence-bound">9. p-value and lower confidence bound</a>
+  <ul class="collapse">
+  <li><a href="#why-this-is-useful" id="toc-why-this-is-useful" class="nav-link" data-scroll-target="#why-this-is-useful">Why this is useful</a></li>
+  </ul></li>
+  <li><a href="#the-key-power-question" id="toc-the-key-power-question" class="nav-link" data-scroll-target="#the-key-power-question">10. The key power question</a></li>
+  <li><a href="#calculating-power-for-a-meaningful-effect" id="toc-calculating-power-for-a-meaningful-effect" class="nav-link" data-scroll-target="#calculating-power-for-a-meaningful-effect">11. Calculating power for a meaningful effect</a></li>
+  <li><a href="#rejection-rule-in-terms-of-the-sample-mean" id="toc-rejection-rule-in-terms-of-the-sample-mean" class="nav-link" data-scroll-target="#rejection-rule-in-terms-of-the-sample-mean">12. Rejection rule in terms of the sample mean</a>
+  <ul class="collapse">
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#intuition-1" id="toc-intuition-1" class="nav-link" data-scroll-target="#intuition-1">Intuition</a></li>
+  </ul></li>
+  <li><a href="#calculating-type-ii-error-and-power" id="toc-calculating-type-ii-error-and-power" class="nav-link" data-scroll-target="#calculating-type-ii-error-and-power">13. Calculating Type II error and power</a></li>
+  <li><a href="#what-does-power-43.25-mean" id="toc-what-does-power-43.25-mean" class="nav-link" data-scroll-target="#what-does-power-43.25-mean">14. What does power = 43.25% mean?</a>
+  <ul class="collapse">
+  <li><a href="#interpretation-1" id="toc-interpretation-1" class="nav-link" data-scroll-target="#interpretation-1">Interpretation</a></li>
+  <li><a href="#real-world-meaning-1" id="toc-real-world-meaning-1" class="nav-link" data-scroll-target="#real-world-meaning-1">Real-world meaning</a></li>
+  </ul></li>
+  <li><a href="#why-smaller-effects-are-harder-to-detect" id="toc-why-smaller-effects-are-harder-to-detect" class="nav-link" data-scroll-target="#why-smaller-effects-are-harder-to-detect">15. Why smaller effects are harder to detect</a>
+  <ul class="collapse">
+  <li><a href="#why" id="toc-why" class="nav-link" data-scroll-target="#why">Why?</a></li>
+  <li><a href="#real-world-analogy" id="toc-real-world-analogy" class="nav-link" data-scroll-target="#real-world-analogy">Real-world analogy</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#part-2---power-confidence-intervals-and-margin-of-error" id="toc-part-2---power-confidence-intervals-and-margin-of-error" class="nav-link" data-scroll-target="#part-2---power-confidence-intervals-and-margin-of-error">Part 2 - Power, confidence intervals, and margin of error</a>
+  <ul class="collapse">
+  <li><a href="#confidence-interval-formula" id="toc-confidence-interval-formula" class="nav-link" data-scroll-target="#confidence-interval-formula">16. Confidence interval formula</a></li>
+  <li><a href="#what-is-margin-of-error" id="toc-what-is-margin-of-error" class="nav-link" data-scroll-target="#what-is-margin-of-error">17. What is margin of error?</a>
+  <ul class="collapse">
+  <li><a href="#intuition-2" id="toc-intuition-2" class="nav-link" data-scroll-target="#intuition-2">Intuition</a></li>
+  </ul></li>
+  <li><a href="#sample-size-formula-from-margin-of-error" id="toc-sample-size-formula-from-margin-of-error" class="nav-link" data-scroll-target="#sample-size-formula-from-margin-of-error">18. Sample size formula from margin of error</a>
+  <ul class="collapse">
+  <li><a href="#what-this-means" id="toc-what-this-means" class="nav-link" data-scroll-target="#what-this-means">What this means</a></li>
+  </ul></li>
+  <li><a href="#sample-size-example" id="toc-sample-size-example" class="nav-link" data-scroll-target="#sample-size-example">19. Sample size example</a>
+  <ul class="collapse">
+  <li><a href="#why-round-up" id="toc-why-round-up" class="nav-link" data-scroll-target="#why-round-up">Why round up?</a></li>
+  </ul></li>
+  <li><a href="#unknown-standard-deviation" id="toc-unknown-standard-deviation" class="nav-link" data-scroll-target="#unknown-standard-deviation">20. Unknown standard deviation</a></li>
+  </ul></li>
+  <li><a href="#part-3---missing-data" id="toc-part-3---missing-data" class="nav-link" data-scroll-target="#part-3---missing-data">Part 3 - Missing Data</a>
+  <ul class="collapse">
+  <li><a href="#why-missing-data-matters" id="toc-why-missing-data-matters" class="nav-link" data-scroll-target="#why-missing-data-matters">21. Why missing data matters</a></li>
+  <li><a href="#useful-r-functions-for-small-amounts-of-missing-data" id="toc-useful-r-functions-for-small-amounts-of-missing-data" class="nav-link" data-scroll-target="#useful-r-functions-for-small-amounts-of-missing-data">22. Useful R functions for small amounts of missing data</a>
+  <ul class="collapse">
+  <li><a href="#is.nax" id="toc-is.nax" class="nav-link" data-scroll-target="#is.nax"><code>is.na(x)</code></a></li>
+  <li><a href="#how-to-think-about-it-1" id="toc-how-to-think-about-it-1" class="nav-link" data-scroll-target="#how-to-think-about-it-1">🧠 How to think about it</a></li>
+  <li><a href="#sumis.nax" id="toc-sumis.nax" class="nav-link" data-scroll-target="#sumis.nax"><code>sum(is.na(x))</code></a></li>
+  <li><a href="#why-this-is-useful-1" id="toc-why-this-is-useful-1" class="nav-link" data-scroll-target="#why-this-is-useful-1">🧠 Why this is useful</a></li>
+  <li><a href="#meanis.nax" id="toc-meanis.nax" class="nav-link" data-scroll-target="#meanis.nax"><code>mean(is.na(x))</code></a></li>
+  <li><a href="#why-this-matters-1" id="toc-why-this-matters-1" class="nav-link" data-scroll-target="#why-this-matters-1">🧠 Why this matters</a></li>
+  <li><a href="#complete.casesx" id="toc-complete.casesx" class="nav-link" data-scroll-target="#complete.casesx"><code>complete.cases(x)</code></a></li>
+  <li><a href="#removing-missing-data" id="toc-removing-missing-data" class="nav-link" data-scroll-target="#removing-missing-data">Removing missing data</a></li>
+  <li><a href="#important-warning" id="toc-important-warning" class="nav-link" data-scroll-target="#important-warning">🧠 Important warning</a></li>
+  </ul></li>
+  <li><a href="#types-of-missing-data-very-important" id="toc-types-of-missing-data-very-important" class="nav-link" data-scroll-target="#types-of-missing-data-very-important">23. Types of missing data (VERY IMPORTANT)</a>
+  <ul class="collapse">
+  <li><a href="#mcar-missing-completely-at-random" id="toc-mcar-missing-completely-at-random" class="nav-link" data-scroll-target="#mcar-missing-completely-at-random">1. MCAR — Missing Completely At Random</a></li>
+  <li><a href="#mar-missing-at-random" id="toc-mar-missing-at-random" class="nav-link" data-scroll-target="#mar-missing-at-random">2. MAR — Missing At Random</a></li>
+  <li><a href="#mnar-missing-not-at-random" id="toc-mnar-missing-not-at-random" class="nav-link" data-scroll-target="#mnar-missing-not-at-random">3. MNAR — Missing Not At Random</a></li>
+  <li><a href="#why-this-matters-2" id="toc-why-this-matters-2" class="nav-link" data-scroll-target="#why-this-matters-2">🧠 Why this matters</a></li>
+  </ul></li>
+  <li><a href="#visualising-missing-data" id="toc-visualising-missing-data" class="nav-link" data-scroll-target="#visualising-missing-data">24. Visualising missing data</a>
+  <ul class="collapse">
+  <li><a href="#aggr-function" id="toc-aggr-function" class="nav-link" data-scroll-target="#aggr-function"><code>aggr()</code> function</a></li>
+  <li><a href="#what-it-shows" id="toc-what-it-shows" class="nav-link" data-scroll-target="#what-it-shows">What it shows</a></li>
+  <li><a href="#how-to-interpret" id="toc-how-to-interpret" class="nav-link" data-scroll-target="#how-to-interpret">🧠 How to interpret</a></li>
+  <li><a href="#barmiss" id="toc-barmiss" class="nav-link" data-scroll-target="#barmiss"><code>barMiss()</code></a></li>
+  <li><a href="#what-it-does" id="toc-what-it-does" class="nav-link" data-scroll-target="#what-it-does">What it does</a></li>
+  <li><a href="#why-this-is-powerful" id="toc-why-this-is-powerful" class="nav-link" data-scroll-target="#why-this-is-powerful">🧠 Why this is powerful</a></li>
+  <li><a href="#scatter-plots-with-missing-data" id="toc-scatter-plots-with-missing-data" class="nav-link" data-scroll-target="#scatter-plots-with-missing-data">Scatter plots with missing data</a></li>
+  </ul></li>
+  <li><a href="#what-to-do-with-missing-data" id="toc-what-to-do-with-missing-data" class="nav-link" data-scroll-target="#what-to-do-with-missing-data">25. What to do with missing data?</a>
+  <ul class="collapse">
+  <li><a href="#remove-data-simple-approach" id="toc-remove-data-simple-approach" class="nav-link" data-scroll-target="#remove-data-simple-approach">1. Remove data (simple approach)</a></li>
+  <li><a href="#imputation-fill-in-missing-values" id="toc-imputation-fill-in-missing-values" class="nav-link" data-scroll-target="#imputation-fill-in-missing-values">2. Imputation (fill in missing values)</a></li>
+  <li><a href="#important-limitation" id="toc-important-limitation" class="nav-link" data-scroll-target="#important-limitation">⚠️ Important limitation</a></li>
+  <li><a href="#more-advanced-methods-not-covered-deeply-yet" id="toc-more-advanced-methods-not-covered-deeply-yet" class="nav-link" data-scroll-target="#more-advanced-methods-not-covered-deeply-yet">3. More advanced methods (not covered deeply yet)</a></li>
+  </ul></li>
+  <li><a href="#key-connection-missing-data-and-power" id="toc-key-connection-missing-data-and-power" class="nav-link" data-scroll-target="#key-connection-missing-data-and-power">26. Key connection: Missing data and power</a>
+  <ul class="collapse">
+  <li><a href="#big-picture-insight" id="toc-big-picture-insight" class="nav-link" data-scroll-target="#big-picture-insight">🧠 Big picture insight</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#final-takeaways-week-3" id="toc-final-takeaways-week-3" class="nav-link" data-scroll-target="#final-takeaways-week-3">🔚 Final Takeaways (Week 3)</a>
+  <ul class="collapse">
+  <li><a href="#power-analysis" id="toc-power-analysis" class="nav-link" data-scroll-target="#power-analysis">Power Analysis</a></li>
+  <li><a href="#confidence-and-sample-size" id="toc-confidence-and-sample-size" class="nav-link" data-scroll-target="#confidence-and-sample-size">Confidence and Sample Size</a></li>
+  <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data">Missing Data</a></li>
+  <li><a href="#most-important-idea-from-this-lecture" id="toc-most-important-idea-from-this-lecture" class="nav-link" data-scroll-target="#most-important-idea-from-this-lecture">🧠 Most important idea from this lecture</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-3.html">Week 3</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Week 3 - Power Analysis + Missing Data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This class had two main parts:</p>
+<ul>
+<li><strong>Power analysis</strong> → how likely a statistical test is to detect a real effect</li>
+<li><strong>Missing data</strong> → how to identify, visualise, and deal with missing values in R</li>
+</ul>
+<p>These two topics are very important in real data analysis because they answer two practical questions:</p>
+<ol type="1">
+<li><strong>Do we have enough data to detect something important?</strong></li>
+<li><strong>Can we trust our analysis if some of the data is missing?</strong></li>
+</ol>
+<p>A lot of statistics courses focus on how to run a test, but this class goes one step further. It asks whether the test had a fair chance of finding an effect in the first place, and whether missing values may be distorting the result.</p>
+<hr>
+</section>
+<section id="part-1---power-analysis" class="level1">
+<h1>Part 1 - Power Analysis</h1>
+<section id="what-is-statistical-power" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-statistical-power">1. What is statistical power?</h2>
+<p>Statistical power is the probability of <strong>rejecting the null hypothesis when the null hypothesis is false</strong>.</p>
+<p>In symbols:</p>
+<p><span class="math display">\[
+\text{Power} = 1 - \beta
+\]</span></p>
+<p>where:</p>
+<ul>
+<li>( ) = probability of a <strong>Type II error</strong></li>
+<li>( 1 - ) = probability of correctly detecting a real effect</li>
+</ul>
+<section id="how-to-think-about-it" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-think-about-it">How to think about it</h3>
+<p>Power is basically the test’s <strong>ability to notice something real</strong>.</p>
+<p>Imagine a smoke alarm:</p>
+<ul>
+<li>A <strong>powerful</strong> smoke alarm goes off when there really is smoke</li>
+<li>A <strong>weak</strong> smoke alarm misses the smoke and stays silent</li>
+</ul>
+<p>A statistical test is similar. If there really is an effect in the population, a high-power test is more likely to find it.</p>
+<hr>
+</section>
+</section>
+<section id="why-do-we-need-power-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="why-do-we-need-power-analysis">2. Why do we need power analysis?</h2>
+<p>A non-significant result can mean two different things:</p>
+<ul>
+<li>there really is <strong>no effect</strong></li>
+<li>there <strong>is</strong> an effect, but the study was too weak to detect it</li>
+</ul>
+<p>This is why power matters.</p>
+<section id="real-world-meaning" class="level3">
+<h3 class="anchored" data-anchor-id="real-world-meaning">Real-world meaning</h3>
+<p>Suppose a new medicine really helps patients a little, but your sample is tiny.</p>
+<p>Your test may say:</p>
+<blockquote class="blockquote">
+<p>“Fail to reject the null hypothesis”</p>
+</blockquote>
+<p>But that does <strong>not</strong> necessarily mean the medicine does nothing. It may just mean the study did not have enough power.</p>
+<p>That is the main purpose of power analysis:</p>
+<blockquote class="blockquote">
+<p>to check whether the sample size is large enough to detect an effect that matters</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="the-four-linked-quantities" class="level2">
+<h2 class="anchored" data-anchor-id="the-four-linked-quantities">3. The four linked quantities</h2>
+<p>The slides say that four quantities are related:</p>
+<ul>
+<li>sample size (n)</li>
+<li>effect size</li>
+<li>significance level ( )</li>
+<li>power (1 - )</li>
+</ul>
+<section id="why-this-matters" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-matters">Why this matters</h3>
+<p>These four quantities work like a balancing system.</p>
+<p>If you change one, the others are affected.</p>
+</section>
+<section id="general-pattern" class="level3">
+<h3 class="anchored" data-anchor-id="general-pattern">General pattern</h3>
+<ul>
+<li><strong>larger sample size</strong> → higher power</li>
+<li><strong>larger effect size</strong> → higher power</li>
+<li><strong>smaller alpha</strong> (stricter test) → lower power</li>
+<li><strong>higher desired power</strong> → usually need larger sample size</li>
+</ul>
+</section>
+<section id="intuition" class="level3">
+<h3 class="anchored" data-anchor-id="intuition">Intuition</h3>
+<p>If you are trying to detect a <strong>very small difference</strong>, you need more data.</p>
+<p>If you are happy to detect only <strong>large differences</strong>, you may need less data.</p>
+<p>So power analysis is really about matching the <strong>study design</strong> to the <strong>kind of effect you care about</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="effect-size-in-power-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="effect-size-in-power-analysis">4. Effect size in power analysis</h2>
+<p>In practice, we do <strong>not</strong> know the true effect size.</p>
+<p>If we already knew the true effect, there would be no need to do the test.</p>
+<p>So instead, we choose a <strong>minimum effect size of practical importance</strong>.</p>
+<section id="important-idea" class="level3">
+<h3 class="anchored" data-anchor-id="important-idea">Important idea</h3>
+<p>This is not just “any difference”.</p>
+<p>It is the <strong>smallest difference that would actually matter in real life</strong>.</p>
+</section>
+<section id="real-world-example-from-the-lecture" class="level3">
+<h3 class="anchored" data-anchor-id="real-world-example-from-the-lecture">Real-world example from the lecture</h3>
+<p>The slides give an example with premature infants, where a difference of <strong>500 g in weight gain</strong> was considered clinically significant.</p>
+<p>That means the researchers were saying:</p>
+<blockquote class="blockquote">
+<p>“We are not just interested in any tiny difference. We want to be able to detect a difference of at least 500 g, because that is the minimum difference that matters in practice.”</p>
+</blockquote>
+<p>This is the difference between:</p>
+<ul>
+<li><strong>statistical significance</strong> → is there evidence of some effect?</li>
+<li><strong>practical or clinical significance</strong> → is the effect large enough to matter?</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="chemical-company-example" class="level2">
+<h2 class="anchored" data-anchor-id="chemical-company-example">5. Chemical company example</h2>
+<p>The lecture uses a good example:</p>
+<p>A company claims that the mean amount of caustic material is:</p>
+<p><span class="math display">\[
+\mu = 4.0
+\]</span></p>
+<p>An inspector takes a sample of 30 containers and gets:</p>
+<ul>
+<li>sample mean ( {x} = 4.3 )</li>
+<li>known standard deviation ( = 1.3 )</li>
+</ul>
+<p>If the true amount is <strong>greater than 4</strong>, the product may be dangerous.</p>
+<hr>
+</section>
+<section id="step-1---state-the-hypotheses" class="level2">
+<h2 class="anchored" data-anchor-id="step-1---state-the-hypotheses">6. Step 1 - State the hypotheses</h2>
+<p>Because the product is only dangerous if the mean is <strong>greater than 4</strong>, this is a <strong>one-tailed test</strong>.</p>
+<p><span class="math display">\[
+H_0: \mu = 4.0
+\]</span></p>
+<p><span class="math display">\[
+H_A: \mu &gt; 4.0
+\]</span></p>
+<section id="why-one-tailed" class="level3">
+<h3 class="anchored" data-anchor-id="why-one-tailed">Why one-tailed?</h3>
+<p>Because we only care about <strong>too much</strong> caustic material.</p>
+<p>If the mean were lower than 4, that is not the danger being studied here.</p>
+<hr>
+</section>
+</section>
+<section id="step-2---type-i-and-type-ii-errors-in-context" class="level2">
+<h2 class="anchored" data-anchor-id="step-2---type-i-and-type-ii-errors-in-context">7. Step 2 - Type I and Type II errors in context</h2>
+<section id="type-i-error" class="level3">
+<h3 class="anchored" data-anchor-id="type-i-error">Type I error</h3>
+<p>Reject (H_0) when it is actually true.</p>
+<p>In this problem:</p>
+<blockquote class="blockquote">
+<p>We conclude that the true mean is greater than 4 ml per litre when in fact it is not.</p>
+</blockquote>
+<p>So we would falsely label the product as dangerous.</p>
+<hr>
+</section>
+<section id="type-ii-error" class="level3">
+<h3 class="anchored" data-anchor-id="type-ii-error">Type II error</h3>
+<p>Fail to reject (H_0) when it is actually false.</p>
+<p>In this problem:</p>
+<blockquote class="blockquote">
+<p>We conclude that the true mean is not greater than 4 ml per litre when in fact it is.</p>
+</blockquote>
+<p>So we would miss a dangerous product.</p>
+</section>
+<section id="why-type-ii-error-matters-here" class="level3">
+<h3 class="anchored" data-anchor-id="why-type-ii-error-matters-here">Why Type II error matters here</h3>
+<p>This is why power analysis is important.</p>
+<p>In safety settings, failing to detect a real danger can be a serious problem.</p>
+<hr>
+</section>
+</section>
+<section id="step-3---carry-out-the-hypothesis-test" class="level2">
+<h2 class="anchored" data-anchor-id="step-3---carry-out-the-hypothesis-test">8. Step 3 - Carry out the hypothesis test</h2>
+<p>Since the population standard deviation is known, we use a <strong>one-sample Z test</strong>.</p>
+<p>The test statistic is:</p>
+<p><span class="math display">\[
+Z = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}}
+\]</span></p>
+<p>Substitute the values:</p>
+<p><span class="math display">\[
+Z = \frac{4.3 - 4.0}{1.3 / \sqrt{30}} = 1.264
+\]</span></p>
+<p>At the 5% significance level for a <strong>one-tailed</strong> test, the critical value is:</p>
+<p><span class="math display">\[
+Z_{crit} = 1.645
+\]</span></p>
+<p>Since:</p>
+<p><span class="math display">\[
+1.264 &lt; 1.645
+\]</span></p>
+<p>we <strong>fail to reject the null hypothesis</strong>.</p>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>The data does <strong>not</strong> provide enough evidence to conclude that the mean level of caustic material is greater than 4 ml per litre.</p>
+</section>
+<section id="important-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="important-interpretation">Important interpretation</h3>
+<p>This does <strong>not</strong> prove the mean is 4 or less.</p>
+<p>It only means the sample did not give strong enough evidence to conclude it is greater than 4.</p>
+<p>That distinction is very important.</p>
+<hr>
+</section>
+</section>
+<section id="p-value-and-lower-confidence-bound" class="level2">
+<h2 class="anchored" data-anchor-id="p-value-and-lower-confidence-bound">9. p-value and lower confidence bound</h2>
+<p>The lecture also gives:</p>
+<ul>
+<li>( p = 0.103 )</li>
+<li>95% lower confidence bound = 3.910</li>
+</ul>
+<p>Since ( p &gt; 0.05 ), the result is not statistically significant.</p>
+<p>The lower confidence bound means:</p>
+<blockquote class="blockquote">
+<p>We are 95% confident that the true population mean is greater than 3.910.</p>
+</blockquote>
+<section id="why-this-is-useful" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-is-useful">Why this is useful</h3>
+<p>The p-value only helps with the decision.</p>
+<p>The confidence bound gives more information about the range of plausible values.</p>
+<hr>
+</section>
+</section>
+<section id="the-key-power-question" class="level2">
+<h2 class="anchored" data-anchor-id="the-key-power-question">10. The key power question</h2>
+<p>After failing to reject the null, the lecturer asks the really important question:</p>
+<blockquote class="blockquote">
+<p>Did the result show there is no dangerous increase, or was the sample just too small to detect it?</p>
+</blockquote>
+<p>That is exactly what power analysis helps answer.</p>
+<hr>
+</section>
+<section id="calculating-power-for-a-meaningful-effect" class="level2">
+<h2 class="anchored" data-anchor-id="calculating-power-for-a-meaningful-effect">11. Calculating power for a meaningful effect</h2>
+<p>Suppose we decide that a dangerous increase would be:</p>
+<p><span class="math display">\[
+4.35 \text{ ml per litre}
+\]</span></p>
+<p>That means the effect size of interest is:</p>
+<p><span class="math display">\[
+0.35
+\]</span></p>
+<p>Now the question becomes:</p>
+<blockquote class="blockquote">
+<p>If the true mean really were 4.35, how likely would this test be to detect it?</p>
+</blockquote>
+<p>That probability is the <strong>power</strong>.</p>
+<hr>
+</section>
+<section id="rejection-rule-in-terms-of-the-sample-mean" class="level2">
+<h2 class="anchored" data-anchor-id="rejection-rule-in-terms-of-the-sample-mean">12. Rejection rule in terms of the sample mean</h2>
+<p>Earlier we had the critical Z value:</p>
+<p><span class="math display">\[
+Z_{crit} = 1.645
+\]</span></p>
+<p>We can convert this back to the sample-mean scale:</p>
+<p><span class="math display">\[
+\bar{X} = \mu + \frac{\sigma}{\sqrt{n}} Z_{crit}
+\]</span></p>
+<p>Substituting:</p>
+<p><span class="math display">\[
+\bar{X} = 4 + \frac{1.3}{\sqrt{30}}(1.645) = 4.39
+\]</span></p>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<ul>
+<li>If ( {X} &gt; 4.39 ) → reject (H_0)</li>
+<li>If ( {X} &lt; 4.39 ) → fail to reject (H_0)</li>
+</ul>
+<p>So the sample mean must be at least <strong>4.39</strong> for the test to detect the effect.</p>
+</section>
+<section id="intuition-1" class="level3">
+<h3 class="anchored" data-anchor-id="intuition-1">Intuition</h3>
+<p>This is the “cut-off point” needed before the evidence is strong enough.</p>
+<hr>
+</section>
+</section>
+<section id="calculating-type-ii-error-and-power" class="level2">
+<h2 class="anchored" data-anchor-id="calculating-type-ii-error-and-power">13. Calculating Type II error and power</h2>
+<p>If the true mean is actually (4.35), then Type II error means:</p>
+<blockquote class="blockquote">
+<p>we fail to reject the null even though the alternative is true</p>
+</blockquote>
+<p>So we need:</p>
+<p><span class="math display">\[
+P(\bar{X} &lt; 4.39 \mid \mu = 4.35)
+\]</span></p>
+<p>Convert to a Z score:</p>
+<p><span class="math display">\[
+Z = \frac{4.39 - 4.35}{1.3/\sqrt{30}} = 0.17
+\]</span></p>
+<p>From the normal table:</p>
+<p><span class="math display">\[
+P(Z &lt; 0.17) = 0.5675
+\]</span></p>
+<p>So:</p>
+<p><span class="math display">\[
+\beta = 0.5675
+\]</span></p>
+<p>and therefore:</p>
+<p><span class="math display">\[
+\text{Power} = 1 - \beta = 1 - 0.5675 = 0.4325
+\]</span></p>
+<p>So the power is:</p>
+<p><span class="math display">\[
+43.25\%
+\]</span></p>
+<hr>
+</section>
+<section id="what-does-power-43.25-mean" class="level2">
+<h2 class="anchored" data-anchor-id="what-does-power-43.25-mean">14. What does power = 43.25% mean?</h2>
+<p>This means:</p>
+<blockquote class="blockquote">
+<p>If the true mean is really 4.35, this test would detect that effect only about 43% of the time.</p>
+</blockquote>
+<p>That is not very good.</p>
+<section id="interpretation-1" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation-1">Interpretation</h3>
+<p>There is a bigger chance of <strong>missing the effect</strong> than detecting it.</p>
+<p>So this low power suggests the study may be too weak to reliably detect that effect.</p>
+</section>
+<section id="real-world-meaning-1" class="level3">
+<h3 class="anchored" data-anchor-id="real-world-meaning-1">Real-world meaning</h3>
+<p>If you are testing something potentially dangerous, 43% power is poor.</p>
+<p>You would want a better chance of catching the problem.</p>
+<p>Usually researchers want power around <strong>80% or higher</strong>, though the lecture did not focus on that threshold explicitly.</p>
+<hr>
+</section>
+</section>
+<section id="why-smaller-effects-are-harder-to-detect" class="level2">
+<h2 class="anchored" data-anchor-id="why-smaller-effects-are-harder-to-detect">15. Why smaller effects are harder to detect</h2>
+<p>The exercise then changes the effect size from <strong>0.35</strong> to <strong>0.1</strong>.</p>
+<p>The answer becomes much lower power.</p>
+<section id="why" class="level3">
+<h3 class="anchored" data-anchor-id="why">Why?</h3>
+<p>Because smaller effects are harder to separate from random noise.</p>
+</section>
+<section id="real-world-analogy" class="level3">
+<h3 class="anchored" data-anchor-id="real-world-analogy">Real-world analogy</h3>
+<p>It is easier to hear a loud alarm in a noisy room than a very quiet beep.</p>
+<p>A large effect stands out more clearly. A small effect gets lost more easily.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="part-2---power-confidence-intervals-and-margin-of-error" class="level1">
+<h1>Part 2 - Power, confidence intervals, and margin of error</h1>
+<section id="confidence-interval-formula" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-interval-formula">16. Confidence interval formula</h2>
+<p>When the population standard deviation is known, the confidence interval for a mean is:</p>
+<p><span class="math display">\[
+\bar{x} \pm Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
+\]</span></p>
+<p>The term</p>
+<p><span class="math display">\[
+Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
+\]</span></p>
+<p>is the <strong>margin of error (ME)</strong>.</p>
+<hr>
+</section>
+<section id="what-is-margin-of-error" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-margin-of-error">17. What is margin of error?</h2>
+<p>The margin of error is how far we are willing for our estimate to be from the true value.</p>
+<section id="intuition-2" class="level3">
+<h3 class="anchored" data-anchor-id="intuition-2">Intuition</h3>
+<p>If the margin of error is small, we want a <strong>very precise</strong> estimate.</p>
+<p>If we want a more precise estimate, we usually need a <strong>larger sample size</strong>.</p>
+<p>So margin of error and sample size are directly connected.</p>
+<hr>
+</section>
+</section>
+<section id="sample-size-formula-from-margin-of-error" class="level2">
+<h2 class="anchored" data-anchor-id="sample-size-formula-from-margin-of-error">18. Sample size formula from margin of error</h2>
+<p>Starting with:</p>
+<p><span class="math display">\[
+ME = Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
+\]</span></p>
+<p>rearranging gives:</p>
+<p><span class="math display">\[
+n = \left(\frac{Z_{\alpha/2}\sigma}{ME}\right)^2
+\]</span></p>
+<section id="what-this-means" class="level3">
+<h3 class="anchored" data-anchor-id="what-this-means">What this means</h3>
+<p>If you know:</p>
+<ul>
+<li>your confidence level</li>
+<li>your standard deviation</li>
+<li>your desired margin of error</li>
+</ul>
+<p>you can work out how much data you need.</p>
+<hr>
+</section>
+</section>
+<section id="sample-size-example" class="level2">
+<h2 class="anchored" data-anchor-id="sample-size-example">19. Sample size example</h2>
+<p>Suppose an analyst wants to estimate mean voltage.</p>
+<p>Given:</p>
+<ul>
+<li>population standard deviation ( = 22.5 )</li>
+<li>margin of error ( ME = 5 )</li>
+<li>95% confidence level, so ( Z = 1.96 )</li>
+</ul>
+<p>Then:</p>
+<p><span class="math display">\[
+n = \left(\frac{1.96 \times 22.5}{5}\right)^2
+\]</span></p>
+<p>This gives:</p>
+<p><span class="math display">\[
+n = 77.8
+\]</span></p>
+<p>Since sample size must be a whole number, we round <strong>up</strong>:</p>
+<p><span class="math display">\[
+n = 78
+\]</span></p>
+<section id="why-round-up" class="level3">
+<h3 class="anchored" data-anchor-id="why-round-up">Why round up?</h3>
+<p>Because 77 would not quite give the precision we need.</p>
+<p>When planning sample size, always round up.</p>
+<hr>
+</section>
+</section>
+<section id="unknown-standard-deviation" class="level2">
+<h2 class="anchored" data-anchor-id="unknown-standard-deviation">20. Unknown standard deviation</h2>
+<p>In real life, the population standard deviation is often unknown.</p>
+<p>Then we use the sample standard deviation (s) instead, and the distribution is based on <strong>t</strong> rather than <strong>Z</strong>.</p>
+<p>That is more realistic, but also a little more complicated.</p>
+<p>The main idea is still the same:</p>
+<blockquote class="blockquote">
+<p>more precision requires more data</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="part-3---missing-data" class="level1">
+<h1>Part 3 - Missing Data</h1>
+<section id="why-missing-data-matters" class="level2">
+<h2 class="anchored" data-anchor-id="why-missing-data-matters">21. Why missing data matters</h2>
+<p>Missing data is not just annoying. It can change your results.</p>
+<p>If missing values are ignored carelessly, you may:</p>
+<ul>
+<li>lose a lot of data</li>
+<li>reduce sample size</li>
+<li>reduce power</li>
+<li>introduce bias</li>
+<li>fit models on a non-representative subset</li>
+</ul>
+<p>So missing data is really about <strong>data quality</strong>, not just cleanup.</p>
+<hr>
+</section>
+<section id="useful-r-functions-for-small-amounts-of-missing-data" class="level2">
+<h2 class="anchored" data-anchor-id="useful-r-functions-for-small-amounts-of-missing-data">22. Useful R functions for small amounts of missing data</h2>
+<p>The slides list several useful functions when there are only a few missing values and no obvious missing-data pattern.</p>
+<section id="is.nax" class="level3">
+<h3 class="anchored" data-anchor-id="is.nax"><code>is.na(x)</code></h3>
+<p>Checks whether each value is missing.</p>
+<p>It returns:</p>
+<ul>
+<li><code>TRUE</code> if missing</li>
+<li><code>FALSE</code> if not missing</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">### `is.na(x)`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Checks whether each value is missing.</p>
+<p>It returns:</p>
+<ul>
+<li><code>TRUE</code> if missing</li>
+<li><code>FALSE</code> if not missing</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="how-to-think-about-it-1" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-think-about-it-1">🧠 How to think about it</h3>
+<p>This is the <strong>basic building block</strong> for missing data.</p>
+<p>👉 You are asking:</p>
+<blockquote class="blockquote">
+<p>“Where exactly is my data missing?”</p>
+</blockquote>
+<hr>
+</section>
+<section id="sumis.nax" class="level3">
+<h3 class="anchored" data-anchor-id="sumis.nax"><code>sum(is.na(x))</code></h3>
+<p>Counts the number of missing values.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="why-this-is-useful-1" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-is-useful-1">🧠 Why this is useful</h3>
+<p>Instead of looking at TRUE/FALSE values, this gives you a <strong>quick summary</strong>.</p>
+<p>👉 Example:</p>
+<ul>
+<li>If result = 5 → there are 5 missing values</li>
+</ul>
+<hr>
+</section>
+<section id="meanis.nax" class="level3">
+<h3 class="anchored" data-anchor-id="meanis.nax"><code>mean(is.na(x))</code></h3>
+<p>Gives the <strong>proportion of missing values</strong>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">is.na</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="why-this-matters-1" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-matters-1">🧠 Why this matters</h3>
+<ul>
+<li>If result = 0.10 → 10% of data is missing</li>
+<li>This helps you judge <strong>how serious the problem is</strong></li>
+</ul>
+<hr>
+</section>
+<section id="complete.casesx" class="level3">
+<h3 class="anchored" data-anchor-id="complete.casesx"><code>complete.cases(x)</code></h3>
+<p>Returns rows with <strong>no missing values</strong>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">complete.cases</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="removing-missing-data" class="level3">
+<h3 class="anchored" data-anchor-id="removing-missing-data">Removing missing data</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x_clean <span class="ot">&lt;-</span> x[<span class="fu">complete.cases</span>(x), ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="important-warning" class="level3">
+<h3 class="anchored" data-anchor-id="important-warning">🧠 Important warning</h3>
+<p>This method is called <strong>listwise deletion</strong>.</p>
+<p>It is simple, but:</p>
+<ul>
+<li>reduces sample size</li>
+<li>reduces power</li>
+<li>may introduce bias</li>
+</ul>
+<p>👉 If missing data is not random, this can be very dangerous.</p>
+<hr>
+</section>
+</section>
+<section id="types-of-missing-data-very-important" class="level2">
+<h2 class="anchored" data-anchor-id="types-of-missing-data-very-important">23. Types of missing data (VERY IMPORTANT)</h2>
+<p>Not all missing data is the same.</p>
+<p>This is critical for your understanding.</p>
+<hr>
+<section id="mcar-missing-completely-at-random" class="level3">
+<h3 class="anchored" data-anchor-id="mcar-missing-completely-at-random">1. MCAR — Missing Completely At Random</h3>
+<p>Missingness has <strong>no relationship</strong> with any variable.</p>
+<p>👉 Example:</p>
+<ul>
+<li>A survey page is accidentally lost</li>
+</ul>
+<p>✔ Safe to remove data (usually)</p>
+<hr>
+</section>
+<section id="mar-missing-at-random" class="level3">
+<h3 class="anchored" data-anchor-id="mar-missing-at-random">2. MAR — Missing At Random</h3>
+<p>Missingness depends on <strong>observed variables</strong></p>
+<p>👉 Example:</p>
+<ul>
+<li>Income missing more often for younger people</li>
+</ul>
+<p>✔ Can be handled with proper methods (e.g.&nbsp;imputation)</p>
+<hr>
+</section>
+<section id="mnar-missing-not-at-random" class="level3">
+<h3 class="anchored" data-anchor-id="mnar-missing-not-at-random">3. MNAR — Missing Not At Random</h3>
+<p>Missingness depends on the <strong>missing value itself</strong></p>
+<p>👉 Example:</p>
+<ul>
+<li>People with very high income choose not to report it</li>
+</ul>
+<p>❗ Most problematic case</p>
+<hr>
+</section>
+<section id="why-this-matters-2" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-matters-2">🧠 Why this matters</h3>
+<p>👉 Because:</p>
+<blockquote class="blockquote">
+<p>The method you choose depends on <em>why</em> the data is missing</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="visualising-missing-data" class="level2">
+<h2 class="anchored" data-anchor-id="visualising-missing-data">24. Visualising missing data</h2>
+<p>The lecture uses the <strong>VIM package</strong>.</p>
+<p>This is VERY useful in practice.</p>
+<hr>
+<section id="aggr-function" class="level3">
+<h3 class="anchored" data-anchor-id="aggr-function"><code>aggr()</code> function</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">aggr</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="what-it-shows" class="level3">
+<h3 class="anchored" data-anchor-id="what-it-shows">What it shows</h3>
+<ul>
+<li>Amount of missing data per variable</li>
+<li>Patterns of missingness</li>
+</ul>
+<hr>
+</section>
+<section id="how-to-interpret" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-interpret">🧠 How to interpret</h3>
+<ul>
+<li><p>Bars → how much is missing</p></li>
+<li><p>Colours:</p>
+<ul>
+<li>Blue = observed</li>
+<li>Red = missing</li>
+</ul></li>
+</ul>
+<p>👉 Helps answer:</p>
+<blockquote class="blockquote">
+<p>“Which variables have the most missing data?”</p>
+</blockquote>
+<hr>
+</section>
+<section id="barmiss" class="level3">
+<h3 class="anchored" data-anchor-id="barmiss"><code>barMiss()</code></h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barMiss</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="what-it-does" class="level3">
+<h3 class="anchored" data-anchor-id="what-it-does">What it does</h3>
+<p>Shows missing values <strong>grouped by categories</strong></p>
+<p>👉 Example:</p>
+<ul>
+<li>Missing income by gender</li>
+</ul>
+<hr>
+</section>
+<section id="why-this-is-powerful" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-is-powerful">🧠 Why this is powerful</h3>
+<p>Helps detect <strong>patterns</strong></p>
+<p>👉 If missing data is not random → this will show it</p>
+<hr>
+</section>
+<section id="scatter-plots-with-missing-data" class="level3">
+<h3 class="anchored" data-anchor-id="scatter-plots-with-missing-data">Scatter plots with missing data</h3>
+<ul>
+<li>Red points = missing values</li>
+<li>Boxplots show distribution</li>
+</ul>
+<p>👉 Helps understand:</p>
+<blockquote class="blockquote">
+<p>Is missingness related to other variables?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="what-to-do-with-missing-data" class="level2">
+<h2 class="anchored" data-anchor-id="what-to-do-with-missing-data">25. What to do with missing data?</h2>
+<p>There is no single answer.</p>
+<p>But here are common approaches:</p>
+<hr>
+<section id="remove-data-simple-approach" class="level3">
+<h3 class="anchored" data-anchor-id="remove-data-simple-approach">1. Remove data (simple approach)</h3>
+<p>✔ Easy ❌ Can lose a lot of information</p>
+<hr>
+</section>
+<section id="imputation-fill-in-missing-values" class="level3">
+<h3 class="anchored" data-anchor-id="imputation-fill-in-missing-values">2. Imputation (fill in missing values)</h3>
+<p>Examples:</p>
+<ul>
+<li>Mean imputation</li>
+<li>Median imputation</li>
+</ul>
+<p>👉 Replace missing values with a reasonable estimate</p>
+<hr>
+</section>
+<section id="important-limitation" class="level3">
+<h3 class="anchored" data-anchor-id="important-limitation">⚠️ Important limitation</h3>
+<ul>
+<li>Reduces variability</li>
+<li>Can distort relationships</li>
+</ul>
+<hr>
+</section>
+<section id="more-advanced-methods-not-covered-deeply-yet" class="level3">
+<h3 class="anchored" data-anchor-id="more-advanced-methods-not-covered-deeply-yet">3. More advanced methods (not covered deeply yet)</h3>
+<ul>
+<li>Multiple imputation</li>
+<li>Model-based methods</li>
+</ul>
+<p>👉 You will likely see these later in the course</p>
+<hr>
+</section>
+</section>
+<section id="key-connection-missing-data-and-power" class="level2">
+<h2 class="anchored" data-anchor-id="key-connection-missing-data-and-power">26. Key connection: Missing data and power</h2>
+<p>This is VERY important and often overlooked.</p>
+<p>👉 Missing data → smaller effective sample size</p>
+<p>Which means:</p>
+<ul>
+<li>higher standard error</li>
+<li>wider confidence intervals</li>
+<li>lower power</li>
+</ul>
+<hr>
+<section id="big-picture-insight" class="level3">
+<h3 class="anchored" data-anchor-id="big-picture-insight">🧠 Big picture insight</h3>
+<p>Missing data is not just a “data cleaning issue”.</p>
+<p>It directly affects:</p>
+<ul>
+<li>inference</li>
+<li>hypothesis testing</li>
+<li>reliability of conclusions</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="final-takeaways-week-3" class="level1">
+<h1>🔚 Final Takeaways (Week 3)</h1>
+<hr>
+<section id="power-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="power-analysis">Power Analysis</h2>
+<ul>
+<li><p>Power = probability of detecting a real effect</p></li>
+<li><p>Depends on:</p>
+<ul>
+<li>sample size</li>
+<li>effect size</li>
+<li>significance level</li>
+</ul></li>
+</ul>
+<p>👉 Low power = high chance of missing real effects</p>
+<hr>
+</section>
+<section id="confidence-and-sample-size" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-and-sample-size">Confidence and Sample Size</h2>
+<ul>
+<li>Margin of error controls precision</li>
+<li>Larger sample → smaller error</li>
+<li>Can calculate required sample size before study</li>
+</ul>
+<hr>
+</section>
+<section id="missing-data" class="level2">
+<h2 class="anchored" data-anchor-id="missing-data">Missing Data</h2>
+<ul>
+<li>Always check it first</li>
+<li>Understand <em>why</em> it is missing</li>
+<li>Be careful when removing data</li>
+</ul>
+<hr>
+</section>
+<section id="most-important-idea-from-this-lecture" class="level2">
+<h2 class="anchored" data-anchor-id="most-important-idea-from-this-lecture">🧠 Most important idea from this lecture</h2>
+<blockquote class="blockquote">
+<p>A non-significant result does NOT mean “no effect”</p>
+</blockquote>
+<p>It could mean:</p>
+<ul>
+<li>no effect</li>
+<li>OR not enough power</li>
+<li>OR poor data (missing values)</li>
+</ul>
+<hr>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../regression-analysis/week-2.html" class="pagination-link" aria-label="Week 2">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 2</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../regression-analysis/week-9.html" class="pagination-link" aria-label="Week 9">
+        <span class="nav-page-text">Week 9</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,82 @@
+/* Accent colour */
+:root {
+  --bs-primary: #6C5CE7;
+  --bs-primary-rgb: 108, 92, 231;
+  --bs-link-color: #6C5CE7;
+  --bs-link-hover-color: #5a4bd1;
+  --bs-primary-dark: #5a4bd1;
+}
+
+/* Dark mode accent */
+[data-bs-theme="dark"] {
+  --bs-primary: #a29bfe;
+  --bs-primary-rgb: 162, 155, 254;
+  --bs-link-color: #a29bfe;
+  --bs-link-hover-color: #8c82f8;
+  --bs-primary-dark: #8c82f8;
+}
+
+/* General links */
+a,
+a:visited {
+  color: var(--bs-link-color);
+}
+
+a:hover,
+a:focus {
+  color: var(--bs-link-hover-color);
+}
+
+/* Sidebar links */
+.sidebar a,
+.sidebar a:visited,
+.sidebar .sidebar-item-text {
+  color: inherit;
+}
+
+.sidebar .active,
+.sidebar .sidebar-link.active,
+.sidebar .sidebar-item .active {
+  color: var(--bs-primary) !important;
+  font-weight: 600;
+}
+
+/* TOC on the right */
+#TOC .nav-link {
+  color: inherit;
+}
+
+#TOC .nav-link:hover {
+  color: var(--bs-primary);
+}
+
+#TOC .nav-link.active {
+  color: var(--bs-primary) !important;
+  border-left: 2px solid var(--bs-primary) !important;
+  font-weight: 600;
+}
+
+/* Navbar / top links if present */
+.navbar a,
+.navbar a:visited,
+.navbar-brand {
+  color: inherit;
+}
+
+.navbar a:hover,
+.navbar-brand:hover {
+  color: var(--bs-primary);
+}
+
+/* Search icon / buttons / interactive elements */
+.btn-primary,
+.page-link.active,
+.active > .page-link {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--bs-primary-dark);
+  border-color: var(--bs-primary-dark);
+}

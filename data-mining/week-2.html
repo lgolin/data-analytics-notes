@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>STAT9013 - Data Mining: Week 2 – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../data-mining/week-3.html" rel="next">
+<link href="../data-mining/week-1.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data-mining/index.html">Data Mining</a></li><li class="breadcrumb-item"><a href="../data-mining/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../data-mining/week-2.html">Week 2</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#quick-recap-from-week-1" id="toc-quick-recap-from-week-1" class="nav-link active" data-scroll-target="#quick-recap-from-week-1"><span class="header-section-number">1</span> Quick Recap from Week 1</a></li>
+  <li><a href="#crisp-dm-and-the-importance-of-business-understanding" id="toc-crisp-dm-and-the-importance-of-business-understanding" class="nav-link" data-scroll-target="#crisp-dm-and-the-importance-of-business-understanding"><span class="header-section-number">2</span> CRISP-DM and the Importance of Business Understanding</a>
+  <ul class="collapse">
+  <li><a href="#the-paypal-churn-case-study" id="toc-the-paypal-churn-case-study" class="nav-link" data-scroll-target="#the-paypal-churn-case-study"><span class="header-section-number">2.1</span> The PayPal Churn Case Study</a></li>
+  </ul></li>
+  <li><a href="#basic-statistics-means-medians-quartiles-and-iqr" id="toc-basic-statistics-means-medians-quartiles-and-iqr" class="nav-link" data-scroll-target="#basic-statistics-means-medians-quartiles-and-iqr"><span class="header-section-number">3</span> Basic Statistics: Means, Medians, Quartiles, and IQR</a>
+  <ul class="collapse">
+  <li><a href="#mean-vs-median" id="toc-mean-vs-median" class="nav-link" data-scroll-target="#mean-vs-median"><span class="header-section-number">3.1</span> Mean vs Median</a></li>
+  <li><a href="#quartiles-and-interquartile-range-iqr" id="toc-quartiles-and-interquartile-range-iqr" class="nav-link" data-scroll-target="#quartiles-and-interquartile-range-iqr"><span class="header-section-number">3.2</span> Quartiles and Interquartile Range (IQR)</a></li>
+  </ul></li>
+  <li><a href="#visualising-distributions-univariate-plots" id="toc-visualising-distributions-univariate-plots" class="nav-link" data-scroll-target="#visualising-distributions-univariate-plots"><span class="header-section-number">4</span> Visualising Distributions: Univariate Plots</a>
+  <ul class="collapse">
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="header-section-number">4.1</span> Histograms</a></li>
+  <li><a href="#density-plots" id="toc-density-plots" class="nav-link" data-scroll-target="#density-plots"><span class="header-section-number">4.2</span> Density Plots</a></li>
+  <li><a href="#box-plots" id="toc-box-plots" class="nav-link" data-scroll-target="#box-plots"><span class="header-section-number">4.3</span> Box Plots</a></li>
+  <li><a href="#the-drawplots-helper-function" id="toc-the-drawplots-helper-function" class="nav-link" data-scroll-target="#the-drawplots-helper-function"><span class="header-section-number">4.4</span> The <code>drawPlots</code> Helper Function</a></li>
+  </ul></li>
+  <li><a href="#skewness-what-it-is-and-why-it-matters" id="toc-skewness-what-it-is-and-why-it-matters" class="nav-link" data-scroll-target="#skewness-what-it-is-and-why-it-matters"><span class="header-section-number">5</span> Skewness: What It Is and Why It Matters</a>
+  <ul class="collapse">
+  <li><a href="#what-is-skewness" id="toc-what-is-skewness" class="nav-link" data-scroll-target="#what-is-skewness"><span class="header-section-number">5.1</span> What Is Skewness?</a></li>
+  <li><a href="#real-world-examples-of-skewed-data" id="toc-real-world-examples-of-skewed-data" class="nav-link" data-scroll-target="#real-world-examples-of-skewed-data"><span class="header-section-number">5.2</span> Real-World Examples of Skewed Data</a></li>
+  <li><a href="#why-skewness-matters-for-machine-learning" id="toc-why-skewness-matters-for-machine-learning" class="nav-link" data-scroll-target="#why-skewness-matters-for-machine-learning"><span class="header-section-number">5.3</span> Why Skewness Matters for Machine Learning</a></li>
+  </ul></li>
+  <li><a href="#packages-and-the-qplot-function" id="toc-packages-and-the-qplot-function" class="nav-link" data-scroll-target="#packages-and-the-qplot-function"><span class="header-section-number">6</span> Packages and the <code>qplot</code> Function</a>
+  <ul class="collapse">
+  <li><a href="#required-packages" id="toc-required-packages" class="nav-link" data-scroll-target="#required-packages"><span class="header-section-number">6.1</span> Required Packages</a></li>
+  <li><a href="#the-qplot-function-quick-plot" id="toc-the-qplot-function-quick-plot" class="nav-link" data-scroll-target="#the-qplot-function-quick-plot"><span class="header-section-number">6.2</span> The <code>qplot</code> Function (Quick Plot)</a></li>
+  </ul></li>
+  <li><a href="#datasets-in-r" id="toc-datasets-in-r" class="nav-link" data-scroll-target="#datasets-in-r"><span class="header-section-number">7</span> Datasets in R</a></li>
+  <li><a href="#data-exploration-the-iris-dataset" id="toc-data-exploration-the-iris-dataset" class="nav-link" data-scroll-target="#data-exploration-the-iris-dataset"><span class="header-section-number">8</span> Data Exploration: The Iris Dataset</a>
+  <ul class="collapse">
+  <li><a href="#about-the-iris-dataset" id="toc-about-the-iris-dataset" class="nav-link" data-scroll-target="#about-the-iris-dataset"><span class="header-section-number">8.1</span> About the Iris Dataset</a></li>
+  <li><a href="#initial-exploration" id="toc-initial-exploration" class="nav-link" data-scroll-target="#initial-exploration"><span class="header-section-number">8.2</span> Initial Exploration</a></li>
+  <li><a href="#column-types" id="toc-column-types" class="nav-link" data-scroll-target="#column-types"><span class="header-section-number">8.3</span> Column Types</a></li>
+  <li><a href="#histograms-iris" id="toc-histograms-iris" class="nav-link" data-scroll-target="#histograms-iris"><span class="header-section-number">8.4</span> Histograms — Iris</a></li>
+  <li><a href="#density-plots-iris" id="toc-density-plots-iris" class="nav-link" data-scroll-target="#density-plots-iris"><span class="header-section-number">8.5</span> Density Plots — Iris</a></li>
+  <li><a href="#box-plots-iris-by-species" id="toc-box-plots-iris-by-species" class="nav-link" data-scroll-target="#box-plots-iris-by-species"><span class="header-section-number">8.6</span> Box Plots — Iris (by Species)</a></li>
+  <li><a href="#scatter-plots-iris-multivariate" id="toc-scatter-plots-iris-multivariate" class="nav-link" data-scroll-target="#scatter-plots-iris-multivariate"><span class="header-section-number">8.7</span> Scatter Plots — Iris (Multivariate)</a></li>
+  <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis"><span class="header-section-number">8.8</span> Correlation Analysis</a></li>
+  <li><a href="#pairs-plots" id="toc-pairs-plots" class="nav-link" data-scroll-target="#pairs-plots"><span class="header-section-number">8.9</span> Pairs Plots</a></li>
+  </ul></li>
+  <li><a href="#the-titanic-dataset-a-brief-introduction" id="toc-the-titanic-dataset-a-brief-introduction" class="nav-link" data-scroll-target="#the-titanic-dataset-a-brief-introduction"><span class="header-section-number">9</span> The Titanic Dataset: A Brief Introduction</a>
+  <ul class="collapse">
+  <li><a href="#loading-and-inspecting" id="toc-loading-and-inspecting" class="nav-link" data-scroll-target="#loading-and-inspecting"><span class="header-section-number">9.1</span> Loading and Inspecting</a></li>
+  <li><a href="#understanding-the-variables" id="toc-understanding-the-variables" class="nav-link" data-scroll-target="#understanding-the-variables"><span class="header-section-number">9.2</span> Understanding the Variables</a></li>
+  <li><a href="#exploring-unique-values-and-missing-data" id="toc-exploring-unique-values-and-missing-data" class="nav-link" data-scroll-target="#exploring-unique-values-and-missing-data"><span class="header-section-number">9.3</span> Exploring Unique Values and Missing Data</a></li>
+  </ul></li>
+  <li><a href="#feature-engineering" id="toc-feature-engineering" class="nav-link" data-scroll-target="#feature-engineering"><span class="header-section-number">10</span> Feature Engineering</a></li>
+  <li><a href="#summary-of-key-takeaways" id="toc-summary-of-key-takeaways" class="nav-link" data-scroll-target="#summary-of-key-takeaways"><span class="header-section-number">11</span> Summary of Key Takeaways</a></li>
+  <li><a href="#homework-next-steps" id="toc-homework-next-steps" class="nav-link" data-scroll-target="#homework-next-steps"><span class="header-section-number">12</span> Homework / Next Steps</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data-mining/index.html">Data Mining</a></li><li class="breadcrumb-item"><a href="../data-mining/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../data-mining/week-2.html">Week 2</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">STAT9013 - Data Mining: Week 2</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Basic Statistics, Visualisations in R, and Data Exploration</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="quick-recap-from-week-1" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="quick-recap-from-week-1"><span class="header-section-number">1</span> Quick Recap from Week 1</h2>
+<p>Week 1 covered the foundations: the differences between data, information, and knowledge; definitions of AI, Machine Learning, and Deep Learning; the CRISP-DM and SEMMA workflows; types of ML (supervised, unsupervised, reinforcement learning); and a worked linear regression example.</p>
+<hr>
+</section>
+<section id="crisp-dm-and-the-importance-of-business-understanding" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="crisp-dm-and-the-importance-of-business-understanding"><span class="header-section-number">2</span> CRISP-DM and the Importance of Business Understanding</h2>
+<p>Before diving into statistics and code, the lecture emphasised a critical lesson: <strong>the data understanding and data preparation stages of CRISP-DM are often more important than the modelling stage itself</strong>. The CRISP-DM cycle has six phases — Business Understanding, Data Understanding, Data Preparation, Modelling, Evaluation, and Deployment — and notice that two of those six are entirely about working with the data <em>before</em> any model is built.</p>
+<section id="the-paypal-churn-case-study" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="the-paypal-churn-case-study"><span class="header-section-number">2.1</span> The PayPal Churn Case Study</h3>
+<p>This real-world example illustrated how business understanding can matter more than fancy algorithms. PayPal was losing around 1 million merchants per year. After 17 years of trying various approaches, the problem was finally tackled not with advanced ML but with careful problem definition using simple tools (spreadsheets and SQL).</p>
+<p><strong>Key steps in their approach:</strong></p>
+<ul>
+<li><strong>Exclude accounts that already cancelled:</strong> By the time someone cancels, it is too late — they have already migrated to a competitor like Stripe. Nothing can be done to win them back.</li>
+<li><strong>Exclude “one-and-dones”:</strong> Merchants who signed up briefly, had little revenue, and disappeared. Not worth chasing because the revenue was negligible.</li>
+<li><strong>Separate activation from retention:</strong> New merchants who had problems getting started (failed payments, onboarding issues) are a different problem for a different team. This is not churn — it is an onboarding issue.</li>
+<li><strong>Exclude false positives:</strong> Seasonal businesses (Halloween costume stores), subscription processors who only transact once a month, and merchants who were kicked off for violating terms.</li>
+<li><strong>Focus on revenue churn, not account churn:</strong> 90% of revenue came from 10% of merchants. Losing a merchant doing €100,000/month matters far more than losing one doing €500/month.</li>
+</ul>
+<p>After all these exclusions, they looked at individual cases for their highest-value remaining merchants, identified 20 “killer scenarios” causing churn, and fixed them one by one — often just by having customer service call the merchant.</p>
+<p><strong>The takeaway:</strong> Always ask “What am I actually trying to solve?” before reaching for a machine learning model. Sometimes the best solution is careful problem decomposition combined with domain expertise.</p>
+<hr>
+</section>
+</section>
+<section id="basic-statistics-means-medians-quartiles-and-iqr" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="basic-statistics-means-medians-quartiles-and-iqr"><span class="header-section-number">3</span> Basic Statistics: Means, Medians, Quartiles, and IQR</h2>
+<section id="mean-vs-median" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="mean-vs-median"><span class="header-section-number">3.1</span> Mean vs Median</h3>
+<ul>
+<li><strong>Mean:</strong> The arithmetic average — sum all values and divide by the count. Sensitive to extreme values (outliers).</li>
+<li><strong>Median:</strong> The middle value when data is sorted from smallest to largest. Robust to outliers.</li>
+</ul>
+<p><strong>Why the difference matters:</strong> Imagine 11 people in a room, each earning around €100,000. The mean salary is roughly €100,000 and the median is also about €100,000 — they agree. Now Bill Gates and Jeff Bezos walk in. The mean salary jumps to perhaps €30 million, but the median barely changes — it just moves from the 6th to the 7th person’s salary, still around €100,000.</p>
+<p>The mean no longer represents anyone in the group. The median still tells you what the “typical” person earns. This is why the media report the <strong>median</strong> age of COVID deaths rather than the average — it gives a more meaningful picture of who is affected.</p>
+<p><strong>Rule of thumb:</strong> When data is skewed or contains outliers, the median is usually more informative than the mean.</p>
+</section>
+<section id="quartiles-and-interquartile-range-iqr" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="quartiles-and-interquartile-range-iqr"><span class="header-section-number">3.2</span> Quartiles and Interquartile Range (IQR)</h3>
+<p>To calculate quartiles:</p>
+<ol type="1">
+<li>Order the data from smallest to largest.</li>
+<li>Split it into four equal groups.</li>
+<li>Each group is a “quartile.”</li>
+</ol>
+<ul>
+<li><strong>Q1 (25th percentile):</strong> The boundary between the lowest 25% and the rest.</li>
+<li><strong>Q2 (50th percentile):</strong> This is the median.</li>
+<li><strong>Q3 (75th percentile):</strong> The boundary between the top 25% and the rest.</li>
+<li><strong>IQR = Q3 − Q1:</strong> The range covering the middle 50% of the data.</li>
+</ul>
+<p>The IQR is useful because it tells you how spread out the “core” of your data is, ignoring extremes.</p>
+<hr>
+</section>
+</section>
+<section id="visualising-distributions-univariate-plots" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="visualising-distributions-univariate-plots"><span class="header-section-number">4</span> Visualising Distributions: Univariate Plots</h2>
+<p>Univariate plots examine a single variable at a time. The three main types covered are histograms, density plots, and box plots. They all show the <strong>distribution</strong> (the spread and shape) of your data, but in different ways.</p>
+<section id="histograms" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="histograms"><span class="header-section-number">4.1</span> Histograms</h3>
+<p>A histogram divides the data into “bins” (ranges) and counts how many values fall into each bin. It shows frequency on the y-axis and the variable’s values on the x-axis. Think of it as a bar chart of your data’s distribution.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="density-plots" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="density-plots"><span class="header-section-number">4.2</span> Density Plots</h3>
+<p>A density plot is a smoothed version of a histogram. Instead of bars, you get a continuous curve. The y-axis shows density (not raw count), and the area under the curve sums to 1. It is useful for seeing the overall shape of the distribution without being distracted by bin choices.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"density"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="box-plots" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="box-plots"><span class="header-section-number">4.3</span> Box Plots</h3>
+<p>A box plot (or box-and-whisker plot) packs a lot of information into a compact display:</p>
+<ul>
+<li>The <strong>box</strong> spans from Q1 to Q3 (the IQR — the middle 50% of data).</li>
+<li>The <strong>line inside the box</strong> is the median.</li>
+<li>The <strong>whiskers</strong> extend to the most extreme data points that are within 1.5 × IQR from the edges of the box.</li>
+<li><strong>Points beyond the whiskers</strong> are considered outliers.</li>
+</ul>
+<p>Box plots are extremely useful for statisticians and data scientists, but as the lecturer noted, they are often not well understood by non-technical business users. So use them for your own analysis, but consider simpler visuals when presenting to stakeholders.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"boxplot"</span>) <span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="the-drawplots-helper-function" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="the-drawplots-helper-function"><span class="header-section-number">4.4</span> The <code>drawPlots</code> Helper Function</h3>
+<p>The lecture introduced a handy helper function that draws all three plots side by side, with the mean shown in blue and the median in green:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>drawPlots <span class="ot">&lt;-</span> <span class="cf">function</span>(data, title) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">median</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"green"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">median</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"green"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  p03 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"boxplot"</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">mean</span>(data), <span class="at">y =</span> <span class="dv">0</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"blue"</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">top =</span> title)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="skewness-what-it-is-and-why-it-matters" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="skewness-what-it-is-and-why-it-matters"><span class="header-section-number">5</span> Skewness: What It Is and Why It Matters</h2>
+<section id="what-is-skewness" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="what-is-skewness"><span class="header-section-number">5.1</span> What Is Skewness?</h3>
+<p>Skewness describes how asymmetric a distribution is compared to a normal (bell-shaped) distribution.</p>
+<ul>
+<li><strong>Normal distribution:</strong> Symmetric. The mean and median are approximately equal. The histogram/density plot looks like a bell curve, centred around the middle.</li>
+<li><strong>Right (positive) skew:</strong> The “tail” of the distribution stretches to the right. Most values are clustered on the left, but a few very large values pull the mean to the right. <strong>Mean &gt; Median.</strong></li>
+<li><strong>Left (negative) skew:</strong> The tail stretches to the left. Most values cluster on the right, but a few very small values pull the mean left. <strong>Mean &lt; Median.</strong></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Normal distribution — mean ≈ median</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Normal distribution (median ~= mean)"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Left (negative) skew — median &gt; mean</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">5</span>, <span class="dv">1</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Left skewed (median-green &gt; mean-blue)"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Right (positive) skew — median &lt; mean</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">1</span>, <span class="dv">5</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Right skewed (median-green &lt; mean-blue)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="real-world-examples-of-skewed-data" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="real-world-examples-of-skewed-data"><span class="header-section-number">5.2</span> Real-World Examples of Skewed Data</h3>
+<p>A lot of real-life data is skewed:</p>
+<ul>
+<li><strong>Income:</strong> Most people earn moderate amounts, but a few earn enormously high salaries (right skew).</li>
+<li><strong>Average spend per customer:</strong> Most customers spend a little, a few spend a lot.</li>
+<li><strong>Distance travelled to work:</strong> Most people live reasonably close; some commute very long distances.</li>
+<li><strong>Animal body weights:</strong> Most mammals are small; a few (elephants, whales) are extremely large.</li>
+</ul>
+</section>
+<section id="why-skewness-matters-for-machine-learning" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="why-skewness-matters-for-machine-learning"><span class="header-section-number">5.3</span> Why Skewness Matters for Machine Learning</h3>
+<p>The lecture demonstrated this using the <code>mammals</code> dataset (from the <code>openintro</code> package), which contains body weight and brain weight for various mammals.</p>
+<p><strong>The problem:</strong> Both body weight and brain weight are extremely right-skewed — most mammals are small, but a few (like elephants) are huge. When you plot the raw data, almost all points cluster near zero, and you can barely see any relationship.</p>
+<p><strong>Step 1 — Build a model on raw data:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_wt <span class="sc">~</span> brain_wt, <span class="at">data =</span> mammals)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>r_sq1 <span class="ot">&lt;-</span> <span class="fu">cor</span>(model1<span class="sc">$</span>fitted.values, mammals<span class="sc">$</span>body_wt)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># R² ≈ 0.87</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Step 2 — Apply a log transformation:</strong></p>
+<p>Taking the logarithm of skewed data compresses the large values and stretches the small ones, making the distribution more symmetrical (closer to normal).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mammals<span class="sc">$</span>log_body_wt <span class="ot">&lt;-</span> <span class="fu">log</span>(mammals<span class="sc">$</span>body_wt)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mammals<span class="sc">$</span>log_brain_wt <span class="ot">&lt;-</span> <span class="fu">log</span>(mammals<span class="sc">$</span>brain_wt)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>When you plot the log-transformed data, you can now clearly see a linear relationship between log(brain weight) and log(body weight).</p>
+<p><strong>Step 3 — Build a model on transformed data:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_body_wt <span class="sc">~</span> log_brain_wt, <span class="at">data =</span> mammals)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>r_sq2 <span class="ot">&lt;-</span> <span class="fu">cor</span>(model2<span class="sc">$</span>fitted.values, mammals<span class="sc">$</span>log_body_wt)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># R² ≈ 0.92</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The R² improved from 0.87 to 0.92. As the slides noted, this represents a <strong>37.79% reduction in error rate</strong>. That is a significant improvement gained purely from transforming the data — not from changing the algorithm.</p>
+<p><strong>Key insight:</strong> If your data is skewed, consider applying a log transformation (or other transformations) before modelling. This is a form of <strong>feature engineering</strong> and can dramatically improve model performance.</p>
+<hr>
+</section>
+</section>
+<section id="packages-and-the-qplot-function" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="packages-and-the-qplot-function"><span class="header-section-number">6</span> Packages and the <code>qplot</code> Function</h2>
+<section id="required-packages" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="required-packages"><span class="header-section-number">6.1</span> Required Packages</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)     <span class="co"># Plotting — qplot and ggplot functions</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)   <span class="co"># Arrange multiple plots in a grid</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datasets)    <span class="co"># Built-in R datasets (iris, etc.)</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)    <span class="co"># Correlation plot visualisations</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(titanic)     <span class="co"># Titanic dataset</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)       <span class="co"># pairs.panels() for pairs plots</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openintro)   <span class="co"># mammals dataset and others</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>If you get errors like <code>could not find function "xxxxx"</code>, it almost certainly means you need to install and/or load the package first.</p>
+</section>
+<section id="the-qplot-function-quick-plot" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="the-qplot-function-quick-plot"><span class="header-section-number">6.2</span> The <code>qplot</code> Function (Quick Plot)</h3>
+<p><code>qplot</code> is part of <code>ggplot2</code> and provides a quick way to create plots:</p>
+<ul>
+<li><strong>One variable</strong> → defaults to a <strong>histogram</strong>.</li>
+<li><strong>Two variables</strong> → defaults to a <strong>scatterplot</strong>.</li>
+<li>Change the plot type with the <code>geom</code> parameter (e.g., <code>geom = "density"</code>, <code>geom = "boxplot"</code>).</li>
+<li>Use <code>main</code> for title, <code>xlab</code> for x-axis label, <code>ylab</code> for y-axis label.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="datasets-in-r" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="datasets-in-r"><span class="header-section-number">7</span> Datasets in R</h2>
+<p>R comes with many built-in datasets through the <code>datasets</code> package. Some notable ones:</p>
+<ul>
+<li><strong>iris:</strong> 150 observations of iris flowers (3 species, 4 measurements each). A classic ML dataset.</li>
+<li><strong>Titanic:</strong> Survival data for passengers.</li>
+<li><strong>airquality:</strong> New York air quality measurements.</li>
+<li><strong>anscombe:</strong> Four datasets with nearly identical summary statistics but very different distributions — a great demonstration of why you should always visualise your data.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="at">help =</span> <span class="st">"datasets"</span>)  <span class="co"># See all available datasets</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)                    <span class="co"># Load a specific dataset</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+<section id="data-exploration-the-iris-dataset" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="data-exploration-the-iris-dataset"><span class="header-section-number">8</span> Data Exploration: The Iris Dataset</h2>
+<p>Data exploration is <strong>critical</strong> to the success of any ML project. As the lecturer emphasised: it is more important than anything you do in the model-building stage, including picking an algorithm. You should look at missing data, check for incomplete data, perform statistical analysis, and create visualisations. The insights you gain here should actively guide your feature engineering and modelling decisions — not just be a box-ticking exercise.</p>
+<section id="about-the-iris-dataset" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="about-the-iris-dataset"><span class="header-section-number">8.1</span> About the Iris Dataset</h3>
+<p>Introduced by Ronald Fisher in 1936, the Iris dataset contains 150 observations: 50 each of three species (setosa, versicolor, virginica). Four numeric features are measured: Sepal.Length, Sepal.Width, Petal.Length, and Petal.Width. The goal is to classify species based on these measurements.</p>
+</section>
+<section id="initial-exploration" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="initial-exploration"><span class="header-section-number">8.2</span> Initial Exploration</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(iris)       <span class="co"># 150 rows, 5 columns</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(iris)     <span class="co"># "Sepal.Length" "Sepal.Width" "Petal.Length" "Petal.Width" "Species"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(iris)       <span class="co"># Shows types: 4 numeric columns + 1 factor (Species)</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])  <span class="co"># Summary stats for numeric columns only</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="column-types" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="column-types"><span class="header-section-number">8.3</span> Column Types</h3>
+<p>Getting column types right is crucial in R:</p>
+<ul>
+<li><strong>numeric / integer:</strong> Numbers.</li>
+<li><strong>character:</strong> Text strings.</li>
+<li><strong>logical:</strong> TRUE/FALSE.</li>
+<li><strong>factor:</strong> Categorical variables with a fixed set of levels (like Species with 3 levels).</li>
+</ul>
+<p>You can convert between types with <code>as.numeric()</code>, <code>as.character()</code>, <code>as.factor()</code>, etc. But not all conversions are possible — <code>as.numeric("three")</code> produces <code>NA</code> with a warning.</p>
+</section>
+<section id="histograms-iris" class="level3" data-number="8.4">
+<h3 data-number="8.4" class="anchored" data-anchor-id="histograms-iris"><span class="header-section-number">8.4</span> Histograms — Iris</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Sepal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Length"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Width, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Sepal.Width"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Width"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>p03 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Petal.Length, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Petal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Petal.Length"</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>p04 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Petal.Width, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Petal.Width"</span>, <span class="at">xlab =</span> <span class="st">"Petal.Width"</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>What to notice:</strong> Petal.Length and Petal.Width show a clear bimodal distribution (two humps). This suggests there might be distinct groups in the data — which makes sense because setosa has much smaller petals than the other two species.</p>
+</section>
+<section id="density-plots-iris" class="level3" data-number="8.5">
+<h3 data-number="8.5" class="anchored" data-anchor-id="density-plots-iris"><span class="header-section-number">8.5</span> Density Plots — Iris</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">geom =</span> <span class="st">"density"</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Density plot on Sepal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Length"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ... similar for the other three variables</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The density plots confirm the same patterns seen in the histograms, but the smooth curves make the bimodal shape of the petal measurements even more obvious.</p>
+</section>
+<section id="box-plots-iris-by-species" class="level3" data-number="8.6">
+<h3 data-number="8.6" class="anchored" data-anchor-id="box-plots-iris-by-species"><span class="header-section-number">8.6</span> Box Plots — Iris (by Species)</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Species, Sepal.Length, <span class="at">data =</span> iris, <span class="at">geom =</span> <span class="st">"boxplot"</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Boxplot on Sepal.Length"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ... similar for other variables</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>What to notice:</strong> When we split by species, the box plots reveal that setosa is very clearly separated from the other two species on Petal.Length and Petal.Width (almost no overlap). Versicolor and virginica overlap more, but are still distinguishable. Sepal.Width is an interesting variable — setosa actually has <em>wider</em> sepals than the other species.</p>
+</section>
+<section id="scatter-plots-iris-multivariate" class="level3" data-number="8.7">
+<h3 data-number="8.7" class="anchored" data-anchor-id="scatter-plots-iris-multivariate"><span class="header-section-number">8.7</span> Scatter Plots — Iris (Multivariate)</h3>
+<p>Scatter plots show the relationship between two variables at once. By colouring by species, we can see how well the species separate:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Sepal.Width, Sepal.Length, <span class="at">data =</span> iris, <span class="at">colour =</span> Species,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Sepal.Width v Sepal.Length"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Petal.Length, Petal.Width, <span class="at">data =</span> iris, <span class="at">colour =</span> Species,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Petal.Length v Petal.Width"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ... more combinations</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Key insight:</strong> The Petal.Length vs Petal.Width scatter plot shows the clearest separation between all three species. This tells you these are likely the most useful features for classification.</p>
+</section>
+<section id="correlation-analysis" class="level3" data-number="8.8">
+<h3 data-number="8.8" class="anchored" data-anchor-id="correlation-analysis"><span class="header-section-number">8.8</span> Correlation Analysis</h3>
+<p>Correlation measures the linear relationship between two numeric variables, ranging from −1 (perfect negative) to +1 (perfect positive), with 0 meaning no linear relationship.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>corr_mat <span class="ot">&lt;-</span> <span class="fu">cor</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])   <span class="co"># Exclude Species (not numeric)</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot.mixed</span>(corr_mat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Key correlations in iris:</strong></p>
+<ul>
+<li>Petal.Length and Petal.Width: <strong>0.96</strong> (very strong positive — as petals get longer, they also get wider).</li>
+<li>Sepal.Length and Petal.Length: <strong>0.87</strong> (strong positive).</li>
+<li>Sepal.Length and Petal.Width: <strong>0.82</strong> (strong positive).</li>
+<li>Sepal.Width and Petal.Length: <strong>−0.43</strong> (moderate negative).</li>
+<li>Sepal.Length and Sepal.Width: <strong>−0.12</strong> (very weak negative — almost no relationship).</li>
+</ul>
+</section>
+<section id="pairs-plots" class="level3" data-number="8.9">
+<h3 data-number="8.9" class="anchored" data-anchor-id="pairs-plots"><span class="header-section-number">8.9</span> Pairs Plots</h3>
+<p>A pairs plot combines histograms (on the diagonal), scatter plots (below the diagonal), and correlation values (above the diagonal) into a single comprehensive view:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs.panels</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], <span class="at">method =</span> <span class="st">"pearson"</span>,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">hist.col =</span> <span class="st">"#00AFBB"</span>, <span class="at">density =</span> <span class="cn">TRUE</span>, <span class="at">ellipses =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This is one of the most useful exploratory tools because it gives you a full picture of all pairwise relationships at a glance.</p>
+<hr>
+</section>
+</section>
+<section id="the-titanic-dataset-a-brief-introduction" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="the-titanic-dataset-a-brief-introduction"><span class="header-section-number">9</span> The Titanic Dataset: A Brief Introduction</h2>
+<p>The Titanic dataset is a classic ML classification problem: <strong>Can we predict which passengers survived the shipwreck?</strong></p>
+<section id="loading-and-inspecting" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="loading-and-inspecting"><span class="header-section-number">9.1</span> Loading and Inspecting</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic_train)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(titanic_train)   <span class="co"># 891 obs. of 12 variables</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="understanding-the-variables" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="understanding-the-variables"><span class="header-section-number">9.2</span> Understanding the Variables</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 40%">
+<col style="width: 46%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Meaning</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PassengerId</td>
+<td>Unique identifier</td>
+<td>Drop for modelling (unique per row)</td>
+</tr>
+<tr class="even">
+<td>Survived</td>
+<td>Did they survive? (0 = No, 1 = Yes)</td>
+<td>This is our <strong>target variable</strong></td>
+</tr>
+<tr class="odd">
+<td>Pclass</td>
+<td>Ticket class (1st, 2nd, 3rd)</td>
+<td>Important — consider converting to factor</td>
+</tr>
+<tr class="even">
+<td>Name</td>
+<td>Passenger name</td>
+<td>Drop (not predictive by itself)</td>
+</tr>
+<tr class="odd">
+<td>Sex</td>
+<td>Male or Female</td>
+<td>Very important — women more likely survived</td>
+</tr>
+<tr class="even">
+<td>Age</td>
+<td>Age in years</td>
+<td>Children more likely survived; has 177 NAs</td>
+</tr>
+<tr class="odd">
+<td>SibSp</td>
+<td>Number of siblings/spouses aboard</td>
+<td>Needs investigation</td>
+</tr>
+<tr class="even">
+<td>Parch</td>
+<td>Number of parents/children aboard</td>
+<td>Needs investigation</td>
+</tr>
+<tr class="odd">
+<td>Ticket</td>
+<td>Ticket number</td>
+<td>Probably drop, unless embedded patterns</td>
+</tr>
+<tr class="even">
+<td>Fare</td>
+<td>Ticket price</td>
+<td>May relate to survival (wealth/class proxy)</td>
+</tr>
+<tr class="odd">
+<td>Cabin</td>
+<td>Cabin number</td>
+<td>687 blanks — might indicate location on ship</td>
+</tr>
+<tr class="even">
+<td>Embarked</td>
+<td>Port of embarkation (C/Q/S)</td>
+<td>Test whether it affects survival</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="exploring-unique-values-and-missing-data" class="level3" data-number="9.3">
+<h3 data-number="9.3" class="anchored" data-anchor-id="exploring-unique-values-and-missing-data"><span class="header-section-number">9.3</span> Exploring Unique Values and Missing Data</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count unique values per column</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>uniq_len <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">length</span>(<span class="fu">unique</span>(x)) }</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, uniq_len)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Count missing/blank values per column</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>countBlank <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">sum</span>(<span class="fu">is.na</span>(x) <span class="sc">|</span> x <span class="sc">==</span> <span class="st">""</span>) }</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, countBlank)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Key findings:</strong></p>
+<ul>
+<li><strong>PassengerId</strong> and <strong>Name</strong> have 891 unique values (same as row count) — unique identifiers, drop both.</li>
+<li><strong>Age</strong> has 177 missing values — need to decide whether to fill them in (impute) or drop the column.</li>
+<li><strong>Cabin</strong> has 687 blank values (77% missing!) — possibly useful if you extract deck letter, but the missingness itself is a challenge.</li>
+<li><strong>Embarked</strong> has 2 blank values — easy to fill.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="feature-engineering" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="feature-engineering"><span class="header-section-number">10</span> Feature Engineering</h2>
+<p>Feature engineering is the process of transforming raw data into features that are more useful for ML models. It happens after data exploration and is <strong>more important than your choice of algorithm</strong>. Common tasks include:</p>
+<ul>
+<li><strong>Removing irrelevant columns</strong> (e.g., PassengerId, Name).</li>
+<li><strong>Converting column types</strong> (e.g., Pclass from integer to factor, since it is categorical).</li>
+<li><strong>Handling missing values</strong> — filling them in (imputation) or dropping affected rows/columns.</li>
+<li><strong>Transforming or splitting columns</strong> (e.g., extracting a title like “Mr” or “Mrs” from the Name column; creating an “is child” flag from Age).</li>
+<li><strong>Handling skewed variables</strong> — applying log or other transformations.</li>
+<li><strong>Scaling numeric variables</strong> — ensuring all variables are on similar scales so no single variable dominates due to its units.</li>
+</ul>
+<hr>
+</section>
+<section id="summary-of-key-takeaways" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="summary-of-key-takeaways"><span class="header-section-number">11</span> Summary of Key Takeaways</h2>
+<ol type="1">
+<li><strong>Business understanding comes first.</strong> The PayPal churn example shows that problem decomposition and domain knowledge can be more powerful than any algorithm.</li>
+<li><strong>Data exploration is not optional.</strong> It should actively drive your feature engineering decisions, not just be a formality before modelling.</li>
+<li><strong>Understand mean vs median.</strong> Use median for skewed data; the mean can be misleading when outliers are present.</li>
+<li><strong>Know your univariate plots.</strong> Histograms, density plots, and box plots each show distribution — learn to read all three.</li>
+<li><strong>Skewness matters for ML.</strong> Log transformations on skewed data can substantially improve model performance (the mammals example improved R² from 0.87 to 0.92).</li>
+<li><strong>Explore relationships between variables</strong> using scatter plots, correlation matrices, and pairs plots.</li>
+<li><strong>Feature engineering is more important than algorithm choice.</strong> Cleaning, transforming, and preparing your data well will have a bigger impact on results than picking the “best” algorithm.</li>
+</ol>
+<hr>
+</section>
+<section id="homework-next-steps" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="homework-next-steps"><span class="header-section-number">12</span> Homework / Next Steps</h2>
+<ul>
+<li>Ensure R and RStudio are installed and working.</li>
+<li>Run all the code snippets from this week locally.</li>
+<li>Explore the iris and Titanic datasets in more detail on your own.</li>
+<li>Look at the free books listed in the course resources.</li>
+<li><strong>Next week:</strong> Machine Learning Algorithms — Decision Trees, and Lab 3.</li>
+</ul>
+<hr>
+<p><em>[Space for my additional notes]</em></p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../data-mining/week-1.html" class="pagination-link" aria-label="Week 1">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 1</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../data-mining/week-3.html" class="pagination-link" aria-label="Week 3">
+        <span class="nav-page-text">Week 3</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "STAT9013 - Data Mining: Week 2"</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Basic Statistics, Visualisations in R, and Data Exploration"</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quick Recap from Week 1</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>Week 1 covered the foundations: the differences between data, information, and knowledge; definitions of AI, Machine Learning, and Deep Learning; the CRISP-DM and SEMMA workflows; types of ML (supervised, unsupervised, reinforcement learning); and a worked linear regression example.</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## CRISP-DM and the Importance of Business Understanding</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>Before diving into statistics and code, the lecture emphasised a critical lesson: **the data understanding and data preparation stages of CRISP-DM are often more important than the modelling stage itself**. The CRISP-DM cycle has six phases — Business Understanding, Data Understanding, Data Preparation, Modelling, Evaluation, and Deployment — and notice that two of those six are entirely about working with the data *before* any model is built.</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="fu">### The PayPal Churn Case Study</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>This real-world example illustrated how business understanding can matter more than fancy algorithms. PayPal was losing around 1 million merchants per year. After 17 years of trying various approaches, the problem was finally tackled not with advanced ML but with careful problem definition using simple tools (spreadsheets and SQL).</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>**Key steps in their approach:**</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Exclude accounts that already cancelled:** By the time someone cancels, it is too late — they have already migrated to a competitor like Stripe. Nothing can be done to win them back.</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Exclude "one-and-dones":** Merchants who signed up briefly, had little revenue, and disappeared. Not worth chasing because the revenue was negligible.</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Separate activation from retention:** New merchants who had problems getting started (failed payments, onboarding issues) are a different problem for a different team. This is not churn — it is an onboarding issue.</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Exclude false positives:** Seasonal businesses (Halloween costume stores), subscription processors who only transact once a month, and merchants who were kicked off for violating terms.</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Focus on revenue churn, not account churn:** 90% of revenue came from 10% of merchants. Losing a merchant doing €100,000/month matters far more than losing one doing €500/month.</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>After all these exclusions, they looked at individual cases for their highest-value remaining merchants, identified 20 "killer scenarios" causing churn, and fixed them one by one — often just by having customer service call the merchant.</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>**The takeaway:** Always ask "What am I actually trying to solve?" before reaching for a machine learning model. Sometimes the best solution is careful problem decomposition combined with domain expertise.</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Basic Statistics: Means, Medians, Quartiles, and IQR</span></span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a><span class="fu">### Mean vs Median</span></span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Mean:** The arithmetic average — sum all values and divide by the count. Sensitive to extreme values (outliers).</span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Median:** The middle value when data is sorted from smallest to largest. Robust to outliers.</span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a>**Why the difference matters:** Imagine 11 people in a room, each earning around €100,000. The mean salary is roughly €100,000 and the median is also about €100,000 — they agree. Now Bill Gates and Jeff Bezos walk in. The mean salary jumps to perhaps €30 million, but the median barely changes — it just moves from the 6th to the 7th person's salary, still around €100,000.</span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>The mean no longer represents anyone in the group. The median still tells you what the "typical" person earns. This is why the media report the **median** age of COVID deaths rather than the average — it gives a more meaningful picture of who is affected.</span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>**Rule of thumb:** When data is skewed or contains outliers, the median is usually more informative than the mean.</span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a><span class="fu">### Quartiles and Interquartile Range (IQR)</span></span>
+<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a>To calculate quartiles:</span>
+<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Order the data from smallest to largest.</span>
+<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Split it into four equal groups.</span>
+<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Each group is a "quartile."</span>
+<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Q1 (25th percentile):** The boundary between the lowest 25% and the rest.</span>
+<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Q2 (50th percentile):** This is the median.</span>
+<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Q3 (75th percentile):** The boundary between the top 25% and the rest.</span>
+<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**IQR = Q3 − Q1:** The range covering the middle 50% of the data.</span>
+<span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a>The IQR is useful because it tells you how spread out the "core" of your data is, ignoring extremes.</span>
+<span id="cb20-69"><a href="#cb20-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualising Distributions: Univariate Plots</span></span>
+<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a>Univariate plots examine a single variable at a time. The three main types covered are histograms, density plots, and box plots. They all show the **distribution** (the spread and shape) of your data, but in different ways.</span>
+<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a><span class="fu">### Histograms</span></span>
+<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a>A histogram divides the data into "bins" (ranges) and counts how many values fall into each bin. It shows frequency on the y-axis and the variable's values on the x-axis. Think of it as a bar chart of your data's distribution.</span>
+<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-82"><a href="#cb20-82" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-83"><a href="#cb20-83" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-84"><a href="#cb20-84" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">100</span>)</span>
+<span id="cb20-85"><a href="#cb20-85" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-86"><a href="#cb20-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-87"><a href="#cb20-87" aria-hidden="true" tabindex="-1"></a><span class="fu">### Density Plots</span></span>
+<span id="cb20-88"><a href="#cb20-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-89"><a href="#cb20-89" aria-hidden="true" tabindex="-1"></a>A density plot is a smoothed version of a histogram. Instead of bars, you get a continuous curve. The y-axis shows density (not raw count), and the area under the curve sums to 1. It is useful for seeing the overall shape of the distribution without being distracted by bin choices.</span>
+<span id="cb20-90"><a href="#cb20-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-93"><a href="#cb20-93" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-94"><a href="#cb20-94" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-95"><a href="#cb20-95" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"density"</span>)</span>
+<span id="cb20-96"><a href="#cb20-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-97"><a href="#cb20-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-98"><a href="#cb20-98" aria-hidden="true" tabindex="-1"></a><span class="fu">### Box Plots</span></span>
+<span id="cb20-99"><a href="#cb20-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-100"><a href="#cb20-100" aria-hidden="true" tabindex="-1"></a>A box plot (or box-and-whisker plot) packs a lot of information into a compact display:</span>
+<span id="cb20-101"><a href="#cb20-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-102"><a href="#cb20-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **box** spans from Q1 to Q3 (the IQR — the middle 50% of data).</span>
+<span id="cb20-103"><a href="#cb20-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **line inside the box** is the median.</span>
+<span id="cb20-104"><a href="#cb20-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **whiskers** extend to the most extreme data points that are within 1.5 × IQR from the edges of the box.</span>
+<span id="cb20-105"><a href="#cb20-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Points beyond the whiskers** are considered outliers.</span>
+<span id="cb20-106"><a href="#cb20-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-107"><a href="#cb20-107" aria-hidden="true" tabindex="-1"></a>Box plots are extremely useful for statisticians and data scientists, but as the lecturer noted, they are often not well understood by non-technical business users. So use them for your own analysis, but consider simpler visuals when presenting to stakeholders.</span>
+<span id="cb20-108"><a href="#cb20-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-111"><a href="#cb20-111" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-112"><a href="#cb20-112" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-113"><a href="#cb20-113" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"boxplot"</span>) <span class="sc">+</span> <span class="fu">coord_flip</span>()</span>
+<span id="cb20-114"><a href="#cb20-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-115"><a href="#cb20-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-116"><a href="#cb20-116" aria-hidden="true" tabindex="-1"></a><span class="fu">### The `drawPlots` Helper Function</span></span>
+<span id="cb20-117"><a href="#cb20-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-118"><a href="#cb20-118" aria-hidden="true" tabindex="-1"></a>The lecture introduced a handy helper function that draws all three plots side by side, with the mean shown in blue and the median in green:</span>
+<span id="cb20-119"><a href="#cb20-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-122"><a href="#cb20-122" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-123"><a href="#cb20-123" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-124"><a href="#cb20-124" aria-hidden="true" tabindex="-1"></a>drawPlots <span class="ot">&lt;-</span> <span class="cf">function</span>(data, title) {</span>
+<span id="cb20-125"><a href="#cb20-125" aria-hidden="true" tabindex="-1"></a>  p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb20-126"><a href="#cb20-126" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb20-127"><a href="#cb20-127" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">median</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"green"</span>)</span>
+<span id="cb20-128"><a href="#cb20-128" aria-hidden="true" tabindex="-1"></a>  p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb20-129"><a href="#cb20-129" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb20-130"><a href="#cb20-130" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">median</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"green"</span>)</span>
+<span id="cb20-131"><a href="#cb20-131" aria-hidden="true" tabindex="-1"></a>  p03 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"boxplot"</span>) <span class="sc">+</span></span>
+<span id="cb20-132"><a href="#cb20-132" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb20-133"><a href="#cb20-133" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">mean</span>(data), <span class="at">y =</span> <span class="dv">0</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"blue"</span>)</span>
+<span id="cb20-134"><a href="#cb20-134" aria-hidden="true" tabindex="-1"></a>  gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">top =</span> title)</span>
+<span id="cb20-135"><a href="#cb20-135" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-136"><a href="#cb20-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-137"><a href="#cb20-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-138"><a href="#cb20-138" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-139"><a href="#cb20-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-140"><a href="#cb20-140" aria-hidden="true" tabindex="-1"></a><span class="fu">## Skewness: What It Is and Why It Matters</span></span>
+<span id="cb20-141"><a href="#cb20-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-142"><a href="#cb20-142" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Is Skewness?</span></span>
+<span id="cb20-143"><a href="#cb20-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-144"><a href="#cb20-144" aria-hidden="true" tabindex="-1"></a>Skewness describes how asymmetric a distribution is compared to a normal (bell-shaped) distribution.</span>
+<span id="cb20-145"><a href="#cb20-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-146"><a href="#cb20-146" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Normal distribution:** Symmetric. The mean and median are approximately equal. The histogram/density plot looks like a bell curve, centred around the middle.</span>
+<span id="cb20-147"><a href="#cb20-147" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Right (positive) skew:** The "tail" of the distribution stretches to the right. Most values are clustered on the left, but a few very large values pull the mean to the right. **Mean &gt; Median.**</span>
+<span id="cb20-148"><a href="#cb20-148" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Left (negative) skew:** The tail stretches to the left. Most values cluster on the right, but a few very small values pull the mean left. **Mean &lt; Median.**</span>
+<span id="cb20-149"><a href="#cb20-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-152"><a href="#cb20-152" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-153"><a href="#cb20-153" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-154"><a href="#cb20-154" aria-hidden="true" tabindex="-1"></a><span class="co"># Normal distribution — mean ≈ median</span></span>
+<span id="cb20-155"><a href="#cb20-155" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb20-156"><a href="#cb20-156" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Normal distribution (median ~= mean)"</span>)</span>
+<span id="cb20-157"><a href="#cb20-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-158"><a href="#cb20-158" aria-hidden="true" tabindex="-1"></a><span class="co"># Left (negative) skew — median &gt; mean</span></span>
+<span id="cb20-159"><a href="#cb20-159" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">5</span>, <span class="dv">1</span>)</span>
+<span id="cb20-160"><a href="#cb20-160" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Left skewed (median-green &gt; mean-blue)"</span>)</span>
+<span id="cb20-161"><a href="#cb20-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-162"><a href="#cb20-162" aria-hidden="true" tabindex="-1"></a><span class="co"># Right (positive) skew — median &lt; mean</span></span>
+<span id="cb20-163"><a href="#cb20-163" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">1</span>, <span class="dv">5</span>)</span>
+<span id="cb20-164"><a href="#cb20-164" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Right skewed (median-green &lt; mean-blue)"</span>)</span>
+<span id="cb20-165"><a href="#cb20-165" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-166"><a href="#cb20-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-167"><a href="#cb20-167" aria-hidden="true" tabindex="-1"></a><span class="fu">### Real-World Examples of Skewed Data</span></span>
+<span id="cb20-168"><a href="#cb20-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-169"><a href="#cb20-169" aria-hidden="true" tabindex="-1"></a>A lot of real-life data is skewed:</span>
+<span id="cb20-170"><a href="#cb20-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-171"><a href="#cb20-171" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Income:** Most people earn moderate amounts, but a few earn enormously high salaries (right skew).</span>
+<span id="cb20-172"><a href="#cb20-172" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Average spend per customer:** Most customers spend a little, a few spend a lot.</span>
+<span id="cb20-173"><a href="#cb20-173" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Distance travelled to work:** Most people live reasonably close; some commute very long distances.</span>
+<span id="cb20-174"><a href="#cb20-174" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Animal body weights:** Most mammals are small; a few (elephants, whales) are extremely large.</span>
+<span id="cb20-175"><a href="#cb20-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-176"><a href="#cb20-176" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Skewness Matters for Machine Learning</span></span>
+<span id="cb20-177"><a href="#cb20-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-178"><a href="#cb20-178" aria-hidden="true" tabindex="-1"></a>The lecture demonstrated this using the <span class="in">`mammals`</span> dataset (from the <span class="in">`openintro`</span> package), which contains body weight and brain weight for various mammals.</span>
+<span id="cb20-179"><a href="#cb20-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-180"><a href="#cb20-180" aria-hidden="true" tabindex="-1"></a>**The problem:** Both body weight and brain weight are extremely right-skewed — most mammals are small, but a few (like elephants) are huge. When you plot the raw data, almost all points cluster near zero, and you can barely see any relationship.</span>
+<span id="cb20-181"><a href="#cb20-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-182"><a href="#cb20-182" aria-hidden="true" tabindex="-1"></a>**Step 1 — Build a model on raw data:**</span>
+<span id="cb20-183"><a href="#cb20-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-186"><a href="#cb20-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-187"><a href="#cb20-187" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-188"><a href="#cb20-188" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_wt <span class="sc">~</span> brain_wt, <span class="at">data =</span> mammals)</span>
+<span id="cb20-189"><a href="#cb20-189" aria-hidden="true" tabindex="-1"></a>r_sq1 <span class="ot">&lt;-</span> <span class="fu">cor</span>(model1<span class="sc">$</span>fitted.values, mammals<span class="sc">$</span>body_wt)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb20-190"><a href="#cb20-190" aria-hidden="true" tabindex="-1"></a><span class="co"># R² ≈ 0.87</span></span>
+<span id="cb20-191"><a href="#cb20-191" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-192"><a href="#cb20-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-193"><a href="#cb20-193" aria-hidden="true" tabindex="-1"></a>**Step 2 — Apply a log transformation:**</span>
+<span id="cb20-194"><a href="#cb20-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-195"><a href="#cb20-195" aria-hidden="true" tabindex="-1"></a>Taking the logarithm of skewed data compresses the large values and stretches the small ones, making the distribution more symmetrical (closer to normal).</span>
+<span id="cb20-196"><a href="#cb20-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-199"><a href="#cb20-199" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-200"><a href="#cb20-200" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-201"><a href="#cb20-201" aria-hidden="true" tabindex="-1"></a>mammals<span class="sc">$</span>log_body_wt <span class="ot">&lt;-</span> <span class="fu">log</span>(mammals<span class="sc">$</span>body_wt)</span>
+<span id="cb20-202"><a href="#cb20-202" aria-hidden="true" tabindex="-1"></a>mammals<span class="sc">$</span>log_brain_wt <span class="ot">&lt;-</span> <span class="fu">log</span>(mammals<span class="sc">$</span>brain_wt)</span>
+<span id="cb20-203"><a href="#cb20-203" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-204"><a href="#cb20-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-205"><a href="#cb20-205" aria-hidden="true" tabindex="-1"></a>When you plot the log-transformed data, you can now clearly see a linear relationship between log(brain weight) and log(body weight).</span>
+<span id="cb20-206"><a href="#cb20-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-207"><a href="#cb20-207" aria-hidden="true" tabindex="-1"></a>**Step 3 — Build a model on transformed data:**</span>
+<span id="cb20-208"><a href="#cb20-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-211"><a href="#cb20-211" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-212"><a href="#cb20-212" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-213"><a href="#cb20-213" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_body_wt <span class="sc">~</span> log_brain_wt, <span class="at">data =</span> mammals)</span>
+<span id="cb20-214"><a href="#cb20-214" aria-hidden="true" tabindex="-1"></a>r_sq2 <span class="ot">&lt;-</span> <span class="fu">cor</span>(model2<span class="sc">$</span>fitted.values, mammals<span class="sc">$</span>log_body_wt)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb20-215"><a href="#cb20-215" aria-hidden="true" tabindex="-1"></a><span class="co"># R² ≈ 0.92</span></span>
+<span id="cb20-216"><a href="#cb20-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-217"><a href="#cb20-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-218"><a href="#cb20-218" aria-hidden="true" tabindex="-1"></a>The R² improved from 0.87 to 0.92. As the slides noted, this represents a **37.79% reduction in error rate**. That is a significant improvement gained purely from transforming the data — not from changing the algorithm.</span>
+<span id="cb20-219"><a href="#cb20-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-220"><a href="#cb20-220" aria-hidden="true" tabindex="-1"></a>**Key insight:** If your data is skewed, consider applying a log transformation (or other transformations) before modelling. This is a form of **feature engineering** and can dramatically improve model performance.</span>
+<span id="cb20-221"><a href="#cb20-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-222"><a href="#cb20-222" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-223"><a href="#cb20-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-224"><a href="#cb20-224" aria-hidden="true" tabindex="-1"></a><span class="fu">## Packages and the `qplot` Function</span></span>
+<span id="cb20-225"><a href="#cb20-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-226"><a href="#cb20-226" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required Packages</span></span>
+<span id="cb20-227"><a href="#cb20-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-230"><a href="#cb20-230" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-231"><a href="#cb20-231" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-232"><a href="#cb20-232" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)     <span class="co"># Plotting — qplot and ggplot functions</span></span>
+<span id="cb20-233"><a href="#cb20-233" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)   <span class="co"># Arrange multiple plots in a grid</span></span>
+<span id="cb20-234"><a href="#cb20-234" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datasets)    <span class="co"># Built-in R datasets (iris, etc.)</span></span>
+<span id="cb20-235"><a href="#cb20-235" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)    <span class="co"># Correlation plot visualisations</span></span>
+<span id="cb20-236"><a href="#cb20-236" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(titanic)     <span class="co"># Titanic dataset</span></span>
+<span id="cb20-237"><a href="#cb20-237" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)       <span class="co"># pairs.panels() for pairs plots</span></span>
+<span id="cb20-238"><a href="#cb20-238" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openintro)   <span class="co"># mammals dataset and others</span></span>
+<span id="cb20-239"><a href="#cb20-239" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-240"><a href="#cb20-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-241"><a href="#cb20-241" aria-hidden="true" tabindex="-1"></a>If you get errors like <span class="in">`could not find function "xxxxx"`</span>, it almost certainly means you need to install and/or load the package first.</span>
+<span id="cb20-242"><a href="#cb20-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-243"><a href="#cb20-243" aria-hidden="true" tabindex="-1"></a><span class="fu">### The `qplot` Function (Quick Plot)</span></span>
+<span id="cb20-244"><a href="#cb20-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-245"><a href="#cb20-245" aria-hidden="true" tabindex="-1"></a><span class="in">`qplot`</span> is part of <span class="in">`ggplot2`</span> and provides a quick way to create plots:</span>
+<span id="cb20-246"><a href="#cb20-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-247"><a href="#cb20-247" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**One variable** → defaults to a **histogram**.</span>
+<span id="cb20-248"><a href="#cb20-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Two variables** → defaults to a **scatterplot**.</span>
+<span id="cb20-249"><a href="#cb20-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Change the plot type with the <span class="in">`geom`</span> parameter (e.g., <span class="in">`geom = "density"`</span>, <span class="in">`geom = "boxplot"`</span>).</span>
+<span id="cb20-250"><a href="#cb20-250" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use <span class="in">`main`</span> for title, <span class="in">`xlab`</span> for x-axis label, <span class="in">`ylab`</span> for y-axis label.</span>
+<span id="cb20-251"><a href="#cb20-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-252"><a href="#cb20-252" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-253"><a href="#cb20-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-254"><a href="#cb20-254" aria-hidden="true" tabindex="-1"></a><span class="fu">## Datasets in R</span></span>
+<span id="cb20-255"><a href="#cb20-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-256"><a href="#cb20-256" aria-hidden="true" tabindex="-1"></a>R comes with many built-in datasets through the <span class="in">`datasets`</span> package. Some notable ones:</span>
+<span id="cb20-257"><a href="#cb20-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-258"><a href="#cb20-258" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**iris:** 150 observations of iris flowers (3 species, 4 measurements each). A classic ML dataset.</span>
+<span id="cb20-259"><a href="#cb20-259" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Titanic:** Survival data for passengers.</span>
+<span id="cb20-260"><a href="#cb20-260" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**airquality:** New York air quality measurements.</span>
+<span id="cb20-261"><a href="#cb20-261" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**anscombe:** Four datasets with nearly identical summary statistics but very different distributions — a great demonstration of why you should always visualise your data.</span>
+<span id="cb20-262"><a href="#cb20-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-265"><a href="#cb20-265" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-266"><a href="#cb20-266" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-267"><a href="#cb20-267" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="at">help =</span> <span class="st">"datasets"</span>)  <span class="co"># See all available datasets</span></span>
+<span id="cb20-268"><a href="#cb20-268" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)                    <span class="co"># Load a specific dataset</span></span>
+<span id="cb20-269"><a href="#cb20-269" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-270"><a href="#cb20-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-271"><a href="#cb20-271" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-272"><a href="#cb20-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-273"><a href="#cb20-273" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Exploration: The Iris Dataset</span></span>
+<span id="cb20-274"><a href="#cb20-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-275"><a href="#cb20-275" aria-hidden="true" tabindex="-1"></a>Data exploration is **critical** to the success of any ML project. As the lecturer emphasised: it is more important than anything you do in the model-building stage, including picking an algorithm. You should look at missing data, check for incomplete data, perform statistical analysis, and create visualisations. The insights you gain here should actively guide your feature engineering and modelling decisions — not just be a box-ticking exercise.</span>
+<span id="cb20-276"><a href="#cb20-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-277"><a href="#cb20-277" aria-hidden="true" tabindex="-1"></a><span class="fu">### About the Iris Dataset</span></span>
+<span id="cb20-278"><a href="#cb20-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-279"><a href="#cb20-279" aria-hidden="true" tabindex="-1"></a>Introduced by Ronald Fisher in 1936, the Iris dataset contains 150 observations: 50 each of three species (setosa, versicolor, virginica). Four numeric features are measured: Sepal.Length, Sepal.Width, Petal.Length, and Petal.Width. The goal is to classify species based on these measurements.</span>
+<span id="cb20-280"><a href="#cb20-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-281"><a href="#cb20-281" aria-hidden="true" tabindex="-1"></a><span class="fu">### Initial Exploration</span></span>
+<span id="cb20-282"><a href="#cb20-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-285"><a href="#cb20-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-286"><a href="#cb20-286" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-287"><a href="#cb20-287" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb20-288"><a href="#cb20-288" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(iris)       <span class="co"># 150 rows, 5 columns</span></span>
+<span id="cb20-289"><a href="#cb20-289" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(iris)     <span class="co"># "Sepal.Length" "Sepal.Width" "Petal.Length" "Petal.Width" "Species"</span></span>
+<span id="cb20-290"><a href="#cb20-290" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(iris)       <span class="co"># Shows types: 4 numeric columns + 1 factor (Species)</span></span>
+<span id="cb20-291"><a href="#cb20-291" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])  <span class="co"># Summary stats for numeric columns only</span></span>
+<span id="cb20-292"><a href="#cb20-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-293"><a href="#cb20-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-294"><a href="#cb20-294" aria-hidden="true" tabindex="-1"></a><span class="fu">### Column Types</span></span>
+<span id="cb20-295"><a href="#cb20-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-296"><a href="#cb20-296" aria-hidden="true" tabindex="-1"></a>Getting column types right is crucial in R:</span>
+<span id="cb20-297"><a href="#cb20-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-298"><a href="#cb20-298" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**numeric / integer:** Numbers.</span>
+<span id="cb20-299"><a href="#cb20-299" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**character:** Text strings.</span>
+<span id="cb20-300"><a href="#cb20-300" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**logical:** TRUE/FALSE.</span>
+<span id="cb20-301"><a href="#cb20-301" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**factor:** Categorical variables with a fixed set of levels (like Species with 3 levels).</span>
+<span id="cb20-302"><a href="#cb20-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-303"><a href="#cb20-303" aria-hidden="true" tabindex="-1"></a>You can convert between types with <span class="in">`as.numeric()`</span>, <span class="in">`as.character()`</span>, <span class="in">`as.factor()`</span>, etc. But not all conversions are possible — <span class="in">`as.numeric("three")`</span> produces <span class="in">`NA`</span> with a warning.</span>
+<span id="cb20-304"><a href="#cb20-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-305"><a href="#cb20-305" aria-hidden="true" tabindex="-1"></a><span class="fu">### Histograms — Iris</span></span>
+<span id="cb20-306"><a href="#cb20-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-309"><a href="#cb20-309" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-310"><a href="#cb20-310" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-311"><a href="#cb20-311" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb20-312"><a href="#cb20-312" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Sepal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Length"</span>)</span>
+<span id="cb20-313"><a href="#cb20-313" aria-hidden="true" tabindex="-1"></a>p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Width, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb20-314"><a href="#cb20-314" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Sepal.Width"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Width"</span>)</span>
+<span id="cb20-315"><a href="#cb20-315" aria-hidden="true" tabindex="-1"></a>p03 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Petal.Length, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb20-316"><a href="#cb20-316" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Petal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Petal.Length"</span>)</span>
+<span id="cb20-317"><a href="#cb20-317" aria-hidden="true" tabindex="-1"></a>p04 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Petal.Width, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb20-318"><a href="#cb20-318" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Petal.Width"</span>, <span class="at">xlab =</span> <span class="st">"Petal.Width"</span>)</span>
+<span id="cb20-319"><a href="#cb20-319" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
+<span id="cb20-320"><a href="#cb20-320" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-321"><a href="#cb20-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-322"><a href="#cb20-322" aria-hidden="true" tabindex="-1"></a>**What to notice:** Petal.Length and Petal.Width show a clear bimodal distribution (two humps). This suggests there might be distinct groups in the data — which makes sense because setosa has much smaller petals than the other two species.</span>
+<span id="cb20-323"><a href="#cb20-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-324"><a href="#cb20-324" aria-hidden="true" tabindex="-1"></a><span class="fu">### Density Plots — Iris</span></span>
+<span id="cb20-325"><a href="#cb20-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-328"><a href="#cb20-328" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-329"><a href="#cb20-329" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-330"><a href="#cb20-330" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">geom =</span> <span class="st">"density"</span>,</span>
+<span id="cb20-331"><a href="#cb20-331" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Density plot on Sepal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Length"</span>)</span>
+<span id="cb20-332"><a href="#cb20-332" aria-hidden="true" tabindex="-1"></a><span class="co"># ... similar for the other three variables</span></span>
+<span id="cb20-333"><a href="#cb20-333" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
+<span id="cb20-334"><a href="#cb20-334" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-335"><a href="#cb20-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-336"><a href="#cb20-336" aria-hidden="true" tabindex="-1"></a>The density plots confirm the same patterns seen in the histograms, but the smooth curves make the bimodal shape of the petal measurements even more obvious.</span>
+<span id="cb20-337"><a href="#cb20-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-338"><a href="#cb20-338" aria-hidden="true" tabindex="-1"></a><span class="fu">### Box Plots — Iris (by Species)</span></span>
+<span id="cb20-339"><a href="#cb20-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-342"><a href="#cb20-342" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-343"><a href="#cb20-343" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-344"><a href="#cb20-344" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Species, Sepal.Length, <span class="at">data =</span> iris, <span class="at">geom =</span> <span class="st">"boxplot"</span>,</span>
+<span id="cb20-345"><a href="#cb20-345" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Boxplot on Sepal.Length"</span>)</span>
+<span id="cb20-346"><a href="#cb20-346" aria-hidden="true" tabindex="-1"></a><span class="co"># ... similar for other variables</span></span>
+<span id="cb20-347"><a href="#cb20-347" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
+<span id="cb20-348"><a href="#cb20-348" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-349"><a href="#cb20-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-350"><a href="#cb20-350" aria-hidden="true" tabindex="-1"></a>**What to notice:** When we split by species, the box plots reveal that setosa is very clearly separated from the other two species on Petal.Length and Petal.Width (almost no overlap). Versicolor and virginica overlap more, but are still distinguishable. Sepal.Width is an interesting variable — setosa actually has *wider* sepals than the other species.</span>
+<span id="cb20-351"><a href="#cb20-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-352"><a href="#cb20-352" aria-hidden="true" tabindex="-1"></a><span class="fu">### Scatter Plots — Iris (Multivariate)</span></span>
+<span id="cb20-353"><a href="#cb20-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-354"><a href="#cb20-354" aria-hidden="true" tabindex="-1"></a>Scatter plots show the relationship between two variables at once. By colouring by species, we can see how well the species separate:</span>
+<span id="cb20-355"><a href="#cb20-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-358"><a href="#cb20-358" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-359"><a href="#cb20-359" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-360"><a href="#cb20-360" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Sepal.Width, Sepal.Length, <span class="at">data =</span> iris, <span class="at">colour =</span> Species,</span>
+<span id="cb20-361"><a href="#cb20-361" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Sepal.Width v Sepal.Length"</span>)</span>
+<span id="cb20-362"><a href="#cb20-362" aria-hidden="true" tabindex="-1"></a>p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Petal.Length, Petal.Width, <span class="at">data =</span> iris, <span class="at">colour =</span> Species,</span>
+<span id="cb20-363"><a href="#cb20-363" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Petal.Length v Petal.Width"</span>)</span>
+<span id="cb20-364"><a href="#cb20-364" aria-hidden="true" tabindex="-1"></a><span class="co"># ... more combinations</span></span>
+<span id="cb20-365"><a href="#cb20-365" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
+<span id="cb20-366"><a href="#cb20-366" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-367"><a href="#cb20-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-368"><a href="#cb20-368" aria-hidden="true" tabindex="-1"></a>**Key insight:** The Petal.Length vs Petal.Width scatter plot shows the clearest separation between all three species. This tells you these are likely the most useful features for classification.</span>
+<span id="cb20-369"><a href="#cb20-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-370"><a href="#cb20-370" aria-hidden="true" tabindex="-1"></a><span class="fu">### Correlation Analysis</span></span>
+<span id="cb20-371"><a href="#cb20-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-372"><a href="#cb20-372" aria-hidden="true" tabindex="-1"></a>Correlation measures the linear relationship between two numeric variables, ranging from −1 (perfect negative) to +1 (perfect positive), with 0 meaning no linear relationship.</span>
+<span id="cb20-373"><a href="#cb20-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-376"><a href="#cb20-376" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-377"><a href="#cb20-377" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-378"><a href="#cb20-378" aria-hidden="true" tabindex="-1"></a>corr_mat <span class="ot">&lt;-</span> <span class="fu">cor</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])   <span class="co"># Exclude Species (not numeric)</span></span>
+<span id="cb20-379"><a href="#cb20-379" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot.mixed</span>(corr_mat)</span>
+<span id="cb20-380"><a href="#cb20-380" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-381"><a href="#cb20-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-382"><a href="#cb20-382" aria-hidden="true" tabindex="-1"></a>**Key correlations in iris:**</span>
+<span id="cb20-383"><a href="#cb20-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-384"><a href="#cb20-384" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Petal.Length and Petal.Width: **0.96** (very strong positive — as petals get longer, they also get wider).</span>
+<span id="cb20-385"><a href="#cb20-385" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sepal.Length and Petal.Length: **0.87** (strong positive).</span>
+<span id="cb20-386"><a href="#cb20-386" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sepal.Length and Petal.Width: **0.82** (strong positive).</span>
+<span id="cb20-387"><a href="#cb20-387" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sepal.Width and Petal.Length: **−0.43** (moderate negative).</span>
+<span id="cb20-388"><a href="#cb20-388" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sepal.Length and Sepal.Width: **−0.12** (very weak negative — almost no relationship).</span>
+<span id="cb20-389"><a href="#cb20-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-390"><a href="#cb20-390" aria-hidden="true" tabindex="-1"></a><span class="fu">### Pairs Plots</span></span>
+<span id="cb20-391"><a href="#cb20-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-392"><a href="#cb20-392" aria-hidden="true" tabindex="-1"></a>A pairs plot combines histograms (on the diagonal), scatter plots (below the diagonal), and correlation values (above the diagonal) into a single comprehensive view:</span>
+<span id="cb20-393"><a href="#cb20-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-396"><a href="#cb20-396" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-397"><a href="#cb20-397" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-398"><a href="#cb20-398" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs.panels</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], <span class="at">method =</span> <span class="st">"pearson"</span>,</span>
+<span id="cb20-399"><a href="#cb20-399" aria-hidden="true" tabindex="-1"></a>             <span class="at">hist.col =</span> <span class="st">"#00AFBB"</span>, <span class="at">density =</span> <span class="cn">TRUE</span>, <span class="at">ellipses =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-400"><a href="#cb20-400" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-401"><a href="#cb20-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-402"><a href="#cb20-402" aria-hidden="true" tabindex="-1"></a>This is one of the most useful exploratory tools because it gives you a full picture of all pairwise relationships at a glance.</span>
+<span id="cb20-403"><a href="#cb20-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-404"><a href="#cb20-404" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-405"><a href="#cb20-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-406"><a href="#cb20-406" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Titanic Dataset: A Brief Introduction</span></span>
+<span id="cb20-407"><a href="#cb20-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-408"><a href="#cb20-408" aria-hidden="true" tabindex="-1"></a>The Titanic dataset is a classic ML classification problem: **Can we predict which passengers survived the shipwreck?**</span>
+<span id="cb20-409"><a href="#cb20-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-410"><a href="#cb20-410" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loading and Inspecting</span></span>
+<span id="cb20-411"><a href="#cb20-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-414"><a href="#cb20-414" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-415"><a href="#cb20-415" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-416"><a href="#cb20-416" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic_train)</span>
+<span id="cb20-417"><a href="#cb20-417" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(titanic_train)   <span class="co"># 891 obs. of 12 variables</span></span>
+<span id="cb20-418"><a href="#cb20-418" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-419"><a href="#cb20-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-420"><a href="#cb20-420" aria-hidden="true" tabindex="-1"></a><span class="fu">### Understanding the Variables</span></span>
+<span id="cb20-421"><a href="#cb20-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-422"><a href="#cb20-422" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable    <span class="pp">|</span> Meaning                               <span class="pp">|</span> Notes                                       <span class="pp">|</span></span>
+<span id="cb20-423"><a href="#cb20-423" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------------|---------------------------------------|---------------------------------------------|</span></span>
+<span id="cb20-424"><a href="#cb20-424" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> PassengerId <span class="pp">|</span> Unique identifier                     <span class="pp">|</span> Drop for modelling (unique per row)         <span class="pp">|</span></span>
+<span id="cb20-425"><a href="#cb20-425" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Survived    <span class="pp">|</span> Did they survive? (0 = No, 1 = Yes)  <span class="pp">|</span> This is our **target variable**             <span class="pp">|</span></span>
+<span id="cb20-426"><a href="#cb20-426" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Pclass      <span class="pp">|</span> Ticket class (1st, 2nd, 3rd)         <span class="pp">|</span> Important — consider converting to factor   <span class="pp">|</span></span>
+<span id="cb20-427"><a href="#cb20-427" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Name        <span class="pp">|</span> Passenger name                        <span class="pp">|</span> Drop (not predictive by itself)             <span class="pp">|</span></span>
+<span id="cb20-428"><a href="#cb20-428" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sex         <span class="pp">|</span> Male or Female                        <span class="pp">|</span> Very important — women more likely survived <span class="pp">|</span></span>
+<span id="cb20-429"><a href="#cb20-429" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Age         <span class="pp">|</span> Age in years                          <span class="pp">|</span> Children more likely survived; has 177 NAs  <span class="pp">|</span></span>
+<span id="cb20-430"><a href="#cb20-430" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SibSp       <span class="pp">|</span> Number of siblings/spouses aboard     <span class="pp">|</span> Needs investigation                         <span class="pp">|</span></span>
+<span id="cb20-431"><a href="#cb20-431" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parch       <span class="pp">|</span> Number of parents/children aboard     <span class="pp">|</span> Needs investigation                         <span class="pp">|</span></span>
+<span id="cb20-432"><a href="#cb20-432" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Ticket      <span class="pp">|</span> Ticket number                         <span class="pp">|</span> Probably drop, unless embedded patterns     <span class="pp">|</span></span>
+<span id="cb20-433"><a href="#cb20-433" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Fare        <span class="pp">|</span> Ticket price                          <span class="pp">|</span> May relate to survival (wealth/class proxy) <span class="pp">|</span></span>
+<span id="cb20-434"><a href="#cb20-434" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Cabin       <span class="pp">|</span> Cabin number                          <span class="pp">|</span> 687 blanks — might indicate location on ship<span class="pp">|</span></span>
+<span id="cb20-435"><a href="#cb20-435" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Embarked    <span class="pp">|</span> Port of embarkation (C/Q/S)           <span class="pp">|</span> Test whether it affects survival            <span class="pp">|</span></span>
+<span id="cb20-436"><a href="#cb20-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-437"><a href="#cb20-437" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exploring Unique Values and Missing Data</span></span>
+<span id="cb20-438"><a href="#cb20-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-441"><a href="#cb20-441" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-442"><a href="#cb20-442" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-443"><a href="#cb20-443" aria-hidden="true" tabindex="-1"></a><span class="co"># Count unique values per column</span></span>
+<span id="cb20-444"><a href="#cb20-444" aria-hidden="true" tabindex="-1"></a>uniq_len <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">length</span>(<span class="fu">unique</span>(x)) }</span>
+<span id="cb20-445"><a href="#cb20-445" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, uniq_len)</span>
+<span id="cb20-446"><a href="#cb20-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-447"><a href="#cb20-447" aria-hidden="true" tabindex="-1"></a><span class="co"># Count missing/blank values per column</span></span>
+<span id="cb20-448"><a href="#cb20-448" aria-hidden="true" tabindex="-1"></a>countBlank <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">sum</span>(<span class="fu">is.na</span>(x) <span class="sc">|</span> x <span class="sc">==</span> <span class="st">""</span>) }</span>
+<span id="cb20-449"><a href="#cb20-449" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, countBlank)</span>
+<span id="cb20-450"><a href="#cb20-450" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-451"><a href="#cb20-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-452"><a href="#cb20-452" aria-hidden="true" tabindex="-1"></a>**Key findings:**</span>
+<span id="cb20-453"><a href="#cb20-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-454"><a href="#cb20-454" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**PassengerId** and **Name** have 891 unique values (same as row count) — unique identifiers, drop both.</span>
+<span id="cb20-455"><a href="#cb20-455" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Age** has 177 missing values — need to decide whether to fill them in (impute) or drop the column.</span>
+<span id="cb20-456"><a href="#cb20-456" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cabin** has 687 blank values (77% missing!) — possibly useful if you extract deck letter, but the missingness itself is a challenge.</span>
+<span id="cb20-457"><a href="#cb20-457" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Embarked** has 2 blank values — easy to fill.</span>
+<span id="cb20-458"><a href="#cb20-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-459"><a href="#cb20-459" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-460"><a href="#cb20-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-461"><a href="#cb20-461" aria-hidden="true" tabindex="-1"></a><span class="fu">## Feature Engineering</span></span>
+<span id="cb20-462"><a href="#cb20-462" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-463"><a href="#cb20-463" aria-hidden="true" tabindex="-1"></a>Feature engineering is the process of transforming raw data into features that are more useful for ML models. It happens after data exploration and is **more important than your choice of algorithm**. Common tasks include:</span>
+<span id="cb20-464"><a href="#cb20-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-465"><a href="#cb20-465" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Removing irrelevant columns** (e.g., PassengerId, Name).</span>
+<span id="cb20-466"><a href="#cb20-466" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Converting column types** (e.g., Pclass from integer to factor, since it is categorical).</span>
+<span id="cb20-467"><a href="#cb20-467" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Handling missing values** — filling them in (imputation) or dropping affected rows/columns.</span>
+<span id="cb20-468"><a href="#cb20-468" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Transforming or splitting columns** (e.g., extracting a title like "Mr" or "Mrs" from the Name column; creating an "is child" flag from Age).</span>
+<span id="cb20-469"><a href="#cb20-469" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Handling skewed variables** — applying log or other transformations.</span>
+<span id="cb20-470"><a href="#cb20-470" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Scaling numeric variables** — ensuring all variables are on similar scales so no single variable dominates due to its units.</span>
+<span id="cb20-471"><a href="#cb20-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-472"><a href="#cb20-472" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-473"><a href="#cb20-473" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-474"><a href="#cb20-474" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary of Key Takeaways</span></span>
+<span id="cb20-475"><a href="#cb20-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-476"><a href="#cb20-476" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Business understanding comes first.** The PayPal churn example shows that problem decomposition and domain knowledge can be more powerful than any algorithm.</span>
+<span id="cb20-477"><a href="#cb20-477" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Data exploration is not optional.** It should actively drive your feature engineering decisions, not just be a formality before modelling.</span>
+<span id="cb20-478"><a href="#cb20-478" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Understand mean vs median.** Use median for skewed data; the mean can be misleading when outliers are present.</span>
+<span id="cb20-479"><a href="#cb20-479" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Know your univariate plots.** Histograms, density plots, and box plots each show distribution — learn to read all three.</span>
+<span id="cb20-480"><a href="#cb20-480" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Skewness matters for ML.** Log transformations on skewed data can substantially improve model performance (the mammals example improved R² from 0.87 to 0.92).</span>
+<span id="cb20-481"><a href="#cb20-481" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Explore relationships between variables** using scatter plots, correlation matrices, and pairs plots.</span>
+<span id="cb20-482"><a href="#cb20-482" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>**Feature engineering is more important than algorithm choice.** Cleaning, transforming, and preparing your data well will have a bigger impact on results than picking the "best" algorithm.</span>
+<span id="cb20-483"><a href="#cb20-483" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-484"><a href="#cb20-484" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-485"><a href="#cb20-485" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-486"><a href="#cb20-486" aria-hidden="true" tabindex="-1"></a><span class="fu">## Homework / Next Steps</span></span>
+<span id="cb20-487"><a href="#cb20-487" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-488"><a href="#cb20-488" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Ensure R and RStudio are installed and working.</span>
+<span id="cb20-489"><a href="#cb20-489" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Run all the code snippets from this week locally.</span>
+<span id="cb20-490"><a href="#cb20-490" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Explore the iris and Titanic datasets in more detail on your own.</span>
+<span id="cb20-491"><a href="#cb20-491" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Look at the free books listed in the course resources.</span>
+<span id="cb20-492"><a href="#cb20-492" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Next week:** Machine Learning Algorithms — Decision Trees, and Lab 3.</span>
+<span id="cb20-493"><a href="#cb20-493" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-494"><a href="#cb20-494" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-495"><a href="#cb20-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-496"><a href="#cb20-496" aria-hidden="true" tabindex="-1"></a>*[Space for my additional notes]*</span>
+<span id="cb20-497"><a href="#cb20-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-498"><a href="#cb20-498" aria-hidden="true" tabindex="-1"></a></span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

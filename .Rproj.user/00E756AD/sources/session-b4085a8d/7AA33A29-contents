@@ -1,0 +1,70 @@
+project:
+  type: website
+
+website:
+  title: "Semester Notes"
+  favicon: favicon.png
+  page-navigation: true
+  sidebar:
+    style: docked
+    search: true
+    contents:
+      - text: "Home"
+        file: index.qmd
+
+      - section: "Data Mining"
+        contents:
+            file: data-mining/index.qmd
+            section: "Weekly Notes"
+            contents:
+              - text: "Week 1"
+                file: data-mining/week-1.qmd
+              - text: "Week 2"
+                file: data-mining/week-2.qmd
+              - text: "Week 3"
+                file: data-mining/week-3.qmd
+              - text: "Week 4"
+                file: data-mining/week-4.qmd
+              - text: "Week 5"
+                file: data-mining/week-5.qmd
+              - text: "Week 8"
+                file: data-mining/week-8.qmd
+
+      - section: "Regression Analysis"
+        contents:
+            file: regression-analysis/index.qmd
+            section: "Weekly Notes"
+            contents:
+              - text: "Week 1"
+                file: regression-analysis/week-1.qmd
+              - text: "Week 2"
+                file: regression-analysis/week-2.qmd
+              - text: "Week 3"
+                file: regression-analysis/week-3.qmd
+              - text: "Week 9"
+                file: regression-analysis/week-9.qmd
+
+      - section: "Time Series"
+        contents:
+            file: time-series/index.qmd
+            section: "Weekly Notes"
+            contents:
+              - text: "Week 1"
+                file: time-series/week-1.qmd
+              - text: "Week 2"
+                file: time-series/week-2.qmd
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    css: styles.css
+
+execute:
+  warning: false
+  message: false
+
+editor: visual

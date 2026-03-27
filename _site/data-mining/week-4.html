@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Data Mining — Week 4 Notes – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../data-mining/week-5.html" rel="next">
+<link href="../data-mining/week-3.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data-mining/index.html">Data Mining</a></li><li class="breadcrumb-item"><a href="../data-mining/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../data-mining/week-4.html">Week 4</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1</span> Overview</a></li>
+  <li><a href="#evaluation-metrics-for-classification" id="toc-evaluation-metrics-for-classification" class="nav-link" data-scroll-target="#evaluation-metrics-for-classification"><span class="header-section-number">2</span> Evaluation Metrics for Classification</a>
+  <ul class="collapse">
+  <li><a href="#why-accuracy-alone-is-not-enough" id="toc-why-accuracy-alone-is-not-enough" class="nav-link" data-scroll-target="#why-accuracy-alone-is-not-enough"><span class="header-section-number">2.1</span> Why Accuracy Alone Is Not Enough</a></li>
+  <li><a href="#the-confusion-matrix" id="toc-the-confusion-matrix" class="nav-link" data-scroll-target="#the-confusion-matrix"><span class="header-section-number">2.2</span> The Confusion Matrix</a></li>
+  <li><a href="#precision" id="toc-precision" class="nav-link" data-scroll-target="#precision"><span class="header-section-number">2.3</span> Precision</a></li>
+  <li><a href="#recall-sensitivity" id="toc-recall-sensitivity" class="nav-link" data-scroll-target="#recall-sensitivity"><span class="header-section-number">2.4</span> Recall (Sensitivity)</a></li>
+  <li><a href="#f1-score" id="toc-f1-score" class="nav-link" data-scroll-target="#f1-score"><span class="header-section-number">2.5</span> F1 Score</a></li>
+  <li><a href="#communicating-metrics-to-non-technical-people" id="toc-communicating-metrics-to-non-technical-people" class="nav-link" data-scroll-target="#communicating-metrics-to-non-technical-people"><span class="header-section-number">2.6</span> Communicating Metrics to Non-Technical People</a></li>
+  </ul></li>
+  <li><a href="#roc-curve-and-auc" id="toc-roc-curve-and-auc" class="nav-link" data-scroll-target="#roc-curve-and-auc"><span class="header-section-number">3</span> ROC Curve and AUC</a>
+  <ul class="collapse">
+  <li><a href="#what-is-the-roc-curve" id="toc-what-is-the-roc-curve" class="nav-link" data-scroll-target="#what-is-the-roc-curve"><span class="header-section-number">3.1</span> What Is the ROC Curve?</a></li>
+  <li><a href="#area-under-the-curve-auc" id="toc-area-under-the-curve-auc" class="nav-link" data-scroll-target="#area-under-the-curve-auc"><span class="header-section-number">3.2</span> Area Under the Curve (AUC)</a></li>
+  </ul></li>
+  <li><a href="#precision-recall-trade-off" id="toc-precision-recall-trade-off" class="nav-link" data-scroll-target="#precision-recall-trade-off"><span class="header-section-number">4</span> Precision / Recall Trade-Off</a>
+  <ul class="collapse">
+  <li><a href="#using-probabilities-instead-of-hard-classes" id="toc-using-probabilities-instead-of-hard-classes" class="nav-link" data-scroll-target="#using-probabilities-instead-of-hard-classes"><span class="header-section-number">4.1</span> Using Probabilities Instead of Hard Classes</a></li>
+  <li><a href="#changing-the-threshold" id="toc-changing-the-threshold" class="nav-link" data-scroll-target="#changing-the-threshold"><span class="header-section-number">4.2</span> Changing the Threshold</a></li>
+  </ul></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="header-section-number">5</span> Logistic Regression</a>
+  <ul class="collapse">
+  <li><a href="#what-is-it" id="toc-what-is-it" class="nav-link" data-scroll-target="#what-is-it"><span class="header-section-number">5.1</span> What Is It?</a></li>
+  <li><a href="#key-points-from-class" id="toc-key-points-from-class" class="nav-link" data-scroll-target="#key-points-from-class"><span class="header-section-number">5.2</span> Key Points from Class</a></li>
+  <li><a href="#handling-categorical-variables" id="toc-handling-categorical-variables" class="nav-link" data-scroll-target="#handling-categorical-variables"><span class="header-section-number">5.3</span> Handling Categorical Variables</a></li>
+  <li><a href="#correlated-variables" id="toc-correlated-variables" class="nav-link" data-scroll-target="#correlated-variables"><span class="header-section-number">5.4</span> Correlated Variables</a></li>
+  <li><a href="#lab-4a-r-code-summary" id="toc-lab-4a-r-code-summary" class="nav-link" data-scroll-target="#lab-4a-r-code-summary"><span class="header-section-number">5.5</span> Lab 4a — R Code Summary</a></li>
+  </ul></li>
+  <li><a href="#evaluation-metrics-for-regression" id="toc-evaluation-metrics-for-regression" class="nav-link" data-scroll-target="#evaluation-metrics-for-regression"><span class="header-section-number">6</span> Evaluation Metrics for Regression</a>
+  <ul class="collapse">
+  <li><a href="#mean-absolute-error-mae" id="toc-mean-absolute-error-mae" class="nav-link" data-scroll-target="#mean-absolute-error-mae"><span class="header-section-number">6.1</span> Mean Absolute Error (MAE)</a></li>
+  <li><a href="#mean-squared-error-mse" id="toc-mean-squared-error-mse" class="nav-link" data-scroll-target="#mean-squared-error-mse"><span class="header-section-number">6.2</span> Mean Squared Error (MSE)</a></li>
+  <li><a href="#root-mean-squared-error-rmse" id="toc-root-mean-squared-error-rmse" class="nav-link" data-scroll-target="#root-mean-squared-error-rmse"><span class="header-section-number">6.3</span> Root Mean Squared Error (RMSE)</a></li>
+  <li><a href="#r-squared-r²" id="toc-r-squared-r²" class="nav-link" data-scroll-target="#r-squared-r²"><span class="header-section-number">6.4</span> R-Squared (R²)</a></li>
+  </ul></li>
+  <li><a href="#the-bias-variance-trade-off" id="toc-the-bias-variance-trade-off" class="nav-link" data-scroll-target="#the-bias-variance-trade-off"><span class="header-section-number">7</span> The Bias-Variance Trade-Off</a>
+  <ul class="collapse">
+  <li><a href="#bias-underfitting" id="toc-bias-underfitting" class="nav-link" data-scroll-target="#bias-underfitting"><span class="header-section-number">7.1</span> Bias (Underfitting)</a></li>
+  <li><a href="#variance-overfitting" id="toc-variance-overfitting" class="nav-link" data-scroll-target="#variance-overfitting"><span class="header-section-number">7.2</span> Variance (Overfitting)</a></li>
+  <li><a href="#the-trade-off" id="toc-the-trade-off" class="nav-link" data-scroll-target="#the-trade-off"><span class="header-section-number">7.3</span> The Trade-Off</a></li>
+  <li><a href="#polynomial-regression-example-lab-4b" id="toc-polynomial-regression-example-lab-4b" class="nav-link" data-scroll-target="#polynomial-regression-example-lab-4b"><span class="header-section-number">7.4</span> Polynomial Regression Example (Lab 4b)</a></li>
+  <li><a href="#how-to-detect-overfitting" id="toc-how-to-detect-overfitting" class="nav-link" data-scroll-target="#how-to-detect-overfitting"><span class="header-section-number">7.5</span> How to Detect Overfitting</a></li>
+  </ul></li>
+  <li><a href="#survey-of-other-ml-algorithms" id="toc-survey-of-other-ml-algorithms" class="nav-link" data-scroll-target="#survey-of-other-ml-algorithms"><span class="header-section-number">8</span> Survey of Other ML Algorithms</a>
+  <ul class="collapse">
+  <li><a href="#naive-bayes" id="toc-naive-bayes" class="nav-link" data-scroll-target="#naive-bayes"><span class="header-section-number">8.1</span> Naive Bayes</a></li>
+  <li><a href="#support-vector-machines-svm" id="toc-support-vector-machines-svm" class="nav-link" data-scroll-target="#support-vector-machines-svm"><span class="header-section-number">8.2</span> Support Vector Machines (SVM)</a></li>
+  <li><a href="#neural-networks" id="toc-neural-networks" class="nav-link" data-scroll-target="#neural-networks"><span class="header-section-number">8.3</span> Neural Networks</a></li>
+  <li><a href="#random-forest-ensemble-method" id="toc-random-forest-ensemble-method" class="nav-link" data-scroll-target="#random-forest-ensemble-method"><span class="header-section-number">8.4</span> Random Forest (Ensemble Method)</a></li>
+  </ul></li>
+  <li><a href="#sampling-with-vs-without-replacement" id="toc-sampling-with-vs-without-replacement" class="nav-link" data-scroll-target="#sampling-with-vs-without-replacement"><span class="header-section-number">9</span> Sampling: With vs Without Replacement</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways"><span class="header-section-number">10</span> Key Takeaways</a></li>
+  <li><a href="#personal-notes" id="toc-personal-notes" class="nav-link" data-scroll-target="#personal-notes"><span class="header-section-number">11</span> Personal Notes</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data-mining/index.html">Data Mining</a></li><li class="breadcrumb-item"><a href="../data-mining/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../data-mining/week-4.html">Week 4</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Data Mining — Week 4 Notes</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">STAT9013 — Evaluation Metrics, Logistic Regression, Bias vs Variance, and ML Algorithms</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="overview"><span class="header-section-number">1</span> Overview</h2>
+<p>This week covers several important topics in data mining and machine learning:</p>
+<ul>
+<li><strong>Evaluation metrics</strong> for classification (beyond accuracy): precision, recall, F1 score, ROC/AUC</li>
+<li><strong>Logistic regression</strong> as a classification algorithm</li>
+<li><strong>Precision/Recall trade-off</strong> and how to manipulate the decision threshold</li>
+<li><strong>Evaluation metrics for regression</strong>: MAE, MSE, RMSE, R²</li>
+<li><strong>Bias-Variance trade-off</strong>: underfitting vs overfitting</li>
+<li><strong>Survey of ML algorithms</strong>: Naive Bayes, Support Vector Machines, Neural Networks, Random Forests</li>
+</ul>
+<hr>
+</section>
+<section id="evaluation-metrics-for-classification" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="evaluation-metrics-for-classification"><span class="header-section-number">2</span> Evaluation Metrics for Classification</h2>
+<section id="why-accuracy-alone-is-not-enough" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="why-accuracy-alone-is-not-enough"><span class="header-section-number">2.1</span> Why Accuracy Alone Is Not Enough</h3>
+<p>Accuracy is the simplest metric: it measures the percentage of predictions that are correct.</p>
+<p><span class="math display">\[\text{Accuracy} = \frac{\text{Correct Predictions}}{\text{Total Predictions}}\]</span></p>
+<p>However, accuracy can be <strong>misleading</strong> in two important situations:</p>
+<ol type="1">
+<li><p><strong>When the cost of errors is not equal across classes.</strong> In medical diagnosis, predicting a sick person as healthy (false negative) is far more dangerous than predicting a healthy person as sick (false positive). Accuracy treats both errors the same.</p></li>
+<li><p><strong>When the dataset is imbalanced.</strong> If only 1% of credit card transactions are fraudulent, a model that simply says “no fraud” for every transaction achieves 99% accuracy — but catches zero actual fraud. The accuracy looks great, but the model is useless for the task it was designed for.</p></li>
+</ol>
+</section>
+<section id="the-confusion-matrix" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="the-confusion-matrix"><span class="header-section-number">2.2</span> The Confusion Matrix</h3>
+<p>A confusion matrix is a table that breaks down all predictions into four categories. For a binary problem where we call one class “Positive” (the thing we’re trying to detect — e.g., survived, sick, fraudulent) and the other “Negative”:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;"><strong>Actual Positive</strong></th>
+<th style="text-align: center;"><strong>Actual Negative</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Predicted Positive</strong></td>
+<td style="text-align: center;">True Positive (TP)</td>
+<td style="text-align: center;">False Positive (FP)</td>
+</tr>
+<tr class="even">
+<td><strong>Predicted Negative</strong></td>
+<td style="text-align: center;">False Negative (FN)</td>
+<td style="text-align: center;">True Negative (TN)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>True Positive (TP):</strong> The model correctly predicted Positive. (e.g., patient is sick and model said sick)</li>
+<li><strong>True Negative (TN):</strong> The model correctly predicted Negative. (e.g., patient is healthy and model said healthy)</li>
+<li><strong>False Positive (FP):</strong> The model incorrectly predicted Positive. (e.g., patient is healthy but model said sick)</li>
+<li><strong>False Negative (FN):</strong> The model incorrectly predicted Negative. (e.g., patient is sick but model said healthy)</li>
+</ul>
+<p><strong>Titanic example from class:</strong> With Survived=1 as our positive class:</p>
+<pre><code>         Actual
+Predicted  1   0
+       1  18   4    ← Model predicted survived
+       0  18  50    ← Model predicted did not survive</code></pre>
+<p>So: TP=18, FP=4, FN=18, TN=50.</p>
+</section>
+<section id="precision" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="precision"><span class="header-section-number">2.3</span> Precision</h3>
+<p><strong>Precision</strong> answers the question: <em>“Of all the cases the model predicted as Positive, how many actually were Positive?”</em></p>
+<p><span class="math display">\[\text{Precision} = \frac{TP}{TP + FP}\]</span></p>
+<p>In plain English (using disease example): “Of the people the model said were sick, what percentage actually were sick?”</p>
+<p>Titanic example: Precision = 18 / (18 + 4) = <strong>0.82</strong> (82%)</p>
+<p>High precision means that when the model says “Positive,” you can trust it — there are few false alarms.</p>
+</section>
+<section id="recall-sensitivity" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="recall-sensitivity"><span class="header-section-number">2.4</span> Recall (Sensitivity)</h3>
+<p><strong>Recall</strong> answers the question: <em>“Of all the cases that actually were Positive, how many did the model find?”</em></p>
+<p><span class="math display">\[\text{Recall} = \frac{TP}{TP + FN}\]</span></p>
+<p>In plain English: “Of the people who were actually sick, what percentage did the model identify?”</p>
+<p>Titanic example: Recall = 18 / (18 + 18) = <strong>0.50</strong> (50%)</p>
+<p>High recall means the model catches most of the actual positive cases — it doesn’t miss many.</p>
+<p><strong>Tip from the lecturer to remember the difference:</strong> Recall looks at the <em>actual</em> values (the column in the confusion matrix). Precision looks at the <em>predicted</em> values (the row in the confusion matrix).</p>
+</section>
+<section id="f1-score" class="level3" data-number="2.5">
+<h3 data-number="2.5" class="anchored" data-anchor-id="f1-score"><span class="header-section-number">2.5</span> F1 Score</h3>
+<p>The <strong>F1 score</strong> is the harmonic mean of precision and recall. It balances both metrics into a single number.</p>
+<p><span class="math display">\[F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}\]</span></p>
+<p>Why the harmonic mean instead of a simple average? Because the harmonic mean <strong>punishes extreme values</strong>. A model with Precision = 1.0 and Recall = 0.0 has a simple average of 0.5, but an F1 of <strong>0.0</strong>. This makes F1 a fairer metric — it forces both precision and recall to be reasonably good.</p>
+<p>Titanic example: F1 = 2 × (0.82 × 0.50) / (0.82 + 0.50) ≈ <strong>0.62</strong></p>
+</section>
+<section id="communicating-metrics-to-non-technical-people" class="level3" data-number="2.6">
+<h3 data-number="2.6" class="anchored" data-anchor-id="communicating-metrics-to-non-technical-people"><span class="header-section-number">2.6</span> Communicating Metrics to Non-Technical People</h3>
+<p>This was strongly emphasised in class: <strong>business people and domain experts will not understand F1, precision, and recall by name.</strong> You need to translate these into plain language:</p>
+<ul>
+<li>Instead of “Recall is 0.50” → “Of those who are sick, the model finds 50% of the cases.”</li>
+<li>Instead of “Precision is 0.82” → “Of those the model predicts as sick, 82% actually are sick.”</li>
+</ul>
+<p>Whether a model is “good enough” depends entirely on the <strong>context</strong> and the <strong>consequences of errors</strong>. For a serious disease screening, low recall (missing sick patients) is unacceptable. For a less serious screening tool, decent precision might be sufficient.</p>
+<hr>
+</section>
+</section>
+<section id="roc-curve-and-auc" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="roc-curve-and-auc"><span class="header-section-number">3</span> ROC Curve and AUC</h2>
+<section id="what-is-the-roc-curve" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="what-is-the-roc-curve"><span class="header-section-number">3.1</span> What Is the ROC Curve?</h3>
+<p>A <strong>Receiver Operating Characteristic (ROC)</strong> curve is a plot that shows how a binary classifier performs across all possible decision thresholds. Originally developed for military radar operators in World War II.</p>
+<ul>
+<li><strong>Y-axis:</strong> Sensitivity (same as Recall) — the true positive rate</li>
+<li><strong>X-axis:</strong> 1 − Specificity — the false positive rate, where Specificity = TN / (TN + FP)</li>
+</ul>
+<p>A perfect classifier would have a curve that goes straight up from (0,0) to (0,1) and then across to (1,1), covering the entire top-left area.</p>
+</section>
+<section id="area-under-the-curve-auc" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="area-under-the-curve-auc"><span class="header-section-number">3.2</span> Area Under the Curve (AUC)</h3>
+<p>The <strong>AUC</strong> is the area under the ROC curve, ranging from 0 to 1. A higher AUC indicates better model performance:</p>
+<ul>
+<li>AUC = 1.0 → perfect classifier</li>
+<li>AUC = 0.5 → no better than random guessing (the diagonal line)</li>
+<li>AUC &lt; 0.5 → worse than random (predictions are inverted)</li>
+</ul>
+<p>In the Titanic example, the decision tree model had an AUC of <strong>0.764</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="precision-recall-trade-off" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="precision-recall-trade-off"><span class="header-section-number">4</span> Precision / Recall Trade-Off</h2>
+<section id="using-probabilities-instead-of-hard-classes" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="using-probabilities-instead-of-hard-classes"><span class="header-section-number">4.1</span> Using Probabilities Instead of Hard Classes</h3>
+<p>Most ML models don’t just output “0” or “1” — they output a <strong>probability</strong>. For example, a model might say a passenger has a 0.63 probability of surviving and a 0.37 probability of not surviving.</p>
+<p>We typically use a <strong>threshold of 0.5</strong>: if the probability of the positive class ≥ 0.5, predict Positive; otherwise, predict Negative.</p>
+</section>
+<section id="changing-the-threshold" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="changing-the-threshold"><span class="header-section-number">4.2</span> Changing the Threshold</h3>
+<p>But there’s nothing magical about 0.5. By changing the threshold, we can shift the balance between precision and recall:</p>
+<ul>
+<li><p><strong>Lower the threshold</strong> (e.g., 0.1): The model predicts “Positive” more easily → <strong>higher recall</strong> (catches more true positives), but <strong>lower precision</strong> (more false positives). Good when you need to find as many positive cases as possible (e.g., fraud detection, disease screening).</p></li>
+<li><p><strong>Raise the threshold</strong> (e.g., 0.9): The model only predicts “Positive” when very confident → <strong>higher precision</strong> (fewer false alarms), but <strong>lower recall</strong> (misses more true positives). Good when you need high confidence in positive predictions.</p></li>
+</ul>
+<p><strong>Example from the lab (logistic regression on Titanic):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Threshold</th>
+<th style="text-align: center;">Accuracy</th>
+<th style="text-align: center;">Precision</th>
+<th style="text-align: center;">Recall</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;">73%</td>
+<td style="text-align: center;">0.73</td>
+<td style="text-align: center;">0.53</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.1</td>
+<td style="text-align: center;">65%</td>
+<td style="text-align: center;">0.54</td>
+<td style="text-align: center;">0.92</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0.9</td>
+<td style="text-align: center;">64%</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">0.11</td>
+</tr>
+</tbody>
+</table>
+<p>This is the fundamental <strong>precision/recall trade-off</strong>: improving one generally comes at the expense of the other.</p>
+<hr>
+</section>
+</section>
+<section id="logistic-regression" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">5</span> Logistic Regression</h2>
+<section id="what-is-it" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="what-is-it"><span class="header-section-number">5.1</span> What Is It?</h3>
+<p>Logistic regression is a <strong>classification algorithm</strong> (despite having “regression” in the name). It uses the mathematical framework of linear regression but adapts it for binary classification using the logistic (sigmoid) function.</p>
+<p>The formula is: <span class="math inline">\(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_n x_n\)</span></p>
+<p>The result is passed through a sigmoid function to produce a probability between 0 and 1.</p>
+</section>
+<section id="key-points-from-class" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="key-points-from-class"><span class="header-section-number">5.2</span> Key Points from Class</h3>
+<ul>
+<li><p><strong>Coefficients are interpretable:</strong> Negative coefficients mean higher values of that feature decrease the probability of the positive class. For example, a negative coefficient for <code>Sexmale</code> means being male decreases the chance of survival.</p></li>
+<li><p><strong>Does not handle missing values:</strong> Unlike decision trees, logistic regression cannot process rows with <code>NA</code> values. If you include a column with missing data (like Age in the Titanic dataset), the <code>predict()</code> function returns <code>NA</code> for those rows. You must either drop those rows or impute the missing values (e.g., mean imputation).</p></li>
+<li><p><strong>Statistical significance of features:</strong> The <code>summary()</code> output shows p-values and significance codes (stars) for each feature. Features with no stars (high p-values) may not be contributing to the model and can be considered for removal.</p></li>
+<li><p><strong>Occam’s Razor in ML:</strong> A simpler model (fewer features) is preferable if it achieves comparable accuracy. In the lab, removing Embarked, Parch, and Fare actually improved accuracy slightly (from 73% to 74%), because those variables were either not significant or were correlated with other features already in the model.</p></li>
+</ul>
+</section>
+<section id="handling-categorical-variables" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="handling-categorical-variables"><span class="header-section-number">5.3</span> Handling Categorical Variables</h3>
+<p>When logistic regression encounters a categorical variable (like Sex with values “male” and “female”), it automatically creates indicator variables. One category is absorbed into the intercept — in R, this is typically the first alphabetical value. So <code>Sexmale</code> appears as a coefficient, while the effect of being female is captured in the intercept.</p>
+</section>
+<section id="correlated-variables" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="correlated-variables"><span class="header-section-number">5.4</span> Correlated Variables</h3>
+<p>A variable like Embarked may appear statistically insignificant not because it has no relationship with survival, but because its effect is already explained by other variables (like Pclass). This is called <strong>multicollinearity</strong>. When variables are correlated, the model says “I already have this information from another feature.”</p>
+</section>
+<section id="lab-4a-r-code-summary" class="level3" data-number="5.5">
+<h3 data-number="5.5" class="anchored" data-anchor-id="lab-4a-r-code-summary"><span class="header-section-number">5.5</span> Lab 4a — R Code Summary</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic regression on Titanic</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>logistic_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Survived <span class="sc">~</span> .,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> train_data)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logistic_model)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get probabilities</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">predict</span>(logistic_model, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to classes using threshold</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pr <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="evaluation-metrics-for-regression" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="evaluation-metrics-for-regression"><span class="header-section-number">6</span> Evaluation Metrics for Regression</h2>
+<p>When the target variable is numeric (not a category), we use different metrics:</p>
+<section id="mean-absolute-error-mae" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="mean-absolute-error-mae"><span class="header-section-number">6.1</span> Mean Absolute Error (MAE)</h3>
+<p><span class="math display">\[\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|\]</span></p>
+<p>The average absolute difference between predicted and actual values. <strong>Easy to interpret</strong> — if MAE is 15 and you’re predicting spending in euros, then predictions are off by €15 on average.</p>
+</section>
+<section id="mean-squared-error-mse" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="mean-squared-error-mse"><span class="header-section-number">6.2</span> Mean Squared Error (MSE)</h3>
+<p><span class="math display">\[\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2\]</span></p>
+<p>Squares the errors before averaging. <strong>Penalises large errors more heavily</strong> than MAE, because squaring amplifies big differences (an error of 5 contributes 25, while an error of 2 contributes only 4).</p>
+</section>
+<section id="root-mean-squared-error-rmse" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="root-mean-squared-error-rmse"><span class="header-section-number">6.3</span> Root Mean Squared Error (RMSE)</h3>
+<p><span class="math display">\[\text{RMSE} = \sqrt{\text{MSE}}\]</span></p>
+<p>Takes the square root of MSE to bring the error back into the <strong>same units</strong> as the original values. RMSE will always be ≥ MAE. Preferred in many applications because it penalises large errors while remaining interpretable.</p>
+</section>
+<section id="r-squared-r²" class="level3" data-number="6.4">
+<h3 data-number="6.4" class="anchored" data-anchor-id="r-squared-r²"><span class="header-section-number">6.4</span> R-Squared (R²)</h3>
+<p><span class="math display">\[R^2 = (\text{Correlation}(y, \hat{y}))^2\]</span></p>
+<p>Measures how much of the variability in the target can be explained by the model. Ranges from 0 to 1:</p>
+<ul>
+<li>R² = 1 → model explains all variability (perfect fit)</li>
+<li>R² = 0 → model explains none of the variability</li>
+</ul>
+<p><strong>For regression tasks, R² and RMSE are usually the preferred metrics.</strong></p>
+<hr>
+</section>
+</section>
+<section id="the-bias-variance-trade-off" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="the-bias-variance-trade-off"><span class="header-section-number">7</span> The Bias-Variance Trade-Off</h2>
+<p>This is one of the most fundamental concepts in machine learning.</p>
+<section id="bias-underfitting" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="bias-underfitting"><span class="header-section-number">7.1</span> Bias (Underfitting)</h3>
+<p><strong>Bias</strong> is the error from a model that is too simple — it cannot capture the underlying pattern in the data. A high-bias model performs poorly on <strong>both</strong> training and test data.</p>
+<p>Think of it as a straight line trying to fit curved data — it’s too rigid and misses the pattern entirely.</p>
+</section>
+<section id="variance-overfitting" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="variance-overfitting"><span class="header-section-number">7.2</span> Variance (Overfitting)</h3>
+<p><strong>Variance</strong> is the error from a model that is too complex — it learns the noise and random fluctuations in the training data, not just the real pattern. A high-variance model performs <strong>well on training data</strong> but <strong>poorly on test data</strong>.</p>
+<p>Think of it as a wiggly line that passes through every training point but goes wildly off-track for new data.</p>
+</section>
+<section id="the-trade-off" class="level3" data-number="7.3">
+<h3 data-number="7.3" class="anchored" data-anchor-id="the-trade-off"><span class="header-section-number">7.3</span> The Trade-Off</h3>
+<p>You cannot minimise both bias and variance simultaneously. Making a model more complex reduces bias but increases variance. Making it simpler increases bias but reduces variance. The goal is to find the <strong>sweet spot</strong> — a model complex enough to capture the real pattern but not so complex that it memorises noise.</p>
+</section>
+<section id="polynomial-regression-example-lab-4b" class="level3" data-number="7.4">
+<h3 data-number="7.4" class="anchored" data-anchor-id="polynomial-regression-example-lab-4b"><span class="header-section-number">7.4</span> Polynomial Regression Example (Lab 4b)</h3>
+<p>The lab demonstrated this trade-off using polynomial regression on synthetic data:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Model</th>
+<th style="text-align: left;">Formula</th>
+<th style="text-align: center;">R²</th>
+<th style="text-align: center;">MAE</th>
+<th style="text-align: left;">Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><span class="math inline">\(y = \beta_0 + \beta_1 x\)</span></td>
+<td style="text-align: center;">0.17</td>
+<td style="text-align: center;">3.45</td>
+<td style="text-align: left;"><strong>Underfits</strong> — straight line misses all patterns</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: left;"><span class="math inline">\(y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3\)</span></td>
+<td style="text-align: center;">0.79</td>
+<td style="text-align: center;">1.54</td>
+<td style="text-align: left;"><strong>Good fit</strong> — captures the general trend</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: left;"><span class="math inline">\(y = \beta_0 + \beta_1 x + \dots + \beta_6 x^6\)</span></td>
+<td style="text-align: center;">0.97</td>
+<td style="text-align: center;">0.62</td>
+<td style="text-align: left;"><strong>Overfits</strong> — looks great on training data but oscillates wildly outside the training range</td>
+</tr>
+</tbody>
+</table>
+<p>Model 3 has the best metrics on training data, but it would perform terribly on new data because it has memorised the training noise.</p>
+</section>
+<section id="how-to-detect-overfitting" class="level3" data-number="7.5">
+<h3 data-number="7.5" class="anchored" data-anchor-id="how-to-detect-overfitting"><span class="header-section-number">7.5</span> How to Detect Overfitting</h3>
+<ul>
+<li>Compare performance on training data vs test data. If training performance is much better, the model is likely overfitting.</li>
+<li>Change the random seed and rebuild the model. If accuracy varies wildly across different train/test splits, the model is not generalising well.</li>
+<li>Cross-validation (covered in a future class) is a more systematic approach to this.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="survey-of-other-ml-algorithms" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="survey-of-other-ml-algorithms"><span class="header-section-number">8</span> Survey of Other ML Algorithms</h2>
+<section id="naive-bayes" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="naive-bayes"><span class="header-section-number">8.1</span> Naive Bayes</h3>
+<p><strong>Based on:</strong> Bayesian statistics — updating beliefs with new evidence.</p>
+<p><strong>Core idea:</strong> Start with a prior belief (e.g., 38% of passengers survived), then update it with each piece of evidence (e.g., the passenger is female → higher survival probability, the passenger is 1st class → even higher probability).</p>
+<p><span class="math display">\[\text{Posterior} = \frac{\text{Prior} \times \text{Likelihood}}{\text{Prior} \times \text{Likelihood} + (1 - \text{Prior}) \times (1 - \text{Likelihood})}\]</span></p>
+<p><strong>“Naive” because:</strong> It assumes all features are independent of each other, which is rarely true in practice (e.g., ticket class and fare are obviously related).</p>
+<p><strong>Advantages:</strong> Very fast and scalable — probabilities for each feature can be precomputed. Good as a baseline model.</p>
+<p><strong>Disadvantages:</strong> Rarely produces the best results because the independence assumption doesn’t hold in real data.</p>
+<p><strong>Titanic accuracy:</strong> ~72%</p>
+</section>
+<section id="support-vector-machines-svm" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="support-vector-machines-svm"><span class="header-section-number">8.2</span> Support Vector Machines (SVM)</h3>
+<p><strong>Core idea:</strong> Find the best boundary (hyperplane) that separates two classes with the <strong>maximum margin</strong> — the widest gap between the closest points of each class.</p>
+<p><strong>Two key elements:</strong></p>
+<ol type="1">
+<li><p><strong>Margin maximisation:</strong> Instead of just drawing any separating line, SVM finds the one that creates the widest possible gap between classes. The data points closest to the boundary are called <strong>support vectors</strong>.</p></li>
+<li><p><strong>The kernel trick:</strong> Maps data into a higher-dimensional space using kernel functions (similar in spirit to polynomial regression), allowing SVM to find non-linear boundaries.</p></li>
+</ol>
+<p><strong>Advantages:</strong> Good results without much tuning, robust to outliers (because the model only depends on support vectors near the boundary, not distant points).</p>
+<p><strong>Disadvantages:</strong> Does not scale well to very large datasets — can be very slow.</p>
+<p><strong>Titanic accuracy:</strong> ~76%</p>
+</section>
+<section id="neural-networks" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="neural-networks"><span class="header-section-number">8.3</span> Neural Networks</h3>
+<p><strong>Core idea:</strong> A network of interconnected nodes (neurons) organised in layers. Each node performs a simple mathematical function, and an activation function introduces non-linearity.</p>
+<p><strong>How training works:</strong></p>
+<ol type="1">
+<li><strong>Forward propagation:</strong> Input values pass through the network layer by layer, multiplied by weights, until they reach the output.</li>
+<li><strong>Cost function:</strong> The difference between the predicted output and the actual values is calculated.</li>
+<li><strong>Backward propagation:</strong> The weights are adjusted slightly, working backwards from the output, to reduce the error.</li>
+<li>This cycle repeats hundreds or thousands of times until the error stops improving.</li>
+</ol>
+<p><strong>Important considerations:</strong></p>
+<ul>
+<li>Neural networks require <strong>numeric and scaled inputs</strong>. Categorical variables must be one-hot encoded, and numeric variables should be scaled to a 0–1 range.</li>
+<li>They need <strong>a lot of data</strong> to perform well.</li>
+<li>For standard tabular data, they typically don’t outperform simpler models like Random Forest or SVM. Their strength is in domains like computer vision and natural language processing.</li>
+</ul>
+<p><strong>Titanic accuracy:</strong> ~75–78%</p>
+</section>
+<section id="random-forest-ensemble-method" class="level3" data-number="8.4">
+<h3 data-number="8.4" class="anchored" data-anchor-id="random-forest-ensemble-method"><span class="header-section-number">8.4</span> Random Forest (Ensemble Method)</h3>
+<p><strong>Core idea:</strong> Instead of building one decision tree, build hundreds of them, each trained on slightly different data and features, then take a <strong>majority vote</strong>.</p>
+<p>This is grounded in the <strong>Central Limit Theorem</strong>: the average of many independent (even imperfect) estimates tends to be very accurate. Like asking 100 people to guess the number of marbles in a jar — individual guesses may be off by 20–30%, but the average is typically within 1–2%.</p>
+<p><strong>Three techniques to create diversity among the trees:</strong></p>
+<ol type="1">
+<li><p><strong>Bagging (Bootstrap Aggregating):</strong> Each tree is trained on a random sample of rows drawn <em>with replacement</em>. About 63% of rows are unique in each sample; the rest are duplicates. The ~37% of rows not included are called “out-of-bag” (OOB) samples and can be used to estimate error.</p></li>
+<li><p><strong>Random feature selection:</strong> At each split in each tree, only a small random subset of features is considered. This prevents one dominant feature (e.g., gender in Titanic) from always being chosen first.</p></li>
+<li><p><strong>Shallow trees:</strong> Individual trees are kept small (depth 1–2) to avoid overfitting.</p></li>
+</ol>
+<p><strong>Why intentionally weaken the base models?</strong> Because we want diverse viewpoints on the data. If a few trees are poor, they get outvoted by the majority.</p>
+<p><strong>Advantages:</strong> Generally provides very good results without much tuning. Corrects for decision trees’ tendency to overfit. Provides feature importance rankings.</p>
+<p><strong>Disadvantages:</strong> Less interpretable than a single decision tree.</p>
+<p><strong>Titanic accuracy:</strong> ~78% (best among the models tested)</p>
+<p><strong>Feature importance from the Titanic Random Forest:</strong> Sex &gt; Fare &gt; Age &gt; Pclass &gt; SibSp &gt; Parch &gt; Embarked</p>
+<hr>
+</section>
+</section>
+<section id="sampling-with-vs-without-replacement" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="sampling-with-vs-without-replacement"><span class="header-section-number">9</span> Sampling: With vs Without Replacement</h2>
+<p>This concept is important for understanding how Random Forest works.</p>
+<p><strong>Without replacement</strong> (default): Once an item is selected, it cannot be selected again. Like drawing lottery numbers — each number is unique.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">100</span>, <span class="dv">90</span>)           <span class="co"># Select 90 from 1:100</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(tmp))              <span class="co"># All 90 are unique</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>With replacement</strong>: Items can be selected more than once. Like drawing a marble, noting it, putting it back, and drawing again.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">90</span>, <span class="dv">90</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)   <span class="co"># Select 90 from 1:90</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(tmp))                      <span class="co"># ~57 unique (≈63%)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>When sampling <em>n</em> items from <em>n</em> with replacement, approximately <strong>63%</strong> will be unique. This is the basis of bagging in Random Forest.</p>
+<hr>
+</section>
+<section id="key-takeaways" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="key-takeaways"><span class="header-section-number">10</span> Key Takeaways</h2>
+<ol type="1">
+<li><strong>Accuracy is misleading</strong> for imbalanced data or when error costs are unequal. Use precision, recall, and F1 instead.</li>
+<li><strong>Precision vs Recall</strong> is a trade-off — you can shift the balance by adjusting the probability threshold.</li>
+<li><strong>Always translate metrics into plain language</strong> when communicating with non-technical stakeholders.</li>
+<li><strong>Logistic regression</strong> is interpretable, fast, and a good baseline for classification — but cannot handle missing data.</li>
+<li><strong>Bias = underfitting</strong> (model too simple); <strong>Variance = overfitting</strong> (model too complex). The goal is the right balance.</li>
+<li><strong>Random Forest</strong> is typically one of the best-performing algorithms for tabular data out of the box.</li>
+<li><strong>Feature engineering</strong> (creating derived features) can improve models, but too much can cause overfitting.</li>
+</ol>
+<hr>
+</section>
+<section id="personal-notes" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="personal-notes"><span class="header-section-number">11</span> Personal Notes</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Add your own notes, questions, and observations here after reviewing the material.</em></p>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../data-mining/week-3.html" class="pagination-link" aria-label="Week 3">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 3</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../data-mining/week-5.html" class="pagination-link" aria-label="Week 5">
+        <span class="nav-page-text">Week 5</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Data Mining — Week 4 Notes"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "STAT9013 — Evaluation Metrics, Logistic Regression, Bias vs Variance, and ML Algorithms"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Overview</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>This week covers several important topics in data mining and machine learning:</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Evaluation metrics** for classification (beyond accuracy): precision, recall, F1 score, ROC/AUC</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Logistic regression** as a classification algorithm</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Precision/Recall trade-off** and how to manipulate the decision threshold</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Evaluation metrics for regression**: MAE, MSE, RMSE, R²</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Bias-Variance trade-off**: underfitting vs overfitting</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Survey of ML algorithms**: Naive Bayes, Support Vector Machines, Neural Networks, Random Forests</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## Evaluation Metrics for Classification</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Accuracy Alone Is Not Enough</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>Accuracy is the simplest metric: it measures the percentage of predictions that are correct.</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>$$\text{Accuracy} = \frac{\text{Correct Predictions}}{\text{Total Predictions}}$$</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>However, accuracy can be **misleading** in two important situations:</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**When the cost of errors is not equal across classes.** In medical diagnosis, predicting a sick person as healthy (false negative) is far more dangerous than predicting a healthy person as sick (false positive). Accuracy treats both errors the same.</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**When the dataset is imbalanced.** If only 1% of credit card transactions are fraudulent, a model that simply says "no fraud" for every transaction achieves 99% accuracy — but catches zero actual fraud. The accuracy looks great, but the model is useless for the task it was designed for.</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Confusion Matrix</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>A confusion matrix is a table that breaks down all predictions into four categories. For a binary problem where we call one class "Positive" (the thing we're trying to detect — e.g., survived, sick, fraudulent) and the other "Negative":</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>                        <span class="pp">|</span> **Actual Positive** | **Actual Negative** <span class="pp">|</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|:-------------------:|:-------------------:|</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Predicted Positive** <span class="pp">|</span> True Positive (TP)  <span class="pp">|</span> False Positive (FP) <span class="pp">|</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Predicted Negative** <span class="pp">|</span> False Negative (FN) <span class="pp">|</span> True Negative (TN)  <span class="pp">|</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**True Positive (TP):** The model correctly predicted Positive. (e.g., patient is sick and model said sick)</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**True Negative (TN):** The model correctly predicted Negative. (e.g., patient is healthy and model said healthy)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**False Positive (FP):** The model incorrectly predicted Positive. (e.g., patient is healthy but model said sick)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**False Negative (FN):** The model incorrectly predicted Negative. (e.g., patient is sick but model said healthy)</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>**Titanic example from class:** With Survived=1 as our positive class:</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="in">```         </span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="in">         Actual</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="in">Predicted  1   0</span></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="in">       1  18   4    ← Model predicted survived</span></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="in">       0  18  50    ← Model predicted did not survive</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>So: TP=18, FP=4, FN=18, TN=50.</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="fu">### Precision</span></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>**Precision** answers the question: *"Of all the cases the model predicted as Positive, how many actually were Positive?"*</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>$$\text{Precision} = \frac{TP}{TP + FP}$$</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>In plain English (using disease example): "Of the people the model said were sick, what percentage actually were sick?"</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>Titanic example: Precision = 18 / (18 + 4) = **0.82** (82%)</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>High precision means that when the model says "Positive," you can trust it — there are few false alarms.</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a><span class="fu">### Recall (Sensitivity)</span></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>**Recall** answers the question: *"Of all the cases that actually were Positive, how many did the model find?"*</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>$$\text{Recall} = \frac{TP}{TP + FN}$$</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>In plain English: "Of the people who were actually sick, what percentage did the model identify?"</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>Titanic example: Recall = 18 / (18 + 18) = **0.50** (50%)</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>High recall means the model catches most of the actual positive cases — it doesn't miss many.</span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>**Tip from the lecturer to remember the difference:** Recall looks at the *actual* values (the column in the confusion matrix). Precision looks at the *predicted* values (the row in the confusion matrix).</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a><span class="fu">### F1 Score</span></span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>The **F1 score** is the harmonic mean of precision and recall. It balances both metrics into a single number.</span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>$$F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$</span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>Why the harmonic mean instead of a simple average? Because the harmonic mean **punishes extreme values**. A model with Precision = 1.0 and Recall = 0.0 has a simple average of 0.5, but an F1 of **0.0**. This makes F1 a fairer metric — it forces both precision and recall to be reasonably good.</span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>Titanic example: F1 = 2 × (0.82 × 0.50) / (0.82 + 0.50) ≈ **0.62**</span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a><span class="fu">### Communicating Metrics to Non-Technical People</span></span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>This was strongly emphasised in class: **business people and domain experts will not understand F1, precision, and recall by name.** You need to translate these into plain language:</span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Instead of "Recall is 0.50" → "Of those who are sick, the model finds 50% of the cases."</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Instead of "Precision is 0.82" → "Of those the model predicts as sick, 82% actually are sick."</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>Whether a model is "good enough" depends entirely on the **context** and the **consequences of errors**. For a serious disease screening, low recall (missing sick patients) is unacceptable. For a less serious screening tool, decent precision might be sufficient.</span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a><span class="fu">## ROC Curve and AUC</span></span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Is the ROC Curve?</span></span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>A **Receiver Operating Characteristic (ROC)** curve is a plot that shows how a binary classifier performs across all possible decision thresholds. Originally developed for military radar operators in World War II.</span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Y-axis:** Sensitivity (same as Recall) — the true positive rate</span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**X-axis:** 1 − Specificity — the false positive rate, where Specificity = TN / (TN + FP)</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>A perfect classifier would have a curve that goes straight up from (0,0) to (0,1) and then across to (1,1), covering the entire top-left area.</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a><span class="fu">### Area Under the Curve (AUC)</span></span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>The **AUC** is the area under the ROC curve, ranging from 0 to 1. A higher AUC indicates better model performance:</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>AUC = 1.0 → perfect classifier</span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>AUC = 0.5 → no better than random guessing (the diagonal line)</span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>AUC <span class="sc">\&lt;</span> 0.5 → worse than random (predictions are inverted)</span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>In the Titanic example, the decision tree model had an AUC of **0.764**.</span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a><span class="fu">## Precision / Recall Trade-Off</span></span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a><span class="fu">### Using Probabilities Instead of Hard Classes</span></span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>Most ML models don't just output "0" or "1" — they output a **probability**. For example, a model might say a passenger has a 0.63 probability of surviving and a 0.37 probability of not surviving.</span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>We typically use a **threshold of 0.5**: if the probability of the positive class ≥ 0.5, predict Positive; otherwise, predict Negative.</span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a><span class="fu">### Changing the Threshold</span></span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a>But there's nothing magical about 0.5. By changing the threshold, we can shift the balance between precision and recall:</span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Lower the threshold** (e.g., 0.1): The model predicts "Positive" more easily → **higher recall** (catches more true positives), but **lower precision** (more false positives). Good when you need to find as many positive cases as possible (e.g., fraud detection, disease screening).</span>
+<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Raise the threshold** (e.g., 0.9): The model only predicts "Positive" when very confident → **higher precision** (fewer false alarms), but **lower recall** (misses more true positives). Good when you need high confidence in positive predictions.</span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>**Example from the lab (logistic regression on Titanic):**</span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Threshold <span class="pp">|</span> Accuracy <span class="pp">|</span> Precision <span class="pp">|</span> Recall <span class="pp">|</span></span>
+<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a><span class="pp">|:---------:|:--------:|:---------:|:------:|</span></span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>    0.5    <span class="pp">|</span>   73%    <span class="pp">|</span>   0.73    <span class="pp">|</span>  0.53  <span class="pp">|</span></span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>    0.1    <span class="pp">|</span>   65%    <span class="pp">|</span>   0.54    <span class="pp">|</span>  0.92  <span class="pp">|</span></span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>    0.9    <span class="pp">|</span>   64%    <span class="pp">|</span>   1.00    <span class="pp">|</span>  0.11  <span class="pp">|</span></span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>This is the fundamental **precision/recall trade-off**: improving one generally comes at the expense of the other.</span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a><span class="fu">## Logistic Regression</span></span>
+<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Is It?</span></span>
+<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>Logistic regression is a **classification algorithm** (despite having "regression" in the name). It uses the mathematical framework of linear regression but adapts it for binary classification using the logistic (sigmoid) function.</span>
+<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a>The formula is: $\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_n x_n$</span>
+<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>The result is passed through a sigmoid function to produce a probability between 0 and 1.</span>
+<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Points from Class</span></span>
+<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Coefficients are interpretable:** Negative coefficients mean higher values of that feature decrease the probability of the positive class. For example, a negative coefficient for <span class="in">`Sexmale`</span> means being male decreases the chance of survival.</span>
+<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Does not handle missing values:** Unlike decision trees, logistic regression cannot process rows with <span class="in">`NA`</span> values. If you include a column with missing data (like Age in the Titanic dataset), the <span class="in">`predict()`</span> function returns <span class="in">`NA`</span> for those rows. You must either drop those rows or impute the missing values (e.g., mean imputation).</span>
+<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Statistical significance of features:** The <span class="in">`summary()`</span> output shows p-values and significance codes (stars) for each feature. Features with no stars (high p-values) may not be contributing to the model and can be considered for removal.</span>
+<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Occam's Razor in ML:** A simpler model (fewer features) is preferable if it achieves comparable accuracy. In the lab, removing Embarked, Parch, and Fare actually improved accuracy slightly (from 73% to 74%), because those variables were either not significant or were correlated with other features already in the model.</span>
+<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a><span class="fu">### Handling Categorical Variables</span></span>
+<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a>When logistic regression encounters a categorical variable (like Sex with values "male" and "female"), it automatically creates indicator variables. One category is absorbed into the intercept — in R, this is typically the first alphabetical value. So <span class="in">`Sexmale`</span> appears as a coefficient, while the effect of being female is captured in the intercept.</span>
+<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a><span class="fu">### Correlated Variables</span></span>
+<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a>A variable like Embarked may appear statistically insignificant not because it has no relationship with survival, but because its effect is already explained by other variables (like Pclass). This is called **multicollinearity**. When variables are correlated, the model says "I already have this information from another feature."</span>
+<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a><span class="fu">### Lab 4a — R Code Summary</span></span>
+<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic regression on Titanic</span></span>
+<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a>logistic_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Survived <span class="sc">~</span> .,</span>
+<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
+<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> train_data)</span>
+<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logistic_model)</span>
+<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a><span class="co"># Get probabilities</span></span>
+<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">predict</span>(logistic_model, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to classes using threshold</span></span>
+<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pr <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a><span class="fu">## Evaluation Metrics for Regression</span></span>
+<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a>When the target variable is numeric (not a category), we use different metrics:</span>
+<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a><span class="fu">### Mean Absolute Error (MAE)</span></span>
+<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a>$$\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$</span>
+<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a>The average absolute difference between predicted and actual values. **Easy to interpret** — if MAE is 15 and you're predicting spending in euros, then predictions are off by €15 on average.</span>
+<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a><span class="fu">### Mean Squared Error (MSE)</span></span>
+<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a>$$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$</span>
+<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-224"><a href="#cb5-224" aria-hidden="true" tabindex="-1"></a>Squares the errors before averaging. **Penalises large errors more heavily** than MAE, because squaring amplifies big differences (an error of 5 contributes 25, while an error of 2 contributes only 4).</span>
+<span id="cb5-225"><a href="#cb5-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a><span class="fu">### Root Mean Squared Error (RMSE)</span></span>
+<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a>$$\text{RMSE} = \sqrt{\text{MSE}}$$</span>
+<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a>Takes the square root of MSE to bring the error back into the **same units** as the original values. RMSE will always be ≥ MAE. Preferred in many applications because it penalises large errors while remaining interpretable.</span>
+<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a><span class="fu">### R-Squared (R²)</span></span>
+<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a>$$R^2 = (\text{Correlation}(y, \hat{y}))^2$$</span>
+<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a>Measures how much of the variability in the target can be explained by the model. Ranges from 0 to 1:</span>
+<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>R² = 1 → model explains all variability (perfect fit)</span>
+<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>R² = 0 → model explains none of the variability</span>
+<span id="cb5-240"><a href="#cb5-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-241"><a href="#cb5-241" aria-hidden="true" tabindex="-1"></a>**For regression tasks, R² and RMSE are usually the preferred metrics.**</span>
+<span id="cb5-242"><a href="#cb5-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-243"><a href="#cb5-243" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-244"><a href="#cb5-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-245"><a href="#cb5-245" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Bias-Variance Trade-Off</span></span>
+<span id="cb5-246"><a href="#cb5-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-247"><a href="#cb5-247" aria-hidden="true" tabindex="-1"></a>This is one of the most fundamental concepts in machine learning.</span>
+<span id="cb5-248"><a href="#cb5-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-249"><a href="#cb5-249" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bias (Underfitting)</span></span>
+<span id="cb5-250"><a href="#cb5-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-251"><a href="#cb5-251" aria-hidden="true" tabindex="-1"></a>**Bias** is the error from a model that is too simple — it cannot capture the underlying pattern in the data. A high-bias model performs poorly on **both** training and test data.</span>
+<span id="cb5-252"><a href="#cb5-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-253"><a href="#cb5-253" aria-hidden="true" tabindex="-1"></a>Think of it as a straight line trying to fit curved data — it's too rigid and misses the pattern entirely.</span>
+<span id="cb5-254"><a href="#cb5-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-255"><a href="#cb5-255" aria-hidden="true" tabindex="-1"></a><span class="fu">### Variance (Overfitting)</span></span>
+<span id="cb5-256"><a href="#cb5-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-257"><a href="#cb5-257" aria-hidden="true" tabindex="-1"></a>**Variance** is the error from a model that is too complex — it learns the noise and random fluctuations in the training data, not just the real pattern. A high-variance model performs **well on training data** but **poorly on test data**.</span>
+<span id="cb5-258"><a href="#cb5-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-259"><a href="#cb5-259" aria-hidden="true" tabindex="-1"></a>Think of it as a wiggly line that passes through every training point but goes wildly off-track for new data.</span>
+<span id="cb5-260"><a href="#cb5-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-261"><a href="#cb5-261" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Trade-Off</span></span>
+<span id="cb5-262"><a href="#cb5-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-263"><a href="#cb5-263" aria-hidden="true" tabindex="-1"></a>You cannot minimise both bias and variance simultaneously. Making a model more complex reduces bias but increases variance. Making it simpler increases bias but reduces variance. The goal is to find the **sweet spot** — a model complex enough to capture the real pattern but not so complex that it memorises noise.</span>
+<span id="cb5-264"><a href="#cb5-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-265"><a href="#cb5-265" aria-hidden="true" tabindex="-1"></a><span class="fu">### Polynomial Regression Example (Lab 4b)</span></span>
+<span id="cb5-266"><a href="#cb5-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-267"><a href="#cb5-267" aria-hidden="true" tabindex="-1"></a>The lab demonstrated this trade-off using polynomial regression on synthetic data:</span>
+<span id="cb5-268"><a href="#cb5-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-269"><a href="#cb5-269" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Model <span class="pp">|</span> Formula <span class="pp">|</span> R² <span class="pp">|</span> MAE <span class="pp">|</span> Behaviour <span class="pp">|</span></span>
+<span id="cb5-270"><a href="#cb5-270" aria-hidden="true" tabindex="-1"></a><span class="pp">|:------------:|:-------------|:------------:|:------------:|:-----------------|</span></span>
+<span id="cb5-271"><a href="#cb5-271" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 1 <span class="pp">|</span> $y = \beta_0 + \beta_1 x$ <span class="pp">|</span> 0.17 <span class="pp">|</span> 3.45 <span class="pp">|</span> **Underfits** — straight line misses all patterns <span class="pp">|</span></span>
+<span id="cb5-272"><a href="#cb5-272" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 2 <span class="pp">|</span> $y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3$ <span class="pp">|</span> 0.79 <span class="pp">|</span> 1.54 <span class="pp">|</span> **Good fit** — captures the general trend <span class="pp">|</span></span>
+<span id="cb5-273"><a href="#cb5-273" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 3 <span class="pp">|</span> $y = \beta_0 + \beta_1 x + \dots + \beta_6 x^6$ <span class="pp">|</span> 0.97 <span class="pp">|</span> 0.62 <span class="pp">|</span> **Overfits** — looks great on training data but oscillates wildly outside the training range <span class="pp">|</span></span>
+<span id="cb5-274"><a href="#cb5-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-275"><a href="#cb5-275" aria-hidden="true" tabindex="-1"></a>Model 3 has the best metrics on training data, but it would perform terribly on new data because it has memorised the training noise.</span>
+<span id="cb5-276"><a href="#cb5-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-277"><a href="#cb5-277" aria-hidden="true" tabindex="-1"></a><span class="fu">### How to Detect Overfitting</span></span>
+<span id="cb5-278"><a href="#cb5-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-279"><a href="#cb5-279" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Compare performance on training data vs test data. If training performance is much better, the model is likely overfitting.</span>
+<span id="cb5-280"><a href="#cb5-280" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Change the random seed and rebuild the model. If accuracy varies wildly across different train/test splits, the model is not generalising well.</span>
+<span id="cb5-281"><a href="#cb5-281" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Cross-validation (covered in a future class) is a more systematic approach to this.</span>
+<span id="cb5-282"><a href="#cb5-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-283"><a href="#cb5-283" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-284"><a href="#cb5-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-285"><a href="#cb5-285" aria-hidden="true" tabindex="-1"></a><span class="fu">## Survey of Other ML Algorithms</span></span>
+<span id="cb5-286"><a href="#cb5-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-287"><a href="#cb5-287" aria-hidden="true" tabindex="-1"></a><span class="fu">### Naive Bayes</span></span>
+<span id="cb5-288"><a href="#cb5-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-289"><a href="#cb5-289" aria-hidden="true" tabindex="-1"></a>**Based on:** Bayesian statistics — updating beliefs with new evidence.</span>
+<span id="cb5-290"><a href="#cb5-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-291"><a href="#cb5-291" aria-hidden="true" tabindex="-1"></a>**Core idea:** Start with a prior belief (e.g., 38% of passengers survived), then update it with each piece of evidence (e.g., the passenger is female → higher survival probability, the passenger is 1st class → even higher probability).</span>
+<span id="cb5-292"><a href="#cb5-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-293"><a href="#cb5-293" aria-hidden="true" tabindex="-1"></a>$$\text{Posterior} = \frac{\text{Prior} \times \text{Likelihood}}{\text{Prior} \times \text{Likelihood} + (1 - \text{Prior}) \times (1 - \text{Likelihood})}$$</span>
+<span id="cb5-294"><a href="#cb5-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-295"><a href="#cb5-295" aria-hidden="true" tabindex="-1"></a>**"Naive" because:** It assumes all features are independent of each other, which is rarely true in practice (e.g., ticket class and fare are obviously related).</span>
+<span id="cb5-296"><a href="#cb5-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-297"><a href="#cb5-297" aria-hidden="true" tabindex="-1"></a>**Advantages:** Very fast and scalable — probabilities for each feature can be precomputed. Good as a baseline model.</span>
+<span id="cb5-298"><a href="#cb5-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-299"><a href="#cb5-299" aria-hidden="true" tabindex="-1"></a>**Disadvantages:** Rarely produces the best results because the independence assumption doesn't hold in real data.</span>
+<span id="cb5-300"><a href="#cb5-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-301"><a href="#cb5-301" aria-hidden="true" tabindex="-1"></a>**Titanic accuracy:** \~72%</span>
+<span id="cb5-302"><a href="#cb5-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-303"><a href="#cb5-303" aria-hidden="true" tabindex="-1"></a><span class="fu">### Support Vector Machines (SVM)</span></span>
+<span id="cb5-304"><a href="#cb5-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-305"><a href="#cb5-305" aria-hidden="true" tabindex="-1"></a>**Core idea:** Find the best boundary (hyperplane) that separates two classes with the **maximum margin** — the widest gap between the closest points of each class.</span>
+<span id="cb5-306"><a href="#cb5-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-307"><a href="#cb5-307" aria-hidden="true" tabindex="-1"></a>**Two key elements:**</span>
+<span id="cb5-308"><a href="#cb5-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-309"><a href="#cb5-309" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Margin maximisation:** Instead of just drawing any separating line, SVM finds the one that creates the widest possible gap between classes. The data points closest to the boundary are called **support vectors**.</span>
+<span id="cb5-310"><a href="#cb5-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-311"><a href="#cb5-311" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**The kernel trick:** Maps data into a higher-dimensional space using kernel functions (similar in spirit to polynomial regression), allowing SVM to find non-linear boundaries.</span>
+<span id="cb5-312"><a href="#cb5-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-313"><a href="#cb5-313" aria-hidden="true" tabindex="-1"></a>**Advantages:** Good results without much tuning, robust to outliers (because the model only depends on support vectors near the boundary, not distant points).</span>
+<span id="cb5-314"><a href="#cb5-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-315"><a href="#cb5-315" aria-hidden="true" tabindex="-1"></a>**Disadvantages:** Does not scale well to very large datasets — can be very slow.</span>
+<span id="cb5-316"><a href="#cb5-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-317"><a href="#cb5-317" aria-hidden="true" tabindex="-1"></a>**Titanic accuracy:** \~76%</span>
+<span id="cb5-318"><a href="#cb5-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-319"><a href="#cb5-319" aria-hidden="true" tabindex="-1"></a><span class="fu">### Neural Networks</span></span>
+<span id="cb5-320"><a href="#cb5-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-321"><a href="#cb5-321" aria-hidden="true" tabindex="-1"></a>**Core idea:** A network of interconnected nodes (neurons) organised in layers. Each node performs a simple mathematical function, and an activation function introduces non-linearity.</span>
+<span id="cb5-322"><a href="#cb5-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-323"><a href="#cb5-323" aria-hidden="true" tabindex="-1"></a>**How training works:**</span>
+<span id="cb5-324"><a href="#cb5-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-325"><a href="#cb5-325" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Forward propagation:** Input values pass through the network layer by layer, multiplied by weights, until they reach the output.</span>
+<span id="cb5-326"><a href="#cb5-326" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Cost function:** The difference between the predicted output and the actual values is calculated.</span>
+<span id="cb5-327"><a href="#cb5-327" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Backward propagation:** The weights are adjusted slightly, working backwards from the output, to reduce the error.</span>
+<span id="cb5-328"><a href="#cb5-328" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>This cycle repeats hundreds or thousands of times until the error stops improving.</span>
+<span id="cb5-329"><a href="#cb5-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-330"><a href="#cb5-330" aria-hidden="true" tabindex="-1"></a>**Important considerations:**</span>
+<span id="cb5-331"><a href="#cb5-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-332"><a href="#cb5-332" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Neural networks require **numeric and scaled inputs**. Categorical variables must be one-hot encoded, and numeric variables should be scaled to a 0–1 range.</span>
+<span id="cb5-333"><a href="#cb5-333" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>They need **a lot of data** to perform well.</span>
+<span id="cb5-334"><a href="#cb5-334" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>For standard tabular data, they typically don't outperform simpler models like Random Forest or SVM. Their strength is in domains like computer vision and natural language processing.</span>
+<span id="cb5-335"><a href="#cb5-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-336"><a href="#cb5-336" aria-hidden="true" tabindex="-1"></a>**Titanic accuracy:** \~75–78%</span>
+<span id="cb5-337"><a href="#cb5-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-338"><a href="#cb5-338" aria-hidden="true" tabindex="-1"></a><span class="fu">### Random Forest (Ensemble Method)</span></span>
+<span id="cb5-339"><a href="#cb5-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-340"><a href="#cb5-340" aria-hidden="true" tabindex="-1"></a>**Core idea:** Instead of building one decision tree, build hundreds of them, each trained on slightly different data and features, then take a **majority vote**.</span>
+<span id="cb5-341"><a href="#cb5-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-342"><a href="#cb5-342" aria-hidden="true" tabindex="-1"></a>This is grounded in the **Central Limit Theorem**: the average of many independent (even imperfect) estimates tends to be very accurate. Like asking 100 people to guess the number of marbles in a jar — individual guesses may be off by 20–30%, but the average is typically within 1–2%.</span>
+<span id="cb5-343"><a href="#cb5-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-344"><a href="#cb5-344" aria-hidden="true" tabindex="-1"></a>**Three techniques to create diversity among the trees:**</span>
+<span id="cb5-345"><a href="#cb5-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-346"><a href="#cb5-346" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Bagging (Bootstrap Aggregating):** Each tree is trained on a random sample of rows drawn *with replacement*. About 63% of rows are unique in each sample; the rest are duplicates. The \~37% of rows not included are called "out-of-bag" (OOB) samples and can be used to estimate error.</span>
+<span id="cb5-347"><a href="#cb5-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-348"><a href="#cb5-348" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Random feature selection:** At each split in each tree, only a small random subset of features is considered. This prevents one dominant feature (e.g., gender in Titanic) from always being chosen first.</span>
+<span id="cb5-349"><a href="#cb5-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-350"><a href="#cb5-350" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Shallow trees:** Individual trees are kept small (depth 1–2) to avoid overfitting.</span>
+<span id="cb5-351"><a href="#cb5-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-352"><a href="#cb5-352" aria-hidden="true" tabindex="-1"></a>**Why intentionally weaken the base models?** Because we want diverse viewpoints on the data. If a few trees are poor, they get outvoted by the majority.</span>
+<span id="cb5-353"><a href="#cb5-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-354"><a href="#cb5-354" aria-hidden="true" tabindex="-1"></a>**Advantages:** Generally provides very good results without much tuning. Corrects for decision trees' tendency to overfit. Provides feature importance rankings.</span>
+<span id="cb5-355"><a href="#cb5-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-356"><a href="#cb5-356" aria-hidden="true" tabindex="-1"></a>**Disadvantages:** Less interpretable than a single decision tree.</span>
+<span id="cb5-357"><a href="#cb5-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-358"><a href="#cb5-358" aria-hidden="true" tabindex="-1"></a>**Titanic accuracy:** \~78% (best among the models tested)</span>
+<span id="cb5-359"><a href="#cb5-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-360"><a href="#cb5-360" aria-hidden="true" tabindex="-1"></a>**Feature importance from the Titanic Random Forest:** Sex <span class="sc">\&gt;</span> Fare <span class="sc">\&gt;</span> Age <span class="sc">\&gt;</span> Pclass <span class="sc">\&gt;</span> SibSp <span class="sc">\&gt;</span> Parch <span class="sc">\&gt;</span> Embarked</span>
+<span id="cb5-361"><a href="#cb5-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-362"><a href="#cb5-362" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-363"><a href="#cb5-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-364"><a href="#cb5-364" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sampling: With vs Without Replacement</span></span>
+<span id="cb5-365"><a href="#cb5-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-366"><a href="#cb5-366" aria-hidden="true" tabindex="-1"></a>This concept is important for understanding how Random Forest works.</span>
+<span id="cb5-367"><a href="#cb5-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-368"><a href="#cb5-368" aria-hidden="true" tabindex="-1"></a>**Without replacement** (default): Once an item is selected, it cannot be selected again. Like drawing lottery numbers — each number is unique.</span>
+<span id="cb5-369"><a href="#cb5-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-370"><a href="#cb5-370" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb5-371"><a href="#cb5-371" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">100</span>, <span class="dv">90</span>)           <span class="co"># Select 90 from 1:100</span></span>
+<span id="cb5-372"><a href="#cb5-372" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(tmp))              <span class="co"># All 90 are unique</span></span>
+<span id="cb5-373"><a href="#cb5-373" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-374"><a href="#cb5-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-375"><a href="#cb5-375" aria-hidden="true" tabindex="-1"></a>**With replacement**: Items can be selected more than once. Like drawing a marble, noting it, putting it back, and drawing again.</span>
+<span id="cb5-376"><a href="#cb5-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-377"><a href="#cb5-377" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb5-378"><a href="#cb5-378" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">90</span>, <span class="dv">90</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)   <span class="co"># Select 90 from 1:90</span></span>
+<span id="cb5-379"><a href="#cb5-379" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(tmp))                      <span class="co"># ~57 unique (≈63%)</span></span>
+<span id="cb5-380"><a href="#cb5-380" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-381"><a href="#cb5-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-382"><a href="#cb5-382" aria-hidden="true" tabindex="-1"></a>When sampling *n* items from *n* with replacement, approximately **63%** will be unique. This is the basis of bagging in Random Forest.</span>
+<span id="cb5-383"><a href="#cb5-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-384"><a href="#cb5-384" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-385"><a href="#cb5-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-386"><a href="#cb5-386" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
+<span id="cb5-387"><a href="#cb5-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-388"><a href="#cb5-388" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Accuracy is misleading** for imbalanced data or when error costs are unequal. Use precision, recall, and F1 instead.</span>
+<span id="cb5-389"><a href="#cb5-389" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Precision vs Recall** is a trade-off — you can shift the balance by adjusting the probability threshold.</span>
+<span id="cb5-390"><a href="#cb5-390" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Always translate metrics into plain language** when communicating with non-technical stakeholders.</span>
+<span id="cb5-391"><a href="#cb5-391" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Logistic regression** is interpretable, fast, and a good baseline for classification — but cannot handle missing data.</span>
+<span id="cb5-392"><a href="#cb5-392" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>**Bias = underfitting** (model too simple); **Variance = overfitting** (model too complex). The goal is the right balance.</span>
+<span id="cb5-393"><a href="#cb5-393" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>**Random Forest** is typically one of the best-performing algorithms for tabular data out of the box.</span>
+<span id="cb5-394"><a href="#cb5-394" aria-hidden="true" tabindex="-1"></a><span class="ss">7.  </span>**Feature engineering** (creating derived features) can improve models, but too much can cause overfitting.</span>
+<span id="cb5-395"><a href="#cb5-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-396"><a href="#cb5-396" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-397"><a href="#cb5-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-398"><a href="#cb5-398" aria-hidden="true" tabindex="-1"></a><span class="fu">## Personal Notes</span></span>
+<span id="cb5-399"><a href="#cb5-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-400"><a href="#cb5-400" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb5-401"><a href="#cb5-401" aria-hidden="true" tabindex="-1"></a>*Add your own notes, questions, and observations here after reviewing the material.*</span>
+<span id="cb5-402"><a href="#cb5-402" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

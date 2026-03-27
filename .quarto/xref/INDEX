@@ -1,0 +1,71 @@
+{
+  "index.qmd": {
+    "index.html": "f6dc0e26"
+  },
+  "about.qmd": {
+    "about.html": "5ba46b2b"
+  },
+  "data-mining/revision.qmd": {
+    "revision.html": "02d553dc"
+  },
+  "data-mining/labs.qmd": {
+    "labs.html": "c61e8878"
+  },
+  "data-mining/week-1.qmd": {
+    "week-1.html": "bbc1d12a"
+  },
+  "data-mining/index.qmd": {
+    "index.html": "3bc88782"
+  },
+  "data-mining/week-2.qmd": {
+    "week-2.html": "c0d60595"
+  },
+  "data-mining/week-8.qmd": {
+    "week-8.html": "0b44c251"
+  },
+  "time-series/revision.qmd": {
+    "revision.html": "80ed6227"
+  },
+  "time-series/labs.qmd": {
+    "labs.html": "7ac8ea46"
+  },
+  "time-series/week-1.qmd": {
+    "week-1.html": "6708c679"
+  },
+  "time-series/index.qmd": {
+    "index.html": "5d409405"
+  },
+  "time-series/week-2.qmd": {
+    "week-2.html": "cf3a9011"
+  },
+  "regression-analysis/revision.qmd": {
+    "revision.html": "cae7292c"
+  },
+  "regression-analysis/labs.qmd": {
+    "labs.html": "bcb921e7"
+  },
+  "regression-analysis/week-1.qmd": {
+    "week-1.html": "11b55a63"
+  },
+  "regression-analysis/index.qmd": {
+    "index.html": "39cc9a52"
+  },
+  "regression-analysis/week-2.qmd": {
+    "week-2.html": "1ea6b99c"
+  },
+  "regression-analysis/week-9.qmd": {
+    "week-9.html": "ab75b9eb"
+  },
+  "regression-analysis/week-3.qmd": {
+    "week-3.html": "ab606dea"
+  },
+  "data-mining/week-3.qmd": {
+    "week-3.html": "845dd603"
+  },
+  "data-mining/week-4.qmd": {
+    "week-4.html": "2ce0438c"
+  },
+  "data-mining/week-5.qmd": {
+    "week-5.html": "66697245"
+  }
+}

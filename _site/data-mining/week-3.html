@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Data Mining – Class 3 Notes – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../data-mining/week-4.html" rel="next">
+<link href="../data-mining/week-2.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-24882cfe16963d34ce4f1a7ff90b660f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data-mining/index.html">Data Mining</a></li><li class="breadcrumb-item"><a href="../data-mining/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../data-mining/week-3.html">Week 3</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Practice &amp; Revision</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/revision.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Revision</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/labs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Practice &amp; Revision</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/revision.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Revision</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/labs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#recap-from-class-2" id="toc-recap-from-class-2" class="nav-link active" data-scroll-target="#recap-from-class-2"><span class="header-section-number">1</span> Recap from Class 2</a></li>
+  <li><a href="#todays-class-overview" id="toc-todays-class-overview" class="nav-link" data-scroll-target="#todays-class-overview"><span class="header-section-number">2</span> Today’s Class Overview</a></li>
+  <li><a href="#the-titanic-dataset" id="toc-the-titanic-dataset" class="nav-link" data-scroll-target="#the-titanic-dataset"><span class="header-section-number">3</span> The Titanic Dataset</a>
+  <ul class="collapse">
+  <li><a href="#what-is-it" id="toc-what-is-it" class="nav-link" data-scroll-target="#what-is-it"><span class="header-section-number">3.1</span> What is it?</a></li>
+  <li><a href="#variables-in-the-dataset" id="toc-variables-in-the-dataset" class="nav-link" data-scroll-target="#variables-in-the-dataset"><span class="header-section-number">3.2</span> Variables in the Dataset</a></li>
+  <li><a href="#loading-the-data-in-r" id="toc-loading-the-data-in-r" class="nav-link" data-scroll-target="#loading-the-data-in-r"><span class="header-section-number">3.3</span> Loading the Data in R</a></li>
+  </ul></li>
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration"><span class="header-section-number">4</span> Data Exploration</a>
+  <ul class="collapse">
+  <li><a href="#why-explore-data-before-modelling" id="toc-why-explore-data-before-modelling" class="nav-link" data-scroll-target="#why-explore-data-before-modelling"><span class="header-section-number">4.1</span> Why Explore Data Before Modelling?</a></li>
+  <li><a href="#checking-unique-values-and-missing-data" id="toc-checking-unique-values-and-missing-data" class="nav-link" data-scroll-target="#checking-unique-values-and-missing-data"><span class="header-section-number">4.2</span> Checking Unique Values and Missing Data</a></li>
+  <li><a href="#key-findings-from-the-titanic-data" id="toc-key-findings-from-the-titanic-data" class="nav-link" data-scroll-target="#key-findings-from-the-titanic-data"><span class="header-section-number">4.3</span> Key Findings from the Titanic Data</a>
+  <ul class="collapse">
+  <li><a href="#family-size-vs.-survival" id="toc-family-size-vs.-survival" class="nav-link" data-scroll-target="#family-size-vs.-survival"><span class="header-section-number">4.3.1</span> Family Size vs.&nbsp;Survival</a></li>
+  <li><a href="#ticket-class-vs.-survival" id="toc-ticket-class-vs.-survival" class="nav-link" data-scroll-target="#ticket-class-vs.-survival"><span class="header-section-number">4.3.2</span> Ticket Class vs.&nbsp;Survival</a></li>
+  <li><a href="#gender-vs.-survival" id="toc-gender-vs.-survival" class="nav-link" data-scroll-target="#gender-vs.-survival"><span class="header-section-number">4.3.3</span> Gender vs.&nbsp;Survival</a></li>
+  <li><a href="#fixing-the-embarked-variable" id="toc-fixing-the-embarked-variable" class="nav-link" data-scroll-target="#fixing-the-embarked-variable"><span class="header-section-number">4.3.4</span> Fixing the <code>Embarked</code> Variable</a></li>
+  <li><a href="#fare-vs.-survival" id="toc-fare-vs.-survival" class="nav-link" data-scroll-target="#fare-vs.-survival"><span class="header-section-number">4.3.5</span> Fare vs.&nbsp;Survival</a></li>
+  <li><a href="#age-vs.-survival-creating-a-derived-variable" id="toc-age-vs.-survival-creating-a-derived-variable" class="nav-link" data-scroll-target="#age-vs.-survival-creating-a-derived-variable"><span class="header-section-number">4.3.6</span> Age vs.&nbsp;Survival — Creating a Derived Variable</a></li>
+  <li><a href="#pairs-plot" id="toc-pairs-plot" class="nav-link" data-scroll-target="#pairs-plot"><span class="header-section-number">4.3.7</span> Pairs Plot</a></li>
+  <li><a href="#embarkation-and-ticket-class" id="toc-embarkation-and-ticket-class" class="nav-link" data-scroll-target="#embarkation-and-ticket-class"><span class="header-section-number">4.3.8</span> Embarkation and Ticket Class</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#supervised-learning-classification" id="toc-supervised-learning-classification" class="nav-link" data-scroll-target="#supervised-learning-classification"><span class="header-section-number">5</span> Supervised Learning — Classification</a>
+  <ul class="collapse">
+  <li><a href="#what-is-it-1" id="toc-what-is-it-1" class="nav-link" data-scroll-target="#what-is-it-1"><span class="header-section-number">5.1</span> What is it?</a></li>
+  <li><a href="#common-classification-algorithms" id="toc-common-classification-algorithms" class="nav-link" data-scroll-target="#common-classification-algorithms"><span class="header-section-number">5.2</span> Common Classification Algorithms</a></li>
+  </ul></li>
+  <li><a href="#building-a-classification-model-in-r" id="toc-building-a-classification-model-in-r" class="nav-link" data-scroll-target="#building-a-classification-model-in-r"><span class="header-section-number">6</span> Building a Classification Model in R</a>
+  <ul class="collapse">
+  <li><a href="#the-core-workflow" id="toc-the-core-workflow" class="nav-link" data-scroll-target="#the-core-workflow"><span class="header-section-number">6.1</span> The Core Workflow</a></li>
+  <li><a href="#why-split-into-train-and-test" id="toc-why-split-into-train-and-test" class="nav-link" data-scroll-target="#why-split-into-train-and-test"><span class="header-section-number">6.2</span> Why Split Into Train and Test?</a></li>
+  <li><a href="#reproducible-data-science" id="toc-reproducible-data-science" class="nav-link" data-scroll-target="#reproducible-data-science"><span class="header-section-number">6.3</span> Reproducible Data Science</a></li>
+  <li><a href="#what-is-overfitting-overtraining" id="toc-what-is-overfitting-overtraining" class="nav-link" data-scroll-target="#what-is-overfitting-overtraining"><span class="header-section-number">6.4</span> What is Overfitting / Overtraining?</a></li>
+  <li><a href="#model-drift-and-data-drift" id="toc-model-drift-and-data-drift" class="nav-link" data-scroll-target="#model-drift-and-data-drift"><span class="header-section-number">6.5</span> Model Drift and Data Drift</a></li>
+  </ul></li>
+  <li><a href="#decision-trees" id="toc-decision-trees" class="nav-link" data-scroll-target="#decision-trees"><span class="header-section-number">7</span> Decision Trees</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-decision-tree" id="toc-what-is-a-decision-tree" class="nav-link" data-scroll-target="#what-is-a-decision-tree"><span class="header-section-number">7.1</span> What is a Decision Tree?</a></li>
+  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">7.2</span> How it Works</a></li>
+  <li><a href="#how-to-choose-the-best-split" id="toc-how-to-choose-the-best-split" class="nav-link" data-scroll-target="#how-to-choose-the-best-split"><span class="header-section-number">7.3</span> How to Choose the Best Split?</a></li>
+  <li><a href="#advantages-and-disadvantages" id="toc-advantages-and-disadvantages" class="nav-link" data-scroll-target="#advantages-and-disadvantages"><span class="header-section-number">7.4</span> Advantages and Disadvantages</a></li>
+  <li><a href="#handling-numeric-data" id="toc-handling-numeric-data" class="nav-link" data-scroll-target="#handling-numeric-data"><span class="header-section-number">7.5</span> Handling Numeric Data</a></li>
+  <li><a href="#pruning" id="toc-pruning" class="nav-link" data-scroll-target="#pruning"><span class="header-section-number">7.6</span> Pruning</a></li>
+  <li><a href="#example-titanic-decision-tree" id="toc-example-titanic-decision-tree" class="nav-link" data-scroll-target="#example-titanic-decision-tree"><span class="header-section-number">7.7</span> Example — Titanic Decision Tree</a></li>
+  </ul></li>
+  <li><a href="#model-evaluation-the-confusion-matrix" id="toc-model-evaluation-the-confusion-matrix" class="nav-link" data-scroll-target="#model-evaluation-the-confusion-matrix"><span class="header-section-number">8</span> Model Evaluation — The Confusion Matrix</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-confusion-matrix" id="toc-what-is-a-confusion-matrix" class="nav-link" data-scroll-target="#what-is-a-confusion-matrix"><span class="header-section-number">8.1</span> What is a Confusion Matrix?</a></li>
+  <li><a href="#titanic-example" id="toc-titanic-example" class="nav-link" data-scroll-target="#titanic-example"><span class="header-section-number">8.2</span> Titanic Example</a></li>
+  <li><a href="#accuracy" id="toc-accuracy" class="nav-link" data-scroll-target="#accuracy"><span class="header-section-number">8.3</span> Accuracy</a></li>
+  </ul></li>
+  <li><a href="#key-takeaways-from-class-3" id="toc-key-takeaways-from-class-3" class="nav-link" data-scroll-target="#key-takeaways-from-class-3"><span class="header-section-number">9</span> Key Takeaways from Class 3</a></li>
+  <li><a href="#lab-3-decision-trees-in-r" id="toc-lab-3-decision-trees-in-r" class="nav-link" data-scroll-target="#lab-3-decision-trees-in-r"><span class="header-section-number">10</span> Lab 3 — Decision Trees in R</a>
+  <ul class="collapse">
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup"><span class="header-section-number">10.1</span> Setup</a></li>
+  <li><a href="#tasks-covered-in-the-lab" id="toc-tasks-covered-in-the-lab" class="nav-link" data-scroll-target="#tasks-covered-in-the-lab"><span class="header-section-number">10.2</span> Tasks Covered in the Lab</a></li>
+  </ul></li>
+  <li><a href="#whats-coming-next" id="toc-whats-coming-next" class="nav-link" data-scroll-target="#whats-coming-next"><span class="header-section-number">11</span> What’s Coming Next</a></li>
+  <li><a href="#my-notes-questions" id="toc-my-notes-questions" class="nav-link" data-scroll-target="#my-notes-questions"><span class="header-section-number">12</span> My Notes &amp; Questions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data-mining/index.html">Data Mining</a></li><li class="breadcrumb-item"><a href="../data-mining/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../data-mining/week-3.html">Week 3</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Data Mining – Class 3 Notes</h1>
+<p class="subtitle lead">STAT9013 | Data Exploration, Classification &amp; Decision Trees</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><strong>Note to self:</strong> These are summary notes from Class 3. Add your own observations, questions, and extra examples as you review the material.</p>
+</blockquote>
+<hr>
+<section id="recap-from-class-2" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Recap from Class 2</h1>
+<p>Before diving into the new material, here is a brief recap of what was covered in the previous class, as it forms the foundation for this week.</p>
+<ul>
+<li><strong>Basic statistics in R</strong>: means, medians, quartiles, and interquartile range (IQR)</li>
+<li><strong>Visualisations</strong>: histograms, density plots, and box plots</li>
+<li><strong>Skewed data</strong>: understanding why skewness matters and how log transformations can help normalise data</li>
+<li><strong>The Iris dataset</strong>: a classic dataset with 150 records across 3 species of flower, used to demonstrate classification concepts</li>
+<li><strong>Data exploration</strong>: using plots and summary statistics to understand a dataset before modelling</li>
+</ul>
+<p><strong>Key idea from last week:</strong> The <em>median</em> is often more useful than the <em>mean</em> for skewed data, because it describes the “typical” value rather than being pulled by extreme outliers (e.g.&nbsp;if a billionaire enters a room, the mean salary shoots up dramatically, but the median barely changes).</p>
+<hr>
+</section>
+<section id="todays-class-overview" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Today’s Class Overview</h1>
+<p>This class has two halves:</p>
+<ol type="1">
+<li><strong>Theory</strong>: Exploring the Titanic dataset and introducing Classification &amp; Decision Trees</li>
+<li><strong>Lab</strong>: Hands-on practice with Decision Trees in R</li>
+</ol>
+<hr>
+</section>
+<section id="the-titanic-dataset" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> The Titanic Dataset</h1>
+<section id="what-is-it" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="what-is-it"><span class="header-section-number">3.1</span> What is it?</h2>
+<p>The Titanic dataset is one of the most well-known datasets in machine learning. It records information about passengers aboard the RMS Titanic, which sank in April 1912. The central question is:</p>
+<blockquote class="blockquote">
+<p><strong>Can we build a model that predicts which passengers survived the Titanic disaster?</strong></p>
+</blockquote>
+<p>This is a <strong>binary classification</strong> problem — for each passenger, the model must predict one of two outcomes: survived (1) or did not survive (0).</p>
+</section>
+<section id="variables-in-the-dataset" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="variables-in-the-dataset"><span class="header-section-number">3.2</span> Variables in the Dataset</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 42%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PassengerId</code></td>
+<td>Unique ID for each passenger</td>
+<td>Not useful for prediction</td>
+</tr>
+<tr class="even">
+<td><code>Survived</code></td>
+<td>0 = No, 1 = Yes</td>
+<td><strong>Target variable</strong></td>
+</tr>
+<tr class="odd">
+<td><code>Pclass</code></td>
+<td>Ticket class: 1 = 1st, 2 = 2nd, 3 = 3rd</td>
+<td>Very important predictor</td>
+</tr>
+<tr class="even">
+<td><code>Name</code></td>
+<td>Passenger’s full name</td>
+<td>Unique — drop it</td>
+</tr>
+<tr class="odd">
+<td><code>Sex</code></td>
+<td>Gender</td>
+<td>Very strong predictor</td>
+</tr>
+<tr class="even">
+<td><code>Age</code></td>
+<td>Age in years</td>
+<td>Has many missing values</td>
+</tr>
+<tr class="odd">
+<td><code>SibSp</code></td>
+<td># of siblings/spouses aboard</td>
+<td>Combined with Parch</td>
+</tr>
+<tr class="even">
+<td><code>Parch</code></td>
+<td># of parents/children aboard</td>
+<td>Combined with SibSp</td>
+</tr>
+<tr class="odd">
+<td><code>Ticket</code></td>
+<td>Ticket number</td>
+<td>Likely not useful as-is</td>
+</tr>
+<tr class="even">
+<td><code>Fare</code></td>
+<td>Price paid for the ticket</td>
+<td>Correlated with Pclass</td>
+</tr>
+<tr class="odd">
+<td><code>Cabin</code></td>
+<td>Cabin number</td>
+<td>Lots of missing values</td>
+</tr>
+<tr class="even">
+<td><code>Embarked</code></td>
+<td>Port of embarkation: C, Q, or S</td>
+<td>Some predictive signal</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="loading-the-data-in-r" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="loading-the-data-in-r"><span class="header-section-number">3.3</span> Loading the Data in R</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the titanic package if not available</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"titanic"</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"paulhendricks/titanic"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"titanic"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic_train)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(titanic_train)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="data-exploration" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Data Exploration</h1>
+<section id="why-explore-data-before-modelling" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="why-explore-data-before-modelling"><span class="header-section-number">4.1</span> Why Explore Data Before Modelling?</h2>
+<p>Data exploration is a critical step before building any machine learning model. It helps you:</p>
+<ul>
+<li>Understand what the data looks like</li>
+<li>Identify missing values and decide how to handle them</li>
+<li>Spot variables that are likely to be useful predictors</li>
+<li>Detect relationships <em>between</em> predictor variables (not just between each variable and the target)</li>
+<li>Avoid mistakes that would silently damage your model’s quality</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Rule of thumb:</strong> Always know your data before you model it. A model built on poorly understood data will produce unreliable results.</p>
+</blockquote>
+</section>
+<section id="checking-unique-values-and-missing-data" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="checking-unique-values-and-missing-data"><span class="header-section-number">4.2</span> Checking Unique Values and Missing Data</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count unique values per column</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>uniq_len <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">length</span>(<span class="fu">unique</span>(x)) }</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, uniq_len)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Count missing values (NAs or empty strings)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>countBlank <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">sum</span>(<span class="fu">is.na</span>(x) <span class="sc">|</span> x <span class="sc">==</span> <span class="st">""</span>) }</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, countBlank)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>What to look for:</strong></p>
+<ul>
+<li><strong>Columns with as many unique values as rows</strong> (e.g.&nbsp;<code>PassengerId</code>, <code>Name</code>) → These are IDs, not features. Drop them.</li>
+<li><strong>Columns with too many missing values</strong> (e.g.&nbsp;<code>Cabin</code> has 687 missing out of 891) → Consider dropping or imputing.</li>
+<li><strong>Unexpected number of unique values</strong> (e.g.&nbsp;<code>Embarked</code> shows 4 unique values when only 3 are expected) → Signals there are blank/null entries that need fixing.</li>
+</ul>
+</section>
+<section id="key-findings-from-the-titanic-data" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="key-findings-from-the-titanic-data"><span class="header-section-number">4.3</span> Key Findings from the Titanic Data</h2>
+<section id="family-size-vs.-survival" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="family-size-vs.-survival"><span class="header-section-number">4.3.1</span> Family Size vs.&nbsp;Survival</h3>
+<p>A new variable <code>family</code> is created by adding <code>SibSp + Parch</code> to represent total family members travelling together.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>titanic_train<span class="sc">$</span>family <span class="ot">&lt;-</span> titanic_train<span class="sc">$</span>SibSp <span class="sc">+</span> titanic_train<span class="sc">$</span>Parch</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>titanic_train<span class="sc">$</span>Survived <span class="ot">&lt;-</span> <span class="fu">factor</span>(titanic_train<span class="sc">$</span>Survived)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(titanic_train, <span class="fu">aes</span>(<span class="at">x =</span> family, <span class="at">fill =</span> <span class="fu">factor</span>(Survived))) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">'count'</span>, <span class="at">position =</span> <span class="st">'dodge'</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Family Size'</span>) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Family size v Survived"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Finding:</strong> Solo travellers had the lowest survival rate. Passengers in small family groups (1–3 others) had noticeably higher survival rates. Very large families (6+) had very few records, so conclusions there are not reliable.</p>
+<p><strong>Interpretation:</strong> Being in a family likely means children were present, and children were given priority in lifeboats.</p>
+</section>
+<section id="ticket-class-vs.-survival" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="ticket-class-vs.-survival"><span class="header-section-number">4.3.2</span> Ticket Class vs.&nbsp;Survival</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(titanic_train, <span class="fu">aes</span>(Pclass, <span class="at">fill =</span> Survived)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"stack"</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"By counts"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>p02 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(titanic_train, <span class="fu">aes</span>(Pclass, <span class="at">fill =</span> Survived)) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"By proportion"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="st">'Survived by Class'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Finding:</strong></p>
+<ul>
+<li>1st class: ~63% survived</li>
+<li>2nd class: ~47% survived</li>
+<li>3rd class: ~24% survived</li>
+</ul>
+<p><strong>Important tip — plot both counts AND proportions:</strong></p>
+<ul>
+<li><strong>Counts</strong> tell you how many passengers are in each group (the <em>effect size</em>)</li>
+<li><strong>Proportions</strong> tell you how different the survival rate is from the baseline of 38% (the <em>signal strength</em>)</li>
+</ul>
+<p>Both matter. A strong signal (e.g.&nbsp;90% survival) in a group with only 10 records is not very useful — it barely affects the overall model.</p>
+</section>
+<section id="gender-vs.-survival" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="gender-vs.-survival"><span class="header-section-number">4.3.3</span> Gender vs.&nbsp;Survival</h3>
+<p><strong>Finding:</strong></p>
+<ul>
+<li>Female passengers: ~74% survived</li>
+<li>Male passengers: ~19% survived</li>
+</ul>
+<p><strong>Gender is the single strongest predictor in this dataset.</strong> This aligns with the historical “women and children first” policy used when loading lifeboats.</p>
+</section>
+<section id="fixing-the-embarked-variable" class="level3" data-number="4.3.4">
+<h3 data-number="4.3.4" class="anchored" data-anchor-id="fixing-the-embarked-variable"><span class="header-section-number">4.3.4</span> Fixing the <code>Embarked</code> Variable</h3>
+<p>Two passengers had blank values for <code>Embarked</code>. Since Southampton was by far the most common embarkation port, those blanks were reassigned to <code>S</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>titanic_train[titanic_train<span class="sc">$</span>Embarked <span class="sc">==</span> <span class="st">""</span>, ]<span class="sc">$</span>Embarked <span class="ot">&lt;-</span> <span class="st">'S'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Why not create a new “Unknown” category?</strong> Because with only 2 records, assigning them a unique value <code>X</code> could cause the model to over-fit on that tiny group. The safer choice is to merge them into the most common category.</p>
+</section>
+<section id="fare-vs.-survival" class="level3" data-number="4.3.5">
+<h3 data-number="4.3.5" class="anchored" data-anchor-id="fare-vs.-survival"><span class="header-section-number">4.3.5</span> Fare vs.&nbsp;Survival</h3>
+<p>A box plot of <code>Fare</code> by <code>Survived</code> shows that passengers who paid higher fares had a somewhat higher survival rate. However, fare is closely correlated with ticket class — they carry overlapping information.</p>
+</section>
+<section id="age-vs.-survival-creating-a-derived-variable" class="level3" data-number="4.3.6">
+<h3 data-number="4.3.6" class="anchored" data-anchor-id="age-vs.-survival-creating-a-derived-variable"><span class="header-section-number">4.3.6</span> Age vs.&nbsp;Survival — Creating a Derived Variable</h3>
+<p>A simple box plot of <code>Age</code> vs.&nbsp;<code>Survived</code> doesn’t show a strong difference. This is because the real signal is not about age in general, but specifically about <em>children</em>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> titanic_train[<span class="sc">!</span><span class="fu">is.na</span>(titanic_train<span class="sc">$</span>Age), ]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>temp<span class="sc">$</span>is_child <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(temp<span class="sc">$</span>Age <span class="sc">&lt;</span> <span class="dv">17</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Children (under 17) had roughly a 50% survival rate vs.&nbsp;about 35% for adults.</strong> Creating a binary <code>is_child</code> variable helps the machine learning algorithm pick up on this threshold effect.</p>
+<blockquote class="blockquote">
+<p><strong>Key concept — derived variables:</strong> Sometimes the raw variable is not as useful as a transformed or binned version of it. Think about what <em>threshold</em> or <em>transformation</em> would best capture the relationship with the target.</p>
+</blockquote>
+</section>
+<section id="pairs-plot" class="level3" data-number="4.3.7">
+<h3 data-number="4.3.7" class="anchored" data-anchor-id="pairs-plot"><span class="header-section-number">4.3.7</span> Pairs Plot</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>columns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Pclass"</span>, <span class="st">"Age"</span>, <span class="st">"Fare"</span>, <span class="st">"family"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs.panels</span>(titanic_train[, columns], <span class="at">method =</span> <span class="st">"pearson"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">hist.col =</span> <span class="st">"#00AFBB"</span>, <span class="at">density =</span> <span class="cn">TRUE</span>, <span class="at">ellipses =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Finding:</strong> The strongest correlation among predictors is between <code>Pclass</code> and <code>Fare</code> (–0.55), which makes sense — first class passengers paid much more.</p>
+<p><strong>Why this matters:</strong> If two predictor variables are highly correlated, they carry redundant information. The model may just pick one of them and largely ignore the other.</p>
+</section>
+<section id="embarkation-and-ticket-class" class="level3" data-number="4.3.8">
+<h3 data-number="4.3.8" class="anchored" data-anchor-id="embarkation-and-ticket-class"><span class="header-section-number">4.3.8</span> Embarkation and Ticket Class</h3>
+<p>A deeper investigation reveals <em>why</em> passengers from Cherbourg (C) had a higher survival rate: <strong>a much higher proportion of first-class passengers boarded at Cherbourg</strong> compared to Queenstown or Southampton. The survival signal from <code>Embarked</code> is largely <em>already captured</em> by <code>Pclass</code>.</p>
+<p>This is an example of a variable that <em>appears</em> predictive but is actually a proxy for another variable. Including such variables in a model can be misleading.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="supervised-learning-classification" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Supervised Learning — Classification</h1>
+<section id="what-is-it-1" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="what-is-it-1"><span class="header-section-number">5.1</span> What is it?</h2>
+<p><strong>Supervised learning</strong> means training a model on data where we already know the correct answers (the labels), so the model learns to predict those labels for new, unseen data.</p>
+<p><strong>Classification</strong> is a type of supervised learning where the output is a <em>category</em> (e.g.&nbsp;survived / not survived, spam / not spam, cat / dog).</p>
+<ul>
+<li><strong>Binary classification</strong>: two possible outcomes (like Titanic survived yes/no)</li>
+<li><strong>Multi-class classification</strong>: three or more outcomes (like Iris species: setosa / versicolor / virginica)</li>
+</ul>
+</section>
+<section id="common-classification-algorithms" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="common-classification-algorithms"><span class="header-section-number">5.2</span> Common Classification Algorithms</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 59%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Algorithm</th>
+<th>Key Characteristic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Decision Trees</strong></td>
+<td>Simple, interpretable, easy to visualise</td>
+</tr>
+<tr class="even">
+<td><strong>Logistic Regression</strong></td>
+<td>Probabilistic, good baseline model</td>
+</tr>
+<tr class="odd">
+<td><strong>Support Vector Machines</strong></td>
+<td>Strong with high-dimensional data</td>
+</tr>
+<tr class="even">
+<td><strong>Naive Bayes</strong></td>
+<td>Fast, works well with text</td>
+</tr>
+<tr class="odd">
+<td><strong>Random Forests</strong></td>
+<td>Ensemble of trees, very powerful</td>
+</tr>
+<tr class="even">
+<td><strong>Gradient Boosted Trees</strong></td>
+<td>Often best on tabular data</td>
+</tr>
+<tr class="odd">
+<td><strong>Deep Learning</strong></td>
+<td>Best for images, text, audio</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="building-a-classification-model-in-r" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Building a Classification Model in R</h1>
+<section id="the-core-workflow" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="the-core-workflow"><span class="header-section-number">6.1</span> The Core Workflow</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Set a random seed for reproducibility</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1987</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Split data into training (90%) and test (10%)</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> <span class="fu">nrow</span>(iris)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(nobs, <span class="fl">0.9</span> <span class="sc">*</span> nobs)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(nobs), train)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Train the model on training data ONLY</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>rpart_model <span class="ot">&lt;-</span> <span class="fu">rpart</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris[train, ], <span class="at">method =</span> <span class="st">"class"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Get predictions on the test set</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">predict</span>(rpart_model, <span class="at">newdata =</span> iris[test, ], <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Evaluate performance</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(pr, iris[test, ]<span class="sc">$</span>Species, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">"predicted"</span>, <span class="st">"actual"</span>))</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tab)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>accuracy <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">diag</span>(tab)) <span class="sc">/</span> <span class="fu">sum</span>(tab)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">'Model accuracy on test data ='</span>, <span class="fu">round</span>(accuracy, <span class="dv">2</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="why-split-into-train-and-test" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="why-split-into-train-and-test"><span class="header-section-number">6.2</span> Why Split Into Train and Test?</h2>
+<p>A model will <em>always</em> look better on data it was trained on, because it has already “seen” that data. Evaluating on training data is like giving someone an exam with the answer sheet in front of them — it tells you nothing about how well they actually understand the material.</p>
+<p>The <strong>test set</strong> must be:</p>
+<ul>
+<li>Created <em>before</em> building the model</li>
+<li>Completely separate from the training set (no overlap)</li>
+<li>Representative of data the model will see in the real world</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Important:</strong> The evaluation metrics you report should come from the <em>test set</em>, not the training set.</p>
+</blockquote>
+</section>
+<section id="reproducible-data-science" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="reproducible-data-science"><span class="header-section-number">6.3</span> Reproducible Data Science</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1987</span>)  <span class="co"># Always set this before any random operations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Setting a random seed ensures that every time the code is run (on any machine), it produces the exact same train/test split. This is essential for <strong>reproducible data science</strong> — other people must be able to reproduce your results exactly, or your findings cannot be trusted.</p>
+</section>
+<section id="what-is-overfitting-overtraining" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="what-is-overfitting-overtraining"><span class="header-section-number">6.4</span> What is Overfitting / Overtraining?</h2>
+<p><strong>Overfitting</strong> happens when a model learns the training data <em>too well</em> — including its noise and quirks — and fails to generalise to new data.</p>
+<p><strong>Example:</strong> If the model memorises that the 2 passengers with a blank <code>Embarked</code> value both survived, it will predict survival for any future record with a blank embarkation. This is not a real pattern, just noise — and the model will perform poorly on new data.</p>
+</section>
+<section id="model-drift-and-data-drift" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="model-drift-and-data-drift"><span class="header-section-number">6.5</span> Model Drift and Data Drift</h2>
+<ul>
+<li><strong>Data drift</strong>: The distribution of real-world data changes over time, so the model (trained on older data) becomes less accurate.</li>
+<li><strong>Model drift</strong>: The relationship between the input variables and the target variable changes over time.</li>
+</ul>
+<p>Both of these mean that machine learning models need to be monitored and periodically retrained.</p>
+<hr>
+</section>
+</section>
+<section id="decision-trees" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Decision Trees</h1>
+<section id="what-is-a-decision-tree" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="what-is-a-decision-tree"><span class="header-section-number">7.1</span> What is a Decision Tree?</h2>
+<p>A decision tree is one of the simplest and most intuitive machine learning algorithms. It works by splitting the data into groups based on a series of yes/no questions (conditions).</p>
+<p><strong>Analogy:</strong> Imagine a game of 20 questions. Each question splits the possibilities in two, and you keep narrowing down until you reach a final answer.</p>
+</section>
+<section id="how-it-works" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">7.2</span> How it Works</h2>
+<ol type="1">
+<li>Start with all the training data at the <strong>root node</strong></li>
+<li>Find the best attribute (column) and the best split point that separates the data into more “pure” groups</li>
+<li>Create two branches (left = condition is true, right = condition is false)</li>
+<li>Repeat for each sub-group (node) until:
+<ul>
+<li>All records in a node belong to the same class (it becomes a <strong>leaf node</strong>), or</li>
+<li>There are no more useful attributes to split on</li>
+</ul></li>
+</ol>
+</section>
+<section id="how-to-choose-the-best-split" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="how-to-choose-the-best-split"><span class="header-section-number">7.3</span> How to Choose the Best Split?</h2>
+<p>The algorithm uses a measure of <strong>impurity</strong> to decide which split is best. The goal is always to reduce impurity — i.e.&nbsp;to create groups that are as “pure” (dominated by a single class) as possible.</p>
+<p>Two common impurity measures:</p>
+<p><span class="math display">\[\text{Entropy}(t) = -\sum_{i=0}^{c-1} p(i|t) \log_2 p(i|t)\]</span></p>
+<p><span class="math display">\[\text{Gini}(t) = 1 - \sum_{i=0}^{c-1} [p(i|t)]^2\]</span></p>
+<p>Where <code>c</code> is the number of classes and <code>p(i|t)</code> is the probability that a record at node <code>t</code> belongs to class <code>i</code>.</p>
+<p><strong>Information Gain</strong> is calculated by comparing the impurity of the parent node to the weighted average impurity of the child nodes after the split. The split with the highest information gain is chosen.</p>
+<p><strong>Intuition:</strong> A node where 50% of records are class 0 and 50% are class 1 is maximally impure (entropy = 1). A node where 100% of records are the same class is perfectly pure (entropy = 0).</p>
+</section>
+<section id="advantages-and-disadvantages" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="advantages-and-disadvantages"><span class="header-section-number">7.4</span> Advantages and Disadvantages</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Advantages</th>
+<th>Disadvantages</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Easy to understand and visualise</td>
+<td>Other algorithms usually outperform it</td>
+</tr>
+<tr class="even">
+<td>Can deal with non-linear data</td>
+<td>Tends to overfit (especially deep trees)</td>
+</tr>
+<tr class="odd">
+<td>No need to normalise data</td>
+<td>Sensitive to small changes in data</td>
+</tr>
+<tr class="even">
+<td>Can be expressed as if/then rules</td>
+<td>Does not handle missing data well</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="handling-numeric-data" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="handling-numeric-data"><span class="header-section-number">7.5</span> Handling Numeric Data</h2>
+<p>Since every node is a yes/no condition, numeric variables are handled by splitting on a <strong>threshold value</strong> (e.g.&nbsp;<code>Age &gt;= 13</code>, <code>Fare &gt;= 23</code>). The algorithm finds the best threshold automatically.</p>
+</section>
+<section id="pruning" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="pruning"><span class="header-section-number">7.6</span> Pruning</h2>
+<p>Decision trees can grow very large and complex, overfitting the training data. <strong>Pruning</strong> means cutting off some of the lower branches to simplify the tree and improve generalisation.</p>
+</section>
+<section id="example-titanic-decision-tree" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="example-titanic-decision-tree"><span class="header-section-number">7.7</span> Example — Titanic Decision Tree</h2>
+<p>The decision tree built on the Titanic dataset finds the following key splits (starting from the root):</p>
+<ol type="1">
+<li><strong>Sex = male?</strong> → Most important split. Males generally did not survive.</li>
+<li>For males: <strong>Age &gt;= 13?</strong> → Younger boys had better survival odds</li>
+<li>For females: <strong>Pclass &gt;= 3?</strong> → 3rd class females had lower survival rates</li>
+<li>Further splits on <strong>Fare</strong> and <strong>SibSp</strong></li>
+</ol>
+<p>This mirrors exactly what we expected from the exploratory analysis: gender is the most important predictor, followed by ticket class and age.</p>
+<hr>
+</section>
+</section>
+<section id="model-evaluation-the-confusion-matrix" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Model Evaluation — The Confusion Matrix</h1>
+<section id="what-is-a-confusion-matrix" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="what-is-a-confusion-matrix"><span class="header-section-number">8.1</span> What is a Confusion Matrix?</h2>
+<p>After building a model, we compare its predictions against the actual values on the test set. The results are displayed in a <strong>confusion matrix</strong>.</p>
+<p>For a binary classification problem (survived = 1, not survived = 0):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Actual: 0</strong></th>
+<th><strong>Actual: 1</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Predicted: 0</strong></td>
+<td>True Negative (TN)</td>
+<td>False Negative (FN)</td>
+</tr>
+<tr class="even">
+<td><strong>Predicted: 1</strong></td>
+<td>False Positive (FP)</td>
+<td>True Positive (TP)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="titanic-example" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="titanic-example"><span class="header-section-number">8.2</span> Titanic Example</h2>
+<pre><code>          Actual
+Predicted  0   1
+        0  50  19   ← Predicted "not survived"
+        1   4  17   ← Predicted "survived"</code></pre>
+<ul>
+<li><strong>TN = 50</strong>: Correctly predicted “did not survive”</li>
+<li><strong>FN = 19</strong>: Person survived, but model predicted they didn’t (missed survivors)</li>
+<li><strong>FP = 4</strong>: Person didn’t survive, but model predicted they did</li>
+<li><strong>TP = 17</strong>: Correctly predicted “survived”</li>
+</ul>
+</section>
+<section id="accuracy" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">8.3</span> Accuracy</h2>
+<p><span class="math display">\[\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{17 + 50}{90} \approx 74\%\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Note to self:</strong> Accuracy is not always the best metric — it can be misleading when classes are imbalanced. For example, if only 5% of passengers survived, a model that always predicts “not survived” would be 95% accurate but completely useless. More metrics (precision, recall, F1) will be covered in future classes.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="key-takeaways-from-class-3" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Key Takeaways from Class 3</h1>
+<ol type="1">
+<li><strong>Data exploration is not optional</strong> — always understand your data before modelling.</li>
+<li><strong>Plot both counts and proportions</strong> when comparing a variable to the target.</li>
+<li><strong>Create derived variables</strong> when a threshold or transformation captures the signal better than the raw value (e.g.&nbsp;<code>is_child</code> from <code>Age</code>).</li>
+<li><strong>Check relationships between predictor variables</strong> — not just between each predictor and the target. Correlated predictors carry redundant information.</li>
+<li><strong>Always split into train and test before building a model.</strong> Never evaluate a model on data it was trained on.</li>
+<li><strong>Set a random seed</strong> for reproducibility.</li>
+<li><strong>Decision trees are interpretable</strong> — use them as an exploratory tool, not just a final model.</li>
+<li><strong>Overfitting</strong> is when a model memorises the training data instead of learning general patterns.</li>
+</ol>
+<hr>
+</section>
+<section id="lab-3-decision-trees-in-r" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Lab 3 — Decision Trees in R</h1>
+<section id="setup" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">10.1</span> Setup</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"titanic"</span>))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"paulhendricks/titanic"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"titanic"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic_train)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1987</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="tasks-covered-in-the-lab" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="tasks-covered-in-the-lab"><span class="header-section-number">10.2</span> Tasks Covered in the Lab</h2>
+<ol type="1">
+<li>Build a Decision Tree on the Iris dataset (species prediction)</li>
+<li>Build a Decision Tree on the Titanic dataset (survival prediction)</li>
+<li>Plot the decision tree using <code>rpart.plot</code></li>
+<li>Evaluate the model using a confusion matrix</li>
+<li>Calculate accuracy from the confusion matrix</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Review the lab code (<code>week3_stat9013c.R</code>) after class — this is the best way to consolidate what was covered.</strong></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="whats-coming-next" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> What’s Coming Next</h1>
+<ul>
+<li><strong>Next class:</strong> More classification algorithms — <strong>Logistic Regression</strong></li>
+<li><strong>Plus:</strong> Machine learning metrics beyond accuracy (precision, recall, F1 score, ROC)</li>
+</ul>
+<hr>
+</section>
+<section id="my-notes-questions" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> My Notes &amp; Questions</h1>
+<p><em>Use this space to add your own observations, things to follow up, or questions for the lecturer.</em></p>
+<ul class="task-list">
+<li><label><input type="checkbox">…</label></li>
+<li><label><input type="checkbox">…</label></li>
+<li><label><input type="checkbox">…</label></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/lgolin\.quarto\.pub\/semester-notes-2026");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../data-mining/week-2.html" class="pagination-link" aria-label="Week 2">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 2</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../data-mining/week-4.html" class="pagination-link" aria-label="Week 4">
+        <span class="nav-page-text">Week 4</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

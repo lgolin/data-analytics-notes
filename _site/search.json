@@ -1,0 +1,1803 @@
+[
+  {
+    "objectID": "data-mining/week-8.html",
+    "href": "data-mining/week-8.html",
+    "title": "Week 8",
+    "section": "",
+    "text": "This week focuses on recommendation systems, including:\n\nAssociation rules (apriori)\nCustomer segmentation\nCollaborative filtering\nEthical considerations\nHyperparameters and optimisation\nGraph Analytics",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#recommendation-systems",
+    "href": "data-mining/week-8.html#recommendation-systems",
+    "title": "Week 8",
+    "section": "Recommendation Systems",
+    "text": "Recommendation Systems\nA recommendation system suggests items to users based on data.\n\nTypes:\n\nAssociation rule-based (Apriori)\nContent-based filtering\nCollaborative filtering",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#association-rules-apriori",
+    "href": "data-mining/week-8.html#association-rules-apriori",
+    "title": "Week 8",
+    "section": "Association Rules (Apriori)",
+    "text": "Association Rules (Apriori)\nUsed to find relationships between items.\n\nExample:\nCustomers who buy bread also buy butter\n\n\nKey measures:\n\nSupport → how often items appear together\n\nConfidence → probability of buying Y given X\n\nLift → strength of the relationship\n\n👉 In practice: - focus on high lift rules - filter out weak or obvious relationships",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#customer-segmentation",
+    "href": "data-mining/week-8.html#customer-segmentation",
+    "title": "Week 8",
+    "section": "Customer Segmentation",
+    "text": "Customer Segmentation\nBefore applying rules, customers are often grouped.\n\nWhy?\nDifferent groups behave differently.\n\n\nExample:\n\nStudents → low budget\nProfessionals → higher spending\n\n👉 Apply recommendation rules within each segment",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#collaborative-filtering",
+    "href": "data-mining/week-8.html#collaborative-filtering",
+    "title": "Week 8",
+    "section": "Collaborative Filtering",
+    "text": "Collaborative Filtering\nThis is a key concept for exams.\n\nDefinition\nCollaborative filtering makes recommendations based on similar users.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#how-it-works",
+    "href": "data-mining/week-8.html#how-it-works",
+    "title": "Week 8",
+    "section": "How it works",
+    "text": "How it works\n\nCollect user preferences (ratings, purchases, clicks)\nFind users with similar behaviour\nRecommend items liked by similar users",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#example-2",
+    "href": "data-mining/week-8.html#example-2",
+    "title": "Week 8",
+    "section": "Example",
+    "text": "Example\n\nUser A and User B both like:\n\nNetflix shows A, B, C\n\nUser B also likes:\n\nShow D\n\n\n👉 Recommend Show D to User A",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#types-of-collaborative-filtering",
+    "href": "data-mining/week-8.html#types-of-collaborative-filtering",
+    "title": "Week 8",
+    "section": "Types of Collaborative Filtering",
+    "text": "Types of Collaborative Filtering\n\n1. User-based\n\nFind similar users\nRecommend based on their preferences\n\n\n\n2. Item-based\n\nFind similar items\nRecommend similar items to what user already likes",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#advantages",
+    "href": "data-mining/week-8.html#advantages",
+    "title": "Week 8",
+    "section": "Advantages",
+    "text": "Advantages\n\nSimple and intuitive\n\nWorks well with large datasets\n\nNo need for item features",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#limitations",
+    "href": "data-mining/week-8.html#limitations",
+    "title": "Week 8",
+    "section": "Limitations",
+    "text": "Limitations\n\nCold start problem (new users/items)\n\nRequires lots of data\n\nCan reinforce bias",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#ethics-in-recommendation-systems",
+    "href": "data-mining/week-8.html#ethics-in-recommendation-systems",
+    "title": "Week 8",
+    "section": "Ethics in Recommendation Systems",
+    "text": "Ethics in Recommendation Systems\nImportant exam topic ⚠️\n\nIssues:\n\nPrivacy concerns\n\nBias and discrimination\n\nFilter bubbles (only showing similar content)\n\nManipulation of user behaviour",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#hyperparameters",
+    "href": "data-mining/week-8.html#hyperparameters",
+    "title": "Week 8",
+    "section": "Hyperparameters",
+    "text": "Hyperparameters\nSettings that control how a model learns.\n\nExamples:\n\nNumber of clusters (k in k-means)\nNumber of neighbours in collaborative filtering",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#hyperparameter-optimisation",
+    "href": "data-mining/week-8.html#hyperparameter-optimisation",
+    "title": "Week 8",
+    "section": "Hyperparameter Optimisation",
+    "text": "Hyperparameter Optimisation\nChoosing the best values for hyperparameters.\n\nMethods:\n\nTrial and error\n\nGrid search\n\nCross-validation",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#graph-analytics",
+    "href": "data-mining/week-8.html#graph-analytics",
+    "title": "Week 8",
+    "section": "Graph Analytics",
+    "text": "Graph Analytics\nGraph analytics (or network analysis) is the study of networks or graphs. A network / graph has nodes and edges between them. The nodes and the edges may both have attributes.\n\nCan be used in:\n\nMarketing attribution analysis: this analyses the adverts shown to a user and the activities. It may show that indirect activities that are in an earlier step can have casual properties.\nCustomer purchase modeling: By modeling the sequence of purchases as a graph, you can generate recommendations of what customers are likely to buy next.\nFraud network detection - internet search engines: graph analytics are a core part of internet search algorithms. Relationship that exists in the transaction.\nDisease cluster analysis: can be used to model and the spread of diseases",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#dimensionality-reduction",
+    "href": "data-mining/week-8.html#dimensionality-reduction",
+    "title": "Week 8",
+    "section": "Dimensionality Reduction",
+    "text": "Dimensionality Reduction\nAchei muito confuso, nao entendi direito vou precisar revisar.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#you-should-be-able-to",
+    "href": "data-mining/week-8.html#you-should-be-able-to",
+    "title": "Week 8",
+    "section": "You should be able to:",
+    "text": "You should be able to:\n\nDefine collaborative filtering\n\nExplain how it works step-by-step\n\nCompare:\n\nassociation rules vs collaborative filtering\n\n\nExplain lift, support, confidence\n\nDiscuss ethical issues\n\nExplain hyperparameters",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#common-exam-questions",
+    "href": "data-mining/week-8.html#common-exam-questions",
+    "title": "Week 8",
+    "section": "Common Exam Questions",
+    "text": "Common Exam Questions\n\n“Explain collaborative filtering with an example”\n“What is lift and why is it important?”\n“Compare two recommendation approaches”\n“Discuss ethical concerns in recommendation systems”",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html",
+    "href": "data-mining/week-1.html",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "",
+    "text": "Lecturer: Mark Hodnett — 15 years experience in Data Science and analytics, author of R Deep Learning Essentials.\nThis is a practical, hands-on course. The assignments are entirely practical: you receive a dataset and are asked to complete a machine learning task using R. The students who do the labs consistently have an easier time with the assignments.\nKey advice from the lecturer: Learn by doing. Use Gen AI sparingly as a coding assistant for small tasks (e.g. splitting a dataset), but do not rely on it to generate major parts of your solutions. Companies increasingly test coding skills in interviews without allowing AI tools — if you’ve relied too heavily on them, you may struggle.\n\n\n\n\n\n\n\n\n\nWeek\nTopics\n\n\n\n\n1\nData Mining overview, ML types, Linear Regression example\n\n\n2\nBasic Statistics & Visualisations in R, Data Exploration (Iris, Titanic)\n\n\n3\nClassification, Decision Trees, Confusion Matrix, Evaluation Metrics\n\n\n4\nBias-Variance Tradeoff, One-hot Encoding, Logistic Regression, Naive Bayes, SVM, Random Forest, Neural Networks\n\n\n5\nLDA, QDA, Data Leakage, Hyperparameter Optimisation, Imbalanced Datasets\n\n\n6\nClustering (k-means, Hierarchical), Data Visualisation & Communication\n\n\n7\nGenerative AI as a coding assistant\n\n\n8\nDimensionality Reduction, t-SNE, PCA\n\n\n9\nMNIST database, Dimensionality Reduction for Classification\n\n\n10\nHigh-dimensional Data, Outlier / Anomaly Detection\n\n\n11\nReal-world Examples\n\n\n12\nWrap-up",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#week-roadmap",
+    "href": "data-mining/week-1.html#week-roadmap",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "",
+    "text": "Week\nTopics\n\n\n\n\n1\nData Mining overview, ML types, Linear Regression example\n\n\n2\nBasic Statistics & Visualisations in R, Data Exploration (Iris, Titanic)\n\n\n3\nClassification, Decision Trees, Confusion Matrix, Evaluation Metrics\n\n\n4\nBias-Variance Tradeoff, One-hot Encoding, Logistic Regression, Naive Bayes, SVM, Random Forest, Neural Networks\n\n\n5\nLDA, QDA, Data Leakage, Hyperparameter Optimisation, Imbalanced Datasets\n\n\n6\nClustering (k-means, Hierarchical), Data Visualisation & Communication\n\n\n7\nGenerative AI as a coding assistant\n\n\n8\nDimensionality Reduction, t-SNE, PCA\n\n\n9\nMNIST database, Dimensionality Reduction for Classification\n\n\n10\nHigh-dimensional Data, Outlier / Anomaly Detection\n\n\n11\nReal-world Examples\n\n\n12\nWrap-up",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#artificial-intelligence-ai",
+    "href": "data-mining/week-1.html#artificial-intelligence-ai",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "2.1 Artificial Intelligence (AI)",
+    "text": "2.1 Artificial Intelligence (AI)\nAI is the broadest term. It refers to when computers can perform tasks that are human-like — tasks that normally require human intelligence. This covers a huge range of areas beyond just machine learning, including search algorithms, process mining, robotics, natural language understanding, and more.\nA useful reference: the classic textbook by Peter Norvig on AI covers around 20 chapters, and only one or two are about machine learning — the rest cover other AI subfields.\nExample: Google Maps performing route optimisation is a form of AI — it’s doing something that would normally require human intelligence to figure out.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#machine-learning-ml",
+    "href": "data-mining/week-1.html#machine-learning-ml",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "2.2 Machine Learning (ML)",
+    "text": "2.2 Machine Learning (ML)\nMachine learning is a subset of AI. It uses statistical algorithms to allow machines to get better at tasks with more experience and data.\nThe key distinction from traditional software is that ML systems are stochastic (probabilistic), not deterministic:\n\nDeterministic system (traditional software): The same input always produces the same output. Rules are hard-coded.\nStochastic system (ML): The output can change as the model learns from new data. A fraud detection model might classify a transaction as legitimate today, but after being retrained with new fraudulent examples, it might flag that same transaction pattern as fraudulent tomorrow.\n\nThis is the core idea: ML algorithms learn and adapt from data, rather than following fixed rules.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#data-mining",
+    "href": "data-mining/week-1.html#data-mining",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "2.3 Data Mining",
+    "text": "2.3 Data Mining\nData mining means extracting rules and patterns from large quantities of data. It is an older term, rarely used in industry today. For practical purposes, consider it interchangeable with machine learning. This course uses the term in its title, but the content is fundamentally about machine learning.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#deep-learning",
+    "href": "data-mining/week-1.html#deep-learning",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "2.4 Deep Learning",
+    "text": "2.4 Deep Learning\nDeep learning is a family of algorithms within machine learning that is especially good at:\n\nComputer vision (image recognition, object detection)\nText analysis (natural language processing, language generation)\n\nDeep learning is the foundation for Large Language Models (LLMs) like ChatGPT and for generative AI.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#how-they-fit-together",
+    "href": "data-mining/week-1.html#how-they-fit-together",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "2.5 How They Fit Together",
+    "text": "2.5 How They Fit Together\nThink of these as nested circles: AI is the largest circle, ML sits inside AI, and Deep Learning sits inside ML.\nConcrete example — Self-driving car:\n\nThe self-driving car as a whole is AI (performing a human-like task)\nIt uses a Deep Learning model to “see” and interpret its surroundings\nThat Deep Learning model is a type of Machine Learning model, since Deep Learning is a subset of ML",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#marketing",
+    "href": "data-mining/week-1.html#marketing",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "3.1 Marketing",
+    "text": "3.1 Marketing\n\nCustomer survey analysis using Natural Language Processing (NLP) to categorise feedback\nChurn prediction: Identifying customers likely to leave before they decide to leave (typically 1–2 months ahead), so you can intervene. By the time someone decides to cancel, it’s usually too late.\nCross-selling and upselling: After someone buys a TV, they’re unlikely to buy another TV — but they might buy a soundbar or cables. Smart recommendation engines exploit this.\nCustomer segmentation: The famous Tesco Clubcard story — Tesco used clustering/segmentation on loyalty card data to group customers (e.g. “double income, no kids”, “young families”, “early retirees”) and then targeted marketing to each group. This was so valuable that Tesco bought the analytics company (Dunnhumby) to prevent competitors from accessing the same capability.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#finance-banking",
+    "href": "data-mining/week-1.html#finance-banking",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "3.2 Finance & Banking",
+    "text": "3.2 Finance & Banking\n\nFraud detection: One of ML’s earliest and most critical successes. The entire contactless payment system relies on keeping fraud rates extremely low (well under 1%). If fraud rates climbed, people would lose trust and return to cash.\nCredit risk: Automating loan decisions — but with important legal and ethical constraints (you cannot use ML as an excuse to discriminate based on race, gender, etc.)\nAutomated trading: Over 99% of stock exchange transactions are done by bots. Speed is critical — algorithms must be written in low-level languages (C++) and machines must be physically co-located near the exchange.\nDocument processing: Using AI/GenAI to extract and verify information from mortgage applications (bank statements, payslips, etc.)\nDigital banks (Revolut, N26, Monzo) rely heavily on AI for operations since they have no physical branches.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#manufacturing",
+    "href": "data-mining/week-1.html#manufacturing",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "3.3 Manufacturing",
+    "text": "3.3 Manufacturing\n\nOptimal production scheduling\nPredicting supply and demand\nAnomaly detection in production processes\nPredictive maintenance — predicting when equipment will fail before it does",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#telecommunications",
+    "href": "data-mining/week-1.html#telecommunications",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "3.4 Telecommunications",
+    "text": "3.4 Telecommunications\n\nSpeech recognition for customer service\nChurn prediction (similar to marketing)\nAnalysing ad spend and promotions\nSpatial data analysis for cell tower placement",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#pharmaceuticals",
+    "href": "data-mining/week-1.html#pharmaceuticals",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "3.5 Pharmaceuticals",
+    "text": "3.5 Pharmaceuticals\n\nManufacturing site data analysis\nDrug discovery\nClinical trial research\nRadiology and radiotherapy\nSmart electronic health records\nEpidemic outbreak prediction",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#what-is-crisp-dm",
+    "href": "data-mining/week-1.html#what-is-crisp-dm",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "4.1 What is CRISP-DM?",
+    "text": "4.1 What is CRISP-DM?\nCRISP-DM stands for CRoss Industry Standard Process for Data Mining. It is the most widely used process model for data science projects. It is an agile, iterative approach — the phases are not rigid, and you frequently move back and forth between them.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#the-six-phases",
+    "href": "data-mining/week-1.html#the-six-phases",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "4.2 The Six Phases",
+    "text": "4.2 The Six Phases\n\nBusiness Understanding — What does the business actually need? What problem are we solving? This is where you define the objective.\nData Understanding — What data do we have? What data do we need? Is it clean? Is it complete? This is where you explore and get familiar with the data.\nData Preparation — How do we organise and transform the data for modelling? This includes cleaning, feature engineering, handling missing values, encoding variables, etc. This phase often takes the most time.\nModelling — What modelling techniques should we apply? This is where you train your ML algorithms on the prepared data.\nEvaluation — Which model best meets the business objectives? Not just which has the best accuracy, but which actually solves the business problem.\nDeployment — How do stakeholders access the results? How is the model put into production?\n\nCritical point: The outcome of each phase determines what comes next. You might build a model, realise the data needs more preparation, go back to step 3, then return to modelling.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#ethics-and-fairness-in-ml",
+    "href": "data-mining/week-1.html#ethics-and-fairness-in-ml",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "4.3 Ethics and Fairness in ML",
+    "text": "4.3 Ethics and Fairness in ML\nThis is not optional — it is a core responsibility of anyone working in data science.\nKey principle: ML is fundamentally a complex pattern matcher. If your data contains biases, the model will learn and reproduce those biases. The bias is almost always caused by the data reflecting existing real-world biases.\nReal-world examples of ML bias:\n\nAmazon’s recruiting tool was found to discriminate against women because it was trained on historical hiring data that was predominantly male.\nFacial recognition systems have been shown to perform poorly on certain demographic groups.\nCriminal justice algorithms have been criticised for producing biased risk assessments.\n\nYour responsibility as a data scientist: You must be willing to stand up and say “I don’t think this model will work fairly” if you have concerns. The reputational damage companies suffer from deploying discriminatory ML models is severe.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#supervised-learning",
+    "href": "data-mining/week-1.html#supervised-learning",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "5.1 Supervised Learning",
+    "text": "5.1 Supervised Learning\nWhat it is: You have labelled data — both the input features (X) and the known outcome (Y). The algorithm learns the relationship between X and Y so it can predict Y for new, unseen data.\nKey terminology:\n\nPredictor variables (X): The features/columns you use to make predictions (also called independent variables or features)\nPredicted variable (Y): What you are trying to predict (also called the target, dependent variable, or label)\nModel training / Model building: The process of creating the ML model from historical data\nPrediction / Inference: Using the trained model on new data to estimate Y\n\nTwo sub-types of supervised learning:\n\n5.1.1 Classification\nPredicting a category — the output is one of a discrete set of values.\n\nBinary classification: Two possible outcomes (e.g. fraud/not fraud, spam/not spam, survived/died)\nMulti-class classification: More than two possible outcomes (e.g. classifying an image as cat/dog/bird)\n\nCommon classification algorithms: Logistic Regression, Decision Trees, Support Vector Machines (SVM), Naive Bayes, Random Forests, Gradient Boosted Trees, Deep Learning\n\n\n5.1.2 Regression\nPredicting a continuous number — the output is a numerical value.\n\nExamples: predicting house prices, predicting temperature, predicting sales revenue\n\nCommon regression algorithms: Linear Regression, Generalised Linear Models, Decision Trees, Random Forests, Deep Learning",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#unsupervised-learning",
+    "href": "data-mining/week-1.html#unsupervised-learning",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "5.2 Unsupervised Learning",
+    "text": "5.2 Unsupervised Learning\nWhat it is: You have data but no labels — there is no Y variable. The algorithm tries to find hidden structure or patterns in the data on its own.\nKey techniques:\n\nClustering / Segmentation: Grouping similar data points together (e.g. customer segmentation — the Tesco example above)\nDimensionality Reduction: Reducing the number of features while preserving important information (e.g. PCA, t-SNE)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#reinforcement-learning",
+    "href": "data-mining/week-1.html#reinforcement-learning",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "5.3 Reinforcement Learning",
+    "text": "5.3 Reinforcement Learning\nWhat it is: An algorithm learns by trial and error, receiving rewards or penalties for its actions. It adapts its strategy over time.\nExamples: Self-driving cars, game-playing AI (like AlphaGo), robotics",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#what-is-linear-regression",
+    "href": "data-mining/week-1.html#what-is-linear-regression",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "6.1 What is Linear Regression?",
+    "text": "6.1 What is Linear Regression?\nLinear regression finds the line of best fit through a set of data points. If you remember y = mx + b from school (where m is the slope and b is the y-intercept), that’s exactly what linear regression computes — but it finds the best values of m and b given noisy, real-world data.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#setting-up-the-data",
+    "href": "data-mining/week-1.html#setting-up-the-data",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "6.2 Setting Up the Data",
+    "text": "6.2 Setting Up the Data\n\nset.seed(42) # Ensures reproducibility — same \"random\" numbers every time\nm &lt;- 1.4      # True slope\nb &lt;- -1.2     # True intercept\nx &lt;- 0:9      # X values: 0, 1, 2, ..., 9\n\ny &lt;- m * x + b              # The TRUE relationship (green line)\npy &lt;- y + rnorm(10)          # Observed values = true + random noise\n\nWhat’s happening here:\n\nWe define a “true” linear relationship: y = 1.4x - 1.2\ny represents the perfect, noise-free values (the green line in the plot)\npy adds random noise using rnorm(10) — this simulates real-world data, which is never perfectly on the line\nset.seed(42) makes the random numbers reproducible — anyone running this code gets the same results",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#building-and-plotting-the-model",
+    "href": "data-mining/week-1.html#building-and-plotting-the-model",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "6.3 Building and Plotting the Model",
+    "text": "6.3 Building and Plotting the Model\n\n# Plot the true line (green) and observed data points (X marks)\nplot(x, y, type = \"l\", col = \"green\",\n     main = paste(\"y = \", m, \"x \", b, sep = \"\"))\npoints(x, py, pch = 4)\n\n# Fit a linear regression model\nmodel1 &lt;- lm(py ~ x)\n\n# Add the predicted line (blue dashed)\nlines(x, model1$coefficients[2] * x + model1$coefficients[1],\n      lty = 2, col = \"blue\")\n\nUnderstanding lm(py ~ x):\n\nlm stands for “linear model” — it’s R’s function for linear regression\npy ~ x is a formula: it means “model py as a function of x”\nThe function returns a model object with properties like coefficients\n\nThe plot shows three things:\n\nGreen line: The true underlying relationship (which in real life we wouldn’t know)\nX marks: The observed/measured data points (noisy)\nBlue dashed line: The model’s best estimate of the relationship",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#interpreting-the-model-output",
+    "href": "data-mining/week-1.html#interpreting-the-model-output",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "6.4 Interpreting the Model Output",
+    "text": "6.4 Interpreting the Model Output\n\nmodel1\n## Coefficients:\n## (Intercept)         x\n##    -0.7895    1.4304\n\nThe model estimated:\n\nIntercept = -0.7895 (true value was -1.2)\nSlope = 1.4304 (true value was 1.4)\n\nThese are close but not exact, because the model is working from noisy data. This is a fundamental concept: models are approximations of reality.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#the-model-summary",
+    "href": "data-mining/week-1.html#the-model-summary",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "6.5 The Model Summary",
+    "text": "6.5 The Model Summary\n\nsummary(model1)\n\nThe summary() function gives detailed statistical information, including:\n\nCoefficients table: Shows the estimate, standard error, t-value, and p-value for each coefficient\nSignificance codes: Stars (***) indicate statistically significant variables\nR-squared: A measure of how well the model fits the data\n\nImportant lecture insight on coefficients: Even if a variable is statistically significant (has stars), you should also look at the magnitude of its coefficient. If the coefficient is tiny (e.g. 0.000001), multiplying it by the X values won’t meaningfully affect predictions — so it may not be practically important, even if it’s statistically significant. Always consider both the statistical significance AND the scale/magnitude.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#understanding-r-squared",
+    "href": "data-mining/week-1.html#understanding-r-squared",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "6.6 Understanding R-squared",
+    "text": "6.6 Understanding R-squared\n\nr_squared1 &lt;- cor(x, py) ^ 2\nr_squared1\n## [1] 0.9645404\n\nWhat is R-squared?\n\nIt measures the goodness of fit of a regression model\nIt ranges from 0 to 1, where 1 means a perfect fit\nIt can be calculated as the square of the correlation between X and Y\nAn R-squared of 0.9645 means approximately 96.45% of the variance in the data is explained by the model\n\nWhat is correlation?\n\nCorrelation measures the strength and direction of the linear relationship between two variables\nIt ranges from -1 to +1\n+1: Perfect positive relationship (as one increases, the other increases proportionally)\n-1: Perfect negative relationship (as one increases, the other decreases proportionally)\n0: No linear relationship\nGenerally, correlations above 0.7 (or below -0.7) indicate a strong relationship\n\nCritical practical advice from the lecturer: If you ever see an R-squared above ~0.85–0.90 on real-world tabular data, be suspicious. It might indicate data leakage (a concept covered in Week 5) or that the problem is so simple it doesn’t need ML. In reality, real-world datasets are messy and an R-squared this high is unusual.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#the-effect-of-more-noise",
+    "href": "data-mining/week-1.html#the-effect-of-more-noise",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "6.7 The Effect of More Noise",
+    "text": "6.7 The Effect of More Noise\nThe lecture then re-runs the same analysis with more randomness added to the data:\n\npy &lt;- y + rnorm(10)  # New random noise (different from before since set.seed not called again)\n\nmodel2 &lt;- lm(py ~ x)\nr_squared2 &lt;- cor(x, py) ^ 2\nr_squared2\n## [1] 0.8524506\n\nKey takeaway: With more noise (randomness) in the data:\n\nThe R-squared dropped from 0.9645 to 0.8525\nThe blue line (model prediction) diverges more from the green line (true relationship)\nThis demonstrates that noisier data leads to less accurate models — the model struggles more when the signal-to-noise ratio is lower\n\nThis is a fundamental concept you’ll see throughout the course: the quality and cleanliness of your data directly impacts how well any model can perform.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#the-general-linear-regression-formula",
+    "href": "data-mining/week-1.html#the-general-linear-regression-formula",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "6.8 The General Linear Regression Formula",
+    "text": "6.8 The General Linear Regression Formula\nFor multiple predictor variables, the formula extends to:\n\\[\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\beta_3 x_3 + \\dots + \\beta_n x_n\\]\nWhere:\n\n\\(\\hat{y}\\) is the predicted value\n\\(\\beta_0\\) is the intercept\n\\(\\beta_1, \\beta_2, \\dots, \\beta_n\\) are the coefficients (learned from the data)\n\\(x_1, x_2, \\dots, x_n\\) are the input feature values\n\nEach coefficient is multiplied by its corresponding feature value and summed together. The model learns the optimal coefficient values during training.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#gradient-descent-brief-introduction",
+    "href": "data-mining/week-1.html#gradient-descent-brief-introduction",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "6.9 Gradient Descent (Brief Introduction)",
+    "text": "6.9 Gradient Descent (Brief Introduction)\nThe lecturer briefly mentioned gradient descent — the foundational algorithm that many ML models use to find the best-fit parameters:\n\nStart with an initial guess for the line of best fit\nShift it slightly in one direction\nCheck: did the fit improve?\nIf yes, keep going in that direction; if no, try the other direction\nRepeat until you find the minimum error\n\nThis iterative optimisation process is the basis for training many ML algorithms, from linear regression to SVMs to deep learning.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-1.html#my-additional-notes",
+    "href": "data-mining/week-1.html#my-additional-notes",
+    "title": "STAT9013 - Data Mining: Week 1 Notes",
+    "section": "8.1 My Additional Notes",
+    "text": "8.1 My Additional Notes",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html",
+    "href": "data-mining/week-4.html",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "",
+    "text": "This week covers several important topics in data mining and machine learning:\n\nEvaluation metrics for classification (beyond accuracy): precision, recall, F1 score, ROC/AUC\nLogistic regression as a classification algorithm\nPrecision/Recall trade-off and how to manipulate the decision threshold\nEvaluation metrics for regression: MAE, MSE, RMSE, R²\nBias-Variance trade-off: underfitting vs overfitting\nSurvey of ML algorithms: Naive Bayes, Support Vector Machines, Neural Networks, Random Forests",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html#overview",
+    "href": "data-mining/week-4.html#overview",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "",
+    "text": "This week covers several important topics in data mining and machine learning:\n\nEvaluation metrics for classification (beyond accuracy): precision, recall, F1 score, ROC/AUC\nLogistic regression as a classification algorithm\nPrecision/Recall trade-off and how to manipulate the decision threshold\nEvaluation metrics for regression: MAE, MSE, RMSE, R²\nBias-Variance trade-off: underfitting vs overfitting\nSurvey of ML algorithms: Naive Bayes, Support Vector Machines, Neural Networks, Random Forests",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html#evaluation-metrics-for-classification",
+    "href": "data-mining/week-4.html#evaluation-metrics-for-classification",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "2 Evaluation Metrics for Classification",
+    "text": "2 Evaluation Metrics for Classification\n\n2.1 Why Accuracy Alone Is Not Enough\nAccuracy is the simplest metric: it measures the percentage of predictions that are correct.\n\\[\\text{Accuracy} = \\frac{\\text{Correct Predictions}}{\\text{Total Predictions}}\\]\nHowever, accuracy can be misleading in two important situations:\n\nWhen the cost of errors is not equal across classes. In medical diagnosis, predicting a sick person as healthy (false negative) is far more dangerous than predicting a healthy person as sick (false positive). Accuracy treats both errors the same.\nWhen the dataset is imbalanced. If only 1% of credit card transactions are fraudulent, a model that simply says “no fraud” for every transaction achieves 99% accuracy — but catches zero actual fraud. The accuracy looks great, but the model is useless for the task it was designed for.\n\n\n\n2.2 The Confusion Matrix\nA confusion matrix is a table that breaks down all predictions into four categories. For a binary problem where we call one class “Positive” (the thing we’re trying to detect — e.g., survived, sick, fraudulent) and the other “Negative”:\n\n\n\n\nActual Positive\nActual Negative\n\n\n\n\nPredicted Positive\nTrue Positive (TP)\nFalse Positive (FP)\n\n\nPredicted Negative\nFalse Negative (FN)\nTrue Negative (TN)\n\n\n\n\nTrue Positive (TP): The model correctly predicted Positive. (e.g., patient is sick and model said sick)\nTrue Negative (TN): The model correctly predicted Negative. (e.g., patient is healthy and model said healthy)\nFalse Positive (FP): The model incorrectly predicted Positive. (e.g., patient is healthy but model said sick)\nFalse Negative (FN): The model incorrectly predicted Negative. (e.g., patient is sick but model said healthy)\n\nTitanic example from class: With Survived=1 as our positive class:\n         Actual\nPredicted  1   0\n       1  18   4    ← Model predicted survived\n       0  18  50    ← Model predicted did not survive\nSo: TP=18, FP=4, FN=18, TN=50.\n\n\n2.3 Precision\nPrecision answers the question: “Of all the cases the model predicted as Positive, how many actually were Positive?”\n\\[\\text{Precision} = \\frac{TP}{TP + FP}\\]\nIn plain English (using disease example): “Of the people the model said were sick, what percentage actually were sick?”\nTitanic example: Precision = 18 / (18 + 4) = 0.82 (82%)\nHigh precision means that when the model says “Positive,” you can trust it — there are few false alarms.\n\n\n2.4 Recall (Sensitivity)\nRecall answers the question: “Of all the cases that actually were Positive, how many did the model find?”\n\\[\\text{Recall} = \\frac{TP}{TP + FN}\\]\nIn plain English: “Of the people who were actually sick, what percentage did the model identify?”\nTitanic example: Recall = 18 / (18 + 18) = 0.50 (50%)\nHigh recall means the model catches most of the actual positive cases — it doesn’t miss many.\nTip from the lecturer to remember the difference: Recall looks at the actual values (the column in the confusion matrix). Precision looks at the predicted values (the row in the confusion matrix).\n\n\n2.5 F1 Score\nThe F1 score is the harmonic mean of precision and recall. It balances both metrics into a single number.\n\\[F1 = 2 \\times \\frac{\\text{Precision} \\times \\text{Recall}}{\\text{Precision} + \\text{Recall}}\\]\nWhy the harmonic mean instead of a simple average? Because the harmonic mean punishes extreme values. A model with Precision = 1.0 and Recall = 0.0 has a simple average of 0.5, but an F1 of 0.0. This makes F1 a fairer metric — it forces both precision and recall to be reasonably good.\nTitanic example: F1 = 2 × (0.82 × 0.50) / (0.82 + 0.50) ≈ 0.62\n\n\n2.6 Communicating Metrics to Non-Technical People\nThis was strongly emphasised in class: business people and domain experts will not understand F1, precision, and recall by name. You need to translate these into plain language:\n\nInstead of “Recall is 0.50” → “Of those who are sick, the model finds 50% of the cases.”\nInstead of “Precision is 0.82” → “Of those the model predicts as sick, 82% actually are sick.”\n\nWhether a model is “good enough” depends entirely on the context and the consequences of errors. For a serious disease screening, low recall (missing sick patients) is unacceptable. For a less serious screening tool, decent precision might be sufficient.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html#roc-curve-and-auc",
+    "href": "data-mining/week-4.html#roc-curve-and-auc",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "3 ROC Curve and AUC",
+    "text": "3 ROC Curve and AUC\n\n3.1 What Is the ROC Curve?\nA Receiver Operating Characteristic (ROC) curve is a plot that shows how a binary classifier performs across all possible decision thresholds. Originally developed for military radar operators in World War II.\n\nY-axis: Sensitivity (same as Recall) — the true positive rate\nX-axis: 1 − Specificity — the false positive rate, where Specificity = TN / (TN + FP)\n\nA perfect classifier would have a curve that goes straight up from (0,0) to (0,1) and then across to (1,1), covering the entire top-left area.\n\n\n3.2 Area Under the Curve (AUC)\nThe AUC is the area under the ROC curve, ranging from 0 to 1. A higher AUC indicates better model performance:\n\nAUC = 1.0 → perfect classifier\nAUC = 0.5 → no better than random guessing (the diagonal line)\nAUC &lt; 0.5 → worse than random (predictions are inverted)\n\nIn the Titanic example, the decision tree model had an AUC of 0.764.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html#precision-recall-trade-off",
+    "href": "data-mining/week-4.html#precision-recall-trade-off",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "4 Precision / Recall Trade-Off",
+    "text": "4 Precision / Recall Trade-Off\n\n4.1 Using Probabilities Instead of Hard Classes\nMost ML models don’t just output “0” or “1” — they output a probability. For example, a model might say a passenger has a 0.63 probability of surviving and a 0.37 probability of not surviving.\nWe typically use a threshold of 0.5: if the probability of the positive class ≥ 0.5, predict Positive; otherwise, predict Negative.\n\n\n4.2 Changing the Threshold\nBut there’s nothing magical about 0.5. By changing the threshold, we can shift the balance between precision and recall:\n\nLower the threshold (e.g., 0.1): The model predicts “Positive” more easily → higher recall (catches more true positives), but lower precision (more false positives). Good when you need to find as many positive cases as possible (e.g., fraud detection, disease screening).\nRaise the threshold (e.g., 0.9): The model only predicts “Positive” when very confident → higher precision (fewer false alarms), but lower recall (misses more true positives). Good when you need high confidence in positive predictions.\n\nExample from the lab (logistic regression on Titanic):\n\n\n\nThreshold\nAccuracy\nPrecision\nRecall\n\n\n\n\n0.5\n73%\n0.73\n0.53\n\n\n0.1\n65%\n0.54\n0.92\n\n\n0.9\n64%\n1.00\n0.11\n\n\n\nThis is the fundamental precision/recall trade-off: improving one generally comes at the expense of the other.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html#logistic-regression",
+    "href": "data-mining/week-4.html#logistic-regression",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "5 Logistic Regression",
+    "text": "5 Logistic Regression\n\n5.1 What Is It?\nLogistic regression is a classification algorithm (despite having “regression” in the name). It uses the mathematical framework of linear regression but adapts it for binary classification using the logistic (sigmoid) function.\nThe formula is: \\(\\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\dots + \\beta_n x_n\\)\nThe result is passed through a sigmoid function to produce a probability between 0 and 1.\n\n\n5.2 Key Points from Class\n\nCoefficients are interpretable: Negative coefficients mean higher values of that feature decrease the probability of the positive class. For example, a negative coefficient for Sexmale means being male decreases the chance of survival.\nDoes not handle missing values: Unlike decision trees, logistic regression cannot process rows with NA values. If you include a column with missing data (like Age in the Titanic dataset), the predict() function returns NA for those rows. You must either drop those rows or impute the missing values (e.g., mean imputation).\nStatistical significance of features: The summary() output shows p-values and significance codes (stars) for each feature. Features with no stars (high p-values) may not be contributing to the model and can be considered for removal.\nOccam’s Razor in ML: A simpler model (fewer features) is preferable if it achieves comparable accuracy. In the lab, removing Embarked, Parch, and Fare actually improved accuracy slightly (from 73% to 74%), because those variables were either not significant or were correlated with other features already in the model.\n\n\n\n5.3 Handling Categorical Variables\nWhen logistic regression encounters a categorical variable (like Sex with values “male” and “female”), it automatically creates indicator variables. One category is absorbed into the intercept — in R, this is typically the first alphabetical value. So Sexmale appears as a coefficient, while the effect of being female is captured in the intercept.\n\n\n5.4 Correlated Variables\nA variable like Embarked may appear statistically insignificant not because it has no relationship with survival, but because its effect is already explained by other variables (like Pclass). This is called multicollinearity. When variables are correlated, the model says “I already have this information from another feature.”\n\n\n5.5 Lab 4a — R Code Summary\n# Logistic regression on Titanic\nlogistic_model &lt;- glm(formula = Survived ~ .,\n                      family = binomial(link = \"logit\"),\n                      data = train_data)\nsummary(logistic_model)\n\n# Get probabilities\npr &lt;- predict(logistic_model, newdata = test_data, type = \"response\")\n\n# Convert to classes using threshold\npr &lt;- ifelse(pr &gt; 0.5, 1, 0)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html#evaluation-metrics-for-regression",
+    "href": "data-mining/week-4.html#evaluation-metrics-for-regression",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "6 Evaluation Metrics for Regression",
+    "text": "6 Evaluation Metrics for Regression\nWhen the target variable is numeric (not a category), we use different metrics:\n\n6.1 Mean Absolute Error (MAE)\n\\[\\text{MAE} = \\frac{1}{n} \\sum_{i=1}^{n} |y_i - \\hat{y}_i|\\]\nThe average absolute difference between predicted and actual values. Easy to interpret — if MAE is 15 and you’re predicting spending in euros, then predictions are off by €15 on average.\n\n\n6.2 Mean Squared Error (MSE)\n\\[\\text{MSE} = \\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2\\]\nSquares the errors before averaging. Penalises large errors more heavily than MAE, because squaring amplifies big differences (an error of 5 contributes 25, while an error of 2 contributes only 4).\n\n\n6.3 Root Mean Squared Error (RMSE)\n\\[\\text{RMSE} = \\sqrt{\\text{MSE}}\\]\nTakes the square root of MSE to bring the error back into the same units as the original values. RMSE will always be ≥ MAE. Preferred in many applications because it penalises large errors while remaining interpretable.\n\n\n6.4 R-Squared (R²)\n\\[R^2 = (\\text{Correlation}(y, \\hat{y}))^2\\]\nMeasures how much of the variability in the target can be explained by the model. Ranges from 0 to 1:\n\nR² = 1 → model explains all variability (perfect fit)\nR² = 0 → model explains none of the variability\n\nFor regression tasks, R² and RMSE are usually the preferred metrics.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html#the-bias-variance-trade-off",
+    "href": "data-mining/week-4.html#the-bias-variance-trade-off",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "7 The Bias-Variance Trade-Off",
+    "text": "7 The Bias-Variance Trade-Off\nThis is one of the most fundamental concepts in machine learning.\n\n7.1 Bias (Underfitting)\nBias is the error from a model that is too simple — it cannot capture the underlying pattern in the data. A high-bias model performs poorly on both training and test data.\nThink of it as a straight line trying to fit curved data — it’s too rigid and misses the pattern entirely.\n\n\n7.2 Variance (Overfitting)\nVariance is the error from a model that is too complex — it learns the noise and random fluctuations in the training data, not just the real pattern. A high-variance model performs well on training data but poorly on test data.\nThink of it as a wiggly line that passes through every training point but goes wildly off-track for new data.\n\n\n7.3 The Trade-Off\nYou cannot minimise both bias and variance simultaneously. Making a model more complex reduces bias but increases variance. Making it simpler increases bias but reduces variance. The goal is to find the sweet spot — a model complex enough to capture the real pattern but not so complex that it memorises noise.\n\n\n7.4 Polynomial Regression Example (Lab 4b)\nThe lab demonstrated this trade-off using polynomial regression on synthetic data:\n\n\n\n\n\n\n\n\n\n\nModel\nFormula\nR²\nMAE\nBehaviour\n\n\n\n\n1\n\\(y = \\beta_0 + \\beta_1 x\\)\n0.17\n3.45\nUnderfits — straight line misses all patterns\n\n\n2\n\\(y = \\beta_0 + \\beta_1 x + \\beta_2 x^2 + \\beta_3 x^3\\)\n0.79\n1.54\nGood fit — captures the general trend\n\n\n3\n\\(y = \\beta_0 + \\beta_1 x + \\dots + \\beta_6 x^6\\)\n0.97\n0.62\nOverfits — looks great on training data but oscillates wildly outside the training range\n\n\n\nModel 3 has the best metrics on training data, but it would perform terribly on new data because it has memorised the training noise.\n\n\n7.5 How to Detect Overfitting\n\nCompare performance on training data vs test data. If training performance is much better, the model is likely overfitting.\nChange the random seed and rebuild the model. If accuracy varies wildly across different train/test splits, the model is not generalising well.\nCross-validation (covered in a future class) is a more systematic approach to this.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html#survey-of-other-ml-algorithms",
+    "href": "data-mining/week-4.html#survey-of-other-ml-algorithms",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "8 Survey of Other ML Algorithms",
+    "text": "8 Survey of Other ML Algorithms\n\n8.1 Naive Bayes\nBased on: Bayesian statistics — updating beliefs with new evidence.\nCore idea: Start with a prior belief (e.g., 38% of passengers survived), then update it with each piece of evidence (e.g., the passenger is female → higher survival probability, the passenger is 1st class → even higher probability).\n\\[\\text{Posterior} = \\frac{\\text{Prior} \\times \\text{Likelihood}}{\\text{Prior} \\times \\text{Likelihood} + (1 - \\text{Prior}) \\times (1 - \\text{Likelihood})}\\]\n“Naive” because: It assumes all features are independent of each other, which is rarely true in practice (e.g., ticket class and fare are obviously related).\nAdvantages: Very fast and scalable — probabilities for each feature can be precomputed. Good as a baseline model.\nDisadvantages: Rarely produces the best results because the independence assumption doesn’t hold in real data.\nTitanic accuracy: ~72%\n\n\n8.2 Support Vector Machines (SVM)\nCore idea: Find the best boundary (hyperplane) that separates two classes with the maximum margin — the widest gap between the closest points of each class.\nTwo key elements:\n\nMargin maximisation: Instead of just drawing any separating line, SVM finds the one that creates the widest possible gap between classes. The data points closest to the boundary are called support vectors.\nThe kernel trick: Maps data into a higher-dimensional space using kernel functions (similar in spirit to polynomial regression), allowing SVM to find non-linear boundaries.\n\nAdvantages: Good results without much tuning, robust to outliers (because the model only depends on support vectors near the boundary, not distant points).\nDisadvantages: Does not scale well to very large datasets — can be very slow.\nTitanic accuracy: ~76%\n\n\n8.3 Neural Networks\nCore idea: A network of interconnected nodes (neurons) organised in layers. Each node performs a simple mathematical function, and an activation function introduces non-linearity.\nHow training works:\n\nForward propagation: Input values pass through the network layer by layer, multiplied by weights, until they reach the output.\nCost function: The difference between the predicted output and the actual values is calculated.\nBackward propagation: The weights are adjusted slightly, working backwards from the output, to reduce the error.\nThis cycle repeats hundreds or thousands of times until the error stops improving.\n\nImportant considerations:\n\nNeural networks require numeric and scaled inputs. Categorical variables must be one-hot encoded, and numeric variables should be scaled to a 0–1 range.\nThey need a lot of data to perform well.\nFor standard tabular data, they typically don’t outperform simpler models like Random Forest or SVM. Their strength is in domains like computer vision and natural language processing.\n\nTitanic accuracy: ~75–78%\n\n\n8.4 Random Forest (Ensemble Method)\nCore idea: Instead of building one decision tree, build hundreds of them, each trained on slightly different data and features, then take a majority vote.\nThis is grounded in the Central Limit Theorem: the average of many independent (even imperfect) estimates tends to be very accurate. Like asking 100 people to guess the number of marbles in a jar — individual guesses may be off by 20–30%, but the average is typically within 1–2%.\nThree techniques to create diversity among the trees:\n\nBagging (Bootstrap Aggregating): Each tree is trained on a random sample of rows drawn with replacement. About 63% of rows are unique in each sample; the rest are duplicates. The ~37% of rows not included are called “out-of-bag” (OOB) samples and can be used to estimate error.\nRandom feature selection: At each split in each tree, only a small random subset of features is considered. This prevents one dominant feature (e.g., gender in Titanic) from always being chosen first.\nShallow trees: Individual trees are kept small (depth 1–2) to avoid overfitting.\n\nWhy intentionally weaken the base models? Because we want diverse viewpoints on the data. If a few trees are poor, they get outvoted by the majority.\nAdvantages: Generally provides very good results without much tuning. Corrects for decision trees’ tendency to overfit. Provides feature importance rankings.\nDisadvantages: Less interpretable than a single decision tree.\nTitanic accuracy: ~78% (best among the models tested)\nFeature importance from the Titanic Random Forest: Sex &gt; Fare &gt; Age &gt; Pclass &gt; SibSp &gt; Parch &gt; Embarked",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html#sampling-with-vs-without-replacement",
+    "href": "data-mining/week-4.html#sampling-with-vs-without-replacement",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "9 Sampling: With vs Without Replacement",
+    "text": "9 Sampling: With vs Without Replacement\nThis concept is important for understanding how Random Forest works.\nWithout replacement (default): Once an item is selected, it cannot be selected again. Like drawing lottery numbers — each number is unique.\ntmp &lt;- sample(100, 90)           # Select 90 from 1:100\nlength(unique(tmp))              # All 90 are unique\nWith replacement: Items can be selected more than once. Like drawing a marble, noting it, putting it back, and drawing again.\ntmp &lt;- sample(90, 90, replace = TRUE)   # Select 90 from 1:90\nlength(unique(tmp))                      # ~57 unique (≈63%)\nWhen sampling n items from n with replacement, approximately 63% will be unique. This is the basis of bagging in Random Forest.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html#key-takeaways",
+    "href": "data-mining/week-4.html#key-takeaways",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "10 Key Takeaways",
+    "text": "10 Key Takeaways\n\nAccuracy is misleading for imbalanced data or when error costs are unequal. Use precision, recall, and F1 instead.\nPrecision vs Recall is a trade-off — you can shift the balance by adjusting the probability threshold.\nAlways translate metrics into plain language when communicating with non-technical stakeholders.\nLogistic regression is interpretable, fast, and a good baseline for classification — but cannot handle missing data.\nBias = underfitting (model too simple); Variance = overfitting (model too complex). The goal is the right balance.\nRandom Forest is typically one of the best-performing algorithms for tabular data out of the box.\nFeature engineering (creating derived features) can improve models, but too much can cause overfitting.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-4.html#personal-notes",
+    "href": "data-mining/week-4.html#personal-notes",
+    "title": "Data Mining — Week 4 Notes",
+    "section": "11 Personal Notes",
+    "text": "11 Personal Notes\n\n\n\n\n\n\nNote\n\n\n\nAdd your own notes, questions, and observations here after reviewing the material.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-5.html",
+    "href": "data-mining/week-5.html",
+    "title": "Data Mining - Class 5 Notes",
+    "section": "",
+    "text": "Before diving into new material, this class revisited precision and recall — two key evaluation metrics for classification problems.\n\n\nWhen a model makes predictions on a binary classification problem (e.g., survived/not survived, fraud/not fraud), there are four possible outcomes:\n\nTrue Positive (TP): Model predicted positive, and it was actually positive.\nTrue Negative (TN): Model predicted negative, and it was actually negative.\nFalse Positive (FP): Model predicted positive, but it was actually negative.\nFalse Negative (FN): Model predicted negative, but it was actually positive.\n\nFrom these, we define:\n\\[\n\\text{Recall} = \\frac{TP}{TP + FN}\n\\]\nRecall (also called sensitivity) answers: “Of all the actual positive cases, how many did we find?” Think of it as the model’s ability to capture the positive cases.\n\\[\n\\text{Precision} = \\frac{TP}{TP + FP}\n\\]\nPrecision answers: “Of all the cases we predicted as positive, how many were actually positive?” Think of it as the quality of the positive predictions.\n\n\n\nYou typically cannot maximise both at the same time. By lowering the classification threshold (e.g., from 0.5 to 0.2), you capture more positive cases (higher recall), but you also incorrectly flag more negative cases as positive (lower precision).\n\nHigh recall + low precision: You catch most positive cases, but many flagged cases are false alarms. Useful when missing a positive case is very costly (e.g., cancer screening), but you need a secondary filter to handle the false positives.\nLow recall + high precision: You miss many positive cases, but the ones you do flag are almost certainly correct. This is less useful when missing positives has serious consequences.\n\n\n\n\nA key lesson: most stakeholders don’t understand “precision” and “recall” directly. You should translate them into domain-specific language. For example, in a medical context:\n\nRecall of 50% → “Of those who are sick, the model found 50% of them.”\nPrecision of 82% → “Of those the model predicted as sick, 82% actually were.”\n\nYour job as a data scientist is to present these metrics clearly so decision-makers can judge whether the model is fit for purpose.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-5.html#recap-precision-and-recall",
+    "href": "data-mining/week-5.html#recap-precision-and-recall",
+    "title": "Data Mining - Class 5 Notes",
+    "section": "",
+    "text": "Before diving into new material, this class revisited precision and recall — two key evaluation metrics for classification problems.\n\n\nWhen a model makes predictions on a binary classification problem (e.g., survived/not survived, fraud/not fraud), there are four possible outcomes:\n\nTrue Positive (TP): Model predicted positive, and it was actually positive.\nTrue Negative (TN): Model predicted negative, and it was actually negative.\nFalse Positive (FP): Model predicted positive, but it was actually negative.\nFalse Negative (FN): Model predicted negative, but it was actually positive.\n\nFrom these, we define:\n\\[\n\\text{Recall} = \\frac{TP}{TP + FN}\n\\]\nRecall (also called sensitivity) answers: “Of all the actual positive cases, how many did we find?” Think of it as the model’s ability to capture the positive cases.\n\\[\n\\text{Precision} = \\frac{TP}{TP + FP}\n\\]\nPrecision answers: “Of all the cases we predicted as positive, how many were actually positive?” Think of it as the quality of the positive predictions.\n\n\n\nYou typically cannot maximise both at the same time. By lowering the classification threshold (e.g., from 0.5 to 0.2), you capture more positive cases (higher recall), but you also incorrectly flag more negative cases as positive (lower precision).\n\nHigh recall + low precision: You catch most positive cases, but many flagged cases are false alarms. Useful when missing a positive case is very costly (e.g., cancer screening), but you need a secondary filter to handle the false positives.\nLow recall + high precision: You miss many positive cases, but the ones you do flag are almost certainly correct. This is less useful when missing positives has serious consequences.\n\n\n\n\nA key lesson: most stakeholders don’t understand “precision” and “recall” directly. You should translate them into domain-specific language. For example, in a medical context:\n\nRecall of 50% → “Of those who are sick, the model found 50% of them.”\nPrecision of 82% → “Of those the model predicted as sick, 82% actually were.”\n\nYour job as a data scientist is to present these metrics clearly so decision-makers can judge whether the model is fit for purpose.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-5.html#linear-regression",
+    "href": "data-mining/week-5.html#linear-regression",
+    "title": "Data Mining - Class 5 Notes",
+    "section": "2 Linear Regression",
+    "text": "2 Linear Regression\n\n2.1 What Is It?\nLinear regression is one of the oldest and still most widely used machine learning algorithms. It predicts a continuous numeric value (y) as a linear combination of one or more input variables (x).\nIn its simplest form with one predictor:\n\\[\ny = \\beta_0 + \\beta_1 x\n\\]\nWhere:\n\n\\(\\beta_0\\) is the intercept (the value of y when x = 0)\n\\(\\beta_1\\) is the slope (how much y changes for each unit increase in x)\n\nWith multiple predictors, the formula extends to:\n\\[\ny = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\dots + \\beta_n x_n\n\\]\n\n\n2.2 How Are the Coefficients Calculated?\nThe “best” line is the one that minimises the residuals — the vertical distances between the actual data points and the predicted values on the line. The formulas for a simple (one-variable) case are:\n\\[\n\\beta_1 = \\frac{\\sum_i (x_i - \\bar{x})(y_i - \\bar{y})}{\\sum_i (x_i - \\bar{x})^2}\n\\]\n\\[\n\\beta_0 = \\bar{y} - \\beta_1 \\bar{x}\n\\]\nIn R, the lm() function handles this automatically:\n\n\nCode\nlibrary(openintro)\ndata(mammals)\nmodel1 &lt;- lm(body_wt ~ brain_wt, data = mammals)\nprint(model1$coefficients)\n\n\nYou can also verify by computing the coefficients manually:\n\n\nCode\nmean_x &lt;- mean(mammals$brain_wt)\nmean_y &lt;- mean(mammals$body_wt)\nnumerator &lt;- sum((mammals$brain_wt - mean_x) * (mammals$body_wt - mean_y))\ndenominator &lt;- sum((mammals$brain_wt - mean_x) ^ 2)\nb1 &lt;- numerator / denominator\nb0 &lt;- mean_y - (b1 * mean_x)\nsprintf(\"b0=%.2f, b1=%.2f\", b0, b1)\n\n\nBoth approaches give the same result, confirming that regression is essentially a mathematical (matrix) calculation.\n\n\n2.3 Assumptions of Linear Regression\nLinear regression relies on several assumptions. If these are violated, the model may give misleading results:\n\nLinearity: There is a linear relationship between predictors and the outcome. If not, you can apply transformations (e.g., log) or use polynomial terms.\nHomoscedasticity: The spread (variance) of the residuals should be roughly constant across all levels of the predictor. In simple terms, the model should not be much more “wrong” for large values than for small values.\nIndependence: Each observation should be independent of the others. This can be violated with time-series data, where today’s value depends on yesterday’s.\nNormality: The residuals (errors) should follow a roughly normal distribution.\n\n\n\n2.4 Diagnostic Plots\nAfter building a linear regression model, you should examine diagnostic plots to check the assumptions:\nResiduals vs Fitted plot:\n\nThe x-axis shows predicted values; the y-axis shows errors (actual − predicted).\nYou want to see a random scatter with no pattern. A visible pattern (e.g., a funnel shape) suggests the model has problems.\nThe trend line should be approximately flat.\n\nNormal Q-Q plot:\n\nThis checks whether residuals are normally distributed.\nPoints should fall along a straight diagonal line from bottom-left to top-right.\nDeviations at the ends suggest non-normality or a non-linear relationship.\n\n\n\nCode\npar(mfrow = c(1, 2))\nplot(model1, which = 1, col = \"blue\")  # Residuals vs Fitted\nplot(model1, which = 2, col = \"blue\")  # Normal Q-Q\npar(mfrow = c(1, 1))\n\n\n\n\n2.5 The Power of Data Transformation\nUsing the mammals dataset, the raw data (body weight vs brain weight) produces poor diagnostic plots because a few very large animals (elephants) dominate the data. The residuals show a clear pattern, and the Q-Q plot deviates badly.\nBy applying a log transformation to both variables, we get much better diagnostic plots — random residuals and a near-diagonal Q-Q plot. The R-squared also improves from 0.87 to 0.92 (a 35% reduction in error).\n\n\nCode\nmammals$log_body_wt &lt;- log(mammals$body_wt)\nmammals$log_brain_wt &lt;- log(mammals$brain_wt)\nmodel2 &lt;- lm(log_body_wt ~ log_brain_wt, data = mammals)\nsummary(model2)\n\n\nKey takeaway: Always examine your data distributions during exploratory analysis. If a variable is heavily skewed, a log transformation can dramatically improve your model.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-5.html#categorical-variables-and-one-hot-encoding",
+    "href": "data-mining/week-5.html#categorical-variables-and-one-hot-encoding",
+    "title": "Data Mining - Class 5 Notes",
+    "section": "3 Categorical Variables and One-Hot Encoding",
+    "text": "3 Categorical Variables and One-Hot Encoding\n\n3.1 The Problem\nMany machine learning algorithms (including regression) work only with numeric data. But datasets often contain categorical (text/factor) variables like gender, ticket class, or embarkation port. We need a way to convert these into numbers.\n\n\n3.2 What Is One-Hot Encoding?\nOne-hot encoding creates a new binary column for each unique value in a categorical variable. For each row, one of these new columns gets a 1 (the value that applies), and all others get 0.\nExample:\n\n\n\nid\ngender\nmood\noutcome\n\n\n\n\n1\nmale\nhappy\n1\n\n\n2\nfemale\nsad\n1\n\n\n3\nfemale\nhappy\n0\n\n\n\nAfter one-hot encoding becomes:\n\n\n\nid\ngender.female\ngender.male\nmood.happy\nmood.sad\noutcome\n\n\n\n\n1\n0\n1\n1\n0\n1\n\n\n2\n1\n0\n0\n1\n1\n\n\n3\n1\n0\n1\n0\n0\n\n\n\nIn R, you can do this with the caret package:\n\n\nCode\nlibrary(caret)\ncustomers &lt;- data.frame(\n  id = c(1, 2, 3, 4, 5),\n  gender = c('male', 'female', 'female', 'male', 'female'),\n  mood = c('happy', 'sad', 'happy', 'sad', 'happy'),\n  outcome = c(1, 1, 0, 0, 0))\n\ndmy &lt;- dummyVars(\" ~ .\", data = customers)\ntrsf &lt;- data.frame(predict(dmy, newdata = customers))\nhead(trsf)\n\n\n\n\n3.3 How R Handles It Automatically in GLM\nWhen you pass a factor or character variable to glm() in R, it automatically does one-hot encoding behind the scenes. It creates N−1 dummy variables (one fewer than the number of unique values), and the “missing” category becomes the reference category, absorbed into the intercept.\nFor example, with Pclass (1, 2, 3): R creates Pclass2 and Pclass3. First class becomes the reference, absorbed into the intercept.\n\n\n3.4 Factor vs Numeric: Why It Matters\nA critical point: Pclass is coded as 1, 2, 3 — but it is NOT a numeric variable. You cannot meaningfully subtract a 3rd class ticket from a 2nd class ticket to get a 1st class ticket. It is a categorical variable.\nThe test: Can you do meaningful arithmetic on the values? If not, treat it as a factor.\n\n\nCode\ntitanic_train$Pclass &lt;- as.factor(titanic_train$Pclass)\n\n\nWithout this conversion, R treats Pclass as a single numeric predictor (implying that the difference between 1st and 2nd class is the same as between 2nd and 3rd), which is incorrect.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-5.html#logistic-regression",
+    "href": "data-mining/week-5.html#logistic-regression",
+    "title": "Data Mining - Class 5 Notes",
+    "section": "4 Logistic Regression",
+    "text": "4 Logistic Regression\n\n4.1 From Numbers to Categories\nLinear regression predicts a continuous number. But for classification (survived/not survived), we need to predict a probability between 0 and 1. This is where logistic regression comes in.\n\n\n4.2 Step 1: Calculate the Log Odds\nFirst, logistic regression computes a linear combination of the features, just like linear regression:\n\\[\n\\text{log\\_odds} = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\dots + \\beta_n x_n\n\\]\nThis value can range from \\(-\\infty\\) to \\(+\\infty\\).\n\n\n4.3 Step 2: Apply the Sigmoid Function\nTo convert the log odds into a probability between 0 and 1, we apply the sigmoid function:\n\\[\np = \\frac{1}{1 + e^{-\\text{log\\_odds}}}\n\\]\nThis function has an S-shape:\n\nVery negative inputs → probability near 0\nInput of 0 → probability of exactly 0.5\nVery positive inputs → probability near 1\n\n\n\nCode\nx &lt;- seq(-5, 5, by = 0.01)\ny &lt;- 1 / (1 + exp(-x))\nplot(x, y, main = \"Sigmoid function\", col = \"blue\")\n\n\n\n\n4.4 Step 3: Apply a Threshold\nOnce you have a probability, you apply a threshold (typically 0.5) to classify:\n\nProbability &gt; 0.5 → predict class 1 (survived)\nProbability ≤ 0.5 → predict class 0 (not survived)\n\nYou can adjust this threshold to trade off precision and recall as discussed earlier.\n\n\n4.5 Building a Logistic Regression Model in R\n\n\nCode\nlibrary(titanic)\ndata(titanic_train)\ntitanic_train$Pclass &lt;- as.factor(titanic_train$Pclass)\n\nset.seed(42)\nnobs &lt;- nrow(titanic_train)\ntrain &lt;- sample(nobs, 0.9 * nobs)\ntest &lt;- setdiff(seq_len(nobs), train)\n\ntarget &lt;- \"Survived\"\ncolsToIgnore &lt;- c(\"PassengerId\", \"Name\", \"Cabin\", \"Ticket\", \"Age\", \"Parch\", \"Embarked\")\ninput &lt;- setdiff(names(titanic_train), c(target, colsToIgnore))\n\ntrain_data &lt;- titanic_train[train, c(input, target)]\ntest_data &lt;- titanic_train[test, c(input, target)]\n\nlogistic_model &lt;- glm(formula = Survived ~ .,\n                      family = binomial(link = \"logit\"),\n                      data = train_data)\n\npr &lt;- predict(logistic_model, newdata = test_data, type = \"response\")\npr &lt;- ifelse(pr &gt; 0.5, 1, 0)\n\n\n\n\n4.6 Interpreting the Coefficients\nThe summary() output gives you:\n\nEstimate (coefficients): The \\(\\beta\\) values. A positive coefficient means higher values of that feature increase the probability of the positive class (survival). A negative coefficient decreases it.\nPr(&gt;|z|) (p-values): The statistical significance. You want these to be as low as possible. The significance codes (***, **, *, .) give a quick visual guide.\n\nImportant nuances:\n\nThe intercept absorbs the reference categories of all factor variables (e.g., female, 1st class).\nYou cannot directly compare coefficient magnitudes across features unless the features are scaled, because they depend on the unit of measurement. For instance, Sexmale ranges 0–1 while Fare ranges 0–500+.\nVariables with low statistical significance and small coefficients (like Fare in this model) are candidates for removal — their effect is likely captured by other variables (like Pclass).\n\n\n\n4.7 Verifying Predictions Manually\nOne of the great advantages of logistic regression is that you can reproduce predictions without the predict function, just by plugging coefficients into the formula and applying the sigmoid:\n\n\nCode\ncoeff &lt;- logistic_model$coefficients\n\n# Calculate log odds manually\ntest_data$log_odds &lt;- coeff[1] +\n  coeff[2] * ifelse(test_data$Sex == \"male\", 1, 0) +\n  coeff[3] * test_data$SibSp +\n  coeff[4] * test_data$Fare +\n  coeff[5] * ifelse(test_data$Pclass == \"2\", 1, 0) +\n  coeff[6] * ifelse(test_data$Pclass == \"3\", 1, 0)\n\n# Apply sigmoid\ntest_data$probability &lt;- 1 / (1 + exp(-test_data$log_odds))\n\n\nThis is practical because it means you can deploy a logistic regression model in any environment (SQL, JavaScript, Python, etc.) without needing R’s predict function.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-5.html#feature-engineering-lab-work",
+    "href": "data-mining/week-5.html#feature-engineering-lab-work",
+    "title": "Data Mining - Class 5 Notes",
+    "section": "5 Feature Engineering (Lab Work)",
+    "text": "5 Feature Engineering (Lab Work)\nFeature engineering is the process of creating, transforming, or selecting features to improve model performance. This was the main hands-on activity of the lab.\n\n5.1 The Iterative Process\nThe approach followed in class was:\n\nBuild a baseline model with available features.\nExamine the summary() output — look at coefficients and p-values.\nRemove the single least significant variable (highest p-value).\nRebuild the model and check if accuracy holds or improves.\nRepeat until all remaining features are statistically significant.\nThen explore whether new features can be engineered from existing data.\n\nImportant rule: Only remove one variable at a time, because removing one can change the significance of others (due to collinearity).\nThis process is sometimes called stepwise regression.\n\n\n5.2 Handling Missing Values: Mean Imputation\nThe Age variable had missing values. Initially, these were filled with the overall mean age:\n\n\nCode\nmeanAge &lt;- mean(train_data$Age, na.rm = TRUE)\ntitanic_train[is.na(titanic_train$Age), ]$Age &lt;- meanAge\n\n\nLater, a smarter imputation was developed using title and ticket class (see below).\n\n\n5.3 Feature Engineering Experiments\nSeveral experiments were tried on the Titanic dataset:\nRemoving insignificant variables (Parch, Fare, Embarked): Removing these one by one actually improved accuracy from ~73% to ~76%. Simpler models with only significant features often perform better.\nConverting Age to a binary flag (AgeOver15): Testing whether being a child matters more than exact age. The flag was significant, but didn’t improve accuracy compared to using raw age.\nExtracting Deck from Cabin: The first letter of the Cabin field represents the deck. This was extracted and tested, but none of the deck categories were statistically significant, so it was dropped.\nExtracting Title from Name: The Name field contains titles (Mr., Mrs., Miss, Master, etc.). These were extracted using a regular expression and rationalised into four categories: Mr, Mrs, Miss, and Master (xMaster).\n\n\nCode\n# Extract title from name\ntitanic_train$Title &lt;- gsub('(.*, )|(\\\\..*)', '', titanic_train$Name)\n\n# Rationalise rare titles\ntitanic_train$Title[titanic_train$Title %in% c(\"Mlle\", \"Ms\")] &lt;- \"Miss\"\ntitanic_train$Title[titanic_train$Title %in% c(\"Mme\")] &lt;- \"Mrs\"\ntitanic_train$Title[titanic_train$Title %in% c(\"Capt\", \"Rev\", \"Col\",\n  \"Don\", \"Major\", \"Sir\", \"Dr\", \"Jonkheer\")] &lt;- \"Mr\"\ntitanic_train$Title[titanic_train$Title == \"the Countess\"] &lt;- \"Mrs\"\ntitanic_train$Title[titanic_train$Title == \"Lady\"] &lt;- \"Mrs\"\n\n\nSmarter Age Imputation using Title and Pclass: Instead of filling missing ages with the global mean, the mean age was calculated per group (Title × Pclass). This means a missing age for a “Master” in 3rd class gets a value around 5 (child), while a missing “Mr.” in 1st class gets around 42. This improved the model’s accuracy.\n\n\n5.4 Final Model\nAfter all the feature engineering, the final model used: Pclass, Sex, SibSp, and AgeOver15 (or Age), achieving approximately 75.5% accuracy with all features statistically significant.\nKey lesson: Feature engineering often matters more than choosing a fancier algorithm. Understanding your data and creating meaningful features from existing information is one of the most valuable skills in data science.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-5.html#summary",
+    "href": "data-mining/week-5.html#summary",
+    "title": "Data Mining - Class 5 Notes",
+    "section": "6 Summary",
+    "text": "6 Summary\nThis class covered:\n\n\n\n\n\n\n\nTopic\nKey Idea\n\n\n\n\nPrecision & Recall\nTrade-off between catching all positives vs quality of positive predictions\n\n\nLinear Regression\nPredict a number as a weighted sum of inputs; check assumptions with diagnostic plots\n\n\nData Transformation\nLog transforms can fix non-linear relationships and improve models dramatically\n\n\nOne-Hot Encoding\nConvert categorical variables to numeric binary columns for regression models\n\n\nFactor Variables\nNumeric-looking variables (like Pclass) may need to be treated as factors, not numbers\n\n\nLogistic Regression\nLinear regression + sigmoid function = probability-based classification\n\n\nSigmoid Function\nMaps any number to a probability between 0 and 1\n\n\nInterpreting Coefficients\nSign = direction of effect; magnitude depends on scale; p-value = significance\n\n\nStepwise Feature Removal\nRemove least significant features one at a time to simplify and improve models\n\n\nFeature Engineering\nExtract hidden information (titles from names), improve imputations, create new variables",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-5.html#recommended-reading",
+    "href": "data-mining/week-5.html#recommended-reading",
+    "title": "Data Mining - Class 5 Notes",
+    "section": "7 Recommended Reading",
+    "text": "7 Recommended Reading\n\n“An Introduction to Statistical Learning” (ISLR) — Chapter 3 on Linear Regression. Freely available at: https://www.statlearning.com/",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-5.html#my-notes",
+    "href": "data-mining/week-5.html#my-notes",
+    "title": "Data Mining - Class 5 Notes",
+    "section": "8 My Notes",
+    "text": "8 My Notes\n\n\n\n\n\n\nNoteSpace for your own notes\n\n\n\nAdd your own observations, questions, and additional insights here as you review the material.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html",
+    "href": "regression-analysis/week-2.html",
+    "title": "Week 2 - Statistical Inference + Missing Data",
+    "section": "",
+    "text": "This class is a refresher of statistical inference + practical R work with missing data.\nThink of it like this:\n\nTheory → How we make decisions from data\nR → How we actually apply this in real datasets\n\n👉 The key idea of this lecture is:\n\nWe use a sample to make decisions about a population, but there is always uncertainty.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#population-vs-sample",
+    "href": "regression-analysis/week-2.html#population-vs-sample",
+    "title": "Week 2 - Statistical Inference + Missing Data",
+    "section": "1. Population vs Sample",
+    "text": "1. Population vs Sample\nFrom the slides:\n\nPopulation → all individuals we are interested in (true but unknown)\nSample → the data we actually collect\nParameter (μ) → true value from the population (we never know this)\nStatistic (x̄) → estimate from the sample\n\n\n🧠 How to think about it\nYou can think of it like:\n\nPopulation = the truth\nSample = a guess based on limited data\n\n👉 Example:\n\nWe want average height of all adults in Ireland (population)\nWe measure 100 people (sample)\nWe calculate mean → this is our estimate\n\n✔ Important:\n\nAll statistical inference is about using statistics (sample) to estimate parameters (population)",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#sampling-error",
+    "href": "regression-analysis/week-2.html#sampling-error",
+    "title": "Week 2 - Statistical Inference + Missing Data",
+    "section": "2. Sampling Error",
+    "text": "2. Sampling Error\nSampling error is the difference between the sample estimate and the true population value.\n\nExample\n\nTrue mean = 100\nSample mean = 95 → Error = 5\n\n\n\n🧠 Why this happens\nBecause:\n\nWe are not observing everyone\nEach sample is slightly different\n\n👉 If you took another sample, you would get a different mean.\n\n\n\nHow to reduce sampling error\n\nLarger sample size → more representative\nRandom sampling → avoids bias\nConfidence intervals → quantify uncertainty\n\n✔ Key idea:\n\nSampling error is unavoidable, but we can reduce it",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#sampling-distribution",
+    "href": "regression-analysis/week-2.html#sampling-distribution",
+    "title": "Week 2 - Statistical Inference + Missing Data",
+    "section": "3. Sampling Distribution",
+    "text": "3. Sampling Distribution\nThis is one of the most important concepts in statistics.\n\n🧠 Idea\nImagine you:\n\nTake a sample\nCalculate the mean\nRepeat this MANY times\n\nYou would get many different sample means.\n👉 These means form a distribution → called the sampling distribution\n\n\n\nKey properties\n\nMean of sampling distribution = population mean (μ)\nSpread = standard error (SE)\n\n\n\n\n🧠 Why this matters\nThis is the foundation of:\n\nConfidence intervals\nHypothesis testing\n\n👉 Because it tells us:\n\nHow much our estimate can vary",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#central-limit-theorem-clt",
+    "href": "regression-analysis/week-2.html#central-limit-theorem-clt",
+    "title": "Week 2 - Statistical Inference + Missing Data",
+    "section": "Central Limit Theorem (CLT)",
+    "text": "Central Limit Theorem (CLT)\nEven if the original data is not normal:\nIf ( n ), the distribution of the sample mean becomes approximately normal\n\n\n🧠 Why this is powerful\nIt allows us to:\n\nUse normal distribution formulas\nApply inference methods in real-world messy data\n\n👉 Without CLT → most statistics wouldn’t work",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#standard-error-very-important",
+    "href": "regression-analysis/week-2.html#standard-error-very-important",
+    "title": "Week 2 - Statistical Inference + Missing Data",
+    "section": "4. Standard Error (VERY IMPORTANT)",
+    "text": "4. Standard Error (VERY IMPORTANT)\n\\[\nSE = \\frac{\\sigma}{\\sqrt{n}}\n\\]\nIn practice:\n\\[\nSE = \\frac{s}{\\sqrt{n}}\n\\]\n\n\n🧠 What it means\n\nSE measures how much the sample mean varies\nIt is the uncertainty of our estimate\n\n\n\n\n🧠 Intuition\n\nLarge n → √n increases → SE decreases\nSmall SE → more precise estimate\n\n✔ Key idea:\n\nBigger samples → more reliable results",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#hypotheses",
+    "href": "regression-analysis/week-2.html#hypotheses",
+    "title": "Week 2 - Statistical Inference + Missing Data",
+    "section": "1. Hypotheses",
+    "text": "1. Hypotheses\n\nH₀ (null) → no effect / no difference\nH₁ (alternative) → effect exists\n\n\n\n🧠 Key idea\nWe start by assuming H₀ is true, and then test if data contradicts it.\n👉 Example:\n\\[\nH_0: \\mu = 0\n\\]\n\\[\nH_1: \\mu \\neq 0\n\\]\n\n\n\nImportant rule\nThe hypotheses must cover all possibilities:\n\nEither there is an effect\nOr there is not",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#what-are-we-actually-testing",
+    "href": "regression-analysis/week-2.html#what-are-we-actually-testing",
+    "title": "Week 2 - Statistical Inference + Missing Data",
+    "section": "2. What are we actually testing?",
+    "text": "2. What are we actually testing?\nWe are asking:\n\n“How likely is our data if H₀ is true?”",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#p-value-critical",
+    "href": "regression-analysis/week-2.html#p-value-critical",
+    "title": "Week 2 - Statistical Inference + Missing Data",
+    "section": "3. p-value (CRITICAL)",
+    "text": "3. p-value (CRITICAL)\n\nDefinition\nThe p-value is:\n\nThe probability of observing our data (or more extreme), assuming H₀ is true\n\n\n\n\n🧠 How to interpret\n\nSmall p-value → data is unlikely under H₀\nLarge p-value → data is consistent with H₀\n\n\n\n\nDecision rule\n\nIf p ≤ 0.05 → reject H₀\nIf p &gt; 0.05 → fail to reject H₀\n\n\n\n\n⚠️ Important wording (exam!)\n✔ Say:\n\n“Reject H₀”\n“Fail to reject H₀”\n\n❌ Do NOT say:\n\n“Accept H₀”\n\n\n\n\n🧠 Key intuition\n👉 “If p is low, H₀ must go”",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#statistical-significance",
+    "href": "regression-analysis/week-2.html#statistical-significance",
+    "title": "Week 2 - Statistical Inference + Missing Data",
+    "section": "4. Statistical Significance",
+    "text": "4. Statistical Significance\n\nMeans there is evidence of an effect\nDoes NOT mean the effect is important",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html",
+    "href": "regression-analysis/week-3.html",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "",
+    "text": "This class had two main parts:\n\nPower analysis → how likely a statistical test is to detect a real effect\nMissing data → how to identify, visualise, and deal with missing values in R\n\nThese two topics are very important in real data analysis because they answer two practical questions:\n\nDo we have enough data to detect something important?\nCan we trust our analysis if some of the data is missing?\n\nA lot of statistics courses focus on how to run a test, but this class goes one step further. It asks whether the test had a fair chance of finding an effect in the first place, and whether missing values may be distorting the result.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#what-is-statistical-power",
+    "href": "regression-analysis/week-3.html#what-is-statistical-power",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "1. What is statistical power?",
+    "text": "1. What is statistical power?\nStatistical power is the probability of rejecting the null hypothesis when the null hypothesis is false.\nIn symbols:\n\\[\n\\text{Power} = 1 - \\beta\n\\]\nwhere:\n\n( ) = probability of a Type II error\n( 1 - ) = probability of correctly detecting a real effect\n\n\nHow to think about it\nPower is basically the test’s ability to notice something real.\nImagine a smoke alarm:\n\nA powerful smoke alarm goes off when there really is smoke\nA weak smoke alarm misses the smoke and stays silent\n\nA statistical test is similar. If there really is an effect in the population, a high-power test is more likely to find it.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#why-do-we-need-power-analysis",
+    "href": "regression-analysis/week-3.html#why-do-we-need-power-analysis",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "2. Why do we need power analysis?",
+    "text": "2. Why do we need power analysis?\nA non-significant result can mean two different things:\n\nthere really is no effect\nthere is an effect, but the study was too weak to detect it\n\nThis is why power matters.\n\nReal-world meaning\nSuppose a new medicine really helps patients a little, but your sample is tiny.\nYour test may say:\n\n“Fail to reject the null hypothesis”\n\nBut that does not necessarily mean the medicine does nothing. It may just mean the study did not have enough power.\nThat is the main purpose of power analysis:\n\nto check whether the sample size is large enough to detect an effect that matters",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#the-four-linked-quantities",
+    "href": "regression-analysis/week-3.html#the-four-linked-quantities",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "3. The four linked quantities",
+    "text": "3. The four linked quantities\nThe slides say that four quantities are related:\n\nsample size (n)\neffect size\nsignificance level ( )\npower (1 - )\n\n\nWhy this matters\nThese four quantities work like a balancing system.\nIf you change one, the others are affected.\n\n\nGeneral pattern\n\nlarger sample size → higher power\nlarger effect size → higher power\nsmaller alpha (stricter test) → lower power\nhigher desired power → usually need larger sample size\n\n\n\nIntuition\nIf you are trying to detect a very small difference, you need more data.\nIf you are happy to detect only large differences, you may need less data.\nSo power analysis is really about matching the study design to the kind of effect you care about.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#effect-size-in-power-analysis",
+    "href": "regression-analysis/week-3.html#effect-size-in-power-analysis",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "4. Effect size in power analysis",
+    "text": "4. Effect size in power analysis\nIn practice, we do not know the true effect size.\nIf we already knew the true effect, there would be no need to do the test.\nSo instead, we choose a minimum effect size of practical importance.\n\nImportant idea\nThis is not just “any difference”.\nIt is the smallest difference that would actually matter in real life.\n\n\nReal-world example from the lecture\nThe slides give an example with premature infants, where a difference of 500 g in weight gain was considered clinically significant.\nThat means the researchers were saying:\n\n“We are not just interested in any tiny difference. We want to be able to detect a difference of at least 500 g, because that is the minimum difference that matters in practice.”\n\nThis is the difference between:\n\nstatistical significance → is there evidence of some effect?\npractical or clinical significance → is the effect large enough to matter?",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#chemical-company-example",
+    "href": "regression-analysis/week-3.html#chemical-company-example",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "5. Chemical company example",
+    "text": "5. Chemical company example\nThe lecture uses a good example:\nA company claims that the mean amount of caustic material is:\n\\[\n\\mu = 4.0\n\\]\nAn inspector takes a sample of 30 containers and gets:\n\nsample mean ( {x} = 4.3 )\nknown standard deviation ( = 1.3 )\n\nIf the true amount is greater than 4, the product may be dangerous.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#step-1---state-the-hypotheses",
+    "href": "regression-analysis/week-3.html#step-1---state-the-hypotheses",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "6. Step 1 - State the hypotheses",
+    "text": "6. Step 1 - State the hypotheses\nBecause the product is only dangerous if the mean is greater than 4, this is a one-tailed test.\n\\[\nH_0: \\mu = 4.0\n\\]\n\\[\nH_A: \\mu &gt; 4.0\n\\]\n\nWhy one-tailed?\nBecause we only care about too much caustic material.\nIf the mean were lower than 4, that is not the danger being studied here.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#step-2---type-i-and-type-ii-errors-in-context",
+    "href": "regression-analysis/week-3.html#step-2---type-i-and-type-ii-errors-in-context",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "7. Step 2 - Type I and Type II errors in context",
+    "text": "7. Step 2 - Type I and Type II errors in context\n\nType I error\nReject (H_0) when it is actually true.\nIn this problem:\n\nWe conclude that the true mean is greater than 4 ml per litre when in fact it is not.\n\nSo we would falsely label the product as dangerous.\n\n\n\nType II error\nFail to reject (H_0) when it is actually false.\nIn this problem:\n\nWe conclude that the true mean is not greater than 4 ml per litre when in fact it is.\n\nSo we would miss a dangerous product.\n\n\nWhy Type II error matters here\nThis is why power analysis is important.\nIn safety settings, failing to detect a real danger can be a serious problem.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#step-3---carry-out-the-hypothesis-test",
+    "href": "regression-analysis/week-3.html#step-3---carry-out-the-hypothesis-test",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "8. Step 3 - Carry out the hypothesis test",
+    "text": "8. Step 3 - Carry out the hypothesis test\nSince the population standard deviation is known, we use a one-sample Z test.\nThe test statistic is:\n\\[\nZ = \\frac{\\bar{x} - \\mu}{\\sigma / \\sqrt{n}}\n\\]\nSubstitute the values:\n\\[\nZ = \\frac{4.3 - 4.0}{1.3 / \\sqrt{30}} = 1.264\n\\]\nAt the 5% significance level for a one-tailed test, the critical value is:\n\\[\nZ_{crit} = 1.645\n\\]\nSince:\n\\[\n1.264 &lt; 1.645\n\\]\nwe fail to reject the null hypothesis.\n\nConclusion\nThe data does not provide enough evidence to conclude that the mean level of caustic material is greater than 4 ml per litre.\n\n\nImportant interpretation\nThis does not prove the mean is 4 or less.\nIt only means the sample did not give strong enough evidence to conclude it is greater than 4.\nThat distinction is very important.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#p-value-and-lower-confidence-bound",
+    "href": "regression-analysis/week-3.html#p-value-and-lower-confidence-bound",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "9. p-value and lower confidence bound",
+    "text": "9. p-value and lower confidence bound\nThe lecture also gives:\n\n( p = 0.103 )\n95% lower confidence bound = 3.910\n\nSince ( p &gt; 0.05 ), the result is not statistically significant.\nThe lower confidence bound means:\n\nWe are 95% confident that the true population mean is greater than 3.910.\n\n\nWhy this is useful\nThe p-value only helps with the decision.\nThe confidence bound gives more information about the range of plausible values.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#the-key-power-question",
+    "href": "regression-analysis/week-3.html#the-key-power-question",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "10. The key power question",
+    "text": "10. The key power question\nAfter failing to reject the null, the lecturer asks the really important question:\n\nDid the result show there is no dangerous increase, or was the sample just too small to detect it?\n\nThat is exactly what power analysis helps answer.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#calculating-power-for-a-meaningful-effect",
+    "href": "regression-analysis/week-3.html#calculating-power-for-a-meaningful-effect",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "11. Calculating power for a meaningful effect",
+    "text": "11. Calculating power for a meaningful effect\nSuppose we decide that a dangerous increase would be:\n\\[\n4.35 \\text{ ml per litre}\n\\]\nThat means the effect size of interest is:\n\\[\n0.35\n\\]\nNow the question becomes:\n\nIf the true mean really were 4.35, how likely would this test be to detect it?\n\nThat probability is the power.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#rejection-rule-in-terms-of-the-sample-mean",
+    "href": "regression-analysis/week-3.html#rejection-rule-in-terms-of-the-sample-mean",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "12. Rejection rule in terms of the sample mean",
+    "text": "12. Rejection rule in terms of the sample mean\nEarlier we had the critical Z value:\n\\[\nZ_{crit} = 1.645\n\\]\nWe can convert this back to the sample-mean scale:\n\\[\n\\bar{X} = \\mu + \\frac{\\sigma}{\\sqrt{n}} Z_{crit}\n\\]\nSubstituting:\n\\[\n\\bar{X} = 4 + \\frac{1.3}{\\sqrt{30}}(1.645) = 4.39\n\\]\n\nInterpretation\n\nIf ( {X} &gt; 4.39 ) → reject (H_0)\nIf ( {X} &lt; 4.39 ) → fail to reject (H_0)\n\nSo the sample mean must be at least 4.39 for the test to detect the effect.\n\n\nIntuition\nThis is the “cut-off point” needed before the evidence is strong enough.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#calculating-type-ii-error-and-power",
+    "href": "regression-analysis/week-3.html#calculating-type-ii-error-and-power",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "13. Calculating Type II error and power",
+    "text": "13. Calculating Type II error and power\nIf the true mean is actually (4.35), then Type II error means:\n\nwe fail to reject the null even though the alternative is true\n\nSo we need:\n\\[\nP(\\bar{X} &lt; 4.39 \\mid \\mu = 4.35)\n\\]\nConvert to a Z score:\n\\[\nZ = \\frac{4.39 - 4.35}{1.3/\\sqrt{30}} = 0.17\n\\]\nFrom the normal table:\n\\[\nP(Z &lt; 0.17) = 0.5675\n\\]\nSo:\n\\[\n\\beta = 0.5675\n\\]\nand therefore:\n\\[\n\\text{Power} = 1 - \\beta = 1 - 0.5675 = 0.4325\n\\]\nSo the power is:\n\\[\n43.25\\%\n\\]",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#what-does-power-43.25-mean",
+    "href": "regression-analysis/week-3.html#what-does-power-43.25-mean",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "14. What does power = 43.25% mean?",
+    "text": "14. What does power = 43.25% mean?\nThis means:\n\nIf the true mean is really 4.35, this test would detect that effect only about 43% of the time.\n\nThat is not very good.\n\nInterpretation\nThere is a bigger chance of missing the effect than detecting it.\nSo this low power suggests the study may be too weak to reliably detect that effect.\n\n\nReal-world meaning\nIf you are testing something potentially dangerous, 43% power is poor.\nYou would want a better chance of catching the problem.\nUsually researchers want power around 80% or higher, though the lecture did not focus on that threshold explicitly.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#why-smaller-effects-are-harder-to-detect",
+    "href": "regression-analysis/week-3.html#why-smaller-effects-are-harder-to-detect",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "15. Why smaller effects are harder to detect",
+    "text": "15. Why smaller effects are harder to detect\nThe exercise then changes the effect size from 0.35 to 0.1.\nThe answer becomes much lower power.\n\nWhy?\nBecause smaller effects are harder to separate from random noise.\n\n\nReal-world analogy\nIt is easier to hear a loud alarm in a noisy room than a very quiet beep.\nA large effect stands out more clearly. A small effect gets lost more easily.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#confidence-interval-formula",
+    "href": "regression-analysis/week-3.html#confidence-interval-formula",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "16. Confidence interval formula",
+    "text": "16. Confidence interval formula\nWhen the population standard deviation is known, the confidence interval for a mean is:\n\\[\n\\bar{x} \\pm Z_{\\alpha/2} \\times \\frac{\\sigma}{\\sqrt{n}}\n\\]\nThe term\n\\[\nZ_{\\alpha/2} \\times \\frac{\\sigma}{\\sqrt{n}}\n\\]\nis the margin of error (ME).",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#what-is-margin-of-error",
+    "href": "regression-analysis/week-3.html#what-is-margin-of-error",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "17. What is margin of error?",
+    "text": "17. What is margin of error?\nThe margin of error is how far we are willing for our estimate to be from the true value.\n\nIntuition\nIf the margin of error is small, we want a very precise estimate.\nIf we want a more precise estimate, we usually need a larger sample size.\nSo margin of error and sample size are directly connected.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#sample-size-formula-from-margin-of-error",
+    "href": "regression-analysis/week-3.html#sample-size-formula-from-margin-of-error",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "18. Sample size formula from margin of error",
+    "text": "18. Sample size formula from margin of error\nStarting with:\n\\[\nME = Z_{\\alpha/2} \\times \\frac{\\sigma}{\\sqrt{n}}\n\\]\nrearranging gives:\n\\[\nn = \\left(\\frac{Z_{\\alpha/2}\\sigma}{ME}\\right)^2\n\\]\n\nWhat this means\nIf you know:\n\nyour confidence level\nyour standard deviation\nyour desired margin of error\n\nyou can work out how much data you need.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#sample-size-example",
+    "href": "regression-analysis/week-3.html#sample-size-example",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "19. Sample size example",
+    "text": "19. Sample size example\nSuppose an analyst wants to estimate mean voltage.\nGiven:\n\npopulation standard deviation ( = 22.5 )\nmargin of error ( ME = 5 )\n95% confidence level, so ( Z = 1.96 )\n\nThen:\n\\[\nn = \\left(\\frac{1.96 \\times 22.5}{5}\\right)^2\n\\]\nThis gives:\n\\[\nn = 77.8\n\\]\nSince sample size must be a whole number, we round up:\n\\[\nn = 78\n\\]\n\nWhy round up?\nBecause 77 would not quite give the precision we need.\nWhen planning sample size, always round up.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#unknown-standard-deviation",
+    "href": "regression-analysis/week-3.html#unknown-standard-deviation",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "20. Unknown standard deviation",
+    "text": "20. Unknown standard deviation\nIn real life, the population standard deviation is often unknown.\nThen we use the sample standard deviation (s) instead, and the distribution is based on t rather than Z.\nThat is more realistic, but also a little more complicated.\nThe main idea is still the same:\n\nmore precision requires more data",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#why-missing-data-matters",
+    "href": "regression-analysis/week-3.html#why-missing-data-matters",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "21. Why missing data matters",
+    "text": "21. Why missing data matters\nMissing data is not just annoying. It can change your results.\nIf missing values are ignored carelessly, you may:\n\nlose a lot of data\nreduce sample size\nreduce power\nintroduce bias\nfit models on a non-representative subset\n\nSo missing data is really about data quality, not just cleanup.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#useful-r-functions-for-small-amounts-of-missing-data",
+    "href": "regression-analysis/week-3.html#useful-r-functions-for-small-amounts-of-missing-data",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "22. Useful R functions for small amounts of missing data",
+    "text": "22. Useful R functions for small amounts of missing data\nThe slides list several useful functions when there are only a few missing values and no obvious missing-data pattern.\n\nis.na(x)\nChecks whether each value is missing.\nIt returns:\n\nTRUE if missing\nFALSE if not missing\n\n### `is.na(x)`\nChecks whether each value is missing.\nIt returns:\n\nTRUE if missing\nFALSE if not missing\n\nis.na(x)\n\n\n🧠 How to think about it\nThis is the basic building block for missing data.\n👉 You are asking:\n\n“Where exactly is my data missing?”\n\n\n\n\nsum(is.na(x))\nCounts the number of missing values.\nsum(is.na(x))\n\n\n🧠 Why this is useful\nInstead of looking at TRUE/FALSE values, this gives you a quick summary.\n👉 Example:\n\nIf result = 5 → there are 5 missing values\n\n\n\n\nmean(is.na(x))\nGives the proportion of missing values.\nmean(is.na(x))\n\n\n🧠 Why this matters\n\nIf result = 0.10 → 10% of data is missing\nThis helps you judge how serious the problem is\n\n\n\n\ncomplete.cases(x)\nReturns rows with no missing values.\ncomplete.cases(x)\n\n\n\nRemoving missing data\nx_clean &lt;- x[complete.cases(x), ]\n\n\n\n🧠 Important warning\nThis method is called listwise deletion.\nIt is simple, but:\n\nreduces sample size\nreduces power\nmay introduce bias\n\n👉 If missing data is not random, this can be very dangerous.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#types-of-missing-data-very-important",
+    "href": "regression-analysis/week-3.html#types-of-missing-data-very-important",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "23. Types of missing data (VERY IMPORTANT)",
+    "text": "23. Types of missing data (VERY IMPORTANT)\nNot all missing data is the same.\nThis is critical for your understanding.\n\n\n1. MCAR — Missing Completely At Random\nMissingness has no relationship with any variable.\n👉 Example:\n\nA survey page is accidentally lost\n\n✔ Safe to remove data (usually)\n\n\n\n2. MAR — Missing At Random\nMissingness depends on observed variables\n👉 Example:\n\nIncome missing more often for younger people\n\n✔ Can be handled with proper methods (e.g. imputation)\n\n\n\n3. MNAR — Missing Not At Random\nMissingness depends on the missing value itself\n👉 Example:\n\nPeople with very high income choose not to report it\n\n❗ Most problematic case\n\n\n\n🧠 Why this matters\n👉 Because:\n\nThe method you choose depends on why the data is missing",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#visualising-missing-data",
+    "href": "regression-analysis/week-3.html#visualising-missing-data",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "24. Visualising missing data",
+    "text": "24. Visualising missing data\nThe lecture uses the VIM package.\nThis is VERY useful in practice.\n\n\naggr() function\nlibrary(VIM)\naggr(data)\n\n\n\nWhat it shows\n\nAmount of missing data per variable\nPatterns of missingness\n\n\n\n\n🧠 How to interpret\n\nBars → how much is missing\nColours:\n\nBlue = observed\nRed = missing\n\n\n👉 Helps answer:\n\n“Which variables have the most missing data?”\n\n\n\n\nbarMiss()\nbarMiss(data)\n\n\n\nWhat it does\nShows missing values grouped by categories\n👉 Example:\n\nMissing income by gender\n\n\n\n\n🧠 Why this is powerful\nHelps detect patterns\n👉 If missing data is not random → this will show it\n\n\n\nScatter plots with missing data\n\nRed points = missing values\nBoxplots show distribution\n\n👉 Helps understand:\n\nIs missingness related to other variables?",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#what-to-do-with-missing-data",
+    "href": "regression-analysis/week-3.html#what-to-do-with-missing-data",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "25. What to do with missing data?",
+    "text": "25. What to do with missing data?\nThere is no single answer.\nBut here are common approaches:\n\n\n1. Remove data (simple approach)\n✔ Easy ❌ Can lose a lot of information\n\n\n\n2. Imputation (fill in missing values)\nExamples:\n\nMean imputation\nMedian imputation\n\n👉 Replace missing values with a reasonable estimate\n\n\n\n⚠️ Important limitation\n\nReduces variability\nCan distort relationships\n\n\n\n\n3. More advanced methods (not covered deeply yet)\n\nMultiple imputation\nModel-based methods\n\n👉 You will likely see these later in the course",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#key-connection-missing-data-and-power",
+    "href": "regression-analysis/week-3.html#key-connection-missing-data-and-power",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "26. Key connection: Missing data and power",
+    "text": "26. Key connection: Missing data and power\nThis is VERY important and often overlooked.\n👉 Missing data → smaller effective sample size\nWhich means:\n\nhigher standard error\nwider confidence intervals\nlower power\n\n\n\n🧠 Big picture insight\nMissing data is not just a “data cleaning issue”.\nIt directly affects:\n\ninference\nhypothesis testing\nreliability of conclusions",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#power-analysis",
+    "href": "regression-analysis/week-3.html#power-analysis",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "Power Analysis",
+    "text": "Power Analysis\n\nPower = probability of detecting a real effect\nDepends on:\n\nsample size\neffect size\nsignificance level\n\n\n👉 Low power = high chance of missing real effects",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#confidence-and-sample-size",
+    "href": "regression-analysis/week-3.html#confidence-and-sample-size",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "Confidence and Sample Size",
+    "text": "Confidence and Sample Size\n\nMargin of error controls precision\nLarger sample → smaller error\nCan calculate required sample size before study",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#missing-data",
+    "href": "regression-analysis/week-3.html#missing-data",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "Missing Data",
+    "text": "Missing Data\n\nAlways check it first\nUnderstand why it is missing\nBe careful when removing data",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-3.html#most-important-idea-from-this-lecture",
+    "href": "regression-analysis/week-3.html#most-important-idea-from-this-lecture",
+    "title": "Week 3 - Power Analysis + Missing Data",
+    "section": "🧠 Most important idea from this lecture",
+    "text": "🧠 Most important idea from this lecture\n\nA non-significant result does NOT mean “no effect”\n\nIt could mean:\n\nno effect\nOR not enough power\nOR poor data (missing values)",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Home",
+    "section": "",
+    "text": "Welcome to my semester notes website.\nTo run this website, open the terminal and run: quarto preview\nUse the sidebar to navigate by module and week.\n\n\n\nData Mining\nRegression Analysis\nTime Series\n\n\n\n\n\nWeekly lecture notes\nLab practice and R examples\nRevision summaries\nExam preparation notes",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#modules",
+    "href": "index.html#modules",
+    "title": "Home",
+    "section": "",
+    "text": "Data Mining\nRegression Analysis\nTime Series",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#how-ill-use-this-site",
+    "href": "index.html#how-ill-use-this-site",
+    "title": "Home",
+    "section": "",
+    "text": "Weekly lecture notes\nLab practice and R examples\nRevision summaries\nExam preparation notes",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-9.html",
+    "href": "regression-analysis/week-9.html",
+    "title": "Week 9",
+    "section": "",
+    "text": "The main takeaway from this class is that we just need to make sure that I understand what it is that you need to look at when you’re looking at each one because we will need to be able to interpret them.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 9"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html",
+    "href": "data-mining/week-3.html",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "",
+    "text": "Note to self: These are summary notes from Class 3. Add your own observations, questions, and extra examples as you review the material.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#what-is-it",
+    "href": "data-mining/week-3.html#what-is-it",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "3.1 What is it?",
+    "text": "3.1 What is it?\nThe Titanic dataset is one of the most well-known datasets in machine learning. It records information about passengers aboard the RMS Titanic, which sank in April 1912. The central question is:\n\nCan we build a model that predicts which passengers survived the Titanic disaster?\n\nThis is a binary classification problem — for each passenger, the model must predict one of two outcomes: survived (1) or did not survive (0).",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#variables-in-the-dataset",
+    "href": "data-mining/week-3.html#variables-in-the-dataset",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "3.2 Variables in the Dataset",
+    "text": "3.2 Variables in the Dataset\n\n\n\n\n\n\n\n\nVariable\nDescription\nNotes\n\n\n\n\nPassengerId\nUnique ID for each passenger\nNot useful for prediction\n\n\nSurvived\n0 = No, 1 = Yes\nTarget variable\n\n\nPclass\nTicket class: 1 = 1st, 2 = 2nd, 3 = 3rd\nVery important predictor\n\n\nName\nPassenger’s full name\nUnique — drop it\n\n\nSex\nGender\nVery strong predictor\n\n\nAge\nAge in years\nHas many missing values\n\n\nSibSp\n# of siblings/spouses aboard\nCombined with Parch\n\n\nParch\n# of parents/children aboard\nCombined with SibSp\n\n\nTicket\nTicket number\nLikely not useful as-is\n\n\nFare\nPrice paid for the ticket\nCorrelated with Pclass\n\n\nCabin\nCabin number\nLots of missing values\n\n\nEmbarked\nPort of embarkation: C, Q, or S\nSome predictive signal",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#loading-the-data-in-r",
+    "href": "data-mining/week-3.html#loading-the-data-in-r",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "3.3 Loading the Data in R",
+    "text": "3.3 Loading the Data in R\nlibrary(tidyverse)\nlibrary(psych)\n\n# Install the titanic package if not available\nif (!require(\"titanic\"))\n  devtools::install_github(\"paulhendricks/titanic\")\nlibrary(\"titanic\")\n\ndata(titanic_train)\nstr(titanic_train)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#why-explore-data-before-modelling",
+    "href": "data-mining/week-3.html#why-explore-data-before-modelling",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "4.1 Why Explore Data Before Modelling?",
+    "text": "4.1 Why Explore Data Before Modelling?\nData exploration is a critical step before building any machine learning model. It helps you:\n\nUnderstand what the data looks like\nIdentify missing values and decide how to handle them\nSpot variables that are likely to be useful predictors\nDetect relationships between predictor variables (not just between each variable and the target)\nAvoid mistakes that would silently damage your model’s quality\n\n\nRule of thumb: Always know your data before you model it. A model built on poorly understood data will produce unreliable results.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#checking-unique-values-and-missing-data",
+    "href": "data-mining/week-3.html#checking-unique-values-and-missing-data",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "4.2 Checking Unique Values and Missing Data",
+    "text": "4.2 Checking Unique Values and Missing Data\n# Count unique values per column\nuniq_len &lt;- function(x) { length(unique(x)) }\nsapply(titanic_train, uniq_len)\n\n# Count missing values (NAs or empty strings)\ncountBlank &lt;- function(x) { sum(is.na(x) | x == \"\") }\nsapply(titanic_train, countBlank)\nWhat to look for:\n\nColumns with as many unique values as rows (e.g. PassengerId, Name) → These are IDs, not features. Drop them.\nColumns with too many missing values (e.g. Cabin has 687 missing out of 891) → Consider dropping or imputing.\nUnexpected number of unique values (e.g. Embarked shows 4 unique values when only 3 are expected) → Signals there are blank/null entries that need fixing.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#key-findings-from-the-titanic-data",
+    "href": "data-mining/week-3.html#key-findings-from-the-titanic-data",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "4.3 Key Findings from the Titanic Data",
+    "text": "4.3 Key Findings from the Titanic Data\n\n4.3.1 Family Size vs. Survival\nA new variable family is created by adding SibSp + Parch to represent total family members travelling together.\ntitanic_train$family &lt;- titanic_train$SibSp + titanic_train$Parch\ntitanic_train$Survived &lt;- factor(titanic_train$Survived)\n\nggplot(titanic_train, aes(x = family, fill = factor(Survived))) +\n  geom_bar(stat = 'count', position = 'dodge') +\n  labs(x = 'Family Size') +\n  ggtitle(\"Family size v Survived\")\nFinding: Solo travellers had the lowest survival rate. Passengers in small family groups (1–3 others) had noticeably higher survival rates. Very large families (6+) had very few records, so conclusions there are not reliable.\nInterpretation: Being in a family likely means children were present, and children were given priority in lifeboats.\n\n\n4.3.2 Ticket Class vs. Survival\np01 &lt;- ggplot(titanic_train, aes(Pclass, fill = Survived)) +\n  geom_bar(position = \"stack\") + ggtitle(\"By counts\")\n\np02 &lt;- ggplot(titanic_train, aes(Pclass, fill = Survived)) +\n  geom_bar(position = \"fill\") +\n  scale_y_continuous(labels = scales::percent) + ggtitle(\"By proportion\")\n\ngridExtra::grid.arrange(p01, p02, nrow = 1, top = 'Survived by Class')\nFinding:\n\n1st class: ~63% survived\n2nd class: ~47% survived\n3rd class: ~24% survived\n\nImportant tip — plot both counts AND proportions:\n\nCounts tell you how many passengers are in each group (the effect size)\nProportions tell you how different the survival rate is from the baseline of 38% (the signal strength)\n\nBoth matter. A strong signal (e.g. 90% survival) in a group with only 10 records is not very useful — it barely affects the overall model.\n\n\n4.3.3 Gender vs. Survival\nFinding:\n\nFemale passengers: ~74% survived\nMale passengers: ~19% survived\n\nGender is the single strongest predictor in this dataset. This aligns with the historical “women and children first” policy used when loading lifeboats.\n\n\n4.3.4 Fixing the Embarked Variable\nTwo passengers had blank values for Embarked. Since Southampton was by far the most common embarkation port, those blanks were reassigned to S.\ntitanic_train[titanic_train$Embarked == \"\", ]$Embarked &lt;- 'S'\nWhy not create a new “Unknown” category? Because with only 2 records, assigning them a unique value X could cause the model to over-fit on that tiny group. The safer choice is to merge them into the most common category.\n\n\n4.3.5 Fare vs. Survival\nA box plot of Fare by Survived shows that passengers who paid higher fares had a somewhat higher survival rate. However, fare is closely correlated with ticket class — they carry overlapping information.\n\n\n4.3.6 Age vs. Survival — Creating a Derived Variable\nA simple box plot of Age vs. Survived doesn’t show a strong difference. This is because the real signal is not about age in general, but specifically about children.\ntemp &lt;- titanic_train[!is.na(titanic_train$Age), ]\ntemp$is_child &lt;- ifelse(temp$Age &lt; 17, 1, 0)\nChildren (under 17) had roughly a 50% survival rate vs. about 35% for adults. Creating a binary is_child variable helps the machine learning algorithm pick up on this threshold effect.\n\nKey concept — derived variables: Sometimes the raw variable is not as useful as a transformed or binned version of it. Think about what threshold or transformation would best capture the relationship with the target.\n\n\n\n4.3.7 Pairs Plot\ncolumns &lt;- c(\"Pclass\", \"Age\", \"Fare\", \"family\")\npairs.panels(titanic_train[, columns], method = \"pearson\",\n             hist.col = \"#00AFBB\", density = TRUE, ellipses = FALSE)\nFinding: The strongest correlation among predictors is between Pclass and Fare (–0.55), which makes sense — first class passengers paid much more.\nWhy this matters: If two predictor variables are highly correlated, they carry redundant information. The model may just pick one of them and largely ignore the other.\n\n\n4.3.8 Embarkation and Ticket Class\nA deeper investigation reveals why passengers from Cherbourg (C) had a higher survival rate: a much higher proportion of first-class passengers boarded at Cherbourg compared to Queenstown or Southampton. The survival signal from Embarked is largely already captured by Pclass.\nThis is an example of a variable that appears predictive but is actually a proxy for another variable. Including such variables in a model can be misleading.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#what-is-it-1",
+    "href": "data-mining/week-3.html#what-is-it-1",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "5.1 What is it?",
+    "text": "5.1 What is it?\nSupervised learning means training a model on data where we already know the correct answers (the labels), so the model learns to predict those labels for new, unseen data.\nClassification is a type of supervised learning where the output is a category (e.g. survived / not survived, spam / not spam, cat / dog).\n\nBinary classification: two possible outcomes (like Titanic survived yes/no)\nMulti-class classification: three or more outcomes (like Iris species: setosa / versicolor / virginica)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#common-classification-algorithms",
+    "href": "data-mining/week-3.html#common-classification-algorithms",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "5.2 Common Classification Algorithms",
+    "text": "5.2 Common Classification Algorithms\n\n\n\n\n\n\n\nAlgorithm\nKey Characteristic\n\n\n\n\nDecision Trees\nSimple, interpretable, easy to visualise\n\n\nLogistic Regression\nProbabilistic, good baseline model\n\n\nSupport Vector Machines\nStrong with high-dimensional data\n\n\nNaive Bayes\nFast, works well with text\n\n\nRandom Forests\nEnsemble of trees, very powerful\n\n\nGradient Boosted Trees\nOften best on tabular data\n\n\nDeep Learning\nBest for images, text, audio",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#the-core-workflow",
+    "href": "data-mining/week-3.html#the-core-workflow",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "6.1 The Core Workflow",
+    "text": "6.1 The Core Workflow\nlibrary(rpart)\ndata(iris)\n\n# 1. Set a random seed for reproducibility\nset.seed(1987)\n\n# 2. Split data into training (90%) and test (10%)\nnobs &lt;- nrow(iris)\ntrain &lt;- sample(nobs, 0.9 * nobs)\ntest &lt;- setdiff(seq_len(nobs), train)\n\n# 3. Train the model on training data ONLY\nrpart_model &lt;- rpart(Species ~ ., data = iris[train, ], method = \"class\")\n\n# 4. Get predictions on the test set\npr &lt;- predict(rpart_model, newdata = iris[test, ], type = \"class\")\n\n# 5. Evaluate performance\ntab &lt;- table(pr, iris[test, ]$Species, dnn = c(\"predicted\", \"actual\"))\nprint(tab)\n\naccuracy &lt;- 100 * sum(diag(tab)) / sum(tab)\nprint(paste('Model accuracy on test data =', round(accuracy, 2)))",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#why-split-into-train-and-test",
+    "href": "data-mining/week-3.html#why-split-into-train-and-test",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "6.2 Why Split Into Train and Test?",
+    "text": "6.2 Why Split Into Train and Test?\nA model will always look better on data it was trained on, because it has already “seen” that data. Evaluating on training data is like giving someone an exam with the answer sheet in front of them — it tells you nothing about how well they actually understand the material.\nThe test set must be:\n\nCreated before building the model\nCompletely separate from the training set (no overlap)\nRepresentative of data the model will see in the real world\n\n\nImportant: The evaluation metrics you report should come from the test set, not the training set.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#reproducible-data-science",
+    "href": "data-mining/week-3.html#reproducible-data-science",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "6.3 Reproducible Data Science",
+    "text": "6.3 Reproducible Data Science\nset.seed(1987)  # Always set this before any random operations\nSetting a random seed ensures that every time the code is run (on any machine), it produces the exact same train/test split. This is essential for reproducible data science — other people must be able to reproduce your results exactly, or your findings cannot be trusted.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#what-is-overfitting-overtraining",
+    "href": "data-mining/week-3.html#what-is-overfitting-overtraining",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "6.4 What is Overfitting / Overtraining?",
+    "text": "6.4 What is Overfitting / Overtraining?\nOverfitting happens when a model learns the training data too well — including its noise and quirks — and fails to generalise to new data.\nExample: If the model memorises that the 2 passengers with a blank Embarked value both survived, it will predict survival for any future record with a blank embarkation. This is not a real pattern, just noise — and the model will perform poorly on new data.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#model-drift-and-data-drift",
+    "href": "data-mining/week-3.html#model-drift-and-data-drift",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "6.5 Model Drift and Data Drift",
+    "text": "6.5 Model Drift and Data Drift\n\nData drift: The distribution of real-world data changes over time, so the model (trained on older data) becomes less accurate.\nModel drift: The relationship between the input variables and the target variable changes over time.\n\nBoth of these mean that machine learning models need to be monitored and periodically retrained.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#what-is-a-decision-tree",
+    "href": "data-mining/week-3.html#what-is-a-decision-tree",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "7.1 What is a Decision Tree?",
+    "text": "7.1 What is a Decision Tree?\nA decision tree is one of the simplest and most intuitive machine learning algorithms. It works by splitting the data into groups based on a series of yes/no questions (conditions).\nAnalogy: Imagine a game of 20 questions. Each question splits the possibilities in two, and you keep narrowing down until you reach a final answer.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#how-it-works",
+    "href": "data-mining/week-3.html#how-it-works",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "7.2 How it Works",
+    "text": "7.2 How it Works\n\nStart with all the training data at the root node\nFind the best attribute (column) and the best split point that separates the data into more “pure” groups\nCreate two branches (left = condition is true, right = condition is false)\nRepeat for each sub-group (node) until:\n\nAll records in a node belong to the same class (it becomes a leaf node), or\nThere are no more useful attributes to split on",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#how-to-choose-the-best-split",
+    "href": "data-mining/week-3.html#how-to-choose-the-best-split",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "7.3 How to Choose the Best Split?",
+    "text": "7.3 How to Choose the Best Split?\nThe algorithm uses a measure of impurity to decide which split is best. The goal is always to reduce impurity — i.e. to create groups that are as “pure” (dominated by a single class) as possible.\nTwo common impurity measures:\n\\[\\text{Entropy}(t) = -\\sum_{i=0}^{c-1} p(i|t) \\log_2 p(i|t)\\]\n\\[\\text{Gini}(t) = 1 - \\sum_{i=0}^{c-1} [p(i|t)]^2\\]\nWhere c is the number of classes and p(i|t) is the probability that a record at node t belongs to class i.\nInformation Gain is calculated by comparing the impurity of the parent node to the weighted average impurity of the child nodes after the split. The split with the highest information gain is chosen.\nIntuition: A node where 50% of records are class 0 and 50% are class 1 is maximally impure (entropy = 1). A node where 100% of records are the same class is perfectly pure (entropy = 0).",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#advantages-and-disadvantages",
+    "href": "data-mining/week-3.html#advantages-and-disadvantages",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "7.4 Advantages and Disadvantages",
+    "text": "7.4 Advantages and Disadvantages\n\n\n\n\n\n\n\nAdvantages\nDisadvantages\n\n\n\n\nEasy to understand and visualise\nOther algorithms usually outperform it\n\n\nCan deal with non-linear data\nTends to overfit (especially deep trees)\n\n\nNo need to normalise data\nSensitive to small changes in data\n\n\nCan be expressed as if/then rules\nDoes not handle missing data well",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#handling-numeric-data",
+    "href": "data-mining/week-3.html#handling-numeric-data",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "7.5 Handling Numeric Data",
+    "text": "7.5 Handling Numeric Data\nSince every node is a yes/no condition, numeric variables are handled by splitting on a threshold value (e.g. Age &gt;= 13, Fare &gt;= 23). The algorithm finds the best threshold automatically.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#pruning",
+    "href": "data-mining/week-3.html#pruning",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "7.6 Pruning",
+    "text": "7.6 Pruning\nDecision trees can grow very large and complex, overfitting the training data. Pruning means cutting off some of the lower branches to simplify the tree and improve generalisation.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#example-titanic-decision-tree",
+    "href": "data-mining/week-3.html#example-titanic-decision-tree",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "7.7 Example — Titanic Decision Tree",
+    "text": "7.7 Example — Titanic Decision Tree\nThe decision tree built on the Titanic dataset finds the following key splits (starting from the root):\n\nSex = male? → Most important split. Males generally did not survive.\nFor males: Age &gt;= 13? → Younger boys had better survival odds\nFor females: Pclass &gt;= 3? → 3rd class females had lower survival rates\nFurther splits on Fare and SibSp\n\nThis mirrors exactly what we expected from the exploratory analysis: gender is the most important predictor, followed by ticket class and age.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#what-is-a-confusion-matrix",
+    "href": "data-mining/week-3.html#what-is-a-confusion-matrix",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "8.1 What is a Confusion Matrix?",
+    "text": "8.1 What is a Confusion Matrix?\nAfter building a model, we compare its predictions against the actual values on the test set. The results are displayed in a confusion matrix.\nFor a binary classification problem (survived = 1, not survived = 0):\n\n\n\n\nActual: 0\nActual: 1\n\n\n\n\nPredicted: 0\nTrue Negative (TN)\nFalse Negative (FN)\n\n\nPredicted: 1\nFalse Positive (FP)\nTrue Positive (TP)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#titanic-example",
+    "href": "data-mining/week-3.html#titanic-example",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "8.2 Titanic Example",
+    "text": "8.2 Titanic Example\n          Actual\nPredicted  0   1\n        0  50  19   ← Predicted \"not survived\"\n        1   4  17   ← Predicted \"survived\"\n\nTN = 50: Correctly predicted “did not survive”\nFN = 19: Person survived, but model predicted they didn’t (missed survivors)\nFP = 4: Person didn’t survive, but model predicted they did\nTP = 17: Correctly predicted “survived”",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#accuracy",
+    "href": "data-mining/week-3.html#accuracy",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "8.3 Accuracy",
+    "text": "8.3 Accuracy\n\\[\\text{Accuracy} = \\frac{TP + TN}{TP + TN + FP + FN} = \\frac{17 + 50}{90} \\approx 74\\%\\]\n\nNote to self: Accuracy is not always the best metric — it can be misleading when classes are imbalanced. For example, if only 5% of passengers survived, a model that always predicts “not survived” would be 95% accurate but completely useless. More metrics (precision, recall, F1) will be covered in future classes.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#setup",
+    "href": "data-mining/week-3.html#setup",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "10.1 Setup",
+    "text": "10.1 Setup\nlibrary(rpart)\nlibrary(rpart.plot)\nlibrary(tidyverse)\n\nif (!require(\"titanic\"))\n  devtools::install_github(\"paulhendricks/titanic\")\nlibrary(\"titanic\")\n\ndata(titanic_train)\nset.seed(1987)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-3.html#tasks-covered-in-the-lab",
+    "href": "data-mining/week-3.html#tasks-covered-in-the-lab",
+    "title": "Data Mining – Class 3 Notes",
+    "section": "10.2 Tasks Covered in the Lab",
+    "text": "10.2 Tasks Covered in the Lab\n\nBuild a Decision Tree on the Iris dataset (species prediction)\nBuild a Decision Tree on the Titanic dataset (survival prediction)\nPlot the decision tree using rpart.plot\nEvaluate the model using a confusion matrix\nCalculate accuracy from the confusion matrix\n\n\nReview the lab code (week3_stat9013c.R) after class — this is the best way to consolidate what was covered.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html",
+    "href": "data-mining/week-2.html",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "",
+    "text": "Week 1 covered the foundations: the differences between data, information, and knowledge; definitions of AI, Machine Learning, and Deep Learning; the CRISP-DM and SEMMA workflows; types of ML (supervised, unsupervised, reinforcement learning); and a worked linear regression example.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#quick-recap-from-week-1",
+    "href": "data-mining/week-2.html#quick-recap-from-week-1",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "",
+    "text": "Week 1 covered the foundations: the differences between data, information, and knowledge; definitions of AI, Machine Learning, and Deep Learning; the CRISP-DM and SEMMA workflows; types of ML (supervised, unsupervised, reinforcement learning); and a worked linear regression example.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#crisp-dm-and-the-importance-of-business-understanding",
+    "href": "data-mining/week-2.html#crisp-dm-and-the-importance-of-business-understanding",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "2 CRISP-DM and the Importance of Business Understanding",
+    "text": "2 CRISP-DM and the Importance of Business Understanding\nBefore diving into statistics and code, the lecture emphasised a critical lesson: the data understanding and data preparation stages of CRISP-DM are often more important than the modelling stage itself. The CRISP-DM cycle has six phases — Business Understanding, Data Understanding, Data Preparation, Modelling, Evaluation, and Deployment — and notice that two of those six are entirely about working with the data before any model is built.\n\n2.1 The PayPal Churn Case Study\nThis real-world example illustrated how business understanding can matter more than fancy algorithms. PayPal was losing around 1 million merchants per year. After 17 years of trying various approaches, the problem was finally tackled not with advanced ML but with careful problem definition using simple tools (spreadsheets and SQL).\nKey steps in their approach:\n\nExclude accounts that already cancelled: By the time someone cancels, it is too late — they have already migrated to a competitor like Stripe. Nothing can be done to win them back.\nExclude “one-and-dones”: Merchants who signed up briefly, had little revenue, and disappeared. Not worth chasing because the revenue was negligible.\nSeparate activation from retention: New merchants who had problems getting started (failed payments, onboarding issues) are a different problem for a different team. This is not churn — it is an onboarding issue.\nExclude false positives: Seasonal businesses (Halloween costume stores), subscription processors who only transact once a month, and merchants who were kicked off for violating terms.\nFocus on revenue churn, not account churn: 90% of revenue came from 10% of merchants. Losing a merchant doing €100,000/month matters far more than losing one doing €500/month.\n\nAfter all these exclusions, they looked at individual cases for their highest-value remaining merchants, identified 20 “killer scenarios” causing churn, and fixed them one by one — often just by having customer service call the merchant.\nThe takeaway: Always ask “What am I actually trying to solve?” before reaching for a machine learning model. Sometimes the best solution is careful problem decomposition combined with domain expertise.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#basic-statistics-means-medians-quartiles-and-iqr",
+    "href": "data-mining/week-2.html#basic-statistics-means-medians-quartiles-and-iqr",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "3 Basic Statistics: Means, Medians, Quartiles, and IQR",
+    "text": "3 Basic Statistics: Means, Medians, Quartiles, and IQR\n\n3.1 Mean vs Median\n\nMean: The arithmetic average — sum all values and divide by the count. Sensitive to extreme values (outliers).\nMedian: The middle value when data is sorted from smallest to largest. Robust to outliers.\n\nWhy the difference matters: Imagine 11 people in a room, each earning around €100,000. The mean salary is roughly €100,000 and the median is also about €100,000 — they agree. Now Bill Gates and Jeff Bezos walk in. The mean salary jumps to perhaps €30 million, but the median barely changes — it just moves from the 6th to the 7th person’s salary, still around €100,000.\nThe mean no longer represents anyone in the group. The median still tells you what the “typical” person earns. This is why the media report the median age of COVID deaths rather than the average — it gives a more meaningful picture of who is affected.\nRule of thumb: When data is skewed or contains outliers, the median is usually more informative than the mean.\n\n\n3.2 Quartiles and Interquartile Range (IQR)\nTo calculate quartiles:\n\nOrder the data from smallest to largest.\nSplit it into four equal groups.\nEach group is a “quartile.”\n\n\nQ1 (25th percentile): The boundary between the lowest 25% and the rest.\nQ2 (50th percentile): This is the median.\nQ3 (75th percentile): The boundary between the top 25% and the rest.\nIQR = Q3 − Q1: The range covering the middle 50% of the data.\n\nThe IQR is useful because it tells you how spread out the “core” of your data is, ignoring extremes.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#visualising-distributions-univariate-plots",
+    "href": "data-mining/week-2.html#visualising-distributions-univariate-plots",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "4 Visualising Distributions: Univariate Plots",
+    "text": "4 Visualising Distributions: Univariate Plots\nUnivariate plots examine a single variable at a time. The three main types covered are histograms, density plots, and box plots. They all show the distribution (the spread and shape) of your data, but in different ways.\n\n4.1 Histograms\nA histogram divides the data into “bins” (ranges) and counts how many values fall into each bin. It shows frequency on the y-axis and the variable’s values on the x-axis. Think of it as a bar chart of your data’s distribution.\n\nqplot(data, geom = \"histogram\", bins = 100)\n\n\n\n4.2 Density Plots\nA density plot is a smoothed version of a histogram. Instead of bars, you get a continuous curve. The y-axis shows density (not raw count), and the area under the curve sums to 1. It is useful for seeing the overall shape of the distribution without being distracted by bin choices.\n\nqplot(data, geom = \"density\")\n\n\n\n4.3 Box Plots\nA box plot (or box-and-whisker plot) packs a lot of information into a compact display:\n\nThe box spans from Q1 to Q3 (the IQR — the middle 50% of data).\nThe line inside the box is the median.\nThe whiskers extend to the most extreme data points that are within 1.5 × IQR from the edges of the box.\nPoints beyond the whiskers are considered outliers.\n\nBox plots are extremely useful for statisticians and data scientists, but as the lecturer noted, they are often not well understood by non-technical business users. So use them for your own analysis, but consider simpler visuals when presenting to stakeholders.\n\nqplot(data, geom = \"boxplot\") + coord_flip()\n\n\n\n4.4 The drawPlots Helper Function\nThe lecture introduced a handy helper function that draws all three plots side by side, with the mean shown in blue and the median in green:\n\ndrawPlots &lt;- function(data, title) {\n  p01 &lt;- qplot(data, geom = \"histogram\", bins = 100) +\n    geom_vline(xintercept = mean(data), size = 2, color = \"blue\") +\n    geom_vline(xintercept = median(data), size = 2, color = \"green\")\n  p02 &lt;- qplot(data, geom = \"density\") +\n    geom_vline(xintercept = mean(data), size = 2, color = \"blue\") +\n    geom_vline(xintercept = median(data), size = 2, color = \"green\")\n  p03 &lt;- qplot(data, geom = \"boxplot\") +\n    coord_flip() +\n    geom_point(aes(x = mean(data), y = 0), size = 3, color = \"blue\")\n  gridExtra::grid.arrange(p01, p02, p03, nrow = 1, top = title)\n}",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#skewness-what-it-is-and-why-it-matters",
+    "href": "data-mining/week-2.html#skewness-what-it-is-and-why-it-matters",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "5 Skewness: What It Is and Why It Matters",
+    "text": "5 Skewness: What It Is and Why It Matters\n\n5.1 What Is Skewness?\nSkewness describes how asymmetric a distribution is compared to a normal (bell-shaped) distribution.\n\nNormal distribution: Symmetric. The mean and median are approximately equal. The histogram/density plot looks like a bell curve, centred around the middle.\nRight (positive) skew: The “tail” of the distribution stretches to the right. Most values are clustered on the left, but a few very large values pull the mean to the right. Mean &gt; Median.\nLeft (negative) skew: The tail stretches to the left. Most values cluster on the right, but a few very small values pull the mean left. Mean &lt; Median.\n\n\n# Normal distribution — mean ≈ median\ndata &lt;- rnorm(10000, mean = 0, sd = 1)\ndrawPlots(data, \"Normal distribution (median ~= mean)\")\n\n# Left (negative) skew — median &gt; mean\ndata &lt;- rbeta(10000, 5, 1)\ndrawPlots(data, \"Left skewed (median-green &gt; mean-blue)\")\n\n# Right (positive) skew — median &lt; mean\ndata &lt;- rbeta(10000, 1, 5)\ndrawPlots(data, \"Right skewed (median-green &lt; mean-blue)\")\n\n\n\n5.2 Real-World Examples of Skewed Data\nA lot of real-life data is skewed:\n\nIncome: Most people earn moderate amounts, but a few earn enormously high salaries (right skew).\nAverage spend per customer: Most customers spend a little, a few spend a lot.\nDistance travelled to work: Most people live reasonably close; some commute very long distances.\nAnimal body weights: Most mammals are small; a few (elephants, whales) are extremely large.\n\n\n\n5.3 Why Skewness Matters for Machine Learning\nThe lecture demonstrated this using the mammals dataset (from the openintro package), which contains body weight and brain weight for various mammals.\nThe problem: Both body weight and brain weight are extremely right-skewed — most mammals are small, but a few (like elephants) are huge. When you plot the raw data, almost all points cluster near zero, and you can barely see any relationship.\nStep 1 — Build a model on raw data:\n\nmodel1 &lt;- lm(body_wt ~ brain_wt, data = mammals)\nr_sq1 &lt;- cor(model1$fitted.values, mammals$body_wt)^2\n# R² ≈ 0.87\n\nStep 2 — Apply a log transformation:\nTaking the logarithm of skewed data compresses the large values and stretches the small ones, making the distribution more symmetrical (closer to normal).\n\nmammals$log_body_wt &lt;- log(mammals$body_wt)\nmammals$log_brain_wt &lt;- log(mammals$brain_wt)\n\nWhen you plot the log-transformed data, you can now clearly see a linear relationship between log(brain weight) and log(body weight).\nStep 3 — Build a model on transformed data:\n\nmodel2 &lt;- lm(log_body_wt ~ log_brain_wt, data = mammals)\nr_sq2 &lt;- cor(model2$fitted.values, mammals$log_body_wt)^2\n# R² ≈ 0.92\n\nThe R² improved from 0.87 to 0.92. As the slides noted, this represents a 37.79% reduction in error rate. That is a significant improvement gained purely from transforming the data — not from changing the algorithm.\nKey insight: If your data is skewed, consider applying a log transformation (or other transformations) before modelling. This is a form of feature engineering and can dramatically improve model performance.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#packages-and-the-qplot-function",
+    "href": "data-mining/week-2.html#packages-and-the-qplot-function",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "6 Packages and the qplot Function",
+    "text": "6 Packages and the qplot Function\n\n6.1 Required Packages\n\nlibrary(ggplot2)     # Plotting — qplot and ggplot functions\nlibrary(gridExtra)   # Arrange multiple plots in a grid\nlibrary(datasets)    # Built-in R datasets (iris, etc.)\nlibrary(corrplot)    # Correlation plot visualisations\nlibrary(titanic)     # Titanic dataset\nlibrary(psych)       # pairs.panels() for pairs plots\nlibrary(openintro)   # mammals dataset and others\n\nIf you get errors like could not find function \"xxxxx\", it almost certainly means you need to install and/or load the package first.\n\n\n6.2 The qplot Function (Quick Plot)\nqplot is part of ggplot2 and provides a quick way to create plots:\n\nOne variable → defaults to a histogram.\nTwo variables → defaults to a scatterplot.\nChange the plot type with the geom parameter (e.g., geom = \"density\", geom = \"boxplot\").\nUse main for title, xlab for x-axis label, ylab for y-axis label.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#datasets-in-r",
+    "href": "data-mining/week-2.html#datasets-in-r",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "7 Datasets in R",
+    "text": "7 Datasets in R\nR comes with many built-in datasets through the datasets package. Some notable ones:\n\niris: 150 observations of iris flowers (3 species, 4 measurements each). A classic ML dataset.\nTitanic: Survival data for passengers.\nairquality: New York air quality measurements.\nanscombe: Four datasets with nearly identical summary statistics but very different distributions — a great demonstration of why you should always visualise your data.\n\n\nlibrary(help = \"datasets\")  # See all available datasets\ndata(iris)                    # Load a specific dataset",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#data-exploration-the-iris-dataset",
+    "href": "data-mining/week-2.html#data-exploration-the-iris-dataset",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "8 Data Exploration: The Iris Dataset",
+    "text": "8 Data Exploration: The Iris Dataset\nData exploration is critical to the success of any ML project. As the lecturer emphasised: it is more important than anything you do in the model-building stage, including picking an algorithm. You should look at missing data, check for incomplete data, perform statistical analysis, and create visualisations. The insights you gain here should actively guide your feature engineering and modelling decisions — not just be a box-ticking exercise.\n\n8.1 About the Iris Dataset\nIntroduced by Ronald Fisher in 1936, the Iris dataset contains 150 observations: 50 each of three species (setosa, versicolor, virginica). Four numeric features are measured: Sepal.Length, Sepal.Width, Petal.Length, and Petal.Width. The goal is to classify species based on these measurements.\n\n\n8.2 Initial Exploration\n\ndata(iris)\ndim(iris)       # 150 rows, 5 columns\nnames(iris)     # \"Sepal.Length\" \"Sepal.Width\" \"Petal.Length\" \"Petal.Width\" \"Species\"\nstr(iris)       # Shows types: 4 numeric columns + 1 factor (Species)\nsummary(iris[, -5])  # Summary stats for numeric columns only\n\n\n\n8.3 Column Types\nGetting column types right is crucial in R:\n\nnumeric / integer: Numbers.\ncharacter: Text strings.\nlogical: TRUE/FALSE.\nfactor: Categorical variables with a fixed set of levels (like Species with 3 levels).\n\nYou can convert between types with as.numeric(), as.character(), as.factor(), etc. But not all conversions are possible — as.numeric(\"three\") produces NA with a warning.\n\n\n8.4 Histograms — Iris\n\np01 &lt;- qplot(iris$Sepal.Length, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Sepal.Length\", xlab = \"Sepal.Length\")\np02 &lt;- qplot(iris$Sepal.Width, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Sepal.Width\", xlab = \"Sepal.Width\")\np03 &lt;- qplot(iris$Petal.Length, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Petal.Length\", xlab = \"Petal.Length\")\np04 &lt;- qplot(iris$Petal.Width, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Petal.Width\", xlab = \"Petal.Width\")\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\nWhat to notice: Petal.Length and Petal.Width show a clear bimodal distribution (two humps). This suggests there might be distinct groups in the data — which makes sense because setosa has much smaller petals than the other two species.\n\n\n8.5 Density Plots — Iris\n\np01 &lt;- qplot(iris$Sepal.Length, geom = \"density\",\n             main = \"Density plot on Sepal.Length\", xlab = \"Sepal.Length\")\n# ... similar for the other three variables\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\nThe density plots confirm the same patterns seen in the histograms, but the smooth curves make the bimodal shape of the petal measurements even more obvious.\n\n\n8.6 Box Plots — Iris (by Species)\n\np01 &lt;- qplot(Species, Sepal.Length, data = iris, geom = \"boxplot\",\n             main = \"Boxplot on Sepal.Length\")\n# ... similar for other variables\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\nWhat to notice: When we split by species, the box plots reveal that setosa is very clearly separated from the other two species on Petal.Length and Petal.Width (almost no overlap). Versicolor and virginica overlap more, but are still distinguishable. Sepal.Width is an interesting variable — setosa actually has wider sepals than the other species.\n\n\n8.7 Scatter Plots — Iris (Multivariate)\nScatter plots show the relationship between two variables at once. By colouring by species, we can see how well the species separate:\n\np01 &lt;- qplot(Sepal.Width, Sepal.Length, data = iris, colour = Species,\n             main = \"Sepal.Width v Sepal.Length\")\np02 &lt;- qplot(Petal.Length, Petal.Width, data = iris, colour = Species,\n             main = \"Petal.Length v Petal.Width\")\n# ... more combinations\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\nKey insight: The Petal.Length vs Petal.Width scatter plot shows the clearest separation between all three species. This tells you these are likely the most useful features for classification.\n\n\n8.8 Correlation Analysis\nCorrelation measures the linear relationship between two numeric variables, ranging from −1 (perfect negative) to +1 (perfect positive), with 0 meaning no linear relationship.\n\ncorr_mat &lt;- cor(iris[, -5])   # Exclude Species (not numeric)\ncorrplot.mixed(corr_mat)\n\nKey correlations in iris:\n\nPetal.Length and Petal.Width: 0.96 (very strong positive — as petals get longer, they also get wider).\nSepal.Length and Petal.Length: 0.87 (strong positive).\nSepal.Length and Petal.Width: 0.82 (strong positive).\nSepal.Width and Petal.Length: −0.43 (moderate negative).\nSepal.Length and Sepal.Width: −0.12 (very weak negative — almost no relationship).\n\n\n\n8.9 Pairs Plots\nA pairs plot combines histograms (on the diagonal), scatter plots (below the diagonal), and correlation values (above the diagonal) into a single comprehensive view:\n\npairs.panels(iris[, -5], method = \"pearson\",\n             hist.col = \"#00AFBB\", density = TRUE, ellipses = FALSE)\n\nThis is one of the most useful exploratory tools because it gives you a full picture of all pairwise relationships at a glance.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#the-titanic-dataset-a-brief-introduction",
+    "href": "data-mining/week-2.html#the-titanic-dataset-a-brief-introduction",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "9 The Titanic Dataset: A Brief Introduction",
+    "text": "9 The Titanic Dataset: A Brief Introduction\nThe Titanic dataset is a classic ML classification problem: Can we predict which passengers survived the shipwreck?\n\n9.1 Loading and Inspecting\n\ndata(titanic_train)\nstr(titanic_train)   # 891 obs. of 12 variables\n\n\n\n9.2 Understanding the Variables\n\n\n\n\n\n\n\n\nVariable\nMeaning\nNotes\n\n\n\n\nPassengerId\nUnique identifier\nDrop for modelling (unique per row)\n\n\nSurvived\nDid they survive? (0 = No, 1 = Yes)\nThis is our target variable\n\n\nPclass\nTicket class (1st, 2nd, 3rd)\nImportant — consider converting to factor\n\n\nName\nPassenger name\nDrop (not predictive by itself)\n\n\nSex\nMale or Female\nVery important — women more likely survived\n\n\nAge\nAge in years\nChildren more likely survived; has 177 NAs\n\n\nSibSp\nNumber of siblings/spouses aboard\nNeeds investigation\n\n\nParch\nNumber of parents/children aboard\nNeeds investigation\n\n\nTicket\nTicket number\nProbably drop, unless embedded patterns\n\n\nFare\nTicket price\nMay relate to survival (wealth/class proxy)\n\n\nCabin\nCabin number\n687 blanks — might indicate location on ship\n\n\nEmbarked\nPort of embarkation (C/Q/S)\nTest whether it affects survival\n\n\n\n\n\n9.3 Exploring Unique Values and Missing Data\n\n# Count unique values per column\nuniq_len &lt;- function(x) { length(unique(x)) }\nsapply(titanic_train, uniq_len)\n\n# Count missing/blank values per column\ncountBlank &lt;- function(x) { sum(is.na(x) | x == \"\") }\nsapply(titanic_train, countBlank)\n\nKey findings:\n\nPassengerId and Name have 891 unique values (same as row count) — unique identifiers, drop both.\nAge has 177 missing values — need to decide whether to fill them in (impute) or drop the column.\nCabin has 687 blank values (77% missing!) — possibly useful if you extract deck letter, but the missingness itself is a challenge.\nEmbarked has 2 blank values — easy to fill.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#feature-engineering",
+    "href": "data-mining/week-2.html#feature-engineering",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "10 Feature Engineering",
+    "text": "10 Feature Engineering\nFeature engineering is the process of transforming raw data into features that are more useful for ML models. It happens after data exploration and is more important than your choice of algorithm. Common tasks include:\n\nRemoving irrelevant columns (e.g., PassengerId, Name).\nConverting column types (e.g., Pclass from integer to factor, since it is categorical).\nHandling missing values — filling them in (imputation) or dropping affected rows/columns.\nTransforming or splitting columns (e.g., extracting a title like “Mr” or “Mrs” from the Name column; creating an “is child” flag from Age).\nHandling skewed variables — applying log or other transformations.\nScaling numeric variables — ensuring all variables are on similar scales so no single variable dominates due to its units.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#summary-of-key-takeaways",
+    "href": "data-mining/week-2.html#summary-of-key-takeaways",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "11 Summary of Key Takeaways",
+    "text": "11 Summary of Key Takeaways\n\nBusiness understanding comes first. The PayPal churn example shows that problem decomposition and domain knowledge can be more powerful than any algorithm.\nData exploration is not optional. It should actively drive your feature engineering decisions, not just be a formality before modelling.\nUnderstand mean vs median. Use median for skewed data; the mean can be misleading when outliers are present.\nKnow your univariate plots. Histograms, density plots, and box plots each show distribution — learn to read all three.\nSkewness matters for ML. Log transformations on skewed data can substantially improve model performance (the mammals example improved R² from 0.87 to 0.92).\nExplore relationships between variables using scatter plots, correlation matrices, and pairs plots.\nFeature engineering is more important than algorithm choice. Cleaning, transforming, and preparing your data well will have a bigger impact on results than picking the “best” algorithm.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-2.html#homework-next-steps",
+    "href": "data-mining/week-2.html#homework-next-steps",
+    "title": "STAT9013 - Data Mining: Week 2",
+    "section": "12 Homework / Next Steps",
+    "text": "12 Homework / Next Steps\n\nEnsure R and RStudio are installed and working.\nRun all the code snippets from this week locally.\nExplore the iris and Titanic datasets in more detail on your own.\nLook at the free books listed in the course resources.\nNext week: Machine Learning Algorithms — Decision Trees, and Lab 3.\n\n\n[Space for my additional notes]",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  }
+]

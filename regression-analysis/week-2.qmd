@@ -1,0 +1,320 @@
+---
+title: "Week 2 - Statistical Inference + Missing Data"
+---
+# Introduction
+
+This class is a **refresher of statistical inference + practical R work with missing data**.
+
+Think of it like this:
+
+* **Theory →** How we make decisions from data
+* **R →** How we actually apply this in real datasets
+
+👉 The key idea of this lecture is:
+
+> We use a **sample** to make decisions about a **population**, but there is always uncertainty.
+
+---
+
+# Part 2 - Core Concepts
+
+---
+
+## 1. Population vs Sample
+
+From the slides:
+
+* **Population** → all individuals we are interested in (true but unknown)
+* **Sample** → the data we actually collect
+* **Parameter (μ)** → true value from the population (we never know this)
+* **Statistic (x̄)** → estimate from the sample
+
+### 🧠 How to think about it
+
+You can think of it like:
+
+* Population = the **truth**
+* Sample = a **guess based on limited data**
+
+👉 Example:
+
+* We want average height of all adults in Ireland (population)
+* We measure 100 people (sample)
+* We calculate mean → this is our estimate
+
+✔ Important:
+
+> All statistical inference is about using **statistics (sample)** to estimate **parameters (population)**
+
+---
+
+## 2. Sampling Error
+
+Sampling error is the **difference between the sample estimate and the true population value**.
+
+### Example
+
+* True mean = 100
+* Sample mean = 95
+  → Error = 5
+
+### 🧠 Why this happens
+
+Because:
+
+* We are not observing everyone
+* Each sample is slightly different
+
+👉 If you took another sample, you would get a different mean.
+
+---
+
+### How to reduce sampling error
+
+* Larger sample size → more representative
+* Random sampling → avoids bias
+* Confidence intervals → quantify uncertainty
+
+✔ Key idea:
+
+> Sampling error is **unavoidable**, but we can **reduce it**
+
+---
+
+## 3. Sampling Distribution
+
+This is one of the **most important concepts in statistics**.
+
+### 🧠 Idea
+
+Imagine you:
+
+1. Take a sample
+2. Calculate the mean
+3. Repeat this MANY times
+
+You would get **many different sample means**.
+
+👉 These means form a distribution → called the **sampling distribution**
+
+---
+
+### Key properties
+
+* Mean of sampling distribution = population mean (μ)
+* Spread = **standard error (SE)**
+
+---
+
+### 🧠 Why this matters
+
+This is the foundation of:
+
+* Confidence intervals
+* Hypothesis testing
+
+👉 Because it tells us:
+
+> How much our estimate can vary
+
+---
+
+## Central Limit Theorem (CLT)
+
+Even if the original data is **not normal**:
+
+If ( n \geq 30 ), the distribution of the sample mean becomes **approximately normal**
+
+---
+
+### 🧠 Why this is powerful
+
+It allows us to:
+
+* Use normal distribution formulas
+* Apply inference methods in real-world messy data
+
+👉 Without CLT → most statistics wouldn’t work
+
+---
+
+## 4. Standard Error (**VERY IMPORTANT**)
+
+$$
+SE = \frac{\sigma}{\sqrt{n}}
+$$
+
+In practice:
+
+$$
+SE = \frac{s}{\sqrt{n}}
+$$
+
+---
+
+### 🧠 What it means
+
+* SE measures **how much the sample mean varies**
+* It is the **uncertainty of our estimate**
+
+---
+
+### 🧠 Intuition
+
+* Large n → √n increases → SE decreases
+* Small SE → more precise estimate
+
+✔ Key idea:
+
+> Bigger samples → more reliable results
+
+---
+
+# Part 3 - Confidence Intervals
+
+### Idea
+
+> "We are 95% confident the true value is in this range"
+
+---
+
+### Formula
+
+$$
+\bar{x} \pm 1.96 \times SE
+$$
+
+---
+
+### 🧠 What it actually means
+
+If we repeated the sampling process many times:
+
+* 95% of intervals would contain the true mean (μ)
+
+👉 Important:
+
+* It does NOT mean there is a 95% probability that μ is in this interval
+* μ is fixed — the interval changes
+
+---
+
+### Why confidence intervals are useful
+
+* Show **uncertainty**
+* Give a **range of plausible values**
+* Help interpret **effect size**
+
+---
+
+### Sample size effect
+
+* Larger sample → smaller SE → narrower interval
+* Narrow interval → more precision
+
+---
+
+# Part 4 - Hypothesis Testing
+
+---
+
+## 1. Hypotheses
+
+* **H₀ (null)** → no effect / no difference
+* **H₁ (alternative)** → effect exists
+
+---
+
+### 🧠 Key idea
+
+We start by **assuming H₀ is true**, and then test if data contradicts it.
+
+👉 Example:
+
+$$
+H_0: \mu = 0
+$$
+
+$$
+H_1: \mu \neq 0
+$$
+
+---
+
+### Important rule
+
+The hypotheses must cover **all possibilities**:
+
+* Either there is an effect
+* Or there is not
+
+---
+
+## 2. What are we actually testing?
+
+We are asking:
+
+> “How likely is our data if H₀ is true?”
+
+---
+
+## 3. p-value (**CRITICAL**)
+
+### Definition
+
+The p-value is:
+
+> The probability of observing our data (or more extreme), assuming H₀ is true
+
+---
+
+### 🧠 How to interpret
+
+* Small p-value → data is unlikely under H₀
+* Large p-value → data is consistent with H₀
+
+---
+
+### Decision rule
+
+* If p ≤ 0.05 → reject H₀
+* If p > 0.05 → fail to reject H₀
+
+---
+
+### ⚠️ Important wording (exam!)
+
+✔ Say:
+
+* "Reject H₀"
+* "Fail to reject H₀"
+
+❌ Do NOT say:
+
+* "Accept H₀"
+
+---
+
+### 🧠 Key intuition
+
+👉 “If p is low, H₀ must go”
+
+---
+
+## 4. Statistical Significance
+
+* Means there is **evidence of an effect**
+* Does NOT mean the effect is important
+
+---
+
+# 🔚 What to remember from this class
+
+* We use **samples to estimate populations**
+* There is always **uncertainty (sampling error)**
+* **Standard error** measures that uncertainty
+* **Confidence intervals** give a range of plausible values
+* **p-values** help us make decisions
+* **Statistical significance ≠ practical importance**
+
+---

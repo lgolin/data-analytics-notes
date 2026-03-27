@@ -1,0 +1,426 @@
+---
+title: "STAT9013 - Data Mining: Week 1 Notes"
+subtitle: "Data Mining Overview, ML Concepts & Linear Regression in R"
+author: "Class Notes"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+    code-fold: false
+    code-tools: true
+---
+
+# Course Overview
+
+**Lecturer:** Mark Hodnett — 15 years experience in Data Science and analytics, author of *R Deep Learning Essentials*.
+
+This is a practical, hands-on course. The assignments are entirely practical: you receive a dataset and are asked to complete a machine learning task using R. The students who do the labs consistently have an easier time with the assignments.
+
+**Key advice from the lecturer:** Learn by doing. Use Gen AI sparingly as a coding assistant for small tasks (e.g. splitting a dataset), but do not rely on it to generate major parts of your solutions. Companies increasingly test coding skills in interviews without allowing AI tools — if you've relied too heavily on them, you may struggle.
+
+## 12-Week Roadmap
+
+| Week | Topics |
+|-------------------------------|-----------------------------------------|
+| 1 | Data Mining overview, ML types, Linear Regression example |
+| 2 | Basic Statistics & Visualisations in R, Data Exploration (Iris, Titanic) |
+| 3 | Classification, Decision Trees, Confusion Matrix, Evaluation Metrics |
+| 4 | Bias-Variance Tradeoff, One-hot Encoding, Logistic Regression, Naive Bayes, SVM, Random Forest, Neural Networks |
+| 5 | LDA, QDA, Data Leakage, Hyperparameter Optimisation, Imbalanced Datasets |
+| 6 | Clustering (k-means, Hierarchical), Data Visualisation & Communication |
+| 7 | Generative AI as a coding assistant |
+| 8 | Dimensionality Reduction, t-SNE, PCA |
+| 9 | MNIST database, Dimensionality Reduction for Classification |
+| 10 | High-dimensional Data, Outlier / Anomaly Detection |
+| 11 | Real-world Examples |
+| 12 | Wrap-up |
+
+------------------------------------------------------------------------
+
+# What is Data Mining and How Does It Relate to AI?
+
+Understanding the hierarchy of these terms is fundamental to the entire course.
+
+## Artificial Intelligence (AI)
+
+AI is the broadest term. It refers to **when computers can perform tasks that are human-like** — tasks that normally require human intelligence. This covers a huge range of areas beyond just machine learning, including search algorithms, process mining, robotics, natural language understanding, and more.
+
+A useful reference: the classic textbook by Peter Norvig on AI covers around 20 chapters, and only one or two are about machine learning — the rest cover other AI subfields.
+
+**Example:** Google Maps performing route optimisation is a form of AI — it's doing something that would normally require human intelligence to figure out.
+
+## Machine Learning (ML)
+
+Machine learning is a *subset* of AI. It uses **statistical algorithms to allow machines to get better at tasks with more experience and data**.
+
+The key distinction from traditional software is that ML systems are **stochastic** (probabilistic), not **deterministic**:
+
+-   **Deterministic system (traditional software):** The same input always produces the same output. Rules are hard-coded.
+-   **Stochastic system (ML):** The output can change as the model learns from new data. A fraud detection model might classify a transaction as legitimate today, but after being retrained with new fraudulent examples, it might flag that same transaction pattern as fraudulent tomorrow.
+
+This is the core idea: ML algorithms **learn and adapt** from data, rather than following fixed rules.
+
+## Data Mining
+
+Data mining means **extracting rules and patterns from large quantities of data**. It is an older term, rarely used in industry today. For practical purposes, consider it interchangeable with machine learning. This course uses the term in its title, but the content is fundamentally about machine learning.
+
+## Deep Learning
+
+Deep learning is a **family of algorithms within machine learning** that is especially good at:
+
+-   **Computer vision** (image recognition, object detection)
+-   **Text analysis** (natural language processing, language generation)
+
+Deep learning is the foundation for Large Language Models (LLMs) like ChatGPT and for generative AI.
+
+## How They Fit Together
+
+Think of these as nested circles: AI is the largest circle, ML sits inside AI, and Deep Learning sits inside ML.
+
+**Concrete example — Self-driving car:**
+
+-   The self-driving car as a whole is **AI** (performing a human-like task)
+-   It uses a **Deep Learning** model to "see" and interpret its surroundings
+-   That Deep Learning model is a type of **Machine Learning** model, since Deep Learning is a subset of ML
+
+------------------------------------------------------------------------
+
+# AI Applications in Industry
+
+Understanding where ML is applied in the real world helps you appreciate why certain techniques matter. Here are the key domains covered in class:
+
+## Marketing
+
+-   **Customer survey analysis** using Natural Language Processing (NLP) to categorise feedback
+-   **Churn prediction:** Identifying customers likely to leave *before* they decide to leave (typically 1–2 months ahead), so you can intervene. By the time someone decides to cancel, it's usually too late.
+-   **Cross-selling and upselling:** After someone buys a TV, they're unlikely to buy another TV — but they might buy a soundbar or cables. Smart recommendation engines exploit this.
+-   **Customer segmentation:** The famous Tesco Clubcard story — Tesco used clustering/segmentation on loyalty card data to group customers (e.g. "double income, no kids", "young families", "early retirees") and then targeted marketing to each group. This was so valuable that Tesco bought the analytics company (Dunnhumby) to prevent competitors from accessing the same capability.
+
+## Finance & Banking
+
+-   **Fraud detection:** One of ML's earliest and most critical successes. The entire contactless payment system relies on keeping fraud rates extremely low (well under 1%). If fraud rates climbed, people would lose trust and return to cash.
+-   **Credit risk:** Automating loan decisions — but with important legal and ethical constraints (you cannot use ML as an excuse to discriminate based on race, gender, etc.)
+-   **Automated trading:** Over 99% of stock exchange transactions are done by bots. Speed is critical — algorithms must be written in low-level languages (C++) and machines must be physically co-located near the exchange.
+-   **Document processing:** Using AI/GenAI to extract and verify information from mortgage applications (bank statements, payslips, etc.)
+-   **Digital banks** (Revolut, N26, Monzo) rely heavily on AI for operations since they have no physical branches.
+
+## Manufacturing
+
+-   Optimal production scheduling
+-   Predicting supply and demand
+-   **Anomaly detection** in production processes
+-   **Predictive maintenance** — predicting when equipment will fail before it does
+
+## Telecommunications
+
+-   Speech recognition for customer service
+-   Churn prediction (similar to marketing)
+-   Analysing ad spend and promotions
+-   Spatial data analysis for cell tower placement
+
+## Pharmaceuticals
+
+-   Manufacturing site data analysis
+-   Drug discovery
+-   Clinical trial research
+-   Radiology and radiotherapy
+-   Smart electronic health records
+-   Epidemic outbreak prediction
+
+------------------------------------------------------------------------
+
+# Machine Learning Workflows: CRISP-DM
+
+When approaching an ML problem, you need a structured process. This is fundamentally a **research problem**, not a standard software development task.
+
+## What is CRISP-DM?
+
+**CRISP-DM** stands for **CRoss Industry Standard Process for Data Mining**. It is the most widely used process model for data science projects. It is an **agile, iterative** approach — the phases are not rigid, and you frequently move back and forth between them.
+
+## The Six Phases
+
+1.  **Business Understanding** — What does the business actually need? What problem are we solving? This is where you define the objective.
+
+2.  **Data Understanding** — What data do we have? What data do we need? Is it clean? Is it complete? This is where you explore and get familiar with the data.
+
+3.  **Data Preparation** — How do we organise and transform the data for modelling? This includes cleaning, feature engineering, handling missing values, encoding variables, etc. This phase often takes the most time.
+
+4.  **Modelling** — What modelling techniques should we apply? This is where you train your ML algorithms on the prepared data.
+
+5.  **Evaluation** — Which model best meets the business objectives? Not just which has the best accuracy, but which actually solves the business problem.
+
+6.  **Deployment** — How do stakeholders access the results? How is the model put into production?
+
+**Critical point:** The outcome of each phase determines what comes next. You might build a model, realise the data needs more preparation, go back to step 3, then return to modelling.
+
+## Ethics and Fairness in ML
+
+This is not optional — it is a core responsibility of anyone working in data science.
+
+**Key principle:** ML is fundamentally a complex pattern matcher. If your data contains biases, the model will learn and reproduce those biases. The bias is almost always caused by the data reflecting existing real-world biases.
+
+**Real-world examples of ML bias:**
+
+-   **Amazon's recruiting tool** was found to discriminate against women because it was trained on historical hiring data that was predominantly male.
+-   **Facial recognition systems** have been shown to perform poorly on certain demographic groups.
+-   **Criminal justice algorithms** have been criticised for producing biased risk assessments.
+
+**Your responsibility as a data scientist:** You must be willing to stand up and say "I don't think this model will work fairly" if you have concerns. The reputational damage companies suffer from deploying discriminatory ML models is severe.
+
+------------------------------------------------------------------------
+
+# Types of Machine Learning
+
+There are three main categories of machine learning, and understanding the distinction is essential.
+
+## Supervised Learning
+
+**What it is:** You have labelled data — both the input features (X) and the known outcome (Y). The algorithm learns the relationship between X and Y so it can predict Y for new, unseen data.
+
+**Key terminology:**
+
+-   **Predictor variables (X):** The features/columns you use to make predictions (also called independent variables or features)
+-   **Predicted variable (Y):** What you are trying to predict (also called the target, dependent variable, or label)
+-   **Model training / Model building:** The process of creating the ML model from historical data
+-   **Prediction / Inference:** Using the trained model on new data to estimate Y
+
+**Two sub-types of supervised learning:**
+
+### Classification
+
+Predicting a **category** — the output is one of a discrete set of values.
+
+-   **Binary classification:** Two possible outcomes (e.g. fraud/not fraud, spam/not spam, survived/died)
+-   **Multi-class classification:** More than two possible outcomes (e.g. classifying an image as cat/dog/bird)
+
+**Common classification algorithms:** Logistic Regression, Decision Trees, Support Vector Machines (SVM), Naive Bayes, Random Forests, Gradient Boosted Trees, Deep Learning
+
+### Regression
+
+Predicting a **continuous number** — the output is a numerical value.
+
+-   Examples: predicting house prices, predicting temperature, predicting sales revenue
+
+**Common regression algorithms:** Linear Regression, Generalised Linear Models, Decision Trees, Random Forests, Deep Learning
+
+## Unsupervised Learning
+
+**What it is:** You have data but **no labels** — there is no Y variable. The algorithm tries to find hidden structure or patterns in the data on its own.
+
+**Key techniques:**
+
+-   **Clustering / Segmentation:** Grouping similar data points together (e.g. customer segmentation — the Tesco example above)
+-   **Dimensionality Reduction:** Reducing the number of features while preserving important information (e.g. PCA, t-SNE)
+
+## Reinforcement Learning
+
+**What it is:** An algorithm learns by **trial and error**, receiving rewards or penalties for its actions. It adapts its strategy over time.
+
+**Examples:** Self-driving cars, game-playing AI (like AlphaGo), robotics
+
+------------------------------------------------------------------------
+
+# Worked Example: Linear Regression in R
+
+This section walks through the code from the Week 1 lab. Linear regression is the "granddaddy" of statistical analysis and ML — understanding it is foundational to everything that follows.
+
+## What is Linear Regression?
+
+Linear regression finds the **line of best fit** through a set of data points. If you remember `y = mx + b` from school (where `m` is the slope and `b` is the y-intercept), that's exactly what linear regression computes — but it finds the *best* values of m and b given noisy, real-world data.
+
+## Setting Up the Data
+
+```{r}
+#| eval: false
+set.seed(42) # Ensures reproducibility — same "random" numbers every time
+m <- 1.4      # True slope
+b <- -1.2     # True intercept
+x <- 0:9      # X values: 0, 1, 2, ..., 9
+
+y <- m * x + b              # The TRUE relationship (green line)
+py <- y + rnorm(10)          # Observed values = true + random noise
+```
+
+**What's happening here:**
+
+-   We define a "true" linear relationship: `y = 1.4x - 1.2`
+-   `y` represents the perfect, noise-free values (the green line in the plot)
+-   `py` adds random noise using `rnorm(10)` — this simulates real-world data, which is never perfectly on the line
+-   `set.seed(42)` makes the random numbers reproducible — anyone running this code gets the same results
+
+## Building and Plotting the Model
+
+```{r}
+#| eval: false
+# Plot the true line (green) and observed data points (X marks)
+plot(x, y, type = "l", col = "green",
+     main = paste("y = ", m, "x ", b, sep = ""))
+points(x, py, pch = 4)
+
+# Fit a linear regression model
+model1 <- lm(py ~ x)
+
+# Add the predicted line (blue dashed)
+lines(x, model1$coefficients[2] * x + model1$coefficients[1],
+      lty = 2, col = "blue")
+```
+
+**Understanding `lm(py ~ x)`:**
+
+-   `lm` stands for "linear model" — it's R's function for linear regression
+-   `py ~ x` is a **formula**: it means "model py as a function of x"
+-   The function returns a model object with properties like `coefficients`
+
+**The plot shows three things:**
+
+-   **Green line:** The true underlying relationship (which in real life we wouldn't know)
+-   **X marks:** The observed/measured data points (noisy)
+-   **Blue dashed line:** The model's best estimate of the relationship
+
+## Interpreting the Model Output
+
+```{r}
+#| eval: false
+model1
+## Coefficients:
+## (Intercept)         x
+##    -0.7895    1.4304
+```
+
+The model estimated:
+
+-   **Intercept = -0.7895** (true value was -1.2)
+-   **Slope = 1.4304** (true value was 1.4)
+
+These are close but not exact, because the model is working from noisy data. This is a fundamental concept: **models are approximations of reality**.
+
+## The Model Summary
+
+```{r}
+#| eval: false
+summary(model1)
+```
+
+The `summary()` function gives detailed statistical information, including:
+
+-   **Coefficients table:** Shows the estimate, standard error, t-value, and p-value for each coefficient
+-   **Significance codes:** Stars (\*\*\*) indicate statistically significant variables
+-   **R-squared:** A measure of how well the model fits the data
+
+**Important lecture insight on coefficients:** Even if a variable is statistically significant (has stars), you should also look at the *magnitude* of its coefficient. If the coefficient is tiny (e.g. 0.000001), multiplying it by the X values won't meaningfully affect predictions — so it may not be practically important, even if it's statistically significant. Always consider both the statistical significance AND the scale/magnitude.
+
+## Understanding R-squared
+
+```{r}
+#| eval: false
+r_squared1 <- cor(x, py) ^ 2
+r_squared1
+## [1] 0.9645404
+```
+
+**What is R-squared?**
+
+-   It measures the **goodness of fit** of a regression model
+-   It ranges from **0 to 1**, where 1 means a perfect fit
+-   It can be calculated as the square of the correlation between X and Y
+-   An R-squared of 0.9645 means approximately 96.45% of the variance in the data is explained by the model
+
+**What is correlation?**
+
+-   Correlation measures the strength and direction of the linear relationship between two variables
+-   It ranges from **-1 to +1**
+-   **+1:** Perfect positive relationship (as one increases, the other increases proportionally)
+-   **-1:** Perfect negative relationship (as one increases, the other decreases proportionally)
+-   **0:** No linear relationship
+-   Generally, correlations above 0.7 (or below -0.7) indicate a strong relationship
+
+**Critical practical advice from the lecturer:** If you ever see an R-squared above \~0.85–0.90 on real-world tabular data, be suspicious. It might indicate **data leakage** (a concept covered in Week 5) or that the problem is so simple it doesn't need ML. In reality, real-world datasets are messy and an R-squared this high is unusual.
+
+## The Effect of More Noise
+
+The lecture then re-runs the same analysis with more randomness added to the data:
+
+```{r}
+#| eval: false
+py <- y + rnorm(10)  # New random noise (different from before since set.seed not called again)
+
+model2 <- lm(py ~ x)
+r_squared2 <- cor(x, py) ^ 2
+r_squared2
+## [1] 0.8524506
+```
+
+**Key takeaway:** With more noise (randomness) in the data:
+
+-   The R-squared dropped from **0.9645 to 0.8525**
+-   The blue line (model prediction) diverges more from the green line (true relationship)
+-   This demonstrates that **noisier data leads to less accurate models** — the model struggles more when the signal-to-noise ratio is lower
+
+This is a fundamental concept you'll see throughout the course: the quality and cleanliness of your data directly impacts how well any model can perform.
+
+## The General Linear Regression Formula
+
+For multiple predictor variables, the formula extends to:
+
+$$\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \dots + \beta_n x_n$$
+
+Where:
+
+-   $\hat{y}$ is the predicted value
+-   $\beta_0$ is the intercept
+-   $\beta_1, \beta_2, \dots, \beta_n$ are the coefficients (learned from the data)
+-   $x_1, x_2, \dots, x_n$ are the input feature values
+
+Each coefficient is multiplied by its corresponding feature value and summed together. The model learns the optimal coefficient values during training.
+
+## Gradient Descent (Brief Introduction)
+
+The lecturer briefly mentioned **gradient descent** — the foundational algorithm that many ML models use to find the best-fit parameters:
+
+1.  Start with an initial guess for the line of best fit
+2.  Shift it slightly in one direction
+3.  Check: did the fit improve?
+4.  If yes, keep going in that direction; if no, try the other direction
+5.  Repeat until you find the minimum error
+
+This iterative optimisation process is the basis for training many ML algorithms, from linear regression to SVMs to deep learning.
+
+------------------------------------------------------------------------
+
+# Key Concepts Summary
+
+| Concept | Definition |
+|--------------------------------|---------------------------------------|
+| AI | Computers performing human-like tasks |
+| Machine Learning | Statistical algorithms that improve with more data |
+| Deep Learning | ML algorithms especially good at vision and text |
+| Data Mining | Extracting patterns from large data (≈ ML) |
+| Supervised Learning | Learning from labelled data (has X and Y) |
+| Unsupervised Learning | Finding patterns in unlabelled data (only X) |
+| Reinforcement Learning | Learning by trial and error with rewards |
+| Classification | Predicting categories |
+| Regression | Predicting continuous values |
+| CRISP-DM | Iterative process: Business → Data → Prep → Model → Evaluate → Deploy |
+| R-squared | Goodness of fit metric (0 to 1) |
+| Correlation | Strength of linear relationship (-1 to +1) |
+| Deterministic | Same input → same output (traditional software) |
+| Stochastic | Same input can give different outputs as model learns (ML) |
+
+------------------------------------------------------------------------
+
+# Homework
+
+-   [ ] Install R and RStudio on your machine
+-   [ ] Run the Week 1 R code locally and experiment with changing values
+-   [ ] Look at the free books listed in the course resources
+
+------------------------------------------------------------------------
+
+*These are base notes for Week 1. Review the lecture recording and add your own observations, examples, and questions below.*
+
+## My Additional Notes
+
+<!-- Add your own notes here after reviewing the lecture -->

@@ -1,0 +1,237 @@
+---
+title: "Week 8"
+---
+
+# Lecture Overview
+
+This week focuses on **recommendation systems**, including:
+
+-   Association rules (apriori)
+-   Customer segmentation
+-   Collaborative filtering
+-   Ethical considerations
+-   Hyperparameters and optimisation
+-   Graph Analytics
+
+------------------------------------------------------------------------
+
+# Key Concepts
+
+## Recommendation Systems
+
+A recommendation system suggests items to users based on data.
+
+### Types:
+
+-   Association rule-based (Apriori)
+-   Content-based filtering
+-   Collaborative filtering
+
+------------------------------------------------------------------------
+
+## Association Rules (Apriori)
+
+Used to find relationships between items.
+
+### Example:
+
+Customers who buy **bread** also buy **butter**
+
+### Key measures:
+
+-   **Support** → how often items appear together\
+-   **Confidence** → probability of buying Y given X\
+-   **Lift** → strength of the relationship
+
+👉 In practice: - focus on **high lift rules** - filter out weak or obvious relationships
+
+------------------------------------------------------------------------
+
+## Customer Segmentation
+
+Before applying rules, customers are often grouped.
+
+### Why?
+
+Different groups behave differently.
+
+### Example:
+
+-   Students → low budget
+-   Professionals → higher spending
+
+👉 Apply recommendation rules **within each segment**
+
+------------------------------------------------------------------------
+
+## Collaborative Filtering
+
+This is a key concept for exams.
+
+### Definition
+
+Collaborative filtering makes recommendations based on **similar users**.
+
+------------------------------------------------------------------------
+
+## How it works
+
+1.  Collect user preferences (ratings, purchases, clicks)
+2.  Find users with similar behaviour
+3.  Recommend items liked by similar users
+
+------------------------------------------------------------------------
+
+## Example
+
+-   User A and User B both like:
+    -   Netflix shows A, B, C
+-   User B also likes:
+    -   Show D
+
+👉 Recommend **Show D** to User A
+
+------------------------------------------------------------------------
+
+## Types of Collaborative Filtering
+
+### 1. User-based
+
+-   Find similar users
+-   Recommend based on their preferences
+
+### 2. Item-based
+
+-   Find similar items
+-   Recommend similar items to what user already likes
+
+------------------------------------------------------------------------
+
+## Advantages
+
+-   Simple and intuitive\
+-   Works well with large datasets\
+-   No need for item features
+
+------------------------------------------------------------------------
+
+## Limitations
+
+-   Cold start problem (new users/items)\
+-   Requires lots of data\
+-   Can reinforce bias
+
+------------------------------------------------------------------------
+
+## Ethics in Recommendation Systems
+
+Important exam topic ⚠️
+
+### Issues:
+
+-   Privacy concerns\
+-   Bias and discrimination\
+-   Filter bubbles (only showing similar content)\
+-   Manipulation of user behaviour
+
+------------------------------------------------------------------------
+
+## Hyperparameters
+
+Settings that control how a model learns.
+
+### Examples:
+
+-   Number of clusters (k in k-means)
+-   Number of neighbours in collaborative filtering
+
+------------------------------------------------------------------------
+
+## Hyperparameter Optimisation
+
+Choosing the best values for hyperparameters.
+
+### Methods:
+
+-   Trial and error\
+-   Grid search\
+-   Cross-validation
+
+## Graph Analytics
+
+Graph analytics (or network analysis) is the study of networks or graphs. A network / graph has nodes and edges between them. The nodes and the edges may both have attributes.
+
+### Can be used in:
+
+-   Marketing attribution analysis: this analyses the adverts shown to a user and the activities. It may show that indirect activities that are in an earlier step can have casual properties.
+
+-   Customer purchase modeling: By modeling the sequence of purchases as a graph, you can generate recommendations of what customers are likely to buy next.
+
+-   Fraud network detection - internet search engines: graph analytics are a core part of internet search algorithms. Relationship that exists in the transaction.
+
+-   Disease cluster analysis: can be used to model and the spread of diseases
+
+## Dimensionality Reduction
+
+Achei muito confuso, nao entendi direito vou precisar revisar.
+
+------------------------------------------------------------------------
+
+# R Example (Collaborative Filtering)
+
+```{r}
+#| message: false
+
+library(recommenderlab)
+
+data("MovieLense")
+
+# View dataset
+MovieLense
+
+# Build a recommendation model
+model <- Recommender(MovieLense, method = "UBCF")
+
+# Generate recommendations
+rec <- predict(model, MovieLense[1:5], n = 3)
+
+rec
+```
+
+------------------------------------------------------------------------
+
+# Exam Notes
+
+## You should be able to:
+
+-   Define collaborative filtering\
+-   Explain how it works step-by-step\
+-   Compare:
+    -   association rules vs collaborative filtering\
+-   Explain lift, support, confidence\
+-   Discuss ethical issues\
+-   Explain hyperparameters
+
+------------------------------------------------------------------------
+
+## Common Exam Questions
+
+-   "Explain collaborative filtering with an example"
+-   "What is lift and why is it important?"
+-   "Compare two recommendation approaches"
+-   "Discuss ethical concerns in recommendation systems"
+
+------------------------------------------------------------------------
+
+# Summary
+
+-   Recommendation systems suggest items based on data\
+-   Apriori finds item relationships\
+-   Collaborative filtering uses user similarity\
+-   Segmentation improves recommendations\
+-   Ethics and bias are important considerations
+-   Recomendation engines I - market basket analysis
+-   Recomendation engines II - collaborative filtering
+-   Dimensionally reduction
+-   outlier analysis (anomaly detection)
+-   graph analytics

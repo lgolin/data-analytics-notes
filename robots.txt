@@ -1,1 +1,1 @@
-Sitemap: https://lgolin.quarto.pub/semester-notes-2026/sitemap.xml
+Sitemap: https://lgolin.github.io/data-analytics-notes/sitemap.xml

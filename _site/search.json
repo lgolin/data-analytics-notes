@@ -15,8 +15,8 @@
     "objectID": "data-mining/week-8.html#recommendation-systems",
     "href": "data-mining/week-8.html#recommendation-systems",
     "title": "Week 8",
-    "section": "Recommendation Systems",
-    "text": "Recommendation Systems\nA recommendation system suggests items to users based on data.\n\nTypes:\n\nAssociation rule-based (Apriori)\nContent-based filtering\nCollaborative filtering",
+    "section": "2.1 Recommendation Systems",
+    "text": "2.1 Recommendation Systems\nA recommendation system suggests items to users based on data.\n\n2.1.1 Types:\n\nAssociation rule-based (Apriori)\nContent-based filtering\nCollaborative filtering",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -27,8 +27,8 @@
     "objectID": "data-mining/week-8.html#association-rules-apriori",
     "href": "data-mining/week-8.html#association-rules-apriori",
     "title": "Week 8",
-    "section": "Association Rules (Apriori)",
-    "text": "Association Rules (Apriori)\nUsed to find relationships between items.\n\nExample:\nCustomers who buy bread also buy butter\n\n\nKey measures:\n\nSupport → how often items appear together\n\nConfidence → probability of buying Y given X\n\nLift → strength of the relationship\n\n👉 In practice: - focus on high lift rules - filter out weak or obvious relationships",
+    "section": "2.2 Association Rules (Apriori)",
+    "text": "2.2 Association Rules (Apriori)\nUsed to find relationships between items.\n\n2.2.1 Example:\nCustomers who buy bread also buy butter\n\n\n2.2.2 Key measures:\n\nSupport → how often items appear together\n\nConfidence → probability of buying Y given X\n\nLift → strength of the relationship\n\n👉 In practice: - focus on high lift rules - filter out weak or obvious relationships",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -39,8 +39,8 @@
     "objectID": "data-mining/week-8.html#customer-segmentation",
     "href": "data-mining/week-8.html#customer-segmentation",
     "title": "Week 8",
-    "section": "Customer Segmentation",
-    "text": "Customer Segmentation\nBefore applying rules, customers are often grouped.\n\nWhy?\nDifferent groups behave differently.\n\n\nExample:\n\nStudents → low budget\nProfessionals → higher spending\n\n👉 Apply recommendation rules within each segment",
+    "section": "2.3 Customer Segmentation",
+    "text": "2.3 Customer Segmentation\nBefore applying rules, customers are often grouped.\n\n2.3.1 Why?\nDifferent groups behave differently.\n\n\n2.3.2 Example:\n\nStudents → low budget\nProfessionals → higher spending\n\n👉 Apply recommendation rules within each segment",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -51,8 +51,8 @@
     "objectID": "data-mining/week-8.html#collaborative-filtering",
     "href": "data-mining/week-8.html#collaborative-filtering",
     "title": "Week 8",
-    "section": "Collaborative Filtering",
-    "text": "Collaborative Filtering\nThis is a key concept for exams.\n\nDefinition\nCollaborative filtering makes recommendations based on similar users.",
+    "section": "2.4 Collaborative Filtering",
+    "text": "2.4 Collaborative Filtering\nThis is a key concept for exams.\n\n2.4.1 Definition\nCollaborative filtering makes recommendations based on similar users.",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -63,8 +63,8 @@
     "objectID": "data-mining/week-8.html#how-it-works",
     "href": "data-mining/week-8.html#how-it-works",
     "title": "Week 8",
-    "section": "How it works",
-    "text": "How it works\n\nCollect user preferences (ratings, purchases, clicks)\nFind users with similar behaviour\nRecommend items liked by similar users",
+    "section": "2.5 How it works",
+    "text": "2.5 How it works\n\nCollect user preferences (ratings, purchases, clicks)\nFind users with similar behaviour\nRecommend items liked by similar users",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -75,8 +75,8 @@
     "objectID": "data-mining/week-8.html#example-2",
     "href": "data-mining/week-8.html#example-2",
     "title": "Week 8",
-    "section": "Example",
-    "text": "Example\n\nUser A and User B both like:\n\nNetflix shows A, B, C\n\nUser B also likes:\n\nShow D\n\n\n👉 Recommend Show D to User A",
+    "section": "2.6 Example",
+    "text": "2.6 Example\n\nUser A and User B both like:\n\nNetflix shows A, B, C\n\nUser B also likes:\n\nShow D\n\n\n👉 Recommend Show D to User A",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -87,8 +87,8 @@
     "objectID": "data-mining/week-8.html#types-of-collaborative-filtering",
     "href": "data-mining/week-8.html#types-of-collaborative-filtering",
     "title": "Week 8",
-    "section": "Types of Collaborative Filtering",
-    "text": "Types of Collaborative Filtering\n\n1. User-based\n\nFind similar users\nRecommend based on their preferences\n\n\n\n2. Item-based\n\nFind similar items\nRecommend similar items to what user already likes",
+    "section": "2.7 Types of Collaborative Filtering",
+    "text": "2.7 Types of Collaborative Filtering\n\n2.7.1 1. User-based\n\nFind similar users\nRecommend based on their preferences\n\n\n\n2.7.2 2. Item-based\n\nFind similar items\nRecommend similar items to what user already likes",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -99,8 +99,8 @@
     "objectID": "data-mining/week-8.html#advantages",
     "href": "data-mining/week-8.html#advantages",
     "title": "Week 8",
-    "section": "Advantages",
-    "text": "Advantages\n\nSimple and intuitive\n\nWorks well with large datasets\n\nNo need for item features",
+    "section": "2.8 Advantages",
+    "text": "2.8 Advantages\n\nSimple and intuitive\n\nWorks well with large datasets\n\nNo need for item features",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -111,8 +111,8 @@
     "objectID": "data-mining/week-8.html#limitations",
     "href": "data-mining/week-8.html#limitations",
     "title": "Week 8",
-    "section": "Limitations",
-    "text": "Limitations\n\nCold start problem (new users/items)\n\nRequires lots of data\n\nCan reinforce bias",
+    "section": "2.9 Limitations",
+    "text": "2.9 Limitations\n\nCold start problem (new users/items)\n\nRequires lots of data\n\nCan reinforce bias",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -123,8 +123,8 @@
     "objectID": "data-mining/week-8.html#ethics-in-recommendation-systems",
     "href": "data-mining/week-8.html#ethics-in-recommendation-systems",
     "title": "Week 8",
-    "section": "Ethics in Recommendation Systems",
-    "text": "Ethics in Recommendation Systems\nImportant exam topic ⚠️\n\nIssues:\n\nPrivacy concerns\n\nBias and discrimination\n\nFilter bubbles (only showing similar content)\n\nManipulation of user behaviour",
+    "section": "2.10 Ethics in Recommendation Systems",
+    "text": "2.10 Ethics in Recommendation Systems\nImportant exam topic ⚠️\n\n2.10.1 Issues:\n\nPrivacy concerns\n\nBias and discrimination\n\nFilter bubbles (only showing similar content)\n\nManipulation of user behaviour",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -135,8 +135,8 @@
     "objectID": "data-mining/week-8.html#hyperparameters",
     "href": "data-mining/week-8.html#hyperparameters",
     "title": "Week 8",
-    "section": "Hyperparameters",
-    "text": "Hyperparameters\nSettings that control how a model learns.\n\nExamples:\n\nNumber of clusters (k in k-means)\nNumber of neighbours in collaborative filtering",
+    "section": "2.11 Hyperparameters",
+    "text": "2.11 Hyperparameters\nSettings that control how a model learns.\n\n2.11.1 Examples:\n\nNumber of clusters (k in k-means)\nNumber of neighbours in collaborative filtering",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -147,8 +147,8 @@
     "objectID": "data-mining/week-8.html#hyperparameter-optimisation",
     "href": "data-mining/week-8.html#hyperparameter-optimisation",
     "title": "Week 8",
-    "section": "Hyperparameter Optimisation",
-    "text": "Hyperparameter Optimisation\nChoosing the best values for hyperparameters.\n\nMethods:\n\nTrial and error\n\nGrid search\n\nCross-validation",
+    "section": "2.12 Hyperparameter Optimisation",
+    "text": "2.12 Hyperparameter Optimisation\nChoosing the best values for hyperparameters.\n\n2.12.1 Methods:\n\nTrial and error\n\nGrid search\n\nCross-validation",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -159,8 +159,8 @@
     "objectID": "data-mining/week-8.html#graph-analytics",
     "href": "data-mining/week-8.html#graph-analytics",
     "title": "Week 8",
-    "section": "Graph Analytics",
-    "text": "Graph Analytics\nGraph analytics (or network analysis) is the study of networks or graphs. A network / graph has nodes and edges between them. The nodes and the edges may both have attributes.\n\nCan be used in:\n\nMarketing attribution analysis: this analyses the adverts shown to a user and the activities. It may show that indirect activities that are in an earlier step can have casual properties.\nCustomer purchase modeling: By modeling the sequence of purchases as a graph, you can generate recommendations of what customers are likely to buy next.\nFraud network detection - internet search engines: graph analytics are a core part of internet search algorithms. Relationship that exists in the transaction.\nDisease cluster analysis: can be used to model and the spread of diseases",
+    "section": "2.13 Graph Analytics",
+    "text": "2.13 Graph Analytics\nGraph analytics (or network analysis) is the study of networks or graphs. A network / graph has nodes and edges between them. The nodes and the edges may both have attributes.\n\n2.13.1 Can be used in:\n\nMarketing attribution analysis: this analyses the adverts shown to a user and the activities. It may show that indirect activities that are in an earlier step can have casual properties.\nCustomer purchase modeling: By modeling the sequence of purchases as a graph, you can generate recommendations of what customers are likely to buy next.\nFraud network detection - internet search engines: graph analytics are a core part of internet search algorithms. Relationship that exists in the transaction.\nDisease cluster analysis: can be used to model and the spread of diseases",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -171,8 +171,8 @@
     "objectID": "data-mining/week-8.html#dimensionality-reduction",
     "href": "data-mining/week-8.html#dimensionality-reduction",
     "title": "Week 8",
-    "section": "Dimensionality Reduction",
-    "text": "Dimensionality Reduction\nAchei muito confuso, nao entendi direito vou precisar revisar.",
+    "section": "2.14 Dimensionality Reduction",
+    "text": "2.14 Dimensionality Reduction\nAchei muito confuso, nao entendi direito vou precisar revisar.",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -183,8 +183,8 @@
     "objectID": "data-mining/week-8.html#you-should-be-able-to",
     "href": "data-mining/week-8.html#you-should-be-able-to",
     "title": "Week 8",
-    "section": "You should be able to:",
-    "text": "You should be able to:\n\nDefine collaborative filtering\n\nExplain how it works step-by-step\n\nCompare:\n\nassociation rules vs collaborative filtering\n\n\nExplain lift, support, confidence\n\nDiscuss ethical issues\n\nExplain hyperparameters",
+    "section": "4.1 You should be able to:",
+    "text": "4.1 You should be able to:\n\nDefine collaborative filtering\n\nExplain how it works step-by-step\n\nCompare:\n\nassociation rules vs collaborative filtering\n\n\nExplain lift, support, confidence\n\nDiscuss ethical issues\n\nExplain hyperparameters",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -195,12 +195,23 @@
     "objectID": "data-mining/week-8.html#common-exam-questions",
     "href": "data-mining/week-8.html#common-exam-questions",
     "title": "Week 8",
-    "section": "Common Exam Questions",
-    "text": "Common Exam Questions\n\n“Explain collaborative filtering with an example”\n“What is lift and why is it important?”\n“Compare two recommendation approaches”\n“Discuss ethical concerns in recommendation systems”",
+    "section": "4.2 Common Exam Questions",
+    "text": "4.2 Common Exam Questions\n\n“Explain collaborative filtering with an example”\n“What is lift and why is it important?”\n“Compare two recommendation approaches”\n“Discuss ethical concerns in recommendation systems”",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
       "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/index.html",
+    "href": "data-mining/index.html",
+    "title": "",
+    "section": "",
+    "text": "Code",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes"
     ]
   },
   {
@@ -794,9 +805,9 @@
   {
     "objectID": "regression-analysis/week-2.html",
     "href": "regression-analysis/week-2.html",
-    "title": "Week 2 - Statistical Inference + Missing Data",
+    "title": "Week 2: Statistical Inference",
     "section": "",
-    "text": "This class is a refresher of statistical inference + practical R work with missing data.\nThink of it like this:\n\nTheory → How we make decisions from data\nR → How we actually apply this in real datasets\n\n👉 The key idea of this lecture is:\n\nWe use a sample to make decisions about a population, but there is always uncertainty.",
+    "text": "📝 Study Notes — Week 2 These notes are intended as a review and starting point. Leave your own annotations and expansions in the spaces provided below each section.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -804,11 +815,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-2.html#population-vs-sample",
-    "href": "regression-analysis/week-2.html#population-vs-sample",
-    "title": "Week 2 - Statistical Inference + Missing Data",
-    "section": "1. Population vs Sample",
-    "text": "1. Population vs Sample\nFrom the slides:\n\nPopulation → all individuals we are interested in (true but unknown)\nSample → the data we actually collect\nParameter (μ) → true value from the population (we never know this)\nStatistic (x̄) → estimate from the sample\n\n\n🧠 How to think about it\nYou can think of it like:\n\nPopulation = the truth\nSample = a guess based on limited data\n\n👉 Example:\n\nWe want average height of all adults in Ireland (population)\nWe measure 100 people (sample)\nWe calculate mean → this is our estimate\n\n✔ Important:\n\nAll statistical inference is about using statistics (sample) to estimate parameters (population)",
+    "objectID": "regression-analysis/week-2.html#descriptive-vs.-inferential-statistics",
+    "href": "regression-analysis/week-2.html#descriptive-vs.-inferential-statistics",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.1 Descriptive vs. Inferential Statistics",
+    "text": "2.1 Descriptive vs. Inferential Statistics\nDescriptive statistics are used simply to describe or summarise the data you have observed — for example, calculating the mean or creating a chart.\nInferential statistics go a step further. They use methods such as hypothesis testing, confidence intervals, and regression analysis to draw conclusions about a larger group (a population) based on data collected from a smaller group (a sample). These inferences are grounded in probability theory.\n\n✏️ Your notes here:",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -816,11 +827,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-2.html#sampling-error",
-    "href": "regression-analysis/week-2.html#sampling-error",
-    "title": "Week 2 - Statistical Inference + Missing Data",
-    "section": "2. Sampling Error",
-    "text": "2. Sampling Error\nSampling error is the difference between the sample estimate and the true population value.\n\nExample\n\nTrue mean = 100\nSample mean = 95 → Error = 5\n\n\n\n🧠 Why this happens\nBecause:\n\nWe are not observing everyone\nEach sample is slightly different\n\n👉 If you took another sample, you would get a different mean.\n\n\n\nHow to reduce sampling error\n\nLarger sample size → more representative\nRandom sampling → avoids bias\nConfidence intervals → quantify uncertainty\n\n✔ Key idea:\n\nSampling error is unavoidable, but we can reduce it",
+    "objectID": "regression-analysis/week-2.html#population-vs.-sample",
+    "href": "regression-analysis/week-2.html#population-vs.-sample",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.2 Population vs. Sample",
+    "text": "2.2 Population vs. Sample\n\n\n\n\n\n\n\nTerm\nDefinition\n\n\n\n\nPopulation\nAll individuals under study\n\n\nSample\nA subset of the population\n\n\nParameter\nA characteristic of a population (usually unknown)\n\n\nStatistic\nAn estimate of a parameter, calculated from the sample\n\n\n\nIn practice, we almost never have access to the full population. Instead, we collect a sample and use the statistics from that sample to estimate the unknown population parameters.\nFor a statistic to reliably estimate a parameter, the sample must be collected in an unbiased way — this is where probability sampling comes in.\n\n✏️ Your notes here:",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -828,11 +839,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-2.html#sampling-distribution",
-    "href": "regression-analysis/week-2.html#sampling-distribution",
-    "title": "Week 2 - Statistical Inference + Missing Data",
-    "section": "3. Sampling Distribution",
-    "text": "3. Sampling Distribution\nThis is one of the most important concepts in statistics.\n\n🧠 Idea\nImagine you:\n\nTake a sample\nCalculate the mean\nRepeat this MANY times\n\nYou would get many different sample means.\n👉 These means form a distribution → called the sampling distribution\n\n\n\nKey properties\n\nMean of sampling distribution = population mean (μ)\nSpread = standard error (SE)\n\n\n\n\n🧠 Why this matters\nThis is the foundation of:\n\nConfidence intervals\nHypothesis testing\n\n👉 Because it tells us:\n\nHow much our estimate can vary",
+    "objectID": "regression-analysis/week-2.html#probability-sampling",
+    "href": "regression-analysis/week-2.html#probability-sampling",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.3 Probability Sampling",
+    "text": "2.3 Probability Sampling\nTo ensure a sample is representative of the population, we use probability sampling:\n\nEvery member of the population has a known, non-zero chance of being selected.\nUnits are drawn at random.\nStatistical inference techniques assume that samples are drawn randomly.\n\nWithout random sampling, estimates may be biased and conclusions unreliable.\n\n✏️ Your notes here:",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -840,11 +851,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-2.html#central-limit-theorem-clt",
-    "href": "regression-analysis/week-2.html#central-limit-theorem-clt",
-    "title": "Week 2 - Statistical Inference + Missing Data",
-    "section": "Central Limit Theorem (CLT)",
-    "text": "Central Limit Theorem (CLT)\nEven if the original data is not normal:\nIf ( n ), the distribution of the sample mean becomes approximately normal\n\n\n🧠 Why this is powerful\nIt allows us to:\n\nUse normal distribution formulas\nApply inference methods in real-world messy data\n\n👉 Without CLT → most statistics wouldn’t work",
+    "objectID": "regression-analysis/week-2.html#point-estimates-and-sampling-error",
+    "href": "regression-analysis/week-2.html#point-estimates-and-sampling-error",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.4 Point Estimates and Sampling Error",
+    "text": "2.4 Point Estimates and Sampling Error\nFrom a random sample, we calculate point estimates — a single value used to estimate a population parameter.\n\nExample: the sample mean \\(\\bar{x}\\) is used to estimate the population mean \\(\\mu\\).\n\nHowever, there will always be a difference between the estimate and the true parameter. This difference is called sampling error.\n\n2.4.1 Controlling Sampling Error\nKey methods to minimise sampling error include:\n\nIncreasing sample size — larger samples are more representative and produce smaller errors.\nUsing random sampling methods (e.g. stratified sampling).\nCalculating the Standard Error of the Mean (SEM).\nUsing Confidence Intervals.\n\n\n✏️ Your notes here:",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -852,11 +863,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-2.html#standard-error-very-important",
-    "href": "regression-analysis/week-2.html#standard-error-very-important",
-    "title": "Week 2 - Statistical Inference + Missing Data",
-    "section": "4. Standard Error (VERY IMPORTANT)",
-    "text": "4. Standard Error (VERY IMPORTANT)\n\\[\nSE = \\frac{\\sigma}{\\sqrt{n}}\n\\]\nIn practice:\n\\[\nSE = \\frac{s}{\\sqrt{n}}\n\\]\n\n\n🧠 What it means\n\nSE measures how much the sample mean varies\nIt is the uncertainty of our estimate\n\n\n\n\n🧠 Intuition\n\nLarge n → √n increases → SE decreases\nSmall SE → more precise estimate\n\n✔ Key idea:\n\nBigger samples → more reliable results",
+    "objectID": "regression-analysis/week-2.html#standard-error-of-the-mean-sem",
+    "href": "regression-analysis/week-2.html#standard-error-of-the-mean-sem",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.5 Standard Error of the Mean (SEM)",
+    "text": "2.5 Standard Error of the Mean (SEM)\nThe Standard Error of the Mean quantifies how much variability we expect in the sample mean from sample to sample.\n\\[\n\\text{SEM} = \\frac{\\sigma}{\\sqrt{n}}\n\\]\nWhere:\n\n\\(\\sigma\\) = population standard deviation\n\\(n\\) = sample size\n\nA smaller SEM means a more precise and reliable estimate. As the sample size \\(n\\) increases, the SEM decreases.\n\n✏️ Your notes here:",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -864,11 +875,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-2.html#hypotheses",
-    "href": "regression-analysis/week-2.html#hypotheses",
-    "title": "Week 2 - Statistical Inference + Missing Data",
-    "section": "1. Hypotheses",
-    "text": "1. Hypotheses\n\nH₀ (null) → no effect / no difference\nH₁ (alternative) → effect exists\n\n\n\n🧠 Key idea\nWe start by assuming H₀ is true, and then test if data contradicts it.\n👉 Example:\n\\[\nH_0: \\mu = 0\n\\]\n\\[\nH_1: \\mu \\neq 0\n\\]\n\n\n\nImportant rule\nThe hypotheses must cover all possibilities:\n\nEither there is an effect\nOr there is not",
+    "objectID": "regression-analysis/week-2.html#sampling-distributions",
+    "href": "regression-analysis/week-2.html#sampling-distributions",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.6 Sampling Distributions",
+    "text": "2.6 Sampling Distributions\nWhen we take many samples from a population and calculate a statistic (like the mean) for each, the distribution of those statistics is called a sampling distribution.\n\nThe sample mean \\(\\bar{x}\\) varies from sample to sample — it is a random variable.\nIf the underlying population is normally distributed with mean \\(\\mu\\) and standard deviation \\(\\sigma\\):\n\n\\[\n\\bar{X} \\sim N\\left(\\mu,\\ \\frac{\\sigma}{\\sqrt{n}}\\right)\n\\]\n\n2.6.1 The Central Limit Theorem (CLT)\nWhat if the population is not normally distributed? The Central Limit Theorem tells us:\n\nFor large sample sizes (\\(n \\geq 30\\)), the distribution of the sample mean is approximately normal, regardless of the shape of the underlying population.\n\nThis is one of the most important results in statistics — it allows us to use normal-distribution methods even when we don’t know the shape of the population.\n\n✏️ Your notes here:",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -876,11 +887,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-2.html#what-are-we-actually-testing",
-    "href": "regression-analysis/week-2.html#what-are-we-actually-testing",
-    "title": "Week 2 - Statistical Inference + Missing Data",
-    "section": "2. What are we actually testing?",
-    "text": "2. What are we actually testing?\nWe are asking:\n\n“How likely is our data if H₀ is true?”",
+    "objectID": "regression-analysis/week-2.html#confidence-intervals",
+    "href": "regression-analysis/week-2.html#confidence-intervals",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.7 Confidence Intervals",
+    "text": "2.7 Confidence Intervals\nA confidence interval (CI) is a range of values within which we are highly confident the true population parameter lies.\n\n2.7.1 Logic of a 95% Confidence Interval\nWith repeated sampling, 95% of calculated \\(\\bar{x}\\) values will be within two standard errors of the true population mean \\(\\mu\\). Turning this around: given a single sample, we are 95% confident that \\(\\mu\\) lies within two standard errors of our calculated \\(\\bar{x}\\).\n\\[\n\\bar{x} \\pm 2 \\cdot \\frac{\\sigma}{\\sqrt{n}}\n\\]\nKey point: A larger sample size leads to a narrower (more precise) confidence interval.\nConfidence intervals are especially useful because they show the range of plausible values for a parameter, not just a yes/no decision. They help distinguish between statistical and practical significance.\n\n✏️ Your notes here:",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -888,11 +899,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-2.html#p-value-critical",
-    "href": "regression-analysis/week-2.html#p-value-critical",
-    "title": "Week 2 - Statistical Inference + Missing Data",
-    "section": "3. p-value (CRITICAL)",
-    "text": "3. p-value (CRITICAL)\n\nDefinition\nThe p-value is:\n\nThe probability of observing our data (or more extreme), assuming H₀ is true\n\n\n\n\n🧠 How to interpret\n\nSmall p-value → data is unlikely under H₀\nLarge p-value → data is consistent with H₀\n\n\n\n\nDecision rule\n\nIf p ≤ 0.05 → reject H₀\nIf p &gt; 0.05 → fail to reject H₀\n\n\n\n\n⚠️ Important wording (exam!)\n✔ Say:\n\n“Reject H₀”\n“Fail to reject H₀”\n\n❌ Do NOT say:\n\n“Accept H₀”\n\n\n\n\n🧠 Key intuition\n👉 “If p is low, H₀ must go”",
+    "objectID": "regression-analysis/week-2.html#hypothesis-testing",
+    "href": "regression-analysis/week-2.html#hypothesis-testing",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.8 Hypothesis Testing",
+    "text": "2.8 Hypothesis Testing\nHypothesis testing is a formal procedure for answering research questions using data (empirical evidence).\n\n2.8.1 Steps in Hypothesis Testing\n\nState the hypotheses (null and alternative).\nChoose a significance level (\\(\\alpha\\), e.g. 0.05).\nCollect data and compute a test statistic.\nCalculate the p-value.\nMake a decision: reject or fail to reject \\(H_0\\).\nState your conclusion in terms of the population parameter.\n\n\n⚠️ Lecturer’s note (from class): There are only two valid conclusions in hypothesis testing: - “We reject the null hypothesis.” - “We fail to reject the null hypothesis.”\nAnything else (e.g. “we accept \\(H_1\\)”) is incorrect.\n\n\n\n2.8.2 The Null Hypothesis (\\(H_0\\))\n\nThe null hypothesis is the statement being tested — typically a claim of no difference or no effect.\nWe assume it is true until the data provides evidence otherwise.\nIt is always stated using an equality sign.\n\nExample: \\(H_0: \\mu = 0\\)\n\n\n2.8.3 The Alternative Hypothesis (\\(H_1\\) or \\(H_a\\))\n\nThe alternative hypothesis represents the researcher’s theory — what they believe to be true.\nIt contains all values not included in the null hypothesis.\nTogether, \\(H_0\\) and \\(H_1\\) must cover all eventualities.\n\nExample: \\(H_1: \\mu \\neq 0\\)\n\n✏️ Your notes here:",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -900,11 +911,71 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-2.html#statistical-significance",
-    "href": "regression-analysis/week-2.html#statistical-significance",
-    "title": "Week 2 - Statistical Inference + Missing Data",
-    "section": "4. Statistical Significance",
-    "text": "4. Statistical Significance\n\nMeans there is evidence of an effect\nDoes NOT mean the effect is important",
+    "objectID": "regression-analysis/week-2.html#the-p-value",
+    "href": "regression-analysis/week-2.html#the-p-value",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.9 The p-value",
+    "text": "2.9 The p-value\nThe p-value is a probability that measures the strength of evidence against the null hypothesis.\n\n🎵 Classroom rhyme (do not write in exams!): “If p is low, null must go.”\n\n\nA small p-value → less likely that \\(H_0\\) is true → stronger evidence against \\(H_0\\) → in favour of \\(H_1\\).\nAlways quote the p-value when reporting your conclusions.\nConclusions should be stated in terms of the population parameter.\n\n\n✏️ Your notes here:",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#level-of-significance-alpha",
+    "href": "regression-analysis/week-2.html#level-of-significance-alpha",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.10 Level of Significance (\\(\\alpha\\))",
+    "text": "2.10 Level of Significance (\\(\\alpha\\))\nThe significance level \\(\\alpha\\) is a threshold set before the test is run. It represents the degree of uncertainty you are willing to accept.\n\n\n\nSignificance Level\nCommon Usage\n\n\n\n\n\\(\\alpha = 0.05\\) (5%)\nMost common\n\n\n\\(\\alpha = 0.01\\) (1%)\nMore stringent\n\n\n\\(\\alpha = 0.001\\) (0.1%)\nVery stringent\n\n\n\nDecision rule:\n\nIf \\(p \\leq \\alpha\\): Reject \\(H_0\\) — result is statistically significant.\nIf \\(p &gt; \\alpha\\): Fail to reject \\(H_0\\) — insufficient evidence to reject.\n\n\n⚠️ A non-significant result does not prove \\(H_0\\) is true — it simply means we don’t have enough evidence to reject it.\n\n\n✏️ Your notes here:",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#type-i-and-type-ii-errors",
+    "href": "regression-analysis/week-2.html#type-i-and-type-ii-errors",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.11 Type I and Type II Errors",
+    "text": "2.11 Type I and Type II Errors\nBecause conclusions in hypothesis testing are based on sample data, errors are possible.\n\n\n\n\n\n\n\n\n\n\\(H_0\\) is actually TRUE\n\\(H_0\\) is actually FALSE\n\n\n\n\nReject \\(H_0\\)\n❌ Type I Error (\\(\\alpha\\))\n✅ Correct (Power)\n\n\nFail to Reject \\(H_0\\)\n✅ Correct\n❌ Type II Error (\\(\\beta\\))\n\n\n\n\nType I Error: Rejecting \\(H_0\\) when it is actually true (a “false positive”). The probability is controlled by \\(\\alpha\\).\nType II Error: Failing to reject \\(H_0\\) when it is actually false (a “false negative”). The probability is denoted \\(\\beta\\).\n\n\n✏️ Your notes here:",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#statistical-power",
+    "href": "regression-analysis/week-2.html#statistical-power",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.12 Statistical Power",
+    "text": "2.12 Statistical Power\nPower is the probability of correctly rejecting \\(H_0\\) when it is false — i.e. the probability of detecting a real effect.\n\\[\n\\text{Power} = 1 - \\beta\n\\]\n\nWe want high power (large \\(1 - \\beta\\)) to maximise our chances of detecting a real difference.\nWe also want small \\(\\alpha\\) to avoid false positives.\nThere is a trade-off: decreasing \\(\\alpha\\) automatically increases \\(\\beta\\) (and reduces power).\nThe solution is to choose an appropriate sample size before the study begins, so that both \\(\\alpha\\) and \\(\\beta\\) are at acceptable levels.\n\n\n✏️ Your notes here:",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#effect-size",
+    "href": "regression-analysis/week-2.html#effect-size",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.13 Effect Size",
+    "text": "2.13 Effect Size\nThe effect size measures the magnitude or strength of a relationship between two variables, separate from statistical significance.\n\nA result can be statistically significant but have a tiny effect size (practically unimportant).\nA result with a large effect size is more likely to be significant.\nAssociated with each effect size is a standard error (a measure of uncertainty).\n\n\n2.13.1 Cohen’s d (for t-tests)\n\\[\nd = \\frac{\\bar{x}_1 - \\bar{x}_2}{s_{\\text{pooled}}}\n\\]\nThe difference between two means divided by the pooled standard deviation.\n\n\n2.13.2 \\(R^2\\) (for Linear Regression)\nIn linear regression, effect size is measured by \\(R^2\\) (the square of Pearson’s correlation coefficient \\(r\\)):\n\\[\nR^2 = r^2\n\\]\n\\(R^2\\) represents the proportion of variation in the response variable explained by the explanatory variable.\n\n✏️ Your notes here:",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-2.html#statistical-vs.-clinical-practical-significance",
+    "href": "regression-analysis/week-2.html#statistical-vs.-clinical-practical-significance",
+    "title": "Week 2: Statistical Inference",
+    "section": "2.14 Statistical vs. Clinical (Practical) Significance",
+    "text": "2.14 Statistical vs. Clinical (Practical) Significance\nThis is a critical distinction:\n\n\n\n\n\n\n\n\n\nStatistical Significance\nClinical/Practical Significance\n\n\n\n\nWhat it means\nEvidence of an effect in the data\nThe effect is large enough to matter in practice\n\n\nDetermined by\np-value vs. \\(\\alpha\\)\nEffect size\n\n\nCan be misleading when\nSample size is very large (tiny effects become significant)\nSample size is small (real effects may not be detected)\n\n\n\nFor a result to be practically meaningful, it must be BOTH statistically significant AND have a meaningful effect size.\n\nA large sample can make a trivially small difference statistically significant.\nA small sample may miss a clinically important difference.\nConfidence intervals help by showing the range of plausible effect sizes — not just whether an effect is “significant”.\n\n\n💡 Example from class: Blood pressure — even a small reduction can have important clinical implications, even if the effect size is modest.\n\n\n✏️ Your notes here:",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -914,9 +985,9 @@
   {
     "objectID": "regression-analysis/week-3.html",
     "href": "regression-analysis/week-3.html",
-    "title": "Week 3 - Power Analysis + Missing Data",
+    "title": "Week 3 Study Guide: Missing Data & Power Analysis",
     "section": "",
-    "text": "This class had two main parts:\n\nPower analysis → how likely a statistical test is to detect a real effect\nMissing data → how to identify, visualise, and deal with missing values in R\n\nThese two topics are very important in real data analysis because they answer two practical questions:\n\nDo we have enough data to detect something important?\nCan we trust our analysis if some of the data is missing?\n\nA lot of statistics courses focus on how to run a test, but this class goes one step further. It asks whether the test had a fair chance of finding an effect in the first place, and whether missing values may be distorting the result.",
+    "text": "Identifying and handling missing data in R\nVisualising missing data patterns using the VIM and summarytools packages\nStrategies for dealing with missing data: removal vs. imputation\nIterative imputation with MICE and irmi()\nWhat statistical power means and why it matters\nThe four interconnected quantities in power analysis: sample size, effect size, α, and power\nCalculating power manually for a Z-test\nUsing power analysis to determine required sample size\nLinking power analysis to confidence intervals and margins of error",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -924,275 +995,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-3.html#what-is-statistical-power",
-    "href": "regression-analysis/week-3.html#what-is-statistical-power",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "1. What is statistical power?",
-    "text": "1. What is statistical power?\nStatistical power is the probability of rejecting the null hypothesis when the null hypothesis is false.\nIn symbols:\n\\[\n\\text{Power} = 1 - \\beta\n\\]\nwhere:\n\n( ) = probability of a Type II error\n( 1 - ) = probability of correctly detecting a real effect\n\n\nHow to think about it\nPower is basically the test’s ability to notice something real.\nImagine a smoke alarm:\n\nA powerful smoke alarm goes off when there really is smoke\nA weak smoke alarm misses the smoke and stays silent\n\nA statistical test is similar. If there really is an effect in the population, a high-power test is more likely to find it.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#why-do-we-need-power-analysis",
-    "href": "regression-analysis/week-3.html#why-do-we-need-power-analysis",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "2. Why do we need power analysis?",
-    "text": "2. Why do we need power analysis?\nA non-significant result can mean two different things:\n\nthere really is no effect\nthere is an effect, but the study was too weak to detect it\n\nThis is why power matters.\n\nReal-world meaning\nSuppose a new medicine really helps patients a little, but your sample is tiny.\nYour test may say:\n\n“Fail to reject the null hypothesis”\n\nBut that does not necessarily mean the medicine does nothing. It may just mean the study did not have enough power.\nThat is the main purpose of power analysis:\n\nto check whether the sample size is large enough to detect an effect that matters",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#the-four-linked-quantities",
-    "href": "regression-analysis/week-3.html#the-four-linked-quantities",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "3. The four linked quantities",
-    "text": "3. The four linked quantities\nThe slides say that four quantities are related:\n\nsample size (n)\neffect size\nsignificance level ( )\npower (1 - )\n\n\nWhy this matters\nThese four quantities work like a balancing system.\nIf you change one, the others are affected.\n\n\nGeneral pattern\n\nlarger sample size → higher power\nlarger effect size → higher power\nsmaller alpha (stricter test) → lower power\nhigher desired power → usually need larger sample size\n\n\n\nIntuition\nIf you are trying to detect a very small difference, you need more data.\nIf you are happy to detect only large differences, you may need less data.\nSo power analysis is really about matching the study design to the kind of effect you care about.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#effect-size-in-power-analysis",
-    "href": "regression-analysis/week-3.html#effect-size-in-power-analysis",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "4. Effect size in power analysis",
-    "text": "4. Effect size in power analysis\nIn practice, we do not know the true effect size.\nIf we already knew the true effect, there would be no need to do the test.\nSo instead, we choose a minimum effect size of practical importance.\n\nImportant idea\nThis is not just “any difference”.\nIt is the smallest difference that would actually matter in real life.\n\n\nReal-world example from the lecture\nThe slides give an example with premature infants, where a difference of 500 g in weight gain was considered clinically significant.\nThat means the researchers were saying:\n\n“We are not just interested in any tiny difference. We want to be able to detect a difference of at least 500 g, because that is the minimum difference that matters in practice.”\n\nThis is the difference between:\n\nstatistical significance → is there evidence of some effect?\npractical or clinical significance → is the effect large enough to matter?",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#chemical-company-example",
-    "href": "regression-analysis/week-3.html#chemical-company-example",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "5. Chemical company example",
-    "text": "5. Chemical company example\nThe lecture uses a good example:\nA company claims that the mean amount of caustic material is:\n\\[\n\\mu = 4.0\n\\]\nAn inspector takes a sample of 30 containers and gets:\n\nsample mean ( {x} = 4.3 )\nknown standard deviation ( = 1.3 )\n\nIf the true amount is greater than 4, the product may be dangerous.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#step-1---state-the-hypotheses",
-    "href": "regression-analysis/week-3.html#step-1---state-the-hypotheses",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "6. Step 1 - State the hypotheses",
-    "text": "6. Step 1 - State the hypotheses\nBecause the product is only dangerous if the mean is greater than 4, this is a one-tailed test.\n\\[\nH_0: \\mu = 4.0\n\\]\n\\[\nH_A: \\mu &gt; 4.0\n\\]\n\nWhy one-tailed?\nBecause we only care about too much caustic material.\nIf the mean were lower than 4, that is not the danger being studied here.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#step-2---type-i-and-type-ii-errors-in-context",
-    "href": "regression-analysis/week-3.html#step-2---type-i-and-type-ii-errors-in-context",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "7. Step 2 - Type I and Type II errors in context",
-    "text": "7. Step 2 - Type I and Type II errors in context\n\nType I error\nReject (H_0) when it is actually true.\nIn this problem:\n\nWe conclude that the true mean is greater than 4 ml per litre when in fact it is not.\n\nSo we would falsely label the product as dangerous.\n\n\n\nType II error\nFail to reject (H_0) when it is actually false.\nIn this problem:\n\nWe conclude that the true mean is not greater than 4 ml per litre when in fact it is.\n\nSo we would miss a dangerous product.\n\n\nWhy Type II error matters here\nThis is why power analysis is important.\nIn safety settings, failing to detect a real danger can be a serious problem.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#step-3---carry-out-the-hypothesis-test",
-    "href": "regression-analysis/week-3.html#step-3---carry-out-the-hypothesis-test",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "8. Step 3 - Carry out the hypothesis test",
-    "text": "8. Step 3 - Carry out the hypothesis test\nSince the population standard deviation is known, we use a one-sample Z test.\nThe test statistic is:\n\\[\nZ = \\frac{\\bar{x} - \\mu}{\\sigma / \\sqrt{n}}\n\\]\nSubstitute the values:\n\\[\nZ = \\frac{4.3 - 4.0}{1.3 / \\sqrt{30}} = 1.264\n\\]\nAt the 5% significance level for a one-tailed test, the critical value is:\n\\[\nZ_{crit} = 1.645\n\\]\nSince:\n\\[\n1.264 &lt; 1.645\n\\]\nwe fail to reject the null hypothesis.\n\nConclusion\nThe data does not provide enough evidence to conclude that the mean level of caustic material is greater than 4 ml per litre.\n\n\nImportant interpretation\nThis does not prove the mean is 4 or less.\nIt only means the sample did not give strong enough evidence to conclude it is greater than 4.\nThat distinction is very important.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#p-value-and-lower-confidence-bound",
-    "href": "regression-analysis/week-3.html#p-value-and-lower-confidence-bound",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "9. p-value and lower confidence bound",
-    "text": "9. p-value and lower confidence bound\nThe lecture also gives:\n\n( p = 0.103 )\n95% lower confidence bound = 3.910\n\nSince ( p &gt; 0.05 ), the result is not statistically significant.\nThe lower confidence bound means:\n\nWe are 95% confident that the true population mean is greater than 3.910.\n\n\nWhy this is useful\nThe p-value only helps with the decision.\nThe confidence bound gives more information about the range of plausible values.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#the-key-power-question",
-    "href": "regression-analysis/week-3.html#the-key-power-question",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "10. The key power question",
-    "text": "10. The key power question\nAfter failing to reject the null, the lecturer asks the really important question:\n\nDid the result show there is no dangerous increase, or was the sample just too small to detect it?\n\nThat is exactly what power analysis helps answer.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#calculating-power-for-a-meaningful-effect",
-    "href": "regression-analysis/week-3.html#calculating-power-for-a-meaningful-effect",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "11. Calculating power for a meaningful effect",
-    "text": "11. Calculating power for a meaningful effect\nSuppose we decide that a dangerous increase would be:\n\\[\n4.35 \\text{ ml per litre}\n\\]\nThat means the effect size of interest is:\n\\[\n0.35\n\\]\nNow the question becomes:\n\nIf the true mean really were 4.35, how likely would this test be to detect it?\n\nThat probability is the power.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#rejection-rule-in-terms-of-the-sample-mean",
-    "href": "regression-analysis/week-3.html#rejection-rule-in-terms-of-the-sample-mean",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "12. Rejection rule in terms of the sample mean",
-    "text": "12. Rejection rule in terms of the sample mean\nEarlier we had the critical Z value:\n\\[\nZ_{crit} = 1.645\n\\]\nWe can convert this back to the sample-mean scale:\n\\[\n\\bar{X} = \\mu + \\frac{\\sigma}{\\sqrt{n}} Z_{crit}\n\\]\nSubstituting:\n\\[\n\\bar{X} = 4 + \\frac{1.3}{\\sqrt{30}}(1.645) = 4.39\n\\]\n\nInterpretation\n\nIf ( {X} &gt; 4.39 ) → reject (H_0)\nIf ( {X} &lt; 4.39 ) → fail to reject (H_0)\n\nSo the sample mean must be at least 4.39 for the test to detect the effect.\n\n\nIntuition\nThis is the “cut-off point” needed before the evidence is strong enough.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#calculating-type-ii-error-and-power",
-    "href": "regression-analysis/week-3.html#calculating-type-ii-error-and-power",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "13. Calculating Type II error and power",
-    "text": "13. Calculating Type II error and power\nIf the true mean is actually (4.35), then Type II error means:\n\nwe fail to reject the null even though the alternative is true\n\nSo we need:\n\\[\nP(\\bar{X} &lt; 4.39 \\mid \\mu = 4.35)\n\\]\nConvert to a Z score:\n\\[\nZ = \\frac{4.39 - 4.35}{1.3/\\sqrt{30}} = 0.17\n\\]\nFrom the normal table:\n\\[\nP(Z &lt; 0.17) = 0.5675\n\\]\nSo:\n\\[\n\\beta = 0.5675\n\\]\nand therefore:\n\\[\n\\text{Power} = 1 - \\beta = 1 - 0.5675 = 0.4325\n\\]\nSo the power is:\n\\[\n43.25\\%\n\\]",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#what-does-power-43.25-mean",
-    "href": "regression-analysis/week-3.html#what-does-power-43.25-mean",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "14. What does power = 43.25% mean?",
-    "text": "14. What does power = 43.25% mean?\nThis means:\n\nIf the true mean is really 4.35, this test would detect that effect only about 43% of the time.\n\nThat is not very good.\n\nInterpretation\nThere is a bigger chance of missing the effect than detecting it.\nSo this low power suggests the study may be too weak to reliably detect that effect.\n\n\nReal-world meaning\nIf you are testing something potentially dangerous, 43% power is poor.\nYou would want a better chance of catching the problem.\nUsually researchers want power around 80% or higher, though the lecture did not focus on that threshold explicitly.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#why-smaller-effects-are-harder-to-detect",
-    "href": "regression-analysis/week-3.html#why-smaller-effects-are-harder-to-detect",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "15. Why smaller effects are harder to detect",
-    "text": "15. Why smaller effects are harder to detect\nThe exercise then changes the effect size from 0.35 to 0.1.\nThe answer becomes much lower power.\n\nWhy?\nBecause smaller effects are harder to separate from random noise.\n\n\nReal-world analogy\nIt is easier to hear a loud alarm in a noisy room than a very quiet beep.\nA large effect stands out more clearly. A small effect gets lost more easily.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#confidence-interval-formula",
-    "href": "regression-analysis/week-3.html#confidence-interval-formula",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "16. Confidence interval formula",
-    "text": "16. Confidence interval formula\nWhen the population standard deviation is known, the confidence interval for a mean is:\n\\[\n\\bar{x} \\pm Z_{\\alpha/2} \\times \\frac{\\sigma}{\\sqrt{n}}\n\\]\nThe term\n\\[\nZ_{\\alpha/2} \\times \\frac{\\sigma}{\\sqrt{n}}\n\\]\nis the margin of error (ME).",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#what-is-margin-of-error",
-    "href": "regression-analysis/week-3.html#what-is-margin-of-error",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "17. What is margin of error?",
-    "text": "17. What is margin of error?\nThe margin of error is how far we are willing for our estimate to be from the true value.\n\nIntuition\nIf the margin of error is small, we want a very precise estimate.\nIf we want a more precise estimate, we usually need a larger sample size.\nSo margin of error and sample size are directly connected.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#sample-size-formula-from-margin-of-error",
-    "href": "regression-analysis/week-3.html#sample-size-formula-from-margin-of-error",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "18. Sample size formula from margin of error",
-    "text": "18. Sample size formula from margin of error\nStarting with:\n\\[\nME = Z_{\\alpha/2} \\times \\frac{\\sigma}{\\sqrt{n}}\n\\]\nrearranging gives:\n\\[\nn = \\left(\\frac{Z_{\\alpha/2}\\sigma}{ME}\\right)^2\n\\]\n\nWhat this means\nIf you know:\n\nyour confidence level\nyour standard deviation\nyour desired margin of error\n\nyou can work out how much data you need.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#sample-size-example",
-    "href": "regression-analysis/week-3.html#sample-size-example",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "19. Sample size example",
-    "text": "19. Sample size example\nSuppose an analyst wants to estimate mean voltage.\nGiven:\n\npopulation standard deviation ( = 22.5 )\nmargin of error ( ME = 5 )\n95% confidence level, so ( Z = 1.96 )\n\nThen:\n\\[\nn = \\left(\\frac{1.96 \\times 22.5}{5}\\right)^2\n\\]\nThis gives:\n\\[\nn = 77.8\n\\]\nSince sample size must be a whole number, we round up:\n\\[\nn = 78\n\\]\n\nWhy round up?\nBecause 77 would not quite give the precision we need.\nWhen planning sample size, always round up.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#unknown-standard-deviation",
-    "href": "regression-analysis/week-3.html#unknown-standard-deviation",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "20. Unknown standard deviation",
-    "text": "20. Unknown standard deviation\nIn real life, the population standard deviation is often unknown.\nThen we use the sample standard deviation (s) instead, and the distribution is based on t rather than Z.\nThat is more realistic, but also a little more complicated.\nThe main idea is still the same:\n\nmore precision requires more data",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#why-missing-data-matters",
-    "href": "regression-analysis/week-3.html#why-missing-data-matters",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "21. Why missing data matters",
-    "text": "21. Why missing data matters\nMissing data is not just annoying. It can change your results.\nIf missing values are ignored carelessly, you may:\n\nlose a lot of data\nreduce sample size\nreduce power\nintroduce bias\nfit models on a non-representative subset\n\nSo missing data is really about data quality, not just cleanup.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#useful-r-functions-for-small-amounts-of-missing-data",
-    "href": "regression-analysis/week-3.html#useful-r-functions-for-small-amounts-of-missing-data",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "22. Useful R functions for small amounts of missing data",
-    "text": "22. Useful R functions for small amounts of missing data\nThe slides list several useful functions when there are only a few missing values and no obvious missing-data pattern.\n\nis.na(x)\nChecks whether each value is missing.\nIt returns:\n\nTRUE if missing\nFALSE if not missing\n\n### `is.na(x)`\nChecks whether each value is missing.\nIt returns:\n\nTRUE if missing\nFALSE if not missing\n\nis.na(x)\n\n\n🧠 How to think about it\nThis is the basic building block for missing data.\n👉 You are asking:\n\n“Where exactly is my data missing?”\n\n\n\n\nsum(is.na(x))\nCounts the number of missing values.\nsum(is.na(x))\n\n\n🧠 Why this is useful\nInstead of looking at TRUE/FALSE values, this gives you a quick summary.\n👉 Example:\n\nIf result = 5 → there are 5 missing values\n\n\n\n\nmean(is.na(x))\nGives the proportion of missing values.\nmean(is.na(x))\n\n\n🧠 Why this matters\n\nIf result = 0.10 → 10% of data is missing\nThis helps you judge how serious the problem is\n\n\n\n\ncomplete.cases(x)\nReturns rows with no missing values.\ncomplete.cases(x)\n\n\n\nRemoving missing data\nx_clean &lt;- x[complete.cases(x), ]\n\n\n\n🧠 Important warning\nThis method is called listwise deletion.\nIt is simple, but:\n\nreduces sample size\nreduces power\nmay introduce bias\n\n👉 If missing data is not random, this can be very dangerous.",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
-  },
-  {
-    "objectID": "regression-analysis/week-3.html#types-of-missing-data-very-important",
-    "href": "regression-analysis/week-3.html#types-of-missing-data-very-important",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "23. Types of missing data (VERY IMPORTANT)",
-    "text": "23. Types of missing data (VERY IMPORTANT)\nNot all missing data is the same.\nThis is critical for your understanding.\n\n\n1. MCAR — Missing Completely At Random\nMissingness has no relationship with any variable.\n👉 Example:\n\nA survey page is accidentally lost\n\n✔ Safe to remove data (usually)\n\n\n\n2. MAR — Missing At Random\nMissingness depends on observed variables\n👉 Example:\n\nIncome missing more often for younger people\n\n✔ Can be handled with proper methods (e.g. imputation)\n\n\n\n3. MNAR — Missing Not At Random\nMissingness depends on the missing value itself\n👉 Example:\n\nPeople with very high income choose not to report it\n\n❗ Most problematic case\n\n\n\n🧠 Why this matters\n👉 Because:\n\nThe method you choose depends on why the data is missing",
+    "objectID": "regression-analysis/week-3.html#core-explanation",
+    "href": "regression-analysis/week-3.html#core-explanation",
+    "title": "Week 3 Study Guide: Missing Data & Power Analysis",
+    "section": "2.1 Core Explanation",
+    "text": "2.1 Core Explanation\n\n2.1.1 What Is Missing Data?\nIn real-world datasets, it is very common to find that some values are simply not recorded — these are called missing values, represented in R as NA (Not Available). Missing data can arise for many reasons: a participant dropped out of a study, a sensor failed to record, or a question was left blank on a survey.\nBefore doing any analysis, it is important to understand how much data is missing and where it is missing from, because this can significantly affect your results.\n\n\n2.1.2 The Sleep Dataset\nThe examples in this week’s class used the sleep dataset — a study of sleep patterns across 39 mammal species (62 observations, 10 variables). This dataset was chosen because it has a realistic spread of missing values across several columns.\nThe variables in the dataset are:\n\n\n\nVariable\nDescription\n\n\n\n\nBodyWgt\nBody weight (kg)\n\n\nBrainWgt\nBrain weight (kg)\n\n\nNonD\nNon-dream sleep (hours/day)\n\n\nDream\nDream sleep (hours/day)\n\n\nSleep\nTotal sleep (NonD + Dream)\n\n\nSpan\nMax life span (years)\n\n\nGest\nGestation time (days)\n\n\nPred\nPredation index (danger from predators)\n\n\nExp\nSleep exposure index\n\n\nDanger\nOverall danger index (1 = least, 5 = most)\n\n\n\n\n\n2.1.3 Basic R Functions for Missing Data\nWhen you only have a few missing values and no obvious patterns, R provides several straightforward tools:\nis.na(x)               # Returns TRUE/FALSE for each value — is it missing?\nwhich(is.na(x))        # Tells you the *position* (index) of the NAs\nna.rm = TRUE           # Used inside functions like mean() to ignore NAs\ncomplete.cases(x)      # Returns TRUE for rows with no missing values\nna.omit(x)             # Removes all rows that contain any NA\nRemoving rows based on conditions:\n# Remove rows where a specific column has NA\ndf &lt;- df[!is.na(df$specific_column), ]\n\n# Remove rows where EITHER col1 OR col2 has NA\ndf &lt;- df[!(is.na(df$col1) | is.na(df$col2)), ]\n\n\n2.1.4 Summarising Your Data with summarytools\nThe summarytools package provides a quick way to see the distribution of each variable and spot where values are missing. It produces a Data Frame Summary table showing the mean, standard deviation, min/max, and the number of distinct valid values for each column.\nlibrary(summarytools)\ndfSummary(sleep)\nThis is a good first step — it gives you a bird’s-eye view of the entire dataset, including which variables have fewer valid values (a sign of missingness).",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1202,9 +1009,9 @@
   {
     "objectID": "regression-analysis/week-3.html#visualising-missing-data",
     "href": "regression-analysis/week-3.html#visualising-missing-data",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "24. Visualising missing data",
-    "text": "24. Visualising missing data\nThe lecture uses the VIM package.\nThis is VERY useful in practice.\n\n\naggr() function\nlibrary(VIM)\naggr(data)\n\n\n\nWhat it shows\n\nAmount of missing data per variable\nPatterns of missingness\n\n\n\n\n🧠 How to interpret\n\nBars → how much is missing\nColours:\n\nBlue = observed\nRed = missing\n\n\n👉 Helps answer:\n\n“Which variables have the most missing data?”\n\n\n\n\nbarMiss()\nbarMiss(data)\n\n\n\nWhat it does\nShows missing values grouped by categories\n👉 Example:\n\nMissing income by gender\n\n\n\n\n🧠 Why this is powerful\nHelps detect patterns\n👉 If missing data is not random → this will show it\n\n\n\nScatter plots with missing data\n\nRed points = missing values\nBoxplots show distribution\n\n👉 Helps understand:\n\nIs missingness related to other variables?",
+    "title": "Week 3 Study Guide: Missing Data & Power Analysis",
+    "section": "2.2 Visualising Missing Data",
+    "text": "2.2 Visualising Missing Data\nThe VIM package provides powerful tools specifically for exploring missing data visually. The key principle is that red = missing and blue = complete across all VIM plots.\n\n2.2.1 aggr() — Count and Plot Missingness\nlibrary(VIM)\naggr(sleep, numbers = TRUE, prop = FALSE)\nThis produces two plots: 1. A bar chart showing how many values are missing per variable (e.g., NonD had ~14 missing values in the sleep dataset). 2. A combination plot showing which combinations of variables tend to be missing together. For example, rows 31 and 62 both had NonD, Dream, and Sleep missing simultaneously — which makes sense because Sleep = NonD + Dream.\n\n\n2.2.2 barMiss() — Missingness by a Categorical Variable\nbarMiss(sleep[, c(\"Exp\", \"Sleep\")])\nUse this when you want to see whether missingness in one variable is related to the values of another variable. For the sleep data, Sleep had 4 missing values: 1 occurred when Exp = 1, and 3 occurred when Exp = 5. Exp itself had no missing values.\n\n\n2.2.3 histMiss() — Missingness by a Continuous Variable\nhistMiss(sleep[, c(\"Span\", \"Sleep\")])\nThis is the same idea as barMiss() but for continuous variables, where a histogram is more appropriate. For the sleep data, the 4 missing Sleep values appeared in cases where Span was between 10–20 years and 20–30 years.\n\n\n2.2.4 marginplot() — Comparing Distributions With and Without Missingness\nmarginplot(sleep[, c(\"Span\", \"Sleep\")])\nThis is one of the most informative plots. It shows a scatter plot of two variables, with extra boxplots in the margins:\n\nThe red boxplot shows the distribution of Sleep for cases where Span is missing — i.e., what does Sleep look like when we don’t know Span?\nThe blue boxplot shows the distribution of Sleep for cases where Span is observed.\n\nIf the red and blue boxplots look very similar, it suggests the data may be Missing At Random (MAR) — the missingness is not related to the unobserved values. If they look very different, the missing data pattern may be informative.\n\nAnnotation space: How did the red and blue boxplots compare in the sleep example? What might that suggest about the missing data mechanism?",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1212,11 +1019,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-3.html#what-to-do-with-missing-data",
-    "href": "regression-analysis/week-3.html#what-to-do-with-missing-data",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "25. What to do with missing data?",
-    "text": "25. What to do with missing data?\nThere is no single answer.\nBut here are common approaches:\n\n\n1. Remove data (simple approach)\n✔ Easy ❌ Can lose a lot of information\n\n\n\n2. Imputation (fill in missing values)\nExamples:\n\nMean imputation\nMedian imputation\n\n👉 Replace missing values with a reasonable estimate\n\n\n\n⚠️ Important limitation\n\nReduces variability\nCan distort relationships\n\n\n\n\n3. More advanced methods (not covered deeply yet)\n\nMultiple imputation\nModel-based methods\n\n👉 You will likely see these later in the course",
+    "objectID": "regression-analysis/week-3.html#dealing-with-missing-data",
+    "href": "regression-analysis/week-3.html#dealing-with-missing-data",
+    "title": "Week 3 Study Guide: Missing Data & Power Analysis",
+    "section": "2.3 Dealing with Missing Data",
+    "text": "2.3 Dealing with Missing Data\n\n2.3.1 Option 1: Complete Case Analysis (Listwise Deletion)\nThe simplest approach is to just remove any row that contains a missing value. In R’s lm() function, this is actually the default behaviour — it automatically uses only complete cases.\n# These two are equivalent for linear regression:\nlm(Sleep ~ BodyWgt, data = sleep)\nlm(Sleep ~ BodyWgt, data = na.omit(sleep))\nOther related options:\nna.fail()     # Throws an error if any NAs are present — forces you to address it\nna.exclude()  # Like na.omit() but keeps NA slots in predictions\nWhen is this acceptable? Only when the amount of missing data is small and there is no systematic pattern to which cases are missing. If certain types of cases are more likely to be missing, removing them can bias your results.\n\n\n2.3.2 Option 2: Imputation with irmi() (VIM Package)\nImputation means filling in the missing values with estimated values, rather than throwing the data away.\nThe irmi() function uses Iterative Robust Model-based Imputation:\nlibrary(VIM)\nimputed_sleep &lt;- irmi(sleep)\nHow it works: 1. Take one variable (e.g., NonD) as the response variable. 2. Use all other variables as predictors in a regression model. 3. Use the predicted values from that model to fill in the missing NonD values. 4. Repeat this process, cycling through each variable that has missing values. 5. Continue iterating until the imputed values stabilise.\nAfter imputation, you should compare linear model results before and after imputation to see how much the coefficients changed. In the sleep example, the intercept was slightly larger and the slope slightly less negative after imputation.\n\n\n2.3.3 Option 3: Multiple Imputation with MICE\nThe MICE package (Multiple Imputation by Chained Equations) is a more sophisticated approach. Instead of imputing once, it creates multiple complete datasets (e.g., 5), fits a model to each one, and then pools the results.\nlibrary(mice)\nimputed &lt;- mice(sleep, m = 5, method = \"pmm\")  # pmm = predictive mean matching\nmodels  &lt;- with(imputed, lm(Sleep ~ BodyWgt))\npooled  &lt;- pool(models)\nsummary(pooled)\nPredictive Mean Matching (PMM) works by finding observed values that are close to the predicted value and using one of those as the imputed value. This keeps imputed values realistic (they come from real observed data).\nThe predictor matrix in MICE output tells you which variables were used to predict the missing values in each column.\nWhy does the pooled model have larger standard errors? Because pooling across 5 datasets accounts for the extra uncertainty introduced by the fact that we don’t truly know what the missing values are. This is actually more honest than a single imputation.\n\nAnnotation space: When would you choose MICE over irmi()? Think about dataset size, the proportion of missing data, and how much you care about uncertainty quantification.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1224,11 +1031,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-3.html#key-connection-missing-data-and-power",
-    "href": "regression-analysis/week-3.html#key-connection-missing-data-and-power",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "26. Key connection: Missing data and power",
-    "text": "26. Key connection: Missing data and power\nThis is VERY important and often overlooked.\n👉 Missing data → smaller effective sample size\nWhich means:\n\nhigher standard error\nwider confidence intervals\nlower power\n\n\n\n🧠 Big picture insight\nMissing data is not just a “data cleaning issue”.\nIt directly affects:\n\ninference\nhypothesis testing\nreliability of conclusions",
+    "objectID": "regression-analysis/week-3.html#core-explanation-1",
+    "href": "regression-analysis/week-3.html#core-explanation-1",
+    "title": "Week 3 Study Guide: Missing Data & Power Analysis",
+    "section": "3.1 Core Explanation",
+    "text": "3.1 Core Explanation\n\n3.1.1 What Is Statistical Power?\nWhen you run a hypothesis test, there are two ways you can be wrong:\n\n\n\n\n\n\n\n\nDecision\nH₀ is True\nH₀ is False\n\n\n\n\nReject H₀\nType I error (probability = α)\n✅ Correct! (probability = power = 1 − β)\n\n\nFail to reject H₀\n✅ Correct! (probability = 1 − α)\nType II error (probability = β)\n\n\n\nStatistical power is defined as:\n\\[\\text{Power} = 1 - \\beta = P(\\text{reject } H_0 \\mid H_0 \\text{ is false})\\]\nIn plain English: power is the probability that your test will correctly detect a real effect when one actually exists. A higher power means a better, more sensitive test.\n\n\n3.1.2 The Four Interconnected Quantities\nPower analysis is built on the relationship between four quantities. If you know any three, you can calculate the fourth:\n\nSample size \\(n\\) — larger samples give more power\nEffect size — the size of the difference you’re trying to detect (larger effects are easier to detect)\nSignificance level \\(\\alpha\\) — the threshold for rejecting \\(H_0\\) (typically 0.05)\nPower \\(1 - \\beta\\) — typically you aim for at least 0.80 (80%)\n\n\nImportant caveat: In practice, you cannot know the true effect size — if you already knew the true difference, there would be no need to test! Instead, you define the minimum effect size of practical importance (the smallest difference that would actually matter for your application).",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1236,11 +1043,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-3.html#power-analysis",
-    "href": "regression-analysis/week-3.html#power-analysis",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "Power Analysis",
-    "text": "Power Analysis\n\nPower = probability of detecting a real effect\nDepends on:\n\nsample size\neffect size\nsignificance level\n\n\n👉 Low power = high chance of missing real effects",
+    "objectID": "regression-analysis/week-3.html#key-equations-formulas",
+    "href": "regression-analysis/week-3.html#key-equations-formulas",
+    "title": "Week 3 Study Guide: Missing Data & Power Analysis",
+    "section": "3.2 Key Equations / Formulas",
+    "text": "3.2 Key Equations / Formulas\n\n3.2.1 Z-Test Statistic (known population standard deviation)\n\\[Z_{stat} = \\frac{\\bar{x} - \\mu}{\\sigma / \\sqrt{n}}\\]\n\n\n3.2.2 Minimum Sample Mean to Reject \\(H_0\\)\n\\[\\bar{X}_{crit} = \\mu + \\frac{\\sigma}{\\sqrt{n}} \\times Z_{crit}\\]\n\n\n3.2.3 Power Calculation\nOnce you have \\(\\bar{X}_{crit}\\), calculate the probability of exceeding it under the alternative hypothesis:\n\\[\\beta = P\\left(\\bar{X} &lt; \\bar{X}_{crit} \\mid \\mu = \\mu_A\\right) = P\\left(Z &lt; \\frac{\\bar{X}_{crit} - \\mu_A}{\\sigma / \\sqrt{n}}\\right)\\]\n\\[\\text{Power} = 1 - \\beta\\]\n\n\n3.2.4 Sample Size Formula (known σ, from margin of error)\n\\[n = \\left(\\frac{Z_{\\alpha/2} \\times \\sigma}{ME}\\right)^2\\]\n\n\n3.2.5 Sample Size Formula (unknown σ, using t-distribution)\n\\[n = \\left(\\frac{t_{\\alpha/2,\\, n-1} \\times s}{ME}\\right)^2\\]\n(Note: this requires iteration since \\(t\\) depends on \\(n\\))",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1248,11 +1055,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-3.html#confidence-and-sample-size",
-    "href": "regression-analysis/week-3.html#confidence-and-sample-size",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "Confidence and Sample Size",
-    "text": "Confidence and Sample Size\n\nMargin of error controls precision\nLarger sample → smaller error\nCan calculate required sample size before study",
+    "objectID": "regression-analysis/week-3.html#practical-example-chemical-company",
+    "href": "regression-analysis/week-3.html#practical-example-chemical-company",
+    "title": "Week 3 Study Guide: Missing Data & Power Analysis",
+    "section": "3.3 Practical Example — Chemical Company",
+    "text": "3.3 Practical Example — Chemical Company\n\n3.3.1 Problem Setup\nA chemical company claims their product contains on average μ = 4.0 ml of caustic material per litre. A government inspector tests a sample of n = 30 containers and finds: - Sample mean: \\(\\bar{x} = 4.3\\) ml - Known population standard deviation: \\(\\sigma = 1.3\\)\n\n\n3.3.2 Step 1: State the Hypotheses\nSince the product is only dangerous if it contains more than 4.0 ml, this is a one-tailed test:\n\\[H_0: \\mu = 4.0 \\quad \\text{vs.} \\quad H_A: \\mu &gt; 4.0\\]\n\n\n3.3.3 Step 2: Type I and Type II Errors in Context\n\nType I error: Concluding the mean is greater than 4 ml when it actually isn’t — falsely accusing the company.\nType II error: Concluding the mean is not greater than 4 ml when it actually is — missing a genuine danger.\n\n\n\n3.3.4 Step 3: Conduct the Test (α = 0.05)\n\\[Z_{stat} = \\frac{4.3 - 4.0}{1.3 / \\sqrt{30}} = \\frac{0.3}{0.2374} = 1.264\\]\n\nCritical value for a one-tailed test at α = 0.05: \\(Z_{crit} = 1.645\\)\nSince \\(Z_{stat} = 1.264 &lt; 1.645\\), we fail to reject \\(H_0\\)\nThe p-value is 0.103 &gt; 0.05, confirming this conclusion\n95% lower bound: 3.910 (we are 95% confident the true mean is above 3.910 ml)\n\nConclusion: The data does not provide sufficient evidence that the mean caustic level exceeds 4 ml/litre.\n\n\n3.3.5 Step 4: Calculate the Power of the Test\nNow ask: Was our sample large enough to detect a meaningful difference?\nSuppose we define a difference of 0.35 ml/litre as practically significant — i.e., we want to detect if the true mean is μ_A = 4.35.\nFind the critical sample mean (threshold for rejection):\n\\[\\bar{X}_{crit} = 4.0 + \\frac{1.3}{\\sqrt{30}} \\times 1.645 = 4.0 + 0.39 = 4.39\\]\nSo we only reject \\(H_0\\) if the sample mean exceeds 4.39.\nCalculate β (probability of Type II error):\n\\[\\beta = P(\\bar{X} &lt; 4.39 \\mid \\mu = 4.35) = P\\left(Z &lt; \\frac{4.39 - 4.35}{1.3/\\sqrt{30}}\\right) = P(Z &lt; 0.17) = 0.5675\\]\nPower:\n\\[\\text{Power} = 1 - 0.5675 = \\mathbf{0.4325}\\]\nInterpretation: There is only a 43.25% chance of correctly detecting a 0.35 ml difference with n = 30. This is quite low — the test is underpowered. We would ideally want power ≥ 0.80.\n\nAnnotation space: What would you recommend the inspector do? Collect a larger sample? Define a larger minimum effect size? Both options involve trade-offs.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1260,11 +1067,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-3.html#missing-data",
-    "href": "regression-analysis/week-3.html#missing-data",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "Missing Data",
-    "text": "Missing Data\n\nAlways check it first\nUnderstand why it is missing\nBe careful when removing data",
+    "objectID": "regression-analysis/week-3.html#sample-size-from-margin-of-error",
+    "href": "regression-analysis/week-3.html#sample-size-from-margin-of-error",
+    "title": "Week 3 Study Guide: Missing Data & Power Analysis",
+    "section": "3.4 Sample Size from Margin of Error",
+    "text": "3.4 Sample Size from Margin of Error\nPower analysis is closely linked to confidence intervals. The margin of error (ME) in a confidence interval is:\n\\[ME = Z_{\\alpha/2} \\times \\frac{\\sigma}{\\sqrt{n}}\\]\nRearranging to find the required sample size for a desired ME:\n\\[n = \\left(\\frac{Z_{\\alpha/2} \\times \\sigma}{ME}\\right)^2\\]\nExample: An analyst wants to estimate mean voltage (σ = 22.5 volts) with a margin of error of 5 volts at 95% confidence:\n\\[n = \\left(\\frac{1.96 \\times 22.5}{5}\\right)^2 = (8.82)^2 \\approx 78 \\text{ observations}\\]\nWhen \\(\\sigma\\) is unknown, replace \\(Z\\) with the \\(t\\)-distribution critical value and \\(\\sigma\\) with the sample standard deviation \\(s\\).",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1272,30 +1079,81 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-3.html#most-important-idea-from-this-lecture",
-    "href": "regression-analysis/week-3.html#most-important-idea-from-this-lecture",
-    "title": "Week 3 - Power Analysis + Missing Data",
-    "section": "🧠 Most important idea from this lecture",
-    "text": "🧠 Most important idea from this lecture\n\nA non-significant result does NOT mean “no effect”\n\nIt could mean:\n\nno effect\nOR not enough power\nOR poor data (missing values)",
-    "crumbs": [
-      "Regression Analysis",
-      "Weekly Notes",
-      "Week 3"
-    ]
+    "objectID": "regression-analysis/labs.html",
+    "href": "regression-analysis/labs.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "regression-analysis/revision.html",
+    "href": "regression-analysis/revision.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
+    "text": "About this site\n\n\nCode\n1 + 1\n\n\n[1] 2"
+  },
+  {
+    "objectID": "time-series/week-2.html",
+    "href": "time-series/week-2.html",
+    "title": "",
+    "section": "",
+    "text": "Code",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html",
+    "href": "time-series/week-1.html",
+    "title": "",
+    "section": "",
+    "text": "Code",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/revision.html",
+    "href": "time-series/revision.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "time-series/labs.html",
+    "href": "time-series/labs.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "time-series/index.html",
+    "href": "time-series/index.html",
+    "title": "",
+    "section": "",
+    "text": "Code",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes"
+    ]
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Home",
     "section": "",
-    "text": "Welcome to my semester notes website.\nTo run this website, open the terminal and run: quarto preview\nUse the sidebar to navigate by module and week.\n\n\n\nData Mining\nRegression Analysis\nTime Series\n\n\n\n\n\nWeekly lecture notes\nLab practice and R examples\nRevision summaries\nExam preparation notes",
+    "text": "Data Analytics — Semester Notes\n  A living reference for lecture content, lab work, and exam prep. Browse by module in the sidebar, or follow the guide below to run this site locally or push updates to GitHub Pages.\n\n\n\n\n  \n    ⛏️\n    Data Mining\n    Weeks 1–8\n  \n  \n    📈\n    Regression Analysis\n    Weeks 1–9\n  \n  \n    🕒\n    Time Series\n    Weeks 1–2\n  \n\n\nWhat you'll find here:\n\n  Weekly lecture notes\n  Lab practice & R examples\n  Revision summaries\n  Exam preparation notes\n\n\n\n\n\n\n  Running this site locally\n  Ideal when you want to preview changes before publishing — works offline too.\n\n  \n    1\n    \n      Open your terminal and navigate to the project folder. If you cloned the repo, it'll be wherever you saved it.\n      cd data-analytics-notes\n    \n  \n\n  \n    2\n    \n      Start the Quarto preview server. This builds the site and opens it in your browser automatically.\n      quarto preview\n      The site will live-reload whenever you save a .qmd file — no need to restart.\n    \n  \n\n  \n    3\n    \n      Open your browser and go to the address shown in the terminal — usually:\n      http://localhost:4321\n    \n  \n\n  \n    ✓ Tip: Press Ctrl + C in the terminal when you're done to stop the preview server.\n  \n\n\n\n\n\n\n  Publishing to GitHub Pages\n  Quarto has a built-in command for this — no manual file copying needed.\n\n  \n    1\n    \n      Make sure GitHub Pages is set up. In your repo on GitHub, go to Settings → Pages and set the source to the gh-pages branch. You only need to do this once.\n    \n  \n\n  \n    2\n    \n      Commit your changes to the main branch as normal. Quarto publishes separately from your source files.\n      git add .\n      git commit -m \"Update week 3 notes\"\n      git push\n    \n  \n\n  \n    3\n    \n      Publish with Quarto. This builds the site and pushes the rendered output to your gh-pages branch in one go.\n      quarto publish gh-pages\n      The first time you run this, Quarto may ask you to confirm the publishing destination — just hit Enter.\n    \n  \n\n  \n    4\n    \n      Wait ~30–60 seconds, then visit your site. GitHub Pages takes a moment to deploy the new build.\n      https://lgolin.github.io/data-analytics-notes/\n    \n  \n\n  \n    ⚠ Note: Don't edit the gh-pages branch directly — it's managed by Quarto. Always make edits in your source files and re-run quarto publish gh-pages.",
     "crumbs": [
       "Home"
     ]
@@ -1321,6 +1179,605 @@
     ]
   },
   {
+    "objectID": "regression-analysis/week-5.html",
+    "href": "regression-analysis/week-5.html",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "",
+    "text": "📝 Study Notes — These notes are designed to be reviewed and expanded. Use the comment spaces and &lt;!-- TODO --&gt; markers to add your own annotations as you revisit this material.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#what-is-anova-and-why-do-we-use-it",
+    "href": "regression-analysis/week-5.html#what-is-anova-and-why-do-we-use-it",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "2.1 What is ANOVA and Why Do We Use It?",
+    "text": "2.1 What is ANOVA and Why Do We Use It?\nANOVA (Analysis of Variance) is an inferential statistical method used to compare the means of three or more groups simultaneously. It is a direct extension of the independent t-test — whereas the t-test compares exactly two means, ANOVA can handle any number of groups.\nWhy not just run multiple t-tests?\nIf you have three groups (e.g. Sand, Clay, Loam), you could technically run three separate t-tests: Sand vs Clay, Sand vs Loam, and Clay vs Loam. However, each test carries a 5% chance of a Type I error (incorrectly rejecting a true null hypothesis). Running multiple tests multiplies this risk — by the time you have run all pairwise comparisons, your real chance of a false positive is much higher than 5%. ANOVA solves this by testing all group means simultaneously while keeping the overall Type I error rate at 5%.\n\nKey Idea: ANOVA compares two sources of variation — variation between groups (due to the treatment/factor) and variation within groups (due to random error). If the between-group variation is much larger than the within-group variation, it suggests that the groups genuinely differ.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#the-f-statistic",
+    "href": "regression-analysis/week-5.html#the-f-statistic",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "2.2 The F-Statistic",
+    "text": "2.2 The F-Statistic\nThe test statistic in ANOVA is the F-statistic (or F-ratio), defined as:\n\\[F = \\frac{\\text{Mean Square Between (MSF)}}{\\text{Mean Square Within (MSE)}}\\]\n\nIf the factor has no effect, the between-group variance and within-group variance should be roughly equal → F ≈ 1\nIf the factor has a strong effect, the between-group variance will be much larger → F &gt;&gt; 1\n\nThe F-statistic follows an F-distribution under the null hypothesis, and significance is assessed either by comparing F to a critical value from the F-table, or by computing a p-value.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#sum-of-squares-decomposition",
+    "href": "regression-analysis/week-5.html#sum-of-squares-decomposition",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "2.3 Sum of Squares Decomposition",
+    "text": "2.3 Sum of Squares Decomposition\nThe total variation in the data is partitioned into two components:\n\\[SS_T = SS_F + SS_E\\]\n\n\n\n\n\n\n\n\nComponent\nName\nMeasures\n\n\n\n\n\\(SS_T\\)\nTotal Sum of Squares\nTotal variation in all observations\n\n\n\\(SS_F\\)\nFactor (Between) Sum of Squares\nVariation due to differences between group means\n\n\n\\(SS_E\\)\nError (Within) Sum of Squares\nVariation due to random error within groups\n\n\n\n\n2.3.1 Formulas\nTotal Sum of Squares: \\[SS_T = \\sum_{i}\\sum_{j} \\left(y_{ij} - \\bar{\\bar{y}}\\right)^2\\]\nFactor Sum of Squares: \\[SS_F = n \\sum_{i} \\left(\\bar{y}_i - \\bar{\\bar{y}}\\right)^2\\]\nError Sum of Squares: \\[SS_E = SS_T - SS_F\\]\nWhere:\n\n\\(y_{ij}\\) = observation \\(j\\) in treatment group \\(i\\)\n\\(\\bar{y}_i\\) = mean of group \\(i\\)\n\\(\\bar{\\bar{y}}\\) = grand mean (overall mean of all observations)\n\\(n\\) = number of replicas per group",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#the-anova-table",
+    "href": "regression-analysis/week-5.html#the-anova-table",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "2.4 The ANOVA Table",
+    "text": "2.4 The ANOVA Table\nResults are always presented in a standard ANOVA table:\n\n\n\nSource\ndf\nSS\nMS = SS/df\nF\np-value\n\n\n\n\nFactor (Between)\n\\(a - 1\\)\n\\(SS_F\\)\n\\(MS_F\\)\n\\(MS_F / MS_E\\)\n\n\n\nError (Within)\n\\(a(n-1)\\)\n\\(SS_E\\)\n\\(MS_E\\)\n\n\n\n\nTotal\n\\(an - 1\\)\n\\(SS_T\\)\n\n\n\n\n\n\nWhere \\(a\\) = number of treatment levels, \\(n\\) = number of replicas per level.\nFor our soil example (3 soil types × 10 fields):\n\n\n\nSource\ndf\nSS\nMS\nF\np-value\n\n\n\n\nSoil type\n2\n99.2\n49.60\n4.245\n0.025 *\n\n\nResiduals\n27\n315.5\n11.69\n\n\n\n\n\nThe p-value of 0.025 &lt; 0.05 → we reject H₀. At least one soil type produces a significantly different mean yield.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#hypotheses",
+    "href": "regression-analysis/week-5.html#hypotheses",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "2.5 Hypotheses",
+    "text": "2.5 Hypotheses\n\\[H_0: \\mu_1 = \\mu_2 = \\mu_3 \\quad \\text{(all population means are equal)}\\]\n\\[H_A: \\text{at least one group mean differs}\\]\n\nNote: The alternative hypothesis is phrased as “at least one mean differs,” NOT “all means differ.” This matters when interpreting results — ANOVA only tells you that a difference exists somewhere, not where.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#assumptions-of-anova",
+    "href": "regression-analysis/week-5.html#assumptions-of-anova",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "2.6 Assumptions of ANOVA",
+    "text": "2.6 Assumptions of ANOVA\nBefore running ANOVA, you must verify these four assumptions:\n\nRandom sampling — observations must be randomly sampled from each population.\nIndependence — observations within and between groups must be independent.\nNormality of residuals — the error terms should be normally distributed (check with Q-Q plot or Shapiro-Wilk test).\nHomogeneity of variance (homoscedasticity) — the variance should be approximately equal across all groups.\n\nTests for equal variance:\n\nFligner-Killeen test (robust to non-normality, recommended)\nLevene’s test (from the car package in R)\nBartlett’s test (assumes normality)\n\nFor the soil data, the Fligner-Killeen test gave p = 0.833 → we fail to reject the null hypothesis of equal variances → ANOVA is appropriate.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#anova-as-a-linear-model",
+    "href": "regression-analysis/week-5.html#anova-as-a-linear-model",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "2.7 ANOVA as a Linear Model",
+    "text": "2.7 ANOVA as a Linear Model\nANOVA is a special case of a linear model. The effects model is:\n\\[y_{ij} = \\mu + \\tau_i + \\varepsilon_{ij}\\]\nWhere:\n\n\\(\\mu\\) = overall (grand) population mean\n\\(\\tau_i\\) = treatment effect = difference between group \\(i\\)’s mean and the grand mean\n\\(\\varepsilon_{ij}\\) = random error term (assumed iid Normal with mean 0 and constant variance)\n\n\n2.7.1 Dummy Variables\nSince soil type is a categorical variable, R encodes it using dummy variables. With \\(k\\) groups, R creates \\(k - 1\\) dummy variables and designates one group as the reference (baseline).\nFor our 3 soil types (baseline = Clay):\n\n\n\nObservation\n\\(x_1\\) (Loam)\n\\(x_2\\) (Sand)\n\n\n\n\nClay\n0\n0\n\n\nLoam\n1\n0\n\n\nSand\n0\n1\n\n\n\nThe fitted model becomes:\n\\[\\hat{y}_{ij} = \\hat{\\beta}_0 + \\hat{\\beta}_1 x_1 + \\hat{\\beta}_2 x_2\\]\n\\[\\hat{y}_{ij} = 11.5 + 2.8\\, x_1 - 1.6\\, x_2\\]\nWhere \\(\\hat{\\beta}_0 = 11.5\\) is the mean yield for Clay (baseline), \\(+2.8\\) is the difference between Loam and Clay, and \\(-1.6\\) is the difference between Sand and Clay.\n\n\n2.7.2 Treatment Effects\n\n\n\nSoil Type\nTreatment Effect (\\(\\hat{\\tau}_i\\))\nInterpretation\n\n\n\n\nClay\n−0.4\nSlightly below grand mean\n\n\nLoam\n+2.4\nAbove grand mean (highest yield)\n\n\nSand\n−2.0\nBelow grand mean (lowest yield)",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#effect-size-eta-squared-η²",
+    "href": "regression-analysis/week-5.html#effect-size-eta-squared-η²",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "2.8 Effect Size: Eta-Squared (η²)",
+    "text": "2.8 Effect Size: Eta-Squared (η²)\nη² (Eta-squared) measures the proportion of total variance in the response variable explained by the factor. It is directly analogous to R² in regression.\n\\[\\eta^2 = \\frac{SS_F}{SS_T} = \\frac{99.2}{414.7} \\approx 0.239\\]\nInterpretation: 23.9% of the variation in crop yield is explained by soil type. The remaining 76.1% is due to other factors (unexplained variation).",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#post-hoc-analysis-tukeys-hsd",
+    "href": "regression-analysis/week-5.html#post-hoc-analysis-tukeys-hsd",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "2.9 Post-Hoc Analysis: Tukey’s HSD",
+    "text": "2.9 Post-Hoc Analysis: Tukey’s HSD\nANOVA tells us that at least one group mean differs — it does not tell us which groups differ. We use Tukey’s Honest Significant Difference (HSD) test for pairwise comparisons.\nResults for soil data:\n\n\n\nComparison\nDifference\n95% CI\np-value\n\n\n\n\nLoam − Clay\n2.8\n(−0.99, 6.59)\n0.179\n\n\nSand − Clay\n−1.6\n(−5.39, 2.19)\n0.555\n\n\nSand − Loam\n−4.4\n(−8.19, −0.61)\n0.020\n\n\n\nOnly the Sand vs Loam comparison is statistically significant (p = 0.020). The confidence interval for that pair does not include 0, confirming a genuine difference.\n\n💡 Tip: When interpreting pairwise CIs graphically, if a confidence interval crosses zero, the difference is not significant. If it doesn’t cross zero, the difference is significant.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#model-validation",
+    "href": "regression-analysis/week-5.html#model-validation",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "2.10 Model Validation",
+    "text": "2.10 Model Validation\nAfter running ANOVA, check the model assumptions using diagnostic plots (plot(model)):\n\n\n\n\n\n\n\nPlot\nWhat to Look For\n\n\n\n\nResiduals vs Fitted\nResiduals should be randomly scattered around 0 with no patterns\n\n\nNormal Q-Q Plot\nPoints should follow the diagonal line; departures suggest non-normality\n\n\nScale-Location Plot\nHorizontal band of points indicates constant variance\n\n\nCook’s Distance\nLarge values (&gt; 0.5 or 1) flag influential/outlier observations\n\n\n\nFor the soil data, diagnostics showed no serious violations — a couple of points (6, 11, 13) slightly deviated from the Q-Q line but this was not concerning.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#non-parametric-alternatives",
+    "href": "regression-analysis/week-5.html#non-parametric-alternatives",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "2.11 Non-Parametric Alternatives",
+    "text": "2.11 Non-Parametric Alternatives\nIf ANOVA assumptions are violated (especially equal variance or normality):\n\n\n\n\n\n\n\n\nMethod\nUse When\nR Function\n\n\n\n\nKruskal-Wallis test\nVariances differ, or data is not normally distributed; tests equality of medians\nkruskal.test()\n\n\nWelch’s ANOVA\nVariances are unequal but normality holds; tests equality of means\noneway.test(..., var.equal = FALSE)",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#the-data",
+    "href": "regression-analysis/week-5.html#the-data",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "4.1 The Data",
+    "text": "4.1 The Data\nAn agricultural researcher measured crop yield (per unit area) from 10 randomly selected fields for each of three soil types.\n# soil_data.txt — wide format\nSand   Clay   Loam\n   6     17     13\n  10     15     16\n   8      3      9\n   6     11     12\n  14     14     15\n  17     12     16\n   9     12     17\n  11      8     13\n   7     10     18\n  11     13     14\nGroup means: Sand = 9.9, Clay = 11.5, Loam = 14.3\nGrand mean: \\(\\bar{\\bar{y}}\\) = 11.9",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#r-code-walkthrough",
+    "href": "regression-analysis/week-5.html#r-code-walkthrough",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "4.2 R Code Walkthrough",
+    "text": "4.2 R Code Walkthrough\nlibrary(tidyverse)\nlibrary(car)\n\n# --- 1. Import and reshape data ---\nresults &lt;- read_tsv(\"soil_data.txt\")\n\n# Convert from wide to long format\nresults &lt;- results |&gt;\n  pivot_longer(cols = everything(),\n               names_to = \"Soil\",\n               values_to = \"Yield\")\n\n# --- 2. Descriptive statistics ---\nresults |&gt;\n  group_by(Soil) |&gt;\n  summarise(mean_yield = mean(Yield),\n            sd_yield   = sd(Yield),\n            var_yield  = var(Yield))\n\n# --- 3. Visualise ---\nboxplot(Yield ~ Soil, data = results,\n        main = \"Crop Yield by Soil Type\",\n        xlab = \"Soil Type\", ylab = \"Yield\")\n\n# --- 4. Check homogeneity of variance ---\nfligner.test(Yield ~ Soil, data = results)   # p = 0.833 → equal variances OK\nleveneTest(Yield ~ Soil, data = results)     # p = 0.781 → consistent result\n\n# --- 5. Ensure Soil is a factor ---\nresults$Soil &lt;- as.factor(results$Soil)\nlevels(results$Soil)    # \"Clay\" \"Loam\" \"Sand\"\nnlevels(results$Soil)   # 3\n\n# --- 6. Fit one-way ANOVA ---\nmodel_treat &lt;- aov(Yield ~ Soil, data = results)\nsummary(model_treat)\n# Soil:  df=2, SS=99.2, MS=49.60, F=4.245, p=0.025 *\n\n# --- 7. Treatment contrasts (baseline = Clay) ---\nsummary.lm(model_treat)\n# Intercept (Clay):  11.5\n# Loam - Clay:       +2.8  (p = 0.078)\n# Sand - Clay:       -1.6  (p = 0.305)\n\n# --- 8. Effect size η² ---\n# η² = SS_F / SS_T = 99.2 / 414.7 = 0.239\n\n# --- 9. Post-hoc pairwise comparisons ---\nTukeyHSD(model_treat)\n# Sand-Loam: diff = -4.4, p = 0.020  ← SIGNIFICANT\n\n# --- 10. Model diagnostics ---\npar(mfrow = c(2, 2))\nplot(model_treat)\n\n# --- 11. Relevel / change reference group ---\nresults$Soil &lt;- relevel(results$Soil, \"Sand\")\nmodel_sand   &lt;- aov(Yield ~ Soil, data = results)\nsummary.lm(model_sand)\n\n# --- 12. Sum contrasts (compare each group to grand mean) ---\ncontrasts(results$Soil) &lt;- contr.sum\nmodel_sum &lt;- aov(Yield ~ Soil, data = results)\nsummary.lm(model_sum)\n# Intercept = grand mean (11.9)\n# Soil1 = Clay - grand mean = -0.4\n# Soil2 = Loam - grand mean = +2.4\n\n# --- 13. Treatment effects table ---\nmodel.tables(model_sum)\n# Clay: -0.4 | Loam: +2.4 | Sand: -2.0\n\n# --- 14. Reset contrasts to default ---\ncontrasts(results$Soil) &lt;- NULL\nresults$Soil &lt;- relevel(results$Soil, \"Clay\")\n\n# --- 15. F critical value and p-value (manual check) ---\nqf(0.95, df1 = 2, df2 = 27)          # ≈ 3.35 (critical value)\npf(4.245, df1 = 2, df2 = 27,\n   lower.tail = FALSE)                 # ≈ 0.025",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-5.html#reporting-the-results",
+    "href": "regression-analysis/week-5.html#reporting-the-results",
+    "title": "Week 5 – One-Way ANOVA",
+    "section": "4.3 Reporting the Results",
+    "text": "4.3 Reporting the Results\n\nA one-way analysis of variance indicated that soil type significantly affected crop yield, F(2, 27) = 4.245, MSE = 11.69, p = .025, η² = 0.239. Tukey’s HSD post-hoc test revealed that the mean yield on loam soil was significantly greater than on sand soil (p = .020). No other pairwise differences were statistically significant.\n\nTable 1. Mean yield by soil type\n\n\n\nSoil Type\nMean Yield\nSD\nn\n\n\n\n\nSand\n9.9A\n3.54\n10\n\n\nClay\n11.5AB\n3.92\n10\n\n\nLoam\n14.3B\n2.67\n10\n\n\n\nNote. Means sharing a superscript letter are not significantly different at the .05 level (Tukey’s HSD).",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html",
+    "href": "regression-analysis/week-4.html",
+    "title": "Week 4",
+    "section": "",
+    "text": "Note📝 Personal Annotations\n\n\n\nAdd your own notes here as you review this material.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#what-is-experimental-design",
+    "href": "regression-analysis/week-4.html#what-is-experimental-design",
+    "title": "Week 4",
+    "section": "2.1 What is Experimental Design?",
+    "text": "2.1 What is Experimental Design?\nExperimental design is the process of planning a study so that you collect the right data, in the right amount, using the right methods. The goal is to produce valid and objective conclusions.\nBefore you run a single test, you need:\n\nA clear research question that can be converted into testable hypotheses (H₀ and Hₐ).\nAn analysis plan — which variables will you measure? Are they categorical or numeric? What statistical test is appropriate?\nA predetermined significance level (usually α = 0.05). Never change this after looking at the data.\nAwareness of p-hacking — do not hunt through variables or analyses until you find a significant result. A null result is still a valid and publishable result.\n\n\n2.1.1 The Three Principles of Efficient Experimental Design\n\n\n\n\n\n\n\nPrinciple\nWhat it means\n\n\n\n\nRandomisation\nEvery experimental unit has an equal chance of being assigned to any treatment group. This eliminates selection bias.\n\n\nBlocking\nGroup similar experimental units together before randomising. This reduces the effect of known sources of variability (similar to stratified random sampling).\n\n\nReplication\nRepeat each experimental condition independently so that variability can be estimated. Large samples reduce random variation and let us detect small differences.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#experimental-studies-vs.-observational-studies",
+    "href": "regression-analysis/week-4.html#experimental-studies-vs.-observational-studies",
+    "title": "Week 4",
+    "section": "2.2 Experimental Studies vs. Observational Studies",
+    "text": "2.2 Experimental Studies vs. Observational Studies\n\n\n\n\n\n\n\n\nFeature\nExperimental Study\nObservational Study\n\n\n\n\nResearcher role\nIntervenes / manipulates conditions\nOnly observes existing conditions\n\n\nRandomisation\nPossible\nNot possible\n\n\nConfounding\nCan be controlled via design\nMust be controlled statistically\n\n\nExample\nClinical trial (drug vs placebo)\nSurvey on coffee and heart disease\n\n\n\n\n\n\n\n\n\nTipQuick Rule\n\n\n\nIf you are unsure whether a study is experimental or observational, ask: Did the researcher set the conditions under which the data were collected? If yes → experimental. If no → observational.\n\n\n\n2.2.1 Two Sources of Problems in Observational Studies\n\nNon-random selection — If participants are not selected randomly, the sample may not represent the population.\nUncontrolled extraneous variables — Variables you did not account for that affect the outcome.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#association-vs.-causation",
+    "href": "regression-analysis/week-4.html#association-vs.-causation",
+    "title": "Week 4",
+    "section": "2.3 Association vs. Causation",
+    "text": "2.3 Association vs. Causation\n\n“Association is not causation.”\n\nTwo variables are associated (or correlated) when they move together in a systematic way — as X increases, Y tends to increase (or decrease). However, this does not mean X causes Y.\n\n2.3.1 Types of Association\n\n\n\n\n\n\n\n\nType\nDescription\nExample\n\n\n\n\nStatistical association\nVariables are correlated; no causation implied\nX and Y are correlated\n\n\nCausal association\nOne variable directly causes a change in the other\nSugar consumption → tooth decay\n\n\nNon-causal association\nA third variable explains the relationship between X and Y\nConfounding (see below)\n\n\nChance association (spurious)\nThe relationship is a coincidence\nIce cream sales & drownings — both rise in summer due to weather\n\n\n\n\n\n2.3.2 Common Measures of Association\n\nPearson’s correlation coefficient (r) — parametric, measures linear association\nSpearman’s rank correlation — non-parametric, based on ranked data (uses median)\nChi-square test — for categorical variables\nOdds ratio / Relative risk — used in logistic regression",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#extraneous-and-confounding-variables",
+    "href": "regression-analysis/week-4.html#extraneous-and-confounding-variables",
+    "title": "Week 4",
+    "section": "2.4 Extraneous and Confounding Variables",
+    "text": "2.4 Extraneous and Confounding Variables\n\n2.4.1 Extraneous Variables\nVariables other than the independent variable that may affect the result. They can be:\n\nControlled — accounted for in the study design\nUncontrolled — not controlled, and potentially problematic\n\n\n\n2.4.2 Confounding Variables\nAn uncontrolled extraneous variable that:\n\nInfluences both the independent and the dependent variable\nMakes it impossible to determine which variable is truly causing the observed effect\n\n\nKey rule: All confounding variables are extraneous variables, but not all extraneous variables are confounding.\n\n\n\n\n\n\n\nNoteExample: Alcohol, Age, and HDL Cholesterol\n\n\n\nA study examines the effect of alcohol consumption on HDL (good) cholesterol in males. The observed association could be confounded by age — because age independently affects cholesterol levels. We cannot separate the effect of alcohol from the effect of age.\nIn a linear model, age would be included and held constant to control for this confounding effect:\n\\[\\text{HDL} = \\alpha + \\beta_1 \\cdot \\text{Alcohol} + \\beta_2 \\cdot \\text{Age} + \\varepsilon\\]\n\n\n\n\n2.4.3 Spurious Correlation\nA spurious correlation is when two variables appear associated but there is no logical or causal link — the association is a coincidence, often caused by a hidden third variable.\n\nClassic example: Ice cream sales and drowning rates are both correlated — but both are driven by hot weather, not by each other.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#key-terms-in-experimental-design",
+    "href": "regression-analysis/week-4.html#key-terms-in-experimental-design",
+    "title": "Week 4",
+    "section": "2.5 Key Terms in Experimental Design",
+    "text": "2.5 Key Terms in Experimental Design\n\n\n\n\n\n\n\nTerm\nDefinition\n\n\n\n\nExperimental unit\nThe subject/item on which an experiment is performed (e.g., patients, animals, lab samples)\n\n\nFactor\nA controlled explanatory variable whose levels are set by the experimenter\n\n\nLevel\nEach distinct setting of a factor (e.g., “Drug A”, “Drug B”, “Drug C”)\n\n\nTreatment\nA specific combination of factor levels applied to an experimental unit\n\n\nResponse variable\nThe outcome being measured (dependent variable / Y)\n\n\nExplanatory variable\nThe variable(s) used to explain the outcome (independent variable / X)\n\n\n\n\n\n\n\n\n\nNoteExample: Drug + Vitamin C Study\n\n\n\n“Six groups of patients are each treated with one of 3 drugs, either combined with Vitamin C or alone.”\n\nExperimental units: Patients\nFactors: Type of drug (3 levels) and Vitamin C (2 levels: yes/no)\nTreatments: 6 (= 2 × 3 combinations)\nDesign: Factorial design → analysed using two-way ANOVA",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#randomised-designs-and-blind-studies",
+    "href": "regression-analysis/week-4.html#randomised-designs-and-blind-studies",
+    "title": "Week 4",
+    "section": "2.6 Randomised Designs and Blind Studies",
+    "text": "2.6 Randomised Designs and Blind Studies\n\n2.6.1 Completely Randomised Design (CRD)\nAll experimental units are randomly assigned to treatment groups. Every unit has an equal chance of receiving any treatment. This eliminates selection bias.\n\n\n2.6.2 Randomised Block Design (RBD)\nWhen known differences between units exist (e.g., gender), units are first divided into homogeneous blocks, then randomly assigned to treatment groups within each block. This reduces noise from that known variable.\n\nComplete block: Every block contains every treatment.\nIncomplete block: Not all treatments appear in every block (adjusted statistically).\n\n\n\n2.6.3 Blind Studies (Reducing Bias Further)\n\n\n\n\n\n\n\nDesign\nWho doesn’t know the treatment assignment\n\n\n\n\nSingle blind\nParticipants only\n\n\nDouble blind\nParticipants and researchers administering the treatment\n\n\nTriple blind\nParticipants, researchers, and the data analysts",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#anova-preview",
+    "href": "regression-analysis/week-4.html#anova-preview",
+    "title": "Week 4",
+    "section": "2.7 ANOVA — Preview",
+    "text": "2.7 ANOVA — Preview\nANOVA (Analysis of Variance) extends the two-sample t-test to compare two or more means simultaneously.\n\n\n\nType\nIndependent Variables\nDependent Variable\n\n\n\n\nOne-way ANOVA\n1\n1\n\n\nTwo-way ANOVA\n2\n1\n\n\n\n\n2.7.1 Hypotheses (e.g., one-way ANOVA with 3 groups)\n\\[H_0: \\mu_1 = \\mu_2 = \\mu_3\\] \\[H_A: \\text{at least one mean is different}\\]\n\n\n\n\n\n\nWarning\n\n\n\nANOVA tells you if a difference exists between groups — not where the difference lies. A post-hoc analysis (e.g., Tukey’s test) is needed to identify which specific groups differ.\n\n\nANOVA partitions total variation into:\n\nExplained variation — variation due to the treatment/design\nUnexplained variation (error) — inherent variation within groups",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#effect-size-sample-size-and-statistical-power",
+    "href": "regression-analysis/week-4.html#effect-size-sample-size-and-statistical-power",
+    "title": "Week 4",
+    "section": "2.8 Effect Size, Sample Size, and Statistical Power",
+    "text": "2.8 Effect Size, Sample Size, and Statistical Power\nThese three quantities are deeply interconnected. Understanding their relationship is essential for designing studies and interpreting results.\n\n2.8.1 Effect Size (Cohen’s d)\nEffect size measures the practical significance of a difference — how large the difference between two means is relative to the variability in the data.\n\\[d = \\frac{\\mu_A - \\mu_0}{\\sigma}\\]\nWhere:\n\n\\(\\mu_A\\) = mean under the alternative hypothesis\n\\(\\mu_0\\) = mean under the null hypothesis\n\\(\\sigma\\) = population standard deviation\n\nA larger effect size = easier to detect a real difference.\n\n\n2.8.2 Statistical Power (1 − β)\nPower is the probability of correctly rejecting the null hypothesis when it is actually false.\n\\[\\text{Power} = 1 - \\beta = P(\\text{Reject } H_0 \\mid H_0 \\text{ is false})\\]\n\nLow power → high risk of a Type II error (missing a real effect)\nTarget power is typically 80% or 90% in practice\n\n\n\n2.8.3 The Relationship Between Effect Size, Sample Size, and Power\n\n\n\nIf you…\nThen power…\n\n\n\n\nIncrease sample size\nIncreases\n\n\nIncrease effect size\nIncreases\n\n\nDecrease variability (σ)\nIncreases\n\n\nUse a one-tailed instead of two-tailed test\nIncreases\n\n\nDecrease α (e.g., from 0.05 to 0.01)\nDecreases\n\n\n\n\n\n\n\n\n\nTipThe key insight from the simulation exercise\n\n\n\nAs sample size increases, sample means converge to the true population means, and p-values generally decrease — making it easier to detect a true difference. However, with a very small effect size, you may need an enormous sample to achieve significance.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#simulation-exercise-worksheet-2",
+    "href": "regression-analysis/week-4.html#simulation-exercise-worksheet-2",
+    "title": "Week 4",
+    "section": "4.1 Simulation Exercise (Worksheet 2)",
+    "text": "4.1 Simulation Exercise (Worksheet 2)\nThe worksheet uses simulated data to explore how sample size affects p-values and hypothesis test conclusions.\n\n4.1.1 Setup in R\nset.seed(1)   # ensures reproducibility of \"random\" numbers\nThe rnorm(n, μ, σ) function generates n pseudo-random numbers from a Normal distribution with mean μ and standard deviation σ.\n\n\n4.1.2 Four Cases Compared\n\n\n\n\n\n\n\n\n\n\nCase\nSample A\nSample B\nEffect (difference of means)\nSD\n\n\n\n\n1\nμ=0, σ=4\nμ=1, σ=4\nLarge (1.0)\n4\n\n\n2\nμ=0, σ=4\nμ=0.1, σ=4\nSmall (0.1)\n4\n\n\n3\nμ=0, σ=1\nμ=0.1, σ=1\nSmall (0.1)\n1 (less variability)\n\n\n4\nμ=0, σ=10\nμ=0.2, σ=10\nVery small (0.2)\n10 (more variability)\n\n\n\nKey observation: For a given effect size, you need more observations when variability is higher. For a very small effect size, even thousands of observations may be needed.\n# Example: Case 1 — testing two samples of size 50\nA_50 &lt;- rnorm(50, 0, 4)\nB_50 &lt;- rnorm(50, 1, 4)\nt.test(A_50, B_50)",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#power-analysis-in-r-pwr-package",
+    "href": "regression-analysis/week-4.html#power-analysis-in-r-pwr-package",
+    "title": "Week 4",
+    "section": "4.2 Power Analysis in R — pwr Package",
+    "text": "4.2 Power Analysis in R — pwr Package\ninstall.packages(\"pwr\")\nlibrary(pwr)\n\n4.2.1 Key pwr Functions\n\n\n\nFunction\nUse case\n\n\n\n\npwr.t.test\nOne sample, two sample, or paired t-test\n\n\npwr.anova.test\nBalanced one-way ANOVA\n\n\npwr.chisq.test\nChi-square test\n\n\npwr.2p.test\nTwo proportions (equal n)\n\n\npwr.r.test\nCorrelation\n\n\npwr.f2.test\nGeneral linear model\n\n\n\nFor each function you provide three of: sample size, effect size, significance level, power — and the fourth is calculated.\n\n\n4.2.2 Worked Example: Chemical Company\nA government inspector tests whether a chemical product contains more than 4.0 ml of caustic material (the safe limit). She takes n = 30 samples; σ = 1.3; the true mean may be as high as 4.35.\nEffect size:\n\\[d = \\frac{4.35 - 4.0}{1.3} = 0.2692\\]\nPower calculation in R:\npwr.t.test(n = 30, d = 0.2692, sig.level = 0.05,\n           type = \"one.sample\", alternative = \"greater\")\nResult: Power = 0.419 → only a 41.9% chance of detecting the effect with this sample size. The sample is underpowered.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#exercise-1-height-study",
+    "href": "regression-analysis/week-4.html#exercise-1-height-study",
+    "title": "Week 4",
+    "section": "4.3 Exercise 1: Height Study",
+    "text": "4.3 Exercise 1: Height Study\nScenario: Testing whether the mean height of students at CIT exceeds 160 cm.\n\\[H_0: \\mu = 160 \\text{ cm}, \\quad H_A: \\mu &gt; 160 \\text{ cm}\\]\nSample: n = 25, \\(\\bar{x}\\) = 173.4 cm, s = 9\nType I Error: Reject H₀ and conclude that mean height &gt; 160 cm when it is not.\nType II Error: Fail to reject H₀ and conclude mean height ≤ 160 cm when it actually is greater.\nPower (if true μ = 165):\npwr.t.test(n = 25, d = 5/9, sig.level = 0.05,\n           type = \"one.sample\", alternative = \"greater\")\n# Power ≈ 85%\nTwo-tailed version (same μ = 165):\npwr.t.test(n = 25, d = 5/9, sig.level = 0.05,\n           type = \"one.sample\")\n# Power ≈ 76%\n\nConclusion: A one-tailed test is more powerful than a two-tailed test for a given effect size, sample size, and α — because all of the rejection region is on one side.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#exercise-2-light-bulb-lifespan",
+    "href": "regression-analysis/week-4.html#exercise-2-light-bulb-lifespan",
+    "title": "Week 4",
+    "section": "4.4 Exercise 2: Light Bulb Lifespan",
+    "text": "4.4 Exercise 2: Light Bulb Lifespan\nScenario: A manufacturer claims bulbs last 850 hours on average (σ = 50). A consumer group believes the true mean is only 810 hours.\n\\[H_0: \\mu = 850, \\quad H_A: \\mu &lt; 850\\]\nRequired sample size for 90% power:\npwr.t.test(d = (810 - 850) / 50, power = 0.9,\n           sig.level = 0.05, type = \"one.sample\",\n           alternative = \"less\")\n# n ≈ 15 (round up)\nSimulation to verify (10,000 tests):\npvalues &lt;- rep(0, 10000)\nfor (i in 1:10000) {\n  sA &lt;- rnorm(15, 810, 50)\n  pvalues[i] &lt;- t.test(sA, y = NULL, \"less\", 850)$p.value\n}\nsum(pvalues &lt; 0.05)   # should be approximately 9,000 (90%)",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html",
+    "href": "regression-analysis/week-1.html",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "",
+    "text": "Research Question & Hypothesis Development: Formulating clear, testable research questions\nStudy Planning & Design: Designing studies with proper sampling and measurement strategies\nData Measurement Scales: Understanding continuous vs categorical variables\nMeasurement Quality: Precision and accuracy in data collection\nInitial Data Analysis (EDA): Exploratory techniques for understanding data\nData Visualization: Using graphs to uncover patterns and anomalies\nMissing Data: Identifying, understanding, and handling missing values\nOutliers: Detection and classification of unusual observations\nModel Assumptions: Testing whether data meets statistical requirements\nData Transformation: Modifying data when assumptions are violated",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#key-topics",
+    "href": "regression-analysis/week-1.html#key-topics",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "",
+    "text": "Research Question & Hypothesis Development: Formulating clear, testable research questions\nStudy Planning & Design: Designing studies with proper sampling and measurement strategies\nData Measurement Scales: Understanding continuous vs categorical variables\nMeasurement Quality: Precision and accuracy in data collection\nInitial Data Analysis (EDA): Exploratory techniques for understanding data\nData Visualization: Using graphs to uncover patterns and anomalies\nMissing Data: Identifying, understanding, and handling missing values\nOutliers: Detection and classification of unusual observations\nModel Assumptions: Testing whether data meets statistical requirements\nData Transformation: Modifying data when assumptions are violated",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#research-questions-and-hypotheses",
+    "href": "regression-analysis/week-1.html#research-questions-and-hypotheses",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "1.1 Research Questions and Hypotheses",
+    "text": "1.1 Research Questions and Hypotheses\nBefore any data analysis can begin, you must start with a clear research question. This is the foundation of your entire study.\n\n1.1.1 What is a Good Research Question?\nA good research question has three essential characteristics:\n1. Simple - Contains one predictor variable and one outcome variable - More complex hypotheses with multiple predictors or outcomes should be broken into multiple simple hypotheses - For example, instead of studying “different types of smoking,” simplify to “smoking vs non-smoking”\n2. Specific - Leaves no ambiguity about the subjects or variables being studied - Clearly defines how statistical significance will be tested - Uses precise operational definitions that summarize: - The nature and source of the subjects - How variables will be measured - Whether variables are continuous or categorical\n3. Stated in Advance - The hypothesis must be determined before examining the data - Prevents the temptation to test multiple hypotheses after seeing results - Minimizes the opportunity to “fish” for significant findings\n\n\n1.1.2 Why Being Specific Matters\nWhen your hypothesis is specific, you: - Communicate the study clearly to others - Minimize the chance of testing something different once you see the data - Avoid substituting different measurements of variables after the fact - Establish clear variable types (continuous vs categorical) upfront",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#study-planning",
+    "href": "regression-analysis/week-1.html#study-planning",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "1.2 Study Planning",
+    "text": "1.2 Study Planning\n\n1.2.1 Research Plan Components\nYour research plan should document:\n\nStudy Design: How will data be collected? (observational vs experimental)\nTarget Population: Who or what will you study?\nSample Size: How many subjects will you need?\nPredictor and Outcome Variables: What are you measuring and why?\n\n\n\n1.2.2 Conceptualizing the Target Population\nBefore collecting data: - Define the specific population you’re interested in - Establish inclusion criteria: What characteristics define who belongs in your study? - Establish exclusion criteria: Who should NOT be included?\nFor example, if studying heart disease in adults, you might include: - Inclusion: Adults aged 40-65 with no previous heart conditions - Exclusion: Pregnant women, individuals with genetic heart disease\n\n\n1.2.3 Sampling Strategy\nOnce you define your population, decide how to select subjects:\nProbability Sampling (preferred for statistical inference) - Every member of the population has an equal chance of being selected - Allows you to generalize findings to the larger population\nNon-Probability Sampling - Subjects are selected based on convenience or specific criteria - Makes it harder to generalize results",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#statistical-design-concepts",
+    "href": "regression-analysis/week-1.html#statistical-design-concepts",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "1.3 Statistical Design Concepts",
+    "text": "1.3 Statistical Design Concepts\nWhen designing your study, understand these key concepts:\n\n\n\n\n\n\n\nConcept\nDefinition\n\n\n\n\nResponse Variable\nThe outcome you’re measuring (what you want to explain)\n\n\nFactor\nAn independent variable in your study\n\n\nLevel\nThe different values or categories of a factor\n\n\nTreatment\nThe specific condition applied to subjects\n\n\nReplication\nUsing multiple subjects per treatment group\n\n\nRandomization\nRandomly assigning subjects to treatment groups\n\n\nBlocking\nGrouping similar subjects to reduce variation\n\n\nFactorial Design\nStudying multiple factors simultaneously\n\n\nMain Effect\nThe effect of one factor on the response\n\n\nInteraction Effect\nHow one factor’s effect depends on another factor",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#measurement-scales",
+    "href": "regression-analysis/week-1.html#measurement-scales",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "2.1 Measurement Scales",
+    "text": "2.1 Measurement Scales\n\n2.1.1 Why Measurement Matters\nThe type of measurement scale you use affects: - How precise your data is - What statistical tests you can perform - The statistical power of your analysis - Your ability to answer the research question\n\n\n2.1.2 Continuous vs Categorical Variables\nContinuous Variables (Preferred) - Can take any value within a range - Contain more information than categorical variables - Improve statistical power (ability to detect true effects) - Allow for smaller sample sizes - Examples: Age (years), Income (dollars), Blood pressure (mmHg)\nCategorical Variables - Fall into distinct categories - Contain less information - Require larger sample sizes for same power - Examples: Smoking status (yes/no), Gender (M/F), Education level (HS/College/Grad)\nKey Principle: Always collect data as continuous if possible, even if you might later categorize it. This preserves information and gives you more analytical flexibility.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#measurement-quality-precision-and-accuracy",
+    "href": "regression-analysis/week-1.html#measurement-quality-precision-and-accuracy",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "2.2 Measurement Quality: Precision and Accuracy",
+    "text": "2.2 Measurement Quality: Precision and Accuracy\nThese two concepts are not the same and are equally important for valid research.\n\n2.2.1 Precision\nDefinition: How consistently a measurement produces the same value when repeated.\n\nReflects reproducibility, reliability, and consistency\nAffected by random error (chance variation)\nDetermines the statistical power of your study\nGreater precision = greater power to detect effects at the same sample size\n\nSources of Random Error (Reduces Precision):\n\nObserver Variability: Differences in how observers take measurements\n\nDifferent observers have different skill levels\nSame observer may measure differently on different occasions\n\nInstrument Variability: Measurement tools are not perfect\n\nEnvironmental factors (temperature, humidity)\nMechanical drift or wear in instruments\nCalibration issues\n\nSubject Variability: Natural variation within subjects\n\nBiological fluctuations (heart rate changes throughout the day)\nBehavioral variation (mood, fatigue)\n\n\n\n\n2.2.2 Accuracy\nDefinition: The degree to which a measurement actually represents what it’s supposed to measure.\n\nReflects the validity of the measurement\nDetermined by systematic error (consistent bias)\nCritical for the validity and generalizability of your findings\nAccuracy and precision are not necessarily linked\n\nImportant: You can have: - ✓ High precision AND high accuracy (ideal) - ✗ High precision but low accuracy (measurements are consistent but wrong) - ✗ Low precision but high accuracy (scattered measurements but correct on average)\n\n\n2.2.3 The Relationship Between Precision and Accuracy\nThink of archery or darts:\n\nAccurate but imprecise: All shots hit the target area on average, but they’re spread out\nPrecise but inaccurate: All shots cluster together, but far from the bullseye\nBoth: All shots cluster in the bullseye",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#what-is-eda",
+    "href": "regression-analysis/week-1.html#what-is-eda",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "3.1 What is EDA?",
+    "text": "3.1 What is EDA?\nExploratory Data Analysis (EDA) is the critical first step after data collection. You examine your data to:\n\nSummarize the main characteristics\nIdentify patterns, trends, and relationships\nDiscover anomalies and outliers\nVisualize the distribution of variables\nCheck for missing data\nAssess whether data violates statistical assumptions\n\n\n3.1.1 The Anscombe’s Quartet Lesson\nWhy Visualization Matters\nAnscombe’s quartet demonstrates why you must visualize your data before analyzing it.\nThis dataset consists of four different datasets that have: - Identical means (9.00 for x variables; 7.50 for y variables) - Identical standard deviations (3.16 for x; 1.94 for y) - Identical correlation coefficients (r = 0.82 for all pairs) - Identical regression lines\nHowever, when plotted as scatterplots, the four datasets look completely different:\n\nA perfect linear relationship\nA curved (non-linear) relationship\nA perfect linear relationship with one outlier\nNo relationship in the data, but a single extreme point drives the correlation\n\nThe Lesson: Summary statistics alone can be deeply misleading. Always create graphs to visualize your data.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#components-of-initial-data-analysis",
+    "href": "regression-analysis/week-1.html#components-of-initial-data-analysis",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "3.2 Components of Initial Data Analysis",
+    "text": "3.2 Components of Initial Data Analysis\n\n3.2.1 1. Summarizing and Visualizing Data\nNumerical Summaries - Mean, median, standard deviation - Percentiles and quartiles - Min and max values\nVisual Methods - Histograms (show distribution shape) - Box plots (show median, quartiles, outliers) - Scatter plots (show relationships) - Line plots (show trends over time)\n\n\n3.2.2 2. Univariate Profiling\nExamining each variable individually: - What is the distribution shape? - Are there outliers? - Is the variable skewed? - What is the range of values?\n\n\n3.2.3 3. Bivariate Profiling\nExamining relationships between pairs of variables: - Scatter plots for continuous variables - Cross-tabulations for categorical variables - Correlations between continuous variables\n\n\n3.2.4 4. Data Quality Checks\n\nMissing data extent and patterns\nOutliers and unusual values\nData entry errors\nInconsistencies in the data",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#understanding-missing-data",
+    "href": "regression-analysis/week-1.html#understanding-missing-data",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "4.1 Understanding Missing Data",
+    "text": "4.1 Understanding Missing Data\nDefinition: Missing data occurs when values are not recorded for some variables in some observations.\n\n4.1.1 Why Data Goes Missing\nMissing data can result from: - Experimental or procedural errors - Data entry mistakes - Survey respondents skipping questions - Equipment malfunction - Subject dropout (in longitudinal studies)\n\n\n4.1.2 Why Missing Data Is a Problem\n\nReduces sample size - Fewer observations means less power\nCan introduce bias - If missingness is related to the values\nComplicates analysis - Many statistical tests cannot handle missing values\nViolates assumptions - Listwise deletion can change the nature of your sample",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#identifying-missing-data-patterns",
+    "href": "regression-analysis/week-1.html#identifying-missing-data-patterns",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "4.2 Identifying Missing Data Patterns",
+    "text": "4.2 Identifying Missing Data Patterns\n\n4.2.1 Types of Missing Data\nIgnorable Missing Data - Expected and part of the research design - No action is necessary - Example: Surveys where certain questions only apply to some respondents (e.g., “Describe your pregnancy” is ignorable for non-pregnant respondents)\nNon-Ignorable Missing Data - Results from either a known or unknown missing data process - Due to procedural or experimental factors - Requires investigation and action\n\n\n4.2.2 Three Mechanisms of Missingness\nUnderstanding why data is missing is crucial for choosing the right solution:\n1. Missing Completely at Random (MCAR) - The probability of missingness is the same for all units - Causes of missing data are unrelated to the data itself - Example: A survey respondent randomly decides whether to answer each question by flipping a coin - Implication: Simple deletion of missing values is acceptable (though it reduces power)\n2. Missing at Random (MAR) - Missingness depends on observed variables, not the missing value itself - The probability of missingness varies by group but is predictable from other data - Example: Older respondents are more likely to skip the “earnings” question, but this depends only on age (which you observe) - Implication: Imputation methods that use other variables can produce valid estimates\n3. Not Missing at Random (MNAR) - Missingness depends on the missing value itself - The probability of being missing is related to what the value would have been - Example: People with higher incomes are less likely to report their earnings - Implication: This is the most problematic situation; bias is hard to correct",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#steps-to-address-missing-data",
+    "href": "regression-analysis/week-1.html#steps-to-address-missing-data",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "4.3 Steps to Address Missing Data",
+    "text": "4.3 Steps to Address Missing Data\n\n4.3.1 Step 1: Determine the Type\nIs the missing data ignorable (part of study design) or not ignorable (unexpected)?\n\n\n4.3.2 Step 2: Determine the Extent\n\nHow much data is missing for each variable?\nHow many complete cases are there?\nIs the amount small enough to not affect results?\n\n\n\n4.3.3 Step 3: Diagnose the Randomness\nAssess whether missingness is MCAR, MAR, or MNAR by examining: - Patterns across variables - Relationships with other observed variables - Domain knowledge about why data might be missing\n\n\n4.3.4 Step 4: Select an Imputation Method\nIf Ignorable or Minimal Missing Data - Deletion: Remove observations with missing values (acceptable if MCAR)\nIf More Substantial Missing Data\n\nMean Imputation: Replace missing values with the variable mean\n\nAdvantage: Simple\nDisadvantage: Distorts the distribution, underestimates variance\n\nRegression Imputation: Use regression to predict missing values\n\nAdvantage: Uses relationships with other variables\nDisadvantage: Creates artificially perfect predictions\n\nStochastic Regression Imputation: Regression + random noise\n\nAdvantage: Preserves variability\nBetter than deterministic imputation\n\nPrediction Methods: Use k-Nearest Neighbors or other algorithms\n\nFind similar cases and use their values\n\nLast Observation Carried Forward (LOCF): For longitudinal data\n\nUse previous measurement value\nConservative (tends to underestimate change)\n\nMultiple Imputation: Create multiple complete datasets\n\nMost sophisticated approach\nAccounts for uncertainty in imputed values",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#practical-implementation",
+    "href": "regression-analysis/week-1.html#practical-implementation",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "4.4 Practical Implementation",
+    "text": "4.4 Practical Implementation\n\n4.4.1 In R\n# Check for missing values\nis.na(x)                    # TRUE if x is missing\nsum(is.na(x))              # Count missing values\n\n# Remove missing data\nmean(x, na.rm=TRUE)        # Calculate mean, ignoring NAs\ncomplete.cases(df)         # Identify complete rows\nna.omit(df)               # Remove rows with ANY missing values\ndf &lt;- df[complete.cases(df), ]  # Keep only complete cases\n\n\n4.4.2 Decision Tree\n\nIs data ignorable? → NO ACTION needed\nHow much is missing?\n\n&lt; 5% per variable → Simple deletion acceptable\n5-30% per variable → Consider imputation\n&gt; 30% per variable → Consider removing variable entirely\n\nIs it MCAR, MAR, or MNAR?\n\nMCAR → Deletion or simple imputation acceptable\nMAR → Use regression or predictive imputation\nMNAR → Advanced methods, or acknowledge bias",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#what-are-outliers",
+    "href": "regression-analysis/week-1.html#what-are-outliers",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "5.1 What Are Outliers?",
+    "text": "5.1 What Are Outliers?\nDefinition: Outliers are observations with unusual combinations of characteristics that make them distinctly different from other observations.\nAn outlier typically has: - An unusually high or low value on a single variable, OR - A unique combination of values across multiple variables\n\n5.1.1 Example\nIn a dataset of student test scores: - A score of 5/100 is an outlier (very low) - A student with high math AND low reading scores might be an outlier (unusual combination)",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#classifying-outliers",
+    "href": "regression-analysis/week-1.html#classifying-outliers",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "5.2 Classifying Outliers",
+    "text": "5.2 Classifying Outliers\n\n5.2.1 Sources of Outliers\n1. Procedural Error - Cause: Measurement error, data entry mistake, equipment malfunction - Action: Investigate and correct if possible; delete if unfixable - Example: A blood pressure reading recorded as “2000 mmHg” (clearly impossible)\n2. Extraordinary Event - Cause: Real but exceptional circumstance during data collection - Action: Decide whether to keep based on research context - Example: A patient’s extremely low blood pressure during a severe medical crisis\n3. Extraordinary Observation - Cause: The subject is genuinely unusual or represents a rare population segment - Action: May keep but note; requires domain expertise - Example: An exceptionally tall person in a height study (biologically valid but extreme)",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#handling-outliers",
+    "href": "regression-analysis/week-1.html#handling-outliers",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "5.3 Handling Outliers",
+    "text": "5.3 Handling Outliers\nImportant: Outliers should be considered within the context of your analysis.\n\n5.3.1 Before Taking Action\n\nVerify the value - Is it a real measurement or an error?\nUnderstand the cause - Why is this observation unusual?\nCheck implications - Does removing it change your conclusions significantly?\nConsider domain knowledge - Is this observation valid in your field?\n\n\n\n5.3.2 Options\n\nKeep: If it represents a real, valid observation\nInvestigate & Correct: If it’s a measurement or data entry error\nRemove: If it’s a true error with no way to verify\nAnalyze With and Without: Report both analyses to show sensitivity",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#why-assumptions-matter",
+    "href": "regression-analysis/week-1.html#why-assumptions-matter",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "6.1 Why Assumptions Matter",
+    "text": "6.1 Why Assumptions Matter\nBefore fitting a statistical model, you must verify that your data satisfies the model’s assumptions. Different models have different requirements.\n\n6.1.1 Key Assumptions for Linear Models\n1. Linearity - The relationship between predictor (x) and outcome (y) is linear - Check: Scatter plot should show a linear pattern - Violation: Use transformation or non-linear models\n2. Independence - Observations are independent of each other - Violations commonly occur in: time series, repeated measures, clustered data - Check: Study design (randomization, no confounding)\n3. Homoscedasticity (Constant Variance) - The variance of errors is constant across all levels of the predictor - Check: Scatter plot around regression line should have consistent spread - Violation: Variance increases/decreases with predictor values\n4. Normality - The errors (residuals) are normally distributed - Check: Q-Q plot (quantile-quantile plot) or histogram of residuals - Note: Large sample sizes make violation less problematic due to Central Limit Theorem - Violation: Use transformation, non-parametric tests, or larger sample",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#data-transformation",
+    "href": "regression-analysis/week-1.html#data-transformation",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "6.2 Data Transformation",
+    "text": "6.2 Data Transformation\n\n6.2.1 When to Transform\nIf your data violates assumptions, transformation can sometimes help by: - Stabilizing variance - Making distributions more normal - Making relationships more linear\n\n\n6.2.2 Common Transformations\nFor Skewed Data\n\n\n\nTransformation\nUse When\nEffect\n\n\n\n\nSquare root\nMild skewness\nGentle transformation\n\n\nLog\nModerate skewness, positive data\nStrong transformation\n\n\nReciprocal (1/x)\nSevere skewness\nVery strong transformation\n\n\nBox-Cox\nOptimal transformation unknown\nData-driven selection\n\n\n\nFor Other Issues\n\nStandardizing: Convert to mean=0, SD=1\nSquaring: If relationship is non-linear\nCombinations: First transform, then analyze\n\n\n\n6.2.3 Important Considerations\n\nInterpretation changes: After transformation, you interpret results on transformed scale\nAssumptions still apply: Transformation must result in assumptions being met\nNot always possible: Some violations cannot be fixed by transformation alone\nAlternative approaches: Non-parametric tests or robust methods may be better",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#key-takeaways",
+    "href": "regression-analysis/week-1.html#key-takeaways",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "7.1 Key Takeaways",
+    "text": "7.1 Key Takeaways\n\nDefine clearly: Your research question must be simple, specific, and stated in advance\nPlan carefully: Study design includes population definition, sampling, measurement, and sample size\nMeasure well: Collect data as continuous when possible; ensure both precision (consistency) and accuracy (validity)\nExplore first: Always visualize and summarize before modeling (Anscombe’s quartet lesson!)\nHandle missing data: Identify type and mechanism; choose appropriate method (deletion vs imputation)\nCheck assumptions: Verify linearity, independence, homoscedasticity, and normality before modeling\nTransform if needed: Use transformations (log, square root) to fix violations\nUse domain expertise: All decisions about outliers, missing data, and transformations should be informed by subject matter knowledge",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#references-for-further-learning",
+    "href": "regression-analysis/week-1.html#references-for-further-learning",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "9.1 References for Further Learning",
+    "text": "9.1 References for Further Learning\n\nMissing Data Concepts: https://stefvanbuuren.name/fimd/sec-MCAR.html\nMissing Data Solutions: https://stefvanbuuren.name/fimd/sec-simplesolutions.html",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-1.html#next-week",
+    "href": "regression-analysis/week-1.html#next-week",
+    "title": "Week 1: Data Analysis Protocol",
+    "section": "9.2 Next Week",
+    "text": "9.2 Next Week\nWeek 2 will cover: - Model Fitting: Selecting and fitting appropriate statistical models - Model Interpretation: Understanding model coefficients and predictions - Model Validation: Assessing how well your model works\n\nEnd of Week 1 Study Guide\nNote: This guide is a living document. Leave space for annotations, additional examples, and clarifications as discussed in lectures.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/index.html",
+    "href": "regression-analysis/index.html",
+    "title": "",
+    "section": "",
+    "text": "Code",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes"
+    ]
+  },
+  {
     "objectID": "regression-analysis/week-9.html",
     "href": "regression-analysis/week-9.html",
     "title": "Week 9",
@@ -1331,6 +1788,20 @@
       "Weekly Notes",
       "Week 9"
     ]
+  },
+  {
+    "objectID": "data-mining/revision.html",
+    "href": "data-mining/revision.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "data-mining/labs.html",
+    "href": "data-mining/labs.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
   },
   {
     "objectID": "data-mining/week-3.html",
@@ -1697,7 +2168,7 @@
     "href": "data-mining/week-2.html#visualising-distributions-univariate-plots",
     "title": "STAT9013 - Data Mining: Week 2",
     "section": "4 Visualising Distributions: Univariate Plots",
-    "text": "4 Visualising Distributions: Univariate Plots\nUnivariate plots examine a single variable at a time. The three main types covered are histograms, density plots, and box plots. They all show the distribution (the spread and shape) of your data, but in different ways.\n\n4.1 Histograms\nA histogram divides the data into “bins” (ranges) and counts how many values fall into each bin. It shows frequency on the y-axis and the variable’s values on the x-axis. Think of it as a bar chart of your data’s distribution.\n\nqplot(data, geom = \"histogram\", bins = 100)\n\n\n\n4.2 Density Plots\nA density plot is a smoothed version of a histogram. Instead of bars, you get a continuous curve. The y-axis shows density (not raw count), and the area under the curve sums to 1. It is useful for seeing the overall shape of the distribution without being distracted by bin choices.\n\nqplot(data, geom = \"density\")\n\n\n\n4.3 Box Plots\nA box plot (or box-and-whisker plot) packs a lot of information into a compact display:\n\nThe box spans from Q1 to Q3 (the IQR — the middle 50% of data).\nThe line inside the box is the median.\nThe whiskers extend to the most extreme data points that are within 1.5 × IQR from the edges of the box.\nPoints beyond the whiskers are considered outliers.\n\nBox plots are extremely useful for statisticians and data scientists, but as the lecturer noted, they are often not well understood by non-technical business users. So use them for your own analysis, but consider simpler visuals when presenting to stakeholders.\n\nqplot(data, geom = \"boxplot\") + coord_flip()\n\n\n\n4.4 The drawPlots Helper Function\nThe lecture introduced a handy helper function that draws all three plots side by side, with the mean shown in blue and the median in green:\n\ndrawPlots &lt;- function(data, title) {\n  p01 &lt;- qplot(data, geom = \"histogram\", bins = 100) +\n    geom_vline(xintercept = mean(data), size = 2, color = \"blue\") +\n    geom_vline(xintercept = median(data), size = 2, color = \"green\")\n  p02 &lt;- qplot(data, geom = \"density\") +\n    geom_vline(xintercept = mean(data), size = 2, color = \"blue\") +\n    geom_vline(xintercept = median(data), size = 2, color = \"green\")\n  p03 &lt;- qplot(data, geom = \"boxplot\") +\n    coord_flip() +\n    geom_point(aes(x = mean(data), y = 0), size = 3, color = \"blue\")\n  gridExtra::grid.arrange(p01, p02, p03, nrow = 1, top = title)\n}",
+    "text": "4 Visualising Distributions: Univariate Plots\nUnivariate plots examine a single variable at a time. The three main types covered are histograms, density plots, and box plots. They all show the distribution (the spread and shape) of your data, but in different ways.\n\n4.1 Histograms\nA histogram divides the data into “bins” (ranges) and counts how many values fall into each bin. It shows frequency on the y-axis and the variable’s values on the x-axis. Think of it as a bar chart of your data’s distribution.\n\n\nCode\nqplot(data, geom = \"histogram\", bins = 100)\n\n\n\n\n4.2 Density Plots\nA density plot is a smoothed version of a histogram. Instead of bars, you get a continuous curve. The y-axis shows density (not raw count), and the area under the curve sums to 1. It is useful for seeing the overall shape of the distribution without being distracted by bin choices.\n\n\nCode\nqplot(data, geom = \"density\")\n\n\n\n\n4.3 Box Plots\nA box plot (or box-and-whisker plot) packs a lot of information into a compact display:\n\nThe box spans from Q1 to Q3 (the IQR — the middle 50% of data).\nThe line inside the box is the median.\nThe whiskers extend to the most extreme data points that are within 1.5 × IQR from the edges of the box.\nPoints beyond the whiskers are considered outliers.\n\nBox plots are extremely useful for statisticians and data scientists, but as the lecturer noted, they are often not well understood by non-technical business users. So use them for your own analysis, but consider simpler visuals when presenting to stakeholders.\n\n\nCode\nqplot(data, geom = \"boxplot\") + coord_flip()\n\n\n\n\n4.4 The drawPlots Helper Function\nThe lecture introduced a handy helper function that draws all three plots side by side, with the mean shown in blue and the median in green:\n\n\nCode\ndrawPlots &lt;- function(data, title) {\n  p01 &lt;- qplot(data, geom = \"histogram\", bins = 100) +\n    geom_vline(xintercept = mean(data), size = 2, color = \"blue\") +\n    geom_vline(xintercept = median(data), size = 2, color = \"green\")\n  p02 &lt;- qplot(data, geom = \"density\") +\n    geom_vline(xintercept = mean(data), size = 2, color = \"blue\") +\n    geom_vline(xintercept = median(data), size = 2, color = \"green\")\n  p03 &lt;- qplot(data, geom = \"boxplot\") +\n    coord_flip() +\n    geom_point(aes(x = mean(data), y = 0), size = 3, color = \"blue\")\n  gridExtra::grid.arrange(p01, p02, p03, nrow = 1, top = title)\n}",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -1709,7 +2180,7 @@
     "href": "data-mining/week-2.html#skewness-what-it-is-and-why-it-matters",
     "title": "STAT9013 - Data Mining: Week 2",
     "section": "5 Skewness: What It Is and Why It Matters",
-    "text": "5 Skewness: What It Is and Why It Matters\n\n5.1 What Is Skewness?\nSkewness describes how asymmetric a distribution is compared to a normal (bell-shaped) distribution.\n\nNormal distribution: Symmetric. The mean and median are approximately equal. The histogram/density plot looks like a bell curve, centred around the middle.\nRight (positive) skew: The “tail” of the distribution stretches to the right. Most values are clustered on the left, but a few very large values pull the mean to the right. Mean &gt; Median.\nLeft (negative) skew: The tail stretches to the left. Most values cluster on the right, but a few very small values pull the mean left. Mean &lt; Median.\n\n\n# Normal distribution — mean ≈ median\ndata &lt;- rnorm(10000, mean = 0, sd = 1)\ndrawPlots(data, \"Normal distribution (median ~= mean)\")\n\n# Left (negative) skew — median &gt; mean\ndata &lt;- rbeta(10000, 5, 1)\ndrawPlots(data, \"Left skewed (median-green &gt; mean-blue)\")\n\n# Right (positive) skew — median &lt; mean\ndata &lt;- rbeta(10000, 1, 5)\ndrawPlots(data, \"Right skewed (median-green &lt; mean-blue)\")\n\n\n\n5.2 Real-World Examples of Skewed Data\nA lot of real-life data is skewed:\n\nIncome: Most people earn moderate amounts, but a few earn enormously high salaries (right skew).\nAverage spend per customer: Most customers spend a little, a few spend a lot.\nDistance travelled to work: Most people live reasonably close; some commute very long distances.\nAnimal body weights: Most mammals are small; a few (elephants, whales) are extremely large.\n\n\n\n5.3 Why Skewness Matters for Machine Learning\nThe lecture demonstrated this using the mammals dataset (from the openintro package), which contains body weight and brain weight for various mammals.\nThe problem: Both body weight and brain weight are extremely right-skewed — most mammals are small, but a few (like elephants) are huge. When you plot the raw data, almost all points cluster near zero, and you can barely see any relationship.\nStep 1 — Build a model on raw data:\n\nmodel1 &lt;- lm(body_wt ~ brain_wt, data = mammals)\nr_sq1 &lt;- cor(model1$fitted.values, mammals$body_wt)^2\n# R² ≈ 0.87\n\nStep 2 — Apply a log transformation:\nTaking the logarithm of skewed data compresses the large values and stretches the small ones, making the distribution more symmetrical (closer to normal).\n\nmammals$log_body_wt &lt;- log(mammals$body_wt)\nmammals$log_brain_wt &lt;- log(mammals$brain_wt)\n\nWhen you plot the log-transformed data, you can now clearly see a linear relationship between log(brain weight) and log(body weight).\nStep 3 — Build a model on transformed data:\n\nmodel2 &lt;- lm(log_body_wt ~ log_brain_wt, data = mammals)\nr_sq2 &lt;- cor(model2$fitted.values, mammals$log_body_wt)^2\n# R² ≈ 0.92\n\nThe R² improved from 0.87 to 0.92. As the slides noted, this represents a 37.79% reduction in error rate. That is a significant improvement gained purely from transforming the data — not from changing the algorithm.\nKey insight: If your data is skewed, consider applying a log transformation (or other transformations) before modelling. This is a form of feature engineering and can dramatically improve model performance.",
+    "text": "5 Skewness: What It Is and Why It Matters\n\n5.1 What Is Skewness?\nSkewness describes how asymmetric a distribution is compared to a normal (bell-shaped) distribution.\n\nNormal distribution: Symmetric. The mean and median are approximately equal. The histogram/density plot looks like a bell curve, centred around the middle.\nRight (positive) skew: The “tail” of the distribution stretches to the right. Most values are clustered on the left, but a few very large values pull the mean to the right. Mean &gt; Median.\nLeft (negative) skew: The tail stretches to the left. Most values cluster on the right, but a few very small values pull the mean left. Mean &lt; Median.\n\n\n\nCode\n# Normal distribution — mean ≈ median\ndata &lt;- rnorm(10000, mean = 0, sd = 1)\ndrawPlots(data, \"Normal distribution (median ~= mean)\")\n\n# Left (negative) skew — median &gt; mean\ndata &lt;- rbeta(10000, 5, 1)\ndrawPlots(data, \"Left skewed (median-green &gt; mean-blue)\")\n\n# Right (positive) skew — median &lt; mean\ndata &lt;- rbeta(10000, 1, 5)\ndrawPlots(data, \"Right skewed (median-green &lt; mean-blue)\")\n\n\n\n\n5.2 Real-World Examples of Skewed Data\nA lot of real-life data is skewed:\n\nIncome: Most people earn moderate amounts, but a few earn enormously high salaries (right skew).\nAverage spend per customer: Most customers spend a little, a few spend a lot.\nDistance travelled to work: Most people live reasonably close; some commute very long distances.\nAnimal body weights: Most mammals are small; a few (elephants, whales) are extremely large.\n\n\n\n5.3 Why Skewness Matters for Machine Learning\nThe lecture demonstrated this using the mammals dataset (from the openintro package), which contains body weight and brain weight for various mammals.\nThe problem: Both body weight and brain weight are extremely right-skewed — most mammals are small, but a few (like elephants) are huge. When you plot the raw data, almost all points cluster near zero, and you can barely see any relationship.\nStep 1 — Build a model on raw data:\n\n\nCode\nmodel1 &lt;- lm(body_wt ~ brain_wt, data = mammals)\nr_sq1 &lt;- cor(model1$fitted.values, mammals$body_wt)^2\n# R² ≈ 0.87\n\n\nStep 2 — Apply a log transformation:\nTaking the logarithm of skewed data compresses the large values and stretches the small ones, making the distribution more symmetrical (closer to normal).\n\n\nCode\nmammals$log_body_wt &lt;- log(mammals$body_wt)\nmammals$log_brain_wt &lt;- log(mammals$brain_wt)\n\n\nWhen you plot the log-transformed data, you can now clearly see a linear relationship between log(brain weight) and log(body weight).\nStep 3 — Build a model on transformed data:\n\n\nCode\nmodel2 &lt;- lm(log_body_wt ~ log_brain_wt, data = mammals)\nr_sq2 &lt;- cor(model2$fitted.values, mammals$log_body_wt)^2\n# R² ≈ 0.92\n\n\nThe R² improved from 0.87 to 0.92. As the slides noted, this represents a 37.79% reduction in error rate. That is a significant improvement gained purely from transforming the data — not from changing the algorithm.\nKey insight: If your data is skewed, consider applying a log transformation (or other transformations) before modelling. This is a form of feature engineering and can dramatically improve model performance.",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -1721,7 +2192,7 @@
     "href": "data-mining/week-2.html#packages-and-the-qplot-function",
     "title": "STAT9013 - Data Mining: Week 2",
     "section": "6 Packages and the qplot Function",
-    "text": "6 Packages and the qplot Function\n\n6.1 Required Packages\n\nlibrary(ggplot2)     # Plotting — qplot and ggplot functions\nlibrary(gridExtra)   # Arrange multiple plots in a grid\nlibrary(datasets)    # Built-in R datasets (iris, etc.)\nlibrary(corrplot)    # Correlation plot visualisations\nlibrary(titanic)     # Titanic dataset\nlibrary(psych)       # pairs.panels() for pairs plots\nlibrary(openintro)   # mammals dataset and others\n\nIf you get errors like could not find function \"xxxxx\", it almost certainly means you need to install and/or load the package first.\n\n\n6.2 The qplot Function (Quick Plot)\nqplot is part of ggplot2 and provides a quick way to create plots:\n\nOne variable → defaults to a histogram.\nTwo variables → defaults to a scatterplot.\nChange the plot type with the geom parameter (e.g., geom = \"density\", geom = \"boxplot\").\nUse main for title, xlab for x-axis label, ylab for y-axis label.",
+    "text": "6 Packages and the qplot Function\n\n6.1 Required Packages\n\n\nCode\nlibrary(ggplot2)     # Plotting — qplot and ggplot functions\nlibrary(gridExtra)   # Arrange multiple plots in a grid\nlibrary(datasets)    # Built-in R datasets (iris, etc.)\nlibrary(corrplot)    # Correlation plot visualisations\nlibrary(titanic)     # Titanic dataset\nlibrary(psych)       # pairs.panels() for pairs plots\nlibrary(openintro)   # mammals dataset and others\n\n\nIf you get errors like could not find function \"xxxxx\", it almost certainly means you need to install and/or load the package first.\n\n\n6.2 The qplot Function (Quick Plot)\nqplot is part of ggplot2 and provides a quick way to create plots:\n\nOne variable → defaults to a histogram.\nTwo variables → defaults to a scatterplot.\nChange the plot type with the geom parameter (e.g., geom = \"density\", geom = \"boxplot\").\nUse main for title, xlab for x-axis label, ylab for y-axis label.",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -1733,7 +2204,7 @@
     "href": "data-mining/week-2.html#datasets-in-r",
     "title": "STAT9013 - Data Mining: Week 2",
     "section": "7 Datasets in R",
-    "text": "7 Datasets in R\nR comes with many built-in datasets through the datasets package. Some notable ones:\n\niris: 150 observations of iris flowers (3 species, 4 measurements each). A classic ML dataset.\nTitanic: Survival data for passengers.\nairquality: New York air quality measurements.\nanscombe: Four datasets with nearly identical summary statistics but very different distributions — a great demonstration of why you should always visualise your data.\n\n\nlibrary(help = \"datasets\")  # See all available datasets\ndata(iris)                    # Load a specific dataset",
+    "text": "7 Datasets in R\nR comes with many built-in datasets through the datasets package. Some notable ones:\n\niris: 150 observations of iris flowers (3 species, 4 measurements each). A classic ML dataset.\nTitanic: Survival data for passengers.\nairquality: New York air quality measurements.\nanscombe: Four datasets with nearly identical summary statistics but very different distributions — a great demonstration of why you should always visualise your data.\n\n\n\nCode\nlibrary(help = \"datasets\")  # See all available datasets\ndata(iris)                    # Load a specific dataset",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -1745,7 +2216,7 @@
     "href": "data-mining/week-2.html#data-exploration-the-iris-dataset",
     "title": "STAT9013 - Data Mining: Week 2",
     "section": "8 Data Exploration: The Iris Dataset",
-    "text": "8 Data Exploration: The Iris Dataset\nData exploration is critical to the success of any ML project. As the lecturer emphasised: it is more important than anything you do in the model-building stage, including picking an algorithm. You should look at missing data, check for incomplete data, perform statistical analysis, and create visualisations. The insights you gain here should actively guide your feature engineering and modelling decisions — not just be a box-ticking exercise.\n\n8.1 About the Iris Dataset\nIntroduced by Ronald Fisher in 1936, the Iris dataset contains 150 observations: 50 each of three species (setosa, versicolor, virginica). Four numeric features are measured: Sepal.Length, Sepal.Width, Petal.Length, and Petal.Width. The goal is to classify species based on these measurements.\n\n\n8.2 Initial Exploration\n\ndata(iris)\ndim(iris)       # 150 rows, 5 columns\nnames(iris)     # \"Sepal.Length\" \"Sepal.Width\" \"Petal.Length\" \"Petal.Width\" \"Species\"\nstr(iris)       # Shows types: 4 numeric columns + 1 factor (Species)\nsummary(iris[, -5])  # Summary stats for numeric columns only\n\n\n\n8.3 Column Types\nGetting column types right is crucial in R:\n\nnumeric / integer: Numbers.\ncharacter: Text strings.\nlogical: TRUE/FALSE.\nfactor: Categorical variables with a fixed set of levels (like Species with 3 levels).\n\nYou can convert between types with as.numeric(), as.character(), as.factor(), etc. But not all conversions are possible — as.numeric(\"three\") produces NA with a warning.\n\n\n8.4 Histograms — Iris\n\np01 &lt;- qplot(iris$Sepal.Length, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Sepal.Length\", xlab = \"Sepal.Length\")\np02 &lt;- qplot(iris$Sepal.Width, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Sepal.Width\", xlab = \"Sepal.Width\")\np03 &lt;- qplot(iris$Petal.Length, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Petal.Length\", xlab = \"Petal.Length\")\np04 &lt;- qplot(iris$Petal.Width, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Petal.Width\", xlab = \"Petal.Width\")\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\nWhat to notice: Petal.Length and Petal.Width show a clear bimodal distribution (two humps). This suggests there might be distinct groups in the data — which makes sense because setosa has much smaller petals than the other two species.\n\n\n8.5 Density Plots — Iris\n\np01 &lt;- qplot(iris$Sepal.Length, geom = \"density\",\n             main = \"Density plot on Sepal.Length\", xlab = \"Sepal.Length\")\n# ... similar for the other three variables\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\nThe density plots confirm the same patterns seen in the histograms, but the smooth curves make the bimodal shape of the petal measurements even more obvious.\n\n\n8.6 Box Plots — Iris (by Species)\n\np01 &lt;- qplot(Species, Sepal.Length, data = iris, geom = \"boxplot\",\n             main = \"Boxplot on Sepal.Length\")\n# ... similar for other variables\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\nWhat to notice: When we split by species, the box plots reveal that setosa is very clearly separated from the other two species on Petal.Length and Petal.Width (almost no overlap). Versicolor and virginica overlap more, but are still distinguishable. Sepal.Width is an interesting variable — setosa actually has wider sepals than the other species.\n\n\n8.7 Scatter Plots — Iris (Multivariate)\nScatter plots show the relationship between two variables at once. By colouring by species, we can see how well the species separate:\n\np01 &lt;- qplot(Sepal.Width, Sepal.Length, data = iris, colour = Species,\n             main = \"Sepal.Width v Sepal.Length\")\np02 &lt;- qplot(Petal.Length, Petal.Width, data = iris, colour = Species,\n             main = \"Petal.Length v Petal.Width\")\n# ... more combinations\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\nKey insight: The Petal.Length vs Petal.Width scatter plot shows the clearest separation between all three species. This tells you these are likely the most useful features for classification.\n\n\n8.8 Correlation Analysis\nCorrelation measures the linear relationship between two numeric variables, ranging from −1 (perfect negative) to +1 (perfect positive), with 0 meaning no linear relationship.\n\ncorr_mat &lt;- cor(iris[, -5])   # Exclude Species (not numeric)\ncorrplot.mixed(corr_mat)\n\nKey correlations in iris:\n\nPetal.Length and Petal.Width: 0.96 (very strong positive — as petals get longer, they also get wider).\nSepal.Length and Petal.Length: 0.87 (strong positive).\nSepal.Length and Petal.Width: 0.82 (strong positive).\nSepal.Width and Petal.Length: −0.43 (moderate negative).\nSepal.Length and Sepal.Width: −0.12 (very weak negative — almost no relationship).\n\n\n\n8.9 Pairs Plots\nA pairs plot combines histograms (on the diagonal), scatter plots (below the diagonal), and correlation values (above the diagonal) into a single comprehensive view:\n\npairs.panels(iris[, -5], method = \"pearson\",\n             hist.col = \"#00AFBB\", density = TRUE, ellipses = FALSE)\n\nThis is one of the most useful exploratory tools because it gives you a full picture of all pairwise relationships at a glance.",
+    "text": "8 Data Exploration: The Iris Dataset\nData exploration is critical to the success of any ML project. As the lecturer emphasised: it is more important than anything you do in the model-building stage, including picking an algorithm. You should look at missing data, check for incomplete data, perform statistical analysis, and create visualisations. The insights you gain here should actively guide your feature engineering and modelling decisions — not just be a box-ticking exercise.\n\n8.1 About the Iris Dataset\nIntroduced by Ronald Fisher in 1936, the Iris dataset contains 150 observations: 50 each of three species (setosa, versicolor, virginica). Four numeric features are measured: Sepal.Length, Sepal.Width, Petal.Length, and Petal.Width. The goal is to classify species based on these measurements.\n\n\n8.2 Initial Exploration\n\n\nCode\ndata(iris)\ndim(iris)       # 150 rows, 5 columns\nnames(iris)     # \"Sepal.Length\" \"Sepal.Width\" \"Petal.Length\" \"Petal.Width\" \"Species\"\nstr(iris)       # Shows types: 4 numeric columns + 1 factor (Species)\nsummary(iris[, -5])  # Summary stats for numeric columns only\n\n\n\n\n8.3 Column Types\nGetting column types right is crucial in R:\n\nnumeric / integer: Numbers.\ncharacter: Text strings.\nlogical: TRUE/FALSE.\nfactor: Categorical variables with a fixed set of levels (like Species with 3 levels).\n\nYou can convert between types with as.numeric(), as.character(), as.factor(), etc. But not all conversions are possible — as.numeric(\"three\") produces NA with a warning.\n\n\n8.4 Histograms — Iris\n\n\nCode\np01 &lt;- qplot(iris$Sepal.Length, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Sepal.Length\", xlab = \"Sepal.Length\")\np02 &lt;- qplot(iris$Sepal.Width, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Sepal.Width\", xlab = \"Sepal.Width\")\np03 &lt;- qplot(iris$Petal.Length, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Petal.Length\", xlab = \"Petal.Length\")\np04 &lt;- qplot(iris$Petal.Width, geom = \"histogram\", bins = 10,\n             main = \"Histogram on Petal.Width\", xlab = \"Petal.Width\")\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\n\nWhat to notice: Petal.Length and Petal.Width show a clear bimodal distribution (two humps). This suggests there might be distinct groups in the data — which makes sense because setosa has much smaller petals than the other two species.\n\n\n8.5 Density Plots — Iris\n\n\nCode\np01 &lt;- qplot(iris$Sepal.Length, geom = \"density\",\n             main = \"Density plot on Sepal.Length\", xlab = \"Sepal.Length\")\n# ... similar for the other three variables\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\n\nThe density plots confirm the same patterns seen in the histograms, but the smooth curves make the bimodal shape of the petal measurements even more obvious.\n\n\n8.6 Box Plots — Iris (by Species)\n\n\nCode\np01 &lt;- qplot(Species, Sepal.Length, data = iris, geom = \"boxplot\",\n             main = \"Boxplot on Sepal.Length\")\n# ... similar for other variables\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\n\nWhat to notice: When we split by species, the box plots reveal that setosa is very clearly separated from the other two species on Petal.Length and Petal.Width (almost no overlap). Versicolor and virginica overlap more, but are still distinguishable. Sepal.Width is an interesting variable — setosa actually has wider sepals than the other species.\n\n\n8.7 Scatter Plots — Iris (Multivariate)\nScatter plots show the relationship between two variables at once. By colouring by species, we can see how well the species separate:\n\n\nCode\np01 &lt;- qplot(Sepal.Width, Sepal.Length, data = iris, colour = Species,\n             main = \"Sepal.Width v Sepal.Length\")\np02 &lt;- qplot(Petal.Length, Petal.Width, data = iris, colour = Species,\n             main = \"Petal.Length v Petal.Width\")\n# ... more combinations\ngridExtra::grid.arrange(p01, p02, p03, p04)\n\n\nKey insight: The Petal.Length vs Petal.Width scatter plot shows the clearest separation between all three species. This tells you these are likely the most useful features for classification.\n\n\n8.8 Correlation Analysis\nCorrelation measures the linear relationship between two numeric variables, ranging from −1 (perfect negative) to +1 (perfect positive), with 0 meaning no linear relationship.\n\n\nCode\ncorr_mat &lt;- cor(iris[, -5])   # Exclude Species (not numeric)\ncorrplot.mixed(corr_mat)\n\n\nKey correlations in iris:\n\nPetal.Length and Petal.Width: 0.96 (very strong positive — as petals get longer, they also get wider).\nSepal.Length and Petal.Length: 0.87 (strong positive).\nSepal.Length and Petal.Width: 0.82 (strong positive).\nSepal.Width and Petal.Length: −0.43 (moderate negative).\nSepal.Length and Sepal.Width: −0.12 (very weak negative — almost no relationship).\n\n\n\n8.9 Pairs Plots\nA pairs plot combines histograms (on the diagonal), scatter plots (below the diagonal), and correlation values (above the diagonal) into a single comprehensive view:\n\n\nCode\npairs.panels(iris[, -5], method = \"pearson\",\n             hist.col = \"#00AFBB\", density = TRUE, ellipses = FALSE)\n\n\nThis is one of the most useful exploratory tools because it gives you a full picture of all pairwise relationships at a glance.",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -1757,7 +2228,7 @@
     "href": "data-mining/week-2.html#the-titanic-dataset-a-brief-introduction",
     "title": "STAT9013 - Data Mining: Week 2",
     "section": "9 The Titanic Dataset: A Brief Introduction",
-    "text": "9 The Titanic Dataset: A Brief Introduction\nThe Titanic dataset is a classic ML classification problem: Can we predict which passengers survived the shipwreck?\n\n9.1 Loading and Inspecting\n\ndata(titanic_train)\nstr(titanic_train)   # 891 obs. of 12 variables\n\n\n\n9.2 Understanding the Variables\n\n\n\n\n\n\n\n\nVariable\nMeaning\nNotes\n\n\n\n\nPassengerId\nUnique identifier\nDrop for modelling (unique per row)\n\n\nSurvived\nDid they survive? (0 = No, 1 = Yes)\nThis is our target variable\n\n\nPclass\nTicket class (1st, 2nd, 3rd)\nImportant — consider converting to factor\n\n\nName\nPassenger name\nDrop (not predictive by itself)\n\n\nSex\nMale or Female\nVery important — women more likely survived\n\n\nAge\nAge in years\nChildren more likely survived; has 177 NAs\n\n\nSibSp\nNumber of siblings/spouses aboard\nNeeds investigation\n\n\nParch\nNumber of parents/children aboard\nNeeds investigation\n\n\nTicket\nTicket number\nProbably drop, unless embedded patterns\n\n\nFare\nTicket price\nMay relate to survival (wealth/class proxy)\n\n\nCabin\nCabin number\n687 blanks — might indicate location on ship\n\n\nEmbarked\nPort of embarkation (C/Q/S)\nTest whether it affects survival\n\n\n\n\n\n9.3 Exploring Unique Values and Missing Data\n\n# Count unique values per column\nuniq_len &lt;- function(x) { length(unique(x)) }\nsapply(titanic_train, uniq_len)\n\n# Count missing/blank values per column\ncountBlank &lt;- function(x) { sum(is.na(x) | x == \"\") }\nsapply(titanic_train, countBlank)\n\nKey findings:\n\nPassengerId and Name have 891 unique values (same as row count) — unique identifiers, drop both.\nAge has 177 missing values — need to decide whether to fill them in (impute) or drop the column.\nCabin has 687 blank values (77% missing!) — possibly useful if you extract deck letter, but the missingness itself is a challenge.\nEmbarked has 2 blank values — easy to fill.",
+    "text": "9 The Titanic Dataset: A Brief Introduction\nThe Titanic dataset is a classic ML classification problem: Can we predict which passengers survived the shipwreck?\n\n9.1 Loading and Inspecting\n\n\nCode\ndata(titanic_train)\nstr(titanic_train)   # 891 obs. of 12 variables\n\n\n\n\n9.2 Understanding the Variables\n\n\n\n\n\n\n\n\nVariable\nMeaning\nNotes\n\n\n\n\nPassengerId\nUnique identifier\nDrop for modelling (unique per row)\n\n\nSurvived\nDid they survive? (0 = No, 1 = Yes)\nThis is our target variable\n\n\nPclass\nTicket class (1st, 2nd, 3rd)\nImportant — consider converting to factor\n\n\nName\nPassenger name\nDrop (not predictive by itself)\n\n\nSex\nMale or Female\nVery important — women more likely survived\n\n\nAge\nAge in years\nChildren more likely survived; has 177 NAs\n\n\nSibSp\nNumber of siblings/spouses aboard\nNeeds investigation\n\n\nParch\nNumber of parents/children aboard\nNeeds investigation\n\n\nTicket\nTicket number\nProbably drop, unless embedded patterns\n\n\nFare\nTicket price\nMay relate to survival (wealth/class proxy)\n\n\nCabin\nCabin number\n687 blanks — might indicate location on ship\n\n\nEmbarked\nPort of embarkation (C/Q/S)\nTest whether it affects survival\n\n\n\n\n\n9.3 Exploring Unique Values and Missing Data\n\n\nCode\n# Count unique values per column\nuniq_len &lt;- function(x) { length(unique(x)) }\nsapply(titanic_train, uniq_len)\n\n# Count missing/blank values per column\ncountBlank &lt;- function(x) { sum(is.na(x) | x == \"\") }\nsapply(titanic_train, countBlank)\n\n\nKey findings:\n\nPassengerId and Name have 891 unique values (same as row count) — unique identifiers, drop both.\nAge has 177 missing values — need to decide whether to fill them in (impute) or drop the column.\nCabin has 687 blank values (77% missing!) — possibly useful if you extract deck letter, but the missingness itself is a challenge.\nEmbarked has 2 blank values — easy to fill.",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",

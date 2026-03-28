@@ -1,0 +1,377 @@
+---
+title: "Week 2: Statistical Inference"
+subject: "Regression Analysis"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    highlight-style: github
+    theme: cosmo
+---
+
+> 📝 **Study Notes — Week 2**
+> These notes are intended as a review and starting point. Leave your own annotations and expansions in the spaces provided below each section.
+
+---
+
+# Key Topics
+
+- Descriptive vs. Inferential Statistics
+- Population vs. Sample (Parameters vs. Statistics)
+- Probability Sampling
+- Point Estimates and Sampling Error
+- Sampling Distributions and the Central Limit Theorem
+- Confidence Intervals
+- Hypothesis Testing (Null & Alternative Hypotheses)
+- p-values and Significance Levels
+- Type I and Type II Errors
+- Statistical Power
+- Effect Size and Cohen's d
+- Statistical vs. Clinical (Practical) Significance
+
+---
+
+# Core Explanations
+
+## Descriptive vs. Inferential Statistics
+
+**Descriptive statistics** are used simply to describe or summarise the data you have observed — for example, calculating the mean or creating a chart.
+
+**Inferential statistics** go a step further. They use methods such as **hypothesis testing**, **confidence intervals**, and **regression analysis** to draw conclusions about a larger group (a **population**) based on data collected from a smaller group (a **sample**). These inferences are grounded in **probability theory**.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Population vs. Sample
+
+| Term | Definition |
+|------|------------|
+| **Population** | All individuals under study |
+| **Sample** | A subset of the population |
+| **Parameter** | A characteristic of a population (usually unknown) |
+| **Statistic** | An estimate of a parameter, calculated from the sample |
+
+In practice, we almost never have access to the full population. Instead, we collect a sample and use the statistics from that sample to **estimate** the unknown population parameters.
+
+For a statistic to reliably estimate a parameter, the sample must be collected in an **unbiased** way — this is where probability sampling comes in.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Probability Sampling
+
+To ensure a sample is representative of the population, we use **probability sampling**:
+
+- Every member of the population has a **known, non-zero chance** of being selected.
+- Units are drawn **at random**.
+- Statistical inference techniques assume that samples are drawn randomly.
+
+Without random sampling, estimates may be **biased** and conclusions unreliable.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Point Estimates and Sampling Error
+
+From a random sample, we calculate **point estimates** — a single value used to estimate a population parameter.
+
+- Example: the **sample mean** $\bar{x}$ is used to estimate the **population mean** $\mu$.
+
+However, there will always be a difference between the estimate and the true parameter. This difference is called **sampling error**.
+
+### Controlling Sampling Error
+
+Key methods to minimise sampling error include:
+
+- **Increasing sample size** — larger samples are more representative and produce smaller errors.
+- **Using random sampling methods** (e.g. stratified sampling).
+- **Calculating the Standard Error of the Mean (SEM)**.
+- **Using Confidence Intervals**.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Standard Error of the Mean (SEM)
+
+The **Standard Error of the Mean** quantifies how much variability we expect in the sample mean from sample to sample.
+
+$$
+\text{SEM} = \frac{\sigma}{\sqrt{n}}
+$$
+
+Where:
+
+- $\sigma$ = population standard deviation
+- $n$ = sample size
+
+A **smaller SEM** means a **more precise and reliable** estimate. As the sample size $n$ increases, the SEM decreases.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Sampling Distributions
+
+When we take many samples from a population and calculate a statistic (like the mean) for each, the distribution of those statistics is called a **sampling distribution**.
+
+- The sample mean $\bar{x}$ varies from sample to sample — it is a **random variable**.
+- If the underlying population is **normally distributed** with mean $\mu$ and standard deviation $\sigma$:
+
+$$
+\bar{X} \sim N\left(\mu,\ \frac{\sigma}{\sqrt{n}}\right)
+$$
+
+### The Central Limit Theorem (CLT)
+
+What if the population is *not* normally distributed? The **Central Limit Theorem** tells us:
+
+> For large sample sizes ($n \geq 30$), the distribution of the sample mean is **approximately normal**, regardless of the shape of the underlying population.
+
+This is one of the most important results in statistics — it allows us to use normal-distribution methods even when we don't know the shape of the population.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Confidence Intervals
+
+A **confidence interval (CI)** is a range of values within which we are highly confident the true population parameter lies.
+
+### Logic of a 95% Confidence Interval
+
+With repeated sampling, 95% of calculated $\bar{x}$ values will be within **two standard errors** of the true population mean $\mu$. Turning this around: given a single sample, we are **95% confident** that $\mu$ lies within two standard errors of our calculated $\bar{x}$.
+
+$$
+\bar{x} \pm 2 \cdot \frac{\sigma}{\sqrt{n}}
+$$
+
+**Key point:** A larger sample size leads to a **narrower** (more precise) confidence interval.
+
+Confidence intervals are especially useful because they show the **range of plausible values** for a parameter, not just a yes/no decision. They help distinguish between **statistical** and **practical** significance.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Hypothesis Testing
+
+**Hypothesis testing** is a formal procedure for answering research questions using data (empirical evidence).
+
+### Steps in Hypothesis Testing
+
+1. **State the hypotheses** (null and alternative).
+2. **Choose a significance level** ($\alpha$, e.g. 0.05).
+3. **Collect data and compute a test statistic**.
+4. **Calculate the p-value**.
+5. **Make a decision**: reject or fail to reject $H_0$.
+6. **State your conclusion** in terms of the population parameter.
+
+> ⚠️ *Lecturer's note (from class):* There are only **two valid conclusions** in hypothesis testing:
+> - "We **reject** the null hypothesis."
+> - "We **fail to reject** the null hypothesis."
+>
+> Anything else (e.g. "we accept $H_1$") is **incorrect**.
+
+### The Null Hypothesis ($H_0$)
+
+- The **null hypothesis** is the statement being tested — typically a claim of **no difference or no effect**.
+- We assume it is **true** until the data provides evidence otherwise.
+- It is always stated using an **equality sign**.
+
+**Example:** $H_0: \mu = 0$
+
+### The Alternative Hypothesis ($H_1$ or $H_a$)
+
+- The **alternative hypothesis** represents the **researcher's theory** — what they believe to be true.
+- It contains all values **not** included in the null hypothesis.
+- Together, $H_0$ and $H_1$ must cover **all eventualities**.
+
+**Example:** $H_1: \mu \neq 0$
+
+> ✏️ *Your notes here:*
+
+---
+
+## The p-value
+
+The **p-value** is a probability that measures the **strength of evidence against the null hypothesis**.
+
+> 🎵 *Classroom rhyme (do not write in exams!):* **"If p is low, null must go."**
+
+- A **small p-value** → less likely that $H_0$ is true → stronger evidence against $H_0$ → in favour of $H_1$.
+- Always **quote the p-value** when reporting your conclusions.
+- Conclusions should be stated in terms of the **population parameter**.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Level of Significance ($\alpha$)
+
+The **significance level** $\alpha$ is a threshold set **before** the test is run. It represents the degree of uncertainty you are willing to accept.
+
+| Significance Level | Common Usage |
+|--------------------|--------------|
+| $\alpha = 0.05$ (5%) | Most common |
+| $\alpha = 0.01$ (1%) | More stringent |
+| $\alpha = 0.001$ (0.1%) | Very stringent |
+
+**Decision rule:**
+
+- If $p \leq \alpha$: **Reject $H_0$** — result is **statistically significant**.
+- If $p > \alpha$: **Fail to reject $H_0$** — insufficient evidence to reject.
+
+> ⚠️ A **non-significant** result does **not** prove $H_0$ is true — it simply means we don't have enough evidence to reject it.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Type I and Type II Errors
+
+Because conclusions in hypothesis testing are based on sample data, **errors are possible**.
+
+| | $H_0$ is actually TRUE | $H_0$ is actually FALSE |
+|---|---|---|
+| **Reject $H_0$** | ❌ **Type I Error** ($\alpha$) | ✅ Correct (Power) |
+| **Fail to Reject $H_0$** | ✅ Correct | ❌ **Type II Error** ($\beta$) |
+
+- **Type I Error**: Rejecting $H_0$ when it is actually true (a "false positive"). The probability is controlled by $\alpha$.
+- **Type II Error**: Failing to reject $H_0$ when it is actually false (a "false negative"). The probability is denoted $\beta$.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Statistical Power
+
+**Power** is the probability of correctly rejecting $H_0$ when it is false — i.e. the probability of detecting a real effect.
+
+$$
+\text{Power} = 1 - \beta
+$$
+
+- We want **high power** (large $1 - \beta$) to maximise our chances of detecting a real difference.
+- We also want **small $\alpha$** to avoid false positives.
+- There is a **trade-off**: decreasing $\alpha$ automatically increases $\beta$ (and reduces power).
+- The solution is to **choose an appropriate sample size** before the study begins, so that both $\alpha$ and $\beta$ are at acceptable levels.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Effect Size
+
+The **effect size** measures the **magnitude or strength** of a relationship between two variables, separate from statistical significance.
+
+- A result can be statistically significant but have a **tiny effect size** (practically unimportant).
+- A result with a **large effect size** is more likely to be significant.
+- Associated with each effect size is a **standard error** (a measure of uncertainty).
+
+### Cohen's d (for t-tests)
+
+$$
+d = \frac{\bar{x}_1 - \bar{x}_2}{s_{\text{pooled}}}
+$$
+
+The difference between two means divided by the pooled standard deviation.
+
+### $R^2$ (for Linear Regression)
+
+In **linear regression**, effect size is measured by $R^2$ (the square of Pearson's correlation coefficient $r$):
+
+$$
+R^2 = r^2
+$$
+
+$R^2$ represents the **proportion of variation** in the response variable explained by the explanatory variable.
+
+> ✏️ *Your notes here:*
+
+---
+
+## Statistical vs. Clinical (Practical) Significance
+
+This is a critical distinction:
+
+| | Statistical Significance | Clinical/Practical Significance |
+|---|---|---|
+| **What it means** | Evidence of an effect in the data | The effect is large enough to matter in practice |
+| **Determined by** | p-value vs. $\alpha$ | Effect size |
+| **Can be misleading when** | Sample size is very large (tiny effects become significant) | Sample size is small (real effects may not be detected) |
+
+**For a result to be practically meaningful, it must be BOTH statistically significant AND have a meaningful effect size.**
+
+- A large sample can make a **trivially small** difference statistically significant.
+- A small sample may **miss** a clinically important difference.
+- **Confidence intervals** help by showing the range of plausible effect sizes — not just whether an effect is "significant".
+
+> 💡 *Example from class:* Blood pressure — even a small reduction can have important clinical implications, even if the effect size is modest.
+
+> ✏️ *Your notes here:*
+
+---
+
+# Key Equations / Formulas
+
+```
+Standard Error of the Mean:
+  SEM = σ / √n
+
+Sampling Distribution of the Mean (Normal Population):
+  X̄ ~ N(μ, σ/√n)
+
+95% Confidence Interval:
+  x̄ ± 2 × (σ/√n)
+
+Statistical Power:
+  Power = 1 - β
+
+Cohen's d (Effect Size for t-tests):
+  d = (x̄₁ - x̄₂) / s_pooled
+
+R² (Effect Size for Linear Regression):
+  R² = r²
+```
+
+---
+
+# Practical Examples
+
+- **Point estimate:** A survey of 200 students gives a sample mean exam score of 68. This is our best estimate of the true population mean.
+- **Confidence interval:** Based on the sample, we are 95% confident that the true average exam score for all students is between 65 and 71.
+- **Hypothesis test:** A researcher tests whether a new drug reduces blood pressure. $H_0$: mean reduction = 0 mmHg. A p-value of 0.02 (< 0.05) leads to rejection of $H_0$.
+- **Statistical vs. practical significance:** With 10,000 participants, a drug is found to reduce blood pressure by 0.1 mmHg (p = 0.001). This is statistically significant but may have little clinical value.
+
+> ✏️ *Your notes here:*
+
+---
+
+# Summary Points
+
+- **Inferential statistics** use sample data to draw conclusions about a population.
+- A **parameter** describes the population; a **statistic** estimates it from a sample.
+- **Random (probability) sampling** is essential to avoid bias.
+- **Sampling error** is the difference between an estimate and the true parameter; it is reduced by larger samples.
+- The **SEM** ($\sigma/\sqrt{n}$) measures the precision of the sample mean.
+- The **Central Limit Theorem** guarantees that sample means are approximately normal for $n \geq 30$.
+- A **confidence interval** gives a range of plausible values for the true parameter.
+- Hypothesis testing begins with a **null hypothesis** ($H_0$: no effect) and an **alternative hypothesis** ($H_1$: an effect is present).
+- The **p-value** measures evidence *against* $H_0$ — the smaller the p-value, the stronger the evidence.
+- Use the rhyme: **"If p is low, null must go"** (i.e. if $p \leq 0.05$, reject $H_0$).
+- Conclusions are **only**: "Reject $H_0$" or "Fail to reject $H_0$".
+- **Type I error** = rejecting a true $H_0$ (probability = $\alpha$).
+- **Type II error** = failing to reject a false $H_0$ (probability = $\beta$).
+- **Power** = $1 - \beta$ — the ability to detect a real effect.
+- **Effect size** measures the strength of a relationship (Cohen's d, $R^2$).
+- A result must be **both statistically and practically significant** to be truly meaningful.
+- Always report **confidence intervals** alongside p-values for context.
+
+---
+
+> 📌 *Next class:* More on coding and handling missing data in R.

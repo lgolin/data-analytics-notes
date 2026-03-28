@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 2 - Statistical Inference + Missing Data – Semester Notes</title>
+<title>Week 2: Statistical Inference – Semester Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -40,14 +75,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-567b30ad711c8693efb6495feb883fb3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -109,169 +140,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
-    const toggleBodyColorMode = (bsSheetEl) => {
-      const mode = bsSheetEl.getAttribute("data-mode");
-      const bodyEl = window.document.querySelector("body");
-      if (mode === "dark") {
-        bodyEl.classList.add("quarto-dark");
-        bodyEl.classList.remove("quarto-light");
-      } else {
-        bodyEl.classList.add("quarto-light");
-        bodyEl.classList.remove("quarto-dark");
-      }
-    }
-    const toggleBodyColorPrimary = () => {
-      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
-      if (bsSheetEl) {
-        toggleBodyColorMode(bsSheetEl);
-      }
-    }
-    const setColorSchemeToggle = (alternate) => {
-      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-      for (let i=0; i < toggles.length; i++) {
-        const toggle = toggles[i];
-        if (toggle) {
-          if (alternate) {
-            toggle.classList.add("alternate");
-          } else {
-            toggle.classList.remove("alternate");
-          }
-        }
-      }
-    };
-    const toggleColorMode = (alternate) => {
-      // Switch the stylesheets
-      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
-      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-      manageTransitions('#quarto-margin-sidebar .nav-link', false);
-      if (alternate) {
-        // note: dark is layered on light, we don't disable primary!
-        enableStylesheet(alternateStylesheets);
-        for (const sheetNode of alternateStylesheets) {
-          if (sheetNode.id === "quarto-bootstrap") {
-            toggleBodyColorMode(sheetNode);
-          }
-        }
-      } else {
-        disableStylesheet(alternateStylesheets);
-        enableStylesheet(primaryStylesheets)
-        toggleBodyColorPrimary();
-      }
-      manageTransitions('#quarto-margin-sidebar .nav-link', true);
-      // Switch the toggles
-      setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
-      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-        manageTransitions("body", false);
-        window.scrollTo(0, 1);
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-          manageTransitions("body", true);
-        }, 40);
-      }
-    }
-    const disableStylesheet = (stylesheets) => {
-      for (let i=0; i < stylesheets.length; i++) {
-        const stylesheet = stylesheets[i];
-        stylesheet.rel = 'disabled-stylesheet';
-      }
-    }
-    const enableStylesheet = (stylesheets) => {
-      for (let i=0; i < stylesheets.length; i++) {
-        const stylesheet = stylesheets[i];
-        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
-          stylesheet.rel = 'stylesheet';
-        }
-      }
-    }
-    const manageTransitions = (selector, allowTransitions) => {
-      const els = window.document.querySelectorAll(selector);
-      for (let i=0; i < els.length; i++) {
-        const el = els[i];
-        if (allowTransitions) {
-          el.classList.remove('notransition');
-        } else {
-          el.classList.add('notransition');
-        }
-      }
-    }
-    const isFileUrl = () => {
-      return window.location.protocol === 'file:';
-    }
-    const hasAlternateSentinel = () => {
-      let styleSentinel = getColorSchemeSentinel();
-      if (styleSentinel !== null) {
-        return styleSentinel === "alternate";
-      } else {
-        return false;
-      }
-    }
-    const setStyleSentinel = (alternate) => {
-      const value = alternate ? "alternate" : "default";
-      if (!isFileUrl()) {
-        window.localStorage.setItem("quarto-color-scheme", value);
-      } else {
-        localAlternateSentinel = value;
-      }
-    }
-    const getColorSchemeSentinel = () => {
-      if (!isFileUrl()) {
-        const storageValue = window.localStorage.getItem("quarto-color-scheme");
-        return storageValue != null ? storageValue : localAlternateSentinel;
-      } else {
-        return localAlternateSentinel;
-      }
-    }
-    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-      let newTheme = '';
-      if(authorPrefersDark) {
-        newTheme = isAlternate ? baseTheme : alternateTheme;
-      } else {
-        newTheme = isAlternate ? alternateTheme : baseTheme;
-      }
-      const changeGiscusTheme = () => {
-        // From: https://github.com/giscus/giscus/issues/336
-        const sendMessage = (message) => {
-          const iframe = document.querySelector('iframe.giscus-frame');
-          if (!iframe) return;
-          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-        }
-        sendMessage({
-          setConfig: {
-            theme: newTheme
-          }
-        });
-      }
-      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-      if (isGiscussLoaded) {
-        changeGiscusTheme();
-      }
-    };
-    const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
-      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-    // Dark / light mode switch
-    window.quartoToggleColorScheme = () => {
-      // Read the current dark / light value
-      let toAlternate = !hasAlternateSentinel();
-      toggleColorMode(toAlternate);
-      setStyleSentinel(toAlternate);
-      toggleGiscusIfUsed(toAlternate, darkModeDefault);
-      window.dispatchEvent(new Event('resize'));
-    };
-    // Switch to dark mode if need be
-    if (hasAlternateSentinel()) {
-      toggleColorMode(true);
-    } else {
-      toggleColorMode(false);
-    }
-  </script>
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -280,7 +149,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-2.html">Week 2</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-2.html">Week 2</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -296,9 +165,6 @@ window.Quarto = {
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../index.html" class="sidebar-logo-link">
       </a>
-      <div class="sidebar-tools-main">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -380,15 +246,9 @@ window.Quarto = {
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
-  </div>
-</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Weekly Notes</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -415,31 +275,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 9</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
- <span class="menu-text">Practice &amp; Revision</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/revision.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Revision</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/labs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Labs</span></a>
   </div>
 </li>
       </ul>
@@ -448,28 +297,22 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Time Series</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
-  </div>
-</li>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Weekly Notes</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
@@ -480,29 +323,6 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 2</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
- <span class="menu-text">Practice &amp; Revision</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/revision.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Revision</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/labs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Labs</span></a>
   </div>
 </li>
       </ul>
@@ -519,72 +339,54 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#part-2---core-concepts" id="toc-part-2---core-concepts" class="nav-link" data-scroll-target="#part-2---core-concepts">Part 2 - Core Concepts</a>
+  <li><a href="#key-topics" id="toc-key-topics" class="nav-link active" data-scroll-target="#key-topics"><span class="header-section-number">1</span> Key Topics</a></li>
+  <li><a href="#core-explanations" id="toc-core-explanations" class="nav-link" data-scroll-target="#core-explanations"><span class="header-section-number">2</span> Core Explanations</a>
   <ul class="collapse">
-  <li><a href="#population-vs-sample" id="toc-population-vs-sample" class="nav-link" data-scroll-target="#population-vs-sample">1. Population vs Sample</a>
+  <li><a href="#descriptive-vs.-inferential-statistics" id="toc-descriptive-vs.-inferential-statistics" class="nav-link" data-scroll-target="#descriptive-vs.-inferential-statistics"><span class="header-section-number">2.1</span> Descriptive vs.&nbsp;Inferential Statistics</a></li>
+  <li><a href="#population-vs.-sample" id="toc-population-vs.-sample" class="nav-link" data-scroll-target="#population-vs.-sample"><span class="header-section-number">2.2</span> Population vs.&nbsp;Sample</a></li>
+  <li><a href="#probability-sampling" id="toc-probability-sampling" class="nav-link" data-scroll-target="#probability-sampling"><span class="header-section-number">2.3</span> Probability Sampling</a></li>
+  <li><a href="#point-estimates-and-sampling-error" id="toc-point-estimates-and-sampling-error" class="nav-link" data-scroll-target="#point-estimates-and-sampling-error"><span class="header-section-number">2.4</span> Point Estimates and Sampling Error</a>
   <ul class="collapse">
-  <li><a href="#how-to-think-about-it" id="toc-how-to-think-about-it" class="nav-link" data-scroll-target="#how-to-think-about-it">🧠 How to think about it</a></li>
+  <li><a href="#controlling-sampling-error" id="toc-controlling-sampling-error" class="nav-link" data-scroll-target="#controlling-sampling-error"><span class="header-section-number">2.4.1</span> Controlling Sampling Error</a></li>
   </ul></li>
-  <li><a href="#sampling-error" id="toc-sampling-error" class="nav-link" data-scroll-target="#sampling-error">2. Sampling Error</a>
+  <li><a href="#standard-error-of-the-mean-sem" id="toc-standard-error-of-the-mean-sem" class="nav-link" data-scroll-target="#standard-error-of-the-mean-sem"><span class="header-section-number">2.5</span> Standard Error of the Mean (SEM)</a></li>
+  <li><a href="#sampling-distributions" id="toc-sampling-distributions" class="nav-link" data-scroll-target="#sampling-distributions"><span class="header-section-number">2.6</span> Sampling Distributions</a>
   <ul class="collapse">
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
-  <li><a href="#why-this-happens" id="toc-why-this-happens" class="nav-link" data-scroll-target="#why-this-happens">🧠 Why this happens</a></li>
-  <li><a href="#how-to-reduce-sampling-error" id="toc-how-to-reduce-sampling-error" class="nav-link" data-scroll-target="#how-to-reduce-sampling-error">How to reduce sampling error</a></li>
+  <li><a href="#the-central-limit-theorem-clt" id="toc-the-central-limit-theorem-clt" class="nav-link" data-scroll-target="#the-central-limit-theorem-clt"><span class="header-section-number">2.6.1</span> The Central Limit Theorem (CLT)</a></li>
   </ul></li>
-  <li><a href="#sampling-distribution" id="toc-sampling-distribution" class="nav-link" data-scroll-target="#sampling-distribution">3. Sampling Distribution</a>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals"><span class="header-section-number">2.7</span> Confidence Intervals</a>
   <ul class="collapse">
-  <li><a href="#idea" id="toc-idea" class="nav-link" data-scroll-target="#idea">🧠 Idea</a></li>
-  <li><a href="#key-properties" id="toc-key-properties" class="nav-link" data-scroll-target="#key-properties">Key properties</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">🧠 Why this matters</a></li>
+  <li><a href="#logic-of-a-95-confidence-interval" id="toc-logic-of-a-95-confidence-interval" class="nav-link" data-scroll-target="#logic-of-a-95-confidence-interval"><span class="header-section-number">2.7.1</span> Logic of a 95% Confidence Interval</a></li>
   </ul></li>
-  <li><a href="#central-limit-theorem-clt" id="toc-central-limit-theorem-clt" class="nav-link" data-scroll-target="#central-limit-theorem-clt">Central Limit Theorem (CLT)</a>
+  <li><a href="#hypothesis-testing" id="toc-hypothesis-testing" class="nav-link" data-scroll-target="#hypothesis-testing"><span class="header-section-number">2.8</span> Hypothesis Testing</a>
   <ul class="collapse">
-  <li><a href="#why-this-is-powerful" id="toc-why-this-is-powerful" class="nav-link" data-scroll-target="#why-this-is-powerful">🧠 Why this is powerful</a></li>
+  <li><a href="#steps-in-hypothesis-testing" id="toc-steps-in-hypothesis-testing" class="nav-link" data-scroll-target="#steps-in-hypothesis-testing"><span class="header-section-number">2.8.1</span> Steps in Hypothesis Testing</a></li>
+  <li><a href="#the-null-hypothesis-h_0" id="toc-the-null-hypothesis-h_0" class="nav-link" data-scroll-target="#the-null-hypothesis-h_0"><span class="header-section-number">2.8.2</span> The Null Hypothesis (<span class="math inline">\(H_0\)</span>)</a></li>
+  <li><a href="#the-alternative-hypothesis-h_1-or-h_a" id="toc-the-alternative-hypothesis-h_1-or-h_a" class="nav-link" data-scroll-target="#the-alternative-hypothesis-h_1-or-h_a"><span class="header-section-number">2.8.3</span> The Alternative Hypothesis (<span class="math inline">\(H_1\)</span> or <span class="math inline">\(H_a\)</span>)</a></li>
   </ul></li>
-  <li><a href="#standard-error-very-important" id="toc-standard-error-very-important" class="nav-link" data-scroll-target="#standard-error-very-important">4. Standard Error (<strong>VERY IMPORTANT</strong>)</a>
+  <li><a href="#the-p-value" id="toc-the-p-value" class="nav-link" data-scroll-target="#the-p-value"><span class="header-section-number">2.9</span> The p-value</a></li>
+  <li><a href="#level-of-significance-alpha" id="toc-level-of-significance-alpha" class="nav-link" data-scroll-target="#level-of-significance-alpha"><span class="header-section-number">2.10</span> Level of Significance (<span class="math inline">\(\alpha\)</span>)</a></li>
+  <li><a href="#type-i-and-type-ii-errors" id="toc-type-i-and-type-ii-errors" class="nav-link" data-scroll-target="#type-i-and-type-ii-errors"><span class="header-section-number">2.11</span> Type I and Type II Errors</a></li>
+  <li><a href="#statistical-power" id="toc-statistical-power" class="nav-link" data-scroll-target="#statistical-power"><span class="header-section-number">2.12</span> Statistical Power</a></li>
+  <li><a href="#effect-size" id="toc-effect-size" class="nav-link" data-scroll-target="#effect-size"><span class="header-section-number">2.13</span> Effect Size</a>
   <ul class="collapse">
-  <li><a href="#what-it-means" id="toc-what-it-means" class="nav-link" data-scroll-target="#what-it-means">🧠 What it means</a></li>
-  <li><a href="#intuition" id="toc-intuition" class="nav-link" data-scroll-target="#intuition">🧠 Intuition</a></li>
+  <li><a href="#cohens-d-for-t-tests" id="toc-cohens-d-for-t-tests" class="nav-link" data-scroll-target="#cohens-d-for-t-tests"><span class="header-section-number">2.13.1</span> Cohen’s d (for t-tests)</a></li>
+  <li><a href="#r2-for-linear-regression" id="toc-r2-for-linear-regression" class="nav-link" data-scroll-target="#r2-for-linear-regression"><span class="header-section-number">2.13.2</span> <span class="math inline">\(R^2\)</span> (for Linear Regression)</a></li>
   </ul></li>
+  <li><a href="#statistical-vs.-clinical-practical-significance" id="toc-statistical-vs.-clinical-practical-significance" class="nav-link" data-scroll-target="#statistical-vs.-clinical-practical-significance"><span class="header-section-number">2.14</span> Statistical vs.&nbsp;Clinical (Practical) Significance</a></li>
   </ul></li>
-  <li><a href="#part-3---confidence-intervals" id="toc-part-3---confidence-intervals" class="nav-link" data-scroll-target="#part-3---confidence-intervals">Part 3 - Confidence Intervals</a>
-  <ul class="collapse">
-  <li><a href="#idea-1" id="toc-idea-1" class="nav-link" data-scroll-target="#idea-1">Idea</a></li>
-  <li><a href="#formula" id="toc-formula" class="nav-link" data-scroll-target="#formula">Formula</a></li>
-  <li><a href="#what-it-actually-means" id="toc-what-it-actually-means" class="nav-link" data-scroll-target="#what-it-actually-means">🧠 What it actually means</a></li>
-  <li><a href="#why-confidence-intervals-are-useful" id="toc-why-confidence-intervals-are-useful" class="nav-link" data-scroll-target="#why-confidence-intervals-are-useful">Why confidence intervals are useful</a></li>
-  <li><a href="#sample-size-effect" id="toc-sample-size-effect" class="nav-link" data-scroll-target="#sample-size-effect">Sample size effect</a></li>
-  </ul></li>
-  <li><a href="#part-4---hypothesis-testing" id="toc-part-4---hypothesis-testing" class="nav-link" data-scroll-target="#part-4---hypothesis-testing">Part 4 - Hypothesis Testing</a>
-  <ul class="collapse">
-  <li><a href="#hypotheses" id="toc-hypotheses" class="nav-link" data-scroll-target="#hypotheses">1. Hypotheses</a>
-  <ul class="collapse">
-  <li><a href="#key-idea" id="toc-key-idea" class="nav-link" data-scroll-target="#key-idea">🧠 Key idea</a></li>
-  <li><a href="#important-rule" id="toc-important-rule" class="nav-link" data-scroll-target="#important-rule">Important rule</a></li>
-  </ul></li>
-  <li><a href="#what-are-we-actually-testing" id="toc-what-are-we-actually-testing" class="nav-link" data-scroll-target="#what-are-we-actually-testing">2. What are we actually testing?</a></li>
-  <li><a href="#p-value-critical" id="toc-p-value-critical" class="nav-link" data-scroll-target="#p-value-critical">3. p-value (<strong>CRITICAL</strong>)</a>
-  <ul class="collapse">
-  <li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition">Definition</a></li>
-  <li><a href="#how-to-interpret" id="toc-how-to-interpret" class="nav-link" data-scroll-target="#how-to-interpret">🧠 How to interpret</a></li>
-  <li><a href="#decision-rule" id="toc-decision-rule" class="nav-link" data-scroll-target="#decision-rule">Decision rule</a></li>
-  <li><a href="#important-wording-exam" id="toc-important-wording-exam" class="nav-link" data-scroll-target="#important-wording-exam">⚠️ Important wording (exam!)</a></li>
-  <li><a href="#key-intuition" id="toc-key-intuition" class="nav-link" data-scroll-target="#key-intuition">🧠 Key intuition</a></li>
-  </ul></li>
-  <li><a href="#statistical-significance" id="toc-statistical-significance" class="nav-link" data-scroll-target="#statistical-significance">4. Statistical Significance</a></li>
-  </ul></li>
-  <li><a href="#what-to-remember-from-this-class" id="toc-what-to-remember-from-this-class" class="nav-link" data-scroll-target="#what-to-remember-from-this-class">🔚 What to remember from this class</a></li>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">3</span> Key Equations / Formulas</a></li>
+  <li><a href="#practical-examples" id="toc-practical-examples" class="nav-link" data-scroll-target="#practical-examples"><span class="header-section-number">4</span> Practical Examples</a></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">5</span> Summary Points</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-2.html">Week 2</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-2.html">Week 2</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Week 2 - Statistical Inference + Missing Data</h1>
+<div class="quarto-title-block"><div><h1 class="title">Week 2: Statistical Inference</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -601,343 +403,466 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>This class is a <strong>refresher of statistical inference + practical R work with missing data</strong>.</p>
-<p>Think of it like this:</p>
-<ul>
-<li><strong>Theory →</strong> How we make decisions from data</li>
-<li><strong>R →</strong> How we actually apply this in real datasets</li>
-</ul>
-<p>👉 The key idea of this lecture is:</p>
 <blockquote class="blockquote">
-<p>We use a <strong>sample</strong> to make decisions about a <strong>population</strong>, but there is always uncertainty.</p>
+<p>📝 <strong>Study Notes — Week 2</strong> These notes are intended as a review and starting point. Leave your own annotations and expansions in the spaces provided below each section.</p>
+</blockquote>
+<hr>
+<section id="key-topics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics</h1>
+<ul>
+<li>Descriptive vs.&nbsp;Inferential Statistics</li>
+<li>Population vs.&nbsp;Sample (Parameters vs.&nbsp;Statistics)</li>
+<li>Probability Sampling</li>
+<li>Point Estimates and Sampling Error</li>
+<li>Sampling Distributions and the Central Limit Theorem</li>
+<li>Confidence Intervals</li>
+<li>Hypothesis Testing (Null &amp; Alternative Hypotheses)</li>
+<li>p-values and Significance Levels</li>
+<li>Type I and Type II Errors</li>
+<li>Statistical Power</li>
+<li>Effect Size and Cohen’s d</li>
+<li>Statistical vs.&nbsp;Clinical (Practical) Significance</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanations" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanations</h1>
+<section id="descriptive-vs.-inferential-statistics" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="descriptive-vs.-inferential-statistics"><span class="header-section-number">2.1</span> Descriptive vs.&nbsp;Inferential Statistics</h2>
+<p><strong>Descriptive statistics</strong> are used simply to describe or summarise the data you have observed — for example, calculating the mean or creating a chart.</p>
+<p><strong>Inferential statistics</strong> go a step further. They use methods such as <strong>hypothesis testing</strong>, <strong>confidence intervals</strong>, and <strong>regression analysis</strong> to draw conclusions about a larger group (a <strong>population</strong>) based on data collected from a smaller group (a <strong>sample</strong>). These inferences are grounded in <strong>probability theory</strong>.</p>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
 </blockquote>
 <hr>
 </section>
-<section id="part-2---core-concepts" class="level1">
-<h1>Part 2 - Core Concepts</h1>
-<hr>
-<section id="population-vs-sample" class="level2">
-<h2 class="anchored" data-anchor-id="population-vs-sample">1. Population vs Sample</h2>
-<p>From the slides:</p>
-<ul>
-<li><strong>Population</strong> → all individuals we are interested in (true but unknown)</li>
-<li><strong>Sample</strong> → the data we actually collect</li>
-<li><strong>Parameter (μ)</strong> → true value from the population (we never know this)</li>
-<li><strong>Statistic (x̄)</strong> → estimate from the sample</li>
-</ul>
-<section id="how-to-think-about-it" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-think-about-it">🧠 How to think about it</h3>
-<p>You can think of it like:</p>
-<ul>
-<li>Population = the <strong>truth</strong></li>
-<li>Sample = a <strong>guess based on limited data</strong></li>
-</ul>
-<p>👉 Example:</p>
-<ul>
-<li>We want average height of all adults in Ireland (population)</li>
-<li>We measure 100 people (sample)</li>
-<li>We calculate mean → this is our estimate</li>
-</ul>
-<p>✔ Important:</p>
+<section id="population-vs.-sample" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="population-vs.-sample"><span class="header-section-number">2.2</span> Population vs.&nbsp;Sample</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 66%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Population</strong></td>
+<td>All individuals under study</td>
+</tr>
+<tr class="even">
+<td><strong>Sample</strong></td>
+<td>A subset of the population</td>
+</tr>
+<tr class="odd">
+<td><strong>Parameter</strong></td>
+<td>A characteristic of a population (usually unknown)</td>
+</tr>
+<tr class="even">
+<td><strong>Statistic</strong></td>
+<td>An estimate of a parameter, calculated from the sample</td>
+</tr>
+</tbody>
+</table>
+<p>In practice, we almost never have access to the full population. Instead, we collect a sample and use the statistics from that sample to <strong>estimate</strong> the unknown population parameters.</p>
+<p>For a statistic to reliably estimate a parameter, the sample must be collected in an <strong>unbiased</strong> way — this is where probability sampling comes in.</p>
 <blockquote class="blockquote">
-<p>All statistical inference is about using <strong>statistics (sample)</strong> to estimate <strong>parameters (population)</strong></p>
+<p>✏️ <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="probability-sampling" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="probability-sampling"><span class="header-section-number">2.3</span> Probability Sampling</h2>
+<p>To ensure a sample is representative of the population, we use <strong>probability sampling</strong>:</p>
+<ul>
+<li>Every member of the population has a <strong>known, non-zero chance</strong> of being selected.</li>
+<li>Units are drawn <strong>at random</strong>.</li>
+<li>Statistical inference techniques assume that samples are drawn randomly.</li>
+</ul>
+<p>Without random sampling, estimates may be <strong>biased</strong> and conclusions unreliable.</p>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="point-estimates-and-sampling-error" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="point-estimates-and-sampling-error"><span class="header-section-number">2.4</span> Point Estimates and Sampling Error</h2>
+<p>From a random sample, we calculate <strong>point estimates</strong> — a single value used to estimate a population parameter.</p>
+<ul>
+<li>Example: the <strong>sample mean</strong> <span class="math inline">\(\bar{x}\)</span> is used to estimate the <strong>population mean</strong> <span class="math inline">\(\mu\)</span>.</li>
+</ul>
+<p>However, there will always be a difference between the estimate and the true parameter. This difference is called <strong>sampling error</strong>.</p>
+<section id="controlling-sampling-error" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="controlling-sampling-error"><span class="header-section-number">2.4.1</span> Controlling Sampling Error</h3>
+<p>Key methods to minimise sampling error include:</p>
+<ul>
+<li><strong>Increasing sample size</strong> — larger samples are more representative and produce smaller errors.</li>
+<li><strong>Using random sampling methods</strong> (e.g.&nbsp;stratified sampling).</li>
+<li><strong>Calculating the Standard Error of the Mean (SEM)</strong>.</li>
+<li><strong>Using Confidence Intervals</strong>.</li>
+</ul>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
 </blockquote>
 <hr>
 </section>
 </section>
-<section id="sampling-error" class="level2">
-<h2 class="anchored" data-anchor-id="sampling-error">2. Sampling Error</h2>
-<p>Sampling error is the <strong>difference between the sample estimate and the true population value</strong>.</p>
-<section id="example" class="level3">
-<h3 class="anchored" data-anchor-id="example">Example</h3>
+<section id="standard-error-of-the-mean-sem" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="standard-error-of-the-mean-sem"><span class="header-section-number">2.5</span> Standard Error of the Mean (SEM)</h2>
+<p>The <strong>Standard Error of the Mean</strong> quantifies how much variability we expect in the sample mean from sample to sample.</p>
+<p><span class="math display">\[
+\text{SEM} = \frac{\sigma}{\sqrt{n}}
+\]</span></p>
+<p>Where:</p>
 <ul>
-<li>True mean = 100</li>
-<li>Sample mean = 95 → Error = 5</li>
+<li><span class="math inline">\(\sigma\)</span> = population standard deviation</li>
+<li><span class="math inline">\(n\)</span> = sample size</li>
 </ul>
-</section>
-<section id="why-this-happens" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-happens">🧠 Why this happens</h3>
-<p>Because:</p>
-<ul>
-<li>We are not observing everyone</li>
-<li>Each sample is slightly different</li>
-</ul>
-<p>👉 If you took another sample, you would get a different mean.</p>
+<p>A <strong>smaller SEM</strong> means a <strong>more precise and reliable</strong> estimate. As the sample size <span class="math inline">\(n\)</span> increases, the SEM decreases.</p>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
+</blockquote>
 <hr>
 </section>
-<section id="how-to-reduce-sampling-error" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-reduce-sampling-error">How to reduce sampling error</h3>
+<section id="sampling-distributions" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="sampling-distributions"><span class="header-section-number">2.6</span> Sampling Distributions</h2>
+<p>When we take many samples from a population and calculate a statistic (like the mean) for each, the distribution of those statistics is called a <strong>sampling distribution</strong>.</p>
 <ul>
-<li>Larger sample size → more representative</li>
-<li>Random sampling → avoids bias</li>
-<li>Confidence intervals → quantify uncertainty</li>
+<li>The sample mean <span class="math inline">\(\bar{x}\)</span> varies from sample to sample — it is a <strong>random variable</strong>.</li>
+<li>If the underlying population is <strong>normally distributed</strong> with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>:</li>
 </ul>
-<p>✔ Key idea:</p>
+<p><span class="math display">\[
+\bar{X} \sim N\left(\mu,\ \frac{\sigma}{\sqrt{n}}\right)
+\]</span></p>
+<section id="the-central-limit-theorem-clt" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="the-central-limit-theorem-clt"><span class="header-section-number">2.6.1</span> The Central Limit Theorem (CLT)</h3>
+<p>What if the population is <em>not</em> normally distributed? The <strong>Central Limit Theorem</strong> tells us:</p>
 <blockquote class="blockquote">
-<p>Sampling error is <strong>unavoidable</strong>, but we can <strong>reduce it</strong></p>
+<p>For large sample sizes (<span class="math inline">\(n \geq 30\)</span>), the distribution of the sample mean is <strong>approximately normal</strong>, regardless of the shape of the underlying population.</p>
+</blockquote>
+<p>This is one of the most important results in statistics — it allows us to use normal-distribution methods even when we don’t know the shape of the population.</p>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
 </blockquote>
 <hr>
 </section>
 </section>
-<section id="sampling-distribution" class="level2">
-<h2 class="anchored" data-anchor-id="sampling-distribution">3. Sampling Distribution</h2>
-<p>This is one of the <strong>most important concepts in statistics</strong>.</p>
-<section id="idea" class="level3">
-<h3 class="anchored" data-anchor-id="idea">🧠 Idea</h3>
-<p>Imagine you:</p>
+<section id="confidence-intervals" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="confidence-intervals"><span class="header-section-number">2.7</span> Confidence Intervals</h2>
+<p>A <strong>confidence interval (CI)</strong> is a range of values within which we are highly confident the true population parameter lies.</p>
+<section id="logic-of-a-95-confidence-interval" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="logic-of-a-95-confidence-interval"><span class="header-section-number">2.7.1</span> Logic of a 95% Confidence Interval</h3>
+<p>With repeated sampling, 95% of calculated <span class="math inline">\(\bar{x}\)</span> values will be within <strong>two standard errors</strong> of the true population mean <span class="math inline">\(\mu\)</span>. Turning this around: given a single sample, we are <strong>95% confident</strong> that <span class="math inline">\(\mu\)</span> lies within two standard errors of our calculated <span class="math inline">\(\bar{x}\)</span>.</p>
+<p><span class="math display">\[
+\bar{x} \pm 2 \cdot \frac{\sigma}{\sqrt{n}}
+\]</span></p>
+<p><strong>Key point:</strong> A larger sample size leads to a <strong>narrower</strong> (more precise) confidence interval.</p>
+<p>Confidence intervals are especially useful because they show the <strong>range of plausible values</strong> for a parameter, not just a yes/no decision. They help distinguish between <strong>statistical</strong> and <strong>practical</strong> significance.</p>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="hypothesis-testing" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="hypothesis-testing"><span class="header-section-number">2.8</span> Hypothesis Testing</h2>
+<p><strong>Hypothesis testing</strong> is a formal procedure for answering research questions using data (empirical evidence).</p>
+<section id="steps-in-hypothesis-testing" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="steps-in-hypothesis-testing"><span class="header-section-number">2.8.1</span> Steps in Hypothesis Testing</h3>
 <ol type="1">
-<li>Take a sample</li>
-<li>Calculate the mean</li>
-<li>Repeat this MANY times</li>
+<li><strong>State the hypotheses</strong> (null and alternative).</li>
+<li><strong>Choose a significance level</strong> (<span class="math inline">\(\alpha\)</span>, e.g.&nbsp;0.05).</li>
+<li><strong>Collect data and compute a test statistic</strong>.</li>
+<li><strong>Calculate the p-value</strong>.</li>
+<li><strong>Make a decision</strong>: reject or fail to reject <span class="math inline">\(H_0\)</span>.</li>
+<li><strong>State your conclusion</strong> in terms of the population parameter.</li>
 </ol>
-<p>You would get <strong>many different sample means</strong>.</p>
-<p>👉 These means form a distribution → called the <strong>sampling distribution</strong></p>
-<hr>
-</section>
-<section id="key-properties" class="level3">
-<h3 class="anchored" data-anchor-id="key-properties">Key properties</h3>
-<ul>
-<li>Mean of sampling distribution = population mean (μ)</li>
-<li>Spread = <strong>standard error (SE)</strong></li>
-</ul>
-<hr>
-</section>
-<section id="why-this-matters" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-matters">🧠 Why this matters</h3>
-<p>This is the foundation of:</p>
-<ul>
-<li>Confidence intervals</li>
-<li>Hypothesis testing</li>
-</ul>
-<p>👉 Because it tells us:</p>
 <blockquote class="blockquote">
-<p>How much our estimate can vary</p>
+<p>⚠️ <em>Lecturer’s note (from class):</em> There are only <strong>two valid conclusions</strong> in hypothesis testing: - “We <strong>reject</strong> the null hypothesis.” - “We <strong>fail to reject</strong> the null hypothesis.”</p>
+<p>Anything else (e.g.&nbsp;“we accept <span class="math inline">\(H_1\)</span>”) is <strong>incorrect</strong>.</p>
+</blockquote>
+</section>
+<section id="the-null-hypothesis-h_0" class="level3" data-number="2.8.2">
+<h3 data-number="2.8.2" class="anchored" data-anchor-id="the-null-hypothesis-h_0"><span class="header-section-number">2.8.2</span> The Null Hypothesis (<span class="math inline">\(H_0\)</span>)</h3>
+<ul>
+<li>The <strong>null hypothesis</strong> is the statement being tested — typically a claim of <strong>no difference or no effect</strong>.</li>
+<li>We assume it is <strong>true</strong> until the data provides evidence otherwise.</li>
+<li>It is always stated using an <strong>equality sign</strong>.</li>
+</ul>
+<p><strong>Example:</strong> <span class="math inline">\(H_0: \mu = 0\)</span></p>
+</section>
+<section id="the-alternative-hypothesis-h_1-or-h_a" class="level3" data-number="2.8.3">
+<h3 data-number="2.8.3" class="anchored" data-anchor-id="the-alternative-hypothesis-h_1-or-h_a"><span class="header-section-number">2.8.3</span> The Alternative Hypothesis (<span class="math inline">\(H_1\)</span> or <span class="math inline">\(H_a\)</span>)</h3>
+<ul>
+<li>The <strong>alternative hypothesis</strong> represents the <strong>researcher’s theory</strong> — what they believe to be true.</li>
+<li>It contains all values <strong>not</strong> included in the null hypothesis.</li>
+<li>Together, <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span> must cover <strong>all eventualities</strong>.</li>
+</ul>
+<p><strong>Example:</strong> <span class="math inline">\(H_1: \mu \neq 0\)</span></p>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
 </blockquote>
 <hr>
 </section>
 </section>
-<section id="central-limit-theorem-clt" class="level2">
-<h2 class="anchored" data-anchor-id="central-limit-theorem-clt">Central Limit Theorem (CLT)</h2>
-<p>Even if the original data is <strong>not normal</strong>:</p>
-<p>If ( n ), the distribution of the sample mean becomes <strong>approximately normal</strong></p>
-<hr>
-<section id="why-this-is-powerful" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-is-powerful">🧠 Why this is powerful</h3>
-<p>It allows us to:</p>
-<ul>
-<li>Use normal distribution formulas</li>
-<li>Apply inference methods in real-world messy data</li>
-</ul>
-<p>👉 Without CLT → most statistics wouldn’t work</p>
-<hr>
-</section>
-</section>
-<section id="standard-error-very-important" class="level2">
-<h2 class="anchored" data-anchor-id="standard-error-very-important">4. Standard Error (<strong>VERY IMPORTANT</strong>)</h2>
-<p><span class="math display">\[
-SE = \frac{\sigma}{\sqrt{n}}
-\]</span></p>
-<p>In practice:</p>
-<p><span class="math display">\[
-SE = \frac{s}{\sqrt{n}}
-\]</span></p>
-<hr>
-<section id="what-it-means" class="level3">
-<h3 class="anchored" data-anchor-id="what-it-means">🧠 What it means</h3>
-<ul>
-<li>SE measures <strong>how much the sample mean varies</strong></li>
-<li>It is the <strong>uncertainty of our estimate</strong></li>
-</ul>
-<hr>
-</section>
-<section id="intuition" class="level3">
-<h3 class="anchored" data-anchor-id="intuition">🧠 Intuition</h3>
-<ul>
-<li>Large n → √n increases → SE decreases</li>
-<li>Small SE → more precise estimate</li>
-</ul>
-<p>✔ Key idea:</p>
+<section id="the-p-value" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="the-p-value"><span class="header-section-number">2.9</span> The p-value</h2>
+<p>The <strong>p-value</strong> is a probability that measures the <strong>strength of evidence against the null hypothesis</strong>.</p>
 <blockquote class="blockquote">
-<p>Bigger samples → more reliable results</p>
+<p>🎵 <em>Classroom rhyme (do not write in exams!):</em> <strong>“If p is low, null must go.”</strong></p>
+</blockquote>
+<ul>
+<li>A <strong>small p-value</strong> → less likely that <span class="math inline">\(H_0\)</span> is true → stronger evidence against <span class="math inline">\(H_0\)</span> → in favour of <span class="math inline">\(H_1\)</span>.</li>
+<li>Always <strong>quote the p-value</strong> when reporting your conclusions.</li>
+<li>Conclusions should be stated in terms of the <strong>population parameter</strong>.</li>
+</ul>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="level-of-significance-alpha" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="level-of-significance-alpha"><span class="header-section-number">2.10</span> Level of Significance (<span class="math inline">\(\alpha\)</span>)</h2>
+<p>The <strong>significance level</strong> <span class="math inline">\(\alpha\)</span> is a threshold set <strong>before</strong> the test is run. It represents the degree of uncertainty you are willing to accept.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Significance Level</th>
+<th>Common Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\alpha = 0.05\)</span> (5%)</td>
+<td>Most common</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\alpha = 0.01\)</span> (1%)</td>
+<td>More stringent</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\alpha = 0.001\)</span> (0.1%)</td>
+<td>Very stringent</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decision rule:</strong></p>
+<ul>
+<li>If <span class="math inline">\(p \leq \alpha\)</span>: <strong>Reject <span class="math inline">\(H_0\)</span></strong> — result is <strong>statistically significant</strong>.</li>
+<li>If <span class="math inline">\(p &gt; \alpha\)</span>: <strong>Fail to reject <span class="math inline">\(H_0\)</span></strong> — insufficient evidence to reject.</li>
+</ul>
+<blockquote class="blockquote">
+<p>⚠️ A <strong>non-significant</strong> result does <strong>not</strong> prove <span class="math inline">\(H_0\)</span> is true — it simply means we don’t have enough evidence to reject it.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="type-i-and-type-ii-errors" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="type-i-and-type-ii-errors"><span class="header-section-number">2.11</span> Type I and Type II Errors</h2>
+<p>Because conclusions in hypothesis testing are based on sample data, <strong>errors are possible</strong>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(H_0\)</span> is actually TRUE</th>
+<th><span class="math inline">\(H_0\)</span> is actually FALSE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Reject <span class="math inline">\(H_0\)</span></strong></td>
+<td>❌ <strong>Type I Error</strong> (<span class="math inline">\(\alpha\)</span>)</td>
+<td>✅ Correct (Power)</td>
+</tr>
+<tr class="even">
+<td><strong>Fail to Reject <span class="math inline">\(H_0\)</span></strong></td>
+<td>✅ Correct</td>
+<td>❌ <strong>Type II Error</strong> (<span class="math inline">\(\beta\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Type I Error</strong>: Rejecting <span class="math inline">\(H_0\)</span> when it is actually true (a “false positive”). The probability is controlled by <span class="math inline">\(\alpha\)</span>.</li>
+<li><strong>Type II Error</strong>: Failing to reject <span class="math inline">\(H_0\)</span> when it is actually false (a “false negative”). The probability is denoted <span class="math inline">\(\beta\)</span>.</li>
+</ul>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="statistical-power" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="statistical-power"><span class="header-section-number">2.12</span> Statistical Power</h2>
+<p><strong>Power</strong> is the probability of correctly rejecting <span class="math inline">\(H_0\)</span> when it is false — i.e.&nbsp;the probability of detecting a real effect.</p>
+<p><span class="math display">\[
+\text{Power} = 1 - \beta
+\]</span></p>
+<ul>
+<li>We want <strong>high power</strong> (large <span class="math inline">\(1 - \beta\)</span>) to maximise our chances of detecting a real difference.</li>
+<li>We also want <strong>small <span class="math inline">\(\alpha\)</span></strong> to avoid false positives.</li>
+<li>There is a <strong>trade-off</strong>: decreasing <span class="math inline">\(\alpha\)</span> automatically increases <span class="math inline">\(\beta\)</span> (and reduces power).</li>
+<li>The solution is to <strong>choose an appropriate sample size</strong> before the study begins, so that both <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are at acceptable levels.</li>
+</ul>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="effect-size" class="level2" data-number="2.13">
+<h2 data-number="2.13" class="anchored" data-anchor-id="effect-size"><span class="header-section-number">2.13</span> Effect Size</h2>
+<p>The <strong>effect size</strong> measures the <strong>magnitude or strength</strong> of a relationship between two variables, separate from statistical significance.</p>
+<ul>
+<li>A result can be statistically significant but have a <strong>tiny effect size</strong> (practically unimportant).</li>
+<li>A result with a <strong>large effect size</strong> is more likely to be significant.</li>
+<li>Associated with each effect size is a <strong>standard error</strong> (a measure of uncertainty).</li>
+</ul>
+<section id="cohens-d-for-t-tests" class="level3" data-number="2.13.1">
+<h3 data-number="2.13.1" class="anchored" data-anchor-id="cohens-d-for-t-tests"><span class="header-section-number">2.13.1</span> Cohen’s d (for t-tests)</h3>
+<p><span class="math display">\[
+d = \frac{\bar{x}_1 - \bar{x}_2}{s_{\text{pooled}}}
+\]</span></p>
+<p>The difference between two means divided by the pooled standard deviation.</p>
+</section>
+<section id="r2-for-linear-regression" class="level3" data-number="2.13.2">
+<h3 data-number="2.13.2" class="anchored" data-anchor-id="r2-for-linear-regression"><span class="header-section-number">2.13.2</span> <span class="math inline">\(R^2\)</span> (for Linear Regression)</h3>
+<p>In <strong>linear regression</strong>, effect size is measured by <span class="math inline">\(R^2\)</span> (the square of Pearson’s correlation coefficient <span class="math inline">\(r\)</span>):</p>
+<p><span class="math display">\[
+R^2 = r^2
+\]</span></p>
+<p><span class="math inline">\(R^2\)</span> represents the <strong>proportion of variation</strong> in the response variable explained by the explanatory variable.</p>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
 </blockquote>
 <hr>
 </section>
 </section>
-</section>
-<section id="part-3---confidence-intervals" class="level1">
-<h1>Part 3 - Confidence Intervals</h1>
-<section id="idea-1" class="level3">
-<h3 class="anchored" data-anchor-id="idea-1">Idea</h3>
+<section id="statistical-vs.-clinical-practical-significance" class="level2" data-number="2.14">
+<h2 data-number="2.14" class="anchored" data-anchor-id="statistical-vs.-clinical-practical-significance"><span class="header-section-number">2.14</span> Statistical vs.&nbsp;Clinical (Practical) Significance</h2>
+<p>This is a critical distinction:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Statistical Significance</th>
+<th>Clinical/Practical Significance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>What it means</strong></td>
+<td>Evidence of an effect in the data</td>
+<td>The effect is large enough to matter in practice</td>
+</tr>
+<tr class="even">
+<td><strong>Determined by</strong></td>
+<td>p-value vs.&nbsp;<span class="math inline">\(\alpha\)</span></td>
+<td>Effect size</td>
+</tr>
+<tr class="odd">
+<td><strong>Can be misleading when</strong></td>
+<td>Sample size is very large (tiny effects become significant)</td>
+<td>Sample size is small (real effects may not be detected)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>For a result to be practically meaningful, it must be BOTH statistically significant AND have a meaningful effect size.</strong></p>
+<ul>
+<li>A large sample can make a <strong>trivially small</strong> difference statistically significant.</li>
+<li>A small sample may <strong>miss</strong> a clinically important difference.</li>
+<li><strong>Confidence intervals</strong> help by showing the range of plausible effect sizes — not just whether an effect is “significant”.</li>
+</ul>
 <blockquote class="blockquote">
-<p>“We are 95% confident the true value is in this range”</p>
+<p>💡 <em>Example from class:</em> Blood pressure — even a small reduction can have important clinical implications, even if the effect size is modest.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
 </blockquote>
 <hr>
 </section>
-<section id="formula" class="level3">
-<h3 class="anchored" data-anchor-id="formula">Formula</h3>
-<p><span class="math display">\[
-\bar{x} \pm 1.96 \times SE
-\]</span></p>
-<hr>
 </section>
-<section id="what-it-actually-means" class="level3">
-<h3 class="anchored" data-anchor-id="what-it-actually-means">🧠 What it actually means</h3>
-<p>If we repeated the sampling process many times:</p>
-<ul>
-<li>95% of intervals would contain the true mean (μ)</li>
-</ul>
-<p>👉 Important:</p>
-<ul>
-<li>It does NOT mean there is a 95% probability that μ is in this interval</li>
-<li>μ is fixed — the interval changes</li>
-</ul>
-<hr>
-</section>
-<section id="why-confidence-intervals-are-useful" class="level3">
-<h3 class="anchored" data-anchor-id="why-confidence-intervals-are-useful">Why confidence intervals are useful</h3>
-<ul>
-<li>Show <strong>uncertainty</strong></li>
-<li>Give a <strong>range of plausible values</strong></li>
-<li>Help interpret <strong>effect size</strong></li>
-</ul>
-<hr>
-</section>
-<section id="sample-size-effect" class="level3">
-<h3 class="anchored" data-anchor-id="sample-size-effect">Sample size effect</h3>
-<ul>
-<li>Larger sample → smaller SE → narrower interval</li>
-<li>Narrow interval → more precision</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="part-4---hypothesis-testing" class="level1">
-<h1>Part 4 - Hypothesis Testing</h1>
-<hr>
-<section id="hypotheses" class="level2">
-<h2 class="anchored" data-anchor-id="hypotheses">1. Hypotheses</h2>
-<ul>
-<li><strong>H₀ (null)</strong> → no effect / no difference</li>
-<li><strong>H₁ (alternative)</strong> → effect exists</li>
-</ul>
-<hr>
-<section id="key-idea" class="level3">
-<h3 class="anchored" data-anchor-id="key-idea">🧠 Key idea</h3>
-<p>We start by <strong>assuming H₀ is true</strong>, and then test if data contradicts it.</p>
-<p>👉 Example:</p>
-<p><span class="math display">\[
-H_0: \mu = 0
-\]</span></p>
-<p><span class="math display">\[
-H_1: \mu \neq 0
-\]</span></p>
-<hr>
-</section>
-<section id="important-rule" class="level3">
-<h3 class="anchored" data-anchor-id="important-rule">Important rule</h3>
-<p>The hypotheses must cover <strong>all possibilities</strong>:</p>
-<ul>
-<li>Either there is an effect</li>
-<li>Or there is not</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="what-are-we-actually-testing" class="level2">
-<h2 class="anchored" data-anchor-id="what-are-we-actually-testing">2. What are we actually testing?</h2>
-<p>We are asking:</p>
-<blockquote class="blockquote">
-<p>“How likely is our data if H₀ is true?”</p>
-</blockquote>
-<hr>
-</section>
-<section id="p-value-critical" class="level2">
-<h2 class="anchored" data-anchor-id="p-value-critical">3. p-value (<strong>CRITICAL</strong>)</h2>
-<section id="definition" class="level3">
-<h3 class="anchored" data-anchor-id="definition">Definition</h3>
-<p>The p-value is:</p>
-<blockquote class="blockquote">
-<p>The probability of observing our data (or more extreme), assuming H₀ is true</p>
-</blockquote>
-<hr>
-</section>
-<section id="how-to-interpret" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-interpret">🧠 How to interpret</h3>
-<ul>
-<li>Small p-value → data is unlikely under H₀</li>
-<li>Large p-value → data is consistent with H₀</li>
-</ul>
-<hr>
-</section>
-<section id="decision-rule" class="level3">
-<h3 class="anchored" data-anchor-id="decision-rule">Decision rule</h3>
-<ul>
-<li>If p ≤ 0.05 → reject H₀</li>
-<li>If p &gt; 0.05 → fail to reject H₀</li>
-</ul>
-<hr>
-</section>
-<section id="important-wording-exam" class="level3">
-<h3 class="anchored" data-anchor-id="important-wording-exam">⚠️ Important wording (exam!)</h3>
-<p>✔ Say:</p>
-<ul>
-<li>“Reject H₀”</li>
-<li>“Fail to reject H₀”</li>
-</ul>
-<p>❌ Do NOT say:</p>
-<ul>
-<li>“Accept H₀”</li>
-</ul>
-<hr>
-</section>
-<section id="key-intuition" class="level3">
-<h3 class="anchored" data-anchor-id="key-intuition">🧠 Key intuition</h3>
-<p>👉 “If p is low, H₀ must go”</p>
-<hr>
-</section>
-</section>
-<section id="statistical-significance" class="level2">
-<h2 class="anchored" data-anchor-id="statistical-significance">4. Statistical Significance</h2>
-<ul>
-<li>Means there is <strong>evidence of an effect</strong></li>
-<li>Does NOT mean the effect is important</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="what-to-remember-from-this-class" class="level1">
-<h1>🔚 What to remember from this class</h1>
-<ul>
-<li>We use <strong>samples to estimate populations</strong></li>
-<li>There is always <strong>uncertainty (sampling error)</strong></li>
-<li><strong>Standard error</strong> measures that uncertainty</li>
-<li><strong>Confidence intervals</strong> give a range of plausible values</li>
-<li><strong>p-values</strong> help us make decisions</li>
-<li><strong>Statistical significance ≠ practical importance</strong></li>
-</ul>
-<hr>
+<section id="key-equations-formulas" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Key Equations / Formulas</h1>
+<pre><code>Standard Error of the Mean:
+  SEM = σ / √n
 
+Sampling Distribution of the Mean (Normal Population):
+  X̄ ~ N(μ, σ/√n)
+
+95% Confidence Interval:
+  x̄ ± 2 × (σ/√n)
+
+Statistical Power:
+  Power = 1 - β
+
+Cohen's d (Effect Size for t-tests):
+  d = (x̄₁ - x̄₂) / s_pooled
+
+R² (Effect Size for Linear Regression):
+  R² = r²</code></pre>
+<hr>
+</section>
+<section id="practical-examples" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Practical Examples</h1>
+<ul>
+<li><strong>Point estimate:</strong> A survey of 200 students gives a sample mean exam score of 68. This is our best estimate of the true population mean.</li>
+<li><strong>Confidence interval:</strong> Based on the sample, we are 95% confident that the true average exam score for all students is between 65 and 71.</li>
+<li><strong>Hypothesis test:</strong> A researcher tests whether a new drug reduces blood pressure. <span class="math inline">\(H_0\)</span>: mean reduction = 0 mmHg. A p-value of 0.02 (&lt; 0.05) leads to rejection of <span class="math inline">\(H_0\)</span>.</li>
+<li><strong>Statistical vs.&nbsp;practical significance:</strong> With 10,000 participants, a drug is found to reduce blood pressure by 0.1 mmHg (p = 0.001). This is statistically significant but may have little clinical value.</li>
+</ul>
+<blockquote class="blockquote">
+<p>✏️ <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="summary-points" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Summary Points</h1>
+<ul>
+<li><strong>Inferential statistics</strong> use sample data to draw conclusions about a population.</li>
+<li>A <strong>parameter</strong> describes the population; a <strong>statistic</strong> estimates it from a sample.</li>
+<li><strong>Random (probability) sampling</strong> is essential to avoid bias.</li>
+<li><strong>Sampling error</strong> is the difference between an estimate and the true parameter; it is reduced by larger samples.</li>
+<li>The <strong>SEM</strong> (<span class="math inline">\(\sigma/\sqrt{n}\)</span>) measures the precision of the sample mean.</li>
+<li>The <strong>Central Limit Theorem</strong> guarantees that sample means are approximately normal for <span class="math inline">\(n \geq 30\)</span>.</li>
+<li>A <strong>confidence interval</strong> gives a range of plausible values for the true parameter.</li>
+<li>Hypothesis testing begins with a <strong>null hypothesis</strong> (<span class="math inline">\(H_0\)</span>: no effect) and an <strong>alternative hypothesis</strong> (<span class="math inline">\(H_1\)</span>: an effect is present).</li>
+<li>The <strong>p-value</strong> measures evidence <em>against</em> <span class="math inline">\(H_0\)</span> — the smaller the p-value, the stronger the evidence.</li>
+<li>Use the rhyme: <strong>“If p is low, null must go”</strong> (i.e.&nbsp;if <span class="math inline">\(p \leq 0.05\)</span>, reject <span class="math inline">\(H_0\)</span>).</li>
+<li>Conclusions are <strong>only</strong>: “Reject <span class="math inline">\(H_0\)</span>” or “Fail to reject <span class="math inline">\(H_0\)</span>”.</li>
+<li><strong>Type I error</strong> = rejecting a true <span class="math inline">\(H_0\)</span> (probability = <span class="math inline">\(\alpha\)</span>).</li>
+<li><strong>Type II error</strong> = failing to reject a false <span class="math inline">\(H_0\)</span> (probability = <span class="math inline">\(\beta\)</span>).</li>
+<li><strong>Power</strong> = <span class="math inline">\(1 - \beta\)</span> — the ability to detect a real effect.</li>
+<li><strong>Effect size</strong> measures the strength of a relationship (Cohen’s d, <span class="math inline">\(R^2\)</span>).</li>
+<li>A result must be <strong>both statistically and practically significant</strong> to be truly meaningful.</li>
+<li>Always report <strong>confidence intervals</strong> alongside p-values for context.</li>
+</ul>
+<hr>
+<blockquote class="blockquote">
+<p>📌 <em>Next class:</em> More on coding and handling missing data in R.</p>
+</blockquote>
+
+
+<!-- -->
 
 </section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
-    // Ensure there is a toggle, if there isn't float one in the top right
-    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-      const i = window.document.createElement("i");
-      i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
-    }
-    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
@@ -1007,9 +932,60 @@ H_1: \mu \neq 0
       });
       clipboardModal.on('success', onCopySuccess);
     }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/lgolin\.quarto\.pub\/semester-notes-2026");
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1347,7 +1323,379 @@ H_1: \mu \neq 0
         <span class="nav-page-text">Week 3</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
-</nav>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 2: Statistical Inference"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">subject:</span><span class="co"> "Regression Analysis"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Study Notes — Week 2**</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; These notes are intended as a review and starting point. Leave your own annotations and expansions in the spaces provided below each section.</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Descriptive vs. Inferential Statistics</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Population vs. Sample (Parameters vs. Statistics)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Probability Sampling</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Point Estimates and Sampling Error</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sampling Distributions and the Central Limit Theorem</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Confidence Intervals</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hypothesis Testing (Null &amp; Alternative Hypotheses)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>p-values and Significance Levels</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type I and Type II Errors</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Statistical Power</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Effect Size and Cohen's d</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Statistical vs. Clinical (Practical) Significance</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanations</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Descriptive vs. Inferential Statistics</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>**Descriptive statistics** are used simply to describe or summarise the data you have observed — for example, calculating the mean or creating a chart.</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>**Inferential statistics** go a step further. They use methods such as **hypothesis testing**, **confidence intervals**, and **regression analysis** to draw conclusions about a larger group (a **population**) based on data collected from a smaller group (a **sample**). These inferences are grounded in **probability theory**.</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Population vs. Sample</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Term <span class="pp">|</span> Definition <span class="pp">|</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|------------|</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Population** <span class="pp">|</span> All individuals under study <span class="pp">|</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Sample** <span class="pp">|</span> A subset of the population <span class="pp">|</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Parameter** <span class="pp">|</span> A characteristic of a population (usually unknown) <span class="pp">|</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Statistic** <span class="pp">|</span> An estimate of a parameter, calculated from the sample <span class="pp">|</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>In practice, we almost never have access to the full population. Instead, we collect a sample and use the statistics from that sample to **estimate** the unknown population parameters.</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>For a statistic to reliably estimate a parameter, the sample must be collected in an **unbiased** way — this is where probability sampling comes in.</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## Probability Sampling</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>To ensure a sample is representative of the population, we use **probability sampling**:</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Every member of the population has a **known, non-zero chance** of being selected.</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Units are drawn **at random**.</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Statistical inference techniques assume that samples are drawn randomly.</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>Without random sampling, estimates may be **biased** and conclusions unreliable.</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## Point Estimates and Sampling Error</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>From a random sample, we calculate **point estimates** — a single value used to estimate a population parameter.</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Example: the **sample mean** $\bar{x}$ is used to estimate the **population mean** $\mu$.</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>However, there will always be a difference between the estimate and the true parameter. This difference is called **sampling error**.</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="fu">### Controlling Sampling Error</span></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>Key methods to minimise sampling error include:</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Increasing sample size** — larger samples are more representative and produce smaller errors.</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Using random sampling methods** (e.g. stratified sampling).</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Calculating the Standard Error of the Mean (SEM)**.</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Using Confidence Intervals**.</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## Standard Error of the Mean (SEM)</span></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>The **Standard Error of the Mean** quantifies how much variability we expect in the sample mean from sample to sample.</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>\text{SEM} = \frac{\sigma}{\sqrt{n}}</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>Where:</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\sigma$ = population standard deviation</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$n$ = sample size</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>A **smaller SEM** means a **more precise and reliable** estimate. As the sample size $n$ increases, the SEM decreases.</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sampling Distributions</span></span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>When we take many samples from a population and calculate a statistic (like the mean) for each, the distribution of those statistics is called a **sampling distribution**.</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The sample mean $\bar{x}$ varies from sample to sample — it is a **random variable**.</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If the underlying population is **normally distributed** with mean $\mu$ and standard deviation $\sigma$:</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>\bar{X} \sim N\left(\mu,\ \frac{\sigma}{\sqrt{n}}\right)</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Central Limit Theorem (CLT)</span></span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>What if the population is *not* normally distributed? The **Central Limit Theorem** tells us:</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; For large sample sizes ($n \geq 30$), the distribution of the sample mean is **approximately normal**, regardless of the shape of the underlying population.</span></span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>This is one of the most important results in statistics — it allows us to use normal-distribution methods even when we don't know the shape of the population.</span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a><span class="fu">## Confidence Intervals</span></span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>A **confidence interval (CI)** is a range of values within which we are highly confident the true population parameter lies.</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a><span class="fu">### Logic of a 95% Confidence Interval</span></span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>With repeated sampling, 95% of calculated $\bar{x}$ values will be within **two standard errors** of the true population mean $\mu$. Turning this around: given a single sample, we are **95% confident** that $\mu$ lies within two standard errors of our calculated $\bar{x}$.</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>\bar{x} \pm 2 \cdot \frac{\sigma}{\sqrt{n}}</span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>**Key point:** A larger sample size leads to a **narrower** (more precise) confidence interval.</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>Confidence intervals are especially useful because they show the **range of plausible values** for a parameter, not just a yes/no decision. They help distinguish between **statistical** and **practical** significance.</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hypothesis Testing</span></span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>**Hypothesis testing** is a formal procedure for answering research questions using data (empirical evidence).</span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a><span class="fu">### Steps in Hypothesis Testing</span></span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the hypotheses** (null and alternative).</span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Choose a significance level** ($\alpha$, e.g. 0.05).</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Collect data and compute a test statistic**.</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Calculate the p-value**.</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Make a decision**: reject or fail to reject $H_0$.</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**State your conclusion** in terms of the population parameter.</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ *Lecturer's note (from class):* There are only **two valid conclusions** in hypothesis testing:</span></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; - "We **reject** the null hypothesis."</span></span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; - "We **fail to reject** the null hypothesis."</span></span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Anything else (e.g. "we accept $H_1$") is **incorrect**.</span></span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Null Hypothesis ($H_0$)</span></span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **null hypothesis** is the statement being tested — typically a claim of **no difference or no effect**.</span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We assume it is **true** until the data provides evidence otherwise.</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>It is always stated using an **equality sign**.</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>**Example:** $H_0: \mu = 0$</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Alternative Hypothesis ($H_1$ or $H_a$)</span></span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **alternative hypothesis** represents the **researcher's theory** — what they believe to be true.</span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>It contains all values **not** included in the null hypothesis.</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Together, $H_0$ and $H_1$ must cover **all eventualities**.</span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>**Example:** $H_1: \mu \neq 0$</span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a><span class="fu">## The p-value</span></span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>The **p-value** is a probability that measures the **strength of evidence against the null hypothesis**.</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 🎵 *Classroom rhyme (do not write in exams!):* **"If p is low, null must go."**</span></span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A **small p-value** → less likely that $H_0$ is true → stronger evidence against $H_0$ → in favour of $H_1$.</span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always **quote the p-value** when reporting your conclusions.</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Conclusions should be stated in terms of the **population parameter**.</span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a><span class="fu">## Level of Significance ($\alpha$)</span></span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a>The **significance level** $\alpha$ is a threshold set **before** the test is run. It represents the degree of uncertainty you are willing to accept.</span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Significance Level <span class="pp">|</span> Common Usage <span class="pp">|</span></span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------------------|--------------|</span></span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\alpha = 0.05$ (5%) <span class="pp">|</span> Most common <span class="pp">|</span></span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\alpha = 0.01$ (1%) <span class="pp">|</span> More stringent <span class="pp">|</span></span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\alpha = 0.001$ (0.1%) <span class="pp">|</span> Very stringent <span class="pp">|</span></span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>**Decision rule:**</span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If $p \leq \alpha$: **Reject $H_0$** — result is **statistically significant**.</span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If $p &gt; \alpha$: **Fail to reject $H_0$** — insufficient evidence to reject.</span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ A **non-significant** result does **not** prove $H_0$ is true — it simply means we don't have enough evidence to reject it.</span></span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a><span class="fu">## Type I and Type II Errors</span></span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>Because conclusions in hypothesis testing are based on sample data, **errors are possible**.</span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="pp">|</span> $H_0$ is actually TRUE <span class="pp">|</span> $H_0$ is actually FALSE <span class="pp">|</span></span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Reject $H_0$** | ❌ **Type I Error** ($\alpha$) <span class="pp">|</span> ✅ Correct (Power) <span class="pp">|</span></span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Fail to Reject $H_0$** | ✅ Correct | ❌ **Type II Error** ($\beta$) <span class="pp">|</span></span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type I Error**: Rejecting $H_0$ when it is actually true (a "false positive"). The probability is controlled by $\alpha$.</span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type II Error**: Failing to reject $H_0$ when it is actually false (a "false negative"). The probability is denoted $\beta$.</span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a><span class="fu">## Statistical Power</span></span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a>**Power** is the probability of correctly rejecting $H_0$ when it is false — i.e. the probability of detecting a real effect.</span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a>\text{Power} = 1 - \beta</span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We want **high power** (large $1 - \beta$) to maximise our chances of detecting a real difference.</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We also want **small $\alpha$** to avoid false positives.</span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>There is a **trade-off**: decreasing $\alpha$ automatically increases $\beta$ (and reduces power).</span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The solution is to **choose an appropriate sample size** before the study begins, so that both $\alpha$ and $\beta$ are at acceptable levels.</span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a><span class="fu">## Effect Size</span></span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a>The **effect size** measures the **magnitude or strength** of a relationship between two variables, separate from statistical significance.</span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A result can be statistically significant but have a **tiny effect size** (practically unimportant).</span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A result with a **large effect size** is more likely to be significant.</span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Associated with each effect size is a **standard error** (a measure of uncertainty).</span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cohen's d (for t-tests)</span></span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a>d = \frac{\bar{x}_1 - \bar{x}_2}{s_{\text{pooled}}}</span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a>The difference between two means divided by the pooled standard deviation.</span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a><span class="fu">### $R^2$ (for Linear Regression)</span></span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a>In **linear regression**, effect size is measured by $R^2$ (the square of Pearson's correlation coefficient $r$):</span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a>R^2 = r^2</span>
+<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a>$R^2$ represents the **proportion of variation** in the response variable explained by the explanatory variable.</span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a><span class="fu">## Statistical vs. Clinical (Practical) Significance</span></span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a>This is a critical distinction:</span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="pp">|</span> Statistical Significance <span class="pp">|</span> Clinical/Practical Significance <span class="pp">|</span></span>
+<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **What it means** <span class="pp">|</span> Evidence of an effect in the data <span class="pp">|</span> The effect is large enough to matter in practice <span class="pp">|</span></span>
+<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Determined by** <span class="pp">|</span> p-value vs. $\alpha$ <span class="pp">|</span> Effect size <span class="pp">|</span></span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Can be misleading when** <span class="pp">|</span> Sample size is very large (tiny effects become significant) <span class="pp">|</span> Sample size is small (real effects may not be detected) <span class="pp">|</span></span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a>**For a result to be practically meaningful, it must be BOTH statistically significant AND have a meaningful effect size.**</span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A large sample can make a **trivially small** difference statistically significant.</span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A small sample may **miss** a clinically important difference.</span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Confidence intervals** help by showing the range of plausible effect sizes — not just whether an effect is "significant".</span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 *Example from class:* Blood pressure — even a small reduction can have important clinical implications, even if the effect size is modest.</span></span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a><span class="in">Standard Error of the Mean:</span></span>
+<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a><span class="in">  SEM = σ / √n</span></span>
+<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a><span class="in">Sampling Distribution of the Mean (Normal Population):</span></span>
+<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a><span class="in">  X̄ ~ N(μ, σ/√n)</span></span>
+<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a><span class="in">95% Confidence Interval:</span></span>
+<span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a><span class="in">  x̄ ± 2 × (σ/√n)</span></span>
+<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a><span class="in">Statistical Power:</span></span>
+<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a><span class="in">  Power = 1 - β</span></span>
+<span id="cb2-327"><a href="#cb2-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a><span class="in">Cohen's d (Effect Size for t-tests):</span></span>
+<span id="cb2-329"><a href="#cb2-329" aria-hidden="true" tabindex="-1"></a><span class="in">  d = (x̄₁ - x̄₂) / s_pooled</span></span>
+<span id="cb2-330"><a href="#cb2-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-331"><a href="#cb2-331" aria-hidden="true" tabindex="-1"></a><span class="in">R² (Effect Size for Linear Regression):</span></span>
+<span id="cb2-332"><a href="#cb2-332" aria-hidden="true" tabindex="-1"></a><span class="in">  R² = r²</span></span>
+<span id="cb2-333"><a href="#cb2-333" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-334"><a href="#cb2-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-335"><a href="#cb2-335" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-336"><a href="#cb2-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-337"><a href="#cb2-337" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Examples</span></span>
+<span id="cb2-338"><a href="#cb2-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-339"><a href="#cb2-339" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Point estimate:** A survey of 200 students gives a sample mean exam score of 68. This is our best estimate of the true population mean.</span>
+<span id="cb2-340"><a href="#cb2-340" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Confidence interval:** Based on the sample, we are 95% confident that the true average exam score for all students is between 65 and 71.</span>
+<span id="cb2-341"><a href="#cb2-341" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Hypothesis test:** A researcher tests whether a new drug reduces blood pressure. $H_0$: mean reduction = 0 mmHg. A p-value of 0.02 (&lt; 0.05) leads to rejection of $H_0$.</span>
+<span id="cb2-342"><a href="#cb2-342" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Statistical vs. practical significance:** With 10,000 participants, a drug is found to reduce blood pressure by 0.1 mmHg (p = 0.001). This is statistically significant but may have little clinical value.</span>
+<span id="cb2-343"><a href="#cb2-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-344"><a href="#cb2-344" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your notes here:*</span></span>
+<span id="cb2-345"><a href="#cb2-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-346"><a href="#cb2-346" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-347"><a href="#cb2-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-348"><a href="#cb2-348" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb2-349"><a href="#cb2-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-350"><a href="#cb2-350" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Inferential statistics** use sample data to draw conclusions about a population.</span>
+<span id="cb2-351"><a href="#cb2-351" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A **parameter** describes the population; a **statistic** estimates it from a sample.</span>
+<span id="cb2-352"><a href="#cb2-352" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Random (probability) sampling** is essential to avoid bias.</span>
+<span id="cb2-353"><a href="#cb2-353" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sampling error** is the difference between an estimate and the true parameter; it is reduced by larger samples.</span>
+<span id="cb2-354"><a href="#cb2-354" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **SEM** ($\sigma/\sqrt{n}$) measures the precision of the sample mean.</span>
+<span id="cb2-355"><a href="#cb2-355" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **Central Limit Theorem** guarantees that sample means are approximately normal for $n \geq 30$.</span>
+<span id="cb2-356"><a href="#cb2-356" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A **confidence interval** gives a range of plausible values for the true parameter.</span>
+<span id="cb2-357"><a href="#cb2-357" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hypothesis testing begins with a **null hypothesis** ($H_0$: no effect) and an **alternative hypothesis** ($H_1$: an effect is present).</span>
+<span id="cb2-358"><a href="#cb2-358" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **p-value** measures evidence *against* $H_0$ — the smaller the p-value, the stronger the evidence.</span>
+<span id="cb2-359"><a href="#cb2-359" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use the rhyme: **"If p is low, null must go"** (i.e. if $p \leq 0.05$, reject $H_0$).</span>
+<span id="cb2-360"><a href="#cb2-360" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Conclusions are **only**: "Reject $H_0$" or "Fail to reject $H_0$".</span>
+<span id="cb2-361"><a href="#cb2-361" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type I error** = rejecting a true $H_0$ (probability = $\alpha$).</span>
+<span id="cb2-362"><a href="#cb2-362" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type II error** = failing to reject a false $H_0$ (probability = $\beta$).</span>
+<span id="cb2-363"><a href="#cb2-363" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Power** = $1 - \beta$ — the ability to detect a real effect.</span>
+<span id="cb2-364"><a href="#cb2-364" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Effect size** measures the strength of a relationship (Cohen's d, $R^2$).</span>
+<span id="cb2-365"><a href="#cb2-365" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A result must be **both statistically and practically significant** to be truly meaningful.</span>
+<span id="cb2-366"><a href="#cb2-366" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always report **confidence intervals** alongside p-values for context.</span>
+<span id="cb2-367"><a href="#cb2-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-368"><a href="#cb2-368" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-369"><a href="#cb2-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-370"><a href="#cb2-370" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 *Next class:* More on coding and handling missing data in R.</span></span>
+<span id="cb2-371"><a href="#cb2-371" aria-hidden="true" tabindex="-1"></a>  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 

@@ -75,14 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-567b30ad711c8693efb6495feb883fb3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -115,169 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
-    const toggleBodyColorMode = (bsSheetEl) => {
-      const mode = bsSheetEl.getAttribute("data-mode");
-      const bodyEl = window.document.querySelector("body");
-      if (mode === "dark") {
-        bodyEl.classList.add("quarto-dark");
-        bodyEl.classList.remove("quarto-light");
-      } else {
-        bodyEl.classList.add("quarto-light");
-        bodyEl.classList.remove("quarto-dark");
-      }
-    }
-    const toggleBodyColorPrimary = () => {
-      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
-      if (bsSheetEl) {
-        toggleBodyColorMode(bsSheetEl);
-      }
-    }
-    const setColorSchemeToggle = (alternate) => {
-      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-      for (let i=0; i < toggles.length; i++) {
-        const toggle = toggles[i];
-        if (toggle) {
-          if (alternate) {
-            toggle.classList.add("alternate");
-          } else {
-            toggle.classList.remove("alternate");
-          }
-        }
-      }
-    };
-    const toggleColorMode = (alternate) => {
-      // Switch the stylesheets
-      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
-      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-      manageTransitions('#quarto-margin-sidebar .nav-link', false);
-      if (alternate) {
-        // note: dark is layered on light, we don't disable primary!
-        enableStylesheet(alternateStylesheets);
-        for (const sheetNode of alternateStylesheets) {
-          if (sheetNode.id === "quarto-bootstrap") {
-            toggleBodyColorMode(sheetNode);
-          }
-        }
-      } else {
-        disableStylesheet(alternateStylesheets);
-        enableStylesheet(primaryStylesheets)
-        toggleBodyColorPrimary();
-      }
-      manageTransitions('#quarto-margin-sidebar .nav-link', true);
-      // Switch the toggles
-      setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
-      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-        manageTransitions("body", false);
-        window.scrollTo(0, 1);
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-          manageTransitions("body", true);
-        }, 40);
-      }
-    }
-    const disableStylesheet = (stylesheets) => {
-      for (let i=0; i < stylesheets.length; i++) {
-        const stylesheet = stylesheets[i];
-        stylesheet.rel = 'disabled-stylesheet';
-      }
-    }
-    const enableStylesheet = (stylesheets) => {
-      for (let i=0; i < stylesheets.length; i++) {
-        const stylesheet = stylesheets[i];
-        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
-          stylesheet.rel = 'stylesheet';
-        }
-      }
-    }
-    const manageTransitions = (selector, allowTransitions) => {
-      const els = window.document.querySelectorAll(selector);
-      for (let i=0; i < els.length; i++) {
-        const el = els[i];
-        if (allowTransitions) {
-          el.classList.remove('notransition');
-        } else {
-          el.classList.add('notransition');
-        }
-      }
-    }
-    const isFileUrl = () => {
-      return window.location.protocol === 'file:';
-    }
-    const hasAlternateSentinel = () => {
-      let styleSentinel = getColorSchemeSentinel();
-      if (styleSentinel !== null) {
-        return styleSentinel === "alternate";
-      } else {
-        return false;
-      }
-    }
-    const setStyleSentinel = (alternate) => {
-      const value = alternate ? "alternate" : "default";
-      if (!isFileUrl()) {
-        window.localStorage.setItem("quarto-color-scheme", value);
-      } else {
-        localAlternateSentinel = value;
-      }
-    }
-    const getColorSchemeSentinel = () => {
-      if (!isFileUrl()) {
-        const storageValue = window.localStorage.getItem("quarto-color-scheme");
-        return storageValue != null ? storageValue : localAlternateSentinel;
-      } else {
-        return localAlternateSentinel;
-      }
-    }
-    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-      let newTheme = '';
-      if(authorPrefersDark) {
-        newTheme = isAlternate ? baseTheme : alternateTheme;
-      } else {
-        newTheme = isAlternate ? alternateTheme : baseTheme;
-      }
-      const changeGiscusTheme = () => {
-        // From: https://github.com/giscus/giscus/issues/336
-        const sendMessage = (message) => {
-          const iframe = document.querySelector('iframe.giscus-frame');
-          if (!iframe) return;
-          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-        }
-        sendMessage({
-          setConfig: {
-            theme: newTheme
-          }
-        });
-      }
-      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-      if (isGiscussLoaded) {
-        changeGiscusTheme();
-      }
-    };
-    const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
-      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-    // Dark / light mode switch
-    window.quartoToggleColorScheme = () => {
-      // Read the current dark / light value
-      let toAlternate = !hasAlternateSentinel();
-      toggleColorMode(toAlternate);
-      setStyleSentinel(toAlternate);
-      toggleGiscusIfUsed(toAlternate, darkModeDefault);
-      window.dispatchEvent(new Event('resize'));
-    };
-    // Switch to dark mode if need be
-    if (hasAlternateSentinel()) {
-      toggleColorMode(true);
-    } else {
-      toggleColorMode(false);
-    }
-  </script>
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -302,9 +136,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../index.html" class="sidebar-logo-link">
       </a>
-      <div class="sidebar-tools-main">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -415,6 +246,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 9</span></a>
   </div>
@@ -467,71 +310,70 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#lecture-overview" id="toc-lecture-overview" class="nav-link active" data-scroll-target="#lecture-overview">Lecture Overview</a></li>
-  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link" data-scroll-target="#key-concepts">Key Concepts</a>
+  <li><a href="#lecture-overview" id="toc-lecture-overview" class="nav-link active" data-scroll-target="#lecture-overview"><span class="header-section-number">1</span> Lecture Overview</a></li>
+  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link" data-scroll-target="#key-concepts"><span class="header-section-number">2</span> Key Concepts</a>
   <ul class="collapse">
-  <li><a href="#recommendation-systems" id="toc-recommendation-systems" class="nav-link" data-scroll-target="#recommendation-systems">Recommendation Systems</a>
+  <li><a href="#recommendation-systems" id="toc-recommendation-systems" class="nav-link" data-scroll-target="#recommendation-systems"><span class="header-section-number">2.1</span> Recommendation Systems</a>
   <ul class="collapse">
-  <li><a href="#types" id="toc-types" class="nav-link" data-scroll-target="#types">Types:</a></li>
+  <li><a href="#types" id="toc-types" class="nav-link" data-scroll-target="#types"><span class="header-section-number">2.1.1</span> Types:</a></li>
   </ul></li>
-  <li><a href="#association-rules-apriori" id="toc-association-rules-apriori" class="nav-link" data-scroll-target="#association-rules-apriori">Association Rules (Apriori)</a>
+  <li><a href="#association-rules-apriori" id="toc-association-rules-apriori" class="nav-link" data-scroll-target="#association-rules-apriori"><span class="header-section-number">2.2</span> Association Rules (Apriori)</a>
   <ul class="collapse">
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example:</a></li>
-  <li><a href="#key-measures" id="toc-key-measures" class="nav-link" data-scroll-target="#key-measures">Key measures:</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">2.2.1</span> Example:</a></li>
+  <li><a href="#key-measures" id="toc-key-measures" class="nav-link" data-scroll-target="#key-measures"><span class="header-section-number">2.2.2</span> Key measures:</a></li>
   </ul></li>
-  <li><a href="#customer-segmentation" id="toc-customer-segmentation" class="nav-link" data-scroll-target="#customer-segmentation">Customer Segmentation</a>
+  <li><a href="#customer-segmentation" id="toc-customer-segmentation" class="nav-link" data-scroll-target="#customer-segmentation"><span class="header-section-number">2.3</span> Customer Segmentation</a>
   <ul class="collapse">
-  <li><a href="#why" id="toc-why" class="nav-link" data-scroll-target="#why">Why?</a></li>
-  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1">Example:</a></li>
+  <li><a href="#why" id="toc-why" class="nav-link" data-scroll-target="#why"><span class="header-section-number">2.3.1</span> Why?</a></li>
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">2.3.2</span> Example:</a></li>
   </ul></li>
-  <li><a href="#collaborative-filtering" id="toc-collaborative-filtering" class="nav-link" data-scroll-target="#collaborative-filtering">Collaborative Filtering</a>
+  <li><a href="#collaborative-filtering" id="toc-collaborative-filtering" class="nav-link" data-scroll-target="#collaborative-filtering"><span class="header-section-number">2.4</span> Collaborative Filtering</a>
   <ul class="collapse">
-  <li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition">Definition</a></li>
+  <li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition"><span class="header-section-number">2.4.1</span> Definition</a></li>
   </ul></li>
-  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works">How it works</a></li>
-  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2">Example</a></li>
-  <li><a href="#types-of-collaborative-filtering" id="toc-types-of-collaborative-filtering" class="nav-link" data-scroll-target="#types-of-collaborative-filtering">Types of Collaborative Filtering</a>
+  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">2.5</span> How it works</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">2.6</span> Example</a></li>
+  <li><a href="#types-of-collaborative-filtering" id="toc-types-of-collaborative-filtering" class="nav-link" data-scroll-target="#types-of-collaborative-filtering"><span class="header-section-number">2.7</span> Types of Collaborative Filtering</a>
   <ul class="collapse">
-  <li><a href="#user-based" id="toc-user-based" class="nav-link" data-scroll-target="#user-based">1. User-based</a></li>
-  <li><a href="#item-based" id="toc-item-based" class="nav-link" data-scroll-target="#item-based">2. Item-based</a></li>
+  <li><a href="#user-based" id="toc-user-based" class="nav-link" data-scroll-target="#user-based"><span class="header-section-number">2.7.1</span> 1. User-based</a></li>
+  <li><a href="#item-based" id="toc-item-based" class="nav-link" data-scroll-target="#item-based"><span class="header-section-number">2.7.2</span> 2. Item-based</a></li>
   </ul></li>
-  <li><a href="#advantages" id="toc-advantages" class="nav-link" data-scroll-target="#advantages">Advantages</a></li>
-  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
-  <li><a href="#ethics-in-recommendation-systems" id="toc-ethics-in-recommendation-systems" class="nav-link" data-scroll-target="#ethics-in-recommendation-systems">Ethics in Recommendation Systems</a>
+  <li><a href="#advantages" id="toc-advantages" class="nav-link" data-scroll-target="#advantages"><span class="header-section-number">2.8</span> Advantages</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">2.9</span> Limitations</a></li>
+  <li><a href="#ethics-in-recommendation-systems" id="toc-ethics-in-recommendation-systems" class="nav-link" data-scroll-target="#ethics-in-recommendation-systems"><span class="header-section-number">2.10</span> Ethics in Recommendation Systems</a>
   <ul class="collapse">
-  <li><a href="#issues" id="toc-issues" class="nav-link" data-scroll-target="#issues">Issues:</a></li>
+  <li><a href="#issues" id="toc-issues" class="nav-link" data-scroll-target="#issues"><span class="header-section-number">2.10.1</span> Issues:</a></li>
   </ul></li>
-  <li><a href="#hyperparameters" id="toc-hyperparameters" class="nav-link" data-scroll-target="#hyperparameters">Hyperparameters</a>
+  <li><a href="#hyperparameters" id="toc-hyperparameters" class="nav-link" data-scroll-target="#hyperparameters"><span class="header-section-number">2.11</span> Hyperparameters</a>
   <ul class="collapse">
-  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples:</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">2.11.1</span> Examples:</a></li>
   </ul></li>
-  <li><a href="#hyperparameter-optimisation" id="toc-hyperparameter-optimisation" class="nav-link" data-scroll-target="#hyperparameter-optimisation">Hyperparameter Optimisation</a>
+  <li><a href="#hyperparameter-optimisation" id="toc-hyperparameter-optimisation" class="nav-link" data-scroll-target="#hyperparameter-optimisation"><span class="header-section-number">2.12</span> Hyperparameter Optimisation</a>
   <ul class="collapse">
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods:</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">2.12.1</span> Methods:</a></li>
   </ul></li>
-  <li><a href="#graph-analytics" id="toc-graph-analytics" class="nav-link" data-scroll-target="#graph-analytics">Graph Analytics</a>
+  <li><a href="#graph-analytics" id="toc-graph-analytics" class="nav-link" data-scroll-target="#graph-analytics"><span class="header-section-number">2.13</span> Graph Analytics</a>
   <ul class="collapse">
-  <li><a href="#can-be-used-in" id="toc-can-be-used-in" class="nav-link" data-scroll-target="#can-be-used-in">Can be used in:</a></li>
+  <li><a href="#can-be-used-in" id="toc-can-be-used-in" class="nav-link" data-scroll-target="#can-be-used-in"><span class="header-section-number">2.13.1</span> Can be used in:</a></li>
   </ul></li>
-  <li><a href="#dimensionality-reduction" id="toc-dimensionality-reduction" class="nav-link" data-scroll-target="#dimensionality-reduction">Dimensionality Reduction</a></li>
+  <li><a href="#dimensionality-reduction" id="toc-dimensionality-reduction" class="nav-link" data-scroll-target="#dimensionality-reduction"><span class="header-section-number">2.14</span> Dimensionality Reduction</a></li>
   </ul></li>
-  <li><a href="#r-example-collaborative-filtering" id="toc-r-example-collaborative-filtering" class="nav-link" data-scroll-target="#r-example-collaborative-filtering">R Example (Collaborative Filtering)</a></li>
-  <li><a href="#exam-notes" id="toc-exam-notes" class="nav-link" data-scroll-target="#exam-notes">Exam Notes</a>
+  <li><a href="#r-example-collaborative-filtering" id="toc-r-example-collaborative-filtering" class="nav-link" data-scroll-target="#r-example-collaborative-filtering"><span class="header-section-number">3</span> R Example (Collaborative Filtering)</a></li>
+  <li><a href="#exam-notes" id="toc-exam-notes" class="nav-link" data-scroll-target="#exam-notes"><span class="header-section-number">4</span> Exam Notes</a>
   <ul class="collapse">
-  <li><a href="#you-should-be-able-to" id="toc-you-should-be-able-to" class="nav-link" data-scroll-target="#you-should-be-able-to">You should be able to:</a></li>
-  <li><a href="#common-exam-questions" id="toc-common-exam-questions" class="nav-link" data-scroll-target="#common-exam-questions">Common Exam Questions</a></li>
+  <li><a href="#you-should-be-able-to" id="toc-you-should-be-able-to" class="nav-link" data-scroll-target="#you-should-be-able-to"><span class="header-section-number">4.1</span> You should be able to:</a></li>
+  <li><a href="#common-exam-questions" id="toc-common-exam-questions" class="nav-link" data-scroll-target="#common-exam-questions"><span class="header-section-number">4.2</span> Common Exam Questions</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5</span> Summary</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data-mining/index.html">Data Mining</a></li><li class="breadcrumb-item"><a href="../data-mining/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../data-mining/week-8.html">Week 8</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Week 8</h1>
+<div class="quarto-title-block"><div><h1 class="title">Week 8</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
 
@@ -548,8 +390,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="lecture-overview" class="level1">
-<h1>Lecture Overview</h1>
+<section id="lecture-overview" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Lecture Overview</h1>
 <p>This week focuses on <strong>recommendation systems</strong>, including:</p>
 <ul>
 <li>Association rules (apriori)</li>
@@ -561,13 +403,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <hr>
 </section>
-<section id="key-concepts" class="level1">
-<h1>Key Concepts</h1>
-<section id="recommendation-systems" class="level2">
-<h2 class="anchored" data-anchor-id="recommendation-systems">Recommendation Systems</h2>
+<section id="key-concepts" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Key Concepts</h1>
+<section id="recommendation-systems" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="recommendation-systems"><span class="header-section-number">2.1</span> Recommendation Systems</h2>
 <p>A recommendation system suggests items to users based on data.</p>
-<section id="types" class="level3">
-<h3 class="anchored" data-anchor-id="types">Types:</h3>
+<section id="types" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="types"><span class="header-section-number">2.1.1</span> Types:</h3>
 <ul>
 <li>Association rule-based (Apriori)</li>
 <li>Content-based filtering</li>
@@ -576,15 +418,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="association-rules-apriori" class="level2">
-<h2 class="anchored" data-anchor-id="association-rules-apriori">Association Rules (Apriori)</h2>
+<section id="association-rules-apriori" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="association-rules-apriori"><span class="header-section-number">2.2</span> Association Rules (Apriori)</h2>
 <p>Used to find relationships between items.</p>
-<section id="example" class="level3">
-<h3 class="anchored" data-anchor-id="example">Example:</h3>
+<section id="example" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="example"><span class="header-section-number">2.2.1</span> Example:</h3>
 <p>Customers who buy <strong>bread</strong> also buy <strong>butter</strong></p>
 </section>
-<section id="key-measures" class="level3">
-<h3 class="anchored" data-anchor-id="key-measures">Key measures:</h3>
+<section id="key-measures" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="key-measures"><span class="header-section-number">2.2.2</span> Key measures:</h3>
 <ul>
 <li><strong>Support</strong> → how often items appear together<br>
 </li>
@@ -596,15 +438,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="customer-segmentation" class="level2">
-<h2 class="anchored" data-anchor-id="customer-segmentation">Customer Segmentation</h2>
+<section id="customer-segmentation" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="customer-segmentation"><span class="header-section-number">2.3</span> Customer Segmentation</h2>
 <p>Before applying rules, customers are often grouped.</p>
-<section id="why" class="level3">
-<h3 class="anchored" data-anchor-id="why">Why?</h3>
+<section id="why" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="why"><span class="header-section-number">2.3.1</span> Why?</h3>
 <p>Different groups behave differently.</p>
 </section>
-<section id="example-1" class="level3">
-<h3 class="anchored" data-anchor-id="example-1">Example:</h3>
+<section id="example-1" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="example-1"><span class="header-section-number">2.3.2</span> Example:</h3>
 <ul>
 <li>Students → low budget</li>
 <li>Professionals → higher spending</li>
@@ -613,17 +455,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="collaborative-filtering" class="level2">
-<h2 class="anchored" data-anchor-id="collaborative-filtering">Collaborative Filtering</h2>
+<section id="collaborative-filtering" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="collaborative-filtering"><span class="header-section-number">2.4</span> Collaborative Filtering</h2>
 <p>This is a key concept for exams.</p>
-<section id="definition" class="level3">
-<h3 class="anchored" data-anchor-id="definition">Definition</h3>
+<section id="definition" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="definition"><span class="header-section-number">2.4.1</span> Definition</h3>
 <p>Collaborative filtering makes recommendations based on <strong>similar users</strong>.</p>
 <hr>
 </section>
 </section>
-<section id="how-it-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-it-works">How it works</h2>
+<section id="how-it-works" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">2.5</span> How it works</h2>
 <ol type="1">
 <li>Collect user preferences (ratings, purchases, clicks)</li>
 <li>Find users with similar behaviour</li>
@@ -631,8 +473,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <hr>
 </section>
-<section id="example-2" class="level2">
-<h2 class="anchored" data-anchor-id="example-2">Example</h2>
+<section id="example-2" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="example-2"><span class="header-section-number">2.6</span> Example</h2>
 <ul>
 <li>User A and User B both like:
 <ul>
@@ -646,17 +488,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>👉 Recommend <strong>Show D</strong> to User A</p>
 <hr>
 </section>
-<section id="types-of-collaborative-filtering" class="level2">
-<h2 class="anchored" data-anchor-id="types-of-collaborative-filtering">Types of Collaborative Filtering</h2>
-<section id="user-based" class="level3">
-<h3 class="anchored" data-anchor-id="user-based">1. User-based</h3>
+<section id="types-of-collaborative-filtering" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="types-of-collaborative-filtering"><span class="header-section-number">2.7</span> Types of Collaborative Filtering</h2>
+<section id="user-based" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="user-based"><span class="header-section-number">2.7.1</span> 1. User-based</h3>
 <ul>
 <li>Find similar users</li>
 <li>Recommend based on their preferences</li>
 </ul>
 </section>
-<section id="item-based" class="level3">
-<h3 class="anchored" data-anchor-id="item-based">2. Item-based</h3>
+<section id="item-based" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="item-based"><span class="header-section-number">2.7.2</span> 2. Item-based</h3>
 <ul>
 <li>Find similar items</li>
 <li>Recommend similar items to what user already likes</li>
@@ -664,8 +506,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="advantages" class="level2">
-<h2 class="anchored" data-anchor-id="advantages">Advantages</h2>
+<section id="advantages" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="advantages"><span class="header-section-number">2.8</span> Advantages</h2>
 <ul>
 <li>Simple and intuitive<br>
 </li>
@@ -675,8 +517,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <hr>
 </section>
-<section id="limitations" class="level2">
-<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
+<section id="limitations" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="limitations"><span class="header-section-number">2.9</span> Limitations</h2>
 <ul>
 <li>Cold start problem (new users/items)<br>
 </li>
@@ -686,11 +528,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <hr>
 </section>
-<section id="ethics-in-recommendation-systems" class="level2">
-<h2 class="anchored" data-anchor-id="ethics-in-recommendation-systems">Ethics in Recommendation Systems</h2>
+<section id="ethics-in-recommendation-systems" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="ethics-in-recommendation-systems"><span class="header-section-number">2.10</span> Ethics in Recommendation Systems</h2>
 <p>Important exam topic ⚠️</p>
-<section id="issues" class="level3">
-<h3 class="anchored" data-anchor-id="issues">Issues:</h3>
+<section id="issues" class="level3" data-number="2.10.1">
+<h3 data-number="2.10.1" class="anchored" data-anchor-id="issues"><span class="header-section-number">2.10.1</span> Issues:</h3>
 <ul>
 <li>Privacy concerns<br>
 </li>
@@ -703,11 +545,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="hyperparameters" class="level2">
-<h2 class="anchored" data-anchor-id="hyperparameters">Hyperparameters</h2>
+<section id="hyperparameters" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="hyperparameters"><span class="header-section-number">2.11</span> Hyperparameters</h2>
 <p>Settings that control how a model learns.</p>
-<section id="examples" class="level3">
-<h3 class="anchored" data-anchor-id="examples">Examples:</h3>
+<section id="examples" class="level3" data-number="2.11.1">
+<h3 data-number="2.11.1" class="anchored" data-anchor-id="examples"><span class="header-section-number">2.11.1</span> Examples:</h3>
 <ul>
 <li>Number of clusters (k in k-means)</li>
 <li>Number of neighbours in collaborative filtering</li>
@@ -715,11 +557,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="hyperparameter-optimisation" class="level2">
-<h2 class="anchored" data-anchor-id="hyperparameter-optimisation">Hyperparameter Optimisation</h2>
+<section id="hyperparameter-optimisation" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="hyperparameter-optimisation"><span class="header-section-number">2.12</span> Hyperparameter Optimisation</h2>
 <p>Choosing the best values for hyperparameters.</p>
-<section id="methods" class="level3">
-<h3 class="anchored" data-anchor-id="methods">Methods:</h3>
+<section id="methods" class="level3" data-number="2.12.1">
+<h3 data-number="2.12.1" class="anchored" data-anchor-id="methods"><span class="header-section-number">2.12.1</span> Methods:</h3>
 <ul>
 <li>Trial and error<br>
 </li>
@@ -729,11 +571,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 </section>
-<section id="graph-analytics" class="level2">
-<h2 class="anchored" data-anchor-id="graph-analytics">Graph Analytics</h2>
+<section id="graph-analytics" class="level2" data-number="2.13">
+<h2 data-number="2.13" class="anchored" data-anchor-id="graph-analytics"><span class="header-section-number">2.13</span> Graph Analytics</h2>
 <p>Graph analytics (or network analysis) is the study of networks or graphs. A network / graph has nodes and edges between them. The nodes and the edges may both have attributes.</p>
-<section id="can-be-used-in" class="level3">
-<h3 class="anchored" data-anchor-id="can-be-used-in">Can be used in:</h3>
+<section id="can-be-used-in" class="level3" data-number="2.13.1">
+<h3 data-number="2.13.1" class="anchored" data-anchor-id="can-be-used-in"><span class="header-section-number">2.13.1</span> Can be used in:</h3>
 <ul>
 <li><p>Marketing attribution analysis: this analyses the adverts shown to a user and the activities. It may show that indirect activities that are in an earlier step can have casual properties.</p></li>
 <li><p>Customer purchase modeling: By modeling the sequence of purchases as a graph, you can generate recommendations of what customers are likely to buy next.</p></li>
@@ -742,24 +584,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 </section>
-<section id="dimensionality-reduction" class="level2">
-<h2 class="anchored" data-anchor-id="dimensionality-reduction">Dimensionality Reduction</h2>
+<section id="dimensionality-reduction" class="level2" data-number="2.14">
+<h2 data-number="2.14" class="anchored" data-anchor-id="dimensionality-reduction"><span class="header-section-number">2.14</span> Dimensionality Reduction</h2>
 <p>Achei muito confuso, nao entendi direito vou precisar revisar.</p>
 <hr>
 </section>
 </section>
-<section id="r-example-collaborative-filtering" class="level1">
-<h1>R Example (Collaborative Filtering)</h1>
+<section id="r-example-collaborative-filtering" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> R Example (Collaborative Filtering)</h1>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(recommenderlab)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"MovieLense"</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># View dataset</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>MovieLense</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>943 x 1664 rating matrix of class 'realRatingMatrix' with 99392 ratings.</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a recommendation model</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">Recommender</span>(MovieLense, <span class="at">method =</span> <span class="st">"UBCF"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -767,16 +614,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>rec <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, MovieLense[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="at">n =</span> <span class="dv">3</span>)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>rec</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Recommendations as 'topNList' with n = 3 for 5 users. </code></pre>
 </div>
 </div>
 <hr>
 </section>
-<section id="exam-notes" class="level1">
-<h1>Exam Notes</h1>
-<section id="you-should-be-able-to" class="level2">
-<h2 class="anchored" data-anchor-id="you-should-be-able-to">You should be able to:</h2>
+<section id="exam-notes" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Exam Notes</h1>
+<section id="you-should-be-able-to" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="you-should-be-able-to"><span class="header-section-number">4.1</span> You should be able to:</h2>
 <ul>
 <li>Define collaborative filtering<br>
 </li>
@@ -795,8 +643,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <hr>
 </section>
-<section id="common-exam-questions" class="level2">
-<h2 class="anchored" data-anchor-id="common-exam-questions">Common Exam Questions</h2>
+<section id="common-exam-questions" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="common-exam-questions"><span class="header-section-number">4.2</span> Common Exam Questions</h2>
 <ul>
 <li>“Explain collaborative filtering with an example”</li>
 <li>“What is lift and why is it important?”</li>
@@ -806,8 +654,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="summary" class="level1">
-<h1>Summary</h1>
+<section id="summary" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Summary</h1>
 <ul>
 <li>Recommendation systems suggest items based on data<br>
 </li>
@@ -826,24 +674,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 
 
+<!-- -->
+
 </section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
-    // Ensure there is a toggle, if there isn't float one in the top right
-    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-      const i = window.document.createElement("i");
-      i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
-    }
-    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
@@ -913,9 +750,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       });
       clipboardModal.on('success', onCopySuccess);
     }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1253,7 +1141,246 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <span class="nav-page-text">Weekly Notes</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
-</nav>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 8"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu"># Lecture Overview</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>This week focuses on **recommendation systems**, including:</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Association rules (apriori)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Customer segmentation</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Collaborative filtering</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ethical considerations</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Hyperparameters and optimisation</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Graph Analytics</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Concepts</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Recommendation Systems</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>A recommendation system suggests items to users based on data.</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="fu">### Types:</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Association rule-based (Apriori)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Content-based filtering</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Collaborative filtering</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## Association Rules (Apriori)</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>Used to find relationships between items.</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example:</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>Customers who buy **bread** also buy **butter**</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key measures:</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Support** → how often items appear together\</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Confidence** → probability of buying Y given X\</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Lift** → strength of the relationship</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>👉 In practice: - focus on **high lift rules** - filter out weak or obvious relationships</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="fu">## Customer Segmentation</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>Before applying rules, customers are often grouped.</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why?</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>Different groups behave differently.</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example:</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Students → low budget</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Professionals → higher spending</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>👉 Apply recommendation rules **within each segment**</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="fu">## Collaborative Filtering</span></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>This is a key concept for exams.</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a><span class="fu">### Definition</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>Collaborative filtering makes recommendations based on **similar users**.</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## How it works</span></span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Collect user preferences (ratings, purchases, clicks)</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Find users with similar behaviour</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Recommend items liked by similar users</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example</span></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>User A and User B both like:</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Netflix shows A, B, C</span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>User B also likes:</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Show D</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>👉 Recommend **Show D** to User A</span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a><span class="fu">## Types of Collaborative Filtering</span></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. User-based</span></span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Find similar users</span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Recommend based on their preferences</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. Item-based</span></span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Find similar items</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Recommend similar items to what user already likes</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a><span class="fu">## Advantages</span></span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Simple and intuitive\</span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Works well with large datasets\</span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>No need for item features</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a><span class="fu">## Limitations</span></span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Cold start problem (new users/items)\</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Requires lots of data\</span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Can reinforce bias</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a><span class="fu">## Ethics in Recommendation Systems</span></span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>Important exam topic ⚠️</span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a><span class="fu">### Issues:</span></span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Privacy concerns\</span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Bias and discrimination\</span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Filter bubbles (only showing similar content)\</span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Manipulation of user behaviour</span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hyperparameters</span></span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>Settings that control how a model learns.</span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a><span class="fu">### Examples:</span></span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Number of clusters (k in k-means)</span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Number of neighbours in collaborative filtering</span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hyperparameter Optimisation</span></span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>Choosing the best values for hyperparameters.</span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a><span class="fu">### Methods:</span></span>
+<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Trial and error\</span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Grid search\</span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Cross-validation</span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a><span class="fu">## Graph Analytics</span></span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>Graph analytics (or network analysis) is the study of networks or graphs. A network / graph has nodes and edges between them. The nodes and the edges may both have attributes.</span>
+<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a><span class="fu">### Can be used in:</span></span>
+<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Marketing attribution analysis: this analyses the adverts shown to a user and the activities. It may show that indirect activities that are in an earlier step can have casual properties.</span>
+<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Customer purchase modeling: By modeling the sequence of purchases as a graph, you can generate recommendations of what customers are likely to buy next.</span>
+<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Fraud network detection - internet search engines: graph analytics are a core part of internet search algorithms. Relationship that exists in the transaction.</span>
+<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Disease cluster analysis: can be used to model and the spread of diseases</span>
+<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dimensionality Reduction</span></span>
+<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a>Achei muito confuso, nao entendi direito vou precisar revisar.</span>
+<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a><span class="fu"># R Example (Collaborative Filtering)</span></span>
+<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(recommenderlab)</span>
+<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"MovieLense"</span>)</span>
+<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a><span class="co"># View dataset</span></span>
+<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a>MovieLense</span>
+<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a recommendation model</span></span>
+<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">Recommender</span>(MovieLense, <span class="at">method =</span> <span class="st">"UBCF"</span>)</span>
+<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate recommendations</span></span>
+<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a>rec <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, MovieLense[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="at">n =</span> <span class="dv">3</span>)</span>
+<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a>rec</span>
+<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exam Notes</span></span>
+<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a><span class="fu">## You should be able to:</span></span>
+<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Define collaborative filtering\</span>
+<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Explain how it works step-by-step\</span>
+<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Compare:</span>
+<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>association rules vs collaborative filtering\</span>
+<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Explain lift, support, confidence\</span>
+<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Discuss ethical issues\</span>
+<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Explain hyperparameters</span>
+<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a><span class="fu">## Common Exam Questions</span></span>
+<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>"Explain collaborative filtering with an example"</span>
+<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>"What is lift and why is it important?"</span>
+<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>"Compare two recommendation approaches"</span>
+<span id="cb5-224"><a href="#cb5-224" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>"Discuss ethical concerns in recommendation systems"</span>
+<span id="cb5-225"><a href="#cb5-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary</span></span>
+<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Recommendation systems suggest items based on data\</span>
+<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Apriori finds item relationships\</span>
+<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Collaborative filtering uses user similarity\</span>
+<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Segmentation improves recommendations\</span>
+<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ethics and bias are important considerations</span>
+<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Recomendation engines I - market basket analysis</span>
+<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Recomendation engines II - collaborative filtering</span>
+<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Dimensionally reduction</span>
+<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>outlier analysis (anomaly detection)</span>
+<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>graph analytics</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 

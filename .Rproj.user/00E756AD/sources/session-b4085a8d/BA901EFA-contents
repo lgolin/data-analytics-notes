@@ -1,0 +1,592 @@
+---
+title: "Week 1: Data Analysis Protocol - Study Guide"
+subject: "Regression Analysis"
+format: html
+---
+
+# Week 1: Data Analysis Protocol
+
+## Key Topics
+
+- **Research Question & Hypothesis Development**: Formulating clear, testable research questions
+- **Study Planning & Design**: Designing studies with proper sampling and measurement strategies
+- **Data Measurement Scales**: Understanding continuous vs categorical variables
+- **Measurement Quality**: Precision and accuracy in data collection
+- **Initial Data Analysis (EDA)**: Exploratory techniques for understanding data
+- **Data Visualization**: Using graphs to uncover patterns and anomalies
+- **Missing Data**: Identifying, understanding, and handling missing values
+- **Outliers**: Detection and classification of unusual observations
+- **Model Assumptions**: Testing whether data meets statistical requirements
+- **Data Transformation**: Modifying data when assumptions are violated
+
+---
+
+# Part 1: Defining the Research Problem
+
+## Research Questions and Hypotheses
+
+Before any data analysis can begin, you must start with a **clear research question**. This is the foundation of your entire study.
+
+### What is a Good Research Question?
+
+A good research question has three essential characteristics:
+
+**1. Simple**
+- Contains **one predictor variable** and **one outcome variable**
+- More complex hypotheses with multiple predictors or outcomes should be broken into **multiple simple hypotheses**
+- For example, instead of studying "different types of smoking," simplify to "smoking vs non-smoking"
+
+**2. Specific**
+- Leaves **no ambiguity** about the subjects or variables being studied
+- Clearly defines **how statistical significance will be tested**
+- Uses **precise operational definitions** that summarize:
+  - The nature and source of the subjects
+  - How variables will be measured
+  - Whether variables are **continuous** or **categorical**
+
+**3. Stated in Advance**
+- The hypothesis must be determined **before** examining the data
+- Prevents the temptation to test multiple hypotheses after seeing results
+- Minimizes the opportunity to "fish" for significant findings
+
+### Why Being Specific Matters
+
+When your hypothesis is specific, you:
+- Communicate the study clearly to others
+- Minimize the chance of testing something different once you see the data
+- Avoid **substituting different measurements** of variables after the fact
+- Establish clear **variable types** (continuous vs categorical) upfront
+
+---
+
+## Study Planning
+
+### Research Plan Components
+
+Your research plan should document:
+
+1. **Study Design**: How will data be collected? (observational vs experimental)
+2. **Target Population**: Who or what will you study?
+3. **Sample Size**: How many subjects will you need?
+4. **Predictor and Outcome Variables**: What are you measuring and why?
+
+### Conceptualizing the Target Population
+
+Before collecting data:
+- Define the **specific population** you're interested in
+- Establish **inclusion criteria**: What characteristics define who belongs in your study?
+- Establish **exclusion criteria**: Who should NOT be included?
+
+For example, if studying heart disease in adults, you might include:
+- Inclusion: Adults aged 40-65 with no previous heart conditions
+- Exclusion: Pregnant women, individuals with genetic heart disease
+
+### Sampling Strategy
+
+Once you define your population, decide how to select subjects:
+
+**Probability Sampling** (preferred for statistical inference)
+- Every member of the population has an equal chance of being selected
+- Allows you to generalize findings to the larger population
+
+**Non-Probability Sampling**
+- Subjects are selected based on convenience or specific criteria
+- Makes it harder to generalize results
+
+---
+
+## Statistical Design Concepts
+
+When designing your study, understand these key concepts:
+
+| Concept | Definition |
+|---------|-----------|
+| **Response Variable** | The outcome you're measuring (what you want to explain) |
+| **Factor** | An independent variable in your study |
+| **Level** | The different values or categories of a factor |
+| **Treatment** | The specific condition applied to subjects |
+| **Replication** | Using multiple subjects per treatment group |
+| **Randomization** | Randomly assigning subjects to treatment groups |
+| **Blocking** | Grouping similar subjects to reduce variation |
+| **Factorial Design** | Studying multiple factors simultaneously |
+| **Main Effect** | The effect of one factor on the response |
+| **Interaction Effect** | How one factor's effect depends on another factor |
+
+---
+
+# Part 2: Measuring Variables
+
+## Measurement Scales
+
+### Why Measurement Matters
+
+The **type of measurement scale** you use affects:
+- How precise your data is
+- What statistical tests you can perform
+- The statistical power of your analysis
+- Your ability to answer the research question
+
+### Continuous vs Categorical Variables
+
+**Continuous Variables** (Preferred)
+- Can take any value within a range
+- Contain more information than categorical variables
+- Improve statistical **power** (ability to detect true effects)
+- Allow for smaller sample sizes
+- Examples: Age (years), Income (dollars), Blood pressure (mmHg)
+
+**Categorical Variables**
+- Fall into distinct categories
+- Contain less information
+- Require larger sample sizes for same power
+- Examples: Smoking status (yes/no), Gender (M/F), Education level (HS/College/Grad)
+
+**Key Principle**: Always collect data as **continuous** if possible, even if you might later categorize it. This preserves information and gives you more analytical flexibility.
+
+---
+
+## Measurement Quality: Precision and Accuracy
+
+These two concepts are **not the same** and are equally important for valid research.
+
+### Precision
+
+**Definition**: How consistently a measurement produces the same value when repeated.
+
+- Reflects **reproducibility, reliability, and consistency**
+- Affected by **random error** (chance variation)
+- Determines the **statistical power** of your study
+- Greater precision = greater power to detect effects at the same sample size
+
+**Sources of Random Error** (Reduces Precision):
+
+1. **Observer Variability**: Differences in how observers take measurements
+   - Different observers have different skill levels
+   - Same observer may measure differently on different occasions
+
+2. **Instrument Variability**: Measurement tools are not perfect
+   - Environmental factors (temperature, humidity)
+   - Mechanical drift or wear in instruments
+   - Calibration issues
+
+3. **Subject Variability**: Natural variation within subjects
+   - Biological fluctuations (heart rate changes throughout the day)
+   - Behavioral variation (mood, fatigue)
+
+### Accuracy
+
+**Definition**: The degree to which a measurement actually represents what it's **supposed to measure**.
+
+- Reflects the **validity** of the measurement
+- Determined by **systematic error** (consistent bias)
+- Critical for the validity and generalizability of your findings
+- Accuracy and precision are **not necessarily linked**
+
+**Important**: You can have:
+- ✓ High precision AND high accuracy (ideal)
+- ✗ High precision but low accuracy (measurements are consistent but wrong)
+- ✗ Low precision but high accuracy (scattered measurements but correct on average)
+
+### The Relationship Between Precision and Accuracy
+
+Think of archery or darts:
+
+- **Accurate but imprecise**: All shots hit the target area on average, but they're spread out
+- **Precise but inaccurate**: All shots cluster together, but far from the bullseye
+- **Both**: All shots cluster in the bullseye
+
+---
+
+# Part 3: Initial Data Analysis (Exploratory Data Analysis)
+
+## What is EDA?
+
+**Exploratory Data Analysis (EDA)** is the critical first step after data collection. You examine your data to:
+
+- **Summarize** the main characteristics
+- **Identify** patterns, trends, and relationships
+- **Discover** anomalies and outliers
+- **Visualize** the distribution of variables
+- **Check** for missing data
+- **Assess** whether data violates statistical assumptions
+
+### The Anscombe's Quartet Lesson
+
+**Why Visualization Matters**
+
+Anscombe's quartet demonstrates why you **must visualize** your data before analyzing it.
+
+This dataset consists of four different datasets that have:
+- **Identical means** (9.00 for x variables; 7.50 for y variables)
+- **Identical standard deviations** (3.16 for x; 1.94 for y)
+- **Identical correlation coefficients** (r = 0.82 for all pairs)
+- **Identical regression lines**
+
+**However**, when plotted as scatterplots, the four datasets look **completely different**:
+
+1. A perfect linear relationship
+2. A curved (non-linear) relationship
+3. A perfect linear relationship with one outlier
+4. No relationship in the data, but a single extreme point drives the correlation
+
+**The Lesson**: Summary statistics alone can be **deeply misleading**. Always create graphs to visualize your data.
+
+---
+
+## Components of Initial Data Analysis
+
+### 1. Summarizing and Visualizing Data
+
+**Numerical Summaries**
+- Mean, median, standard deviation
+- Percentiles and quartiles
+- Min and max values
+
+**Visual Methods**
+- Histograms (show distribution shape)
+- Box plots (show median, quartiles, outliers)
+- Scatter plots (show relationships)
+- Line plots (show trends over time)
+
+### 2. Univariate Profiling
+
+Examining each variable **individually**:
+- What is the distribution shape?
+- Are there outliers?
+- Is the variable skewed?
+- What is the range of values?
+
+### 3. Bivariate Profiling
+
+Examining relationships **between pairs** of variables:
+- Scatter plots for continuous variables
+- Cross-tabulations for categorical variables
+- Correlations between continuous variables
+
+### 4. Data Quality Checks
+
+- **Missing data** extent and patterns
+- **Outliers** and unusual values
+- **Data entry errors**
+- **Inconsistencies** in the data
+
+---
+
+# Part 4: Missing Data
+
+## Understanding Missing Data
+
+**Definition**: Missing data occurs when values are not recorded for some variables in some observations.
+
+### Why Data Goes Missing
+
+Missing data can result from:
+- Experimental or procedural errors
+- Data entry mistakes
+- Survey respondents skipping questions
+- Equipment malfunction
+- Subject dropout (in longitudinal studies)
+
+### Why Missing Data Is a Problem
+
+1. **Reduces sample size** - Fewer observations means less power
+2. **Can introduce bias** - If missingness is related to the values
+3. **Complicates analysis** - Many statistical tests cannot handle missing values
+4. **Violates assumptions** - Listwise deletion can change the nature of your sample
+
+---
+
+## Identifying Missing Data Patterns
+
+### Types of Missing Data
+
+**Ignorable Missing Data**
+- **Expected** and part of the research design
+- **No action** is necessary
+- Example: Surveys where certain questions only apply to some respondents (e.g., "Describe your pregnancy" is ignorable for non-pregnant respondents)
+
+**Non-Ignorable Missing Data**
+- Results from either a **known** or **unknown** missing data process
+- Due to **procedural or experimental factors**
+- Requires investigation and action
+
+### Three Mechanisms of Missingness
+
+Understanding **why** data is missing is crucial for choosing the right solution:
+
+**1. Missing Completely at Random (MCAR)**
+- The probability of missingness is **the same for all units**
+- Causes of missing data are **unrelated to the data itself**
+- Example: A survey respondent randomly decides whether to answer each question by flipping a coin
+- **Implication**: Simple deletion of missing values is acceptable (though it reduces power)
+
+**2. Missing at Random (MAR)**
+- Missingness depends on **observed variables**, not the missing value itself
+- The probability of missingness **varies by group** but is predictable from other data
+- Example: Older respondents are more likely to skip the "earnings" question, but this depends only on age (which you observe)
+- **Implication**: Imputation methods that use other variables can produce valid estimates
+
+**3. Not Missing at Random (MNAR)**
+- Missingness depends on the **missing value itself**
+- The probability of being missing is related to what the value would have been
+- Example: People with higher incomes are less likely to report their earnings
+- **Implication**: This is the most problematic situation; bias is hard to correct
+
+---
+
+## Steps to Address Missing Data
+
+### Step 1: Determine the Type
+
+Is the missing data **ignorable** (part of study design) or **not ignorable** (unexpected)?
+
+### Step 2: Determine the Extent
+
+- How much data is missing for **each variable**?
+- How many **complete cases** are there?
+- Is the amount small enough to not affect results?
+
+### Step 3: Diagnose the Randomness
+
+Assess whether missingness is MCAR, MAR, or MNAR by examining:
+- Patterns across variables
+- Relationships with other observed variables
+- Domain knowledge about why data might be missing
+
+### Step 4: Select an Imputation Method
+
+**If Ignorable or Minimal Missing Data**
+- **Deletion**: Remove observations with missing values (acceptable if MCAR)
+
+**If More Substantial Missing Data**
+
+1. **Mean Imputation**: Replace missing values with the **variable mean**
+   - Advantage: Simple
+   - Disadvantage: Distorts the distribution, underestimates variance
+
+2. **Regression Imputation**: Use regression to **predict** missing values
+   - Advantage: Uses relationships with other variables
+   - Disadvantage: Creates artificially perfect predictions
+
+3. **Stochastic Regression Imputation**: Regression + random noise
+   - Advantage: Preserves variability
+   - Better than deterministic imputation
+
+4. **Prediction Methods**: Use k-Nearest Neighbors or other algorithms
+   - Find similar cases and use their values
+
+5. **Last Observation Carried Forward (LOCF)**: For longitudinal data
+   - Use previous measurement value
+   - Conservative (tends to underestimate change)
+
+6. **Multiple Imputation**: Create multiple complete datasets
+   - Most sophisticated approach
+   - Accounts for uncertainty in imputed values
+
+---
+
+## Practical Implementation
+
+### In R
+
+```r
+# Check for missing values
+is.na(x)                    # TRUE if x is missing
+sum(is.na(x))              # Count missing values
+
+# Remove missing data
+mean(x, na.rm=TRUE)        # Calculate mean, ignoring NAs
+complete.cases(df)         # Identify complete rows
+na.omit(df)               # Remove rows with ANY missing values
+df <- df[complete.cases(df), ]  # Keep only complete cases
+```
+
+### Decision Tree
+
+1. **Is data ignorable?** → NO ACTION needed
+2. **How much is missing?**
+   - **< 5% per variable** → Simple deletion acceptable
+   - **5-30% per variable** → Consider imputation
+   - **> 30% per variable** → Consider removing variable entirely
+3. **Is it MCAR, MAR, or MNAR?**
+   - **MCAR** → Deletion or simple imputation acceptable
+   - **MAR** → Use regression or predictive imputation
+   - **MNAR** → Advanced methods, or acknowledge bias
+
+---
+
+# Part 5: Outliers
+
+## What Are Outliers?
+
+**Definition**: Outliers are observations with **unusual combinations of characteristics** that make them distinctly different from other observations.
+
+An outlier typically has:
+- An **unusually high or low value** on a single variable, OR
+- A **unique combination of values** across multiple variables
+
+### Example
+
+In a dataset of student test scores:
+- A score of 5/100 is an outlier (very low)
+- A student with high math AND low reading scores might be an outlier (unusual combination)
+
+---
+
+## Classifying Outliers
+
+### Sources of Outliers
+
+**1. Procedural Error**
+- **Cause**: Measurement error, data entry mistake, equipment malfunction
+- **Action**: Investigate and correct if possible; delete if unfixable
+- **Example**: A blood pressure reading recorded as "2000 mmHg" (clearly impossible)
+
+**2. Extraordinary Event**
+- **Cause**: Real but exceptional circumstance during data collection
+- **Action**: Decide whether to keep based on research context
+- **Example**: A patient's extremely low blood pressure during a severe medical crisis
+
+**3. Extraordinary Observation**
+- **Cause**: The subject is genuinely unusual or represents a rare population segment
+- **Action**: May keep but note; requires domain expertise
+- **Example**: An exceptionally tall person in a height study (biologically valid but extreme)
+
+---
+
+## Handling Outliers
+
+**Important**: Outliers should be considered **within the context** of your analysis.
+
+### Before Taking Action
+
+1. **Verify the value** - Is it a real measurement or an error?
+2. **Understand the cause** - Why is this observation unusual?
+3. **Check implications** - Does removing it change your conclusions significantly?
+4. **Consider domain knowledge** - Is this observation valid in your field?
+
+### Options
+
+- **Keep**: If it represents a real, valid observation
+- **Investigate & Correct**: If it's a measurement or data entry error
+- **Remove**: If it's a true error with no way to verify
+- **Analyze With and Without**: Report both analyses to show sensitivity
+
+---
+
+# Part 6: Testing Model Assumptions
+
+## Why Assumptions Matter
+
+Before fitting a statistical model, you must verify that your data **satisfies the model's assumptions**. Different models have different requirements.
+
+### Key Assumptions for Linear Models
+
+**1. Linearity**
+- The relationship between predictor (x) and outcome (y) is **linear**
+- Check: Scatter plot should show a linear pattern
+- Violation: Use transformation or non-linear models
+
+**2. Independence**
+- Observations are **independent** of each other
+- Violations commonly occur in: time series, repeated measures, clustered data
+- Check: Study design (randomization, no confounding)
+
+**3. Homoscedasticity (Constant Variance)**
+- The **variance of errors is constant** across all levels of the predictor
+- Check: Scatter plot around regression line should have consistent spread
+- Violation: Variance increases/decreases with predictor values
+
+**4. Normality**
+- The **errors (residuals)** are normally distributed
+- Check: Q-Q plot (quantile-quantile plot) or histogram of residuals
+- Note: Large sample sizes make violation less problematic due to Central Limit Theorem
+- Violation: Use transformation, non-parametric tests, or larger sample
+
+---
+
+## Data Transformation
+
+### When to Transform
+
+If your data **violates assumptions**, transformation can sometimes help by:
+- Stabilizing variance
+- Making distributions more normal
+- Making relationships more linear
+
+### Common Transformations
+
+**For Skewed Data**
+
+| Transformation | Use When | Effect |
+|---|---|---|
+| **Square root** | Mild skewness | Gentle transformation |
+| **Log** | Moderate skewness, positive data | Strong transformation |
+| **Reciprocal (1/x)** | Severe skewness | Very strong transformation |
+| **Box-Cox** | Optimal transformation unknown | Data-driven selection |
+
+**For Other Issues**
+
+- **Standardizing**: Convert to mean=0, SD=1
+- **Squaring**: If relationship is non-linear
+- **Combinations**: First transform, then analyze
+
+### Important Considerations
+
+1. **Interpretation changes**: After transformation, you interpret results on transformed scale
+2. **Assumptions still apply**: Transformation must result in assumptions being met
+3. **Not always possible**: Some violations cannot be fixed by transformation alone
+4. **Alternative approaches**: Non-parametric tests or robust methods may be better
+
+---
+
+# Summary Points
+
+## Key Takeaways
+
+- **Define clearly**: Your research question must be simple, specific, and stated in advance
+- **Plan carefully**: Study design includes population definition, sampling, measurement, and sample size
+- **Measure well**: Collect data as continuous when possible; ensure both precision (consistency) and accuracy (validity)
+- **Explore first**: Always visualize and summarize before modeling (Anscombe's quartet lesson!)
+- **Handle missing data**: Identify type and mechanism; choose appropriate method (deletion vs imputation)
+- **Check assumptions**: Verify linearity, independence, homoscedasticity, and normality before modeling
+- **Transform if needed**: Use transformations (log, square root) to fix violations
+- **Use domain expertise**: All decisions about outliers, missing data, and transformations should be informed by subject matter knowledge
+
+---
+
+# Checklist for Week 1
+
+Before moving to model fitting, ensure you have:
+
+- [ ] Formulated a clear, testable research question
+- [ ] Defined target population and sampling strategy
+- [ ] Planned measurements and established measurement quality
+- [ ] Created visualizations (histograms, scatter plots, box plots)
+- [ ] Identified and documented missing data patterns
+- [ ] Identified potential outliers and understood their source
+- [ ] Tested model assumptions
+- [ ] Applied transformations if needed
+- [ ] Documented all decisions made during data cleaning
+
+---
+
+# Additional Resources
+
+## References for Further Learning
+
+- **Missing Data Concepts**: https://stefvanbuuren.name/fimd/sec-MCAR.html
+- **Missing Data Solutions**: https://stefvanbuuren.name/fimd/sec-simplesolutions.html
+
+## Next Week
+
+Week 2 will cover:
+- **Model Fitting**: Selecting and fitting appropriate statistical models
+- **Model Interpretation**: Understanding model coefficients and predictions
+- **Model Validation**: Assessing how well your model works
+
+---
+
+*End of Week 1 Study Guide*
+
+*Note: This guide is a living document. Leave space for annotations, additional examples, and clarifications as discussed in lectures.*

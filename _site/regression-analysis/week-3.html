@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 3 - Power Analysis + Missing Data – Semester Notes</title>
+<title>Week 3 Study Guide: Missing Data &amp; Power Analysis – Semester Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../regression-analysis/week-9.html" rel="next">
+<link href="../regression-analysis/week-4.html" rel="next">
 <link href="../regression-analysis/week-2.html" rel="prev">
 <link href="../favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -75,14 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-567b30ad711c8693efb6495feb883fb3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -144,169 +140,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
-    const toggleBodyColorMode = (bsSheetEl) => {
-      const mode = bsSheetEl.getAttribute("data-mode");
-      const bodyEl = window.document.querySelector("body");
-      if (mode === "dark") {
-        bodyEl.classList.add("quarto-dark");
-        bodyEl.classList.remove("quarto-light");
-      } else {
-        bodyEl.classList.add("quarto-light");
-        bodyEl.classList.remove("quarto-dark");
-      }
-    }
-    const toggleBodyColorPrimary = () => {
-      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
-      if (bsSheetEl) {
-        toggleBodyColorMode(bsSheetEl);
-      }
-    }
-    const setColorSchemeToggle = (alternate) => {
-      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-      for (let i=0; i < toggles.length; i++) {
-        const toggle = toggles[i];
-        if (toggle) {
-          if (alternate) {
-            toggle.classList.add("alternate");
-          } else {
-            toggle.classList.remove("alternate");
-          }
-        }
-      }
-    };
-    const toggleColorMode = (alternate) => {
-      // Switch the stylesheets
-      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
-      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-      manageTransitions('#quarto-margin-sidebar .nav-link', false);
-      if (alternate) {
-        // note: dark is layered on light, we don't disable primary!
-        enableStylesheet(alternateStylesheets);
-        for (const sheetNode of alternateStylesheets) {
-          if (sheetNode.id === "quarto-bootstrap") {
-            toggleBodyColorMode(sheetNode);
-          }
-        }
-      } else {
-        disableStylesheet(alternateStylesheets);
-        enableStylesheet(primaryStylesheets)
-        toggleBodyColorPrimary();
-      }
-      manageTransitions('#quarto-margin-sidebar .nav-link', true);
-      // Switch the toggles
-      setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
-      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-        manageTransitions("body", false);
-        window.scrollTo(0, 1);
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-          manageTransitions("body", true);
-        }, 40);
-      }
-    }
-    const disableStylesheet = (stylesheets) => {
-      for (let i=0; i < stylesheets.length; i++) {
-        const stylesheet = stylesheets[i];
-        stylesheet.rel = 'disabled-stylesheet';
-      }
-    }
-    const enableStylesheet = (stylesheets) => {
-      for (let i=0; i < stylesheets.length; i++) {
-        const stylesheet = stylesheets[i];
-        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
-          stylesheet.rel = 'stylesheet';
-        }
-      }
-    }
-    const manageTransitions = (selector, allowTransitions) => {
-      const els = window.document.querySelectorAll(selector);
-      for (let i=0; i < els.length; i++) {
-        const el = els[i];
-        if (allowTransitions) {
-          el.classList.remove('notransition');
-        } else {
-          el.classList.add('notransition');
-        }
-      }
-    }
-    const isFileUrl = () => {
-      return window.location.protocol === 'file:';
-    }
-    const hasAlternateSentinel = () => {
-      let styleSentinel = getColorSchemeSentinel();
-      if (styleSentinel !== null) {
-        return styleSentinel === "alternate";
-      } else {
-        return false;
-      }
-    }
-    const setStyleSentinel = (alternate) => {
-      const value = alternate ? "alternate" : "default";
-      if (!isFileUrl()) {
-        window.localStorage.setItem("quarto-color-scheme", value);
-      } else {
-        localAlternateSentinel = value;
-      }
-    }
-    const getColorSchemeSentinel = () => {
-      if (!isFileUrl()) {
-        const storageValue = window.localStorage.getItem("quarto-color-scheme");
-        return storageValue != null ? storageValue : localAlternateSentinel;
-      } else {
-        return localAlternateSentinel;
-      }
-    }
-    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-      let newTheme = '';
-      if(authorPrefersDark) {
-        newTheme = isAlternate ? baseTheme : alternateTheme;
-      } else {
-        newTheme = isAlternate ? alternateTheme : baseTheme;
-      }
-      const changeGiscusTheme = () => {
-        // From: https://github.com/giscus/giscus/issues/336
-        const sendMessage = (message) => {
-          const iframe = document.querySelector('iframe.giscus-frame');
-          if (!iframe) return;
-          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-        }
-        sendMessage({
-          setConfig: {
-            theme: newTheme
-          }
-        });
-      }
-      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-      if (isGiscussLoaded) {
-        changeGiscusTheme();
-      }
-    };
-    const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
-      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-    // Dark / light mode switch
-    window.quartoToggleColorScheme = () => {
-      // Read the current dark / light value
-      let toAlternate = !hasAlternateSentinel();
-      toggleColorMode(toAlternate);
-      setStyleSentinel(toAlternate);
-      toggleGiscusIfUsed(toAlternate, darkModeDefault);
-      window.dispatchEvent(new Event('resize'));
-    };
-    // Switch to dark mode if need be
-    if (hasAlternateSentinel()) {
-      toggleColorMode(true);
-    } else {
-      toggleColorMode(false);
-    }
-  </script>
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -315,7 +149,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-3.html">Week 3</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-3.html">Week 3</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -331,9 +165,6 @@ window.Quarto = {
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../index.html" class="sidebar-logo-link">
       </a>
-      <div class="sidebar-tools-main">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -415,15 +246,9 @@ window.Quarto = {
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
-  </div>
-</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Weekly Notes</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -450,31 +275,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 9</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
- <span class="menu-text">Practice &amp; Revision</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/revision.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Revision</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/labs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Labs</span></a>
   </div>
 </li>
       </ul>
@@ -483,28 +297,22 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Time Series</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
-  </div>
-</li>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Weekly Notes</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
@@ -515,29 +323,6 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 2</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
- <span class="menu-text">Practice &amp; Revision</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/revision.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Revision</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/labs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Labs</span></a>
   </div>
 </li>
       </ul>
@@ -554,145 +339,67 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#part-1---power-analysis" id="toc-part-1---power-analysis" class="nav-link" data-scroll-target="#part-1---power-analysis">Part 1 - Power Analysis</a>
+  <li><a href="#key-topics" id="toc-key-topics" class="nav-link active" data-scroll-target="#key-topics"><span class="header-section-number">1</span> Key Topics</a></li>
+  <li><a href="#part-1-missing-data" id="toc-part-1-missing-data" class="nav-link" data-scroll-target="#part-1-missing-data"><span class="header-section-number">2</span> Part 1: Missing Data</a>
   <ul class="collapse">
-  <li><a href="#what-is-statistical-power" id="toc-what-is-statistical-power" class="nav-link" data-scroll-target="#what-is-statistical-power">1. What is statistical power?</a>
+  <li><a href="#core-explanation" id="toc-core-explanation" class="nav-link" data-scroll-target="#core-explanation"><span class="header-section-number">2.1</span> Core Explanation</a>
   <ul class="collapse">
-  <li><a href="#how-to-think-about-it" id="toc-how-to-think-about-it" class="nav-link" data-scroll-target="#how-to-think-about-it">How to think about it</a></li>
+  <li><a href="#what-is-missing-data" id="toc-what-is-missing-data" class="nav-link" data-scroll-target="#what-is-missing-data"><span class="header-section-number">2.1.1</span> What Is Missing Data?</a></li>
+  <li><a href="#the-sleep-dataset" id="toc-the-sleep-dataset" class="nav-link" data-scroll-target="#the-sleep-dataset"><span class="header-section-number">2.1.2</span> The Sleep Dataset</a></li>
+  <li><a href="#basic-r-functions-for-missing-data" id="toc-basic-r-functions-for-missing-data" class="nav-link" data-scroll-target="#basic-r-functions-for-missing-data"><span class="header-section-number">2.1.3</span> Basic R Functions for Missing Data</a></li>
+  <li><a href="#summarising-your-data-with-summarytools" id="toc-summarising-your-data-with-summarytools" class="nav-link" data-scroll-target="#summarising-your-data-with-summarytools"><span class="header-section-number">2.1.4</span> Summarising Your Data with <code>summarytools</code></a></li>
   </ul></li>
-  <li><a href="#why-do-we-need-power-analysis" id="toc-why-do-we-need-power-analysis" class="nav-link" data-scroll-target="#why-do-we-need-power-analysis">2. Why do we need power analysis?</a>
+  <li><a href="#visualising-missing-data" id="toc-visualising-missing-data" class="nav-link" data-scroll-target="#visualising-missing-data"><span class="header-section-number">2.2</span> Visualising Missing Data</a>
   <ul class="collapse">
-  <li><a href="#real-world-meaning" id="toc-real-world-meaning" class="nav-link" data-scroll-target="#real-world-meaning">Real-world meaning</a></li>
+  <li><a href="#aggr-count-and-plot-missingness" id="toc-aggr-count-and-plot-missingness" class="nav-link" data-scroll-target="#aggr-count-and-plot-missingness"><span class="header-section-number">2.2.1</span> <code>aggr()</code> — Count and Plot Missingness</a></li>
+  <li><a href="#barmiss-missingness-by-a-categorical-variable" id="toc-barmiss-missingness-by-a-categorical-variable" class="nav-link" data-scroll-target="#barmiss-missingness-by-a-categorical-variable"><span class="header-section-number">2.2.2</span> <code>barMiss()</code> — Missingness by a Categorical Variable</a></li>
+  <li><a href="#histmiss-missingness-by-a-continuous-variable" id="toc-histmiss-missingness-by-a-continuous-variable" class="nav-link" data-scroll-target="#histmiss-missingness-by-a-continuous-variable"><span class="header-section-number">2.2.3</span> <code>histMiss()</code> — Missingness by a Continuous Variable</a></li>
+  <li><a href="#marginplot-comparing-distributions-with-and-without-missingness" id="toc-marginplot-comparing-distributions-with-and-without-missingness" class="nav-link" data-scroll-target="#marginplot-comparing-distributions-with-and-without-missingness"><span class="header-section-number">2.2.4</span> <code>marginplot()</code> — Comparing Distributions With and Without Missingness</a></li>
   </ul></li>
-  <li><a href="#the-four-linked-quantities" id="toc-the-four-linked-quantities" class="nav-link" data-scroll-target="#the-four-linked-quantities">3. The four linked quantities</a>
+  <li><a href="#dealing-with-missing-data" id="toc-dealing-with-missing-data" class="nav-link" data-scroll-target="#dealing-with-missing-data"><span class="header-section-number">2.3</span> Dealing with Missing Data</a>
   <ul class="collapse">
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why this matters</a></li>
-  <li><a href="#general-pattern" id="toc-general-pattern" class="nav-link" data-scroll-target="#general-pattern">General pattern</a></li>
-  <li><a href="#intuition" id="toc-intuition" class="nav-link" data-scroll-target="#intuition">Intuition</a></li>
-  </ul></li>
-  <li><a href="#effect-size-in-power-analysis" id="toc-effect-size-in-power-analysis" class="nav-link" data-scroll-target="#effect-size-in-power-analysis">4. Effect size in power analysis</a>
-  <ul class="collapse">
-  <li><a href="#important-idea" id="toc-important-idea" class="nav-link" data-scroll-target="#important-idea">Important idea</a></li>
-  <li><a href="#real-world-example-from-the-lecture" id="toc-real-world-example-from-the-lecture" class="nav-link" data-scroll-target="#real-world-example-from-the-lecture">Real-world example from the lecture</a></li>
-  </ul></li>
-  <li><a href="#chemical-company-example" id="toc-chemical-company-example" class="nav-link" data-scroll-target="#chemical-company-example">5. Chemical company example</a></li>
-  <li><a href="#step-1---state-the-hypotheses" id="toc-step-1---state-the-hypotheses" class="nav-link" data-scroll-target="#step-1---state-the-hypotheses">6. Step 1 - State the hypotheses</a>
-  <ul class="collapse">
-  <li><a href="#why-one-tailed" id="toc-why-one-tailed" class="nav-link" data-scroll-target="#why-one-tailed">Why one-tailed?</a></li>
-  </ul></li>
-  <li><a href="#step-2---type-i-and-type-ii-errors-in-context" id="toc-step-2---type-i-and-type-ii-errors-in-context" class="nav-link" data-scroll-target="#step-2---type-i-and-type-ii-errors-in-context">7. Step 2 - Type I and Type II errors in context</a>
-  <ul class="collapse">
-  <li><a href="#type-i-error" id="toc-type-i-error" class="nav-link" data-scroll-target="#type-i-error">Type I error</a></li>
-  <li><a href="#type-ii-error" id="toc-type-ii-error" class="nav-link" data-scroll-target="#type-ii-error">Type II error</a></li>
-  <li><a href="#why-type-ii-error-matters-here" id="toc-why-type-ii-error-matters-here" class="nav-link" data-scroll-target="#why-type-ii-error-matters-here">Why Type II error matters here</a></li>
-  </ul></li>
-  <li><a href="#step-3---carry-out-the-hypothesis-test" id="toc-step-3---carry-out-the-hypothesis-test" class="nav-link" data-scroll-target="#step-3---carry-out-the-hypothesis-test">8. Step 3 - Carry out the hypothesis test</a>
-  <ul class="collapse">
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
-  <li><a href="#important-interpretation" id="toc-important-interpretation" class="nav-link" data-scroll-target="#important-interpretation">Important interpretation</a></li>
-  </ul></li>
-  <li><a href="#p-value-and-lower-confidence-bound" id="toc-p-value-and-lower-confidence-bound" class="nav-link" data-scroll-target="#p-value-and-lower-confidence-bound">9. p-value and lower confidence bound</a>
-  <ul class="collapse">
-  <li><a href="#why-this-is-useful" id="toc-why-this-is-useful" class="nav-link" data-scroll-target="#why-this-is-useful">Why this is useful</a></li>
-  </ul></li>
-  <li><a href="#the-key-power-question" id="toc-the-key-power-question" class="nav-link" data-scroll-target="#the-key-power-question">10. The key power question</a></li>
-  <li><a href="#calculating-power-for-a-meaningful-effect" id="toc-calculating-power-for-a-meaningful-effect" class="nav-link" data-scroll-target="#calculating-power-for-a-meaningful-effect">11. Calculating power for a meaningful effect</a></li>
-  <li><a href="#rejection-rule-in-terms-of-the-sample-mean" id="toc-rejection-rule-in-terms-of-the-sample-mean" class="nav-link" data-scroll-target="#rejection-rule-in-terms-of-the-sample-mean">12. Rejection rule in terms of the sample mean</a>
-  <ul class="collapse">
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
-  <li><a href="#intuition-1" id="toc-intuition-1" class="nav-link" data-scroll-target="#intuition-1">Intuition</a></li>
-  </ul></li>
-  <li><a href="#calculating-type-ii-error-and-power" id="toc-calculating-type-ii-error-and-power" class="nav-link" data-scroll-target="#calculating-type-ii-error-and-power">13. Calculating Type II error and power</a></li>
-  <li><a href="#what-does-power-43.25-mean" id="toc-what-does-power-43.25-mean" class="nav-link" data-scroll-target="#what-does-power-43.25-mean">14. What does power = 43.25% mean?</a>
-  <ul class="collapse">
-  <li><a href="#interpretation-1" id="toc-interpretation-1" class="nav-link" data-scroll-target="#interpretation-1">Interpretation</a></li>
-  <li><a href="#real-world-meaning-1" id="toc-real-world-meaning-1" class="nav-link" data-scroll-target="#real-world-meaning-1">Real-world meaning</a></li>
-  </ul></li>
-  <li><a href="#why-smaller-effects-are-harder-to-detect" id="toc-why-smaller-effects-are-harder-to-detect" class="nav-link" data-scroll-target="#why-smaller-effects-are-harder-to-detect">15. Why smaller effects are harder to detect</a>
-  <ul class="collapse">
-  <li><a href="#why" id="toc-why" class="nav-link" data-scroll-target="#why">Why?</a></li>
-  <li><a href="#real-world-analogy" id="toc-real-world-analogy" class="nav-link" data-scroll-target="#real-world-analogy">Real-world analogy</a></li>
+  <li><a href="#option-1-complete-case-analysis-listwise-deletion" id="toc-option-1-complete-case-analysis-listwise-deletion" class="nav-link" data-scroll-target="#option-1-complete-case-analysis-listwise-deletion"><span class="header-section-number">2.3.1</span> Option 1: Complete Case Analysis (Listwise Deletion)</a></li>
+  <li><a href="#option-2-imputation-with-irmi-vim-package" id="toc-option-2-imputation-with-irmi-vim-package" class="nav-link" data-scroll-target="#option-2-imputation-with-irmi-vim-package"><span class="header-section-number">2.3.2</span> Option 2: Imputation with <code>irmi()</code> (VIM Package)</a></li>
+  <li><a href="#option-3-multiple-imputation-with-mice" id="toc-option-3-multiple-imputation-with-mice" class="nav-link" data-scroll-target="#option-3-multiple-imputation-with-mice"><span class="header-section-number">2.3.3</span> Option 3: Multiple Imputation with MICE</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#part-2---power-confidence-intervals-and-margin-of-error" id="toc-part-2---power-confidence-intervals-and-margin-of-error" class="nav-link" data-scroll-target="#part-2---power-confidence-intervals-and-margin-of-error">Part 2 - Power, confidence intervals, and margin of error</a>
+  <li><a href="#part-2-power-analysis" id="toc-part-2-power-analysis" class="nav-link" data-scroll-target="#part-2-power-analysis"><span class="header-section-number">3</span> Part 2: Power Analysis</a>
   <ul class="collapse">
-  <li><a href="#confidence-interval-formula" id="toc-confidence-interval-formula" class="nav-link" data-scroll-target="#confidence-interval-formula">16. Confidence interval formula</a></li>
-  <li><a href="#what-is-margin-of-error" id="toc-what-is-margin-of-error" class="nav-link" data-scroll-target="#what-is-margin-of-error">17. What is margin of error?</a>
+  <li><a href="#core-explanation-1" id="toc-core-explanation-1" class="nav-link" data-scroll-target="#core-explanation-1"><span class="header-section-number">3.1</span> Core Explanation</a>
   <ul class="collapse">
-  <li><a href="#intuition-2" id="toc-intuition-2" class="nav-link" data-scroll-target="#intuition-2">Intuition</a></li>
+  <li><a href="#what-is-statistical-power" id="toc-what-is-statistical-power" class="nav-link" data-scroll-target="#what-is-statistical-power"><span class="header-section-number">3.1.1</span> What Is Statistical Power?</a></li>
+  <li><a href="#the-four-interconnected-quantities" id="toc-the-four-interconnected-quantities" class="nav-link" data-scroll-target="#the-four-interconnected-quantities"><span class="header-section-number">3.1.2</span> The Four Interconnected Quantities</a></li>
   </ul></li>
-  <li><a href="#sample-size-formula-from-margin-of-error" id="toc-sample-size-formula-from-margin-of-error" class="nav-link" data-scroll-target="#sample-size-formula-from-margin-of-error">18. Sample size formula from margin of error</a>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">3.2</span> Key Equations / Formulas</a>
   <ul class="collapse">
-  <li><a href="#what-this-means" id="toc-what-this-means" class="nav-link" data-scroll-target="#what-this-means">What this means</a></li>
+  <li><a href="#z-test-statistic-known-population-standard-deviation" id="toc-z-test-statistic-known-population-standard-deviation" class="nav-link" data-scroll-target="#z-test-statistic-known-population-standard-deviation"><span class="header-section-number">3.2.1</span> Z-Test Statistic (known population standard deviation)</a></li>
+  <li><a href="#minimum-sample-mean-to-reject-h_0" id="toc-minimum-sample-mean-to-reject-h_0" class="nav-link" data-scroll-target="#minimum-sample-mean-to-reject-h_0"><span class="header-section-number">3.2.2</span> Minimum Sample Mean to Reject <span class="math inline">\(H_0\)</span></a></li>
+  <li><a href="#power-calculation" id="toc-power-calculation" class="nav-link" data-scroll-target="#power-calculation"><span class="header-section-number">3.2.3</span> Power Calculation</a></li>
+  <li><a href="#sample-size-formula-known-σ-from-margin-of-error" id="toc-sample-size-formula-known-σ-from-margin-of-error" class="nav-link" data-scroll-target="#sample-size-formula-known-σ-from-margin-of-error"><span class="header-section-number">3.2.4</span> Sample Size Formula (known σ, from margin of error)</a></li>
+  <li><a href="#sample-size-formula-unknown-σ-using-t-distribution" id="toc-sample-size-formula-unknown-σ-using-t-distribution" class="nav-link" data-scroll-target="#sample-size-formula-unknown-σ-using-t-distribution"><span class="header-section-number">3.2.5</span> Sample Size Formula (unknown σ, using t-distribution)</a></li>
   </ul></li>
-  <li><a href="#sample-size-example" id="toc-sample-size-example" class="nav-link" data-scroll-target="#sample-size-example">19. Sample size example</a>
+  <li><a href="#practical-example-chemical-company" id="toc-practical-example-chemical-company" class="nav-link" data-scroll-target="#practical-example-chemical-company"><span class="header-section-number">3.3</span> Practical Example — Chemical Company</a>
   <ul class="collapse">
-  <li><a href="#why-round-up" id="toc-why-round-up" class="nav-link" data-scroll-target="#why-round-up">Why round up?</a></li>
+  <li><a href="#problem-setup" id="toc-problem-setup" class="nav-link" data-scroll-target="#problem-setup"><span class="header-section-number">3.3.1</span> Problem Setup</a></li>
+  <li><a href="#step-1-state-the-hypotheses" id="toc-step-1-state-the-hypotheses" class="nav-link" data-scroll-target="#step-1-state-the-hypotheses"><span class="header-section-number">3.3.2</span> Step 1: State the Hypotheses</a></li>
+  <li><a href="#step-2-type-i-and-type-ii-errors-in-context" id="toc-step-2-type-i-and-type-ii-errors-in-context" class="nav-link" data-scroll-target="#step-2-type-i-and-type-ii-errors-in-context"><span class="header-section-number">3.3.3</span> Step 2: Type I and Type II Errors in Context</a></li>
+  <li><a href="#step-3-conduct-the-test-α-0.05" id="toc-step-3-conduct-the-test-α-0.05" class="nav-link" data-scroll-target="#step-3-conduct-the-test-α-0.05"><span class="header-section-number">3.3.4</span> Step 3: Conduct the Test (α = 0.05)</a></li>
+  <li><a href="#step-4-calculate-the-power-of-the-test" id="toc-step-4-calculate-the-power-of-the-test" class="nav-link" data-scroll-target="#step-4-calculate-the-power-of-the-test"><span class="header-section-number">3.3.5</span> Step 4: Calculate the Power of the Test</a></li>
   </ul></li>
-  <li><a href="#unknown-standard-deviation" id="toc-unknown-standard-deviation" class="nav-link" data-scroll-target="#unknown-standard-deviation">20. Unknown standard deviation</a></li>
+  <li><a href="#sample-size-from-margin-of-error" id="toc-sample-size-from-margin-of-error" class="nav-link" data-scroll-target="#sample-size-from-margin-of-error"><span class="header-section-number">3.4</span> Sample Size from Margin of Error</a></li>
   </ul></li>
-  <li><a href="#part-3---missing-data" id="toc-part-3---missing-data" class="nav-link" data-scroll-target="#part-3---missing-data">Part 3 - Missing Data</a>
-  <ul class="collapse">
-  <li><a href="#why-missing-data-matters" id="toc-why-missing-data-matters" class="nav-link" data-scroll-target="#why-missing-data-matters">21. Why missing data matters</a></li>
-  <li><a href="#useful-r-functions-for-small-amounts-of-missing-data" id="toc-useful-r-functions-for-small-amounts-of-missing-data" class="nav-link" data-scroll-target="#useful-r-functions-for-small-amounts-of-missing-data">22. Useful R functions for small amounts of missing data</a>
-  <ul class="collapse">
-  <li><a href="#is.nax" id="toc-is.nax" class="nav-link" data-scroll-target="#is.nax"><code>is.na(x)</code></a></li>
-  <li><a href="#how-to-think-about-it-1" id="toc-how-to-think-about-it-1" class="nav-link" data-scroll-target="#how-to-think-about-it-1">🧠 How to think about it</a></li>
-  <li><a href="#sumis.nax" id="toc-sumis.nax" class="nav-link" data-scroll-target="#sumis.nax"><code>sum(is.na(x))</code></a></li>
-  <li><a href="#why-this-is-useful-1" id="toc-why-this-is-useful-1" class="nav-link" data-scroll-target="#why-this-is-useful-1">🧠 Why this is useful</a></li>
-  <li><a href="#meanis.nax" id="toc-meanis.nax" class="nav-link" data-scroll-target="#meanis.nax"><code>mean(is.na(x))</code></a></li>
-  <li><a href="#why-this-matters-1" id="toc-why-this-matters-1" class="nav-link" data-scroll-target="#why-this-matters-1">🧠 Why this matters</a></li>
-  <li><a href="#complete.casesx" id="toc-complete.casesx" class="nav-link" data-scroll-target="#complete.casesx"><code>complete.cases(x)</code></a></li>
-  <li><a href="#removing-missing-data" id="toc-removing-missing-data" class="nav-link" data-scroll-target="#removing-missing-data">Removing missing data</a></li>
-  <li><a href="#important-warning" id="toc-important-warning" class="nav-link" data-scroll-target="#important-warning">🧠 Important warning</a></li>
-  </ul></li>
-  <li><a href="#types-of-missing-data-very-important" id="toc-types-of-missing-data-very-important" class="nav-link" data-scroll-target="#types-of-missing-data-very-important">23. Types of missing data (VERY IMPORTANT)</a>
-  <ul class="collapse">
-  <li><a href="#mcar-missing-completely-at-random" id="toc-mcar-missing-completely-at-random" class="nav-link" data-scroll-target="#mcar-missing-completely-at-random">1. MCAR — Missing Completely At Random</a></li>
-  <li><a href="#mar-missing-at-random" id="toc-mar-missing-at-random" class="nav-link" data-scroll-target="#mar-missing-at-random">2. MAR — Missing At Random</a></li>
-  <li><a href="#mnar-missing-not-at-random" id="toc-mnar-missing-not-at-random" class="nav-link" data-scroll-target="#mnar-missing-not-at-random">3. MNAR — Missing Not At Random</a></li>
-  <li><a href="#why-this-matters-2" id="toc-why-this-matters-2" class="nav-link" data-scroll-target="#why-this-matters-2">🧠 Why this matters</a></li>
-  </ul></li>
-  <li><a href="#visualising-missing-data" id="toc-visualising-missing-data" class="nav-link" data-scroll-target="#visualising-missing-data">24. Visualising missing data</a>
-  <ul class="collapse">
-  <li><a href="#aggr-function" id="toc-aggr-function" class="nav-link" data-scroll-target="#aggr-function"><code>aggr()</code> function</a></li>
-  <li><a href="#what-it-shows" id="toc-what-it-shows" class="nav-link" data-scroll-target="#what-it-shows">What it shows</a></li>
-  <li><a href="#how-to-interpret" id="toc-how-to-interpret" class="nav-link" data-scroll-target="#how-to-interpret">🧠 How to interpret</a></li>
-  <li><a href="#barmiss" id="toc-barmiss" class="nav-link" data-scroll-target="#barmiss"><code>barMiss()</code></a></li>
-  <li><a href="#what-it-does" id="toc-what-it-does" class="nav-link" data-scroll-target="#what-it-does">What it does</a></li>
-  <li><a href="#why-this-is-powerful" id="toc-why-this-is-powerful" class="nav-link" data-scroll-target="#why-this-is-powerful">🧠 Why this is powerful</a></li>
-  <li><a href="#scatter-plots-with-missing-data" id="toc-scatter-plots-with-missing-data" class="nav-link" data-scroll-target="#scatter-plots-with-missing-data">Scatter plots with missing data</a></li>
-  </ul></li>
-  <li><a href="#what-to-do-with-missing-data" id="toc-what-to-do-with-missing-data" class="nav-link" data-scroll-target="#what-to-do-with-missing-data">25. What to do with missing data?</a>
-  <ul class="collapse">
-  <li><a href="#remove-data-simple-approach" id="toc-remove-data-simple-approach" class="nav-link" data-scroll-target="#remove-data-simple-approach">1. Remove data (simple approach)</a></li>
-  <li><a href="#imputation-fill-in-missing-values" id="toc-imputation-fill-in-missing-values" class="nav-link" data-scroll-target="#imputation-fill-in-missing-values">2. Imputation (fill in missing values)</a></li>
-  <li><a href="#important-limitation" id="toc-important-limitation" class="nav-link" data-scroll-target="#important-limitation">⚠️ Important limitation</a></li>
-  <li><a href="#more-advanced-methods-not-covered-deeply-yet" id="toc-more-advanced-methods-not-covered-deeply-yet" class="nav-link" data-scroll-target="#more-advanced-methods-not-covered-deeply-yet">3. More advanced methods (not covered deeply yet)</a></li>
-  </ul></li>
-  <li><a href="#key-connection-missing-data-and-power" id="toc-key-connection-missing-data-and-power" class="nav-link" data-scroll-target="#key-connection-missing-data-and-power">26. Key connection: Missing data and power</a>
-  <ul class="collapse">
-  <li><a href="#big-picture-insight" id="toc-big-picture-insight" class="nav-link" data-scroll-target="#big-picture-insight">🧠 Big picture insight</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#final-takeaways-week-3" id="toc-final-takeaways-week-3" class="nav-link" data-scroll-target="#final-takeaways-week-3">🔚 Final Takeaways (Week 3)</a>
-  <ul class="collapse">
-  <li><a href="#power-analysis" id="toc-power-analysis" class="nav-link" data-scroll-target="#power-analysis">Power Analysis</a></li>
-  <li><a href="#confidence-and-sample-size" id="toc-confidence-and-sample-size" class="nav-link" data-scroll-target="#confidence-and-sample-size">Confidence and Sample Size</a></li>
-  <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data">Missing Data</a></li>
-  <li><a href="#most-important-idea-from-this-lecture" id="toc-most-important-idea-from-this-lecture" class="nav-link" data-scroll-target="#most-important-idea-from-this-lecture">🧠 Most important idea from this lecture</a></li>
-  </ul></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">4</span> Summary Points</a></li>
+  <li><a href="#exercises-to-try" id="toc-exercises-to-try" class="nav-link" data-scroll-target="#exercises-to-try"><span class="header-section-number">5</span> Exercises to Try</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-3.html">Week 3</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-3.html">Week 3</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Week 3 - Power Analysis + Missing Data</h1>
+<div class="quarto-title-block"><div><h1 class="title">Week 3 Study Guide: Missing Data &amp; Power Analysis</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Statistical Modelling</p>
 </div>
 
 
@@ -709,784 +416,373 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>This class had two main parts:</p>
+<section id="key-topics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics</h1>
 <ul>
-<li><strong>Power analysis</strong> → how likely a statistical test is to detect a real effect</li>
-<li><strong>Missing data</strong> → how to identify, visualise, and deal with missing values in R</li>
+<li>Identifying and handling <strong>missing data</strong> in R</li>
+<li>Visualising missing data patterns using the <strong>VIM</strong> and <strong>summarytools</strong> packages</li>
+<li>Strategies for dealing with missing data: removal vs.&nbsp;imputation</li>
+<li>Iterative imputation with <strong>MICE</strong> and <strong>irmi()</strong></li>
+<li>What <strong>statistical power</strong> means and why it matters</li>
+<li>The four interconnected quantities in power analysis: sample size, effect size, α, and power</li>
+<li>Calculating power manually for a Z-test</li>
+<li>Using power analysis to determine required <strong>sample size</strong></li>
+<li>Linking power analysis to <strong>confidence intervals</strong> and <strong>margins of error</strong></li>
 </ul>
-<p>These two topics are very important in real data analysis because they answer two practical questions:</p>
+<hr>
+</section>
+<section id="part-1-missing-data" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Part 1: Missing Data</h1>
+<section id="core-explanation" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="core-explanation"><span class="header-section-number">2.1</span> Core Explanation</h2>
+<section id="what-is-missing-data" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="what-is-missing-data"><span class="header-section-number">2.1.1</span> What Is Missing Data?</h3>
+<p>In real-world datasets, it is very common to find that some values are simply not recorded — these are called <strong>missing values</strong>, represented in R as <code>NA</code> (Not Available). Missing data can arise for many reasons: a participant dropped out of a study, a sensor failed to record, or a question was left blank on a survey.</p>
+<p>Before doing any analysis, it is important to understand <em>how much</em> data is missing and <em>where</em> it is missing from, because this can significantly affect your results.</p>
+</section>
+<section id="the-sleep-dataset" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="the-sleep-dataset"><span class="header-section-number">2.1.2</span> The Sleep Dataset</h3>
+<p>The examples in this week’s class used the <strong>sleep dataset</strong> — a study of sleep patterns across 39 mammal species (62 observations, 10 variables). This dataset was chosen because it has a realistic spread of missing values across several columns.</p>
+<p>The variables in the dataset are:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>BodyWgt</code></td>
+<td>Body weight (kg)</td>
+</tr>
+<tr class="even">
+<td><code>BrainWgt</code></td>
+<td>Brain weight (kg)</td>
+</tr>
+<tr class="odd">
+<td><code>NonD</code></td>
+<td>Non-dream sleep (hours/day)</td>
+</tr>
+<tr class="even">
+<td><code>Dream</code></td>
+<td>Dream sleep (hours/day)</td>
+</tr>
+<tr class="odd">
+<td><code>Sleep</code></td>
+<td>Total sleep (NonD + Dream)</td>
+</tr>
+<tr class="even">
+<td><code>Span</code></td>
+<td>Max life span (years)</td>
+</tr>
+<tr class="odd">
+<td><code>Gest</code></td>
+<td>Gestation time (days)</td>
+</tr>
+<tr class="even">
+<td><code>Pred</code></td>
+<td>Predation index (danger from predators)</td>
+</tr>
+<tr class="odd">
+<td><code>Exp</code></td>
+<td>Sleep exposure index</td>
+</tr>
+<tr class="even">
+<td><code>Danger</code></td>
+<td>Overall danger index (1 = least, 5 = most)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="basic-r-functions-for-missing-data" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="basic-r-functions-for-missing-data"><span class="header-section-number">2.1.3</span> Basic R Functions for Missing Data</h3>
+<p>When you only have a few missing values and no obvious patterns, R provides several straightforward tools:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)               <span class="co"># Returns TRUE/FALSE for each value — is it missing?</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">is.na</span>(x))        <span class="co"># Tells you the *position* (index) of the NAs</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>na.rm <span class="ot">=</span> <span class="cn">TRUE</span>           <span class="co"># Used inside functions like mean() to ignore NAs</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">complete.cases</span>(x)      <span class="co"># Returns TRUE for rows with no missing values</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">na.omit</span>(x)             <span class="co"># Removes all rows that contain any NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Removing rows based on conditions:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows where a specific column has NA</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="sc">!</span><span class="fu">is.na</span>(df<span class="sc">$</span>specific_column), ]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows where EITHER col1 OR col2 has NA</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="sc">!</span>(<span class="fu">is.na</span>(df<span class="sc">$</span>col1) <span class="sc">|</span> <span class="fu">is.na</span>(df<span class="sc">$</span>col2)), ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="summarising-your-data-with-summarytools" class="level3" data-number="2.1.4">
+<h3 data-number="2.1.4" class="anchored" data-anchor-id="summarising-your-data-with-summarytools"><span class="header-section-number">2.1.4</span> Summarising Your Data with <code>summarytools</code></h3>
+<p>The <code>summarytools</code> package provides a quick way to see the distribution of each variable and spot where values are missing. It produces a <strong>Data Frame Summary</strong> table showing the mean, standard deviation, min/max, and the number of distinct valid values for each column.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarytools)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dfSummary</span>(sleep)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is a good first step — it gives you a bird’s-eye view of the entire dataset, including which variables have fewer valid values (a sign of missingness).</p>
+<hr>
+</section>
+</section>
+<section id="visualising-missing-data" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="visualising-missing-data"><span class="header-section-number">2.2</span> Visualising Missing Data</h2>
+<p>The <strong>VIM</strong> package provides powerful tools specifically for exploring missing data visually. The key principle is that <strong>red = missing</strong> and <strong>blue = complete</strong> across all VIM plots.</p>
+<section id="aggr-count-and-plot-missingness" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="aggr-count-and-plot-missingness"><span class="header-section-number">2.2.1</span> <code>aggr()</code> — Count and Plot Missingness</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">aggr</span>(sleep, <span class="at">numbers =</span> <span class="cn">TRUE</span>, <span class="at">prop =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This produces two plots: 1. A <strong>bar chart</strong> showing how many values are missing per variable (e.g., <code>NonD</code> had ~14 missing values in the sleep dataset). 2. A <strong>combination plot</strong> showing which <em>combinations</em> of variables tend to be missing together. For example, rows 31 and 62 both had <code>NonD</code>, <code>Dream</code>, and <code>Sleep</code> missing simultaneously — which makes sense because <code>Sleep = NonD + Dream</code>.</p>
+</section>
+<section id="barmiss-missingness-by-a-categorical-variable" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="barmiss-missingness-by-a-categorical-variable"><span class="header-section-number">2.2.2</span> <code>barMiss()</code> — Missingness by a Categorical Variable</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barMiss</span>(sleep[, <span class="fu">c</span>(<span class="st">"Exp"</span>, <span class="st">"Sleep"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use this when you want to see whether missingness in one variable is related to the <em>values</em> of another variable. For the sleep data, <code>Sleep</code> had 4 missing values: 1 occurred when <code>Exp = 1</code>, and 3 occurred when <code>Exp = 5</code>. <code>Exp</code> itself had no missing values.</p>
+</section>
+<section id="histmiss-missingness-by-a-continuous-variable" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="histmiss-missingness-by-a-continuous-variable"><span class="header-section-number">2.2.3</span> <code>histMiss()</code> — Missingness by a Continuous Variable</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">histMiss</span>(sleep[, <span class="fu">c</span>(<span class="st">"Span"</span>, <span class="st">"Sleep"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is the same idea as <code>barMiss()</code> but for continuous variables, where a <strong>histogram</strong> is more appropriate. For the sleep data, the 4 missing <code>Sleep</code> values appeared in cases where <code>Span</code> was between 10–20 years and 20–30 years.</p>
+</section>
+<section id="marginplot-comparing-distributions-with-and-without-missingness" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="marginplot-comparing-distributions-with-and-without-missingness"><span class="header-section-number">2.2.4</span> <code>marginplot()</code> — Comparing Distributions With and Without Missingness</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">marginplot</span>(sleep[, <span class="fu">c</span>(<span class="st">"Span"</span>, <span class="st">"Sleep"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is one of the most informative plots. It shows a <strong>scatter plot</strong> of two variables, with extra boxplots in the margins:</p>
+<ul>
+<li>The <strong>red boxplot</strong> shows the distribution of <code>Sleep</code> <em>for cases where <code>Span</code> is missing</em> — i.e., what does <code>Sleep</code> look like when we don’t know <code>Span</code>?</li>
+<li>The <strong>blue boxplot</strong> shows the distribution of <code>Sleep</code> <em>for cases where <code>Span</code> is observed</em>.</li>
+</ul>
+<p>If the red and blue boxplots look very similar, it suggests the data may be <strong>Missing At Random (MAR)</strong> — the missingness is not related to the unobserved values. If they look very different, the missing data pattern may be informative.</p>
+<blockquote class="blockquote">
+<p><strong>Annotation space:</strong> <em>How did the red and blue boxplots compare in the sleep example? What might that suggest about the missing data mechanism?</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="dealing-with-missing-data" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="dealing-with-missing-data"><span class="header-section-number">2.3</span> Dealing with Missing Data</h2>
+<section id="option-1-complete-case-analysis-listwise-deletion" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="option-1-complete-case-analysis-listwise-deletion"><span class="header-section-number">2.3.1</span> Option 1: Complete Case Analysis (Listwise Deletion)</h3>
+<p>The simplest approach is to just remove any row that contains a missing value. In R’s <code>lm()</code> function, this is actually the <strong>default behaviour</strong> — it automatically uses only complete cases.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These two are equivalent for linear regression:</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(Sleep <span class="sc">~</span> BodyWgt, <span class="at">data =</span> sleep)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(Sleep <span class="sc">~</span> BodyWgt, <span class="at">data =</span> <span class="fu">na.omit</span>(sleep))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Other related options:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">na.fail</span>()     <span class="co"># Throws an error if any NAs are present — forces you to address it</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">na.exclude</span>()  <span class="co"># Like na.omit() but keeps NA slots in predictions</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>When is this acceptable?</strong> Only when the amount of missing data is small and there is no systematic pattern to <em>which</em> cases are missing. If certain types of cases are more likely to be missing, removing them can <strong>bias</strong> your results.</p>
+</section>
+<section id="option-2-imputation-with-irmi-vim-package" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="option-2-imputation-with-irmi-vim-package"><span class="header-section-number">2.3.2</span> Option 2: Imputation with <code>irmi()</code> (VIM Package)</h3>
+<p><strong>Imputation</strong> means filling in the missing values with estimated values, rather than throwing the data away.</p>
+<p>The <code>irmi()</code> function uses <strong>Iterative Robust Model-based Imputation</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>imputed_sleep <span class="ot">&lt;-</span> <span class="fu">irmi</span>(sleep)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>How it works:</strong> 1. Take one variable (e.g., <code>NonD</code>) as the <em>response</em> variable. 2. Use all other variables as <em>predictors</em> in a regression model. 3. Use the predicted values from that model to fill in the missing <code>NonD</code> values. 4. Repeat this process, cycling through each variable that has missing values. 5. Continue iterating until the imputed values stabilise.</p>
+<p>After imputation, you should <strong>compare</strong> linear model results before and after imputation to see how much the coefficients changed. In the sleep example, the intercept was slightly larger and the slope slightly less negative after imputation.</p>
+</section>
+<section id="option-3-multiple-imputation-with-mice" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="option-3-multiple-imputation-with-mice"><span class="header-section-number">2.3.3</span> Option 3: Multiple Imputation with MICE</h3>
+<p>The <strong>MICE</strong> package (Multiple Imputation by Chained Equations) is a more sophisticated approach. Instead of imputing once, it creates <strong>multiple</strong> complete datasets (e.g., 5), fits a model to each one, and then <strong>pools</strong> the results.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>imputed <span class="ot">&lt;-</span> <span class="fu">mice</span>(sleep, <span class="at">m =</span> <span class="dv">5</span>, <span class="at">method =</span> <span class="st">"pmm"</span>)  <span class="co"># pmm = predictive mean matching</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>models  <span class="ot">&lt;-</span> <span class="fu">with</span>(imputed, <span class="fu">lm</span>(Sleep <span class="sc">~</span> BodyWgt))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>pooled  <span class="ot">&lt;-</span> <span class="fu">pool</span>(models)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pooled)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Predictive Mean Matching (PMM)</strong> works by finding observed values that are close to the predicted value and using one of those as the imputed value. This keeps imputed values realistic (they come from real observed data).</p>
+<p>The <strong>predictor matrix</strong> in MICE output tells you which variables were used to predict the missing values in each column.</p>
+<p><strong>Why does the pooled model have larger standard errors?</strong> Because pooling across 5 datasets accounts for the <em>extra uncertainty</em> introduced by the fact that we don’t truly know what the missing values are. This is actually more honest than a single imputation.</p>
+<blockquote class="blockquote">
+<p><strong>Annotation space:</strong> <em>When would you choose MICE over irmi()? Think about dataset size, the proportion of missing data, and how much you care about uncertainty quantification.</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+</section>
+<section id="part-2-power-analysis" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Part 2: Power Analysis</h1>
+<section id="core-explanation-1" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="core-explanation-1"><span class="header-section-number">3.1</span> Core Explanation</h2>
+<section id="what-is-statistical-power" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="what-is-statistical-power"><span class="header-section-number">3.1.1</span> What Is Statistical Power?</h3>
+<p>When you run a hypothesis test, there are two ways you can be wrong:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 34%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Decision</th>
+<th>H₀ is True</th>
+<th>H₀ is False</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Reject H₀</strong></td>
+<td>Type I error (probability = α)</td>
+<td>✅ Correct! (probability = power = 1 − β)</td>
+</tr>
+<tr class="even">
+<td><strong>Fail to reject H₀</strong></td>
+<td>✅ Correct! (probability = 1 − α)</td>
+<td>Type II error (probability = β)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Statistical power</strong> is defined as:</p>
+<p><span class="math display">\[\text{Power} = 1 - \beta = P(\text{reject } H_0 \mid H_0 \text{ is false})\]</span></p>
+<p>In plain English: power is the probability that your test will correctly detect a real effect when one actually exists. A higher power means a better, more sensitive test.</p>
+</section>
+<section id="the-four-interconnected-quantities" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="the-four-interconnected-quantities"><span class="header-section-number">3.1.2</span> The Four Interconnected Quantities</h3>
+<p>Power analysis is built on the relationship between four quantities. <strong>If you know any three, you can calculate the fourth:</strong></p>
 <ol type="1">
-<li><strong>Do we have enough data to detect something important?</strong></li>
-<li><strong>Can we trust our analysis if some of the data is missing?</strong></li>
+<li><strong>Sample size</strong> <span class="math inline">\(n\)</span> — larger samples give more power</li>
+<li><strong>Effect size</strong> — the size of the difference you’re trying to detect (larger effects are easier to detect)</li>
+<li><strong>Significance level</strong> <span class="math inline">\(\alpha\)</span> — the threshold for rejecting <span class="math inline">\(H_0\)</span> (typically 0.05)</li>
+<li><strong>Power</strong> <span class="math inline">\(1 - \beta\)</span> — typically you aim for at least 0.80 (80%)</li>
 </ol>
-<p>A lot of statistics courses focus on how to run a test, but this class goes one step further. It asks whether the test had a fair chance of finding an effect in the first place, and whether missing values may be distorting the result.</p>
-<hr>
-</section>
-<section id="part-1---power-analysis" class="level1">
-<h1>Part 1 - Power Analysis</h1>
-<section id="what-is-statistical-power" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-statistical-power">1. What is statistical power?</h2>
-<p>Statistical power is the probability of <strong>rejecting the null hypothesis when the null hypothesis is false</strong>.</p>
-<p>In symbols:</p>
-<p><span class="math display">\[
-\text{Power} = 1 - \beta
-\]</span></p>
-<p>where:</p>
-<ul>
-<li>( ) = probability of a <strong>Type II error</strong></li>
-<li>( 1 - ) = probability of correctly detecting a real effect</li>
-</ul>
-<section id="how-to-think-about-it" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-think-about-it">How to think about it</h3>
-<p>Power is basically the test’s <strong>ability to notice something real</strong>.</p>
-<p>Imagine a smoke alarm:</p>
-<ul>
-<li>A <strong>powerful</strong> smoke alarm goes off when there really is smoke</li>
-<li>A <strong>weak</strong> smoke alarm misses the smoke and stays silent</li>
-</ul>
-<p>A statistical test is similar. If there really is an effect in the population, a high-power test is more likely to find it.</p>
-<hr>
-</section>
-</section>
-<section id="why-do-we-need-power-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="why-do-we-need-power-analysis">2. Why do we need power analysis?</h2>
-<p>A non-significant result can mean two different things:</p>
-<ul>
-<li>there really is <strong>no effect</strong></li>
-<li>there <strong>is</strong> an effect, but the study was too weak to detect it</li>
-</ul>
-<p>This is why power matters.</p>
-<section id="real-world-meaning" class="level3">
-<h3 class="anchored" data-anchor-id="real-world-meaning">Real-world meaning</h3>
-<p>Suppose a new medicine really helps patients a little, but your sample is tiny.</p>
-<p>Your test may say:</p>
 <blockquote class="blockquote">
-<p>“Fail to reject the null hypothesis”</p>
-</blockquote>
-<p>But that does <strong>not</strong> necessarily mean the medicine does nothing. It may just mean the study did not have enough power.</p>
-<p>That is the main purpose of power analysis:</p>
-<blockquote class="blockquote">
-<p>to check whether the sample size is large enough to detect an effect that matters</p>
+<p><strong>Important caveat:</strong> In practice, you cannot know the <em>true</em> effect size — if you already knew the true difference, there would be no need to test! Instead, you define the <strong>minimum effect size of practical importance</strong> (the smallest difference that would actually matter for your application).</p>
 </blockquote>
 <hr>
 </section>
 </section>
-<section id="the-four-linked-quantities" class="level2">
-<h2 class="anchored" data-anchor-id="the-four-linked-quantities">3. The four linked quantities</h2>
-<p>The slides say that four quantities are related:</p>
+<section id="key-equations-formulas" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="key-equations-formulas"><span class="header-section-number">3.2</span> Key Equations / Formulas</h2>
+<section id="z-test-statistic-known-population-standard-deviation" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="z-test-statistic-known-population-standard-deviation"><span class="header-section-number">3.2.1</span> Z-Test Statistic (known population standard deviation)</h3>
+<p><span class="math display">\[Z_{stat} = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}}\]</span></p>
+</section>
+<section id="minimum-sample-mean-to-reject-h_0" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="minimum-sample-mean-to-reject-h_0"><span class="header-section-number">3.2.2</span> Minimum Sample Mean to Reject <span class="math inline">\(H_0\)</span></h3>
+<p><span class="math display">\[\bar{X}_{crit} = \mu + \frac{\sigma}{\sqrt{n}} \times Z_{crit}\]</span></p>
+</section>
+<section id="power-calculation" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="power-calculation"><span class="header-section-number">3.2.3</span> Power Calculation</h3>
+<p>Once you have <span class="math inline">\(\bar{X}_{crit}\)</span>, calculate the probability of exceeding it under the alternative hypothesis:</p>
+<p><span class="math display">\[\beta = P\left(\bar{X} &lt; \bar{X}_{crit} \mid \mu = \mu_A\right) = P\left(Z &lt; \frac{\bar{X}_{crit} - \mu_A}{\sigma / \sqrt{n}}\right)\]</span></p>
+<p><span class="math display">\[\text{Power} = 1 - \beta\]</span></p>
+</section>
+<section id="sample-size-formula-known-σ-from-margin-of-error" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="sample-size-formula-known-σ-from-margin-of-error"><span class="header-section-number">3.2.4</span> Sample Size Formula (known σ, from margin of error)</h3>
+<p><span class="math display">\[n = \left(\frac{Z_{\alpha/2} \times \sigma}{ME}\right)^2\]</span></p>
+</section>
+<section id="sample-size-formula-unknown-σ-using-t-distribution" class="level3" data-number="3.2.5">
+<h3 data-number="3.2.5" class="anchored" data-anchor-id="sample-size-formula-unknown-σ-using-t-distribution"><span class="header-section-number">3.2.5</span> Sample Size Formula (unknown σ, using t-distribution)</h3>
+<p><span class="math display">\[n = \left(\frac{t_{\alpha/2,\, n-1} \times s}{ME}\right)^2\]</span></p>
+<p><em>(Note: this requires iteration since <span class="math inline">\(t\)</span> depends on <span class="math inline">\(n\)</span>)</em></p>
+<hr>
+</section>
+</section>
+<section id="practical-example-chemical-company" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="practical-example-chemical-company"><span class="header-section-number">3.3</span> Practical Example — Chemical Company</h2>
+<section id="problem-setup" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="problem-setup"><span class="header-section-number">3.3.1</span> Problem Setup</h3>
+<p>A chemical company claims their product contains on average <strong>μ = 4.0 ml</strong> of caustic material per litre. A government inspector tests a sample of <strong>n = 30</strong> containers and finds: - Sample mean: <span class="math inline">\(\bar{x} = 4.3\)</span> ml - Known population standard deviation: <span class="math inline">\(\sigma = 1.3\)</span></p>
+</section>
+<section id="step-1-state-the-hypotheses" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="step-1-state-the-hypotheses"><span class="header-section-number">3.3.2</span> Step 1: State the Hypotheses</h3>
+<p>Since the product is only dangerous if it contains <em>more</em> than 4.0 ml, this is a <strong>one-tailed test</strong>:</p>
+<p><span class="math display">\[H_0: \mu = 4.0 \quad \text{vs.} \quad H_A: \mu &gt; 4.0\]</span></p>
+</section>
+<section id="step-2-type-i-and-type-ii-errors-in-context" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="step-2-type-i-and-type-ii-errors-in-context"><span class="header-section-number">3.3.3</span> Step 2: Type I and Type II Errors in Context</h3>
 <ul>
-<li>sample size (n)</li>
-<li>effect size</li>
-<li>significance level ( )</li>
-<li>power (1 - )</li>
+<li><strong>Type I error:</strong> Concluding the mean <em>is</em> greater than 4 ml when it actually isn’t — falsely accusing the company.</li>
+<li><strong>Type II error:</strong> Concluding the mean is <em>not</em> greater than 4 ml when it actually is — missing a genuine danger.</li>
 </ul>
-<section id="why-this-matters" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-matters">Why this matters</h3>
-<p>These four quantities work like a balancing system.</p>
-<p>If you change one, the others are affected.</p>
 </section>
-<section id="general-pattern" class="level3">
-<h3 class="anchored" data-anchor-id="general-pattern">General pattern</h3>
+<section id="step-3-conduct-the-test-α-0.05" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="step-3-conduct-the-test-α-0.05"><span class="header-section-number">3.3.4</span> Step 3: Conduct the Test (α = 0.05)</h3>
+<p><span class="math display">\[Z_{stat} = \frac{4.3 - 4.0}{1.3 / \sqrt{30}} = \frac{0.3}{0.2374} = 1.264\]</span></p>
 <ul>
-<li><strong>larger sample size</strong> → higher power</li>
-<li><strong>larger effect size</strong> → higher power</li>
-<li><strong>smaller alpha</strong> (stricter test) → lower power</li>
-<li><strong>higher desired power</strong> → usually need larger sample size</li>
+<li>Critical value for a one-tailed test at α = 0.05: <span class="math inline">\(Z_{crit} = 1.645\)</span></li>
+<li>Since <span class="math inline">\(Z_{stat} = 1.264 &lt; 1.645\)</span>, we <strong>fail to reject <span class="math inline">\(H_0\)</span></strong></li>
+<li>The p-value is 0.103 &gt; 0.05, confirming this conclusion</li>
+<li>95% lower bound: 3.910 (we are 95% confident the true mean is above 3.910 ml)</li>
 </ul>
+<p><strong>Conclusion:</strong> The data does not provide sufficient evidence that the mean caustic level exceeds 4 ml/litre.</p>
 </section>
-<section id="intuition" class="level3">
-<h3 class="anchored" data-anchor-id="intuition">Intuition</h3>
-<p>If you are trying to detect a <strong>very small difference</strong>, you need more data.</p>
-<p>If you are happy to detect only <strong>large differences</strong>, you may need less data.</p>
-<p>So power analysis is really about matching the <strong>study design</strong> to the <strong>kind of effect you care about</strong>.</p>
-<hr>
-</section>
-</section>
-<section id="effect-size-in-power-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="effect-size-in-power-analysis">4. Effect size in power analysis</h2>
-<p>In practice, we do <strong>not</strong> know the true effect size.</p>
-<p>If we already knew the true effect, there would be no need to do the test.</p>
-<p>So instead, we choose a <strong>minimum effect size of practical importance</strong>.</p>
-<section id="important-idea" class="level3">
-<h3 class="anchored" data-anchor-id="important-idea">Important idea</h3>
-<p>This is not just “any difference”.</p>
-<p>It is the <strong>smallest difference that would actually matter in real life</strong>.</p>
-</section>
-<section id="real-world-example-from-the-lecture" class="level3">
-<h3 class="anchored" data-anchor-id="real-world-example-from-the-lecture">Real-world example from the lecture</h3>
-<p>The slides give an example with premature infants, where a difference of <strong>500 g in weight gain</strong> was considered clinically significant.</p>
-<p>That means the researchers were saying:</p>
+<section id="step-4-calculate-the-power-of-the-test" class="level3" data-number="3.3.5">
+<h3 data-number="3.3.5" class="anchored" data-anchor-id="step-4-calculate-the-power-of-the-test"><span class="header-section-number">3.3.5</span> Step 4: Calculate the Power of the Test</h3>
+<p>Now ask: <em>Was our sample large enough to detect a meaningful difference?</em></p>
+<p>Suppose we define a difference of <strong>0.35 ml/litre</strong> as practically significant — i.e., we want to detect if the true mean is <strong>μ_A = 4.35</strong>.</p>
+<p><strong>Find the critical sample mean (threshold for rejection):</strong></p>
+<p><span class="math display">\[\bar{X}_{crit} = 4.0 + \frac{1.3}{\sqrt{30}} \times 1.645 = 4.0 + 0.39 = 4.39\]</span></p>
+<p>So we only reject <span class="math inline">\(H_0\)</span> if the sample mean exceeds 4.39.</p>
+<p><strong>Calculate β (probability of Type II error):</strong></p>
+<p><span class="math display">\[\beta = P(\bar{X} &lt; 4.39 \mid \mu = 4.35) = P\left(Z &lt; \frac{4.39 - 4.35}{1.3/\sqrt{30}}\right) = P(Z &lt; 0.17) = 0.5675\]</span></p>
+<p><strong>Power:</strong></p>
+<p><span class="math display">\[\text{Power} = 1 - 0.5675 = \mathbf{0.4325}\]</span></p>
+<p><strong>Interpretation:</strong> There is only a <strong>43.25% chance</strong> of correctly detecting a 0.35 ml difference with n = 30. This is quite low — the test is underpowered. We would ideally want power ≥ 0.80.</p>
 <blockquote class="blockquote">
-<p>“We are not just interested in any tiny difference. We want to be able to detect a difference of at least 500 g, because that is the minimum difference that matters in practice.”</p>
-</blockquote>
-<p>This is the difference between:</p>
-<ul>
-<li><strong>statistical significance</strong> → is there evidence of some effect?</li>
-<li><strong>practical or clinical significance</strong> → is the effect large enough to matter?</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="chemical-company-example" class="level2">
-<h2 class="anchored" data-anchor-id="chemical-company-example">5. Chemical company example</h2>
-<p>The lecture uses a good example:</p>
-<p>A company claims that the mean amount of caustic material is:</p>
-<p><span class="math display">\[
-\mu = 4.0
-\]</span></p>
-<p>An inspector takes a sample of 30 containers and gets:</p>
-<ul>
-<li>sample mean ( {x} = 4.3 )</li>
-<li>known standard deviation ( = 1.3 )</li>
-</ul>
-<p>If the true amount is <strong>greater than 4</strong>, the product may be dangerous.</p>
-<hr>
-</section>
-<section id="step-1---state-the-hypotheses" class="level2">
-<h2 class="anchored" data-anchor-id="step-1---state-the-hypotheses">6. Step 1 - State the hypotheses</h2>
-<p>Because the product is only dangerous if the mean is <strong>greater than 4</strong>, this is a <strong>one-tailed test</strong>.</p>
-<p><span class="math display">\[
-H_0: \mu = 4.0
-\]</span></p>
-<p><span class="math display">\[
-H_A: \mu &gt; 4.0
-\]</span></p>
-<section id="why-one-tailed" class="level3">
-<h3 class="anchored" data-anchor-id="why-one-tailed">Why one-tailed?</h3>
-<p>Because we only care about <strong>too much</strong> caustic material.</p>
-<p>If the mean were lower than 4, that is not the danger being studied here.</p>
-<hr>
-</section>
-</section>
-<section id="step-2---type-i-and-type-ii-errors-in-context" class="level2">
-<h2 class="anchored" data-anchor-id="step-2---type-i-and-type-ii-errors-in-context">7. Step 2 - Type I and Type II errors in context</h2>
-<section id="type-i-error" class="level3">
-<h3 class="anchored" data-anchor-id="type-i-error">Type I error</h3>
-<p>Reject (H_0) when it is actually true.</p>
-<p>In this problem:</p>
-<blockquote class="blockquote">
-<p>We conclude that the true mean is greater than 4 ml per litre when in fact it is not.</p>
-</blockquote>
-<p>So we would falsely label the product as dangerous.</p>
-<hr>
-</section>
-<section id="type-ii-error" class="level3">
-<h3 class="anchored" data-anchor-id="type-ii-error">Type II error</h3>
-<p>Fail to reject (H_0) when it is actually false.</p>
-<p>In this problem:</p>
-<blockquote class="blockquote">
-<p>We conclude that the true mean is not greater than 4 ml per litre when in fact it is.</p>
-</blockquote>
-<p>So we would miss a dangerous product.</p>
-</section>
-<section id="why-type-ii-error-matters-here" class="level3">
-<h3 class="anchored" data-anchor-id="why-type-ii-error-matters-here">Why Type II error matters here</h3>
-<p>This is why power analysis is important.</p>
-<p>In safety settings, failing to detect a real danger can be a serious problem.</p>
-<hr>
-</section>
-</section>
-<section id="step-3---carry-out-the-hypothesis-test" class="level2">
-<h2 class="anchored" data-anchor-id="step-3---carry-out-the-hypothesis-test">8. Step 3 - Carry out the hypothesis test</h2>
-<p>Since the population standard deviation is known, we use a <strong>one-sample Z test</strong>.</p>
-<p>The test statistic is:</p>
-<p><span class="math display">\[
-Z = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}}
-\]</span></p>
-<p>Substitute the values:</p>
-<p><span class="math display">\[
-Z = \frac{4.3 - 4.0}{1.3 / \sqrt{30}} = 1.264
-\]</span></p>
-<p>At the 5% significance level for a <strong>one-tailed</strong> test, the critical value is:</p>
-<p><span class="math display">\[
-Z_{crit} = 1.645
-\]</span></p>
-<p>Since:</p>
-<p><span class="math display">\[
-1.264 &lt; 1.645
-\]</span></p>
-<p>we <strong>fail to reject the null hypothesis</strong>.</p>
-<section id="conclusion" class="level3">
-<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
-<p>The data does <strong>not</strong> provide enough evidence to conclude that the mean level of caustic material is greater than 4 ml per litre.</p>
-</section>
-<section id="important-interpretation" class="level3">
-<h3 class="anchored" data-anchor-id="important-interpretation">Important interpretation</h3>
-<p>This does <strong>not</strong> prove the mean is 4 or less.</p>
-<p>It only means the sample did not give strong enough evidence to conclude it is greater than 4.</p>
-<p>That distinction is very important.</p>
-<hr>
-</section>
-</section>
-<section id="p-value-and-lower-confidence-bound" class="level2">
-<h2 class="anchored" data-anchor-id="p-value-and-lower-confidence-bound">9. p-value and lower confidence bound</h2>
-<p>The lecture also gives:</p>
-<ul>
-<li>( p = 0.103 )</li>
-<li>95% lower confidence bound = 3.910</li>
-</ul>
-<p>Since ( p &gt; 0.05 ), the result is not statistically significant.</p>
-<p>The lower confidence bound means:</p>
-<blockquote class="blockquote">
-<p>We are 95% confident that the true population mean is greater than 3.910.</p>
-</blockquote>
-<section id="why-this-is-useful" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-is-useful">Why this is useful</h3>
-<p>The p-value only helps with the decision.</p>
-<p>The confidence bound gives more information about the range of plausible values.</p>
-<hr>
-</section>
-</section>
-<section id="the-key-power-question" class="level2">
-<h2 class="anchored" data-anchor-id="the-key-power-question">10. The key power question</h2>
-<p>After failing to reject the null, the lecturer asks the really important question:</p>
-<blockquote class="blockquote">
-<p>Did the result show there is no dangerous increase, or was the sample just too small to detect it?</p>
-</blockquote>
-<p>That is exactly what power analysis helps answer.</p>
-<hr>
-</section>
-<section id="calculating-power-for-a-meaningful-effect" class="level2">
-<h2 class="anchored" data-anchor-id="calculating-power-for-a-meaningful-effect">11. Calculating power for a meaningful effect</h2>
-<p>Suppose we decide that a dangerous increase would be:</p>
-<p><span class="math display">\[
-4.35 \text{ ml per litre}
-\]</span></p>
-<p>That means the effect size of interest is:</p>
-<p><span class="math display">\[
-0.35
-\]</span></p>
-<p>Now the question becomes:</p>
-<blockquote class="blockquote">
-<p>If the true mean really were 4.35, how likely would this test be to detect it?</p>
-</blockquote>
-<p>That probability is the <strong>power</strong>.</p>
-<hr>
-</section>
-<section id="rejection-rule-in-terms-of-the-sample-mean" class="level2">
-<h2 class="anchored" data-anchor-id="rejection-rule-in-terms-of-the-sample-mean">12. Rejection rule in terms of the sample mean</h2>
-<p>Earlier we had the critical Z value:</p>
-<p><span class="math display">\[
-Z_{crit} = 1.645
-\]</span></p>
-<p>We can convert this back to the sample-mean scale:</p>
-<p><span class="math display">\[
-\bar{X} = \mu + \frac{\sigma}{\sqrt{n}} Z_{crit}
-\]</span></p>
-<p>Substituting:</p>
-<p><span class="math display">\[
-\bar{X} = 4 + \frac{1.3}{\sqrt{30}}(1.645) = 4.39
-\]</span></p>
-<section id="interpretation" class="level3">
-<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
-<ul>
-<li>If ( {X} &gt; 4.39 ) → reject (H_0)</li>
-<li>If ( {X} &lt; 4.39 ) → fail to reject (H_0)</li>
-</ul>
-<p>So the sample mean must be at least <strong>4.39</strong> for the test to detect the effect.</p>
-</section>
-<section id="intuition-1" class="level3">
-<h3 class="anchored" data-anchor-id="intuition-1">Intuition</h3>
-<p>This is the “cut-off point” needed before the evidence is strong enough.</p>
-<hr>
-</section>
-</section>
-<section id="calculating-type-ii-error-and-power" class="level2">
-<h2 class="anchored" data-anchor-id="calculating-type-ii-error-and-power">13. Calculating Type II error and power</h2>
-<p>If the true mean is actually (4.35), then Type II error means:</p>
-<blockquote class="blockquote">
-<p>we fail to reject the null even though the alternative is true</p>
-</blockquote>
-<p>So we need:</p>
-<p><span class="math display">\[
-P(\bar{X} &lt; 4.39 \mid \mu = 4.35)
-\]</span></p>
-<p>Convert to a Z score:</p>
-<p><span class="math display">\[
-Z = \frac{4.39 - 4.35}{1.3/\sqrt{30}} = 0.17
-\]</span></p>
-<p>From the normal table:</p>
-<p><span class="math display">\[
-P(Z &lt; 0.17) = 0.5675
-\]</span></p>
-<p>So:</p>
-<p><span class="math display">\[
-\beta = 0.5675
-\]</span></p>
-<p>and therefore:</p>
-<p><span class="math display">\[
-\text{Power} = 1 - \beta = 1 - 0.5675 = 0.4325
-\]</span></p>
-<p>So the power is:</p>
-<p><span class="math display">\[
-43.25\%
-\]</span></p>
-<hr>
-</section>
-<section id="what-does-power-43.25-mean" class="level2">
-<h2 class="anchored" data-anchor-id="what-does-power-43.25-mean">14. What does power = 43.25% mean?</h2>
-<p>This means:</p>
-<blockquote class="blockquote">
-<p>If the true mean is really 4.35, this test would detect that effect only about 43% of the time.</p>
-</blockquote>
-<p>That is not very good.</p>
-<section id="interpretation-1" class="level3">
-<h3 class="anchored" data-anchor-id="interpretation-1">Interpretation</h3>
-<p>There is a bigger chance of <strong>missing the effect</strong> than detecting it.</p>
-<p>So this low power suggests the study may be too weak to reliably detect that effect.</p>
-</section>
-<section id="real-world-meaning-1" class="level3">
-<h3 class="anchored" data-anchor-id="real-world-meaning-1">Real-world meaning</h3>
-<p>If you are testing something potentially dangerous, 43% power is poor.</p>
-<p>You would want a better chance of catching the problem.</p>
-<p>Usually researchers want power around <strong>80% or higher</strong>, though the lecture did not focus on that threshold explicitly.</p>
-<hr>
-</section>
-</section>
-<section id="why-smaller-effects-are-harder-to-detect" class="level2">
-<h2 class="anchored" data-anchor-id="why-smaller-effects-are-harder-to-detect">15. Why smaller effects are harder to detect</h2>
-<p>The exercise then changes the effect size from <strong>0.35</strong> to <strong>0.1</strong>.</p>
-<p>The answer becomes much lower power.</p>
-<section id="why" class="level3">
-<h3 class="anchored" data-anchor-id="why">Why?</h3>
-<p>Because smaller effects are harder to separate from random noise.</p>
-</section>
-<section id="real-world-analogy" class="level3">
-<h3 class="anchored" data-anchor-id="real-world-analogy">Real-world analogy</h3>
-<p>It is easier to hear a loud alarm in a noisy room than a very quiet beep.</p>
-<p>A large effect stands out more clearly. A small effect gets lost more easily.</p>
-<hr>
-</section>
-</section>
-</section>
-<section id="part-2---power-confidence-intervals-and-margin-of-error" class="level1">
-<h1>Part 2 - Power, confidence intervals, and margin of error</h1>
-<section id="confidence-interval-formula" class="level2">
-<h2 class="anchored" data-anchor-id="confidence-interval-formula">16. Confidence interval formula</h2>
-<p>When the population standard deviation is known, the confidence interval for a mean is:</p>
-<p><span class="math display">\[
-\bar{x} \pm Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
-\]</span></p>
-<p>The term</p>
-<p><span class="math display">\[
-Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
-\]</span></p>
-<p>is the <strong>margin of error (ME)</strong>.</p>
-<hr>
-</section>
-<section id="what-is-margin-of-error" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-margin-of-error">17. What is margin of error?</h2>
-<p>The margin of error is how far we are willing for our estimate to be from the true value.</p>
-<section id="intuition-2" class="level3">
-<h3 class="anchored" data-anchor-id="intuition-2">Intuition</h3>
-<p>If the margin of error is small, we want a <strong>very precise</strong> estimate.</p>
-<p>If we want a more precise estimate, we usually need a <strong>larger sample size</strong>.</p>
-<p>So margin of error and sample size are directly connected.</p>
-<hr>
-</section>
-</section>
-<section id="sample-size-formula-from-margin-of-error" class="level2">
-<h2 class="anchored" data-anchor-id="sample-size-formula-from-margin-of-error">18. Sample size formula from margin of error</h2>
-<p>Starting with:</p>
-<p><span class="math display">\[
-ME = Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
-\]</span></p>
-<p>rearranging gives:</p>
-<p><span class="math display">\[
-n = \left(\frac{Z_{\alpha/2}\sigma}{ME}\right)^2
-\]</span></p>
-<section id="what-this-means" class="level3">
-<h3 class="anchored" data-anchor-id="what-this-means">What this means</h3>
-<p>If you know:</p>
-<ul>
-<li>your confidence level</li>
-<li>your standard deviation</li>
-<li>your desired margin of error</li>
-</ul>
-<p>you can work out how much data you need.</p>
-<hr>
-</section>
-</section>
-<section id="sample-size-example" class="level2">
-<h2 class="anchored" data-anchor-id="sample-size-example">19. Sample size example</h2>
-<p>Suppose an analyst wants to estimate mean voltage.</p>
-<p>Given:</p>
-<ul>
-<li>population standard deviation ( = 22.5 )</li>
-<li>margin of error ( ME = 5 )</li>
-<li>95% confidence level, so ( Z = 1.96 )</li>
-</ul>
-<p>Then:</p>
-<p><span class="math display">\[
-n = \left(\frac{1.96 \times 22.5}{5}\right)^2
-\]</span></p>
-<p>This gives:</p>
-<p><span class="math display">\[
-n = 77.8
-\]</span></p>
-<p>Since sample size must be a whole number, we round <strong>up</strong>:</p>
-<p><span class="math display">\[
-n = 78
-\]</span></p>
-<section id="why-round-up" class="level3">
-<h3 class="anchored" data-anchor-id="why-round-up">Why round up?</h3>
-<p>Because 77 would not quite give the precision we need.</p>
-<p>When planning sample size, always round up.</p>
-<hr>
-</section>
-</section>
-<section id="unknown-standard-deviation" class="level2">
-<h2 class="anchored" data-anchor-id="unknown-standard-deviation">20. Unknown standard deviation</h2>
-<p>In real life, the population standard deviation is often unknown.</p>
-<p>Then we use the sample standard deviation (s) instead, and the distribution is based on <strong>t</strong> rather than <strong>Z</strong>.</p>
-<p>That is more realistic, but also a little more complicated.</p>
-<p>The main idea is still the same:</p>
-<blockquote class="blockquote">
-<p>more precision requires more data</p>
+<p><strong>Annotation space:</strong> <em>What would you recommend the inspector do? Collect a larger sample? Define a larger minimum effect size? Both options involve trade-offs.</em></p>
 </blockquote>
 <hr>
 </section>
 </section>
-<section id="part-3---missing-data" class="level1">
-<h1>Part 3 - Missing Data</h1>
-<section id="why-missing-data-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-missing-data-matters">21. Why missing data matters</h2>
-<p>Missing data is not just annoying. It can change your results.</p>
-<p>If missing values are ignored carelessly, you may:</p>
-<ul>
-<li>lose a lot of data</li>
-<li>reduce sample size</li>
-<li>reduce power</li>
-<li>introduce bias</li>
-<li>fit models on a non-representative subset</li>
-</ul>
-<p>So missing data is really about <strong>data quality</strong>, not just cleanup.</p>
+<section id="sample-size-from-margin-of-error" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sample-size-from-margin-of-error"><span class="header-section-number">3.4</span> Sample Size from Margin of Error</h2>
+<p>Power analysis is closely linked to <strong>confidence intervals</strong>. The margin of error (ME) in a confidence interval is:</p>
+<p><span class="math display">\[ME = Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}\]</span></p>
+<p>Rearranging to find the required sample size for a desired ME:</p>
+<p><span class="math display">\[n = \left(\frac{Z_{\alpha/2} \times \sigma}{ME}\right)^2\]</span></p>
+<p><strong>Example:</strong> An analyst wants to estimate mean voltage (σ = 22.5 volts) with a margin of error of <strong>5 volts</strong> at 95% confidence:</p>
+<p><span class="math display">\[n = \left(\frac{1.96 \times 22.5}{5}\right)^2 = (8.82)^2 \approx 78 \text{ observations}\]</span></p>
+<p>When <span class="math inline">\(\sigma\)</span> is <strong>unknown</strong>, replace <span class="math inline">\(Z\)</span> with the <span class="math inline">\(t\)</span>-distribution critical value and <span class="math inline">\(\sigma\)</span> with the sample standard deviation <span class="math inline">\(s\)</span>.</p>
 <hr>
 </section>
-<section id="useful-r-functions-for-small-amounts-of-missing-data" class="level2">
-<h2 class="anchored" data-anchor-id="useful-r-functions-for-small-amounts-of-missing-data">22. Useful R functions for small amounts of missing data</h2>
-<p>The slides list several useful functions when there are only a few missing values and no obvious missing-data pattern.</p>
-<section id="is.nax" class="level3">
-<h3 class="anchored" data-anchor-id="is.nax"><code>is.na(x)</code></h3>
-<p>Checks whether each value is missing.</p>
-<p>It returns:</p>
-<ul>
-<li><code>TRUE</code> if missing</li>
-<li><code>FALSE</code> if not missing</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">### `is.na(x)`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Checks whether each value is missing.</p>
-<p>It returns:</p>
-<ul>
-<li><code>TRUE</code> if missing</li>
-<li><code>FALSE</code> if not missing</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="how-to-think-about-it-1" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-think-about-it-1">🧠 How to think about it</h3>
-<p>This is the <strong>basic building block</strong> for missing data.</p>
-<p>👉 You are asking:</p>
-<blockquote class="blockquote">
-<p>“Where exactly is my data missing?”</p>
-</blockquote>
-<hr>
-</section>
-<section id="sumis.nax" class="level3">
-<h3 class="anchored" data-anchor-id="sumis.nax"><code>sum(is.na(x))</code></h3>
-<p>Counts the number of missing values.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="why-this-is-useful-1" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-is-useful-1">🧠 Why this is useful</h3>
-<p>Instead of looking at TRUE/FALSE values, this gives you a <strong>quick summary</strong>.</p>
-<p>👉 Example:</p>
+<section id="summary-points" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Summary Points</h1>
 <ul>
-<li>If result = 5 → there are 5 missing values</li>
+<li><strong>Missing data</strong> is common in real datasets — before removing or imputing, always visualise and understand the pattern.</li>
+<li>The <strong>VIM</strong> package functions (<code>aggr</code>, <code>barMiss</code>, <code>histMiss</code>, <code>marginplot</code>) help you explore <em>where</em> and <em>why</em> data is missing.</li>
+<li><strong>Complete case analysis</strong> (<code>na.omit</code>) is simple but can bias results if the missing data is not random.</li>
+<li><strong><code>irmi()</code></strong> performs iterative regression-based imputation; <strong>MICE</strong> performs multiple imputation and is more robust for uncertainty quantification.</li>
+<li><strong>Statistical power</strong> (1 − β) is the probability of correctly detecting a real effect — aim for at least 0.80.</li>
+<li>Power depends on <strong>four quantities</strong>: sample size, effect size, α, and power (1 − β). Know three, find the fourth.</li>
+<li>Low power (like 43% in the example) means a test may fail to detect a real, meaningful difference — the sample was simply too small.</li>
+<li>You can use the <strong>margin of error</strong> formula to calculate the minimum sample size needed for a given precision, whether σ is known (Z-formula) or unknown (t-formula).</li>
 </ul>
 <hr>
 </section>
-<section id="meanis.nax" class="level3">
-<h3 class="anchored" data-anchor-id="meanis.nax"><code>mean(is.na(x))</code></h3>
-<p>Gives the <strong>proportion of missing values</strong>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">is.na</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="why-this-matters-1" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-matters-1">🧠 Why this matters</h3>
-<ul>
-<li>If result = 0.10 → 10% of data is missing</li>
-<li>This helps you judge <strong>how serious the problem is</strong></li>
-</ul>
+<section id="exercises-to-try" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Exercises to Try</h1>
+<ol type="1">
+<li>Recalculate the power of the caustic material test if the minimum detectable increase is <strong>0.1 ml</strong> instead of 0.35 ml. <em>(Answer: 0.1112)</em></li>
+<li>An analyst wants to estimate mean voltage (σ = 22.5 volts). What sample size achieves a margin of error of <strong>5 volts</strong> at 95% confidence for a two-sided CI? <em>(Answer: n = 78)</em></li>
+<li>In the sleep dataset, which variable had the most missing values? Use <code>aggr()</code> to verify.</li>
+<li>Why does the pooled MICE model have <strong>larger standard errors</strong> than the individual imputed models?</li>
+</ol>
 <hr>
-</section>
-<section id="complete.casesx" class="level3">
-<h3 class="anchored" data-anchor-id="complete.casesx"><code>complete.cases(x)</code></h3>
-<p>Returns rows with <strong>no missing values</strong>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">complete.cases</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-</section>
-<section id="removing-missing-data" class="level3">
-<h3 class="anchored" data-anchor-id="removing-missing-data">Removing missing data</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x_clean <span class="ot">&lt;-</span> x[<span class="fu">complete.cases</span>(x), ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-</section>
-<section id="important-warning" class="level3">
-<h3 class="anchored" data-anchor-id="important-warning">🧠 Important warning</h3>
-<p>This method is called <strong>listwise deletion</strong>.</p>
-<p>It is simple, but:</p>
-<ul>
-<li>reduces sample size</li>
-<li>reduces power</li>
-<li>may introduce bias</li>
-</ul>
-<p>👉 If missing data is not random, this can be very dangerous.</p>
-<hr>
-</section>
-</section>
-<section id="types-of-missing-data-very-important" class="level2">
-<h2 class="anchored" data-anchor-id="types-of-missing-data-very-important">23. Types of missing data (VERY IMPORTANT)</h2>
-<p>Not all missing data is the same.</p>
-<p>This is critical for your understanding.</p>
-<hr>
-<section id="mcar-missing-completely-at-random" class="level3">
-<h3 class="anchored" data-anchor-id="mcar-missing-completely-at-random">1. MCAR — Missing Completely At Random</h3>
-<p>Missingness has <strong>no relationship</strong> with any variable.</p>
-<p>👉 Example:</p>
-<ul>
-<li>A survey page is accidentally lost</li>
-</ul>
-<p>✔ Safe to remove data (usually)</p>
-<hr>
-</section>
-<section id="mar-missing-at-random" class="level3">
-<h3 class="anchored" data-anchor-id="mar-missing-at-random">2. MAR — Missing At Random</h3>
-<p>Missingness depends on <strong>observed variables</strong></p>
-<p>👉 Example:</p>
-<ul>
-<li>Income missing more often for younger people</li>
-</ul>
-<p>✔ Can be handled with proper methods (e.g.&nbsp;imputation)</p>
-<hr>
-</section>
-<section id="mnar-missing-not-at-random" class="level3">
-<h3 class="anchored" data-anchor-id="mnar-missing-not-at-random">3. MNAR — Missing Not At Random</h3>
-<p>Missingness depends on the <strong>missing value itself</strong></p>
-<p>👉 Example:</p>
-<ul>
-<li>People with very high income choose not to report it</li>
-</ul>
-<p>❗ Most problematic case</p>
-<hr>
-</section>
-<section id="why-this-matters-2" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-matters-2">🧠 Why this matters</h3>
-<p>👉 Because:</p>
-<blockquote class="blockquote">
-<p>The method you choose depends on <em>why</em> the data is missing</p>
-</blockquote>
-<hr>
-</section>
-</section>
-<section id="visualising-missing-data" class="level2">
-<h2 class="anchored" data-anchor-id="visualising-missing-data">24. Visualising missing data</h2>
-<p>The lecture uses the <strong>VIM package</strong>.</p>
-<p>This is VERY useful in practice.</p>
-<hr>
-<section id="aggr-function" class="level3">
-<h3 class="anchored" data-anchor-id="aggr-function"><code>aggr()</code> function</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">aggr</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-</section>
-<section id="what-it-shows" class="level3">
-<h3 class="anchored" data-anchor-id="what-it-shows">What it shows</h3>
-<ul>
-<li>Amount of missing data per variable</li>
-<li>Patterns of missingness</li>
-</ul>
-<hr>
-</section>
-<section id="how-to-interpret" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-interpret">🧠 How to interpret</h3>
-<ul>
-<li><p>Bars → how much is missing</p></li>
-<li><p>Colours:</p>
-<ul>
-<li>Blue = observed</li>
-<li>Red = missing</li>
-</ul></li>
-</ul>
-<p>👉 Helps answer:</p>
-<blockquote class="blockquote">
-<p>“Which variables have the most missing data?”</p>
-</blockquote>
-<hr>
-</section>
-<section id="barmiss" class="level3">
-<h3 class="anchored" data-anchor-id="barmiss"><code>barMiss()</code></h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barMiss</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-</section>
-<section id="what-it-does" class="level3">
-<h3 class="anchored" data-anchor-id="what-it-does">What it does</h3>
-<p>Shows missing values <strong>grouped by categories</strong></p>
-<p>👉 Example:</p>
-<ul>
-<li>Missing income by gender</li>
-</ul>
-<hr>
-</section>
-<section id="why-this-is-powerful" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-is-powerful">🧠 Why this is powerful</h3>
-<p>Helps detect <strong>patterns</strong></p>
-<p>👉 If missing data is not random → this will show it</p>
-<hr>
-</section>
-<section id="scatter-plots-with-missing-data" class="level3">
-<h3 class="anchored" data-anchor-id="scatter-plots-with-missing-data">Scatter plots with missing data</h3>
-<ul>
-<li>Red points = missing values</li>
-<li>Boxplots show distribution</li>
-</ul>
-<p>👉 Helps understand:</p>
-<blockquote class="blockquote">
-<p>Is missingness related to other variables?</p>
-</blockquote>
-<hr>
-</section>
-</section>
-<section id="what-to-do-with-missing-data" class="level2">
-<h2 class="anchored" data-anchor-id="what-to-do-with-missing-data">25. What to do with missing data?</h2>
-<p>There is no single answer.</p>
-<p>But here are common approaches:</p>
-<hr>
-<section id="remove-data-simple-approach" class="level3">
-<h3 class="anchored" data-anchor-id="remove-data-simple-approach">1. Remove data (simple approach)</h3>
-<p>✔ Easy ❌ Can lose a lot of information</p>
-<hr>
-</section>
-<section id="imputation-fill-in-missing-values" class="level3">
-<h3 class="anchored" data-anchor-id="imputation-fill-in-missing-values">2. Imputation (fill in missing values)</h3>
-<p>Examples:</p>
-<ul>
-<li>Mean imputation</li>
-<li>Median imputation</li>
-</ul>
-<p>👉 Replace missing values with a reasonable estimate</p>
-<hr>
-</section>
-<section id="important-limitation" class="level3">
-<h3 class="anchored" data-anchor-id="important-limitation">⚠️ Important limitation</h3>
-<ul>
-<li>Reduces variability</li>
-<li>Can distort relationships</li>
-</ul>
-<hr>
-</section>
-<section id="more-advanced-methods-not-covered-deeply-yet" class="level3">
-<h3 class="anchored" data-anchor-id="more-advanced-methods-not-covered-deeply-yet">3. More advanced methods (not covered deeply yet)</h3>
-<ul>
-<li>Multiple imputation</li>
-<li>Model-based methods</li>
-</ul>
-<p>👉 You will likely see these later in the course</p>
-<hr>
-</section>
-</section>
-<section id="key-connection-missing-data-and-power" class="level2">
-<h2 class="anchored" data-anchor-id="key-connection-missing-data-and-power">26. Key connection: Missing data and power</h2>
-<p>This is VERY important and often overlooked.</p>
-<p>👉 Missing data → smaller effective sample size</p>
-<p>Which means:</p>
-<ul>
-<li>higher standard error</li>
-<li>wider confidence intervals</li>
-<li>lower power</li>
-</ul>
-<hr>
-<section id="big-picture-insight" class="level3">
-<h3 class="anchored" data-anchor-id="big-picture-insight">🧠 Big picture insight</h3>
-<p>Missing data is not just a “data cleaning issue”.</p>
-<p>It directly affects:</p>
-<ul>
-<li>inference</li>
-<li>hypothesis testing</li>
-<li>reliability of conclusions</li>
-</ul>
-<hr>
-</section>
-</section>
-</section>
-<section id="final-takeaways-week-3" class="level1">
-<h1>🔚 Final Takeaways (Week 3)</h1>
-<hr>
-<section id="power-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="power-analysis">Power Analysis</h2>
-<ul>
-<li><p>Power = probability of detecting a real effect</p></li>
-<li><p>Depends on:</p>
-<ul>
-<li>sample size</li>
-<li>effect size</li>
-<li>significance level</li>
-</ul></li>
-</ul>
-<p>👉 Low power = high chance of missing real effects</p>
-<hr>
-</section>
-<section id="confidence-and-sample-size" class="level2">
-<h2 class="anchored" data-anchor-id="confidence-and-sample-size">Confidence and Sample Size</h2>
-<ul>
-<li>Margin of error controls precision</li>
-<li>Larger sample → smaller error</li>
-<li>Can calculate required sample size before study</li>
-</ul>
-<hr>
-</section>
-<section id="missing-data" class="level2">
-<h2 class="anchored" data-anchor-id="missing-data">Missing Data</h2>
-<ul>
-<li>Always check it first</li>
-<li>Understand <em>why</em> it is missing</li>
-<li>Be careful when removing data</li>
-</ul>
-<hr>
-</section>
-<section id="most-important-idea-from-this-lecture" class="level2">
-<h2 class="anchored" data-anchor-id="most-important-idea-from-this-lecture">🧠 Most important idea from this lecture</h2>
-<blockquote class="blockquote">
-<p>A non-significant result does NOT mean “no effect”</p>
-</blockquote>
-<p>It could mean:</p>
-<ul>
-<li>no effect</li>
-<li>OR not enough power</li>
-<li>OR poor data (missing values)</li>
-</ul>
-<hr>
+<!-- 
+  ============================================================
+  ADDITIONAL NOTES SPACE
+  Use this section to add your own reflections, links to 
+  further reading, or questions to ask in the next class.
+  ============================================================
+
+  My notes:
+  
+  
+  
+  Questions for class:
+  
+  
+  
+  Links / references:
+  
+  
+  ============================================================
+-->
 
 
-</section>
+<!-- -->
+
 </section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
-    // Ensure there is a toggle, if there isn't float one in the top right
-    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-      const i = window.document.createElement("i");
-      i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
-    }
-    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
@@ -1556,9 +852,60 @@ n = 78
       });
       clipboardModal.on('success', onCopySuccess);
     }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/lgolin\.quarto\.pub\/semester-notes-2026");
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1892,11 +1239,384 @@ n = 78
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../regression-analysis/week-9.html" class="pagination-link" aria-label="Week 9">
-        <span class="nav-page-text">Week 9</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../regression-analysis/week-4.html" class="pagination-link" aria-label="Week 4">
+        <span class="nav-page-text">Week 4</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
-</nav>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 3 Study Guide: Missing Data &amp; Power Analysis"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Statistical Modelling"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Identifying and handling **missing data** in R</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Visualising missing data patterns using the **VIM** and **summarytools** packages</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Strategies for dealing with missing data: removal vs. imputation</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Iterative imputation with **MICE** and **irmi()**</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What **statistical power** means and why it matters</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The four interconnected quantities in power analysis: sample size, effect size, α, and power</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Calculating power manually for a Z-test</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Using power analysis to determine required **sample size**</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Linking power analysis to **confidence intervals** and **margins of error**</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part 1: Missing Data</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## Core Explanation</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Is Missing Data?</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>In real-world datasets, it is very common to find that some values are simply not recorded — these are called **missing values**, represented in R as <span class="in">`NA`</span> (Not Available). Missing data can arise for many reasons: a participant dropped out of a study, a sensor failed to record, or a question was left blank on a survey.</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>Before doing any analysis, it is important to understand *how much* data is missing and *where* it is missing from, because this can significantly affect your results.</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Sleep Dataset</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>The examples in this week's class used the **sleep dataset** — a study of sleep patterns across 39 mammal species (62 observations, 10 variables). This dataset was chosen because it has a realistic spread of missing values across several columns.</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>The variables in the dataset are:</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|-------------|</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`BodyWgt`</span> <span class="pp">|</span> Body weight (kg) <span class="pp">|</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`BrainWgt`</span> <span class="pp">|</span> Brain weight (kg) <span class="pp">|</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`NonD`</span> <span class="pp">|</span> Non-dream sleep (hours/day) <span class="pp">|</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Dream`</span> <span class="pp">|</span> Dream sleep (hours/day) <span class="pp">|</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Sleep`</span> <span class="pp">|</span> Total sleep (NonD + Dream) <span class="pp">|</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Span`</span> <span class="pp">|</span> Max life span (years) <span class="pp">|</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Gest`</span> <span class="pp">|</span> Gestation time (days) <span class="pp">|</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Pred`</span> <span class="pp">|</span> Predation index (danger from predators) <span class="pp">|</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Exp`</span> <span class="pp">|</span> Sleep exposure index <span class="pp">|</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Danger`</span> <span class="pp">|</span> Overall danger index (1 = least, 5 = most) <span class="pp">|</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Basic R Functions for Missing Data</span></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>When you only have a few missing values and no obvious patterns, R provides several straightforward tools:</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)               <span class="co"># Returns TRUE/FALSE for each value — is it missing?</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">is.na</span>(x))        <span class="co"># Tells you the *position* (index) of the NAs</span></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>na.rm <span class="ot">=</span> <span class="cn">TRUE</span>           <span class="co"># Used inside functions like mean() to ignore NAs</span></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a><span class="fu">complete.cases</span>(x)      <span class="co"># Returns TRUE for rows with no missing values</span></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a><span class="fu">na.omit</span>(x)             <span class="co"># Removes all rows that contain any NA</span></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>**Removing rows based on conditions:**</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows where a specific column has NA</span></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="sc">!</span><span class="fu">is.na</span>(df<span class="sc">$</span>specific_column), ]</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows where EITHER col1 OR col2 has NA</span></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="sc">!</span>(<span class="fu">is.na</span>(df<span class="sc">$</span>col1) <span class="sc">|</span> <span class="fu">is.na</span>(df<span class="sc">$</span>col2)), ]</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a><span class="fu">### Summarising Your Data with `summarytools`</span></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>The <span class="in">`summarytools`</span> package provides a quick way to see the distribution of each variable and spot where values are missing. It produces a **Data Frame Summary** table showing the mean, standard deviation, min/max, and the number of distinct valid values for each column.</span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarytools)</span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a><span class="fu">dfSummary</span>(sleep)</span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>This is a good first step — it gives you a bird's-eye view of the entire dataset, including which variables have fewer valid values (a sign of missingness).</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualising Missing Data</span></span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>The **VIM** package provides powerful tools specifically for exploring missing data visually. The key principle is that **red = missing** and **blue = complete** across all VIM plots.</span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a><span class="fu">### `aggr()` — Count and Plot Missingness</span></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a><span class="fu">aggr</span>(sleep, <span class="at">numbers =</span> <span class="cn">TRUE</span>, <span class="at">prop =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>This produces two plots:</span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>A **bar chart** showing how many values are missing per variable (e.g., <span class="in">`NonD`</span> had ~14 missing values in the sleep dataset).</span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>A **combination plot** showing which *combinations* of variables tend to be missing together. For example, rows 31 and 62 both had <span class="in">`NonD`</span>, <span class="in">`Dream`</span>, and <span class="in">`Sleep`</span> missing simultaneously — which makes sense because <span class="in">`Sleep = NonD + Dream`</span>.</span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a><span class="fu">### `barMiss()` — Missingness by a Categorical Variable</span></span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a><span class="fu">barMiss</span>(sleep[, <span class="fu">c</span>(<span class="st">"Exp"</span>, <span class="st">"Sleep"</span>)])</span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>Use this when you want to see whether missingness in one variable is related to the *values* of another variable. For the sleep data, <span class="in">`Sleep`</span> had 4 missing values: 1 occurred when <span class="in">`Exp = 1`</span>, and 3 occurred when <span class="in">`Exp = 5`</span>. <span class="in">`Exp`</span> itself had no missing values.</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a><span class="fu">### `histMiss()` — Missingness by a Continuous Variable</span></span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a><span class="fu">histMiss</span>(sleep[, <span class="fu">c</span>(<span class="st">"Span"</span>, <span class="st">"Sleep"</span>)])</span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a>This is the same idea as <span class="in">`barMiss()`</span> but for continuous variables, where a **histogram** is more appropriate. For the sleep data, the 4 missing <span class="in">`Sleep`</span> values appeared in cases where <span class="in">`Span`</span> was between 10–20 years and 20–30 years.</span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a><span class="fu">### `marginplot()` — Comparing Distributions With and Without Missingness</span></span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a><span class="fu">marginplot</span>(sleep[, <span class="fu">c</span>(<span class="st">"Span"</span>, <span class="st">"Sleep"</span>)])</span>
+<span id="cb12-119"><a href="#cb12-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a>This is one of the most informative plots. It shows a **scatter plot** of two variables, with extra boxplots in the margins:</span>
+<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **red boxplot** shows the distribution of <span class="in">`Sleep`</span> *for cases where `Span` is missing* — i.e., what does <span class="in">`Sleep`</span> look like when we don't know <span class="in">`Span`</span>?</span>
+<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **blue boxplot** shows the distribution of <span class="in">`Sleep`</span> *for cases where `Span` is observed*.</span>
+<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a>If the red and blue boxplots look very similar, it suggests the data may be **Missing At Random (MAR)** — the missingness is not related to the unobserved values. If they look very different, the missing data pattern may be informative.</span>
+<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Annotation space:** *How did the red and blue boxplots compare in the sleep example? What might that suggest about the missing data mechanism?*</span></span>
+<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dealing with Missing Data</span></span>
+<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a><span class="fu">### Option 1: Complete Case Analysis (Listwise Deletion)</span></span>
+<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-136"><a href="#cb12-136" aria-hidden="true" tabindex="-1"></a>The simplest approach is to just remove any row that contains a missing value. In R's <span class="in">`lm()`</span> function, this is actually the **default behaviour** — it automatically uses only complete cases.</span>
+<span id="cb12-137"><a href="#cb12-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a><span class="co"># These two are equivalent for linear regression:</span></span>
+<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(Sleep <span class="sc">~</span> BodyWgt, <span class="at">data =</span> sleep)</span>
+<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(Sleep <span class="sc">~</span> BodyWgt, <span class="at">data =</span> <span class="fu">na.omit</span>(sleep))</span>
+<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a>Other related options:</span>
+<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a><span class="fu">na.fail</span>()     <span class="co"># Throws an error if any NAs are present — forces you to address it</span></span>
+<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a><span class="fu">na.exclude</span>()  <span class="co"># Like na.omit() but keeps NA slots in predictions</span></span>
+<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a>**When is this acceptable?** Only when the amount of missing data is small and there is no systematic pattern to *which* cases are missing. If certain types of cases are more likely to be missing, removing them can **bias** your results.</span>
+<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-153"><a href="#cb12-153" aria-hidden="true" tabindex="-1"></a><span class="fu">### Option 2: Imputation with `irmi()` (VIM Package)</span></span>
+<span id="cb12-154"><a href="#cb12-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a>**Imputation** means filling in the missing values with estimated values, rather than throwing the data away.</span>
+<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a>The <span class="in">`irmi()`</span> function uses **Iterative Robust Model-based Imputation**:</span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
+<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a>imputed_sleep <span class="ot">&lt;-</span> <span class="fu">irmi</span>(sleep)</span>
+<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-163"><a href="#cb12-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-164"><a href="#cb12-164" aria-hidden="true" tabindex="-1"></a>**How it works:**</span>
+<span id="cb12-165"><a href="#cb12-165" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Take one variable (e.g., <span class="in">`NonD`</span>) as the *response* variable.</span>
+<span id="cb12-166"><a href="#cb12-166" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Use all other variables as *predictors* in a regression model.</span>
+<span id="cb12-167"><a href="#cb12-167" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Use the predicted values from that model to fill in the missing <span class="in">`NonD`</span> values.</span>
+<span id="cb12-168"><a href="#cb12-168" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Repeat this process, cycling through each variable that has missing values.</span>
+<span id="cb12-169"><a href="#cb12-169" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Continue iterating until the imputed values stabilise.</span>
+<span id="cb12-170"><a href="#cb12-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-171"><a href="#cb12-171" aria-hidden="true" tabindex="-1"></a>After imputation, you should **compare** linear model results before and after imputation to see how much the coefficients changed. In the sleep example, the intercept was slightly larger and the slope slightly less negative after imputation.</span>
+<span id="cb12-172"><a href="#cb12-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-173"><a href="#cb12-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### Option 3: Multiple Imputation with MICE</span></span>
+<span id="cb12-174"><a href="#cb12-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-175"><a href="#cb12-175" aria-hidden="true" tabindex="-1"></a>The **MICE** package (Multiple Imputation by Chained Equations) is a more sophisticated approach. Instead of imputing once, it creates **multiple** complete datasets (e.g., 5), fits a model to each one, and then **pools** the results.</span>
+<span id="cb12-176"><a href="#cb12-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-177"><a href="#cb12-177" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-178"><a href="#cb12-178" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a>imputed <span class="ot">&lt;-</span> <span class="fu">mice</span>(sleep, <span class="at">m =</span> <span class="dv">5</span>, <span class="at">method =</span> <span class="st">"pmm"</span>)  <span class="co"># pmm = predictive mean matching</span></span>
+<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a>models  <span class="ot">&lt;-</span> <span class="fu">with</span>(imputed, <span class="fu">lm</span>(Sleep <span class="sc">~</span> BodyWgt))</span>
+<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a>pooled  <span class="ot">&lt;-</span> <span class="fu">pool</span>(models)</span>
+<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pooled)</span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a>**Predictive Mean Matching (PMM)** works by finding observed values that are close to the predicted value and using one of those as the imputed value. This keeps imputed values realistic (they come from real observed data).</span>
+<span id="cb12-186"><a href="#cb12-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-187"><a href="#cb12-187" aria-hidden="true" tabindex="-1"></a>The **predictor matrix** in MICE output tells you which variables were used to predict the missing values in each column.</span>
+<span id="cb12-188"><a href="#cb12-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-189"><a href="#cb12-189" aria-hidden="true" tabindex="-1"></a>**Why does the pooled model have larger standard errors?** Because pooling across 5 datasets accounts for the *extra uncertainty* introduced by the fact that we don't truly know what the missing values are. This is actually more honest than a single imputation.</span>
+<span id="cb12-190"><a href="#cb12-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-191"><a href="#cb12-191" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Annotation space:** *When would you choose MICE over irmi()? Think about dataset size, the proportion of missing data, and how much you care about uncertainty quantification.*</span></span>
+<span id="cb12-192"><a href="#cb12-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-193"><a href="#cb12-193" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-194"><a href="#cb12-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-195"><a href="#cb12-195" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part 2: Power Analysis</span></span>
+<span id="cb12-196"><a href="#cb12-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-197"><a href="#cb12-197" aria-hidden="true" tabindex="-1"></a><span class="fu">## Core Explanation</span></span>
+<span id="cb12-198"><a href="#cb12-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-199"><a href="#cb12-199" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Is Statistical Power?</span></span>
+<span id="cb12-200"><a href="#cb12-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-201"><a href="#cb12-201" aria-hidden="true" tabindex="-1"></a>When you run a hypothesis test, there are two ways you can be wrong:</span>
+<span id="cb12-202"><a href="#cb12-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-203"><a href="#cb12-203" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Decision <span class="pp">|</span> H₀ is True <span class="pp">|</span> H₀ is False <span class="pp">|</span></span>
+<span id="cb12-204"><a href="#cb12-204" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|------------|-------------|</span></span>
+<span id="cb12-205"><a href="#cb12-205" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Reject H₀** <span class="pp">|</span> Type I error (probability = α) <span class="pp">|</span> ✅ Correct! (probability = power = 1 − β) <span class="pp">|</span></span>
+<span id="cb12-206"><a href="#cb12-206" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Fail to reject H₀** <span class="pp">|</span> ✅ Correct! (probability = 1 − α) <span class="pp">|</span> Type II error (probability = β) <span class="pp">|</span></span>
+<span id="cb12-207"><a href="#cb12-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-208"><a href="#cb12-208" aria-hidden="true" tabindex="-1"></a>**Statistical power** is defined as:</span>
+<span id="cb12-209"><a href="#cb12-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-210"><a href="#cb12-210" aria-hidden="true" tabindex="-1"></a>$$\text{Power} = 1 - \beta = P(\text{reject } H_0 \mid H_0 \text{ is false})$$</span>
+<span id="cb12-211"><a href="#cb12-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-212"><a href="#cb12-212" aria-hidden="true" tabindex="-1"></a>In plain English: power is the probability that your test will correctly detect a real effect when one actually exists. A higher power means a better, more sensitive test.</span>
+<span id="cb12-213"><a href="#cb12-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-214"><a href="#cb12-214" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Four Interconnected Quantities</span></span>
+<span id="cb12-215"><a href="#cb12-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-216"><a href="#cb12-216" aria-hidden="true" tabindex="-1"></a>Power analysis is built on the relationship between four quantities. **If you know any three, you can calculate the fourth:**</span>
+<span id="cb12-217"><a href="#cb12-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-218"><a href="#cb12-218" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Sample size** $n$ — larger samples give more power</span>
+<span id="cb12-219"><a href="#cb12-219" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Effect size** — the size of the difference you're trying to detect (larger effects are easier to detect)</span>
+<span id="cb12-220"><a href="#cb12-220" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Significance level** $\alpha$ — the threshold for rejecting $H_0$ (typically 0.05)</span>
+<span id="cb12-221"><a href="#cb12-221" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Power** $1 - \beta$ — typically you aim for at least 0.80 (80%)</span>
+<span id="cb12-222"><a href="#cb12-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-223"><a href="#cb12-223" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Important caveat:** In practice, you cannot know the *true* effect size — if you already knew the true difference, there would be no need to test! Instead, you define the **minimum effect size of practical importance** (the smallest difference that would actually matter for your application).</span></span>
+<span id="cb12-224"><a href="#cb12-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-225"><a href="#cb12-225" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-226"><a href="#cb12-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-227"><a href="#cb12-227" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Equations / Formulas</span></span>
+<span id="cb12-228"><a href="#cb12-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-229"><a href="#cb12-229" aria-hidden="true" tabindex="-1"></a><span class="fu">### Z-Test Statistic (known population standard deviation)</span></span>
+<span id="cb12-230"><a href="#cb12-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-231"><a href="#cb12-231" aria-hidden="true" tabindex="-1"></a>$$Z_{stat} = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}}$$</span>
+<span id="cb12-232"><a href="#cb12-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-233"><a href="#cb12-233" aria-hidden="true" tabindex="-1"></a><span class="fu">### Minimum Sample Mean to Reject $H_0$</span></span>
+<span id="cb12-234"><a href="#cb12-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-235"><a href="#cb12-235" aria-hidden="true" tabindex="-1"></a>$$\bar{X}_{crit} = \mu + \frac{\sigma}{\sqrt{n}} \times Z_{crit}$$</span>
+<span id="cb12-236"><a href="#cb12-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-237"><a href="#cb12-237" aria-hidden="true" tabindex="-1"></a><span class="fu">### Power Calculation</span></span>
+<span id="cb12-238"><a href="#cb12-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-239"><a href="#cb12-239" aria-hidden="true" tabindex="-1"></a>Once you have $\bar{X}_{crit}$, calculate the probability of exceeding it under the alternative hypothesis:</span>
+<span id="cb12-240"><a href="#cb12-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-241"><a href="#cb12-241" aria-hidden="true" tabindex="-1"></a>$$\beta = P\left(\bar{X} &lt; \bar{X}_{crit} \mid \mu = \mu_A\right) = P\left(Z &lt; \frac{\bar{X}_{crit} - \mu_A}{\sigma / \sqrt{n}}\right)$$</span>
+<span id="cb12-242"><a href="#cb12-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-243"><a href="#cb12-243" aria-hidden="true" tabindex="-1"></a>$$\text{Power} = 1 - \beta$$</span>
+<span id="cb12-244"><a href="#cb12-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-245"><a href="#cb12-245" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sample Size Formula (known σ, from margin of error)</span></span>
+<span id="cb12-246"><a href="#cb12-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-247"><a href="#cb12-247" aria-hidden="true" tabindex="-1"></a>$$n = \left(\frac{Z_{\alpha/2} \times \sigma}{ME}\right)^2$$</span>
+<span id="cb12-248"><a href="#cb12-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-249"><a href="#cb12-249" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sample Size Formula (unknown σ, using t-distribution)</span></span>
+<span id="cb12-250"><a href="#cb12-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-251"><a href="#cb12-251" aria-hidden="true" tabindex="-1"></a>$$n = \left(\frac{t_{\alpha/2,\, n-1} \times s}{ME}\right)^2$$</span>
+<span id="cb12-252"><a href="#cb12-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-253"><a href="#cb12-253" aria-hidden="true" tabindex="-1"></a>*(Note: this requires iteration since $t$ depends on $n$)*</span>
+<span id="cb12-254"><a href="#cb12-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-255"><a href="#cb12-255" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-256"><a href="#cb12-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-257"><a href="#cb12-257" aria-hidden="true" tabindex="-1"></a><span class="fu">## Practical Example — Chemical Company</span></span>
+<span id="cb12-258"><a href="#cb12-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-259"><a href="#cb12-259" aria-hidden="true" tabindex="-1"></a><span class="fu">### Problem Setup</span></span>
+<span id="cb12-260"><a href="#cb12-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-261"><a href="#cb12-261" aria-hidden="true" tabindex="-1"></a>A chemical company claims their product contains on average **μ = 4.0 ml** of caustic material per litre. A government inspector tests a sample of **n = 30** containers and finds:</span>
+<span id="cb12-262"><a href="#cb12-262" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sample mean: $\bar{x} = 4.3$ ml</span>
+<span id="cb12-263"><a href="#cb12-263" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Known population standard deviation: $\sigma = 1.3$</span>
+<span id="cb12-264"><a href="#cb12-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-265"><a href="#cb12-265" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 1: State the Hypotheses</span></span>
+<span id="cb12-266"><a href="#cb12-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-267"><a href="#cb12-267" aria-hidden="true" tabindex="-1"></a>Since the product is only dangerous if it contains *more* than 4.0 ml, this is a **one-tailed test**:</span>
+<span id="cb12-268"><a href="#cb12-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-269"><a href="#cb12-269" aria-hidden="true" tabindex="-1"></a>$$H_0: \mu = 4.0 \quad \text{vs.} \quad H_A: \mu &gt; 4.0$$</span>
+<span id="cb12-270"><a href="#cb12-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-271"><a href="#cb12-271" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 2: Type I and Type II Errors in Context</span></span>
+<span id="cb12-272"><a href="#cb12-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-273"><a href="#cb12-273" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type I error:** Concluding the mean *is* greater than 4 ml when it actually isn't — falsely accusing the company.</span>
+<span id="cb12-274"><a href="#cb12-274" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type II error:** Concluding the mean is *not* greater than 4 ml when it actually is — missing a genuine danger.</span>
+<span id="cb12-275"><a href="#cb12-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-276"><a href="#cb12-276" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 3: Conduct the Test (α = 0.05)</span></span>
+<span id="cb12-277"><a href="#cb12-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-278"><a href="#cb12-278" aria-hidden="true" tabindex="-1"></a>$$Z_{stat} = \frac{4.3 - 4.0}{1.3 / \sqrt{30}} = \frac{0.3}{0.2374} = 1.264$$</span>
+<span id="cb12-279"><a href="#cb12-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-280"><a href="#cb12-280" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Critical value for a one-tailed test at α = 0.05: $Z_{crit} = 1.645$</span>
+<span id="cb12-281"><a href="#cb12-281" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Since $Z_{stat} = 1.264 &lt; 1.645$, we **fail to reject $H_0$**</span>
+<span id="cb12-282"><a href="#cb12-282" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The p-value is 0.103 &gt; 0.05, confirming this conclusion</span>
+<span id="cb12-283"><a href="#cb12-283" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>95% lower bound: 3.910 (we are 95% confident the true mean is above 3.910 ml)</span>
+<span id="cb12-284"><a href="#cb12-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-285"><a href="#cb12-285" aria-hidden="true" tabindex="-1"></a>**Conclusion:** The data does not provide sufficient evidence that the mean caustic level exceeds 4 ml/litre.</span>
+<span id="cb12-286"><a href="#cb12-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-287"><a href="#cb12-287" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 4: Calculate the Power of the Test</span></span>
+<span id="cb12-288"><a href="#cb12-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-289"><a href="#cb12-289" aria-hidden="true" tabindex="-1"></a>Now ask: *Was our sample large enough to detect a meaningful difference?*</span>
+<span id="cb12-290"><a href="#cb12-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-291"><a href="#cb12-291" aria-hidden="true" tabindex="-1"></a>Suppose we define a difference of **0.35 ml/litre** as practically significant — i.e., we want to detect if the true mean is **μ_A = 4.35**.</span>
+<span id="cb12-292"><a href="#cb12-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-293"><a href="#cb12-293" aria-hidden="true" tabindex="-1"></a>**Find the critical sample mean (threshold for rejection):**</span>
+<span id="cb12-294"><a href="#cb12-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-295"><a href="#cb12-295" aria-hidden="true" tabindex="-1"></a>$$\bar{X}_{crit} = 4.0 + \frac{1.3}{\sqrt{30}} \times 1.645 = 4.0 + 0.39 = 4.39$$</span>
+<span id="cb12-296"><a href="#cb12-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-297"><a href="#cb12-297" aria-hidden="true" tabindex="-1"></a>So we only reject $H_0$ if the sample mean exceeds 4.39.</span>
+<span id="cb12-298"><a href="#cb12-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-299"><a href="#cb12-299" aria-hidden="true" tabindex="-1"></a>**Calculate β (probability of Type II error):**</span>
+<span id="cb12-300"><a href="#cb12-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-301"><a href="#cb12-301" aria-hidden="true" tabindex="-1"></a>$$\beta = P(\bar{X} &lt; 4.39 \mid \mu = 4.35) = P\left(Z &lt; \frac{4.39 - 4.35}{1.3/\sqrt{30}}\right) = P(Z &lt; 0.17) = 0.5675$$</span>
+<span id="cb12-302"><a href="#cb12-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-303"><a href="#cb12-303" aria-hidden="true" tabindex="-1"></a>**Power:**</span>
+<span id="cb12-304"><a href="#cb12-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-305"><a href="#cb12-305" aria-hidden="true" tabindex="-1"></a>$$\text{Power} = 1 - 0.5675 = \mathbf{0.4325}$$</span>
+<span id="cb12-306"><a href="#cb12-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-307"><a href="#cb12-307" aria-hidden="true" tabindex="-1"></a>**Interpretation:** There is only a **43.25% chance** of correctly detecting a 0.35 ml difference with n = 30. This is quite low — the test is underpowered. We would ideally want power ≥ 0.80.</span>
+<span id="cb12-308"><a href="#cb12-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-309"><a href="#cb12-309" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Annotation space:** *What would you recommend the inspector do? Collect a larger sample? Define a larger minimum effect size? Both options involve trade-offs.*</span></span>
+<span id="cb12-310"><a href="#cb12-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-311"><a href="#cb12-311" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-312"><a href="#cb12-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-313"><a href="#cb12-313" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Size from Margin of Error</span></span>
+<span id="cb12-314"><a href="#cb12-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-315"><a href="#cb12-315" aria-hidden="true" tabindex="-1"></a>Power analysis is closely linked to **confidence intervals**. The margin of error (ME) in a confidence interval is:</span>
+<span id="cb12-316"><a href="#cb12-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-317"><a href="#cb12-317" aria-hidden="true" tabindex="-1"></a>$$ME = Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}$$</span>
+<span id="cb12-318"><a href="#cb12-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-319"><a href="#cb12-319" aria-hidden="true" tabindex="-1"></a>Rearranging to find the required sample size for a desired ME:</span>
+<span id="cb12-320"><a href="#cb12-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-321"><a href="#cb12-321" aria-hidden="true" tabindex="-1"></a>$$n = \left(\frac{Z_{\alpha/2} \times \sigma}{ME}\right)^2$$</span>
+<span id="cb12-322"><a href="#cb12-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-323"><a href="#cb12-323" aria-hidden="true" tabindex="-1"></a>**Example:** An analyst wants to estimate mean voltage (σ = 22.5 volts) with a margin of error of **5 volts** at 95% confidence:</span>
+<span id="cb12-324"><a href="#cb12-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-325"><a href="#cb12-325" aria-hidden="true" tabindex="-1"></a>$$n = \left(\frac{1.96 \times 22.5}{5}\right)^2 = (8.82)^2 \approx 78 \text{ observations}$$</span>
+<span id="cb12-326"><a href="#cb12-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-327"><a href="#cb12-327" aria-hidden="true" tabindex="-1"></a>When $\sigma$ is **unknown**, replace $Z$ with the $t$-distribution critical value and $\sigma$ with the sample standard deviation $s$.</span>
+<span id="cb12-328"><a href="#cb12-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-329"><a href="#cb12-329" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-330"><a href="#cb12-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-331"><a href="#cb12-331" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb12-332"><a href="#cb12-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-333"><a href="#cb12-333" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Missing data** is common in real datasets — before removing or imputing, always visualise and understand the pattern.</span>
+<span id="cb12-334"><a href="#cb12-334" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **VIM** package functions (<span class="in">`aggr`</span>, <span class="in">`barMiss`</span>, <span class="in">`histMiss`</span>, <span class="in">`marginplot`</span>) help you explore *where* and *why* data is missing.</span>
+<span id="cb12-335"><a href="#cb12-335" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Complete case analysis** (<span class="in">`na.omit`</span>) is simple but can bias results if the missing data is not random.</span>
+<span id="cb12-336"><a href="#cb12-336" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**`irmi()`** performs iterative regression-based imputation; **MICE** performs multiple imputation and is more robust for uncertainty quantification.</span>
+<span id="cb12-337"><a href="#cb12-337" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Statistical power** (1 − β) is the probability of correctly detecting a real effect — aim for at least 0.80.</span>
+<span id="cb12-338"><a href="#cb12-338" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Power depends on **four quantities**: sample size, effect size, α, and power (1 − β). Know three, find the fourth.</span>
+<span id="cb12-339"><a href="#cb12-339" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Low power (like 43% in the example) means a test may fail to detect a real, meaningful difference — the sample was simply too small.</span>
+<span id="cb12-340"><a href="#cb12-340" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You can use the **margin of error** formula to calculate the minimum sample size needed for a given precision, whether σ is known (Z-formula) or unknown (t-formula).</span>
+<span id="cb12-341"><a href="#cb12-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-342"><a href="#cb12-342" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-343"><a href="#cb12-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-344"><a href="#cb12-344" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exercises to Try</span></span>
+<span id="cb12-345"><a href="#cb12-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-346"><a href="#cb12-346" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Recalculate the power of the caustic material test if the minimum detectable increase is **0.1 ml** instead of 0.35 ml. *(Answer: 0.1112)*</span>
+<span id="cb12-347"><a href="#cb12-347" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>An analyst wants to estimate mean voltage (σ = 22.5 volts). What sample size achieves a margin of error of **5 volts** at 95% confidence for a two-sided CI? *(Answer: n = 78)*</span>
+<span id="cb12-348"><a href="#cb12-348" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>In the sleep dataset, which variable had the most missing values? Use <span class="in">`aggr()`</span> to verify.</span>
+<span id="cb12-349"><a href="#cb12-349" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Why does the pooled MICE model have **larger standard errors** than the individual imputed models?</span>
+<span id="cb12-350"><a href="#cb12-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-351"><a href="#cb12-351" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-352"><a href="#cb12-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-353"><a href="#cb12-353" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- </span></span>
+<span id="cb12-354"><a href="#cb12-354" aria-hidden="true" tabindex="-1"></a><span class="co">  ============================================================</span></span>
+<span id="cb12-355"><a href="#cb12-355" aria-hidden="true" tabindex="-1"></a><span class="co">  ADDITIONAL NOTES SPACE</span></span>
+<span id="cb12-356"><a href="#cb12-356" aria-hidden="true" tabindex="-1"></a><span class="co">  Use this section to add your own reflections, links to </span></span>
+<span id="cb12-357"><a href="#cb12-357" aria-hidden="true" tabindex="-1"></a><span class="co">  further reading, or questions to ask in the next class.</span></span>
+<span id="cb12-358"><a href="#cb12-358" aria-hidden="true" tabindex="-1"></a><span class="co">  ============================================================</span></span>
+<span id="cb12-359"><a href="#cb12-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-360"><a href="#cb12-360" aria-hidden="true" tabindex="-1"></a><span class="co">  My notes:</span></span>
+<span id="cb12-361"><a href="#cb12-361" aria-hidden="true" tabindex="-1"></a><span class="co">  </span></span>
+<span id="cb12-362"><a href="#cb12-362" aria-hidden="true" tabindex="-1"></a><span class="co">  </span></span>
+<span id="cb12-363"><a href="#cb12-363" aria-hidden="true" tabindex="-1"></a><span class="co">  </span></span>
+<span id="cb12-364"><a href="#cb12-364" aria-hidden="true" tabindex="-1"></a><span class="co">  Questions for class:</span></span>
+<span id="cb12-365"><a href="#cb12-365" aria-hidden="true" tabindex="-1"></a><span class="co">  </span></span>
+<span id="cb12-366"><a href="#cb12-366" aria-hidden="true" tabindex="-1"></a><span class="co">  </span></span>
+<span id="cb12-367"><a href="#cb12-367" aria-hidden="true" tabindex="-1"></a><span class="co">  </span></span>
+<span id="cb12-368"><a href="#cb12-368" aria-hidden="true" tabindex="-1"></a><span class="co">  Links / references:</span></span>
+<span id="cb12-369"><a href="#cb12-369" aria-hidden="true" tabindex="-1"></a><span class="co">  </span></span>
+<span id="cb12-370"><a href="#cb12-370" aria-hidden="true" tabindex="-1"></a><span class="co">  </span></span>
+<span id="cb12-371"><a href="#cb12-371" aria-hidden="true" tabindex="-1"></a><span class="co">  ============================================================</span></span>
+<span id="cb12-372"><a href="#cb12-372" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 

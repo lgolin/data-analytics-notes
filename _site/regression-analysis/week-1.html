@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>week-1 – Semester Notes</title>
+<title>Week 1: Data Analysis Protocol – Semester Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -40,14 +75,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-567b30ad711c8693efb6495feb883fb3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -80,169 +111,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
-    const toggleBodyColorMode = (bsSheetEl) => {
-      const mode = bsSheetEl.getAttribute("data-mode");
-      const bodyEl = window.document.querySelector("body");
-      if (mode === "dark") {
-        bodyEl.classList.add("quarto-dark");
-        bodyEl.classList.remove("quarto-light");
-      } else {
-        bodyEl.classList.add("quarto-light");
-        bodyEl.classList.remove("quarto-dark");
-      }
-    }
-    const toggleBodyColorPrimary = () => {
-      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
-      if (bsSheetEl) {
-        toggleBodyColorMode(bsSheetEl);
-      }
-    }
-    const setColorSchemeToggle = (alternate) => {
-      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-      for (let i=0; i < toggles.length; i++) {
-        const toggle = toggles[i];
-        if (toggle) {
-          if (alternate) {
-            toggle.classList.add("alternate");
-          } else {
-            toggle.classList.remove("alternate");
-          }
-        }
-      }
-    };
-    const toggleColorMode = (alternate) => {
-      // Switch the stylesheets
-      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
-      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-      manageTransitions('#quarto-margin-sidebar .nav-link', false);
-      if (alternate) {
-        // note: dark is layered on light, we don't disable primary!
-        enableStylesheet(alternateStylesheets);
-        for (const sheetNode of alternateStylesheets) {
-          if (sheetNode.id === "quarto-bootstrap") {
-            toggleBodyColorMode(sheetNode);
-          }
-        }
-      } else {
-        disableStylesheet(alternateStylesheets);
-        enableStylesheet(primaryStylesheets)
-        toggleBodyColorPrimary();
-      }
-      manageTransitions('#quarto-margin-sidebar .nav-link', true);
-      // Switch the toggles
-      setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
-      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-        manageTransitions("body", false);
-        window.scrollTo(0, 1);
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-          manageTransitions("body", true);
-        }, 40);
-      }
-    }
-    const disableStylesheet = (stylesheets) => {
-      for (let i=0; i < stylesheets.length; i++) {
-        const stylesheet = stylesheets[i];
-        stylesheet.rel = 'disabled-stylesheet';
-      }
-    }
-    const enableStylesheet = (stylesheets) => {
-      for (let i=0; i < stylesheets.length; i++) {
-        const stylesheet = stylesheets[i];
-        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
-          stylesheet.rel = 'stylesheet';
-        }
-      }
-    }
-    const manageTransitions = (selector, allowTransitions) => {
-      const els = window.document.querySelectorAll(selector);
-      for (let i=0; i < els.length; i++) {
-        const el = els[i];
-        if (allowTransitions) {
-          el.classList.remove('notransition');
-        } else {
-          el.classList.add('notransition');
-        }
-      }
-    }
-    const isFileUrl = () => {
-      return window.location.protocol === 'file:';
-    }
-    const hasAlternateSentinel = () => {
-      let styleSentinel = getColorSchemeSentinel();
-      if (styleSentinel !== null) {
-        return styleSentinel === "alternate";
-      } else {
-        return false;
-      }
-    }
-    const setStyleSentinel = (alternate) => {
-      const value = alternate ? "alternate" : "default";
-      if (!isFileUrl()) {
-        window.localStorage.setItem("quarto-color-scheme", value);
-      } else {
-        localAlternateSentinel = value;
-      }
-    }
-    const getColorSchemeSentinel = () => {
-      if (!isFileUrl()) {
-        const storageValue = window.localStorage.getItem("quarto-color-scheme");
-        return storageValue != null ? storageValue : localAlternateSentinel;
-      } else {
-        return localAlternateSentinel;
-      }
-    }
-    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-      let newTheme = '';
-      if(authorPrefersDark) {
-        newTheme = isAlternate ? baseTheme : alternateTheme;
-      } else {
-        newTheme = isAlternate ? alternateTheme : baseTheme;
-      }
-      const changeGiscusTheme = () => {
-        // From: https://github.com/giscus/giscus/issues/336
-        const sendMessage = (message) => {
-          const iframe = document.querySelector('iframe.giscus-frame');
-          if (!iframe) return;
-          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-        }
-        sendMessage({
-          setConfig: {
-            theme: newTheme
-          }
-        });
-      }
-      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-      if (isGiscussLoaded) {
-        changeGiscusTheme();
-      }
-    };
-    const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
-      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-    // Dark / light mode switch
-    window.quartoToggleColorScheme = () => {
-      // Read the current dark / light value
-      let toAlternate = !hasAlternateSentinel();
-      toggleColorMode(toAlternate);
-      setStyleSentinel(toAlternate);
-      toggleGiscusIfUsed(toAlternate, darkModeDefault);
-      window.dispatchEvent(new Event('resize'));
-    };
-    // Switch to dark mode if need be
-    if (hasAlternateSentinel()) {
-      toggleColorMode(true);
-    } else {
-      toggleColorMode(false);
-    }
-  </script>
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -251,7 +120,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Week 1</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Week 1</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -267,9 +136,6 @@ ul.task-list li input[type="checkbox"] {
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../index.html" class="sidebar-logo-link">
       </a>
-      <div class="sidebar-tools-main">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -351,15 +217,9 @@ ul.task-list li input[type="checkbox"] {
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
-  </div>
-</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Weekly Notes</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -386,31 +246,20 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 9</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
- <span class="menu-text">Practice &amp; Revision</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/revision.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Revision</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/labs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Labs</span></a>
   </div>
 </li>
       </ul>
@@ -419,28 +268,22 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Time Series</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
-  </div>
-</li>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Weekly Notes</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
@@ -455,29 +298,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
- <span class="menu-text">Practice &amp; Revision</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/revision.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Revision</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/labs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Labs</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
       </ul>
   </li>
     </ul>
@@ -485,35 +305,694 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics" id="toc-key-topics" class="nav-link active" data-scroll-target="#key-topics"><span class="header-section-number">0.1</span> Key Topics</a></li>
+  <li><a href="#part-1-defining-the-research-problem" id="toc-part-1-defining-the-research-problem" class="nav-link" data-scroll-target="#part-1-defining-the-research-problem"><span class="header-section-number">1</span> Part 1: Defining the Research Problem</a>
+  <ul class="collapse">
+  <li><a href="#research-questions-and-hypotheses" id="toc-research-questions-and-hypotheses" class="nav-link" data-scroll-target="#research-questions-and-hypotheses"><span class="header-section-number">1.1</span> Research Questions and Hypotheses</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-good-research-question" id="toc-what-is-a-good-research-question" class="nav-link" data-scroll-target="#what-is-a-good-research-question"><span class="header-section-number">1.1.1</span> What is a Good Research Question?</a></li>
+  <li><a href="#why-being-specific-matters" id="toc-why-being-specific-matters" class="nav-link" data-scroll-target="#why-being-specific-matters"><span class="header-section-number">1.1.2</span> Why Being Specific Matters</a></li>
+  </ul></li>
+  <li><a href="#study-planning" id="toc-study-planning" class="nav-link" data-scroll-target="#study-planning"><span class="header-section-number">1.2</span> Study Planning</a>
+  <ul class="collapse">
+  <li><a href="#research-plan-components" id="toc-research-plan-components" class="nav-link" data-scroll-target="#research-plan-components"><span class="header-section-number">1.2.1</span> Research Plan Components</a></li>
+  <li><a href="#conceptualizing-the-target-population" id="toc-conceptualizing-the-target-population" class="nav-link" data-scroll-target="#conceptualizing-the-target-population"><span class="header-section-number">1.2.2</span> Conceptualizing the Target Population</a></li>
+  <li><a href="#sampling-strategy" id="toc-sampling-strategy" class="nav-link" data-scroll-target="#sampling-strategy"><span class="header-section-number">1.2.3</span> Sampling Strategy</a></li>
+  </ul></li>
+  <li><a href="#statistical-design-concepts" id="toc-statistical-design-concepts" class="nav-link" data-scroll-target="#statistical-design-concepts"><span class="header-section-number">1.3</span> Statistical Design Concepts</a></li>
+  </ul></li>
+  <li><a href="#part-2-measuring-variables" id="toc-part-2-measuring-variables" class="nav-link" data-scroll-target="#part-2-measuring-variables"><span class="header-section-number">2</span> Part 2: Measuring Variables</a>
+  <ul class="collapse">
+  <li><a href="#measurement-scales" id="toc-measurement-scales" class="nav-link" data-scroll-target="#measurement-scales"><span class="header-section-number">2.1</span> Measurement Scales</a>
+  <ul class="collapse">
+  <li><a href="#why-measurement-matters" id="toc-why-measurement-matters" class="nav-link" data-scroll-target="#why-measurement-matters"><span class="header-section-number">2.1.1</span> Why Measurement Matters</a></li>
+  <li><a href="#continuous-vs-categorical-variables" id="toc-continuous-vs-categorical-variables" class="nav-link" data-scroll-target="#continuous-vs-categorical-variables"><span class="header-section-number">2.1.2</span> Continuous vs Categorical Variables</a></li>
+  </ul></li>
+  <li><a href="#measurement-quality-precision-and-accuracy" id="toc-measurement-quality-precision-and-accuracy" class="nav-link" data-scroll-target="#measurement-quality-precision-and-accuracy"><span class="header-section-number">2.2</span> Measurement Quality: Precision and Accuracy</a>
+  <ul class="collapse">
+  <li><a href="#precision" id="toc-precision" class="nav-link" data-scroll-target="#precision"><span class="header-section-number">2.2.1</span> Precision</a></li>
+  <li><a href="#accuracy" id="toc-accuracy" class="nav-link" data-scroll-target="#accuracy"><span class="header-section-number">2.2.2</span> Accuracy</a></li>
+  <li><a href="#the-relationship-between-precision-and-accuracy" id="toc-the-relationship-between-precision-and-accuracy" class="nav-link" data-scroll-target="#the-relationship-between-precision-and-accuracy"><span class="header-section-number">2.2.3</span> The Relationship Between Precision and Accuracy</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#part-3-initial-data-analysis-exploratory-data-analysis" id="toc-part-3-initial-data-analysis-exploratory-data-analysis" class="nav-link" data-scroll-target="#part-3-initial-data-analysis-exploratory-data-analysis"><span class="header-section-number">3</span> Part 3: Initial Data Analysis (Exploratory Data Analysis)</a>
+  <ul class="collapse">
+  <li><a href="#what-is-eda" id="toc-what-is-eda" class="nav-link" data-scroll-target="#what-is-eda"><span class="header-section-number">3.1</span> What is EDA?</a>
+  <ul class="collapse">
+  <li><a href="#the-anscombes-quartet-lesson" id="toc-the-anscombes-quartet-lesson" class="nav-link" data-scroll-target="#the-anscombes-quartet-lesson"><span class="header-section-number">3.1.1</span> The Anscombe’s Quartet Lesson</a></li>
+  </ul></li>
+  <li><a href="#components-of-initial-data-analysis" id="toc-components-of-initial-data-analysis" class="nav-link" data-scroll-target="#components-of-initial-data-analysis"><span class="header-section-number">3.2</span> Components of Initial Data Analysis</a>
+  <ul class="collapse">
+  <li><a href="#summarizing-and-visualizing-data" id="toc-summarizing-and-visualizing-data" class="nav-link" data-scroll-target="#summarizing-and-visualizing-data"><span class="header-section-number">3.2.1</span> 1. Summarizing and Visualizing Data</a></li>
+  <li><a href="#univariate-profiling" id="toc-univariate-profiling" class="nav-link" data-scroll-target="#univariate-profiling"><span class="header-section-number">3.2.2</span> 2. Univariate Profiling</a></li>
+  <li><a href="#bivariate-profiling" id="toc-bivariate-profiling" class="nav-link" data-scroll-target="#bivariate-profiling"><span class="header-section-number">3.2.3</span> 3. Bivariate Profiling</a></li>
+  <li><a href="#data-quality-checks" id="toc-data-quality-checks" class="nav-link" data-scroll-target="#data-quality-checks"><span class="header-section-number">3.2.4</span> 4. Data Quality Checks</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#part-4-missing-data" id="toc-part-4-missing-data" class="nav-link" data-scroll-target="#part-4-missing-data"><span class="header-section-number">4</span> Part 4: Missing Data</a>
+  <ul class="collapse">
+  <li><a href="#understanding-missing-data" id="toc-understanding-missing-data" class="nav-link" data-scroll-target="#understanding-missing-data"><span class="header-section-number">4.1</span> Understanding Missing Data</a>
+  <ul class="collapse">
+  <li><a href="#why-data-goes-missing" id="toc-why-data-goes-missing" class="nav-link" data-scroll-target="#why-data-goes-missing"><span class="header-section-number">4.1.1</span> Why Data Goes Missing</a></li>
+  <li><a href="#why-missing-data-is-a-problem" id="toc-why-missing-data-is-a-problem" class="nav-link" data-scroll-target="#why-missing-data-is-a-problem"><span class="header-section-number">4.1.2</span> Why Missing Data Is a Problem</a></li>
+  </ul></li>
+  <li><a href="#identifying-missing-data-patterns" id="toc-identifying-missing-data-patterns" class="nav-link" data-scroll-target="#identifying-missing-data-patterns"><span class="header-section-number">4.2</span> Identifying Missing Data Patterns</a>
+  <ul class="collapse">
+  <li><a href="#types-of-missing-data" id="toc-types-of-missing-data" class="nav-link" data-scroll-target="#types-of-missing-data"><span class="header-section-number">4.2.1</span> Types of Missing Data</a></li>
+  <li><a href="#three-mechanisms-of-missingness" id="toc-three-mechanisms-of-missingness" class="nav-link" data-scroll-target="#three-mechanisms-of-missingness"><span class="header-section-number">4.2.2</span> Three Mechanisms of Missingness</a></li>
+  </ul></li>
+  <li><a href="#steps-to-address-missing-data" id="toc-steps-to-address-missing-data" class="nav-link" data-scroll-target="#steps-to-address-missing-data"><span class="header-section-number">4.3</span> Steps to Address Missing Data</a>
+  <ul class="collapse">
+  <li><a href="#step-1-determine-the-type" id="toc-step-1-determine-the-type" class="nav-link" data-scroll-target="#step-1-determine-the-type"><span class="header-section-number">4.3.1</span> Step 1: Determine the Type</a></li>
+  <li><a href="#step-2-determine-the-extent" id="toc-step-2-determine-the-extent" class="nav-link" data-scroll-target="#step-2-determine-the-extent"><span class="header-section-number">4.3.2</span> Step 2: Determine the Extent</a></li>
+  <li><a href="#step-3-diagnose-the-randomness" id="toc-step-3-diagnose-the-randomness" class="nav-link" data-scroll-target="#step-3-diagnose-the-randomness"><span class="header-section-number">4.3.3</span> Step 3: Diagnose the Randomness</a></li>
+  <li><a href="#step-4-select-an-imputation-method" id="toc-step-4-select-an-imputation-method" class="nav-link" data-scroll-target="#step-4-select-an-imputation-method"><span class="header-section-number">4.3.4</span> Step 4: Select an Imputation Method</a></li>
+  </ul></li>
+  <li><a href="#practical-implementation" id="toc-practical-implementation" class="nav-link" data-scroll-target="#practical-implementation"><span class="header-section-number">4.4</span> Practical Implementation</a>
+  <ul class="collapse">
+  <li><a href="#in-r" id="toc-in-r" class="nav-link" data-scroll-target="#in-r"><span class="header-section-number">4.4.1</span> In R</a></li>
+  <li><a href="#decision-tree" id="toc-decision-tree" class="nav-link" data-scroll-target="#decision-tree"><span class="header-section-number">4.4.2</span> Decision Tree</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#part-5-outliers" id="toc-part-5-outliers" class="nav-link" data-scroll-target="#part-5-outliers"><span class="header-section-number">5</span> Part 5: Outliers</a>
+  <ul class="collapse">
+  <li><a href="#what-are-outliers" id="toc-what-are-outliers" class="nav-link" data-scroll-target="#what-are-outliers"><span class="header-section-number">5.1</span> What Are Outliers?</a>
+  <ul class="collapse">
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">5.1.1</span> Example</a></li>
+  </ul></li>
+  <li><a href="#classifying-outliers" id="toc-classifying-outliers" class="nav-link" data-scroll-target="#classifying-outliers"><span class="header-section-number">5.2</span> Classifying Outliers</a>
+  <ul class="collapse">
+  <li><a href="#sources-of-outliers" id="toc-sources-of-outliers" class="nav-link" data-scroll-target="#sources-of-outliers"><span class="header-section-number">5.2.1</span> Sources of Outliers</a></li>
+  </ul></li>
+  <li><a href="#handling-outliers" id="toc-handling-outliers" class="nav-link" data-scroll-target="#handling-outliers"><span class="header-section-number">5.3</span> Handling Outliers</a>
+  <ul class="collapse">
+  <li><a href="#before-taking-action" id="toc-before-taking-action" class="nav-link" data-scroll-target="#before-taking-action"><span class="header-section-number">5.3.1</span> Before Taking Action</a></li>
+  <li><a href="#options" id="toc-options" class="nav-link" data-scroll-target="#options"><span class="header-section-number">5.3.2</span> Options</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#part-6-testing-model-assumptions" id="toc-part-6-testing-model-assumptions" class="nav-link" data-scroll-target="#part-6-testing-model-assumptions"><span class="header-section-number">6</span> Part 6: Testing Model Assumptions</a>
+  <ul class="collapse">
+  <li><a href="#why-assumptions-matter" id="toc-why-assumptions-matter" class="nav-link" data-scroll-target="#why-assumptions-matter"><span class="header-section-number">6.1</span> Why Assumptions Matter</a>
+  <ul class="collapse">
+  <li><a href="#key-assumptions-for-linear-models" id="toc-key-assumptions-for-linear-models" class="nav-link" data-scroll-target="#key-assumptions-for-linear-models"><span class="header-section-number">6.1.1</span> Key Assumptions for Linear Models</a></li>
+  </ul></li>
+  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation"><span class="header-section-number">6.2</span> Data Transformation</a>
+  <ul class="collapse">
+  <li><a href="#when-to-transform" id="toc-when-to-transform" class="nav-link" data-scroll-target="#when-to-transform"><span class="header-section-number">6.2.1</span> When to Transform</a></li>
+  <li><a href="#common-transformations" id="toc-common-transformations" class="nav-link" data-scroll-target="#common-transformations"><span class="header-section-number">6.2.2</span> Common Transformations</a></li>
+  <li><a href="#important-considerations" id="toc-important-considerations" class="nav-link" data-scroll-target="#important-considerations"><span class="header-section-number">6.2.3</span> Important Considerations</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">7</span> Summary Points</a>
+  <ul class="collapse">
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways"><span class="header-section-number">7.1</span> Key Takeaways</a></li>
+  </ul></li>
+  <li><a href="#checklist-for-week-1" id="toc-checklist-for-week-1" class="nav-link" data-scroll-target="#checklist-for-week-1"><span class="header-section-number">8</span> Checklist for Week 1</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">9</span> Additional Resources</a>
+  <ul class="collapse">
+  <li><a href="#references-for-further-learning" id="toc-references-for-further-learning" class="nav-link" data-scroll-target="#references-for-further-learning"><span class="header-section-number">9.1</span> References for Further Learning</a></li>
+  <li><a href="#next-week" id="toc-next-week" class="nav-link" data-scroll-target="#next-week"><span class="header-section-number">9.2</span> Next Week</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Week 1</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Week 1</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 1: Data Analysis Protocol</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
 
 
+<section id="key-topics" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="key-topics"><span class="header-section-number">0.1</span> Key Topics</h2>
+<ul>
+<li><strong>Research Question &amp; Hypothesis Development</strong>: Formulating clear, testable research questions</li>
+<li><strong>Study Planning &amp; Design</strong>: Designing studies with proper sampling and measurement strategies</li>
+<li><strong>Data Measurement Scales</strong>: Understanding continuous vs categorical variables</li>
+<li><strong>Measurement Quality</strong>: Precision and accuracy in data collection</li>
+<li><strong>Initial Data Analysis (EDA)</strong>: Exploratory techniques for understanding data</li>
+<li><strong>Data Visualization</strong>: Using graphs to uncover patterns and anomalies</li>
+<li><strong>Missing Data</strong>: Identifying, understanding, and handling missing values</li>
+<li><strong>Outliers</strong>: Detection and classification of unusual observations</li>
+<li><strong>Model Assumptions</strong>: Testing whether data meets statistical requirements</li>
+<li><strong>Data Transformation</strong>: Modifying data when assumptions are violated</li>
+</ul>
+<hr>
+</section>
+<section id="part-1-defining-the-research-problem" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Part 1: Defining the Research Problem</h1>
+<section id="research-questions-and-hypotheses" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="research-questions-and-hypotheses"><span class="header-section-number">1.1</span> Research Questions and Hypotheses</h2>
+<p>Before any data analysis can begin, you must start with a <strong>clear research question</strong>. This is the foundation of your entire study.</p>
+<section id="what-is-a-good-research-question" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="what-is-a-good-research-question"><span class="header-section-number">1.1.1</span> What is a Good Research Question?</h3>
+<p>A good research question has three essential characteristics:</p>
+<p><strong>1. Simple</strong> - Contains <strong>one predictor variable</strong> and <strong>one outcome variable</strong> - More complex hypotheses with multiple predictors or outcomes should be broken into <strong>multiple simple hypotheses</strong> - For example, instead of studying “different types of smoking,” simplify to “smoking vs non-smoking”</p>
+<p><strong>2. Specific</strong> - Leaves <strong>no ambiguity</strong> about the subjects or variables being studied - Clearly defines <strong>how statistical significance will be tested</strong> - Uses <strong>precise operational definitions</strong> that summarize: - The nature and source of the subjects - How variables will be measured - Whether variables are <strong>continuous</strong> or <strong>categorical</strong></p>
+<p><strong>3. Stated in Advance</strong> - The hypothesis must be determined <strong>before</strong> examining the data - Prevents the temptation to test multiple hypotheses after seeing results - Minimizes the opportunity to “fish” for significant findings</p>
+</section>
+<section id="why-being-specific-matters" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="why-being-specific-matters"><span class="header-section-number">1.1.2</span> Why Being Specific Matters</h3>
+<p>When your hypothesis is specific, you: - Communicate the study clearly to others - Minimize the chance of testing something different once you see the data - Avoid <strong>substituting different measurements</strong> of variables after the fact - Establish clear <strong>variable types</strong> (continuous vs categorical) upfront</p>
+<hr>
+</section>
+</section>
+<section id="study-planning" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="study-planning"><span class="header-section-number">1.2</span> Study Planning</h2>
+<section id="research-plan-components" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="research-plan-components"><span class="header-section-number">1.2.1</span> Research Plan Components</h3>
+<p>Your research plan should document:</p>
+<ol type="1">
+<li><strong>Study Design</strong>: How will data be collected? (observational vs experimental)</li>
+<li><strong>Target Population</strong>: Who or what will you study?</li>
+<li><strong>Sample Size</strong>: How many subjects will you need?</li>
+<li><strong>Predictor and Outcome Variables</strong>: What are you measuring and why?</li>
+</ol>
+</section>
+<section id="conceptualizing-the-target-population" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="conceptualizing-the-target-population"><span class="header-section-number">1.2.2</span> Conceptualizing the Target Population</h3>
+<p>Before collecting data: - Define the <strong>specific population</strong> you’re interested in - Establish <strong>inclusion criteria</strong>: What characteristics define who belongs in your study? - Establish <strong>exclusion criteria</strong>: Who should NOT be included?</p>
+<p>For example, if studying heart disease in adults, you might include: - Inclusion: Adults aged 40-65 with no previous heart conditions - Exclusion: Pregnant women, individuals with genetic heart disease</p>
+</section>
+<section id="sampling-strategy" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="sampling-strategy"><span class="header-section-number">1.2.3</span> Sampling Strategy</h3>
+<p>Once you define your population, decide how to select subjects:</p>
+<p><strong>Probability Sampling</strong> (preferred for statistical inference) - Every member of the population has an equal chance of being selected - Allows you to generalize findings to the larger population</p>
+<p><strong>Non-Probability Sampling</strong> - Subjects are selected based on convenience or specific criteria - Makes it harder to generalize results</p>
+<hr>
+</section>
+</section>
+<section id="statistical-design-concepts" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="statistical-design-concepts"><span class="header-section-number">1.3</span> Statistical Design Concepts</h2>
+<p>When designing your study, understand these key concepts:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Concept</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Response Variable</strong></td>
+<td>The outcome you’re measuring (what you want to explain)</td>
+</tr>
+<tr class="even">
+<td><strong>Factor</strong></td>
+<td>An independent variable in your study</td>
+</tr>
+<tr class="odd">
+<td><strong>Level</strong></td>
+<td>The different values or categories of a factor</td>
+</tr>
+<tr class="even">
+<td><strong>Treatment</strong></td>
+<td>The specific condition applied to subjects</td>
+</tr>
+<tr class="odd">
+<td><strong>Replication</strong></td>
+<td>Using multiple subjects per treatment group</td>
+</tr>
+<tr class="even">
+<td><strong>Randomization</strong></td>
+<td>Randomly assigning subjects to treatment groups</td>
+</tr>
+<tr class="odd">
+<td><strong>Blocking</strong></td>
+<td>Grouping similar subjects to reduce variation</td>
+</tr>
+<tr class="even">
+<td><strong>Factorial Design</strong></td>
+<td>Studying multiple factors simultaneously</td>
+</tr>
+<tr class="odd">
+<td><strong>Main Effect</strong></td>
+<td>The effect of one factor on the response</td>
+</tr>
+<tr class="even">
+<td><strong>Interaction Effect</strong></td>
+<td>How one factor’s effect depends on another factor</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="part-2-measuring-variables" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Part 2: Measuring Variables</h1>
+<section id="measurement-scales" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="measurement-scales"><span class="header-section-number">2.1</span> Measurement Scales</h2>
+<section id="why-measurement-matters" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="why-measurement-matters"><span class="header-section-number">2.1.1</span> Why Measurement Matters</h3>
+<p>The <strong>type of measurement scale</strong> you use affects: - How precise your data is - What statistical tests you can perform - The statistical power of your analysis - Your ability to answer the research question</p>
+</section>
+<section id="continuous-vs-categorical-variables" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="continuous-vs-categorical-variables"><span class="header-section-number">2.1.2</span> Continuous vs Categorical Variables</h3>
+<p><strong>Continuous Variables</strong> (Preferred) - Can take any value within a range - Contain more information than categorical variables - Improve statistical <strong>power</strong> (ability to detect true effects) - Allow for smaller sample sizes - Examples: Age (years), Income (dollars), Blood pressure (mmHg)</p>
+<p><strong>Categorical Variables</strong> - Fall into distinct categories - Contain less information - Require larger sample sizes for same power - Examples: Smoking status (yes/no), Gender (M/F), Education level (HS/College/Grad)</p>
+<p><strong>Key Principle</strong>: Always collect data as <strong>continuous</strong> if possible, even if you might later categorize it. This preserves information and gives you more analytical flexibility.</p>
+<hr>
+</section>
+</section>
+<section id="measurement-quality-precision-and-accuracy" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="measurement-quality-precision-and-accuracy"><span class="header-section-number">2.2</span> Measurement Quality: Precision and Accuracy</h2>
+<p>These two concepts are <strong>not the same</strong> and are equally important for valid research.</p>
+<section id="precision" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="precision"><span class="header-section-number">2.2.1</span> Precision</h3>
+<p><strong>Definition</strong>: How consistently a measurement produces the same value when repeated.</p>
+<ul>
+<li>Reflects <strong>reproducibility, reliability, and consistency</strong></li>
+<li>Affected by <strong>random error</strong> (chance variation)</li>
+<li>Determines the <strong>statistical power</strong> of your study</li>
+<li>Greater precision = greater power to detect effects at the same sample size</li>
+</ul>
+<p><strong>Sources of Random Error</strong> (Reduces Precision):</p>
+<ol type="1">
+<li><strong>Observer Variability</strong>: Differences in how observers take measurements
+<ul>
+<li>Different observers have different skill levels</li>
+<li>Same observer may measure differently on different occasions</li>
+</ul></li>
+<li><strong>Instrument Variability</strong>: Measurement tools are not perfect
+<ul>
+<li>Environmental factors (temperature, humidity)</li>
+<li>Mechanical drift or wear in instruments</li>
+<li>Calibration issues</li>
+</ul></li>
+<li><strong>Subject Variability</strong>: Natural variation within subjects
+<ul>
+<li>Biological fluctuations (heart rate changes throughout the day)</li>
+<li>Behavioral variation (mood, fatigue)</li>
+</ul></li>
+</ol>
+</section>
+<section id="accuracy" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">2.2.2</span> Accuracy</h3>
+<p><strong>Definition</strong>: The degree to which a measurement actually represents what it’s <strong>supposed to measure</strong>.</p>
+<ul>
+<li>Reflects the <strong>validity</strong> of the measurement</li>
+<li>Determined by <strong>systematic error</strong> (consistent bias)</li>
+<li>Critical for the validity and generalizability of your findings</li>
+<li>Accuracy and precision are <strong>not necessarily linked</strong></li>
+</ul>
+<p><strong>Important</strong>: You can have: - ✓ High precision AND high accuracy (ideal) - ✗ High precision but low accuracy (measurements are consistent but wrong) - ✗ Low precision but high accuracy (scattered measurements but correct on average)</p>
+</section>
+<section id="the-relationship-between-precision-and-accuracy" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="the-relationship-between-precision-and-accuracy"><span class="header-section-number">2.2.3</span> The Relationship Between Precision and Accuracy</h3>
+<p>Think of archery or darts:</p>
+<ul>
+<li><strong>Accurate but imprecise</strong>: All shots hit the target area on average, but they’re spread out</li>
+<li><strong>Precise but inaccurate</strong>: All shots cluster together, but far from the bullseye</li>
+<li><strong>Both</strong>: All shots cluster in the bullseye</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="part-3-initial-data-analysis-exploratory-data-analysis" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Part 3: Initial Data Analysis (Exploratory Data Analysis)</h1>
+<section id="what-is-eda" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="what-is-eda"><span class="header-section-number">3.1</span> What is EDA?</h2>
+<p><strong>Exploratory Data Analysis (EDA)</strong> is the critical first step after data collection. You examine your data to:</p>
+<ul>
+<li><strong>Summarize</strong> the main characteristics</li>
+<li><strong>Identify</strong> patterns, trends, and relationships</li>
+<li><strong>Discover</strong> anomalies and outliers</li>
+<li><strong>Visualize</strong> the distribution of variables</li>
+<li><strong>Check</strong> for missing data</li>
+<li><strong>Assess</strong> whether data violates statistical assumptions</li>
+</ul>
+<section id="the-anscombes-quartet-lesson" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="the-anscombes-quartet-lesson"><span class="header-section-number">3.1.1</span> The Anscombe’s Quartet Lesson</h3>
+<p><strong>Why Visualization Matters</strong></p>
+<p>Anscombe’s quartet demonstrates why you <strong>must visualize</strong> your data before analyzing it.</p>
+<p>This dataset consists of four different datasets that have: - <strong>Identical means</strong> (9.00 for x variables; 7.50 for y variables) - <strong>Identical standard deviations</strong> (3.16 for x; 1.94 for y) - <strong>Identical correlation coefficients</strong> (r = 0.82 for all pairs) - <strong>Identical regression lines</strong></p>
+<p><strong>However</strong>, when plotted as scatterplots, the four datasets look <strong>completely different</strong>:</p>
+<ol type="1">
+<li>A perfect linear relationship</li>
+<li>A curved (non-linear) relationship</li>
+<li>A perfect linear relationship with one outlier</li>
+<li>No relationship in the data, but a single extreme point drives the correlation</li>
+</ol>
+<p><strong>The Lesson</strong>: Summary statistics alone can be <strong>deeply misleading</strong>. Always create graphs to visualize your data.</p>
+<hr>
+</section>
+</section>
+<section id="components-of-initial-data-analysis" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="components-of-initial-data-analysis"><span class="header-section-number">3.2</span> Components of Initial Data Analysis</h2>
+<section id="summarizing-and-visualizing-data" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="summarizing-and-visualizing-data"><span class="header-section-number">3.2.1</span> 1. Summarizing and Visualizing Data</h3>
+<p><strong>Numerical Summaries</strong> - Mean, median, standard deviation - Percentiles and quartiles - Min and max values</p>
+<p><strong>Visual Methods</strong> - Histograms (show distribution shape) - Box plots (show median, quartiles, outliers) - Scatter plots (show relationships) - Line plots (show trends over time)</p>
+</section>
+<section id="univariate-profiling" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="univariate-profiling"><span class="header-section-number">3.2.2</span> 2. Univariate Profiling</h3>
+<p>Examining each variable <strong>individually</strong>: - What is the distribution shape? - Are there outliers? - Is the variable skewed? - What is the range of values?</p>
+</section>
+<section id="bivariate-profiling" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="bivariate-profiling"><span class="header-section-number">3.2.3</span> 3. Bivariate Profiling</h3>
+<p>Examining relationships <strong>between pairs</strong> of variables: - Scatter plots for continuous variables - Cross-tabulations for categorical variables - Correlations between continuous variables</p>
+</section>
+<section id="data-quality-checks" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="data-quality-checks"><span class="header-section-number">3.2.4</span> 4. Data Quality Checks</h3>
+<ul>
+<li><strong>Missing data</strong> extent and patterns</li>
+<li><strong>Outliers</strong> and unusual values</li>
+<li><strong>Data entry errors</strong></li>
+<li><strong>Inconsistencies</strong> in the data</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="part-4-missing-data" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Part 4: Missing Data</h1>
+<section id="understanding-missing-data" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="understanding-missing-data"><span class="header-section-number">4.1</span> Understanding Missing Data</h2>
+<p><strong>Definition</strong>: Missing data occurs when values are not recorded for some variables in some observations.</p>
+<section id="why-data-goes-missing" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="why-data-goes-missing"><span class="header-section-number">4.1.1</span> Why Data Goes Missing</h3>
+<p>Missing data can result from: - Experimental or procedural errors - Data entry mistakes - Survey respondents skipping questions - Equipment malfunction - Subject dropout (in longitudinal studies)</p>
+</section>
+<section id="why-missing-data-is-a-problem" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="why-missing-data-is-a-problem"><span class="header-section-number">4.1.2</span> Why Missing Data Is a Problem</h3>
+<ol type="1">
+<li><strong>Reduces sample size</strong> - Fewer observations means less power</li>
+<li><strong>Can introduce bias</strong> - If missingness is related to the values</li>
+<li><strong>Complicates analysis</strong> - Many statistical tests cannot handle missing values</li>
+<li><strong>Violates assumptions</strong> - Listwise deletion can change the nature of your sample</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="identifying-missing-data-patterns" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="identifying-missing-data-patterns"><span class="header-section-number">4.2</span> Identifying Missing Data Patterns</h2>
+<section id="types-of-missing-data" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="types-of-missing-data"><span class="header-section-number">4.2.1</span> Types of Missing Data</h3>
+<p><strong>Ignorable Missing Data</strong> - <strong>Expected</strong> and part of the research design - <strong>No action</strong> is necessary - Example: Surveys where certain questions only apply to some respondents (e.g., “Describe your pregnancy” is ignorable for non-pregnant respondents)</p>
+<p><strong>Non-Ignorable Missing Data</strong> - Results from either a <strong>known</strong> or <strong>unknown</strong> missing data process - Due to <strong>procedural or experimental factors</strong> - Requires investigation and action</p>
+</section>
+<section id="three-mechanisms-of-missingness" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="three-mechanisms-of-missingness"><span class="header-section-number">4.2.2</span> Three Mechanisms of Missingness</h3>
+<p>Understanding <strong>why</strong> data is missing is crucial for choosing the right solution:</p>
+<p><strong>1. Missing Completely at Random (MCAR)</strong> - The probability of missingness is <strong>the same for all units</strong> - Causes of missing data are <strong>unrelated to the data itself</strong> - Example: A survey respondent randomly decides whether to answer each question by flipping a coin - <strong>Implication</strong>: Simple deletion of missing values is acceptable (though it reduces power)</p>
+<p><strong>2. Missing at Random (MAR)</strong> - Missingness depends on <strong>observed variables</strong>, not the missing value itself - The probability of missingness <strong>varies by group</strong> but is predictable from other data - Example: Older respondents are more likely to skip the “earnings” question, but this depends only on age (which you observe) - <strong>Implication</strong>: Imputation methods that use other variables can produce valid estimates</p>
+<p><strong>3. Not Missing at Random (MNAR)</strong> - Missingness depends on the <strong>missing value itself</strong> - The probability of being missing is related to what the value would have been - Example: People with higher incomes are less likely to report their earnings - <strong>Implication</strong>: This is the most problematic situation; bias is hard to correct</p>
+<hr>
+</section>
+</section>
+<section id="steps-to-address-missing-data" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="steps-to-address-missing-data"><span class="header-section-number">4.3</span> Steps to Address Missing Data</h2>
+<section id="step-1-determine-the-type" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="step-1-determine-the-type"><span class="header-section-number">4.3.1</span> Step 1: Determine the Type</h3>
+<p>Is the missing data <strong>ignorable</strong> (part of study design) or <strong>not ignorable</strong> (unexpected)?</p>
+</section>
+<section id="step-2-determine-the-extent" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="step-2-determine-the-extent"><span class="header-section-number">4.3.2</span> Step 2: Determine the Extent</h3>
+<ul>
+<li>How much data is missing for <strong>each variable</strong>?</li>
+<li>How many <strong>complete cases</strong> are there?</li>
+<li>Is the amount small enough to not affect results?</li>
+</ul>
+</section>
+<section id="step-3-diagnose-the-randomness" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="step-3-diagnose-the-randomness"><span class="header-section-number">4.3.3</span> Step 3: Diagnose the Randomness</h3>
+<p>Assess whether missingness is MCAR, MAR, or MNAR by examining: - Patterns across variables - Relationships with other observed variables - Domain knowledge about why data might be missing</p>
+</section>
+<section id="step-4-select-an-imputation-method" class="level3" data-number="4.3.4">
+<h3 data-number="4.3.4" class="anchored" data-anchor-id="step-4-select-an-imputation-method"><span class="header-section-number">4.3.4</span> Step 4: Select an Imputation Method</h3>
+<p><strong>If Ignorable or Minimal Missing Data</strong> - <strong>Deletion</strong>: Remove observations with missing values (acceptable if MCAR)</p>
+<p><strong>If More Substantial Missing Data</strong></p>
+<ol type="1">
+<li><strong>Mean Imputation</strong>: Replace missing values with the <strong>variable mean</strong>
+<ul>
+<li>Advantage: Simple</li>
+<li>Disadvantage: Distorts the distribution, underestimates variance</li>
+</ul></li>
+<li><strong>Regression Imputation</strong>: Use regression to <strong>predict</strong> missing values
+<ul>
+<li>Advantage: Uses relationships with other variables</li>
+<li>Disadvantage: Creates artificially perfect predictions</li>
+</ul></li>
+<li><strong>Stochastic Regression Imputation</strong>: Regression + random noise
+<ul>
+<li>Advantage: Preserves variability</li>
+<li>Better than deterministic imputation</li>
+</ul></li>
+<li><strong>Prediction Methods</strong>: Use k-Nearest Neighbors or other algorithms
+<ul>
+<li>Find similar cases and use their values</li>
+</ul></li>
+<li><strong>Last Observation Carried Forward (LOCF)</strong>: For longitudinal data
+<ul>
+<li>Use previous measurement value</li>
+<li>Conservative (tends to underestimate change)</li>
+</ul></li>
+<li><strong>Multiple Imputation</strong>: Create multiple complete datasets
+<ul>
+<li>Most sophisticated approach</li>
+<li>Accounts for uncertainty in imputed values</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="practical-implementation" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="practical-implementation"><span class="header-section-number">4.4</span> Practical Implementation</h2>
+<section id="in-r" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="in-r"><span class="header-section-number">4.4.1</span> In R</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)                    <span class="co"># TRUE if x is missing</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(x))              <span class="co"># Count missing values</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove missing data</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)        <span class="co"># Calculate mean, ignoring NAs</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">complete.cases</span>(df)         <span class="co"># Identify complete rows</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">na.omit</span>(df)               <span class="co"># Remove rows with ANY missing values</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]  <span class="co"># Keep only complete cases</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="decision-tree" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="decision-tree"><span class="header-section-number">4.4.2</span> Decision Tree</h3>
+<ol type="1">
+<li><strong>Is data ignorable?</strong> → NO ACTION needed</li>
+<li><strong>How much is missing?</strong>
+<ul>
+<li><strong>&lt; 5% per variable</strong> → Simple deletion acceptable</li>
+<li><strong>5-30% per variable</strong> → Consider imputation</li>
+<li><strong>&gt; 30% per variable</strong> → Consider removing variable entirely</li>
+</ul></li>
+<li><strong>Is it MCAR, MAR, or MNAR?</strong>
+<ul>
+<li><strong>MCAR</strong> → Deletion or simple imputation acceptable</li>
+<li><strong>MAR</strong> → Use regression or predictive imputation</li>
+<li><strong>MNAR</strong> → Advanced methods, or acknowledge bias</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="part-5-outliers" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Part 5: Outliers</h1>
+<section id="what-are-outliers" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="what-are-outliers"><span class="header-section-number">5.1</span> What Are Outliers?</h2>
+<p><strong>Definition</strong>: Outliers are observations with <strong>unusual combinations of characteristics</strong> that make them distinctly different from other observations.</p>
+<p>An outlier typically has: - An <strong>unusually high or low value</strong> on a single variable, OR - A <strong>unique combination of values</strong> across multiple variables</p>
+<section id="example" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="example"><span class="header-section-number">5.1.1</span> Example</h3>
+<p>In a dataset of student test scores: - A score of 5/100 is an outlier (very low) - A student with high math AND low reading scores might be an outlier (unusual combination)</p>
+<hr>
+</section>
+</section>
+<section id="classifying-outliers" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="classifying-outliers"><span class="header-section-number">5.2</span> Classifying Outliers</h2>
+<section id="sources-of-outliers" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="sources-of-outliers"><span class="header-section-number">5.2.1</span> Sources of Outliers</h3>
+<p><strong>1. Procedural Error</strong> - <strong>Cause</strong>: Measurement error, data entry mistake, equipment malfunction - <strong>Action</strong>: Investigate and correct if possible; delete if unfixable - <strong>Example</strong>: A blood pressure reading recorded as “2000 mmHg” (clearly impossible)</p>
+<p><strong>2. Extraordinary Event</strong> - <strong>Cause</strong>: Real but exceptional circumstance during data collection - <strong>Action</strong>: Decide whether to keep based on research context - <strong>Example</strong>: A patient’s extremely low blood pressure during a severe medical crisis</p>
+<p><strong>3. Extraordinary Observation</strong> - <strong>Cause</strong>: The subject is genuinely unusual or represents a rare population segment - <strong>Action</strong>: May keep but note; requires domain expertise - <strong>Example</strong>: An exceptionally tall person in a height study (biologically valid but extreme)</p>
+<hr>
+</section>
+</section>
+<section id="handling-outliers" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="handling-outliers"><span class="header-section-number">5.3</span> Handling Outliers</h2>
+<p><strong>Important</strong>: Outliers should be considered <strong>within the context</strong> of your analysis.</p>
+<section id="before-taking-action" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="before-taking-action"><span class="header-section-number">5.3.1</span> Before Taking Action</h3>
+<ol type="1">
+<li><strong>Verify the value</strong> - Is it a real measurement or an error?</li>
+<li><strong>Understand the cause</strong> - Why is this observation unusual?</li>
+<li><strong>Check implications</strong> - Does removing it change your conclusions significantly?</li>
+<li><strong>Consider domain knowledge</strong> - Is this observation valid in your field?</li>
+</ol>
+</section>
+<section id="options" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="options"><span class="header-section-number">5.3.2</span> Options</h3>
+<ul>
+<li><strong>Keep</strong>: If it represents a real, valid observation</li>
+<li><strong>Investigate &amp; Correct</strong>: If it’s a measurement or data entry error</li>
+<li><strong>Remove</strong>: If it’s a true error with no way to verify</li>
+<li><strong>Analyze With and Without</strong>: Report both analyses to show sensitivity</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="part-6-testing-model-assumptions" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Part 6: Testing Model Assumptions</h1>
+<section id="why-assumptions-matter" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="why-assumptions-matter"><span class="header-section-number">6.1</span> Why Assumptions Matter</h2>
+<p>Before fitting a statistical model, you must verify that your data <strong>satisfies the model’s assumptions</strong>. Different models have different requirements.</p>
+<section id="key-assumptions-for-linear-models" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="key-assumptions-for-linear-models"><span class="header-section-number">6.1.1</span> Key Assumptions for Linear Models</h3>
+<p><strong>1. Linearity</strong> - The relationship between predictor (x) and outcome (y) is <strong>linear</strong> - Check: Scatter plot should show a linear pattern - Violation: Use transformation or non-linear models</p>
+<p><strong>2. Independence</strong> - Observations are <strong>independent</strong> of each other - Violations commonly occur in: time series, repeated measures, clustered data - Check: Study design (randomization, no confounding)</p>
+<p><strong>3. Homoscedasticity (Constant Variance)</strong> - The <strong>variance of errors is constant</strong> across all levels of the predictor - Check: Scatter plot around regression line should have consistent spread - Violation: Variance increases/decreases with predictor values</p>
+<p><strong>4. Normality</strong> - The <strong>errors (residuals)</strong> are normally distributed - Check: Q-Q plot (quantile-quantile plot) or histogram of residuals - Note: Large sample sizes make violation less problematic due to Central Limit Theorem - Violation: Use transformation, non-parametric tests, or larger sample</p>
+<hr>
+</section>
+</section>
+<section id="data-transformation" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="data-transformation"><span class="header-section-number">6.2</span> Data Transformation</h2>
+<section id="when-to-transform" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="when-to-transform"><span class="header-section-number">6.2.1</span> When to Transform</h3>
+<p>If your data <strong>violates assumptions</strong>, transformation can sometimes help by: - Stabilizing variance - Making distributions more normal - Making relationships more linear</p>
+</section>
+<section id="common-transformations" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="common-transformations"><span class="header-section-number">6.2.2</span> Common Transformations</h3>
+<p><strong>For Skewed Data</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Transformation</th>
+<th>Use When</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Square root</strong></td>
+<td>Mild skewness</td>
+<td>Gentle transformation</td>
+</tr>
+<tr class="even">
+<td><strong>Log</strong></td>
+<td>Moderate skewness, positive data</td>
+<td>Strong transformation</td>
+</tr>
+<tr class="odd">
+<td><strong>Reciprocal (1/x)</strong></td>
+<td>Severe skewness</td>
+<td>Very strong transformation</td>
+</tr>
+<tr class="even">
+<td><strong>Box-Cox</strong></td>
+<td>Optimal transformation unknown</td>
+<td>Data-driven selection</td>
+</tr>
+</tbody>
+</table>
+<p><strong>For Other Issues</strong></p>
+<ul>
+<li><strong>Standardizing</strong>: Convert to mean=0, SD=1</li>
+<li><strong>Squaring</strong>: If relationship is non-linear</li>
+<li><strong>Combinations</strong>: First transform, then analyze</li>
+</ul>
+</section>
+<section id="important-considerations" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="important-considerations"><span class="header-section-number">6.2.3</span> Important Considerations</h3>
+<ol type="1">
+<li><strong>Interpretation changes</strong>: After transformation, you interpret results on transformed scale</li>
+<li><strong>Assumptions still apply</strong>: Transformation must result in assumptions being met</li>
+<li><strong>Not always possible</strong>: Some violations cannot be fixed by transformation alone</li>
+<li><strong>Alternative approaches</strong>: Non-parametric tests or robust methods may be better</li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="summary-points" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Summary Points</h1>
+<section id="key-takeaways" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="key-takeaways"><span class="header-section-number">7.1</span> Key Takeaways</h2>
+<ul>
+<li><strong>Define clearly</strong>: Your research question must be simple, specific, and stated in advance</li>
+<li><strong>Plan carefully</strong>: Study design includes population definition, sampling, measurement, and sample size</li>
+<li><strong>Measure well</strong>: Collect data as continuous when possible; ensure both precision (consistency) and accuracy (validity)</li>
+<li><strong>Explore first</strong>: Always visualize and summarize before modeling (Anscombe’s quartet lesson!)</li>
+<li><strong>Handle missing data</strong>: Identify type and mechanism; choose appropriate method (deletion vs imputation)</li>
+<li><strong>Check assumptions</strong>: Verify linearity, independence, homoscedasticity, and normality before modeling</li>
+<li><strong>Transform if needed</strong>: Use transformations (log, square root) to fix violations</li>
+<li><strong>Use domain expertise</strong>: All decisions about outliers, missing data, and transformations should be informed by subject matter knowledge</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="checklist-for-week-1" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Checklist for Week 1</h1>
+<p>Before moving to model fitting, ensure you have:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Formulated a clear, testable research question</label></li>
+<li><label><input type="checkbox">Defined target population and sampling strategy</label></li>
+<li><label><input type="checkbox">Planned measurements and established measurement quality</label></li>
+<li><label><input type="checkbox">Created visualizations (histograms, scatter plots, box plots)</label></li>
+<li><label><input type="checkbox">Identified and documented missing data patterns</label></li>
+<li><label><input type="checkbox">Identified potential outliers and understood their source</label></li>
+<li><label><input type="checkbox">Tested model assumptions</label></li>
+<li><label><input type="checkbox">Applied transformations if needed</label></li>
+<li><label><input type="checkbox">Documented all decisions made during data cleaning</label></li>
+</ul>
+<hr>
+</section>
+<section id="additional-resources" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Additional Resources</h1>
+<section id="references-for-further-learning" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="references-for-further-learning"><span class="header-section-number">9.1</span> References for Further Learning</h2>
+<ul>
+<li><strong>Missing Data Concepts</strong>: <a href="https://stefvanbuuren.name/fimd/sec-MCAR.html" class="uri">https://stefvanbuuren.name/fimd/sec-MCAR.html</a></li>
+<li><strong>Missing Data Solutions</strong>: <a href="https://stefvanbuuren.name/fimd/sec-simplesolutions.html" class="uri">https://stefvanbuuren.name/fimd/sec-simplesolutions.html</a></li>
+</ul>
+</section>
+<section id="next-week" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="next-week"><span class="header-section-number">9.2</span> Next Week</h2>
+<p>Week 2 will cover: - <strong>Model Fitting</strong>: Selecting and fitting appropriate statistical models - <strong>Model Interpretation</strong>: Understanding model coefficients and predictions - <strong>Model Validation</strong>: Assessing how well your model works</p>
+<hr>
+<p><em>End of Week 1 Study Guide</em></p>
+<p><em>Note: This guide is a living document. Leave space for annotations, additional examples, and clarifications as discussed in lectures.</em></p>
+
+
+<!-- -->
+
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
-    // Ensure there is a toggle, if there isn't float one in the top right
-    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-      const i = window.document.createElement("i");
-      i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
-    }
-    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
@@ -583,9 +1062,60 @@ ul.task-list li input[type="checkbox"] {
       });
       clipboardModal.on('success', onCopySuccess);
     }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/lgolin\.quarto\.pub\/semester-notes-2026");
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -914,8 +1444,8 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../regression-analysis/index.html" class="pagination-link" aria-label="Overview">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview</span>
+      <a href="../regression-analysis/index.html" class="pagination-link" aria-label="Weekly Notes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Weekly Notes</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -923,7 +1453,472 @@ ul.task-list li input[type="checkbox"] {
         <span class="nav-page-text">Week 2</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
-</nav>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 1: Data Analysis Protocol"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">subject:</span><span class="co"> "Regression Analysis"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Topics</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Research Question &amp; Hypothesis Development**: Formulating clear, testable research questions</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Study Planning &amp; Design**: Designing studies with proper sampling and measurement strategies</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Data Measurement Scales**: Understanding continuous vs categorical variables</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Measurement Quality**: Precision and accuracy in data collection</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Initial Data Analysis (EDA)**: Exploratory techniques for understanding data</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Data Visualization**: Using graphs to uncover patterns and anomalies</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Missing Data**: Identifying, understanding, and handling missing values</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Outliers**: Detection and classification of unusual observations</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Model Assumptions**: Testing whether data meets statistical requirements</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Data Transformation**: Modifying data when assumptions are violated</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part 1: Defining the Research Problem</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## Research Questions and Hypotheses</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>Before any data analysis can begin, you must start with a **clear research question**. This is the foundation of your entire study.</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">### What is a Good Research Question?</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>A good research question has three essential characteristics:</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>**1. Simple** - Contains **one predictor variable** and **one outcome variable** - More complex hypotheses with multiple predictors or outcomes should be broken into **multiple simple hypotheses** - For example, instead of studying "different types of smoking," simplify to "smoking vs non-smoking"</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>**2. Specific** - Leaves **no ambiguity** about the subjects or variables being studied - Clearly defines **how statistical significance will be tested** - Uses **precise operational definitions** that summarize: - The nature and source of the subjects - How variables will be measured - Whether variables are **continuous** or **categorical**</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>**3. Stated in Advance** - The hypothesis must be determined **before** examining the data - Prevents the temptation to test multiple hypotheses after seeing results - Minimizes the opportunity to "fish" for significant findings</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Being Specific Matters</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>When your hypothesis is specific, you: - Communicate the study clearly to others - Minimize the chance of testing something different once you see the data - Avoid **substituting different measurements** of variables after the fact - Establish clear **variable types** (continuous vs categorical) upfront</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## Study Planning</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Plan Components</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>Your research plan should document:</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Study Design**: How will data be collected? (observational vs experimental)</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Target Population**: Who or what will you study?</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Sample Size**: How many subjects will you need?</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Predictor and Outcome Variables**: What are you measuring and why?</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptualizing the Target Population</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>Before collecting data: - Define the **specific population** you're interested in - Establish **inclusion criteria**: What characteristics define who belongs in your study? - Establish **exclusion criteria**: Who should NOT be included?</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>For example, if studying heart disease in adults, you might include: - Inclusion: Adults aged 40-65 with no previous heart conditions - Exclusion: Pregnant women, individuals with genetic heart disease</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sampling Strategy</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>Once you define your population, decide how to select subjects:</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>**Probability Sampling** (preferred for statistical inference) - Every member of the population has an equal chance of being selected - Allows you to generalize findings to the larger population</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>**Non-Probability Sampling** - Subjects are selected based on convenience or specific criteria - Makes it harder to generalize results</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="fu">## Statistical Design Concepts</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>When designing your study, understand these key concepts:</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Concept <span class="pp">|</span> Definition <span class="pp">|</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------------------------------|---------------------------------------|</span></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Response Variable** <span class="pp">|</span> The outcome you're measuring (what you want to explain) <span class="pp">|</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Factor** <span class="pp">|</span> An independent variable in your study <span class="pp">|</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Level** <span class="pp">|</span> The different values or categories of a factor <span class="pp">|</span></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Treatment** <span class="pp">|</span> The specific condition applied to subjects <span class="pp">|</span></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Replication** <span class="pp">|</span> Using multiple subjects per treatment group <span class="pp">|</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Randomization** <span class="pp">|</span> Randomly assigning subjects to treatment groups <span class="pp">|</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Blocking** <span class="pp">|</span> Grouping similar subjects to reduce variation <span class="pp">|</span></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Factorial Design** <span class="pp">|</span> Studying multiple factors simultaneously <span class="pp">|</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Main Effect** <span class="pp">|</span> The effect of one factor on the response <span class="pp">|</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Interaction Effect** <span class="pp">|</span> How one factor's effect depends on another factor <span class="pp">|</span></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part 2: Measuring Variables</span></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## Measurement Scales</span></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Measurement Matters</span></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>The **type of measurement scale** you use affects: - How precise your data is - What statistical tests you can perform - The statistical power of your analysis - Your ability to answer the research question</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="fu">### Continuous vs Categorical Variables</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>**Continuous Variables** (Preferred) - Can take any value within a range - Contain more information than categorical variables - Improve statistical **power** (ability to detect true effects) - Allow for smaller sample sizes - Examples: Age (years), Income (dollars), Blood pressure (mmHg)</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>**Categorical Variables** - Fall into distinct categories - Contain less information - Require larger sample sizes for same power - Examples: Smoking status (yes/no), Gender (M/F), Education level (HS/College/Grad)</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>**Key Principle**: Always collect data as **continuous** if possible, even if you might later categorize it. This preserves information and gives you more analytical flexibility.</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a><span class="fu">## Measurement Quality: Precision and Accuracy</span></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>These two concepts are **not the same** and are equally important for valid research.</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a><span class="fu">### Precision</span></span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>**Definition**: How consistently a measurement produces the same value when repeated.</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Reflects **reproducibility, reliability, and consistency**</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Affected by **random error** (chance variation)</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Determines the **statistical power** of your study</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Greater precision = greater power to detect effects at the same sample size</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>**Sources of Random Error** (Reduces Precision):</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Observer Variability**: Differences in how observers take measurements</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Different observers have different skill levels</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Same observer may measure differently on different occasions</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Instrument Variability**: Measurement tools are not perfect</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Environmental factors (temperature, humidity)</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Mechanical drift or wear in instruments</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Calibration issues</span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Subject Variability**: Natural variation within subjects</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Biological fluctuations (heart rate changes throughout the day)</span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Behavioral variation (mood, fatigue)</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a><span class="fu">### Accuracy</span></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>**Definition**: The degree to which a measurement actually represents what it's **supposed to measure**.</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Reflects the **validity** of the measurement</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Determined by **systematic error** (consistent bias)</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Critical for the validity and generalizability of your findings</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Accuracy and precision are **not necessarily linked**</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>**Important**: You can have: - ✓ High precision AND high accuracy (ideal) - ✗ High precision but low accuracy (measurements are consistent but wrong) - ✗ Low precision but high accuracy (scattered measurements but correct on average)</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Relationship Between Precision and Accuracy</span></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>Think of archery or darts:</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Accurate but imprecise**: All shots hit the target area on average, but they're spread out</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Precise but inaccurate**: All shots cluster together, but far from the bullseye</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Both**: All shots cluster in the bullseye</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part 3: Initial Data Analysis (Exploratory Data Analysis)</span></span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is EDA?</span></span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>**Exploratory Data Analysis (EDA)** is the critical first step after data collection. You examine your data to:</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Summarize** the main characteristics</span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Identify** patterns, trends, and relationships</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Discover** anomalies and outliers</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Visualize** the distribution of variables</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Check** for missing data</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Assess** whether data violates statistical assumptions</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Anscombe's Quartet Lesson</span></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>**Why Visualization Matters**</span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>Anscombe's quartet demonstrates why you **must visualize** your data before analyzing it.</span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>This dataset consists of four different datasets that have: - **Identical means** (9.00 for x variables; 7.50 for y variables) - **Identical standard deviations** (3.16 for x; 1.94 for y) - **Identical correlation coefficients** (r = 0.82 for all pairs) - **Identical regression lines**</span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>**However**, when plotted as scatterplots, the four datasets look **completely different**:</span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>A perfect linear relationship</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>A curved (non-linear) relationship</span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>A perfect linear relationship with one outlier</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>No relationship in the data, but a single extreme point drives the correlation</span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>**The Lesson**: Summary statistics alone can be **deeply misleading**. Always create graphs to visualize your data.</span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a><span class="fu">## Components of Initial Data Analysis</span></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. Summarizing and Visualizing Data</span></span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>**Numerical Summaries** - Mean, median, standard deviation - Percentiles and quartiles - Min and max values</span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>**Visual Methods** - Histograms (show distribution shape) - Box plots (show median, quartiles, outliers) - Scatter plots (show relationships) - Line plots (show trends over time)</span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. Univariate Profiling</span></span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>Examining each variable **individually**: - What is the distribution shape? - Are there outliers? - Is the variable skewed? - What is the range of values?</span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3. Bivariate Profiling</span></span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>Examining relationships **between pairs** of variables: - Scatter plots for continuous variables - Cross-tabulations for categorical variables - Correlations between continuous variables</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4. Data Quality Checks</span></span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Missing data** extent and patterns</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Outliers** and unusual values</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Data entry errors**</span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Inconsistencies** in the data</span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part 4: Missing Data</span></span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a><span class="fu">## Understanding Missing Data</span></span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a>**Definition**: Missing data occurs when values are not recorded for some variables in some observations.</span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Data Goes Missing</span></span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a>Missing data can result from: - Experimental or procedural errors - Data entry mistakes - Survey respondents skipping questions - Equipment malfunction - Subject dropout (in longitudinal studies)</span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Missing Data Is a Problem</span></span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Reduces sample size** - Fewer observations means less power</span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Can introduce bias** - If missingness is related to the values</span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Complicates analysis** - Many statistical tests cannot handle missing values</span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Violates assumptions** - Listwise deletion can change the nature of your sample</span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a><span class="fu">## Identifying Missing Data Patterns</span></span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a><span class="fu">### Types of Missing Data</span></span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a>**Ignorable Missing Data** - **Expected** and part of the research design - **No action** is necessary - Example: Surveys where certain questions only apply to some respondents (e.g., "Describe your pregnancy" is ignorable for non-pregnant respondents)</span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>**Non-Ignorable Missing Data** - Results from either a **known** or **unknown** missing data process - Due to **procedural or experimental factors** - Requires investigation and action</span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a><span class="fu">### Three Mechanisms of Missingness</span></span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>Understanding **why** data is missing is crucial for choosing the right solution:</span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>**1. Missing Completely at Random (MCAR)** - The probability of missingness is **the same for all units** - Causes of missing data are **unrelated to the data itself** - Example: A survey respondent randomly decides whether to answer each question by flipping a coin - **Implication**: Simple deletion of missing values is acceptable (though it reduces power)</span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>**2. Missing at Random (MAR)** - Missingness depends on **observed variables**, not the missing value itself - The probability of missingness **varies by group** but is predictable from other data - Example: Older respondents are more likely to skip the "earnings" question, but this depends only on age (which you observe) - **Implication**: Imputation methods that use other variables can produce valid estimates</span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a>**3. Not Missing at Random (MNAR)** - Missingness depends on the **missing value itself** - The probability of being missing is related to what the value would have been - Example: People with higher incomes are less likely to report their earnings - **Implication**: This is the most problematic situation; bias is hard to correct</span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a><span class="fu">## Steps to Address Missing Data</span></span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 1: Determine the Type</span></span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a>Is the missing data **ignorable** (part of study design) or **not ignorable** (unexpected)?</span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 2: Determine the Extent</span></span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>How much data is missing for **each variable**?</span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>How many **complete cases** are there?</span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Is the amount small enough to not affect results?</span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 3: Diagnose the Randomness</span></span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a>Assess whether missingness is MCAR, MAR, or MNAR by examining: - Patterns across variables - Relationships with other observed variables - Domain knowledge about why data might be missing</span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 4: Select an Imputation Method</span></span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>**If Ignorable or Minimal Missing Data** - **Deletion**: Remove observations with missing values (acceptable if MCAR)</span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a>**If More Substantial Missing Data**</span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Mean Imputation**: Replace missing values with the **variable mean**</span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Advantage: Simple</span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Disadvantage: Distorts the distribution, underestimates variance</span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Regression Imputation**: Use regression to **predict** missing values</span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Advantage: Uses relationships with other variables</span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Disadvantage: Creates artificially perfect predictions</span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Stochastic Regression Imputation**: Regression + random noise</span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Advantage: Preserves variability</span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Better than deterministic imputation</span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Prediction Methods**: Use k-Nearest Neighbors or other algorithms</span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Find similar cases and use their values</span>
+<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>**Last Observation Carried Forward (LOCF)**: For longitudinal data</span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Use previous measurement value</span>
+<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Conservative (tends to underestimate change)</span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>**Multiple Imputation**: Create multiple complete datasets</span>
+<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Most sophisticated approach</span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Accounts for uncertainty in imputed values</span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a><span class="fu">## Practical Implementation</span></span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a><span class="fu">### In R</span></span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)                    <span class="co"># TRUE if x is missing</span></span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(x))              <span class="co"># Count missing values</span></span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove missing data</span></span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)        <span class="co"># Calculate mean, ignoring NAs</span></span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a><span class="fu">complete.cases</span>(df)         <span class="co"># Identify complete rows</span></span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a><span class="fu">na.omit</span>(df)               <span class="co"># Remove rows with ANY missing values</span></span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]  <span class="co"># Keep only complete cases</span></span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a><span class="fu">### Decision Tree</span></span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Is data ignorable?** → NO ACTION needed</span>
+<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**How much is missing?**</span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>**\&lt; 5% per variable** → Simple deletion acceptable</span>
+<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>**5-30% per variable** → Consider imputation</span>
+<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>**\&gt; 30% per variable** → Consider removing variable entirely</span>
+<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Is it MCAR, MAR, or MNAR?**</span>
+<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>**MCAR** → Deletion or simple imputation acceptable</span>
+<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>**MAR** → Use regression or predictive imputation</span>
+<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>**MNAR** → Advanced methods, or acknowledge bias</span>
+<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part 5: Outliers</span></span>
+<span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a><span class="fu">## What Are Outliers?</span></span>
+<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a>**Definition**: Outliers are observations with **unusual combinations of characteristics** that make them distinctly different from other observations.</span>
+<span id="cb2-327"><a href="#cb2-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a>An outlier typically has: - An **unusually high or low value** on a single variable, OR - A **unique combination of values** across multiple variables</span>
+<span id="cb2-329"><a href="#cb2-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-330"><a href="#cb2-330" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
+<span id="cb2-331"><a href="#cb2-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-332"><a href="#cb2-332" aria-hidden="true" tabindex="-1"></a>In a dataset of student test scores: - A score of 5/100 is an outlier (very low) - A student with high math AND low reading scores might be an outlier (unusual combination)</span>
+<span id="cb2-333"><a href="#cb2-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-334"><a href="#cb2-334" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-335"><a href="#cb2-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-336"><a href="#cb2-336" aria-hidden="true" tabindex="-1"></a><span class="fu">## Classifying Outliers</span></span>
+<span id="cb2-337"><a href="#cb2-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-338"><a href="#cb2-338" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sources of Outliers</span></span>
+<span id="cb2-339"><a href="#cb2-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-340"><a href="#cb2-340" aria-hidden="true" tabindex="-1"></a>**1. Procedural Error** - **Cause**: Measurement error, data entry mistake, equipment malfunction - **Action**: Investigate and correct if possible; delete if unfixable - **Example**: A blood pressure reading recorded as "2000 mmHg" (clearly impossible)</span>
+<span id="cb2-341"><a href="#cb2-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-342"><a href="#cb2-342" aria-hidden="true" tabindex="-1"></a>**2. Extraordinary Event** - **Cause**: Real but exceptional circumstance during data collection - **Action**: Decide whether to keep based on research context - **Example**: A patient's extremely low blood pressure during a severe medical crisis</span>
+<span id="cb2-343"><a href="#cb2-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-344"><a href="#cb2-344" aria-hidden="true" tabindex="-1"></a>**3. Extraordinary Observation** - **Cause**: The subject is genuinely unusual or represents a rare population segment - **Action**: May keep but note; requires domain expertise - **Example**: An exceptionally tall person in a height study (biologically valid but extreme)</span>
+<span id="cb2-345"><a href="#cb2-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-346"><a href="#cb2-346" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-347"><a href="#cb2-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-348"><a href="#cb2-348" aria-hidden="true" tabindex="-1"></a><span class="fu">## Handling Outliers</span></span>
+<span id="cb2-349"><a href="#cb2-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-350"><a href="#cb2-350" aria-hidden="true" tabindex="-1"></a>**Important**: Outliers should be considered **within the context** of your analysis.</span>
+<span id="cb2-351"><a href="#cb2-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-352"><a href="#cb2-352" aria-hidden="true" tabindex="-1"></a><span class="fu">### Before Taking Action</span></span>
+<span id="cb2-353"><a href="#cb2-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-354"><a href="#cb2-354" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Verify the value** - Is it a real measurement or an error?</span>
+<span id="cb2-355"><a href="#cb2-355" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Understand the cause** - Why is this observation unusual?</span>
+<span id="cb2-356"><a href="#cb2-356" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Check implications** - Does removing it change your conclusions significantly?</span>
+<span id="cb2-357"><a href="#cb2-357" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Consider domain knowledge** - Is this observation valid in your field?</span>
+<span id="cb2-358"><a href="#cb2-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-359"><a href="#cb2-359" aria-hidden="true" tabindex="-1"></a><span class="fu">### Options</span></span>
+<span id="cb2-360"><a href="#cb2-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-361"><a href="#cb2-361" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Keep**: If it represents a real, valid observation</span>
+<span id="cb2-362"><a href="#cb2-362" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Investigate &amp; Correct**: If it's a measurement or data entry error</span>
+<span id="cb2-363"><a href="#cb2-363" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Remove**: If it's a true error with no way to verify</span>
+<span id="cb2-364"><a href="#cb2-364" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Analyze With and Without**: Report both analyses to show sensitivity</span>
+<span id="cb2-365"><a href="#cb2-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-366"><a href="#cb2-366" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-367"><a href="#cb2-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-368"><a href="#cb2-368" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part 6: Testing Model Assumptions</span></span>
+<span id="cb2-369"><a href="#cb2-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-370"><a href="#cb2-370" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why Assumptions Matter</span></span>
+<span id="cb2-371"><a href="#cb2-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-372"><a href="#cb2-372" aria-hidden="true" tabindex="-1"></a>Before fitting a statistical model, you must verify that your data **satisfies the model's assumptions**. Different models have different requirements.</span>
+<span id="cb2-373"><a href="#cb2-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-374"><a href="#cb2-374" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Assumptions for Linear Models</span></span>
+<span id="cb2-375"><a href="#cb2-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-376"><a href="#cb2-376" aria-hidden="true" tabindex="-1"></a>**1. Linearity** - The relationship between predictor (x) and outcome (y) is **linear** - Check: Scatter plot should show a linear pattern - Violation: Use transformation or non-linear models</span>
+<span id="cb2-377"><a href="#cb2-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-378"><a href="#cb2-378" aria-hidden="true" tabindex="-1"></a>**2. Independence** - Observations are **independent** of each other - Violations commonly occur in: time series, repeated measures, clustered data - Check: Study design (randomization, no confounding)</span>
+<span id="cb2-379"><a href="#cb2-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-380"><a href="#cb2-380" aria-hidden="true" tabindex="-1"></a>**3. Homoscedasticity (Constant Variance)** - The **variance of errors is constant** across all levels of the predictor - Check: Scatter plot around regression line should have consistent spread - Violation: Variance increases/decreases with predictor values</span>
+<span id="cb2-381"><a href="#cb2-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-382"><a href="#cb2-382" aria-hidden="true" tabindex="-1"></a>**4. Normality** - The **errors (residuals)** are normally distributed - Check: Q-Q plot (quantile-quantile plot) or histogram of residuals - Note: Large sample sizes make violation less problematic due to Central Limit Theorem - Violation: Use transformation, non-parametric tests, or larger sample</span>
+<span id="cb2-383"><a href="#cb2-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-384"><a href="#cb2-384" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-385"><a href="#cb2-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-386"><a href="#cb2-386" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Transformation</span></span>
+<span id="cb2-387"><a href="#cb2-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-388"><a href="#cb2-388" aria-hidden="true" tabindex="-1"></a><span class="fu">### When to Transform</span></span>
+<span id="cb2-389"><a href="#cb2-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-390"><a href="#cb2-390" aria-hidden="true" tabindex="-1"></a>If your data **violates assumptions**, transformation can sometimes help by: - Stabilizing variance - Making distributions more normal - Making relationships more linear</span>
+<span id="cb2-391"><a href="#cb2-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-392"><a href="#cb2-392" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common Transformations</span></span>
+<span id="cb2-393"><a href="#cb2-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-394"><a href="#cb2-394" aria-hidden="true" tabindex="-1"></a>**For Skewed Data**</span>
+<span id="cb2-395"><a href="#cb2-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-396"><a href="#cb2-396" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Transformation <span class="pp">|</span> Use When <span class="pp">|</span> Effect <span class="pp">|</span></span>
+<span id="cb2-397"><a href="#cb2-397" aria-hidden="true" tabindex="-1"></a><span class="pp">|----|----|----|</span></span>
+<span id="cb2-398"><a href="#cb2-398" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Square root** <span class="pp">|</span> Mild skewness <span class="pp">|</span> Gentle transformation <span class="pp">|</span></span>
+<span id="cb2-399"><a href="#cb2-399" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Log** <span class="pp">|</span> Moderate skewness, positive data <span class="pp">|</span> Strong transformation <span class="pp">|</span></span>
+<span id="cb2-400"><a href="#cb2-400" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Reciprocal (1/x)** <span class="pp">|</span> Severe skewness <span class="pp">|</span> Very strong transformation <span class="pp">|</span></span>
+<span id="cb2-401"><a href="#cb2-401" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Box-Cox** <span class="pp">|</span> Optimal transformation unknown <span class="pp">|</span> Data-driven selection <span class="pp">|</span></span>
+<span id="cb2-402"><a href="#cb2-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-403"><a href="#cb2-403" aria-hidden="true" tabindex="-1"></a>**For Other Issues**</span>
+<span id="cb2-404"><a href="#cb2-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-405"><a href="#cb2-405" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Standardizing**: Convert to mean=0, SD=1</span>
+<span id="cb2-406"><a href="#cb2-406" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Squaring**: If relationship is non-linear</span>
+<span id="cb2-407"><a href="#cb2-407" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Combinations**: First transform, then analyze</span>
+<span id="cb2-408"><a href="#cb2-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-409"><a href="#cb2-409" aria-hidden="true" tabindex="-1"></a><span class="fu">### Important Considerations</span></span>
+<span id="cb2-410"><a href="#cb2-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-411"><a href="#cb2-411" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Interpretation changes**: After transformation, you interpret results on transformed scale</span>
+<span id="cb2-412"><a href="#cb2-412" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Assumptions still apply**: Transformation must result in assumptions being met</span>
+<span id="cb2-413"><a href="#cb2-413" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Not always possible**: Some violations cannot be fixed by transformation alone</span>
+<span id="cb2-414"><a href="#cb2-414" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Alternative approaches**: Non-parametric tests or robust methods may be better</span>
+<span id="cb2-415"><a href="#cb2-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-416"><a href="#cb2-416" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-417"><a href="#cb2-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-418"><a href="#cb2-418" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb2-419"><a href="#cb2-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-420"><a href="#cb2-420" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
+<span id="cb2-421"><a href="#cb2-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-422"><a href="#cb2-422" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Define clearly**: Your research question must be simple, specific, and stated in advance</span>
+<span id="cb2-423"><a href="#cb2-423" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Plan carefully**: Study design includes population definition, sampling, measurement, and sample size</span>
+<span id="cb2-424"><a href="#cb2-424" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Measure well**: Collect data as continuous when possible; ensure both precision (consistency) and accuracy (validity)</span>
+<span id="cb2-425"><a href="#cb2-425" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Explore first**: Always visualize and summarize before modeling (Anscombe's quartet lesson!)</span>
+<span id="cb2-426"><a href="#cb2-426" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Handle missing data**: Identify type and mechanism; choose appropriate method (deletion vs imputation)</span>
+<span id="cb2-427"><a href="#cb2-427" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Check assumptions**: Verify linearity, independence, homoscedasticity, and normality before modeling</span>
+<span id="cb2-428"><a href="#cb2-428" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Transform if needed**: Use transformations (log, square root) to fix violations</span>
+<span id="cb2-429"><a href="#cb2-429" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Use domain expertise**: All decisions about outliers, missing data, and transformations should be informed by subject matter knowledge</span>
+<span id="cb2-430"><a href="#cb2-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-431"><a href="#cb2-431" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-432"><a href="#cb2-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-433"><a href="#cb2-433" aria-hidden="true" tabindex="-1"></a><span class="fu"># Checklist for Week 1</span></span>
+<span id="cb2-434"><a href="#cb2-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-435"><a href="#cb2-435" aria-hidden="true" tabindex="-1"></a>Before moving to model fitting, ensure you have:</span>
+<span id="cb2-436"><a href="#cb2-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-437"><a href="#cb2-437" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Formulated a clear, testable research question</span>
+<span id="cb2-438"><a href="#cb2-438" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Defined target population and sampling strategy</span>
+<span id="cb2-439"><a href="#cb2-439" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Planned measurements and established measurement quality</span>
+<span id="cb2-440"><a href="#cb2-440" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Created visualizations (histograms, scatter plots, box plots)</span>
+<span id="cb2-441"><a href="#cb2-441" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Identified and documented missing data patterns</span>
+<span id="cb2-442"><a href="#cb2-442" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Identified potential outliers and understood their source</span>
+<span id="cb2-443"><a href="#cb2-443" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Tested model assumptions</span>
+<span id="cb2-444"><a href="#cb2-444" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Applied transformations if needed</span>
+<span id="cb2-445"><a href="#cb2-445" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Documented all decisions made during data cleaning</span>
+<span id="cb2-446"><a href="#cb2-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-447"><a href="#cb2-447" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-448"><a href="#cb2-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-449"><a href="#cb2-449" aria-hidden="true" tabindex="-1"></a><span class="fu"># Additional Resources</span></span>
+<span id="cb2-450"><a href="#cb2-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-451"><a href="#cb2-451" aria-hidden="true" tabindex="-1"></a><span class="fu">## References for Further Learning</span></span>
+<span id="cb2-452"><a href="#cb2-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-453"><a href="#cb2-453" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Missing Data Concepts**: <span class="ot">&lt;https://stefvanbuuren.name/fimd/sec-MCAR.html&gt;</span></span>
+<span id="cb2-454"><a href="#cb2-454" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Missing Data Solutions**: <span class="ot">&lt;https://stefvanbuuren.name/fimd/sec-simplesolutions.html&gt;</span></span>
+<span id="cb2-455"><a href="#cb2-455" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-456"><a href="#cb2-456" aria-hidden="true" tabindex="-1"></a><span class="fu">## Next Week</span></span>
+<span id="cb2-457"><a href="#cb2-457" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-458"><a href="#cb2-458" aria-hidden="true" tabindex="-1"></a>Week 2 will cover: - **Model Fitting**: Selecting and fitting appropriate statistical models - **Model Interpretation**: Understanding model coefficients and predictions - **Model Validation**: Assessing how well your model works</span>
+<span id="cb2-459"><a href="#cb2-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-460"><a href="#cb2-460" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-461"><a href="#cb2-461" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-462"><a href="#cb2-462" aria-hidden="true" tabindex="-1"></a>*End of Week 1 Study Guide*</span>
+<span id="cb2-463"><a href="#cb2-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-464"><a href="#cb2-464" aria-hidden="true" tabindex="-1"></a>*Note: This guide is a living document. Leave space for annotations, additional examples, and clarifications as discussed in lectures.*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 

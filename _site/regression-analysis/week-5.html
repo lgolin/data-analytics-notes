@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-03-28">
+
+<title>Week 5 – One-Way ANOVA – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../regression-analysis/week-9.html" rel="next">
+<link href="../regression-analysis/week-4.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-5.html">Week 5</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics" id="toc-key-topics" class="nav-link active" data-scroll-target="#key-topics"><span class="header-section-number">1</span> Key Topics</a></li>
+  <li><a href="#core-explanation" id="toc-core-explanation" class="nav-link" data-scroll-target="#core-explanation"><span class="header-section-number">2</span> Core Explanation</a>
+  <ul class="collapse">
+  <li><a href="#what-is-anova-and-why-do-we-use-it" id="toc-what-is-anova-and-why-do-we-use-it" class="nav-link" data-scroll-target="#what-is-anova-and-why-do-we-use-it"><span class="header-section-number">2.1</span> What is ANOVA and Why Do We Use It?</a></li>
+  <li><a href="#the-f-statistic" id="toc-the-f-statistic" class="nav-link" data-scroll-target="#the-f-statistic"><span class="header-section-number">2.2</span> The F-Statistic</a></li>
+  <li><a href="#sum-of-squares-decomposition" id="toc-sum-of-squares-decomposition" class="nav-link" data-scroll-target="#sum-of-squares-decomposition"><span class="header-section-number">2.3</span> Sum of Squares Decomposition</a>
+  <ul class="collapse">
+  <li><a href="#formulas" id="toc-formulas" class="nav-link" data-scroll-target="#formulas"><span class="header-section-number">2.3.1</span> Formulas</a></li>
+  </ul></li>
+  <li><a href="#the-anova-table" id="toc-the-anova-table" class="nav-link" data-scroll-target="#the-anova-table"><span class="header-section-number">2.4</span> The ANOVA Table</a></li>
+  <li><a href="#hypotheses" id="toc-hypotheses" class="nav-link" data-scroll-target="#hypotheses"><span class="header-section-number">2.5</span> Hypotheses</a></li>
+  <li><a href="#assumptions-of-anova" id="toc-assumptions-of-anova" class="nav-link" data-scroll-target="#assumptions-of-anova"><span class="header-section-number">2.6</span> Assumptions of ANOVA</a></li>
+  <li><a href="#anova-as-a-linear-model" id="toc-anova-as-a-linear-model" class="nav-link" data-scroll-target="#anova-as-a-linear-model"><span class="header-section-number">2.7</span> ANOVA as a Linear Model</a>
+  <ul class="collapse">
+  <li><a href="#dummy-variables" id="toc-dummy-variables" class="nav-link" data-scroll-target="#dummy-variables"><span class="header-section-number">2.7.1</span> Dummy Variables</a></li>
+  <li><a href="#treatment-effects" id="toc-treatment-effects" class="nav-link" data-scroll-target="#treatment-effects"><span class="header-section-number">2.7.2</span> Treatment Effects</a></li>
+  </ul></li>
+  <li><a href="#effect-size-eta-squared-η²" id="toc-effect-size-eta-squared-η²" class="nav-link" data-scroll-target="#effect-size-eta-squared-η²"><span class="header-section-number">2.8</span> Effect Size: Eta-Squared (η²)</a></li>
+  <li><a href="#post-hoc-analysis-tukeys-hsd" id="toc-post-hoc-analysis-tukeys-hsd" class="nav-link" data-scroll-target="#post-hoc-analysis-tukeys-hsd"><span class="header-section-number">2.9</span> Post-Hoc Analysis: Tukey’s HSD</a></li>
+  <li><a href="#model-validation" id="toc-model-validation" class="nav-link" data-scroll-target="#model-validation"><span class="header-section-number">2.10</span> Model Validation</a></li>
+  <li><a href="#non-parametric-alternatives" id="toc-non-parametric-alternatives" class="nav-link" data-scroll-target="#non-parametric-alternatives"><span class="header-section-number">2.11</span> Non-Parametric Alternatives</a></li>
+  </ul></li>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">3</span> Key Equations / Formulas</a></li>
+  <li><a href="#practical-example-soil-type-and-crop-yield" id="toc-practical-example-soil-type-and-crop-yield" class="nav-link" data-scroll-target="#practical-example-soil-type-and-crop-yield"><span class="header-section-number">4</span> Practical Example: Soil Type and Crop Yield</a>
+  <ul class="collapse">
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data"><span class="header-section-number">4.1</span> The Data</a></li>
+  <li><a href="#r-code-walkthrough" id="toc-r-code-walkthrough" class="nav-link" data-scroll-target="#r-code-walkthrough"><span class="header-section-number">4.2</span> R Code Walkthrough</a></li>
+  <li><a href="#reporting-the-results" id="toc-reporting-the-results" class="nav-link" data-scroll-target="#reporting-the-results"><span class="header-section-number">4.3</span> Reporting the Results</a></li>
+  </ul></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">5</span> Summary Points</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-5.html">Week 5</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 5 – One-Way ANOVA</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">STAT9004 – Regression Analysis</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 28, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>📝 <strong>Study Notes</strong> — These notes are designed to be reviewed and expanded. Use the comment spaces and <code>&lt;!-- TODO --&gt;</code> markers to add your own annotations as you revisit this material.</p>
+</blockquote>
+<hr>
+<section id="key-topics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics</h1>
+<ul>
+<li>What ANOVA is and why we use it instead of multiple t-tests</li>
+<li>The F-statistic: explained vs.&nbsp;unexplained variation</li>
+<li>Sum of Squares: Total (SST), Factor/Between (SSF), Error/Within (SSE)</li>
+<li>Degrees of freedom and the ANOVA table</li>
+<li>Assumptions of one-way ANOVA</li>
+<li>ANOVA as a linear model: dummy variables and treatment contrasts</li>
+<li>Effect size: Eta-squared (η²)</li>
+<li>Post-hoc pairwise comparisons: Tukey’s HSD</li>
+<li>Model validation (residual diagnostics)</li>
+<li>Non-parametric alternatives: Kruskal-Wallis and Welch’s ANOVA</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanation" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanation</h1>
+<section id="what-is-anova-and-why-do-we-use-it" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-is-anova-and-why-do-we-use-it"><span class="header-section-number">2.1</span> What is ANOVA and Why Do We Use It?</h2>
+<p><strong>ANOVA</strong> (Analysis of Variance) is an inferential statistical method used to compare the <strong>means of three or more groups</strong> simultaneously. It is a direct extension of the independent t-test — whereas the t-test compares exactly two means, ANOVA can handle any number of groups.</p>
+<p><strong>Why not just run multiple t-tests?</strong></p>
+<p>If you have three groups (e.g.&nbsp;Sand, Clay, Loam), you could technically run three separate t-tests: Sand vs Clay, Sand vs Loam, and Clay vs Loam. However, each test carries a 5% chance of a <strong>Type I error</strong> (incorrectly rejecting a true null hypothesis). Running multiple tests multiplies this risk — by the time you have run all pairwise comparisons, your real chance of a false positive is much higher than 5%. ANOVA solves this by testing all group means <strong>simultaneously</strong> while keeping the overall Type I error rate at 5%.</p>
+<blockquote class="blockquote">
+<p><strong>Key Idea:</strong> ANOVA compares two sources of variation — variation <em>between</em> groups (due to the treatment/factor) and variation <em>within</em> groups (due to random error). If the between-group variation is much larger than the within-group variation, it suggests that the groups genuinely differ.</p>
+</blockquote>
+<hr>
+</section>
+<section id="the-f-statistic" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="the-f-statistic"><span class="header-section-number">2.2</span> The F-Statistic</h2>
+<p>The test statistic in ANOVA is the <strong>F-statistic</strong> (or F-ratio), defined as:</p>
+<p><span class="math display">\[F = \frac{\text{Mean Square Between (MSF)}}{\text{Mean Square Within (MSE)}}\]</span></p>
+<ul>
+<li>If the <strong>factor has no effect</strong>, the between-group variance and within-group variance should be roughly equal → F ≈ 1</li>
+<li>If the <strong>factor has a strong effect</strong>, the between-group variance will be much larger → F &gt;&gt; 1</li>
+</ul>
+<p>The F-statistic follows an <strong>F-distribution</strong> under the null hypothesis, and significance is assessed either by comparing F to a critical value from the F-table, or by computing a <strong>p-value</strong>.</p>
+<hr>
+</section>
+<section id="sum-of-squares-decomposition" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sum-of-squares-decomposition"><span class="header-section-number">2.3</span> Sum of Squares Decomposition</h2>
+<p>The total variation in the data is partitioned into two components:</p>
+<p><span class="math display">\[SS_T = SS_F + SS_E\]</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 22%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Name</th>
+<th>Measures</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(SS_T\)</span></td>
+<td><strong>Total Sum of Squares</strong></td>
+<td>Total variation in all observations</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(SS_F\)</span></td>
+<td><strong>Factor (Between) Sum of Squares</strong></td>
+<td>Variation due to differences between group means</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(SS_E\)</span></td>
+<td><strong>Error (Within) Sum of Squares</strong></td>
+<td>Variation due to random error within groups</td>
+</tr>
+</tbody>
+</table>
+<section id="formulas" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="formulas"><span class="header-section-number">2.3.1</span> Formulas</h3>
+<p><strong>Total Sum of Squares:</strong> <span class="math display">\[SS_T = \sum_{i}\sum_{j} \left(y_{ij} - \bar{\bar{y}}\right)^2\]</span></p>
+<p><strong>Factor Sum of Squares:</strong> <span class="math display">\[SS_F = n \sum_{i} \left(\bar{y}_i - \bar{\bar{y}}\right)^2\]</span></p>
+<p><strong>Error Sum of Squares:</strong> <span class="math display">\[SS_E = SS_T - SS_F\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(y_{ij}\)</span> = observation <span class="math inline">\(j\)</span> in treatment group <span class="math inline">\(i\)</span></li>
+<li><span class="math inline">\(\bar{y}_i\)</span> = mean of group <span class="math inline">\(i\)</span></li>
+<li><span class="math inline">\(\bar{\bar{y}}\)</span> = <strong>grand mean</strong> (overall mean of all observations)</li>
+<li><span class="math inline">\(n\)</span> = number of replicas per group</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="the-anova-table" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="the-anova-table"><span class="header-section-number">2.4</span> The ANOVA Table</h2>
+<p>Results are always presented in a standard <strong>ANOVA table</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>df</th>
+<th>SS</th>
+<th>MS = SS/df</th>
+<th>F</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factor (Between)</td>
+<td><span class="math inline">\(a - 1\)</span></td>
+<td><span class="math inline">\(SS_F\)</span></td>
+<td><span class="math inline">\(MS_F\)</span></td>
+<td><span class="math inline">\(MS_F / MS_E\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Error (Within)</td>
+<td><span class="math inline">\(a(n-1)\)</span></td>
+<td><span class="math inline">\(SS_E\)</span></td>
+<td><span class="math inline">\(MS_E\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td><span class="math inline">\(an - 1\)</span></td>
+<td><span class="math inline">\(SS_T\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Where <span class="math inline">\(a\)</span> = number of treatment levels, <span class="math inline">\(n\)</span> = number of replicas per level.</p>
+<p><strong>For our soil example</strong> (3 soil types × 10 fields):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>df</th>
+<th>SS</th>
+<th>MS</th>
+<th>F</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Soil type</td>
+<td>2</td>
+<td>99.2</td>
+<td>49.60</td>
+<td><strong>4.245</strong></td>
+<td><strong>0.025 *</strong></td>
+</tr>
+<tr class="even">
+<td>Residuals</td>
+<td>27</td>
+<td>315.5</td>
+<td>11.69</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The p-value of 0.025 &lt; 0.05 → we <strong>reject H₀</strong>. At least one soil type produces a significantly different mean yield.</p>
+<hr>
+</section>
+<section id="hypotheses" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="hypotheses"><span class="header-section-number">2.5</span> Hypotheses</h2>
+<p><span class="math display">\[H_0: \mu_1 = \mu_2 = \mu_3 \quad \text{(all population means are equal)}\]</span></p>
+<p><span class="math display">\[H_A: \text{at least one group mean differs}\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> The alternative hypothesis is phrased as “at least one mean differs,” NOT “all means differ.” This matters when interpreting results — ANOVA only tells you <em>that</em> a difference exists somewhere, not <em>where</em>.</p>
+</blockquote>
+<hr>
+</section>
+<section id="assumptions-of-anova" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="assumptions-of-anova"><span class="header-section-number">2.6</span> Assumptions of ANOVA</h2>
+<p>Before running ANOVA, you must verify these four assumptions:</p>
+<ol type="1">
+<li><strong>Random sampling</strong> — observations must be randomly sampled from each population.</li>
+<li><strong>Independence</strong> — observations within and between groups must be independent.</li>
+<li><strong>Normality of residuals</strong> — the error terms should be normally distributed (check with Q-Q plot or Shapiro-Wilk test).</li>
+<li><strong>Homogeneity of variance (homoscedasticity)</strong> — the variance should be approximately equal across all groups.</li>
+</ol>
+<p><strong>Tests for equal variance:</strong></p>
+<ul>
+<li><strong>Fligner-Killeen test</strong> (robust to non-normality, recommended)</li>
+<li><strong>Levene’s test</strong> (from the <code>car</code> package in R)</li>
+<li><strong>Bartlett’s test</strong> (assumes normality)</li>
+</ul>
+<p>For the soil data, the Fligner-Killeen test gave p = 0.833 → we <strong>fail to reject</strong> the null hypothesis of equal variances → ANOVA is appropriate.</p>
+<hr>
+</section>
+<section id="anova-as-a-linear-model" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="anova-as-a-linear-model"><span class="header-section-number">2.7</span> ANOVA as a Linear Model</h2>
+<p>ANOVA is a special case of a linear model. The <strong>effects model</strong> is:</p>
+<p><span class="math display">\[y_{ij} = \mu + \tau_i + \varepsilon_{ij}\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(\mu\)</span> = overall (grand) population mean</li>
+<li><span class="math inline">\(\tau_i\)</span> = <strong>treatment effect</strong> = difference between group <span class="math inline">\(i\)</span>’s mean and the grand mean</li>
+<li><span class="math inline">\(\varepsilon_{ij}\)</span> = random error term (assumed iid Normal with mean 0 and constant variance)</li>
+</ul>
+<section id="dummy-variables" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="dummy-variables"><span class="header-section-number">2.7.1</span> Dummy Variables</h3>
+<p>Since soil type is a <strong>categorical</strong> variable, R encodes it using <strong>dummy variables</strong>. With <span class="math inline">\(k\)</span> groups, R creates <span class="math inline">\(k - 1\)</span> dummy variables and designates one group as the <strong>reference (baseline)</strong>.</p>
+<p>For our 3 soil types (baseline = Clay):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Observation</th>
+<th><span class="math inline">\(x_1\)</span> (Loam)</th>
+<th><span class="math inline">\(x_2\)</span> (Sand)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Clay</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Loam</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>Sand</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>The fitted model becomes:</p>
+<p><span class="math display">\[\hat{y}_{ij} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2\]</span></p>
+<p><span class="math display">\[\hat{y}_{ij} = 11.5 + 2.8\, x_1 - 1.6\, x_2\]</span></p>
+<p>Where <span class="math inline">\(\hat{\beta}_0 = 11.5\)</span> is the mean yield for <strong>Clay</strong> (baseline), <span class="math inline">\(+2.8\)</span> is the difference between Loam and Clay, and <span class="math inline">\(-1.6\)</span> is the difference between Sand and Clay.</p>
+</section>
+<section id="treatment-effects" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="treatment-effects"><span class="header-section-number">2.7.2</span> Treatment Effects</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Soil Type</th>
+<th>Treatment Effect (<span class="math inline">\(\hat{\tau}_i\)</span>)</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Clay</td>
+<td>−0.4</td>
+<td>Slightly below grand mean</td>
+</tr>
+<tr class="even">
+<td>Loam</td>
+<td>+2.4</td>
+<td>Above grand mean (highest yield)</td>
+</tr>
+<tr class="odd">
+<td>Sand</td>
+<td>−2.0</td>
+<td>Below grand mean (lowest yield)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="effect-size-eta-squared-η²" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="effect-size-eta-squared-η²"><span class="header-section-number">2.8</span> Effect Size: Eta-Squared (η²)</h2>
+<p><strong>η²</strong> (Eta-squared) measures the <strong>proportion of total variance</strong> in the response variable explained by the factor. It is directly analogous to <strong>R²</strong> in regression.</p>
+<p><span class="math display">\[\eta^2 = \frac{SS_F}{SS_T} = \frac{99.2}{414.7} \approx 0.239\]</span></p>
+<p><strong>Interpretation:</strong> 23.9% of the variation in crop yield is explained by soil type. The remaining 76.1% is due to other factors (unexplained variation).</p>
+<hr>
+</section>
+<section id="post-hoc-analysis-tukeys-hsd" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="post-hoc-analysis-tukeys-hsd"><span class="header-section-number">2.9</span> Post-Hoc Analysis: Tukey’s HSD</h2>
+<p>ANOVA tells us <em>that</em> at least one group mean differs — it does <strong>not</strong> tell us <em>which</em> groups differ. We use <strong>Tukey’s Honest Significant Difference (HSD)</strong> test for pairwise comparisons.</p>
+<p><strong>Results for soil data:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Comparison</th>
+<th>Difference</th>
+<th>95% CI</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Loam − Clay</td>
+<td>2.8</td>
+<td>(−0.99, 6.59)</td>
+<td>0.179</td>
+</tr>
+<tr class="even">
+<td>Sand − Clay</td>
+<td>−1.6</td>
+<td>(−5.39, 2.19)</td>
+<td>0.555</td>
+</tr>
+<tr class="odd">
+<td>Sand − Loam</td>
+<td><strong>−4.4</strong></td>
+<td><strong>(−8.19, −0.61)</strong></td>
+<td><strong>0.020</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Only the <strong>Sand vs Loam</strong> comparison is statistically significant (p = 0.020). The confidence interval for that pair does not include 0, confirming a genuine difference.</p>
+<blockquote class="blockquote">
+<p>💡 <strong>Tip:</strong> When interpreting pairwise CIs graphically, if a confidence interval <strong>crosses zero</strong>, the difference is not significant. If it <strong>doesn’t cross zero</strong>, the difference is significant.</p>
+</blockquote>
+<hr>
+</section>
+<section id="model-validation" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="model-validation"><span class="header-section-number">2.10</span> Model Validation</h2>
+<p>After running ANOVA, check the model assumptions using <strong>diagnostic plots</strong> (<code>plot(model)</code>):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 73%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Plot</th>
+<th>What to Look For</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Residuals vs Fitted</strong></td>
+<td>Residuals should be randomly scattered around 0 with no patterns</td>
+</tr>
+<tr class="even">
+<td><strong>Normal Q-Q Plot</strong></td>
+<td>Points should follow the diagonal line; departures suggest non-normality</td>
+</tr>
+<tr class="odd">
+<td><strong>Scale-Location Plot</strong></td>
+<td>Horizontal band of points indicates constant variance</td>
+</tr>
+<tr class="even">
+<td><strong>Cook’s Distance</strong></td>
+<td>Large values (&gt; 0.5 or 1) flag influential/outlier observations</td>
+</tr>
+</tbody>
+</table>
+<p>For the soil data, diagnostics showed no serious violations — a couple of points (6, 11, 13) slightly deviated from the Q-Q line but this was not concerning.</p>
+<hr>
+</section>
+<section id="non-parametric-alternatives" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="non-parametric-alternatives"><span class="header-section-number">2.11</span> Non-Parametric Alternatives</h2>
+<p>If ANOVA assumptions are violated (especially equal variance or normality):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 33%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Use When</th>
+<th>R Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Kruskal-Wallis test</strong></td>
+<td>Variances differ, or data is not normally distributed; tests equality of <em>medians</em></td>
+<td><code>kruskal.test()</code></td>
+</tr>
+<tr class="even">
+<td><strong>Welch’s ANOVA</strong></td>
+<td>Variances are unequal but normality holds; tests equality of <em>means</em></td>
+<td><code>oneway.test(..., var.equal = FALSE)</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="key-equations-formulas" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Key Equations / Formulas</h1>
+<pre><code># F-statistic
+F = MS_Between / MS_Within = (SS_F / df_F) / (SS_E / df_E)
+
+# Degrees of freedom
+df_Between = a - 1           (a = number of groups)
+df_Within  = a(n - 1)        (n = replicas per group)
+df_Total   = an - 1
+
+# Effect size
+η² = SS_F / SS_T
+
+# Effects model
+y_ij = μ + τ_i + ε_ij
+
+# Fitted treatment contrasts model (baseline = Clay)
+ŷ = 11.5 + 2.8·x1 - 1.6·x2</code></pre>
+<hr>
+</section>
+<section id="practical-example-soil-type-and-crop-yield" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Practical Example: Soil Type and Crop Yield</h1>
+<section id="the-data" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">4.1</span> The Data</h2>
+<p>An agricultural researcher measured crop yield (per unit area) from 10 randomly selected fields for each of three soil types.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># soil_data.txt — wide format</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Sand   Clay   Loam</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>   <span class="dv">6</span>     <span class="dv">17</span>     <span class="dv">13</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span>     <span class="dv">15</span>     <span class="dv">16</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>   <span class="dv">8</span>      <span class="dv">3</span>      <span class="dv">9</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>   <span class="dv">6</span>     <span class="dv">11</span>     <span class="dv">12</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">14</span>     <span class="dv">14</span>     <span class="dv">15</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">17</span>     <span class="dv">12</span>     <span class="dv">16</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>   <span class="dv">9</span>     <span class="dv">12</span>     <span class="dv">17</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">11</span>      <span class="dv">8</span>     <span class="dv">13</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>   <span class="dv">7</span>     <span class="dv">10</span>     <span class="dv">18</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="dv">11</span>     <span class="dv">13</span>     <span class="dv">14</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Group means:</strong> Sand = 9.9, Clay = 11.5, Loam = 14.3<br>
+<strong>Grand mean:</strong> <span class="math inline">\(\bar{\bar{y}}\)</span> = 11.9</p>
+</section>
+<section id="r-code-walkthrough" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="r-code-walkthrough"><span class="header-section-number">4.2</span> R Code Walkthrough</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 1. Import and reshape data ---</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"soil_data.txt"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert from wide to long format</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> results <span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"Soil"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"Yield"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 2. Descriptive statistics ---</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Soil) <span class="sc">|&gt;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_yield =</span> <span class="fu">mean</span>(Yield),</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_yield   =</span> <span class="fu">sd</span>(Yield),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">var_yield  =</span> <span class="fu">var</span>(Yield))</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 3. Visualise ---</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Crop Yield by Soil Type"</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Soil Type"</span>, <span class="at">ylab =</span> <span class="st">"Yield"</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 4. Check homogeneity of variance ---</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="fu">fligner.test</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results)   <span class="co"># p = 0.833 → equal variances OK</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results)     <span class="co"># p = 0.781 → consistent result</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 5. Ensure Soil is a factor ---</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>Soil <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(results<span class="sc">$</span>Soil)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(results<span class="sc">$</span>Soil)    <span class="co"># "Clay" "Loam" "Sand"</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="fu">nlevels</span>(results<span class="sc">$</span>Soil)   <span class="co"># 3</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 6. Fit one-way ANOVA ---</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>model_treat <span class="ot">&lt;-</span> <span class="fu">aov</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_treat)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Soil:  df=2, SS=99.2, MS=49.60, F=4.245, p=0.025 *</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 7. Treatment contrasts (baseline = Clay) ---</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(model_treat)</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Intercept (Clay):  11.5</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Loam - Clay:       +2.8  (p = 0.078)</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Sand - Clay:       -1.6  (p = 0.305)</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 8. Effect size η² ---</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co"># η² = SS_F / SS_T = 99.2 / 414.7 = 0.239</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 9. Post-hoc pairwise comparisons ---</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model_treat)</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Sand-Loam: diff = -4.4, p = 0.020  ← SIGNIFICANT</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 10. Model diagnostics ---</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_treat)</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 11. Relevel / change reference group ---</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>Soil <span class="ot">&lt;-</span> <span class="fu">relevel</span>(results<span class="sc">$</span>Soil, <span class="st">"Sand"</span>)</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>model_sand   <span class="ot">&lt;-</span> <span class="fu">aov</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results)</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(model_sand)</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 12. Sum contrasts (compare each group to grand mean) ---</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(results<span class="sc">$</span>Soil) <span class="ot">&lt;-</span> contr.sum</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>model_sum <span class="ot">&lt;-</span> <span class="fu">aov</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results)</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(model_sum)</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Intercept = grand mean (11.9)</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Soil1 = Clay - grand mean = -0.4</span></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Soil2 = Loam - grand mean = +2.4</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 13. Treatment effects table ---</span></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="fu">model.tables</span>(model_sum)</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Clay: -0.4 | Loam: +2.4 | Sand: -2.0</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 14. Reset contrasts to default ---</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(results<span class="sc">$</span>Soil) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>Soil <span class="ot">&lt;-</span> <span class="fu">relevel</span>(results<span class="sc">$</span>Soil, <span class="st">"Clay"</span>)</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 15. F critical value and p-value (manual check) ---</span></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">27</span>)          <span class="co"># ≈ 3.35 (critical value)</span></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="fu">pf</span>(<span class="fl">4.245</span>, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">27</span>,</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>   <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)                 <span class="co"># ≈ 0.025</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="reporting-the-results" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="reporting-the-results"><span class="header-section-number">4.3</span> Reporting the Results</h2>
+<blockquote class="blockquote">
+<p>A one-way analysis of variance indicated that soil type significantly affected crop yield, <em>F</em>(2, 27) = 4.245, MSE = 11.69, <em>p</em> = .025, η² = 0.239. Tukey’s HSD post-hoc test revealed that the mean yield on loam soil was significantly greater than on sand soil (p = .020). No other pairwise differences were statistically significant.</p>
+</blockquote>
+<p><strong>Table 1. Mean yield by soil type</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Soil Type</th>
+<th>Mean Yield</th>
+<th>SD</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sand</td>
+<td>9.9<sup>A</sup></td>
+<td>3.54</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>Clay</td>
+<td>11.5<sup>AB</sup></td>
+<td>3.92</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>Loam</td>
+<td>14.3<sup>B</sup></td>
+<td>2.67</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note.</em> Means sharing a superscript letter are not significantly different at the .05 level (Tukey’s HSD).</p>
+<hr>
+</section>
+</section>
+<section id="summary-points" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Summary Points</h1>
+<ul>
+<li><strong>ANOVA</strong> tests equality of three or more group means while controlling the overall Type I error rate at α = 0.05.</li>
+<li>The <strong>F-statistic</strong> is a ratio of between-group variance to within-group variance; a large F suggests at least one group differs.</li>
+<li>Total variation is partitioned: <span class="math inline">\(SS_T = SS_F + SS_E\)</span>. The ANOVA table organises these with degrees of freedom, mean squares, and the F-ratio.</li>
+<li><strong>Four assumptions</strong> must hold: random sampling, independence, normality of residuals, and equal variances across groups.</li>
+<li>Equal variance can be tested with the <strong>Fligner-Killeen</strong> or <strong>Levene’s</strong> test before running ANOVA.</li>
+<li>ANOVA is a <strong>linear model</strong>; categorical predictors are handled via <strong>dummy variables</strong>, with one group set as the reference/baseline.</li>
+<li><strong>η²</strong> (Eta-squared) = SS_F / SS_T measures effect size, analogous to R² in regression.</li>
+<li>A significant ANOVA result only tells you that <em>a</em> difference exists. Use <strong>Tukey’s HSD</strong> (post-hoc) to identify <em>which</em> pairs differ.</li>
+<li><strong>Model validation</strong> uses four diagnostic plots: Residuals vs Fitted, Q-Q plot, Scale-Location, and Cook’s Distance.</li>
+<li>If assumptions are violated, consider <strong>Kruskal-Wallis</strong> (non-parametric) or <strong>Welch’s ANOVA</strong> (unequal variances).</li>
+</ul>
+<hr>
+<!-- TODO: Add your own annotations here after reviewing the material -->
+<!-- TODO: Complete the tensile strength exercise (see Worksheet 3) -->
+<!-- TODO: Practice interpreting Cook's distance plot -->
+<!-- TODO: Review F-distribution table for exam practice -->
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../regression-analysis/week-4.html" class="pagination-link" aria-label="Week 4">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 4</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../regression-analysis/week-9.html" class="pagination-link" aria-label="Week 9">
+        <span class="nav-page-text">Week 9</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 5 – One-Way ANOVA"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "STAT9004 – Regression Analysis"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Study Notes** — These notes are designed to be reviewed and expanded. Use the comment spaces and </span><span class="in">`&lt;!-- TODO --&gt;`</span><span class="at"> markers to add your own annotations as you revisit this material.</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What ANOVA is and why we use it instead of multiple t-tests</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The F-statistic: explained vs. unexplained variation</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sum of Squares: Total (SST), Factor/Between (SSF), Error/Within (SSE)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Degrees of freedom and the ANOVA table</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Assumptions of one-way ANOVA</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ANOVA as a linear model: dummy variables and treatment contrasts</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Effect size: Eta-squared (η²)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Post-hoc pairwise comparisons: Tukey's HSD</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Model validation (residual diagnostics)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Non-parametric alternatives: Kruskal-Wallis and Welch's ANOVA</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanation</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is ANOVA and Why Do We Use It?</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>**ANOVA** (Analysis of Variance) is an inferential statistical method used to compare the **means of three or more groups** simultaneously. It is a direct extension of the independent t-test — whereas the t-test compares exactly two means, ANOVA can handle any number of groups.</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>**Why not just run multiple t-tests?**</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>If you have three groups (e.g. Sand, Clay, Loam), you could technically run three separate t-tests:</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>Sand vs Clay, Sand vs Loam, and Clay vs Loam. However, each test carries a 5% chance of a **Type I error** (incorrectly rejecting a true null hypothesis). Running multiple tests multiplies this risk — by the time you have run all pairwise comparisons, your real chance of a false positive is much higher than 5%. ANOVA solves this by testing all group means **simultaneously** while keeping the overall Type I error rate at 5%.</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Key Idea:** ANOVA compares two sources of variation — variation *between* groups (due to the treatment/factor) and variation *within* groups (due to random error). If the between-group variation is much larger than the within-group variation, it suggests that the groups genuinely differ.</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## The F-Statistic</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>The test statistic in ANOVA is the **F-statistic** (or F-ratio), defined as:</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>$$F = \frac{\text{Mean Square Between (MSF)}}{\text{Mean Square Within (MSE)}}$$</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If the **factor has no effect**, the between-group variance and within-group variance should be roughly equal → F ≈ 1</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If the **factor has a strong effect**, the between-group variance will be much larger → F &gt;&gt; 1</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>The F-statistic follows an **F-distribution** under the null hypothesis, and significance is assessed either by comparing F to a critical value from the F-table, or by computing a **p-value**.</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sum of Squares Decomposition</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>The total variation in the data is partitioned into two components:</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>$$SS_T = SS_F + SS_E$$</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Component <span class="pp">|</span> Name <span class="pp">|</span> Measures <span class="pp">|</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------|------|----------|</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $SS_T$ <span class="pp">|</span> **Total Sum of Squares** <span class="pp">|</span> Total variation in all observations <span class="pp">|</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $SS_F$ <span class="pp">|</span> **Factor (Between) Sum of Squares** <span class="pp">|</span> Variation due to differences between group means <span class="pp">|</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $SS_E$ <span class="pp">|</span> **Error (Within) Sum of Squares** <span class="pp">|</span> Variation due to random error within groups <span class="pp">|</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="fu">### Formulas</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>**Total Sum of Squares:**</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>$$SS_T = \sum_{i}\sum_{j} \left(y_{ij} - \bar{\bar{y}}\right)^2$$</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>**Factor Sum of Squares:**</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>$$SS_F = n \sum_{i} \left(\bar{y}_i - \bar{\bar{y}}\right)^2$$</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>**Error Sum of Squares:**</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>$$SS_E = SS_T - SS_F$$</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>Where:</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$y_{ij}$ = observation $j$ in treatment group $i$</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\bar{y}_i$ = mean of group $i$</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\bar{\bar{y}}$ = **grand mean** (overall mean of all observations)</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$n$ = number of replicas per group</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a><span class="fu">## The ANOVA Table</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>Results are always presented in a standard **ANOVA table**:</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Source <span class="pp">|</span> df <span class="pp">|</span> SS <span class="pp">|</span> MS = SS/df <span class="pp">|</span> F <span class="pp">|</span> p-value <span class="pp">|</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|----|----|------------|---|---------|</span></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factor (Between) <span class="pp">|</span> $a - 1$ <span class="pp">|</span> $SS_F$ <span class="pp">|</span> $MS_F$ <span class="pp">|</span> $MS_F / MS_E$ <span class="pp">|</span> <span class="pp">|</span></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Error (Within) <span class="pp">|</span> $a(n-1)$ <span class="pp">|</span> $SS_E$ <span class="pp">|</span> $MS_E$ <span class="pp">|</span> <span class="pp">|</span> <span class="pp">|</span></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Total <span class="pp">|</span> $an - 1$ <span class="pp">|</span> $SS_T$ <span class="pp">|</span> <span class="pp">|</span> <span class="pp">|</span> <span class="pp">|</span></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>Where $a$ = number of treatment levels, $n$ = number of replicas per level.</span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>**For our soil example** (3 soil types × 10 fields):</span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Source <span class="pp">|</span> df <span class="pp">|</span> SS <span class="pp">|</span> MS <span class="pp">|</span> F <span class="pp">|</span> p-value <span class="pp">|</span></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|----|----|-----|------|---------|</span></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Soil type <span class="pp">|</span> 2 <span class="pp">|</span> 99.2 <span class="pp">|</span> 49.60 <span class="pp">|</span> **4.245** | **0.025 \*** <span class="pp">|</span></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Residuals <span class="pp">|</span> 27 <span class="pp">|</span> 315.5 <span class="pp">|</span> 11.69 <span class="pp">|</span> <span class="pp">|</span> <span class="pp">|</span></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>The p-value of 0.025 &lt; 0.05 → we **reject H₀**. At least one soil type produces a significantly different mean yield.</span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hypotheses</span></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>$$H_0: \mu_1 = \mu_2 = \mu_3 \quad \text{(all population means are equal)}$$</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>$$H_A: \text{at least one group mean differs}$$</span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note:** The alternative hypothesis is phrased as "at least one mean differs," NOT "all means differ." This matters when interpreting results — ANOVA only tells you *that* a difference exists somewhere, not *where*.</span></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumptions of ANOVA</span></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>Before running ANOVA, you must verify these four assumptions:</span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Random sampling** — observations must be randomly sampled from each population.</span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Independence** — observations within and between groups must be independent.</span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Normality of residuals** — the error terms should be normally distributed (check with Q-Q plot or Shapiro-Wilk test).</span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Homogeneity of variance (homoscedasticity)** — the variance should be approximately equal across all groups.</span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>**Tests for equal variance:**</span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fligner-Killeen test** (robust to non-normality, recommended)</span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Levene's test** (from the <span class="in">`car`</span> package in R)</span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bartlett's test** (assumes normality)</span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a>For the soil data, the Fligner-Killeen test gave p = 0.833 → we **fail to reject** the null hypothesis of equal variances → ANOVA is appropriate.</span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a><span class="fu">## ANOVA as a Linear Model</span></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>ANOVA is a special case of a linear model. The **effects model** is:</span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>$$y_{ij} = \mu + \tau_i + \varepsilon_{ij}$$</span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a>Where:</span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\mu$ = overall (grand) population mean</span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\tau_i$ = **treatment effect** = difference between group $i$'s mean and the grand mean</span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\varepsilon_{ij}$ = random error term (assumed iid Normal with mean 0 and constant variance)</span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a><span class="fu">### Dummy Variables</span></span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a>Since soil type is a **categorical** variable, R encodes it using **dummy variables**. With $k$ groups, R creates $k - 1$ dummy variables and designates one group as the **reference (baseline)**.</span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>For our 3 soil types (baseline = Clay):</span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Observation <span class="pp">|</span> $x_1$ (Loam) <span class="pp">|</span> $x_2$ (Sand) <span class="pp">|</span></span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------------|-------------|--------------|</span></span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Clay <span class="pp">|</span> 0 <span class="pp">|</span> 0 <span class="pp">|</span></span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Loam <span class="pp">|</span> 1 <span class="pp">|</span> 0 <span class="pp">|</span></span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sand <span class="pp">|</span> 0 <span class="pp">|</span> 1 <span class="pp">|</span></span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a>The fitted model becomes:</span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{ij} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2$$</span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{ij} = 11.5 + 2.8\, x_1 - 1.6\, x_2$$</span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a>Where $\hat{\beta}_0 = 11.5$ is the mean yield for **Clay** (baseline), $+2.8$ is the difference between Loam and Clay, and $-1.6$ is the difference between Sand and Clay.</span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a><span class="fu">### Treatment Effects</span></span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Soil Type <span class="pp">|</span> Treatment Effect ($\hat{\tau}_i$) <span class="pp">|</span> Interpretation <span class="pp">|</span></span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------|-----------------------------------|----------------|</span></span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Clay <span class="pp">|</span> −0.4 <span class="pp">|</span> Slightly below grand mean <span class="pp">|</span></span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Loam <span class="pp">|</span> +2.4 <span class="pp">|</span> Above grand mean (highest yield) <span class="pp">|</span></span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sand <span class="pp">|</span> −2.0 <span class="pp">|</span> Below grand mean (lowest yield) <span class="pp">|</span></span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a><span class="fu">## Effect Size: Eta-Squared (η²)</span></span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>**η²** (Eta-squared) measures the **proportion of total variance** in the response variable explained by the factor. It is directly analogous to **R²** in regression.</span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a>$$\eta^2 = \frac{SS_F}{SS_T} = \frac{99.2}{414.7} \approx 0.239$$</span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a>**Interpretation:** 23.9% of the variation in crop yield is explained by soil type. The remaining 76.1% is due to other factors (unexplained variation).</span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a><span class="fu">## Post-Hoc Analysis: Tukey's HSD</span></span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a>ANOVA tells us *that* at least one group mean differs — it does **not** tell us *which* groups differ. We use **Tukey's Honest Significant Difference (HSD)** test for pairwise comparisons.</span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a>**Results for soil data:**</span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Comparison <span class="pp">|</span> Difference <span class="pp">|</span> 95% CI <span class="pp">|</span> p-value <span class="pp">|</span></span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------|-----------|--------|---------|</span></span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Loam − Clay <span class="pp">|</span> 2.8 <span class="pp">|</span> (−0.99, 6.59) <span class="pp">|</span> 0.179 <span class="pp">|</span></span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sand − Clay <span class="pp">|</span> −1.6 <span class="pp">|</span> (−5.39, 2.19) <span class="pp">|</span> 0.555 <span class="pp">|</span></span>
+<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sand − Loam <span class="pp">|</span> **−4.4** | **(−8.19, −0.61)** | **0.020** <span class="pp">|</span></span>
+<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a>Only the **Sand vs Loam** comparison is statistically significant (p = 0.020). The confidence interval for that pair does not include 0, confirming a genuine difference.</span>
+<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 **Tip:** When interpreting pairwise CIs graphically, if a confidence interval **crosses zero**, the difference is not significant. If it **doesn't cross zero**, the difference is significant.</span></span>
+<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a><span class="fu">## Model Validation</span></span>
+<span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a>After running ANOVA, check the model assumptions using **diagnostic plots** (<span class="in">`plot(model)`</span>):</span>
+<span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Plot <span class="pp">|</span> What to Look For <span class="pp">|</span></span>
+<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|-----------------|</span></span>
+<span id="cb4-214"><a href="#cb4-214" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Residuals vs Fitted** <span class="pp">|</span> Residuals should be randomly scattered around 0 with no patterns <span class="pp">|</span></span>
+<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Normal Q-Q Plot** <span class="pp">|</span> Points should follow the diagonal line; departures suggest non-normality <span class="pp">|</span></span>
+<span id="cb4-216"><a href="#cb4-216" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Scale-Location Plot** <span class="pp">|</span> Horizontal band of points indicates constant variance <span class="pp">|</span></span>
+<span id="cb4-217"><a href="#cb4-217" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Cook's Distance** <span class="pp">|</span> Large values (&gt; 0.5 or 1) flag influential/outlier observations <span class="pp">|</span></span>
+<span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-219"><a href="#cb4-219" aria-hidden="true" tabindex="-1"></a>For the soil data, diagnostics showed no serious violations — a couple of points (6, 11, 13) slightly deviated from the Q-Q line but this was not concerning.</span>
+<span id="cb4-220"><a href="#cb4-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-221"><a href="#cb4-221" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-223"><a href="#cb4-223" aria-hidden="true" tabindex="-1"></a><span class="fu">## Non-Parametric Alternatives</span></span>
+<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a>If ANOVA assumptions are violated (especially equal variance or normality):</span>
+<span id="cb4-226"><a href="#cb4-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-227"><a href="#cb4-227" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Method <span class="pp">|</span> Use When <span class="pp">|</span> R Function <span class="pp">|</span></span>
+<span id="cb4-228"><a href="#cb4-228" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|----------|------------|</span></span>
+<span id="cb4-229"><a href="#cb4-229" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Kruskal-Wallis test** <span class="pp">|</span> Variances differ, or data is not normally distributed; tests equality of *medians* <span class="pp">|</span> <span class="in">`kruskal.test()`</span> <span class="pp">|</span></span>
+<span id="cb4-230"><a href="#cb4-230" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Welch's ANOVA** <span class="pp">|</span> Variances are unequal but normality holds; tests equality of *means* <span class="pp">|</span> <span class="in">`oneway.test(..., var.equal = FALSE)`</span> <span class="pp">|</span></span>
+<span id="cb4-231"><a href="#cb4-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-233"><a href="#cb4-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-234"><a href="#cb4-234" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb4-235"><a href="#cb4-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-236"><a href="#cb4-236" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-237"><a href="#cb4-237" aria-hidden="true" tabindex="-1"></a><span class="in"># F-statistic</span></span>
+<span id="cb4-238"><a href="#cb4-238" aria-hidden="true" tabindex="-1"></a><span class="in">F = MS_Between / MS_Within = (SS_F / df_F) / (SS_E / df_E)</span></span>
+<span id="cb4-239"><a href="#cb4-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-240"><a href="#cb4-240" aria-hidden="true" tabindex="-1"></a><span class="in"># Degrees of freedom</span></span>
+<span id="cb4-241"><a href="#cb4-241" aria-hidden="true" tabindex="-1"></a><span class="in">df_Between = a - 1           (a = number of groups)</span></span>
+<span id="cb4-242"><a href="#cb4-242" aria-hidden="true" tabindex="-1"></a><span class="in">df_Within  = a(n - 1)        (n = replicas per group)</span></span>
+<span id="cb4-243"><a href="#cb4-243" aria-hidden="true" tabindex="-1"></a><span class="in">df_Total   = an - 1</span></span>
+<span id="cb4-244"><a href="#cb4-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-245"><a href="#cb4-245" aria-hidden="true" tabindex="-1"></a><span class="in"># Effect size</span></span>
+<span id="cb4-246"><a href="#cb4-246" aria-hidden="true" tabindex="-1"></a><span class="in">η² = SS_F / SS_T</span></span>
+<span id="cb4-247"><a href="#cb4-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-248"><a href="#cb4-248" aria-hidden="true" tabindex="-1"></a><span class="in"># Effects model</span></span>
+<span id="cb4-249"><a href="#cb4-249" aria-hidden="true" tabindex="-1"></a><span class="in">y_ij = μ + τ_i + ε_ij</span></span>
+<span id="cb4-250"><a href="#cb4-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-251"><a href="#cb4-251" aria-hidden="true" tabindex="-1"></a><span class="in"># Fitted treatment contrasts model (baseline = Clay)</span></span>
+<span id="cb4-252"><a href="#cb4-252" aria-hidden="true" tabindex="-1"></a><span class="in">ŷ = 11.5 + 2.8·x1 - 1.6·x2</span></span>
+<span id="cb4-253"><a href="#cb4-253" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-254"><a href="#cb4-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-255"><a href="#cb4-255" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-256"><a href="#cb4-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-257"><a href="#cb4-257" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Example: Soil Type and Crop Yield</span></span>
+<span id="cb4-258"><a href="#cb4-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-259"><a href="#cb4-259" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Data</span></span>
+<span id="cb4-260"><a href="#cb4-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-261"><a href="#cb4-261" aria-hidden="true" tabindex="-1"></a>An agricultural researcher measured crop yield (per unit area) from 10 randomly selected fields for each of three soil types.</span>
+<span id="cb4-262"><a href="#cb4-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-263"><a href="#cb4-263" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb4-264"><a href="#cb4-264" aria-hidden="true" tabindex="-1"></a><span class="co"># soil_data.txt — wide format</span></span>
+<span id="cb4-265"><a href="#cb4-265" aria-hidden="true" tabindex="-1"></a>Sand   Clay   Loam</span>
+<span id="cb4-266"><a href="#cb4-266" aria-hidden="true" tabindex="-1"></a>   <span class="dv">6</span>     <span class="dv">17</span>     <span class="dv">13</span></span>
+<span id="cb4-267"><a href="#cb4-267" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span>     <span class="dv">15</span>     <span class="dv">16</span></span>
+<span id="cb4-268"><a href="#cb4-268" aria-hidden="true" tabindex="-1"></a>   <span class="dv">8</span>      <span class="dv">3</span>      <span class="dv">9</span></span>
+<span id="cb4-269"><a href="#cb4-269" aria-hidden="true" tabindex="-1"></a>   <span class="dv">6</span>     <span class="dv">11</span>     <span class="dv">12</span></span>
+<span id="cb4-270"><a href="#cb4-270" aria-hidden="true" tabindex="-1"></a>  <span class="dv">14</span>     <span class="dv">14</span>     <span class="dv">15</span></span>
+<span id="cb4-271"><a href="#cb4-271" aria-hidden="true" tabindex="-1"></a>  <span class="dv">17</span>     <span class="dv">12</span>     <span class="dv">16</span></span>
+<span id="cb4-272"><a href="#cb4-272" aria-hidden="true" tabindex="-1"></a>   <span class="dv">9</span>     <span class="dv">12</span>     <span class="dv">17</span></span>
+<span id="cb4-273"><a href="#cb4-273" aria-hidden="true" tabindex="-1"></a>  <span class="dv">11</span>      <span class="dv">8</span>     <span class="dv">13</span></span>
+<span id="cb4-274"><a href="#cb4-274" aria-hidden="true" tabindex="-1"></a>   <span class="dv">7</span>     <span class="dv">10</span>     <span class="dv">18</span></span>
+<span id="cb4-275"><a href="#cb4-275" aria-hidden="true" tabindex="-1"></a>  <span class="dv">11</span>     <span class="dv">13</span>     <span class="dv">14</span></span>
+<span id="cb4-276"><a href="#cb4-276" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-277"><a href="#cb4-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-278"><a href="#cb4-278" aria-hidden="true" tabindex="-1"></a>**Group means:** Sand = 9.9, Clay = 11.5, Loam = 14.3  </span>
+<span id="cb4-279"><a href="#cb4-279" aria-hidden="true" tabindex="-1"></a>**Grand mean:** $\bar{\bar{y}}$ = 11.9</span>
+<span id="cb4-280"><a href="#cb4-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-281"><a href="#cb4-281" aria-hidden="true" tabindex="-1"></a><span class="fu">## R Code Walkthrough</span></span>
+<span id="cb4-282"><a href="#cb4-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-283"><a href="#cb4-283" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb4-284"><a href="#cb4-284" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-285"><a href="#cb4-285" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb4-286"><a href="#cb4-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-287"><a href="#cb4-287" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 1. Import and reshape data ---</span></span>
+<span id="cb4-288"><a href="#cb4-288" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"soil_data.txt"</span>)</span>
+<span id="cb4-289"><a href="#cb4-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-290"><a href="#cb4-290" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert from wide to long format</span></span>
+<span id="cb4-291"><a href="#cb4-291" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> results <span class="sc">|&gt;</span></span>
+<span id="cb4-292"><a href="#cb4-292" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb4-293"><a href="#cb4-293" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"Soil"</span>,</span>
+<span id="cb4-294"><a href="#cb4-294" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"Yield"</span>)</span>
+<span id="cb4-295"><a href="#cb4-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-296"><a href="#cb4-296" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 2. Descriptive statistics ---</span></span>
+<span id="cb4-297"><a href="#cb4-297" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span></span>
+<span id="cb4-298"><a href="#cb4-298" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Soil) <span class="sc">|&gt;</span></span>
+<span id="cb4-299"><a href="#cb4-299" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_yield =</span> <span class="fu">mean</span>(Yield),</span>
+<span id="cb4-300"><a href="#cb4-300" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_yield   =</span> <span class="fu">sd</span>(Yield),</span>
+<span id="cb4-301"><a href="#cb4-301" aria-hidden="true" tabindex="-1"></a>            <span class="at">var_yield  =</span> <span class="fu">var</span>(Yield))</span>
+<span id="cb4-302"><a href="#cb4-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-303"><a href="#cb4-303" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 3. Visualise ---</span></span>
+<span id="cb4-304"><a href="#cb4-304" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results,</span>
+<span id="cb4-305"><a href="#cb4-305" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Crop Yield by Soil Type"</span>,</span>
+<span id="cb4-306"><a href="#cb4-306" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Soil Type"</span>, <span class="at">ylab =</span> <span class="st">"Yield"</span>)</span>
+<span id="cb4-307"><a href="#cb4-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-308"><a href="#cb4-308" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 4. Check homogeneity of variance ---</span></span>
+<span id="cb4-309"><a href="#cb4-309" aria-hidden="true" tabindex="-1"></a><span class="fu">fligner.test</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results)   <span class="co"># p = 0.833 → equal variances OK</span></span>
+<span id="cb4-310"><a href="#cb4-310" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results)     <span class="co"># p = 0.781 → consistent result</span></span>
+<span id="cb4-311"><a href="#cb4-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-312"><a href="#cb4-312" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 5. Ensure Soil is a factor ---</span></span>
+<span id="cb4-313"><a href="#cb4-313" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>Soil <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(results<span class="sc">$</span>Soil)</span>
+<span id="cb4-314"><a href="#cb4-314" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(results<span class="sc">$</span>Soil)    <span class="co"># "Clay" "Loam" "Sand"</span></span>
+<span id="cb4-315"><a href="#cb4-315" aria-hidden="true" tabindex="-1"></a><span class="fu">nlevels</span>(results<span class="sc">$</span>Soil)   <span class="co"># 3</span></span>
+<span id="cb4-316"><a href="#cb4-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-317"><a href="#cb4-317" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 6. Fit one-way ANOVA ---</span></span>
+<span id="cb4-318"><a href="#cb4-318" aria-hidden="true" tabindex="-1"></a>model_treat <span class="ot">&lt;-</span> <span class="fu">aov</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results)</span>
+<span id="cb4-319"><a href="#cb4-319" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_treat)</span>
+<span id="cb4-320"><a href="#cb4-320" aria-hidden="true" tabindex="-1"></a><span class="co"># Soil:  df=2, SS=99.2, MS=49.60, F=4.245, p=0.025 *</span></span>
+<span id="cb4-321"><a href="#cb4-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-322"><a href="#cb4-322" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 7. Treatment contrasts (baseline = Clay) ---</span></span>
+<span id="cb4-323"><a href="#cb4-323" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(model_treat)</span>
+<span id="cb4-324"><a href="#cb4-324" aria-hidden="true" tabindex="-1"></a><span class="co"># Intercept (Clay):  11.5</span></span>
+<span id="cb4-325"><a href="#cb4-325" aria-hidden="true" tabindex="-1"></a><span class="co"># Loam - Clay:       +2.8  (p = 0.078)</span></span>
+<span id="cb4-326"><a href="#cb4-326" aria-hidden="true" tabindex="-1"></a><span class="co"># Sand - Clay:       -1.6  (p = 0.305)</span></span>
+<span id="cb4-327"><a href="#cb4-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-328"><a href="#cb4-328" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 8. Effect size η² ---</span></span>
+<span id="cb4-329"><a href="#cb4-329" aria-hidden="true" tabindex="-1"></a><span class="co"># η² = SS_F / SS_T = 99.2 / 414.7 = 0.239</span></span>
+<span id="cb4-330"><a href="#cb4-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-331"><a href="#cb4-331" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 9. Post-hoc pairwise comparisons ---</span></span>
+<span id="cb4-332"><a href="#cb4-332" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model_treat)</span>
+<span id="cb4-333"><a href="#cb4-333" aria-hidden="true" tabindex="-1"></a><span class="co"># Sand-Loam: diff = -4.4, p = 0.020  ← SIGNIFICANT</span></span>
+<span id="cb4-334"><a href="#cb4-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-335"><a href="#cb4-335" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 10. Model diagnostics ---</span></span>
+<span id="cb4-336"><a href="#cb4-336" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb4-337"><a href="#cb4-337" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_treat)</span>
+<span id="cb4-338"><a href="#cb4-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-339"><a href="#cb4-339" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 11. Relevel / change reference group ---</span></span>
+<span id="cb4-340"><a href="#cb4-340" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>Soil <span class="ot">&lt;-</span> <span class="fu">relevel</span>(results<span class="sc">$</span>Soil, <span class="st">"Sand"</span>)</span>
+<span id="cb4-341"><a href="#cb4-341" aria-hidden="true" tabindex="-1"></a>model_sand   <span class="ot">&lt;-</span> <span class="fu">aov</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results)</span>
+<span id="cb4-342"><a href="#cb4-342" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(model_sand)</span>
+<span id="cb4-343"><a href="#cb4-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-344"><a href="#cb4-344" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 12. Sum contrasts (compare each group to grand mean) ---</span></span>
+<span id="cb4-345"><a href="#cb4-345" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(results<span class="sc">$</span>Soil) <span class="ot">&lt;-</span> contr.sum</span>
+<span id="cb4-346"><a href="#cb4-346" aria-hidden="true" tabindex="-1"></a>model_sum <span class="ot">&lt;-</span> <span class="fu">aov</span>(Yield <span class="sc">~</span> Soil, <span class="at">data =</span> results)</span>
+<span id="cb4-347"><a href="#cb4-347" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(model_sum)</span>
+<span id="cb4-348"><a href="#cb4-348" aria-hidden="true" tabindex="-1"></a><span class="co"># Intercept = grand mean (11.9)</span></span>
+<span id="cb4-349"><a href="#cb4-349" aria-hidden="true" tabindex="-1"></a><span class="co"># Soil1 = Clay - grand mean = -0.4</span></span>
+<span id="cb4-350"><a href="#cb4-350" aria-hidden="true" tabindex="-1"></a><span class="co"># Soil2 = Loam - grand mean = +2.4</span></span>
+<span id="cb4-351"><a href="#cb4-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-352"><a href="#cb4-352" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 13. Treatment effects table ---</span></span>
+<span id="cb4-353"><a href="#cb4-353" aria-hidden="true" tabindex="-1"></a><span class="fu">model.tables</span>(model_sum)</span>
+<span id="cb4-354"><a href="#cb4-354" aria-hidden="true" tabindex="-1"></a><span class="co"># Clay: -0.4 | Loam: +2.4 | Sand: -2.0</span></span>
+<span id="cb4-355"><a href="#cb4-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-356"><a href="#cb4-356" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 14. Reset contrasts to default ---</span></span>
+<span id="cb4-357"><a href="#cb4-357" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(results<span class="sc">$</span>Soil) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb4-358"><a href="#cb4-358" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>Soil <span class="ot">&lt;-</span> <span class="fu">relevel</span>(results<span class="sc">$</span>Soil, <span class="st">"Clay"</span>)</span>
+<span id="cb4-359"><a href="#cb4-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-360"><a href="#cb4-360" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 15. F critical value and p-value (manual check) ---</span></span>
+<span id="cb4-361"><a href="#cb4-361" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">27</span>)          <span class="co"># ≈ 3.35 (critical value)</span></span>
+<span id="cb4-362"><a href="#cb4-362" aria-hidden="true" tabindex="-1"></a><span class="fu">pf</span>(<span class="fl">4.245</span>, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">27</span>,</span>
+<span id="cb4-363"><a href="#cb4-363" aria-hidden="true" tabindex="-1"></a>   <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)                 <span class="co"># ≈ 0.025</span></span>
+<span id="cb4-364"><a href="#cb4-364" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-365"><a href="#cb4-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-366"><a href="#cb4-366" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reporting the Results</span></span>
+<span id="cb4-367"><a href="#cb4-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-368"><a href="#cb4-368" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; A one-way analysis of variance indicated that soil type significantly affected crop yield, *F*(2, 27) = 4.245, MSE = 11.69, *p* = .025, η² = 0.239. Tukey's HSD post-hoc test revealed that the mean yield on loam soil was significantly greater than on sand soil (p = .020). No other pairwise differences were statistically significant.</span></span>
+<span id="cb4-369"><a href="#cb4-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-370"><a href="#cb4-370" aria-hidden="true" tabindex="-1"></a>**Table 1. Mean yield by soil type**</span>
+<span id="cb4-371"><a href="#cb4-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-372"><a href="#cb4-372" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Soil Type <span class="pp">|</span> Mean Yield <span class="pp">|</span> SD   <span class="pp">|</span> n  <span class="pp">|</span></span>
+<span id="cb4-373"><a href="#cb4-373" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------|-----------|------|----|</span></span>
+<span id="cb4-374"><a href="#cb4-374" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sand      <span class="pp">|</span> 9.9^A^    <span class="pp">|</span> 3.54 <span class="pp">|</span> 10 <span class="pp">|</span></span>
+<span id="cb4-375"><a href="#cb4-375" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Clay      <span class="pp">|</span> 11.5^AB^  <span class="pp">|</span> 3.92 <span class="pp">|</span> 10 <span class="pp">|</span></span>
+<span id="cb4-376"><a href="#cb4-376" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Loam      <span class="pp">|</span> 14.3^B^   <span class="pp">|</span> 2.67 <span class="pp">|</span> 10 <span class="pp">|</span></span>
+<span id="cb4-377"><a href="#cb4-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-378"><a href="#cb4-378" aria-hidden="true" tabindex="-1"></a>*Note.* Means sharing a superscript letter are not significantly different at the .05 level (Tukey's HSD).</span>
+<span id="cb4-379"><a href="#cb4-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-380"><a href="#cb4-380" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-381"><a href="#cb4-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-382"><a href="#cb4-382" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb4-383"><a href="#cb4-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-384"><a href="#cb4-384" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**ANOVA** tests equality of three or more group means while controlling the overall Type I error rate at α = 0.05.</span>
+<span id="cb4-385"><a href="#cb4-385" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **F-statistic** is a ratio of between-group variance to within-group variance; a large F suggests at least one group differs.</span>
+<span id="cb4-386"><a href="#cb4-386" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Total variation is partitioned: $SS_T = SS_F + SS_E$. The ANOVA table organises these with degrees of freedom, mean squares, and the F-ratio.</span>
+<span id="cb4-387"><a href="#cb4-387" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Four assumptions** must hold: random sampling, independence, normality of residuals, and equal variances across groups.</span>
+<span id="cb4-388"><a href="#cb4-388" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Equal variance can be tested with the **Fligner-Killeen** or **Levene's** test before running ANOVA.</span>
+<span id="cb4-389"><a href="#cb4-389" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ANOVA is a **linear model**; categorical predictors are handled via **dummy variables**, with one group set as the reference/baseline.</span>
+<span id="cb4-390"><a href="#cb4-390" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**η²** (Eta-squared) = SS_F / SS_T measures effect size, analogous to R² in regression.</span>
+<span id="cb4-391"><a href="#cb4-391" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A significant ANOVA result only tells you that *a* difference exists. Use **Tukey's HSD** (post-hoc) to identify *which* pairs differ.</span>
+<span id="cb4-392"><a href="#cb4-392" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Model validation** uses four diagnostic plots: Residuals vs Fitted, Q-Q plot, Scale-Location, and Cook's Distance.</span>
+<span id="cb4-393"><a href="#cb4-393" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If assumptions are violated, consider **Kruskal-Wallis** (non-parametric) or **Welch's ANOVA** (unequal variances).</span>
+<span id="cb4-394"><a href="#cb4-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-395"><a href="#cb4-395" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-396"><a href="#cb4-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-397"><a href="#cb4-397" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- </span><span class="al">TODO</span><span class="co">: Add your own annotations here after reviewing the material --&gt;</span></span>
+<span id="cb4-398"><a href="#cb4-398" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- </span><span class="al">TODO</span><span class="co">: Complete the tensile strength exercise (see Worksheet 3) --&gt;</span></span>
+<span id="cb4-399"><a href="#cb4-399" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- </span><span class="al">TODO</span><span class="co">: Practice interpreting Cook's distance plot --&gt;</span></span>
+<span id="cb4-400"><a href="#cb4-400" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- </span><span class="al">TODO</span><span class="co">: Review F-distribution table for exam practice --&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

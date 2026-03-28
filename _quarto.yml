@@ -41,6 +41,10 @@ website:
                 file: regression-analysis/week-2.qmd
               - text: "Week 3"
                 file: regression-analysis/week-3.qmd
+              - text: "Week 4"
+                file: regression-analysis/week-4.qmd
+              - text: "Week 5"
+                file: regression-analysis/week-5.qmd
               - text: "Week 9"
                 file: regression-analysis/week-9.qmd
 
@@ -55,12 +59,14 @@ website:
                 file: time-series/week-2.qmd
 format:
   html:
-    theme:
-      light: cosmo
-      dark: darkly
+    theme: cosmo
     toc: true
     toc-depth: 3
-    number-sections: false
+    number-sections: true
+    code-fold: true
+    highlight-style: github
+    code-overflow: wrap
+    code-tools: true
     css: styles.css
 
 execute:

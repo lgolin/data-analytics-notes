@@ -1,0 +1,320 @@
+---
+title: "Home"
+---
+
+```{=html}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap');
+
+  body {
+    font-family: 'Fraunces', Georgia, serif;
+  }
+
+  .hero {
+    border-left: 3px solid #2563eb;
+    padding: 1.5rem 1.75rem;
+    margin: 2rem 0 2.5rem;
+    background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: #1e293b;
+    letter-spacing: -0.02em;
+  }
+
+  .hero p {
+    margin: 0;
+    color: #475569;
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0 2.5rem;
+  }
+
+  .module-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    background: white;
+  }
+
+  .module-card:hover {
+    border-color: #2563eb;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.12);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .module-card .icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .module-card strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.2rem;
+  }
+
+  .module-card span {
+    font-size: 0.82rem;
+    color: #64748b;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .guide-section {
+    margin: 2.5rem 0;
+  }
+
+  .guide-section h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .guide-section .subtitle {
+    color: #64748b;
+    font-size: 0.92rem;
+    margin: 0 0 1.25rem;
+  }
+
+  .step {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  .step-body p {
+    margin: 0 0 0.4rem;
+    color: #334155;
+    line-height: 1.6;
+  }
+
+  .step-body code {
+    display: block;
+    background: #0f172a;
+    color: #7dd3fc;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.88rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 6px;
+    margin-top: 0.4rem;
+  }
+
+  .step-body .note {
+    font-size: 0.83rem;
+    color: #64748b;
+    margin-top: 0.35rem;
+    font-style: italic;
+  }
+
+  .tip-box {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 8px;
+    padding: 0.9rem 1.1rem;
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+    color: #166534;
+  }
+
+  .tip-box strong {
+    font-weight: 600;
+  }
+
+  .warn-box {
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: 8px;
+    padding: 0.9rem 1.1rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #92400e;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 2.5rem 0;
+  }
+
+  .usage-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .usage-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.93rem;
+    color: #334155;
+  }
+
+  .usage-list li::before {
+    content: "→";
+    color: #2563eb;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+  }
+
+  @media (max-width: 600px) {
+    .usage-list { grid-template-columns: 1fr; }
+    .modules-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<div class="hero">
+  <h1>Data Analytics — Semester Notes</h1>
+  <p>A living reference for lecture content, lab work, and exam prep. Browse by module in the sidebar, or follow the guide below to run this site locally or push updates to GitHub Pages.</p>
+</div>
+
+<!-- Modules -->
+<div class="modules-grid">
+  <a class="module-card" href="data-mining/index.html">
+    <span class="icon">⛏️</span>
+    <strong>Data Mining</strong>
+    <span>Weeks 1–8</span>
+  </a>
+  <a class="module-card" href="regression-analysis/index.html">
+    <span class="icon">📈</span>
+    <strong>Regression Analysis</strong>
+    <span>Weeks 1–9</span>
+  </a>
+  <a class="module-card" href="time-series/index.html">
+    <span class="icon">🕒</span>
+    <strong>Time Series</strong>
+    <span>Weeks 1–2</span>
+  </a>
+</div>
+
+<p style="font-size:0.9rem; color:#64748b; margin-bottom:0.25rem;">What you'll find here:</p>
+<ul class="usage-list">
+  <li>Weekly lecture notes</li>
+  <li>Lab practice & R examples</li>
+  <li>Revision summaries</li>
+  <li>Exam preparation notes</li>
+</ul>
+
+<hr class="divider">
+
+<!-- Running locally -->
+<div class="guide-section">
+  <h2>Running this site locally</h2>
+  <p class="subtitle">Ideal when you want to preview changes before publishing — works offline too.</p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <p><strong>Open your terminal</strong> and navigate to the project folder. If you cloned the repo, it'll be wherever you saved it.</p>
+      <code>cd data-analytics-notes</code>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <p><strong>Start the Quarto preview server.</strong> This builds the site and opens it in your browser automatically.</p>
+      <code>quarto preview</code>
+      <p class="note">The site will live-reload whenever you save a <code>.qmd</code> file — no need to restart.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <p><strong>Open your browser</strong> and go to the address shown in the terminal — usually:</p>
+      <code>http://localhost:4321</code>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>✓ Tip:</strong> Press <code>Ctrl + C</code> in the terminal when you're done to stop the preview server.
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- GitHub Pages -->
+<div class="guide-section">
+  <h2>Publishing to GitHub Pages</h2>
+  <p class="subtitle">Quarto has a built-in command for this — no manual file copying needed.</p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <p><strong>Make sure GitHub Pages is set up.</strong> In your repo on GitHub, go to <em>Settings → Pages</em> and set the source to the <code>gh-pages</code> branch. You only need to do this once.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <p><strong>Commit your changes</strong> to the main branch as normal. Quarto publishes separately from your source files.</p>
+      <code>git add .</code>
+      <code style="margin-top:0.3rem">git commit -m "Update week 3 notes"</code>
+      <code style="margin-top:0.3rem">git push</code>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <p><strong>Publish with Quarto.</strong> This builds the site and pushes the rendered output to your <code>gh-pages</code> branch in one go.</p>
+      <code>quarto publish gh-pages</code>
+      <p class="note">The first time you run this, Quarto may ask you to confirm the publishing destination — just hit Enter.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <p><strong>Wait ~30–60 seconds</strong>, then visit your site. GitHub Pages takes a moment to deploy the new build.</p>
+      <code>https://lgolin.github.io/data-analytics-notes/</code>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠ Note:</strong> Don't edit the <code>gh-pages</code> branch directly — it's managed by Quarto. Always make edits in your source files and re-run <code>quarto publish gh-pages</code>.
+  </div>
+</div>
+```

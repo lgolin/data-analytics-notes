@@ -1,0 +1,411 @@
+---
+title: "Week 5 – One-Way ANOVA"
+subtitle: "STAT9004 – Regression Analysis"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+    code-fold: true
+    highlight-style: github
+  pdf:
+    toc: true
+    number-sections: true
+---
+
+> 📝 **Study Notes** — These notes are designed to be reviewed and expanded. Use the comment spaces and `<!-- TODO -->` markers to add your own annotations as you revisit this material.
+
+---
+
+# Key Topics
+
+- What ANOVA is and why we use it instead of multiple t-tests
+- The F-statistic: explained vs. unexplained variation
+- Sum of Squares: Total (SST), Factor/Between (SSF), Error/Within (SSE)
+- Degrees of freedom and the ANOVA table
+- Assumptions of one-way ANOVA
+- ANOVA as a linear model: dummy variables and treatment contrasts
+- Effect size: Eta-squared (η²)
+- Post-hoc pairwise comparisons: Tukey's HSD
+- Model validation (residual diagnostics)
+- Non-parametric alternatives: Kruskal-Wallis and Welch's ANOVA
+
+---
+
+# Core Explanation
+
+## What is ANOVA and Why Do We Use It?
+
+**ANOVA** (Analysis of Variance) is an inferential statistical method used to compare the **means of three or more groups** simultaneously. It is a direct extension of the independent t-test — whereas the t-test compares exactly two means, ANOVA can handle any number of groups.
+
+**Why not just run multiple t-tests?**
+
+If you have three groups (e.g. Sand, Clay, Loam), you could technically run three separate t-tests:
+Sand vs Clay, Sand vs Loam, and Clay vs Loam. However, each test carries a 5% chance of a **Type I error** (incorrectly rejecting a true null hypothesis). Running multiple tests multiplies this risk — by the time you have run all pairwise comparisons, your real chance of a false positive is much higher than 5%. ANOVA solves this by testing all group means **simultaneously** while keeping the overall Type I error rate at 5%.
+
+> **Key Idea:** ANOVA compares two sources of variation — variation *between* groups (due to the treatment/factor) and variation *within* groups (due to random error). If the between-group variation is much larger than the within-group variation, it suggests that the groups genuinely differ.
+
+---
+
+## The F-Statistic
+
+The test statistic in ANOVA is the **F-statistic** (or F-ratio), defined as:
+
+$$F = \frac{\text{Mean Square Between (MSF)}}{\text{Mean Square Within (MSE)}}$$
+
+- If the **factor has no effect**, the between-group variance and within-group variance should be roughly equal → F ≈ 1
+- If the **factor has a strong effect**, the between-group variance will be much larger → F >> 1
+
+The F-statistic follows an **F-distribution** under the null hypothesis, and significance is assessed either by comparing F to a critical value from the F-table, or by computing a **p-value**.
+
+---
+
+## Sum of Squares Decomposition
+
+The total variation in the data is partitioned into two components:
+
+$$SS_T = SS_F + SS_E$$
+
+| Component | Name | Measures |
+|-----------|------|----------|
+| $SS_T$ | **Total Sum of Squares** | Total variation in all observations |
+| $SS_F$ | **Factor (Between) Sum of Squares** | Variation due to differences between group means |
+| $SS_E$ | **Error (Within) Sum of Squares** | Variation due to random error within groups |
+
+### Formulas
+
+**Total Sum of Squares:**
+$$SS_T = \sum_{i}\sum_{j} \left(y_{ij} - \bar{\bar{y}}\right)^2$$
+
+**Factor Sum of Squares:**
+$$SS_F = n \sum_{i} \left(\bar{y}_i - \bar{\bar{y}}\right)^2$$
+
+**Error Sum of Squares:**
+$$SS_E = SS_T - SS_F$$
+
+Where:
+
+- $y_{ij}$ = observation $j$ in treatment group $i$
+- $\bar{y}_i$ = mean of group $i$
+- $\bar{\bar{y}}$ = **grand mean** (overall mean of all observations)
+- $n$ = number of replicas per group
+
+---
+
+## The ANOVA Table
+
+Results are always presented in a standard **ANOVA table**:
+
+| Source | df | SS | MS = SS/df | F | p-value |
+|--------|----|----|------------|---|---------|
+| Factor (Between) | $a - 1$ | $SS_F$ | $MS_F$ | $MS_F / MS_E$ | |
+| Error (Within) | $a(n-1)$ | $SS_E$ | $MS_E$ | | |
+| Total | $an - 1$ | $SS_T$ | | | |
+
+Where $a$ = number of treatment levels, $n$ = number of replicas per level.
+
+**For our soil example** (3 soil types × 10 fields):
+
+| Source | df | SS | MS | F | p-value |
+|--------|----|----|-----|------|---------|
+| Soil type | 2 | 99.2 | 49.60 | **4.245** | **0.025 \*** |
+| Residuals | 27 | 315.5 | 11.69 | | |
+
+The p-value of 0.025 < 0.05 → we **reject H₀**. At least one soil type produces a significantly different mean yield.
+
+---
+
+## Hypotheses
+
+$$H_0: \mu_1 = \mu_2 = \mu_3 \quad \text{(all population means are equal)}$$
+
+$$H_A: \text{at least one group mean differs}$$
+
+> **Note:** The alternative hypothesis is phrased as "at least one mean differs," NOT "all means differ." This matters when interpreting results — ANOVA only tells you *that* a difference exists somewhere, not *where*.
+
+---
+
+## Assumptions of ANOVA
+
+Before running ANOVA, you must verify these four assumptions:
+
+1. **Random sampling** — observations must be randomly sampled from each population.
+2. **Independence** — observations within and between groups must be independent.
+3. **Normality of residuals** — the error terms should be normally distributed (check with Q-Q plot or Shapiro-Wilk test).
+4. **Homogeneity of variance (homoscedasticity)** — the variance should be approximately equal across all groups.
+
+**Tests for equal variance:**
+
+- **Fligner-Killeen test** (robust to non-normality, recommended)
+- **Levene's test** (from the `car` package in R)
+- **Bartlett's test** (assumes normality)
+
+For the soil data, the Fligner-Killeen test gave p = 0.833 → we **fail to reject** the null hypothesis of equal variances → ANOVA is appropriate.
+
+---
+
+## ANOVA as a Linear Model
+
+ANOVA is a special case of a linear model. The **effects model** is:
+
+$$y_{ij} = \mu + \tau_i + \varepsilon_{ij}$$
+
+Where:
+
+- $\mu$ = overall (grand) population mean
+- $\tau_i$ = **treatment effect** = difference between group $i$'s mean and the grand mean
+- $\varepsilon_{ij}$ = random error term (assumed iid Normal with mean 0 and constant variance)
+
+### Dummy Variables
+
+Since soil type is a **categorical** variable, R encodes it using **dummy variables**. With $k$ groups, R creates $k - 1$ dummy variables and designates one group as the **reference (baseline)**.
+
+For our 3 soil types (baseline = Clay):
+
+| Observation | $x_1$ (Loam) | $x_2$ (Sand) |
+|-------------|-------------|--------------|
+| Clay | 0 | 0 |
+| Loam | 1 | 0 |
+| Sand | 0 | 1 |
+
+The fitted model becomes:
+
+$$\hat{y}_{ij} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2$$
+
+$$\hat{y}_{ij} = 11.5 + 2.8\, x_1 - 1.6\, x_2$$
+
+Where $\hat{\beta}_0 = 11.5$ is the mean yield for **Clay** (baseline), $+2.8$ is the difference between Loam and Clay, and $-1.6$ is the difference between Sand and Clay.
+
+### Treatment Effects
+
+| Soil Type | Treatment Effect ($\hat{\tau}_i$) | Interpretation |
+|-----------|-----------------------------------|----------------|
+| Clay | −0.4 | Slightly below grand mean |
+| Loam | +2.4 | Above grand mean (highest yield) |
+| Sand | −2.0 | Below grand mean (lowest yield) |
+
+---
+
+## Effect Size: Eta-Squared (η²)
+
+**η²** (Eta-squared) measures the **proportion of total variance** in the response variable explained by the factor. It is directly analogous to **R²** in regression.
+
+$$\eta^2 = \frac{SS_F}{SS_T} = \frac{99.2}{414.7} \approx 0.239$$
+
+**Interpretation:** 23.9% of the variation in crop yield is explained by soil type. The remaining 76.1% is due to other factors (unexplained variation).
+
+---
+
+## Post-Hoc Analysis: Tukey's HSD
+
+ANOVA tells us *that* at least one group mean differs — it does **not** tell us *which* groups differ. We use **Tukey's Honest Significant Difference (HSD)** test for pairwise comparisons.
+
+**Results for soil data:**
+
+| Comparison | Difference | 95% CI | p-value |
+|------------|-----------|--------|---------|
+| Loam − Clay | 2.8 | (−0.99, 6.59) | 0.179 |
+| Sand − Clay | −1.6 | (−5.39, 2.19) | 0.555 |
+| Sand − Loam | **−4.4** | **(−8.19, −0.61)** | **0.020** |
+
+Only the **Sand vs Loam** comparison is statistically significant (p = 0.020). The confidence interval for that pair does not include 0, confirming a genuine difference.
+
+> 💡 **Tip:** When interpreting pairwise CIs graphically, if a confidence interval **crosses zero**, the difference is not significant. If it **doesn't cross zero**, the difference is significant.
+
+---
+
+## Model Validation
+
+After running ANOVA, check the model assumptions using **diagnostic plots** (`plot(model)`):
+
+| Plot | What to Look For |
+|------|-----------------|
+| **Residuals vs Fitted** | Residuals should be randomly scattered around 0 with no patterns |
+| **Normal Q-Q Plot** | Points should follow the diagonal line; departures suggest non-normality |
+| **Scale-Location Plot** | Horizontal band of points indicates constant variance |
+| **Cook's Distance** | Large values (> 0.5 or 1) flag influential/outlier observations |
+
+For the soil data, diagnostics showed no serious violations — a couple of points (6, 11, 13) slightly deviated from the Q-Q line but this was not concerning.
+
+---
+
+## Non-Parametric Alternatives
+
+If ANOVA assumptions are violated (especially equal variance or normality):
+
+| Method | Use When | R Function |
+|--------|----------|------------|
+| **Kruskal-Wallis test** | Variances differ, or data is not normally distributed; tests equality of *medians* | `kruskal.test()` |
+| **Welch's ANOVA** | Variances are unequal but normality holds; tests equality of *means* | `oneway.test(..., var.equal = FALSE)` |
+
+---
+
+# Key Equations / Formulas
+
+```
+# F-statistic
+F = MS_Between / MS_Within = (SS_F / df_F) / (SS_E / df_E)
+
+# Degrees of freedom
+df_Between = a - 1           (a = number of groups)
+df_Within  = a(n - 1)        (n = replicas per group)
+df_Total   = an - 1
+
+# Effect size
+η² = SS_F / SS_T
+
+# Effects model
+y_ij = μ + τ_i + ε_ij
+
+# Fitted treatment contrasts model (baseline = Clay)
+ŷ = 11.5 + 2.8·x1 - 1.6·x2
+```
+
+---
+
+# Practical Example: Soil Type and Crop Yield
+
+## The Data
+
+An agricultural researcher measured crop yield (per unit area) from 10 randomly selected fields for each of three soil types.
+
+```r
+# soil_data.txt — wide format
+Sand   Clay   Loam
+   6     17     13
+  10     15     16
+   8      3      9
+   6     11     12
+  14     14     15
+  17     12     16
+   9     12     17
+  11      8     13
+   7     10     18
+  11     13     14
+```
+
+**Group means:** Sand = 9.9, Clay = 11.5, Loam = 14.3  
+**Grand mean:** $\bar{\bar{y}}$ = 11.9
+
+## R Code Walkthrough
+
+```r
+library(tidyverse)
+library(car)
+
+# --- 1. Import and reshape data ---
+results <- read_tsv("soil_data.txt")
+
+# Convert from wide to long format
+results <- results |>
+  pivot_longer(cols = everything(),
+               names_to = "Soil",
+               values_to = "Yield")
+
+# --- 2. Descriptive statistics ---
+results |>
+  group_by(Soil) |>
+  summarise(mean_yield = mean(Yield),
+            sd_yield   = sd(Yield),
+            var_yield  = var(Yield))
+
+# --- 3. Visualise ---
+boxplot(Yield ~ Soil, data = results,
+        main = "Crop Yield by Soil Type",
+        xlab = "Soil Type", ylab = "Yield")
+
+# --- 4. Check homogeneity of variance ---
+fligner.test(Yield ~ Soil, data = results)   # p = 0.833 → equal variances OK
+leveneTest(Yield ~ Soil, data = results)     # p = 0.781 → consistent result
+
+# --- 5. Ensure Soil is a factor ---
+results$Soil <- as.factor(results$Soil)
+levels(results$Soil)    # "Clay" "Loam" "Sand"
+nlevels(results$Soil)   # 3
+
+# --- 6. Fit one-way ANOVA ---
+model_treat <- aov(Yield ~ Soil, data = results)
+summary(model_treat)
+# Soil:  df=2, SS=99.2, MS=49.60, F=4.245, p=0.025 *
+
+# --- 7. Treatment contrasts (baseline = Clay) ---
+summary.lm(model_treat)
+# Intercept (Clay):  11.5
+# Loam - Clay:       +2.8  (p = 0.078)
+# Sand - Clay:       -1.6  (p = 0.305)
+
+# --- 8. Effect size η² ---
+# η² = SS_F / SS_T = 99.2 / 414.7 = 0.239
+
+# --- 9. Post-hoc pairwise comparisons ---
+TukeyHSD(model_treat)
+# Sand-Loam: diff = -4.4, p = 0.020  ← SIGNIFICANT
+
+# --- 10. Model diagnostics ---
+par(mfrow = c(2, 2))
+plot(model_treat)
+
+# --- 11. Relevel / change reference group ---
+results$Soil <- relevel(results$Soil, "Sand")
+model_sand   <- aov(Yield ~ Soil, data = results)
+summary.lm(model_sand)
+
+# --- 12. Sum contrasts (compare each group to grand mean) ---
+contrasts(results$Soil) <- contr.sum
+model_sum <- aov(Yield ~ Soil, data = results)
+summary.lm(model_sum)
+# Intercept = grand mean (11.9)
+# Soil1 = Clay - grand mean = -0.4
+# Soil2 = Loam - grand mean = +2.4
+
+# --- 13. Treatment effects table ---
+model.tables(model_sum)
+# Clay: -0.4 | Loam: +2.4 | Sand: -2.0
+
+# --- 14. Reset contrasts to default ---
+contrasts(results$Soil) <- NULL
+results$Soil <- relevel(results$Soil, "Clay")
+
+# --- 15. F critical value and p-value (manual check) ---
+qf(0.95, df1 = 2, df2 = 27)          # ≈ 3.35 (critical value)
+pf(4.245, df1 = 2, df2 = 27,
+   lower.tail = FALSE)                 # ≈ 0.025
+```
+
+## Reporting the Results
+
+> A one-way analysis of variance indicated that soil type significantly affected crop yield, *F*(2, 27) = 4.245, MSE = 11.69, *p* = .025, η² = 0.239. Tukey's HSD post-hoc test revealed that the mean yield on loam soil was significantly greater than on sand soil (p = .020). No other pairwise differences were statistically significant.
+
+**Table 1. Mean yield by soil type**
+
+| Soil Type | Mean Yield | SD   | n  |
+|-----------|-----------|------|----|
+| Sand      | 9.9^A^    | 3.54 | 10 |
+| Clay      | 11.5^AB^  | 3.92 | 10 |
+| Loam      | 14.3^B^   | 2.67 | 10 |
+
+*Note.* Means sharing a superscript letter are not significantly different at the .05 level (Tukey's HSD).
+
+---
+
+# Summary Points
+
+- **ANOVA** tests equality of three or more group means while controlling the overall Type I error rate at α = 0.05.
+- The **F-statistic** is a ratio of between-group variance to within-group variance; a large F suggests at least one group differs.
+- Total variation is partitioned: $SS_T = SS_F + SS_E$. The ANOVA table organises these with degrees of freedom, mean squares, and the F-ratio.
+- **Four assumptions** must hold: random sampling, independence, normality of residuals, and equal variances across groups.
+- Equal variance can be tested with the **Fligner-Killeen** or **Levene's** test before running ANOVA.
+- ANOVA is a **linear model**; categorical predictors are handled via **dummy variables**, with one group set as the reference/baseline.
+- **η²** (Eta-squared) = SS_F / SS_T measures effect size, analogous to R² in regression.
+- A significant ANOVA result only tells you that *a* difference exists. Use **Tukey's HSD** (post-hoc) to identify *which* pairs differ.
+- **Model validation** uses four diagnostic plots: Residuals vs Fitted, Q-Q plot, Scale-Location, and Cook's Distance.
+- If assumptions are violated, consider **Kruskal-Wallis** (non-parametric) or **Welch's ANOVA** (unequal variances).
+
+---
+
+<!-- TODO: Add your own annotations here after reviewing the material -->
+<!-- TODO: Complete the tensile strength exercise (see Worksheet 3) -->
+<!-- TODO: Practice interpreting Cook's distance plot -->
+<!-- TODO: Review F-distribution table for exam practice -->

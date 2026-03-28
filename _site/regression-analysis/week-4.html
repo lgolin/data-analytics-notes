@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 4 – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../regression-analysis/week-5.html" rel="next">
+<link href="../regression-analysis/week-3.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-4.html">Week 4</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics" id="toc-key-topics" class="nav-link active" data-scroll-target="#key-topics"><span class="header-section-number">1</span> Key Topics</a></li>
+  <li><a href="#core-explanations" id="toc-core-explanations" class="nav-link" data-scroll-target="#core-explanations"><span class="header-section-number">2</span> Core Explanations</a>
+  <ul class="collapse">
+  <li><a href="#what-is-experimental-design" id="toc-what-is-experimental-design" class="nav-link" data-scroll-target="#what-is-experimental-design"><span class="header-section-number">2.1</span> What is Experimental Design?</a>
+  <ul class="collapse">
+  <li><a href="#the-three-principles-of-efficient-experimental-design" id="toc-the-three-principles-of-efficient-experimental-design" class="nav-link" data-scroll-target="#the-three-principles-of-efficient-experimental-design"><span class="header-section-number">2.1.1</span> The Three Principles of Efficient Experimental Design</a></li>
+  </ul></li>
+  <li><a href="#experimental-studies-vs.-observational-studies" id="toc-experimental-studies-vs.-observational-studies" class="nav-link" data-scroll-target="#experimental-studies-vs.-observational-studies"><span class="header-section-number">2.2</span> Experimental Studies vs.&nbsp;Observational Studies</a>
+  <ul class="collapse">
+  <li><a href="#two-sources-of-problems-in-observational-studies" id="toc-two-sources-of-problems-in-observational-studies" class="nav-link" data-scroll-target="#two-sources-of-problems-in-observational-studies"><span class="header-section-number">2.2.1</span> Two Sources of Problems in Observational Studies</a></li>
+  </ul></li>
+  <li><a href="#association-vs.-causation" id="toc-association-vs.-causation" class="nav-link" data-scroll-target="#association-vs.-causation"><span class="header-section-number">2.3</span> Association vs.&nbsp;Causation</a>
+  <ul class="collapse">
+  <li><a href="#types-of-association" id="toc-types-of-association" class="nav-link" data-scroll-target="#types-of-association"><span class="header-section-number">2.3.1</span> Types of Association</a></li>
+  <li><a href="#common-measures-of-association" id="toc-common-measures-of-association" class="nav-link" data-scroll-target="#common-measures-of-association"><span class="header-section-number">2.3.2</span> Common Measures of Association</a></li>
+  </ul></li>
+  <li><a href="#extraneous-and-confounding-variables" id="toc-extraneous-and-confounding-variables" class="nav-link" data-scroll-target="#extraneous-and-confounding-variables"><span class="header-section-number">2.4</span> Extraneous and Confounding Variables</a>
+  <ul class="collapse">
+  <li><a href="#extraneous-variables" id="toc-extraneous-variables" class="nav-link" data-scroll-target="#extraneous-variables"><span class="header-section-number">2.4.1</span> Extraneous Variables</a></li>
+  <li><a href="#confounding-variables" id="toc-confounding-variables" class="nav-link" data-scroll-target="#confounding-variables"><span class="header-section-number">2.4.2</span> Confounding Variables</a></li>
+  <li><a href="#spurious-correlation" id="toc-spurious-correlation" class="nav-link" data-scroll-target="#spurious-correlation"><span class="header-section-number">2.4.3</span> Spurious Correlation</a></li>
+  </ul></li>
+  <li><a href="#key-terms-in-experimental-design" id="toc-key-terms-in-experimental-design" class="nav-link" data-scroll-target="#key-terms-in-experimental-design"><span class="header-section-number">2.5</span> Key Terms in Experimental Design</a></li>
+  <li><a href="#randomised-designs-and-blind-studies" id="toc-randomised-designs-and-blind-studies" class="nav-link" data-scroll-target="#randomised-designs-and-blind-studies"><span class="header-section-number">2.6</span> Randomised Designs and Blind Studies</a>
+  <ul class="collapse">
+  <li><a href="#completely-randomised-design-crd" id="toc-completely-randomised-design-crd" class="nav-link" data-scroll-target="#completely-randomised-design-crd"><span class="header-section-number">2.6.1</span> Completely Randomised Design (CRD)</a></li>
+  <li><a href="#randomised-block-design-rbd" id="toc-randomised-block-design-rbd" class="nav-link" data-scroll-target="#randomised-block-design-rbd"><span class="header-section-number">2.6.2</span> Randomised Block Design (RBD)</a></li>
+  <li><a href="#blind-studies-reducing-bias-further" id="toc-blind-studies-reducing-bias-further" class="nav-link" data-scroll-target="#blind-studies-reducing-bias-further"><span class="header-section-number">2.6.3</span> Blind Studies (Reducing Bias Further)</a></li>
+  </ul></li>
+  <li><a href="#anova-preview" id="toc-anova-preview" class="nav-link" data-scroll-target="#anova-preview"><span class="header-section-number">2.7</span> ANOVA — Preview</a>
+  <ul class="collapse">
+  <li><a href="#hypotheses-e.g.-one-way-anova-with-3-groups" id="toc-hypotheses-e.g.-one-way-anova-with-3-groups" class="nav-link" data-scroll-target="#hypotheses-e.g.-one-way-anova-with-3-groups"><span class="header-section-number">2.7.1</span> Hypotheses (e.g., one-way ANOVA with 3 groups)</a></li>
+  </ul></li>
+  <li><a href="#effect-size-sample-size-and-statistical-power" id="toc-effect-size-sample-size-and-statistical-power" class="nav-link" data-scroll-target="#effect-size-sample-size-and-statistical-power"><span class="header-section-number">2.8</span> Effect Size, Sample Size, and Statistical Power</a>
+  <ul class="collapse">
+  <li><a href="#effect-size-cohens-d" id="toc-effect-size-cohens-d" class="nav-link" data-scroll-target="#effect-size-cohens-d"><span class="header-section-number">2.8.1</span> Effect Size (Cohen’s <em>d</em>)</a></li>
+  <li><a href="#statistical-power-1-β" id="toc-statistical-power-1-β" class="nav-link" data-scroll-target="#statistical-power-1-β"><span class="header-section-number">2.8.2</span> Statistical Power (1 − β)</a></li>
+  <li><a href="#the-relationship-between-effect-size-sample-size-and-power" id="toc-the-relationship-between-effect-size-sample-size-and-power" class="nav-link" data-scroll-target="#the-relationship-between-effect-size-sample-size-and-power"><span class="header-section-number">2.8.3</span> The Relationship Between Effect Size, Sample Size, and Power</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">3</span> Key Equations / Formulas</a>
+  <ul class="collapse">
+  <li><a href="#cohens-d-effect-size-for-t-tests" id="toc-cohens-d-effect-size-for-t-tests" class="nav-link" data-scroll-target="#cohens-d-effect-size-for-t-tests"><span class="header-section-number">3.0.1</span> Cohen’s <em>d</em> (Effect Size for t-tests)</a></li>
+  <li><a href="#statistical-power" id="toc-statistical-power" class="nav-link" data-scroll-target="#statistical-power"><span class="header-section-number">3.0.2</span> Statistical Power</a></li>
+  <li><a href="#standard-error-of-the-mean" id="toc-standard-error-of-the-mean" class="nav-link" data-scroll-target="#standard-error-of-the-mean"><span class="header-section-number">3.0.3</span> Standard Error of the Mean</a></li>
+  <li><a href="#general-linear-model-multiple-regression-observational" id="toc-general-linear-model-multiple-regression-observational" class="nav-link" data-scroll-target="#general-linear-model-multiple-regression-observational"><span class="header-section-number">3.0.4</span> General Linear Model (Multiple Regression / Observational)</a></li>
+  <li><a href="#anova-decomposition" id="toc-anova-decomposition" class="nav-link" data-scroll-target="#anova-decomposition"><span class="header-section-number">3.0.5</span> ANOVA Decomposition</a></li>
+  </ul></li>
+  <li><a href="#practical-examples" id="toc-practical-examples" class="nav-link" data-scroll-target="#practical-examples"><span class="header-section-number">4</span> Practical Examples</a>
+  <ul class="collapse">
+  <li><a href="#simulation-exercise-worksheet-2" id="toc-simulation-exercise-worksheet-2" class="nav-link" data-scroll-target="#simulation-exercise-worksheet-2"><span class="header-section-number">4.1</span> Simulation Exercise (Worksheet 2)</a>
+  <ul class="collapse">
+  <li><a href="#setup-in-r" id="toc-setup-in-r" class="nav-link" data-scroll-target="#setup-in-r"><span class="header-section-number">4.1.1</span> Setup in R</a></li>
+  <li><a href="#four-cases-compared" id="toc-four-cases-compared" class="nav-link" data-scroll-target="#four-cases-compared"><span class="header-section-number">4.1.2</span> Four Cases Compared</a></li>
+  </ul></li>
+  <li><a href="#power-analysis-in-r-pwr-package" id="toc-power-analysis-in-r-pwr-package" class="nav-link" data-scroll-target="#power-analysis-in-r-pwr-package"><span class="header-section-number">4.2</span> Power Analysis in R — <code>pwr</code> Package</a>
+  <ul class="collapse">
+  <li><a href="#key-pwr-functions" id="toc-key-pwr-functions" class="nav-link" data-scroll-target="#key-pwr-functions"><span class="header-section-number">4.2.1</span> Key <code>pwr</code> Functions</a></li>
+  <li><a href="#worked-example-chemical-company" id="toc-worked-example-chemical-company" class="nav-link" data-scroll-target="#worked-example-chemical-company"><span class="header-section-number">4.2.2</span> Worked Example: Chemical Company</a></li>
+  </ul></li>
+  <li><a href="#exercise-1-height-study" id="toc-exercise-1-height-study" class="nav-link" data-scroll-target="#exercise-1-height-study"><span class="header-section-number">4.3</span> Exercise 1: Height Study</a></li>
+  <li><a href="#exercise-2-light-bulb-lifespan" id="toc-exercise-2-light-bulb-lifespan" class="nav-link" data-scroll-target="#exercise-2-light-bulb-lifespan"><span class="header-section-number">4.4</span> Exercise 2: Light Bulb Lifespan</a></li>
+  </ul></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">5</span> Summary Points</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-4.html">Week 4</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 4</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Experimental Design, Effect Size, Sample Size &amp; Power</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- ============================================================
+     ANNOTATIONS SPACE
+     Use this section to add your own notes, clarifications,
+     or questions as you review this guide.
+============================================================ -->
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📝 Personal Annotations
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Add your own notes here as you review this material.</em></p>
+</div>
+</div>
+<hr>
+<section id="key-topics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics</h1>
+<p>This class covered two connected areas:</p>
+<ul>
+<li><strong>Fundamentals of Experimental Design</strong> — how to plan a well-structured study</li>
+<li><strong>Effect Size, Sample Size &amp; Statistical Power</strong> — how these three quantities interact</li>
+<li><strong>Association vs.&nbsp;Causation</strong> — a critical concept in data analysis</li>
+<li><strong>Confounding Variables &amp; Extraneous Variables</strong> — sources of bias in studies</li>
+<li><strong>ANOVA (preview)</strong> — extension of t-tests to multiple group means</li>
+<li><strong>Power Analysis in R</strong> — using the <code>pwr</code> package to calculate power and required sample size</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanations" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanations</h1>
+<section id="what-is-experimental-design" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-is-experimental-design"><span class="header-section-number">2.1</span> What is Experimental Design?</h2>
+<p><strong>Experimental design</strong> is the process of planning a study so that you collect the right data, in the right amount, using the right methods. The goal is to produce valid and objective conclusions.</p>
+<p>Before you run a single test, you need:</p>
+<ol type="1">
+<li>A clear <strong>research question</strong> that can be converted into testable hypotheses (H₀ and Hₐ).</li>
+<li>An <strong>analysis plan</strong> — which variables will you measure? Are they categorical or numeric? What statistical test is appropriate?</li>
+<li>A predetermined <strong>significance level</strong> (usually α = 0.05). <em>Never change this after looking at the data.</em></li>
+<li>Awareness of <strong>p-hacking</strong> — do not hunt through variables or analyses until you find a significant result. A null result is still a valid and publishable result.</li>
+</ol>
+<section id="the-three-principles-of-efficient-experimental-design" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="the-three-principles-of-efficient-experimental-design"><span class="header-section-number">2.1.1</span> The Three Principles of Efficient Experimental Design</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Principle</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Randomisation</strong></td>
+<td>Every experimental unit has an equal chance of being assigned to any treatment group. This eliminates selection bias.</td>
+</tr>
+<tr class="even">
+<td><strong>Blocking</strong></td>
+<td>Group similar experimental units together before randomising. This reduces the effect of known sources of variability (similar to stratified random sampling).</td>
+</tr>
+<tr class="odd">
+<td><strong>Replication</strong></td>
+<td>Repeat each experimental condition independently so that variability can be estimated. Large samples reduce random variation and let us detect small differences.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="experimental-studies-vs.-observational-studies" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="experimental-studies-vs.-observational-studies"><span class="header-section-number">2.2</span> Experimental Studies vs.&nbsp;Observational Studies</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Experimental Study</th>
+<th>Observational Study</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Researcher role</td>
+<td><strong>Intervenes / manipulates</strong> conditions</td>
+<td>Only <strong>observes</strong> existing conditions</td>
+</tr>
+<tr class="even">
+<td>Randomisation</td>
+<td>Possible</td>
+<td>Not possible</td>
+</tr>
+<tr class="odd">
+<td>Confounding</td>
+<td>Can be controlled via design</td>
+<td>Must be controlled statistically</td>
+</tr>
+<tr class="even">
+<td>Example</td>
+<td>Clinical trial (drug vs placebo)</td>
+<td>Survey on coffee and heart disease</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Quick Rule
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are unsure whether a study is experimental or observational, ask: <em>Did the researcher set the conditions under which the data were collected?</em> If yes → experimental. If no → observational.</p>
+</div>
+</div>
+<section id="two-sources-of-problems-in-observational-studies" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="two-sources-of-problems-in-observational-studies"><span class="header-section-number">2.2.1</span> Two Sources of Problems in Observational Studies</h3>
+<ol type="1">
+<li><strong>Non-random selection</strong> — If participants are not selected randomly, the sample may not represent the population.</li>
+<li><strong>Uncontrolled extraneous variables</strong> — Variables you did not account for that affect the outcome.</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="association-vs.-causation" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="association-vs.-causation"><span class="header-section-number">2.3</span> Association vs.&nbsp;Causation</h2>
+<blockquote class="blockquote">
+<p><strong>“Association is not causation.”</strong></p>
+</blockquote>
+<p>Two variables are <strong>associated</strong> (or correlated) when they move together in a systematic way — as X increases, Y tends to increase (or decrease). However, this does <em>not</em> mean X causes Y.</p>
+<section id="types-of-association" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="types-of-association"><span class="header-section-number">2.3.1</span> Types of Association</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Statistical association</strong></td>
+<td>Variables are correlated; no causation implied</td>
+<td>X and Y are correlated</td>
+</tr>
+<tr class="even">
+<td><strong>Causal association</strong></td>
+<td>One variable <em>directly</em> causes a change in the other</td>
+<td>Sugar consumption → tooth decay</td>
+</tr>
+<tr class="odd">
+<td><strong>Non-causal association</strong></td>
+<td>A <em>third variable</em> explains the relationship between X and Y</td>
+<td>Confounding (see below)</td>
+</tr>
+<tr class="even">
+<td><strong>Chance association (spurious)</strong></td>
+<td>The relationship is a coincidence</td>
+<td>Ice cream sales &amp; drownings — both rise in summer due to weather</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="common-measures-of-association" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="common-measures-of-association"><span class="header-section-number">2.3.2</span> Common Measures of Association</h3>
+<ul>
+<li><strong>Pearson’s correlation coefficient (<em>r</em>)</strong> — parametric, measures linear association</li>
+<li><strong>Spearman’s rank correlation</strong> — non-parametric, based on ranked data (uses median)</li>
+<li><strong>Chi-square test</strong> — for categorical variables</li>
+<li><strong>Odds ratio / Relative risk</strong> — used in logistic regression</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="extraneous-and-confounding-variables" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="extraneous-and-confounding-variables"><span class="header-section-number">2.4</span> Extraneous and Confounding Variables</h2>
+<section id="extraneous-variables" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="extraneous-variables"><span class="header-section-number">2.4.1</span> Extraneous Variables</h3>
+<p>Variables <em>other than</em> the independent variable that may affect the result. They can be:</p>
+<ul>
+<li><strong>Controlled</strong> — accounted for in the study design</li>
+<li><strong>Uncontrolled</strong> — not controlled, and potentially problematic</li>
+</ul>
+</section>
+<section id="confounding-variables" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="confounding-variables"><span class="header-section-number">2.4.2</span> Confounding Variables</h3>
+<p>An uncontrolled extraneous variable that:</p>
+<ul>
+<li>Influences <strong>both</strong> the independent <em>and</em> the dependent variable</li>
+<li>Makes it impossible to determine which variable is truly causing the observed effect</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Key rule:</strong> All confounding variables are extraneous variables, but <em>not all</em> extraneous variables are confounding.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example: Alcohol, Age, and HDL Cholesterol
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A study examines the effect of alcohol consumption on HDL (good) cholesterol in males. The observed association could be <strong>confounded by age</strong> — because age independently affects cholesterol levels. We cannot separate the effect of alcohol from the effect of age.</p>
+<p>In a linear model, age would be included and <em>held constant</em> to control for this confounding effect:</p>
+<p><span class="math display">\[\text{HDL} = \alpha + \beta_1 \cdot \text{Alcohol} + \beta_2 \cdot \text{Age} + \varepsilon\]</span></p>
+</div>
+</div>
+</section>
+<section id="spurious-correlation" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="spurious-correlation"><span class="header-section-number">2.4.3</span> Spurious Correlation</h3>
+<p>A <strong>spurious correlation</strong> is when two variables appear associated but there is no logical or causal link — the association is a coincidence, often caused by a hidden third variable.</p>
+<blockquote class="blockquote">
+<p><strong>Classic example:</strong> Ice cream sales and drowning rates are both correlated — but both are driven by hot weather, not by each other.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="key-terms-in-experimental-design" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="key-terms-in-experimental-design"><span class="header-section-number">2.5</span> Key Terms in Experimental Design</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Experimental unit</strong></td>
+<td>The subject/item on which an experiment is performed (e.g., patients, animals, lab samples)</td>
+</tr>
+<tr class="even">
+<td><strong>Factor</strong></td>
+<td>A <em>controlled</em> explanatory variable whose levels are set by the experimenter</td>
+</tr>
+<tr class="odd">
+<td><strong>Level</strong></td>
+<td>Each distinct setting of a factor (e.g., “Drug A”, “Drug B”, “Drug C”)</td>
+</tr>
+<tr class="even">
+<td><strong>Treatment</strong></td>
+<td>A specific combination of factor levels applied to an experimental unit</td>
+</tr>
+<tr class="odd">
+<td><strong>Response variable</strong></td>
+<td>The outcome being measured (dependent variable / Y)</td>
+</tr>
+<tr class="even">
+<td><strong>Explanatory variable</strong></td>
+<td>The variable(s) used to explain the outcome (independent variable / X)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example: Drug + Vitamin C Study
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>“Six groups of patients are each treated with one of 3 drugs, either combined with Vitamin C or alone.”</em></p>
+<ul>
+<li><strong>Experimental units:</strong> Patients</li>
+<li><strong>Factors:</strong> Type of drug (3 levels) and Vitamin C (2 levels: yes/no)</li>
+<li><strong>Treatments:</strong> 6 (= 2 × 3 combinations)</li>
+<li><strong>Design:</strong> Factorial design → analysed using <strong>two-way ANOVA</strong></li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="randomised-designs-and-blind-studies" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="randomised-designs-and-blind-studies"><span class="header-section-number">2.6</span> Randomised Designs and Blind Studies</h2>
+<section id="completely-randomised-design-crd" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="completely-randomised-design-crd"><span class="header-section-number">2.6.1</span> Completely Randomised Design (CRD)</h3>
+<p>All experimental units are randomly assigned to treatment groups. Every unit has an equal chance of receiving any treatment. This eliminates selection bias.</p>
+</section>
+<section id="randomised-block-design-rbd" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="randomised-block-design-rbd"><span class="header-section-number">2.6.2</span> Randomised Block Design (RBD)</h3>
+<p>When known differences between units exist (e.g., gender), units are first divided into <strong>homogeneous blocks</strong>, then randomly assigned to treatment groups within each block. This reduces noise from that known variable.</p>
+<ul>
+<li><strong>Complete block:</strong> Every block contains every treatment.</li>
+<li><strong>Incomplete block:</strong> Not all treatments appear in every block (adjusted statistically).</li>
+</ul>
+</section>
+<section id="blind-studies-reducing-bias-further" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="blind-studies-reducing-bias-further"><span class="header-section-number">2.6.3</span> Blind Studies (Reducing Bias Further)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Design</th>
+<th>Who doesn’t know the treatment assignment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Single blind</strong></td>
+<td>Participants only</td>
+</tr>
+<tr class="even">
+<td><strong>Double blind</strong></td>
+<td>Participants <em>and</em> researchers administering the treatment</td>
+</tr>
+<tr class="odd">
+<td><strong>Triple blind</strong></td>
+<td>Participants, researchers, <em>and</em> the data analysts</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="anova-preview" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="anova-preview"><span class="header-section-number">2.7</span> ANOVA — Preview</h2>
+<p><strong>ANOVA (Analysis of Variance)</strong> extends the two-sample t-test to compare <strong>two or more means</strong> simultaneously.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Independent Variables</th>
+<th>Dependent Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>One-way ANOVA</strong></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>Two-way ANOVA</strong></td>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<section id="hypotheses-e.g.-one-way-anova-with-3-groups" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="hypotheses-e.g.-one-way-anova-with-3-groups"><span class="header-section-number">2.7.1</span> Hypotheses (e.g., one-way ANOVA with 3 groups)</h3>
+<p><span class="math display">\[H_0: \mu_1 = \mu_2 = \mu_3\]</span> <span class="math display">\[H_A: \text{at least one mean is different}\]</span></p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>ANOVA tells you <strong>if</strong> a difference exists between groups — not <strong>where</strong> the difference lies. A <strong>post-hoc analysis</strong> (e.g., Tukey’s test) is needed to identify which specific groups differ.</p>
+</div>
+</div>
+<p>ANOVA partitions total variation into:</p>
+<ul>
+<li><strong>Explained variation</strong> — variation due to the treatment/design</li>
+<li><strong>Unexplained variation (error)</strong> — inherent variation within groups</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="effect-size-sample-size-and-statistical-power" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="effect-size-sample-size-and-statistical-power"><span class="header-section-number">2.8</span> Effect Size, Sample Size, and Statistical Power</h2>
+<p>These three quantities are deeply interconnected. Understanding their relationship is essential for designing studies and interpreting results.</p>
+<section id="effect-size-cohens-d" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="effect-size-cohens-d"><span class="header-section-number">2.8.1</span> Effect Size (Cohen’s <em>d</em>)</h3>
+<p>Effect size measures the <em>practical significance</em> of a difference — how large the difference between two means is relative to the variability in the data.</p>
+<p><span class="math display">\[d = \frac{\mu_A - \mu_0}{\sigma}\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(\mu_A\)</span> = mean under the alternative hypothesis</li>
+<li><span class="math inline">\(\mu_0\)</span> = mean under the null hypothesis</li>
+<li><span class="math inline">\(\sigma\)</span> = population standard deviation</li>
+</ul>
+<p>A <strong>larger effect size</strong> = easier to detect a real difference.</p>
+</section>
+<section id="statistical-power-1-β" class="level3" data-number="2.8.2">
+<h3 data-number="2.8.2" class="anchored" data-anchor-id="statistical-power-1-β"><span class="header-section-number">2.8.2</span> Statistical Power (1 − β)</h3>
+<p><strong>Power</strong> is the probability of correctly rejecting the null hypothesis when it is actually false.</p>
+<p><span class="math display">\[\text{Power} = 1 - \beta = P(\text{Reject } H_0 \mid H_0 \text{ is false})\]</span></p>
+<ul>
+<li>Low power → high risk of a <strong>Type II error</strong> (missing a real effect)</li>
+<li>Target power is typically <strong>80%</strong> or <strong>90%</strong> in practice</li>
+</ul>
+</section>
+<section id="the-relationship-between-effect-size-sample-size-and-power" class="level3" data-number="2.8.3">
+<h3 data-number="2.8.3" class="anchored" data-anchor-id="the-relationship-between-effect-size-sample-size-and-power"><span class="header-section-number">2.8.3</span> The Relationship Between Effect Size, Sample Size, and Power</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>If you…</th>
+<th>Then power…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Increase sample size</td>
+<td>Increases</td>
+</tr>
+<tr class="even">
+<td>Increase effect size</td>
+<td>Increases</td>
+</tr>
+<tr class="odd">
+<td>Decrease variability (σ)</td>
+<td>Increases</td>
+</tr>
+<tr class="even">
+<td>Use a one-tailed instead of two-tailed test</td>
+<td>Increases</td>
+</tr>
+<tr class="odd">
+<td>Decrease α (e.g., from 0.05 to 0.01)</td>
+<td>Decreases</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>The key insight from the simulation exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As <strong>sample size increases</strong>, sample means converge to the true population means, and p-values generally decrease — making it easier to detect a true difference. However, with a very <strong>small effect size</strong>, you may need an enormous sample to achieve significance.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="key-equations-formulas" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Key Equations / Formulas</h1>
+<section id="cohens-d-effect-size-for-t-tests" class="level3" data-number="3.0.1">
+<h3 data-number="3.0.1" class="anchored" data-anchor-id="cohens-d-effect-size-for-t-tests"><span class="header-section-number">3.0.1</span> Cohen’s <em>d</em> (Effect Size for t-tests)</h3>
+<p><span class="math display">\[d = \frac{\mu_A - \mu_0}{\sigma}\]</span></p>
+</section>
+<section id="statistical-power" class="level3" data-number="3.0.2">
+<h3 data-number="3.0.2" class="anchored" data-anchor-id="statistical-power"><span class="header-section-number">3.0.2</span> Statistical Power</h3>
+<p><span class="math display">\[\text{Power} = 1 - \beta\]</span></p>
+</section>
+<section id="standard-error-of-the-mean" class="level3" data-number="3.0.3">
+<h3 data-number="3.0.3" class="anchored" data-anchor-id="standard-error-of-the-mean"><span class="header-section-number">3.0.3</span> Standard Error of the Mean</h3>
+<p><span class="math display">\[SE = \frac{\sigma}{\sqrt{n}}\]</span></p>
+</section>
+<section id="general-linear-model-multiple-regression-observational" class="level3" data-number="3.0.4">
+<h3 data-number="3.0.4" class="anchored" data-anchor-id="general-linear-model-multiple-regression-observational"><span class="header-section-number">3.0.4</span> General Linear Model (Multiple Regression / Observational)</h3>
+<p><span class="math display">\[Y = \alpha + \beta_1 X_1 + \beta_2 X_2 + \varepsilon\]</span></p>
+<p>Where <span class="math inline">\(\varepsilon\)</span> is the random error term.</p>
+</section>
+<section id="anova-decomposition" class="level3" data-number="3.0.5">
+<h3 data-number="3.0.5" class="anchored" data-anchor-id="anova-decomposition"><span class="header-section-number">3.0.5</span> ANOVA Decomposition</h3>
+<p><span class="math display">\[SS_{\text{Total}} = SS_{\text{Between}} + SS_{\text{Within}}\]</span></p>
+<hr>
+</section>
+</section>
+<section id="practical-examples" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Practical Examples</h1>
+<section id="simulation-exercise-worksheet-2" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="simulation-exercise-worksheet-2"><span class="header-section-number">4.1</span> Simulation Exercise (Worksheet 2)</h2>
+<p>The worksheet uses simulated data to explore how <strong>sample size</strong> affects p-values and hypothesis test conclusions.</p>
+<section id="setup-in-r" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="setup-in-r"><span class="header-section-number">4.1.1</span> Setup in R</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)   <span class="co"># ensures reproducibility of "random" numbers</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>rnorm(n, μ, σ)</code> function generates <code>n</code> pseudo-random numbers from a Normal distribution with mean <code>μ</code> and standard deviation <code>σ</code>.</p>
+</section>
+<section id="four-cases-compared" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="four-cases-compared"><span class="header-section-number">4.1.2</span> Four Cases Compared</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Case</th>
+<th>Sample A</th>
+<th>Sample B</th>
+<th>Effect (difference of means)</th>
+<th>SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>μ=0, σ=4</td>
+<td>μ=1, σ=4</td>
+<td>Large (1.0)</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>μ=0, σ=4</td>
+<td>μ=0.1, σ=4</td>
+<td>Small (0.1)</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>μ=0, σ=1</td>
+<td>μ=0.1, σ=1</td>
+<td>Small (0.1)</td>
+<td>1 (less variability)</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>μ=0, σ=10</td>
+<td>μ=0.2, σ=10</td>
+<td>Very small (0.2)</td>
+<td>10 (more variability)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key observation:</strong> For a given effect size, you need more observations when variability is higher. For a very small effect size, even thousands of observations may be needed.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Case 1 — testing two samples of size 50</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>A_50 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">4</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>B_50 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(A_50, B_50)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="power-analysis-in-r-pwr-package" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="power-analysis-in-r-pwr-package"><span class="header-section-number">4.2</span> Power Analysis in R — <code>pwr</code> Package</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pwr"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="key-pwr-functions" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="key-pwr-functions"><span class="header-section-number">4.2.1</span> Key <code>pwr</code> Functions</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pwr.t.test</code></td>
+<td>One sample, two sample, or paired t-test</td>
+</tr>
+<tr class="even">
+<td><code>pwr.anova.test</code></td>
+<td>Balanced one-way ANOVA</td>
+</tr>
+<tr class="odd">
+<td><code>pwr.chisq.test</code></td>
+<td>Chi-square test</td>
+</tr>
+<tr class="even">
+<td><code>pwr.2p.test</code></td>
+<td>Two proportions (equal n)</td>
+</tr>
+<tr class="odd">
+<td><code>pwr.r.test</code></td>
+<td>Correlation</td>
+</tr>
+<tr class="even">
+<td><code>pwr.f2.test</code></td>
+<td>General linear model</td>
+</tr>
+</tbody>
+</table>
+<p>For each function you provide <strong>three</strong> of: sample size, effect size, significance level, power — and the fourth is calculated.</p>
+</section>
+<section id="worked-example-chemical-company" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="worked-example-chemical-company"><span class="header-section-number">4.2.2</span> Worked Example: Chemical Company</h3>
+<p>A government inspector tests whether a chemical product contains more than 4.0 ml of caustic material (the safe limit). She takes n = 30 samples; σ = 1.3; the true mean may be as high as 4.35.</p>
+<p><strong>Effect size:</strong></p>
+<p><span class="math display">\[d = \frac{4.35 - 4.0}{1.3} = 0.2692\]</span></p>
+<p><strong>Power calculation in R:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">d =</span> <span class="fl">0.2692</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Result:</strong> Power = <strong>0.419</strong> → only a 41.9% chance of detecting the effect with this sample size. The sample is underpowered.</p>
+<hr>
+</section>
+</section>
+<section id="exercise-1-height-study" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="exercise-1-height-study"><span class="header-section-number">4.3</span> Exercise 1: Height Study</h2>
+<p><strong>Scenario:</strong> Testing whether the mean height of students at CIT exceeds 160 cm.</p>
+<p><span class="math display">\[H_0: \mu = 160 \text{ cm}, \quad H_A: \mu &gt; 160 \text{ cm}\]</span></p>
+<p>Sample: n = 25, <span class="math inline">\(\bar{x}\)</span> = 173.4 cm, s = 9</p>
+<p><strong>Type I Error:</strong> Reject H₀ and conclude that mean height &gt; 160 cm <em>when it is not</em>.</p>
+<p><strong>Type II Error:</strong> Fail to reject H₀ and conclude mean height ≤ 160 cm <em>when it actually is greater</em>.</p>
+<p><strong>Power (if true μ = 165):</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">25</span>, <span class="at">d =</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Power ≈ 85%</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Two-tailed version (same μ = 165):</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">25</span>, <span class="at">d =</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Power ≈ 76%</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p><strong>Conclusion:</strong> A one-tailed test is <em>more powerful</em> than a two-tailed test for a given effect size, sample size, and α — because all of the rejection region is on one side.</p>
+</blockquote>
+<hr>
+</section>
+<section id="exercise-2-light-bulb-lifespan" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="exercise-2-light-bulb-lifespan"><span class="header-section-number">4.4</span> Exercise 2: Light Bulb Lifespan</h2>
+<p><strong>Scenario:</strong> A manufacturer claims bulbs last 850 hours on average (σ = 50). A consumer group believes the true mean is only 810 hours.</p>
+<p><span class="math display">\[H_0: \mu = 850, \quad H_A: \mu &lt; 850\]</span></p>
+<p><strong>Required sample size for 90% power:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">d =</span> (<span class="dv">810</span> <span class="sc">-</span> <span class="dv">850</span>) <span class="sc">/</span> <span class="dv">50</span>, <span class="at">power =</span> <span class="fl">0.9</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">type =</span> <span class="st">"one.sample"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="st">"less"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># n ≈ 15 (round up)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Simulation to verify (10,000 tests):</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pvalues <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10000</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  sA <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">15</span>, <span class="dv">810</span>, <span class="dv">50</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  pvalues[i] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(sA, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="st">"less"</span>, <span class="dv">850</span>)<span class="sc">$</span>p.value</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(pvalues <span class="sc">&lt;</span> <span class="fl">0.05</span>)   <span class="co"># should be approximately 9,000 (90%)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="summary-points" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Summary Points</h1>
+<ul>
+<li><p><strong>Experimental design</strong> ensures that data is collected efficiently and that conclusions are valid. The three core principles are <strong>randomisation</strong>, <strong>blocking</strong>, and <strong>replication</strong>.</p></li>
+<li><p>The key distinction between <strong>experimental</strong> and <strong>observational</strong> studies is whether the researcher <em>manipulates</em> conditions. Only experimental studies allow strong causal conclusions.</p></li>
+<li><p><strong>Association ≠ causation.</strong> Correlation measures how two variables move together; it does not prove that one causes the other.</p></li>
+<li><p><strong>Extraneous variables</strong> are any variables not of direct interest that may affect the outcome. When uncontrolled, they can become <strong>confounding variables</strong> — making it impossible to isolate the true cause of an effect.</p></li>
+<li><p><strong>Spurious correlations</strong> appear real but are coincidental, often driven by an unobserved third variable (e.g., ice cream sales and drowning rates both driven by summer weather).</p></li>
+<li><p><strong>ANOVA</strong> compares two or more means and partitions variation into <em>between-group</em> (explained) and <em>within-group</em> (unexplained) components. A <strong>post-hoc test</strong> is needed to identify which specific pairs of means differ.</p></li>
+<li><p><strong>Effect size (<em>d</em>)</strong> = the standardised difference between means. Larger effect → easier to detect with fewer observations.</p></li>
+<li><p><strong>Power</strong> = probability of correctly detecting a real effect. It increases with larger n, larger effect size, lower variability, and one-tailed tests.</p></li>
+<li><p>You need <strong>three of four</strong> quantities (n, d, α, power) to calculate the fourth using <code>pwr.t.test()</code> in R.</p></li>
+<li><p><strong>“P is low, null must go”</strong> — reject H₀ when p-value &lt; α (0.05). Otherwise, <em>fail to reject</em> H₀.</p></li>
+</ul>
+<hr>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📌 Topics Coming Next
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>One-way ANOVA</strong> — testing equality of more than two means with one factor</li>
+<li><strong>Two-way ANOVA</strong> — testing main effects and interactions with two factors</li>
+<li><strong>Post-hoc analysis</strong> — identifying which specific groups differ after ANOVA</li>
+<li><strong>Factorial design</strong> — experiments with multiple crossed factors</li>
+</ul>
+</div>
+</div>
+<hr>
+<p><em>Study guide generated from class lecture transcript, Worksheet 2, and R script for STAT9004.</em></p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../regression-analysis/week-3.html" class="pagination-link" aria-label="Week 3">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 3</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../regression-analysis/week-5.html" class="pagination-link" aria-label="Week 5">
+        <span class="nav-page-text">Week 5</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 4"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Experimental Design, Effect Size, Sample Size &amp; Power"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ============================================================</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">     ANNOTATIONS SPACE</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">     Use this section to add your own notes, clarifications,</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">     or questions as you review this guide.</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">============================================================ --&gt;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## 📝 Personal Annotations</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>*Add your own notes here as you review this material.*</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>This class covered two connected areas:</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fundamentals of Experimental Design** — how to plan a well-structured study</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Effect Size, Sample Size &amp; Statistical Power** — how these three quantities interact</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Association vs. Causation** — a critical concept in data analysis</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Confounding Variables &amp; Extraneous Variables** — sources of bias in studies</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**ANOVA (preview)** — extension of t-tests to multiple group means</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Power Analysis in R** — using the <span class="in">`pwr`</span> package to calculate power and required sample size</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanations</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is Experimental Design?</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>**Experimental design** is the process of planning a study so that you collect the right data, in the right amount, using the right methods. The goal is to produce valid and objective conclusions.</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>Before you run a single test, you need:</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>A clear **research question** that can be converted into testable hypotheses (H₀ and Hₐ).</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>An **analysis plan** — which variables will you measure? Are they categorical or numeric? What statistical test is appropriate?</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>A predetermined **significance level** (usually α = 0.05). *Never change this after looking at the data.*</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Awareness of **p-hacking** — do not hunt through variables or analyses until you find a significant result. A null result is still a valid and publishable result.</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Three Principles of Efficient Experimental Design</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Principle <span class="pp">|</span> What it means <span class="pp">|</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------|---------------|</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Randomisation** <span class="pp">|</span> Every experimental unit has an equal chance of being assigned to any treatment group. This eliminates selection bias. <span class="pp">|</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Blocking** <span class="pp">|</span> Group similar experimental units together before randomising. This reduces the effect of known sources of variability (similar to stratified random sampling). <span class="pp">|</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Replication** <span class="pp">|</span> Repeat each experimental condition independently so that variability can be estimated. Large samples reduce random variation and let us detect small differences. <span class="pp">|</span></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a><span class="fu">## Experimental Studies vs. Observational Studies</span></span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Feature <span class="pp">|</span> Experimental Study <span class="pp">|</span> Observational Study <span class="pp">|</span></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Researcher role <span class="pp">|</span> **Intervenes / manipulates** conditions | Only **observes** existing conditions <span class="pp">|</span></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Randomisation <span class="pp">|</span> Possible <span class="pp">|</span> Not possible <span class="pp">|</span></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Confounding <span class="pp">|</span> Can be controlled via design <span class="pp">|</span> Must be controlled statistically <span class="pp">|</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Example <span class="pp">|</span> Clinical trial (drug vs placebo) <span class="pp">|</span> Survey on coffee and heart disease <span class="pp">|</span></span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quick Rule</span></span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>If you are unsure whether a study is experimental or observational, ask: *Did the researcher set the conditions under which the data were collected?* If yes → experimental. If no → observational.</span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a><span class="fu">### Two Sources of Problems in Observational Studies</span></span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Non-random selection** — If participants are not selected randomly, the sample may not represent the population.</span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Uncontrolled extraneous variables** — Variables you did not account for that affect the outcome.</span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a><span class="fu">## Association vs. Causation</span></span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **"Association is not causation."**</span></span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>Two variables are **associated** (or correlated) when they move together in a systematic way — as X increases, Y tends to increase (or decrease). However, this does *not* mean X causes Y.</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a><span class="fu">### Types of Association</span></span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Type <span class="pp">|</span> Description <span class="pp">|</span> Example <span class="pp">|</span></span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Statistical association** <span class="pp">|</span> Variables are correlated; no causation implied <span class="pp">|</span> X and Y are correlated <span class="pp">|</span></span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Causal association** <span class="pp">|</span> One variable *directly* causes a change in the other <span class="pp">|</span> Sugar consumption → tooth decay <span class="pp">|</span></span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Non-causal association** <span class="pp">|</span> A *third variable* explains the relationship between X and Y <span class="pp">|</span> Confounding (see below) <span class="pp">|</span></span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Chance association (spurious)** <span class="pp">|</span> The relationship is a coincidence <span class="pp">|</span> Ice cream sales &amp; drownings — both rise in summer due to weather <span class="pp">|</span></span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common Measures of Association</span></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Pearson's correlation coefficient (*r*)** — parametric, measures linear association</span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Spearman's rank correlation** — non-parametric, based on ranked data (uses median)</span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Chi-square test** — for categorical variables</span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Odds ratio / Relative risk** — used in logistic regression</span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a><span class="fu">## Extraneous and Confounding Variables</span></span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a><span class="fu">### Extraneous Variables</span></span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a>Variables *other than* the independent variable that may affect the result. They can be:</span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Controlled** — accounted for in the study design</span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Uncontrolled** — not controlled, and potentially problematic</span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### Confounding Variables</span></span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a>An uncontrolled extraneous variable that:</span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Influences **both** the independent *and* the dependent variable</span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Makes it impossible to determine which variable is truly causing the observed effect</span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Key rule:** All confounding variables are extraneous variables, but *not all* extraneous variables are confounding.</span></span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Alcohol, Age, and HDL Cholesterol</span></span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a>A study examines the effect of alcohol consumption on HDL (good) cholesterol in males. The observed association could be **confounded by age** — because age independently affects cholesterol levels. We cannot separate the effect of alcohol from the effect of age.</span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a>In a linear model, age would be included and *held constant* to control for this confounding effect:</span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>$$\text{HDL} = \alpha + \beta_1 \cdot \text{Alcohol} + \beta_2 \cdot \text{Age} + \varepsilon$$</span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a><span class="fu">### Spurious Correlation</span></span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a>A **spurious correlation** is when two variables appear associated but there is no logical or causal link — the association is a coincidence, often caused by a hidden third variable.</span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Classic example:** Ice cream sales and drowning rates are both correlated — but both are driven by hot weather, not by each other.</span></span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Terms in Experimental Design</span></span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Term <span class="pp">|</span> Definition <span class="pp">|</span></span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Experimental unit** <span class="pp">|</span> The subject/item on which an experiment is performed (e.g., patients, animals, lab samples) <span class="pp">|</span></span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Factor** <span class="pp">|</span> A *controlled* explanatory variable whose levels are set by the experimenter <span class="pp">|</span></span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Level** <span class="pp">|</span> Each distinct setting of a factor (e.g., "Drug A", "Drug B", "Drug C") <span class="pp">|</span></span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Treatment** <span class="pp">|</span> A specific combination of factor levels applied to an experimental unit <span class="pp">|</span></span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Response variable** <span class="pp">|</span> The outcome being measured (dependent variable / Y) <span class="pp">|</span></span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Explanatory variable** <span class="pp">|</span> The variable(s) used to explain the outcome (independent variable / X) <span class="pp">|</span></span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Drug + Vitamin C Study</span></span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a>*"Six groups of patients are each treated with one of 3 drugs, either combined with Vitamin C or alone."*</span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Experimental units:** Patients</span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Factors:** Type of drug (3 levels) and Vitamin C (2 levels: yes/no)</span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Treatments:** 6 (= 2 × 3 combinations)</span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Design:** Factorial design → analysed using **two-way ANOVA**</span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a><span class="fu">## Randomised Designs and Blind Studies</span></span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a><span class="fu">### Completely Randomised Design (CRD)</span></span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a>All experimental units are randomly assigned to treatment groups. Every unit has an equal chance of receiving any treatment. This eliminates selection bias.</span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a><span class="fu">### Randomised Block Design (RBD)</span></span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a>When known differences between units exist (e.g., gender), units are first divided into **homogeneous blocks**, then randomly assigned to treatment groups within each block. This reduces noise from that known variable.</span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Complete block:** Every block contains every treatment.</span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Incomplete block:** Not all treatments appear in every block (adjusted statistically).</span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a><span class="fu">### Blind Studies (Reducing Bias Further)</span></span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Design <span class="pp">|</span> Who doesn't know the treatment assignment <span class="pp">|</span></span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Single blind** <span class="pp">|</span> Participants only <span class="pp">|</span></span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Double blind** <span class="pp">|</span> Participants *and* researchers administering the treatment <span class="pp">|</span></span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Triple blind** <span class="pp">|</span> Participants, researchers, *and* the data analysts <span class="pp">|</span></span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a><span class="fu">## ANOVA — Preview</span></span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a>**ANOVA (Analysis of Variance)** extends the two-sample t-test to compare **two or more means** simultaneously.</span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Type <span class="pp">|</span> Independent Variables <span class="pp">|</span> Dependent Variable <span class="pp">|</span></span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **One-way ANOVA** <span class="pp">|</span> 1 <span class="pp">|</span> 1 <span class="pp">|</span></span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Two-way ANOVA** <span class="pp">|</span> 2 <span class="pp">|</span> 1 <span class="pp">|</span></span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hypotheses (e.g., one-way ANOVA with 3 groups)</span></span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a>$$H_0: \mu_1 = \mu_2 = \mu_3$$</span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a>$$H_A: \text{at least one mean is different}$$</span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a>ANOVA tells you **if** a difference exists between groups — not **where** the difference lies. A **post-hoc analysis** (e.g., Tukey's test) is needed to identify which specific groups differ.</span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a>ANOVA partitions total variation into:</span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Explained variation** — variation due to the treatment/design</span>
+<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Unexplained variation (error)** — inherent variation within groups</span>
+<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-199"><a href="#cb9-199" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-201"><a href="#cb9-201" aria-hidden="true" tabindex="-1"></a><span class="fu">## Effect Size, Sample Size, and Statistical Power</span></span>
+<span id="cb9-202"><a href="#cb9-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a>These three quantities are deeply interconnected. Understanding their relationship is essential for designing studies and interpreting results.</span>
+<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a><span class="fu">### Effect Size (Cohen's *d*)</span></span>
+<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a>Effect size measures the *practical significance* of a difference — how large the difference between two means is relative to the variability in the data.</span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a>$$d = \frac{\mu_A - \mu_0}{\sigma}$$</span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a>Where:</span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\mu_A$ = mean under the alternative hypothesis</span>
+<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\mu_0$ = mean under the null hypothesis</span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\sigma$ = population standard deviation</span>
+<span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a>A **larger effect size** = easier to detect a real difference.</span>
+<span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a><span class="fu">### Statistical Power (1 − β)</span></span>
+<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a>**Power** is the probability of correctly rejecting the null hypothesis when it is actually false.</span>
+<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-223"><a href="#cb9-223" aria-hidden="true" tabindex="-1"></a>$$\text{Power} = 1 - \beta = P(\text{Reject } H_0 \mid H_0 \text{ is false})$$</span>
+<span id="cb9-224"><a href="#cb9-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Low power → high risk of a **Type II error** (missing a real effect)</span>
+<span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Target power is typically **80%** or **90%** in practice</span>
+<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Relationship Between Effect Size, Sample Size, and Power</span></span>
+<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> If you... <span class="pp">|</span> Then power... <span class="pp">|</span></span>
+<span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Increase sample size <span class="pp">|</span> Increases <span class="pp">|</span></span>
+<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Increase effect size <span class="pp">|</span> Increases <span class="pp">|</span></span>
+<span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Decrease variability (σ) <span class="pp">|</span> Increases <span class="pp">|</span></span>
+<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Use a one-tailed instead of two-tailed test <span class="pp">|</span> Increases <span class="pp">|</span></span>
+<span id="cb9-236"><a href="#cb9-236" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Decrease α (e.g., from 0.05 to 0.01) <span class="pp">|</span> Decreases <span class="pp">|</span></span>
+<span id="cb9-237"><a href="#cb9-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-238"><a href="#cb9-238" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb9-239"><a href="#cb9-239" aria-hidden="true" tabindex="-1"></a><span class="fu">## The key insight from the simulation exercise</span></span>
+<span id="cb9-240"><a href="#cb9-240" aria-hidden="true" tabindex="-1"></a>As **sample size increases**, sample means converge to the true population means, and p-values generally decrease — making it easier to detect a true difference. However, with a very **small effect size**, you may need an enormous sample to achieve significance.</span>
+<span id="cb9-241"><a href="#cb9-241" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-242"><a href="#cb9-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-243"><a href="#cb9-243" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-244"><a href="#cb9-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-245"><a href="#cb9-245" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb9-246"><a href="#cb9-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-247"><a href="#cb9-247" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cohen's *d* (Effect Size for t-tests)</span></span>
+<span id="cb9-248"><a href="#cb9-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-249"><a href="#cb9-249" aria-hidden="true" tabindex="-1"></a>$$d = \frac{\mu_A - \mu_0}{\sigma}$$</span>
+<span id="cb9-250"><a href="#cb9-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-251"><a href="#cb9-251" aria-hidden="true" tabindex="-1"></a><span class="fu">### Statistical Power</span></span>
+<span id="cb9-252"><a href="#cb9-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-253"><a href="#cb9-253" aria-hidden="true" tabindex="-1"></a>$$\text{Power} = 1 - \beta$$</span>
+<span id="cb9-254"><a href="#cb9-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-255"><a href="#cb9-255" aria-hidden="true" tabindex="-1"></a><span class="fu">### Standard Error of the Mean</span></span>
+<span id="cb9-256"><a href="#cb9-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-257"><a href="#cb9-257" aria-hidden="true" tabindex="-1"></a>$$SE = \frac{\sigma}{\sqrt{n}}$$</span>
+<span id="cb9-258"><a href="#cb9-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-259"><a href="#cb9-259" aria-hidden="true" tabindex="-1"></a><span class="fu">### General Linear Model (Multiple Regression / Observational)</span></span>
+<span id="cb9-260"><a href="#cb9-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-261"><a href="#cb9-261" aria-hidden="true" tabindex="-1"></a>$$Y = \alpha + \beta_1 X_1 + \beta_2 X_2 + \varepsilon$$</span>
+<span id="cb9-262"><a href="#cb9-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-263"><a href="#cb9-263" aria-hidden="true" tabindex="-1"></a>Where $\varepsilon$ is the random error term.</span>
+<span id="cb9-264"><a href="#cb9-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-265"><a href="#cb9-265" aria-hidden="true" tabindex="-1"></a><span class="fu">### ANOVA Decomposition</span></span>
+<span id="cb9-266"><a href="#cb9-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-267"><a href="#cb9-267" aria-hidden="true" tabindex="-1"></a>$$SS_{\text{Total}} = SS_{\text{Between}} + SS_{\text{Within}}$$</span>
+<span id="cb9-268"><a href="#cb9-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-269"><a href="#cb9-269" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-270"><a href="#cb9-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-271"><a href="#cb9-271" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Examples</span></span>
+<span id="cb9-272"><a href="#cb9-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-273"><a href="#cb9-273" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simulation Exercise (Worksheet 2)</span></span>
+<span id="cb9-274"><a href="#cb9-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-275"><a href="#cb9-275" aria-hidden="true" tabindex="-1"></a>The worksheet uses simulated data to explore how **sample size** affects p-values and hypothesis test conclusions.</span>
+<span id="cb9-276"><a href="#cb9-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-277"><a href="#cb9-277" aria-hidden="true" tabindex="-1"></a><span class="fu">### Setup in R</span></span>
+<span id="cb9-278"><a href="#cb9-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-279"><a href="#cb9-279" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb9-280"><a href="#cb9-280" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)   <span class="co"># ensures reproducibility of "random" numbers</span></span>
+<span id="cb9-281"><a href="#cb9-281" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-282"><a href="#cb9-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-283"><a href="#cb9-283" aria-hidden="true" tabindex="-1"></a>The <span class="in">`rnorm(n, μ, σ)`</span> function generates <span class="in">`n`</span> pseudo-random numbers from a Normal distribution with mean <span class="in">`μ`</span> and standard deviation <span class="in">`σ`</span>.</span>
+<span id="cb9-284"><a href="#cb9-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-285"><a href="#cb9-285" aria-hidden="true" tabindex="-1"></a><span class="fu">### Four Cases Compared</span></span>
+<span id="cb9-286"><a href="#cb9-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-287"><a href="#cb9-287" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Case <span class="pp">|</span> Sample A <span class="pp">|</span> Sample B <span class="pp">|</span> Effect (difference of means) <span class="pp">|</span> SD <span class="pp">|</span></span>
+<span id="cb9-288"><a href="#cb9-288" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|---|</span></span>
+<span id="cb9-289"><a href="#cb9-289" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 1 <span class="pp">|</span> μ=0, σ=4 <span class="pp">|</span> μ=1, σ=4 <span class="pp">|</span> Large (1.0) <span class="pp">|</span> 4 <span class="pp">|</span></span>
+<span id="cb9-290"><a href="#cb9-290" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 2 <span class="pp">|</span> μ=0, σ=4 <span class="pp">|</span> μ=0.1, σ=4 <span class="pp">|</span> Small (0.1) <span class="pp">|</span> 4 <span class="pp">|</span></span>
+<span id="cb9-291"><a href="#cb9-291" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 3 <span class="pp">|</span> μ=0, σ=1 <span class="pp">|</span> μ=0.1, σ=1 <span class="pp">|</span> Small (0.1) <span class="pp">|</span> 1 (less variability) <span class="pp">|</span></span>
+<span id="cb9-292"><a href="#cb9-292" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 4 <span class="pp">|</span> μ=0, σ=10 <span class="pp">|</span> μ=0.2, σ=10 <span class="pp">|</span> Very small (0.2) <span class="pp">|</span> 10 (more variability) <span class="pp">|</span></span>
+<span id="cb9-293"><a href="#cb9-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-294"><a href="#cb9-294" aria-hidden="true" tabindex="-1"></a>**Key observation:** For a given effect size, you need more observations when variability is higher. For a very small effect size, even thousands of observations may be needed.</span>
+<span id="cb9-295"><a href="#cb9-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-296"><a href="#cb9-296" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb9-297"><a href="#cb9-297" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Case 1 — testing two samples of size 50</span></span>
+<span id="cb9-298"><a href="#cb9-298" aria-hidden="true" tabindex="-1"></a>A_50 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">4</span>)</span>
+<span id="cb9-299"><a href="#cb9-299" aria-hidden="true" tabindex="-1"></a>B_50 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb9-300"><a href="#cb9-300" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(A_50, B_50)</span>
+<span id="cb9-301"><a href="#cb9-301" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-302"><a href="#cb9-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-303"><a href="#cb9-303" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-304"><a href="#cb9-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-305"><a href="#cb9-305" aria-hidden="true" tabindex="-1"></a><span class="fu">## Power Analysis in R — `pwr` Package</span></span>
+<span id="cb9-306"><a href="#cb9-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-307"><a href="#cb9-307" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb9-308"><a href="#cb9-308" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pwr"</span>)</span>
+<span id="cb9-309"><a href="#cb9-309" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb9-310"><a href="#cb9-310" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-311"><a href="#cb9-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-312"><a href="#cb9-312" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key `pwr` Functions</span></span>
+<span id="cb9-313"><a href="#cb9-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-314"><a href="#cb9-314" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Use case <span class="pp">|</span></span>
+<span id="cb9-315"><a href="#cb9-315" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb9-316"><a href="#cb9-316" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pwr.t.test`</span> <span class="pp">|</span> One sample, two sample, or paired t-test <span class="pp">|</span></span>
+<span id="cb9-317"><a href="#cb9-317" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pwr.anova.test`</span> <span class="pp">|</span> Balanced one-way ANOVA <span class="pp">|</span></span>
+<span id="cb9-318"><a href="#cb9-318" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pwr.chisq.test`</span> <span class="pp">|</span> Chi-square test <span class="pp">|</span></span>
+<span id="cb9-319"><a href="#cb9-319" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pwr.2p.test`</span> <span class="pp">|</span> Two proportions (equal n) <span class="pp">|</span></span>
+<span id="cb9-320"><a href="#cb9-320" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pwr.r.test`</span> <span class="pp">|</span> Correlation <span class="pp">|</span></span>
+<span id="cb9-321"><a href="#cb9-321" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pwr.f2.test`</span> <span class="pp">|</span> General linear model <span class="pp">|</span></span>
+<span id="cb9-322"><a href="#cb9-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-323"><a href="#cb9-323" aria-hidden="true" tabindex="-1"></a>For each function you provide **three** of: sample size, effect size, significance level, power — and the fourth is calculated.</span>
+<span id="cb9-324"><a href="#cb9-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-325"><a href="#cb9-325" aria-hidden="true" tabindex="-1"></a><span class="fu">### Worked Example: Chemical Company</span></span>
+<span id="cb9-326"><a href="#cb9-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-327"><a href="#cb9-327" aria-hidden="true" tabindex="-1"></a>A government inspector tests whether a chemical product contains more than 4.0 ml of caustic material (the safe limit). She takes n = 30 samples; σ = 1.3; the true mean may be as high as 4.35.</span>
+<span id="cb9-328"><a href="#cb9-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-329"><a href="#cb9-329" aria-hidden="true" tabindex="-1"></a>**Effect size:**</span>
+<span id="cb9-330"><a href="#cb9-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-331"><a href="#cb9-331" aria-hidden="true" tabindex="-1"></a>$$d = \frac{4.35 - 4.0}{1.3} = 0.2692$$</span>
+<span id="cb9-332"><a href="#cb9-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-333"><a href="#cb9-333" aria-hidden="true" tabindex="-1"></a>**Power calculation in R:**</span>
+<span id="cb9-334"><a href="#cb9-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-335"><a href="#cb9-335" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb9-336"><a href="#cb9-336" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">d =</span> <span class="fl">0.2692</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb9-337"><a href="#cb9-337" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>)</span>
+<span id="cb9-338"><a href="#cb9-338" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-339"><a href="#cb9-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-340"><a href="#cb9-340" aria-hidden="true" tabindex="-1"></a>**Result:** Power = **0.419** → only a 41.9% chance of detecting the effect with this sample size. The sample is underpowered.</span>
+<span id="cb9-341"><a href="#cb9-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-342"><a href="#cb9-342" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-343"><a href="#cb9-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-344"><a href="#cb9-344" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 1: Height Study</span></span>
+<span id="cb9-345"><a href="#cb9-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-346"><a href="#cb9-346" aria-hidden="true" tabindex="-1"></a>**Scenario:** Testing whether the mean height of students at CIT exceeds 160 cm.</span>
+<span id="cb9-347"><a href="#cb9-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-348"><a href="#cb9-348" aria-hidden="true" tabindex="-1"></a>$$H_0: \mu = 160 \text{ cm}, \quad H_A: \mu &gt; 160 \text{ cm}$$</span>
+<span id="cb9-349"><a href="#cb9-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-350"><a href="#cb9-350" aria-hidden="true" tabindex="-1"></a>Sample: n = 25, $\bar{x}$ = 173.4 cm, s = 9</span>
+<span id="cb9-351"><a href="#cb9-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-352"><a href="#cb9-352" aria-hidden="true" tabindex="-1"></a>**Type I Error:** Reject H₀ and conclude that mean height &gt; 160 cm *when it is not*.</span>
+<span id="cb9-353"><a href="#cb9-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-354"><a href="#cb9-354" aria-hidden="true" tabindex="-1"></a>**Type II Error:** Fail to reject H₀ and conclude mean height ≤ 160 cm *when it actually is greater*.</span>
+<span id="cb9-355"><a href="#cb9-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-356"><a href="#cb9-356" aria-hidden="true" tabindex="-1"></a>**Power (if true μ = 165):**</span>
+<span id="cb9-357"><a href="#cb9-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-358"><a href="#cb9-358" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb9-359"><a href="#cb9-359" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">25</span>, <span class="at">d =</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb9-360"><a href="#cb9-360" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>)</span>
+<span id="cb9-361"><a href="#cb9-361" aria-hidden="true" tabindex="-1"></a><span class="co"># Power ≈ 85%</span></span>
+<span id="cb9-362"><a href="#cb9-362" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-363"><a href="#cb9-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-364"><a href="#cb9-364" aria-hidden="true" tabindex="-1"></a>**Two-tailed version (same μ = 165):**</span>
+<span id="cb9-365"><a href="#cb9-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-366"><a href="#cb9-366" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb9-367"><a href="#cb9-367" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">25</span>, <span class="at">d =</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb9-368"><a href="#cb9-368" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">"one.sample"</span>)</span>
+<span id="cb9-369"><a href="#cb9-369" aria-hidden="true" tabindex="-1"></a><span class="co"># Power ≈ 76%</span></span>
+<span id="cb9-370"><a href="#cb9-370" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-371"><a href="#cb9-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-372"><a href="#cb9-372" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Conclusion:** A one-tailed test is *more powerful* than a two-tailed test for a given effect size, sample size, and α — because all of the rejection region is on one side.</span></span>
+<span id="cb9-373"><a href="#cb9-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-374"><a href="#cb9-374" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-375"><a href="#cb9-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-376"><a href="#cb9-376" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 2: Light Bulb Lifespan</span></span>
+<span id="cb9-377"><a href="#cb9-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-378"><a href="#cb9-378" aria-hidden="true" tabindex="-1"></a>**Scenario:** A manufacturer claims bulbs last 850 hours on average (σ = 50). A consumer group believes the true mean is only 810 hours.</span>
+<span id="cb9-379"><a href="#cb9-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-380"><a href="#cb9-380" aria-hidden="true" tabindex="-1"></a>$$H_0: \mu = 850, \quad H_A: \mu &lt; 850$$</span>
+<span id="cb9-381"><a href="#cb9-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-382"><a href="#cb9-382" aria-hidden="true" tabindex="-1"></a>**Required sample size for 90% power:**</span>
+<span id="cb9-383"><a href="#cb9-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-384"><a href="#cb9-384" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb9-385"><a href="#cb9-385" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">d =</span> (<span class="dv">810</span> <span class="sc">-</span> <span class="dv">850</span>) <span class="sc">/</span> <span class="dv">50</span>, <span class="at">power =</span> <span class="fl">0.9</span>,</span>
+<span id="cb9-386"><a href="#cb9-386" aria-hidden="true" tabindex="-1"></a>           <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">type =</span> <span class="st">"one.sample"</span>,</span>
+<span id="cb9-387"><a href="#cb9-387" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="st">"less"</span>)</span>
+<span id="cb9-388"><a href="#cb9-388" aria-hidden="true" tabindex="-1"></a><span class="co"># n ≈ 15 (round up)</span></span>
+<span id="cb9-389"><a href="#cb9-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-390"><a href="#cb9-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-391"><a href="#cb9-391" aria-hidden="true" tabindex="-1"></a>**Simulation to verify (10,000 tests):**</span>
+<span id="cb9-392"><a href="#cb9-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-393"><a href="#cb9-393" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb9-394"><a href="#cb9-394" aria-hidden="true" tabindex="-1"></a>pvalues <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10000</span>)</span>
+<span id="cb9-395"><a href="#cb9-395" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>) {</span>
+<span id="cb9-396"><a href="#cb9-396" aria-hidden="true" tabindex="-1"></a>  sA <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">15</span>, <span class="dv">810</span>, <span class="dv">50</span>)</span>
+<span id="cb9-397"><a href="#cb9-397" aria-hidden="true" tabindex="-1"></a>  pvalues[i] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(sA, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="st">"less"</span>, <span class="dv">850</span>)<span class="sc">$</span>p.value</span>
+<span id="cb9-398"><a href="#cb9-398" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-399"><a href="#cb9-399" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(pvalues <span class="sc">&lt;</span> <span class="fl">0.05</span>)   <span class="co"># should be approximately 9,000 (90%)</span></span>
+<span id="cb9-400"><a href="#cb9-400" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-401"><a href="#cb9-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-402"><a href="#cb9-402" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-403"><a href="#cb9-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-404"><a href="#cb9-404" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb9-405"><a href="#cb9-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-406"><a href="#cb9-406" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Experimental design** ensures that data is collected efficiently and that conclusions are valid. The three core principles are **randomisation**, **blocking**, and **replication**.</span>
+<span id="cb9-407"><a href="#cb9-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-408"><a href="#cb9-408" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The key distinction between **experimental** and **observational** studies is whether the researcher *manipulates* conditions. Only experimental studies allow strong causal conclusions.</span>
+<span id="cb9-409"><a href="#cb9-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-410"><a href="#cb9-410" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Association ≠ causation.** Correlation measures how two variables move together; it does not prove that one causes the other.</span>
+<span id="cb9-411"><a href="#cb9-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-412"><a href="#cb9-412" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Extraneous variables** are any variables not of direct interest that may affect the outcome. When uncontrolled, they can become **confounding variables** — making it impossible to isolate the true cause of an effect.</span>
+<span id="cb9-413"><a href="#cb9-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-414"><a href="#cb9-414" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Spurious correlations** appear real but are coincidental, often driven by an unobserved third variable (e.g., ice cream sales and drowning rates both driven by summer weather).</span>
+<span id="cb9-415"><a href="#cb9-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-416"><a href="#cb9-416" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**ANOVA** compares two or more means and partitions variation into *between-group* (explained) and *within-group* (unexplained) components. A **post-hoc test** is needed to identify which specific pairs of means differ.</span>
+<span id="cb9-417"><a href="#cb9-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-418"><a href="#cb9-418" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Effect size (*d*)** = the standardised difference between means. Larger effect → easier to detect with fewer observations.</span>
+<span id="cb9-419"><a href="#cb9-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-420"><a href="#cb9-420" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Power** = probability of correctly detecting a real effect. It increases with larger n, larger effect size, lower variability, and one-tailed tests.</span>
+<span id="cb9-421"><a href="#cb9-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-422"><a href="#cb9-422" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You need **three of four** quantities (n, d, α, power) to calculate the fourth using <span class="in">`pwr.t.test()`</span> in R.</span>
+<span id="cb9-423"><a href="#cb9-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-424"><a href="#cb9-424" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**"P is low, null must go"** — reject H₀ when p-value &lt; α (0.05). Otherwise, *fail to reject* H₀.</span>
+<span id="cb9-425"><a href="#cb9-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-426"><a href="#cb9-426" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-427"><a href="#cb9-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-428"><a href="#cb9-428" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb9-429"><a href="#cb9-429" aria-hidden="true" tabindex="-1"></a><span class="fu">## 📌 Topics Coming Next</span></span>
+<span id="cb9-430"><a href="#cb9-430" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**One-way ANOVA** — testing equality of more than two means with one factor</span>
+<span id="cb9-431"><a href="#cb9-431" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Two-way ANOVA** — testing main effects and interactions with two factors</span>
+<span id="cb9-432"><a href="#cb9-432" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Post-hoc analysis** — identifying which specific groups differ after ANOVA</span>
+<span id="cb9-433"><a href="#cb9-433" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Factorial design** — experiments with multiple crossed factors</span>
+<span id="cb9-434"><a href="#cb9-434" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-435"><a href="#cb9-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-436"><a href="#cb9-436" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-437"><a href="#cb9-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-438"><a href="#cb9-438" aria-hidden="true" tabindex="-1"></a>*Study guide generated from class lecture transcript, Worksheet 2, and R script for STAT9004.*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

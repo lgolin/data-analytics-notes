@@ -1,12 +1,12 @@
 {
-    "id": "AD528AC3",
-    "path": "~/Documents/MTU - 2025/Notes/Notes/data-mining/week-3.qmd",
-    "project_path": "data-mining/week-3.qmd",
+    "id": "31721151",
+    "path": "~/Documents/MTU - 2025/Notes/Notes/about.qmd",
+    "project_path": "about.qmd",
     "type": "quarto_markdown",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1774627621881.0,
+    "created": 1774688122023.0,
     "source_on_save": false,
     "relative_order": 2,
     "properties": {
@@ -14,18 +14,16 @@
         "rmdVisualWrapConfigured": "true",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "0,0",
-        "scrollLine": "0",
         "docOutlineVisible": "1",
-        "rmdVisualModeLocation": "115:0",
-        "rmdVisualCollapsedChunks": ""
+        "rmdVisualCollapsedChunks": "",
+        "rmdVisualModeLocation": "2:0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1774627630,
+    "lastKnownWriteTime": 1774629392,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1774627630045,
+    "last_content_update": 1774629392,
     "read_only": false,
     "read_only_alternatives": []
 }

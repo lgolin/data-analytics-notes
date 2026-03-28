@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -246,6 +246,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 9</span></a>
   </div>
@@ -356,7 +368,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data-mining/index.html">Data Mining</a></li><li class="breadcrumb-item"><a href="../data-mining/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../data-mining/week-2.html">Week 2</a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">STAT9013 - Data Mining: Week 2</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">STAT9013 - Data Mining: Week 2</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 <p class="subtitle lead">Basic Statistics, Visualisations in R, and Data Exploration</p>
 </div>
 
@@ -435,14 +447,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="4.1" class="anchored" data-anchor-id="histograms"><span class="header-section-number">4.1</span> Histograms</h3>
 <p>A histogram divides the data into “bins” (ranges) and counts how many values fall into each bin. It shows frequency on the y-axis and the variable’s values on the x-axis. Think of it as a bar chart of your data’s distribution.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="density-plots" class="level3" data-number="4.2">
 <h3 data-number="4.2" class="anchored" data-anchor-id="density-plots"><span class="header-section-number">4.2</span> Density Plots</h3>
 <p>A density plot is a smoothed version of a histogram. Instead of bars, you get a continuous curve. The y-axis shows density (not raw count), and the area under the curve sums to 1. It is useful for seeing the overall shape of the distribution without being distracted by bin choices.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"density"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="box-plots" class="level3" data-number="4.3">
@@ -456,13 +474,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Box plots are extremely useful for statisticians and data scientists, but as the lecturer noted, they are often not well understood by non-technical business users. So use them for your own analysis, but consider simpler visuals when presenting to stakeholders.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"boxplot"</span>) <span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="the-drawplots-helper-function" class="level3" data-number="4.4">
 <h3 data-number="4.4" class="anchored" data-anchor-id="the-drawplots-helper-function"><span class="header-section-number">4.4</span> The <code>drawPlots</code> Helper Function</h3>
 <p>The lecture introduced a handy helper function that draws all three plots side by side, with the mean shown in blue and the median in green:</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>drawPlots <span class="ot">&lt;-</span> <span class="cf">function</span>(data, title) {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
@@ -475,6 +498,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">mean</span>(data), <span class="at">y =</span> <span class="dv">0</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"blue"</span>)</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">top =</span> title)</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <hr>
 </section>
@@ -490,6 +514,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Left (negative) skew:</strong> The tail stretches to the left. Most values cluster on the right, but a few very small values pull the mean left. <strong>Mean &lt; Median.</strong></li>
 </ul>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Normal distribution — mean ≈ median</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Normal distribution (median ~= mean)"</span>)</span>
@@ -501,6 +527,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Right (positive) skew — median &lt; mean</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">1</span>, <span class="dv">5</span>)</span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Right skewed (median-green &lt; mean-blue)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="real-world-examples-of-skewed-data" class="level3" data-number="5.2">
@@ -519,22 +546,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>The problem:</strong> Both body weight and brain weight are extremely right-skewed — most mammals are small, but a few (like elephants) are huge. When you plot the raw data, almost all points cluster near zero, and you can barely see any relationship.</p>
 <p><strong>Step 1 — Build a model on raw data:</strong></p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_wt <span class="sc">~</span> brain_wt, <span class="at">data =</span> mammals)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>r_sq1 <span class="ot">&lt;-</span> <span class="fu">cor</span>(model1<span class="sc">$</span>fitted.values, mammals<span class="sc">$</span>body_wt)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># R² ≈ 0.87</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p><strong>Step 2 — Apply a log transformation:</strong></p>
 <p>Taking the logarithm of skewed data compresses the large values and stretches the small ones, making the distribution more symmetrical (closer to normal).</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mammals<span class="sc">$</span>log_body_wt <span class="ot">&lt;-</span> <span class="fu">log</span>(mammals<span class="sc">$</span>body_wt)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mammals<span class="sc">$</span>log_brain_wt <span class="ot">&lt;-</span> <span class="fu">log</span>(mammals<span class="sc">$</span>brain_wt)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>When you plot the log-transformed data, you can now clearly see a linear relationship between log(brain weight) and log(body weight).</p>
 <p><strong>Step 3 — Build a model on transformed data:</strong></p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_body_wt <span class="sc">~</span> log_brain_wt, <span class="at">data =</span> mammals)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>r_sq2 <span class="ot">&lt;-</span> <span class="fu">cor</span>(model2<span class="sc">$</span>fitted.values, mammals<span class="sc">$</span>log_body_wt)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># R² ≈ 0.92</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>The R² improved from 0.87 to 0.92. As the slides noted, this represents a <strong>37.79% reduction in error rate</strong>. That is a significant improvement gained purely from transforming the data — not from changing the algorithm.</p>
 <p><strong>Key insight:</strong> If your data is skewed, consider applying a log transformation (or other transformations) before modelling. This is a form of <strong>feature engineering</strong> and can dramatically improve model performance.</p>
@@ -546,6 +582,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="required-packages" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="required-packages"><span class="header-section-number">6.1</span> Required Packages</h3>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)     <span class="co"># Plotting — qplot and ggplot functions</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)   <span class="co"># Arrange multiple plots in a grid</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datasets)    <span class="co"># Built-in R datasets (iris, etc.)</span></span>
@@ -553,6 +591,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(titanic)     <span class="co"># Titanic dataset</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)       <span class="co"># pairs.panels() for pairs plots</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openintro)   <span class="co"># mammals dataset and others</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>If you get errors like <code>could not find function "xxxxx"</code>, it almost certainly means you need to install and/or load the package first.</p>
 </section>
@@ -578,8 +617,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>anscombe:</strong> Four datasets with nearly identical summary statistics but very different distributions — a great demonstration of why you should always visualise your data.</li>
 </ul>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="at">help =</span> <span class="st">"datasets"</span>)  <span class="co"># See all available datasets</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)                    <span class="co"># Load a specific dataset</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <hr>
 </section>
@@ -593,11 +635,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="initial-exploration" class="level3" data-number="8.2">
 <h3 data-number="8.2" class="anchored" data-anchor-id="initial-exploration"><span class="header-section-number">8.2</span> Initial Exploration</h3>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(iris)       <span class="co"># 150 rows, 5 columns</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(iris)     <span class="co"># "Sepal.Length" "Sepal.Width" "Petal.Length" "Petal.Width" "Species"</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(iris)       <span class="co"># Shows types: 4 numeric columns + 1 factor (Species)</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])  <span class="co"># Summary stats for numeric columns only</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="column-types" class="level3" data-number="8.3">
@@ -614,6 +659,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="histograms-iris" class="level3" data-number="8.4">
 <h3 data-number="8.4" class="anchored" data-anchor-id="histograms-iris"><span class="header-section-number">8.4</span> Histograms — Iris</h3>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Sepal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Length"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Width, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
@@ -623,26 +670,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>p04 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Petal.Width, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Petal.Width"</span>, <span class="at">xlab =</span> <span class="st">"Petal.Width"</span>)</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p><strong>What to notice:</strong> Petal.Length and Petal.Width show a clear bimodal distribution (two humps). This suggests there might be distinct groups in the data — which makes sense because setosa has much smaller petals than the other two species.</p>
 </section>
 <section id="density-plots-iris" class="level3" data-number="8.5">
 <h3 data-number="8.5" class="anchored" data-anchor-id="density-plots-iris"><span class="header-section-number">8.5</span> Density Plots — Iris</h3>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">geom =</span> <span class="st">"density"</span>,</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Density plot on Sepal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Length"</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ... similar for the other three variables</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>The density plots confirm the same patterns seen in the histograms, but the smooth curves make the bimodal shape of the petal measurements even more obvious.</p>
 </section>
 <section id="box-plots-iris-by-species" class="level3" data-number="8.6">
 <h3 data-number="8.6" class="anchored" data-anchor-id="box-plots-iris-by-species"><span class="header-section-number">8.6</span> Box Plots — Iris (by Species)</h3>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Species, Sepal.Length, <span class="at">data =</span> iris, <span class="at">geom =</span> <span class="st">"boxplot"</span>,</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Boxplot on Sepal.Length"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ... similar for other variables</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p><strong>What to notice:</strong> When we split by species, the box plots reveal that setosa is very clearly separated from the other two species on Petal.Length and Petal.Width (almost no overlap). Versicolor and virginica overlap more, but are still distinguishable. Sepal.Width is an interesting variable — setosa actually has <em>wider</em> sepals than the other species.</p>
 </section>
@@ -650,12 +704,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="8.7" class="anchored" data-anchor-id="scatter-plots-iris-multivariate"><span class="header-section-number">8.7</span> Scatter Plots — Iris (Multivariate)</h3>
 <p>Scatter plots show the relationship between two variables at once. By colouring by species, we can see how well the species separate:</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Sepal.Width, Sepal.Length, <span class="at">data =</span> iris, <span class="at">colour =</span> Species,</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Sepal.Width v Sepal.Length"</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Petal.Length, Petal.Width, <span class="at">data =</span> iris, <span class="at">colour =</span> Species,</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Petal.Length v Petal.Width"</span>)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ... more combinations</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p><strong>Key insight:</strong> The Petal.Length vs Petal.Width scatter plot shows the clearest separation between all three species. This tells you these are likely the most useful features for classification.</p>
 </section>
@@ -663,8 +720,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="8.8" class="anchored" data-anchor-id="correlation-analysis"><span class="header-section-number">8.8</span> Correlation Analysis</h3>
 <p>Correlation measures the linear relationship between two numeric variables, ranging from −1 (perfect negative) to +1 (perfect positive), with 0 meaning no linear relationship.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>corr_mat <span class="ot">&lt;-</span> <span class="fu">cor</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])   <span class="co"># Exclude Species (not numeric)</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot.mixed</span>(corr_mat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p><strong>Key correlations in iris:</strong></p>
 <ul>
@@ -679,8 +739,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="8.9" class="anchored" data-anchor-id="pairs-plots"><span class="header-section-number">8.9</span> Pairs Plots</h3>
 <p>A pairs plot combines histograms (on the diagonal), scatter plots (below the diagonal), and correlation values (above the diagonal) into a single comprehensive view:</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs.panels</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], <span class="at">method =</span> <span class="st">"pearson"</span>,</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">hist.col =</span> <span class="st">"#00AFBB"</span>, <span class="at">density =</span> <span class="cn">TRUE</span>, <span class="at">ellipses =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>This is one of the most useful exploratory tools because it gives you a full picture of all pairwise relationships at a glance.</p>
 <hr>
@@ -692,17 +755,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="loading-and-inspecting" class="level3" data-number="9.1">
 <h3 data-number="9.1" class="anchored" data-anchor-id="loading-and-inspecting"><span class="header-section-number">9.1</span> Loading and Inspecting</h3>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic_train)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(titanic_train)   <span class="co"># 891 obs. of 12 variables</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="understanding-the-variables" class="level3" data-number="9.2">
 <h3 data-number="9.2" class="anchored" data-anchor-id="understanding-the-variables"><span class="header-section-number">9.2</span> Understanding the Variables</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 40%">
-<col style="width: 46%">
+<col style="width: 22%">
+<col style="width: 36%">
+<col style="width: 41%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -778,6 +844,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="exploring-unique-values-and-missing-data" class="level3" data-number="9.3">
 <h3 data-number="9.3" class="anchored" data-anchor-id="exploring-unique-values-and-missing-data"><span class="header-section-number">9.3</span> Exploring Unique Values and Missing Data</h3>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count unique values per column</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>uniq_len <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">length</span>(<span class="fu">unique</span>(x)) }</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, uniq_len)</span>
@@ -785,6 +853,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Count missing/blank values per column</span></span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>countBlank <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">sum</span>(<span class="fu">is.na</span>(x) <span class="sc">|</span> x <span class="sc">==</span> <span class="st">""</span>) }</span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, countBlank)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p><strong>Key findings:</strong></p>
 <ul>
@@ -1306,463 +1375,453 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "STAT9013 - Data Mining: Week 2"</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Basic Statistics, Visualisations in R, and Data Exploration"</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quick Recap from Week 1</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>Week 1 covered the foundations: the differences between data, information, and knowledge; definitions of AI, Machine Learning, and Deep Learning; the CRISP-DM and SEMMA workflows; types of ML (supervised, unsupervised, reinforcement learning); and a worked linear regression example.</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## CRISP-DM and the Importance of Business Understanding</span></span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quick Recap from Week 1</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>Before diving into statistics and code, the lecture emphasised a critical lesson: **the data understanding and data preparation stages of CRISP-DM are often more important than the modelling stage itself**. The CRISP-DM cycle has six phases — Business Understanding, Data Understanding, Data Preparation, Modelling, Evaluation, and Deployment — and notice that two of those six are entirely about working with the data *before* any model is built.</span>
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>Week 1 covered the foundations: the differences between data, information, and knowledge; definitions of AI, Machine Learning, and Deep Learning; the CRISP-DM and SEMMA workflows; types of ML (supervised, unsupervised, reinforcement learning); and a worked linear regression example.</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="fu">### The PayPal Churn Case Study</span></span>
 <span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>This real-world example illustrated how business understanding can matter more than fancy algorithms. PayPal was losing around 1 million merchants per year. After 17 years of trying various approaches, the problem was finally tackled not with advanced ML but with careful problem definition using simple tools (spreadsheets and SQL).</span>
 <span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## CRISP-DM and the Importance of Business Understanding</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>**Key steps in their approach:**</span>
 <span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>Before diving into statistics and code, the lecture emphasised a critical lesson: **the data understanding and data preparation stages of CRISP-DM are often more important than the modelling stage itself**. The CRISP-DM cycle has six phases — Business Understanding, Data Understanding, Data Preparation, Modelling, Evaluation, and Deployment — and notice that two of those six are entirely about working with the data *before* any model is built.</span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="fu">### The PayPal Churn Case Study</span></span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>This real-world example illustrated how business understanding can matter more than fancy algorithms. PayPal was losing around 1 million merchants per year. After 17 years of trying various approaches, the problem was finally tackled not with advanced ML but with careful problem definition using simple tools (spreadsheets and SQL).</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Exclude accounts that already cancelled:** By the time someone cancels, it is too late — they have already migrated to a competitor like Stripe. Nothing can be done to win them back.</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Exclude "one-and-dones":** Merchants who signed up briefly, had little revenue, and disappeared. Not worth chasing because the revenue was negligible.</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Separate activation from retention:** New merchants who had problems getting started (failed payments, onboarding issues) are a different problem for a different team. This is not churn — it is an onboarding issue.</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Exclude false positives:** Seasonal businesses (Halloween costume stores), subscription processors who only transact once a month, and merchants who were kicked off for violating terms.</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Focus on revenue churn, not account churn:** 90% of revenue came from 10% of merchants. Losing a merchant doing €100,000/month matters far more than losing one doing €500/month.</span>
 <span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>**Key steps in their approach:**</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>After all these exclusions, they looked at individual cases for their highest-value remaining merchants, identified 20 "killer scenarios" causing churn, and fixed them one by one — often just by having customer service call the merchant.</span>
 <span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Exclude accounts that already cancelled:** By the time someone cancels, it is too late — they have already migrated to a competitor like Stripe. Nothing can be done to win them back.</span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Exclude "one-and-dones":** Merchants who signed up briefly, had little revenue, and disappeared. Not worth chasing because the revenue was negligible.</span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Separate activation from retention:** New merchants who had problems getting started (failed payments, onboarding issues) are a different problem for a different team. This is not churn — it is an onboarding issue.</span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Exclude false positives:** Seasonal businesses (Halloween costume stores), subscription processors who only transact once a month, and merchants who were kicked off for violating terms.</span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Focus on revenue churn, not account churn:** 90% of revenue came from 10% of merchants. Losing a merchant doing €100,000/month matters far more than losing one doing €500/month.</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>**The takeaway:** Always ask "What am I actually trying to solve?" before reaching for a machine learning model. Sometimes the best solution is careful problem decomposition combined with domain expertise.</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Basic Statistics: Means, Medians, Quartiles, and IQR</span></span>
 <span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>After all these exclusions, they looked at individual cases for their highest-value remaining merchants, identified 20 "killer scenarios" causing churn, and fixed them one by one — often just by having customer service call the merchant.</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a><span class="fu">### Mean vs Median</span></span>
 <span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>**The takeaway:** Always ask "What am I actually trying to solve?" before reaching for a machine learning model. Sometimes the best solution is careful problem decomposition combined with domain expertise.</span>
-<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Basic Statistics: Means, Medians, Quartiles, and IQR</span></span>
-<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a><span class="fu">### Mean vs Median</span></span>
-<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Mean:** The arithmetic average — sum all values and divide by the count. Sensitive to extreme values (outliers).</span>
-<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Median:** The middle value when data is sorted from smallest to largest. Robust to outliers.</span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Mean:** The arithmetic average — sum all values and divide by the count. Sensitive to extreme values (outliers).</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Median:** The middle value when data is sorted from smallest to largest. Robust to outliers.</span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>**Why the difference matters:** Imagine 11 people in a room, each earning around €100,000. The mean salary is roughly €100,000 and the median is also about €100,000 — they agree. Now Bill Gates and Jeff Bezos walk in. The mean salary jumps to perhaps €30 million, but the median barely changes — it just moves from the 6th to the 7th person's salary, still around €100,000.</span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a>The mean no longer represents anyone in the group. The median still tells you what the "typical" person earns. This is why the media report the **median** age of COVID deaths rather than the average — it gives a more meaningful picture of who is affected.</span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a>**Rule of thumb:** When data is skewed or contains outliers, the median is usually more informative than the mean.</span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a><span class="fu">### Quartiles and Interquartile Range (IQR)</span></span>
 <span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a>**Why the difference matters:** Imagine 11 people in a room, each earning around €100,000. The mean salary is roughly €100,000 and the median is also about €100,000 — they agree. Now Bill Gates and Jeff Bezos walk in. The mean salary jumps to perhaps €30 million, but the median barely changes — it just moves from the 6th to the 7th person's salary, still around €100,000.</span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a>To calculate quartiles:</span>
 <span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>The mean no longer represents anyone in the group. The median still tells you what the "typical" person earns. This is why the media report the **median** age of COVID deaths rather than the average — it gives a more meaningful picture of who is affected.</span>
-<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>**Rule of thumb:** When data is skewed or contains outliers, the median is usually more informative than the mean.</span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Order the data from smallest to largest.</span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Split it into four equal groups.</span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Each group is a "quartile."</span>
 <span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a><span class="fu">### Quartiles and Interquartile Range (IQR)</span></span>
-<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a>To calculate quartiles:</span>
-<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Order the data from smallest to largest.</span>
-<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Split it into four equal groups.</span>
-<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Each group is a "quartile."</span>
-<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Q1 (25th percentile):** The boundary between the lowest 25% and the rest.</span>
-<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Q2 (50th percentile):** This is the median.</span>
-<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Q3 (75th percentile):** The boundary between the top 25% and the rest.</span>
-<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**IQR = Q3 − Q1:** The range covering the middle 50% of the data.</span>
+<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Q1 (25th percentile):** The boundary between the lowest 25% and the rest.</span>
+<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Q2 (50th percentile):** This is the median.</span>
+<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Q3 (75th percentile):** The boundary between the top 25% and the rest.</span>
+<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**IQR = Q3 − Q1:** The range covering the middle 50% of the data.</span>
+<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a>The IQR is useful because it tells you how spread out the "core" of your data is, ignoring extremes.</span>
+<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualising Distributions: Univariate Plots</span></span>
+<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a>Univariate plots examine a single variable at a time. The three main types covered are histograms, density plots, and box plots. They all show the **distribution** (the spread and shape) of your data, but in different ways.</span>
 <span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a>The IQR is useful because it tells you how spread out the "core" of your data is, ignoring extremes.</span>
+<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a><span class="fu">### Histograms</span></span>
 <span id="cb20-69"><a href="#cb20-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a>A histogram divides the data into "bins" (ranges) and counts how many values fall into each bin. It shows frequency on the y-axis and the variable's values on the x-axis. Think of it as a bar chart of your data's distribution.</span>
 <span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualising Distributions: Univariate Plots</span></span>
-<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a>Univariate plots examine a single variable at a time. The three main types covered are histograms, density plots, and box plots. They all show the **distribution** (the spread and shape) of your data, but in different ways.</span>
-<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a><span class="fu">### Histograms</span></span>
-<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a>A histogram divides the data into "bins" (ranges) and counts how many values fall into each bin. It shows frequency on the y-axis and the variable's values on the x-axis. Think of it as a bar chart of your data's distribution.</span>
-<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-82"><a href="#cb20-82" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-83"><a href="#cb20-83" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-84"><a href="#cb20-84" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">100</span>)</span>
-<span id="cb20-85"><a href="#cb20-85" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-86"><a href="#cb20-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-87"><a href="#cb20-87" aria-hidden="true" tabindex="-1"></a><span class="fu">### Density Plots</span></span>
-<span id="cb20-88"><a href="#cb20-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-89"><a href="#cb20-89" aria-hidden="true" tabindex="-1"></a>A density plot is a smoothed version of a histogram. Instead of bars, you get a continuous curve. The y-axis shows density (not raw count), and the area under the curve sums to 1. It is useful for seeing the overall shape of the distribution without being distracted by bin choices.</span>
-<span id="cb20-90"><a href="#cb20-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-93"><a href="#cb20-93" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-94"><a href="#cb20-94" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-95"><a href="#cb20-95" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"density"</span>)</span>
-<span id="cb20-96"><a href="#cb20-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-97"><a href="#cb20-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-98"><a href="#cb20-98" aria-hidden="true" tabindex="-1"></a><span class="fu">### Box Plots</span></span>
-<span id="cb20-99"><a href="#cb20-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-100"><a href="#cb20-100" aria-hidden="true" tabindex="-1"></a>A box plot (or box-and-whisker plot) packs a lot of information into a compact display:</span>
-<span id="cb20-101"><a href="#cb20-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-102"><a href="#cb20-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **box** spans from Q1 to Q3 (the IQR — the middle 50% of data).</span>
-<span id="cb20-103"><a href="#cb20-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **line inside the box** is the median.</span>
-<span id="cb20-104"><a href="#cb20-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **whiskers** extend to the most extreme data points that are within 1.5 × IQR from the edges of the box.</span>
-<span id="cb20-105"><a href="#cb20-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Points beyond the whiskers** are considered outliers.</span>
-<span id="cb20-106"><a href="#cb20-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-107"><a href="#cb20-107" aria-hidden="true" tabindex="-1"></a>Box plots are extremely useful for statisticians and data scientists, but as the lecturer noted, they are often not well understood by non-technical business users. So use them for your own analysis, but consider simpler visuals when presenting to stakeholders.</span>
-<span id="cb20-108"><a href="#cb20-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-111"><a href="#cb20-111" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-112"><a href="#cb20-112" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-113"><a href="#cb20-113" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"boxplot"</span>) <span class="sc">+</span> <span class="fu">coord_flip</span>()</span>
-<span id="cb20-114"><a href="#cb20-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-115"><a href="#cb20-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-116"><a href="#cb20-116" aria-hidden="true" tabindex="-1"></a><span class="fu">### The `drawPlots` Helper Function</span></span>
-<span id="cb20-117"><a href="#cb20-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-118"><a href="#cb20-118" aria-hidden="true" tabindex="-1"></a>The lecture introduced a handy helper function that draws all three plots side by side, with the mean shown in blue and the median in green:</span>
-<span id="cb20-119"><a href="#cb20-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-122"><a href="#cb20-122" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-123"><a href="#cb20-123" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-124"><a href="#cb20-124" aria-hidden="true" tabindex="-1"></a>drawPlots <span class="ot">&lt;-</span> <span class="cf">function</span>(data, title) {</span>
-<span id="cb20-125"><a href="#cb20-125" aria-hidden="true" tabindex="-1"></a>  p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
-<span id="cb20-126"><a href="#cb20-126" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
-<span id="cb20-127"><a href="#cb20-127" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">median</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"green"</span>)</span>
-<span id="cb20-128"><a href="#cb20-128" aria-hidden="true" tabindex="-1"></a>  p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb20-129"><a href="#cb20-129" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
-<span id="cb20-130"><a href="#cb20-130" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">median</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"green"</span>)</span>
-<span id="cb20-131"><a href="#cb20-131" aria-hidden="true" tabindex="-1"></a>  p03 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"boxplot"</span>) <span class="sc">+</span></span>
-<span id="cb20-132"><a href="#cb20-132" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb20-133"><a href="#cb20-133" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">mean</span>(data), <span class="at">y =</span> <span class="dv">0</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"blue"</span>)</span>
-<span id="cb20-134"><a href="#cb20-134" aria-hidden="true" tabindex="-1"></a>  gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">top =</span> title)</span>
-<span id="cb20-135"><a href="#cb20-135" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb20-136"><a href="#cb20-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">100</span>)</span>
+<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a><span class="fu">### Density Plots</span></span>
+<span id="cb20-80"><a href="#cb20-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-81"><a href="#cb20-81" aria-hidden="true" tabindex="-1"></a>A density plot is a smoothed version of a histogram. Instead of bars, you get a continuous curve. The y-axis shows density (not raw count), and the area under the curve sums to 1. It is useful for seeing the overall shape of the distribution without being distracted by bin choices.</span>
+<span id="cb20-82"><a href="#cb20-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-85"><a href="#cb20-85" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-86"><a href="#cb20-86" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-87"><a href="#cb20-87" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"density"</span>)</span>
+<span id="cb20-88"><a href="#cb20-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-89"><a href="#cb20-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-90"><a href="#cb20-90" aria-hidden="true" tabindex="-1"></a><span class="fu">### Box Plots</span></span>
+<span id="cb20-91"><a href="#cb20-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-92"><a href="#cb20-92" aria-hidden="true" tabindex="-1"></a>A box plot (or box-and-whisker plot) packs a lot of information into a compact display:</span>
+<span id="cb20-93"><a href="#cb20-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-94"><a href="#cb20-94" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The **box** spans from Q1 to Q3 (the IQR — the middle 50% of data).</span>
+<span id="cb20-95"><a href="#cb20-95" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The **line inside the box** is the median.</span>
+<span id="cb20-96"><a href="#cb20-96" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The **whiskers** extend to the most extreme data points that are within 1.5 × IQR from the edges of the box.</span>
+<span id="cb20-97"><a href="#cb20-97" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Points beyond the whiskers** are considered outliers.</span>
+<span id="cb20-98"><a href="#cb20-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-99"><a href="#cb20-99" aria-hidden="true" tabindex="-1"></a>Box plots are extremely useful for statisticians and data scientists, but as the lecturer noted, they are often not well understood by non-technical business users. So use them for your own analysis, but consider simpler visuals when presenting to stakeholders.</span>
+<span id="cb20-100"><a href="#cb20-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-103"><a href="#cb20-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-104"><a href="#cb20-104" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-105"><a href="#cb20-105" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"boxplot"</span>) <span class="sc">+</span> <span class="fu">coord_flip</span>()</span>
+<span id="cb20-106"><a href="#cb20-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-107"><a href="#cb20-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-108"><a href="#cb20-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### The `drawPlots` Helper Function</span></span>
+<span id="cb20-109"><a href="#cb20-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-110"><a href="#cb20-110" aria-hidden="true" tabindex="-1"></a>The lecture introduced a handy helper function that draws all three plots side by side, with the mean shown in blue and the median in green:</span>
+<span id="cb20-111"><a href="#cb20-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-114"><a href="#cb20-114" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-115"><a href="#cb20-115" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-116"><a href="#cb20-116" aria-hidden="true" tabindex="-1"></a>drawPlots <span class="ot">&lt;-</span> <span class="cf">function</span>(data, title) {</span>
+<span id="cb20-117"><a href="#cb20-117" aria-hidden="true" tabindex="-1"></a>  p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb20-118"><a href="#cb20-118" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb20-119"><a href="#cb20-119" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">median</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"green"</span>)</span>
+<span id="cb20-120"><a href="#cb20-120" aria-hidden="true" tabindex="-1"></a>  p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb20-121"><a href="#cb20-121" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb20-122"><a href="#cb20-122" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">median</span>(data), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"green"</span>)</span>
+<span id="cb20-123"><a href="#cb20-123" aria-hidden="true" tabindex="-1"></a>  p03 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(data, <span class="at">geom =</span> <span class="st">"boxplot"</span>) <span class="sc">+</span></span>
+<span id="cb20-124"><a href="#cb20-124" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb20-125"><a href="#cb20-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">mean</span>(data), <span class="at">y =</span> <span class="dv">0</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"blue"</span>)</span>
+<span id="cb20-126"><a href="#cb20-126" aria-hidden="true" tabindex="-1"></a>  gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">top =</span> title)</span>
+<span id="cb20-127"><a href="#cb20-127" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-128"><a href="#cb20-128" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-129"><a href="#cb20-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-130"><a href="#cb20-130" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb20-131"><a href="#cb20-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-132"><a href="#cb20-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## Skewness: What It Is and Why It Matters</span></span>
+<span id="cb20-133"><a href="#cb20-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-134"><a href="#cb20-134" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Is Skewness?</span></span>
+<span id="cb20-135"><a href="#cb20-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-136"><a href="#cb20-136" aria-hidden="true" tabindex="-1"></a>Skewness describes how asymmetric a distribution is compared to a normal (bell-shaped) distribution.</span>
 <span id="cb20-137"><a href="#cb20-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-138"><a href="#cb20-138" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb20-139"><a href="#cb20-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-140"><a href="#cb20-140" aria-hidden="true" tabindex="-1"></a><span class="fu">## Skewness: What It Is and Why It Matters</span></span>
+<span id="cb20-138"><a href="#cb20-138" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Normal distribution:** Symmetric. The mean and median are approximately equal. The histogram/density plot looks like a bell curve, centred around the middle.</span>
+<span id="cb20-139"><a href="#cb20-139" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Right (positive) skew:** The "tail" of the distribution stretches to the right. Most values are clustered on the left, but a few very large values pull the mean to the right. **Mean \&gt; Median.**</span>
+<span id="cb20-140"><a href="#cb20-140" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Left (negative) skew:** The tail stretches to the left. Most values cluster on the right, but a few very small values pull the mean left. **Mean \&lt; Median.**</span>
 <span id="cb20-141"><a href="#cb20-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-142"><a href="#cb20-142" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Is Skewness?</span></span>
-<span id="cb20-143"><a href="#cb20-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-144"><a href="#cb20-144" aria-hidden="true" tabindex="-1"></a>Skewness describes how asymmetric a distribution is compared to a normal (bell-shaped) distribution.</span>
-<span id="cb20-145"><a href="#cb20-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-146"><a href="#cb20-146" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Normal distribution:** Symmetric. The mean and median are approximately equal. The histogram/density plot looks like a bell curve, centred around the middle.</span>
-<span id="cb20-147"><a href="#cb20-147" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Right (positive) skew:** The "tail" of the distribution stretches to the right. Most values are clustered on the left, but a few very large values pull the mean to the right. **Mean &gt; Median.**</span>
-<span id="cb20-148"><a href="#cb20-148" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Left (negative) skew:** The tail stretches to the left. Most values cluster on the right, but a few very small values pull the mean left. **Mean &lt; Median.**</span>
+<span id="cb20-144"><a href="#cb20-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-145"><a href="#cb20-145" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-146"><a href="#cb20-146" aria-hidden="true" tabindex="-1"></a><span class="co"># Normal distribution — mean ≈ median</span></span>
+<span id="cb20-147"><a href="#cb20-147" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb20-148"><a href="#cb20-148" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Normal distribution (median ~= mean)"</span>)</span>
 <span id="cb20-149"><a href="#cb20-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-152"><a href="#cb20-152" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-153"><a href="#cb20-153" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-154"><a href="#cb20-154" aria-hidden="true" tabindex="-1"></a><span class="co"># Normal distribution — mean ≈ median</span></span>
-<span id="cb20-155"><a href="#cb20-155" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb20-156"><a href="#cb20-156" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Normal distribution (median ~= mean)"</span>)</span>
-<span id="cb20-157"><a href="#cb20-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-158"><a href="#cb20-158" aria-hidden="true" tabindex="-1"></a><span class="co"># Left (negative) skew — median &gt; mean</span></span>
-<span id="cb20-159"><a href="#cb20-159" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">5</span>, <span class="dv">1</span>)</span>
-<span id="cb20-160"><a href="#cb20-160" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Left skewed (median-green &gt; mean-blue)"</span>)</span>
-<span id="cb20-161"><a href="#cb20-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-162"><a href="#cb20-162" aria-hidden="true" tabindex="-1"></a><span class="co"># Right (positive) skew — median &lt; mean</span></span>
-<span id="cb20-163"><a href="#cb20-163" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">1</span>, <span class="dv">5</span>)</span>
-<span id="cb20-164"><a href="#cb20-164" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Right skewed (median-green &lt; mean-blue)"</span>)</span>
-<span id="cb20-165"><a href="#cb20-165" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-166"><a href="#cb20-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-167"><a href="#cb20-167" aria-hidden="true" tabindex="-1"></a><span class="fu">### Real-World Examples of Skewed Data</span></span>
-<span id="cb20-168"><a href="#cb20-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-169"><a href="#cb20-169" aria-hidden="true" tabindex="-1"></a>A lot of real-life data is skewed:</span>
-<span id="cb20-170"><a href="#cb20-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-171"><a href="#cb20-171" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Income:** Most people earn moderate amounts, but a few earn enormously high salaries (right skew).</span>
-<span id="cb20-172"><a href="#cb20-172" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Average spend per customer:** Most customers spend a little, a few spend a lot.</span>
-<span id="cb20-173"><a href="#cb20-173" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Distance travelled to work:** Most people live reasonably close; some commute very long distances.</span>
-<span id="cb20-174"><a href="#cb20-174" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Animal body weights:** Most mammals are small; a few (elephants, whales) are extremely large.</span>
+<span id="cb20-150"><a href="#cb20-150" aria-hidden="true" tabindex="-1"></a><span class="co"># Left (negative) skew — median &gt; mean</span></span>
+<span id="cb20-151"><a href="#cb20-151" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">5</span>, <span class="dv">1</span>)</span>
+<span id="cb20-152"><a href="#cb20-152" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Left skewed (median-green &gt; mean-blue)"</span>)</span>
+<span id="cb20-153"><a href="#cb20-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-154"><a href="#cb20-154" aria-hidden="true" tabindex="-1"></a><span class="co"># Right (positive) skew — median &lt; mean</span></span>
+<span id="cb20-155"><a href="#cb20-155" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">1</span>, <span class="dv">5</span>)</span>
+<span id="cb20-156"><a href="#cb20-156" aria-hidden="true" tabindex="-1"></a><span class="fu">drawPlots</span>(data, <span class="st">"Right skewed (median-green &lt; mean-blue)"</span>)</span>
+<span id="cb20-157"><a href="#cb20-157" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-158"><a href="#cb20-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-159"><a href="#cb20-159" aria-hidden="true" tabindex="-1"></a><span class="fu">### Real-World Examples of Skewed Data</span></span>
+<span id="cb20-160"><a href="#cb20-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-161"><a href="#cb20-161" aria-hidden="true" tabindex="-1"></a>A lot of real-life data is skewed:</span>
+<span id="cb20-162"><a href="#cb20-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-163"><a href="#cb20-163" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Income:** Most people earn moderate amounts, but a few earn enormously high salaries (right skew).</span>
+<span id="cb20-164"><a href="#cb20-164" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Average spend per customer:** Most customers spend a little, a few spend a lot.</span>
+<span id="cb20-165"><a href="#cb20-165" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Distance travelled to work:** Most people live reasonably close; some commute very long distances.</span>
+<span id="cb20-166"><a href="#cb20-166" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Animal body weights:** Most mammals are small; a few (elephants, whales) are extremely large.</span>
+<span id="cb20-167"><a href="#cb20-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-168"><a href="#cb20-168" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Skewness Matters for Machine Learning</span></span>
+<span id="cb20-169"><a href="#cb20-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-170"><a href="#cb20-170" aria-hidden="true" tabindex="-1"></a>The lecture demonstrated this using the <span class="in">`mammals`</span> dataset (from the <span class="in">`openintro`</span> package), which contains body weight and brain weight for various mammals.</span>
+<span id="cb20-171"><a href="#cb20-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-172"><a href="#cb20-172" aria-hidden="true" tabindex="-1"></a>**The problem:** Both body weight and brain weight are extremely right-skewed — most mammals are small, but a few (like elephants) are huge. When you plot the raw data, almost all points cluster near zero, and you can barely see any relationship.</span>
+<span id="cb20-173"><a href="#cb20-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-174"><a href="#cb20-174" aria-hidden="true" tabindex="-1"></a>**Step 1 — Build a model on raw data:**</span>
 <span id="cb20-175"><a href="#cb20-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-176"><a href="#cb20-176" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Skewness Matters for Machine Learning</span></span>
-<span id="cb20-177"><a href="#cb20-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-178"><a href="#cb20-178" aria-hidden="true" tabindex="-1"></a>The lecture demonstrated this using the <span class="in">`mammals`</span> dataset (from the <span class="in">`openintro`</span> package), which contains body weight and brain weight for various mammals.</span>
-<span id="cb20-179"><a href="#cb20-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-180"><a href="#cb20-180" aria-hidden="true" tabindex="-1"></a>**The problem:** Both body weight and brain weight are extremely right-skewed — most mammals are small, but a few (like elephants) are huge. When you plot the raw data, almost all points cluster near zero, and you can barely see any relationship.</span>
-<span id="cb20-181"><a href="#cb20-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-182"><a href="#cb20-182" aria-hidden="true" tabindex="-1"></a>**Step 1 — Build a model on raw data:**</span>
-<span id="cb20-183"><a href="#cb20-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-186"><a href="#cb20-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-187"><a href="#cb20-187" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-188"><a href="#cb20-188" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_wt <span class="sc">~</span> brain_wt, <span class="at">data =</span> mammals)</span>
-<span id="cb20-189"><a href="#cb20-189" aria-hidden="true" tabindex="-1"></a>r_sq1 <span class="ot">&lt;-</span> <span class="fu">cor</span>(model1<span class="sc">$</span>fitted.values, mammals<span class="sc">$</span>body_wt)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb20-190"><a href="#cb20-190" aria-hidden="true" tabindex="-1"></a><span class="co"># R² ≈ 0.87</span></span>
-<span id="cb20-191"><a href="#cb20-191" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-192"><a href="#cb20-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-193"><a href="#cb20-193" aria-hidden="true" tabindex="-1"></a>**Step 2 — Apply a log transformation:**</span>
-<span id="cb20-194"><a href="#cb20-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-195"><a href="#cb20-195" aria-hidden="true" tabindex="-1"></a>Taking the logarithm of skewed data compresses the large values and stretches the small ones, making the distribution more symmetrical (closer to normal).</span>
+<span id="cb20-178"><a href="#cb20-178" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-179"><a href="#cb20-179" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-180"><a href="#cb20-180" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_wt <span class="sc">~</span> brain_wt, <span class="at">data =</span> mammals)</span>
+<span id="cb20-181"><a href="#cb20-181" aria-hidden="true" tabindex="-1"></a>r_sq1 <span class="ot">&lt;-</span> <span class="fu">cor</span>(model1<span class="sc">$</span>fitted.values, mammals<span class="sc">$</span>body_wt)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb20-182"><a href="#cb20-182" aria-hidden="true" tabindex="-1"></a><span class="co"># R² ≈ 0.87</span></span>
+<span id="cb20-183"><a href="#cb20-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-184"><a href="#cb20-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-185"><a href="#cb20-185" aria-hidden="true" tabindex="-1"></a>**Step 2 — Apply a log transformation:**</span>
+<span id="cb20-186"><a href="#cb20-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-187"><a href="#cb20-187" aria-hidden="true" tabindex="-1"></a>Taking the logarithm of skewed data compresses the large values and stretches the small ones, making the distribution more symmetrical (closer to normal).</span>
+<span id="cb20-188"><a href="#cb20-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-191"><a href="#cb20-191" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-192"><a href="#cb20-192" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-193"><a href="#cb20-193" aria-hidden="true" tabindex="-1"></a>mammals<span class="sc">$</span>log_body_wt <span class="ot">&lt;-</span> <span class="fu">log</span>(mammals<span class="sc">$</span>body_wt)</span>
+<span id="cb20-194"><a href="#cb20-194" aria-hidden="true" tabindex="-1"></a>mammals<span class="sc">$</span>log_brain_wt <span class="ot">&lt;-</span> <span class="fu">log</span>(mammals<span class="sc">$</span>brain_wt)</span>
+<span id="cb20-195"><a href="#cb20-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb20-196"><a href="#cb20-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-199"><a href="#cb20-199" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-200"><a href="#cb20-200" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-201"><a href="#cb20-201" aria-hidden="true" tabindex="-1"></a>mammals<span class="sc">$</span>log_body_wt <span class="ot">&lt;-</span> <span class="fu">log</span>(mammals<span class="sc">$</span>body_wt)</span>
-<span id="cb20-202"><a href="#cb20-202" aria-hidden="true" tabindex="-1"></a>mammals<span class="sc">$</span>log_brain_wt <span class="ot">&lt;-</span> <span class="fu">log</span>(mammals<span class="sc">$</span>brain_wt)</span>
-<span id="cb20-203"><a href="#cb20-203" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-204"><a href="#cb20-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-205"><a href="#cb20-205" aria-hidden="true" tabindex="-1"></a>When you plot the log-transformed data, you can now clearly see a linear relationship between log(brain weight) and log(body weight).</span>
-<span id="cb20-206"><a href="#cb20-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-207"><a href="#cb20-207" aria-hidden="true" tabindex="-1"></a>**Step 3 — Build a model on transformed data:**</span>
-<span id="cb20-208"><a href="#cb20-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-211"><a href="#cb20-211" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-212"><a href="#cb20-212" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-213"><a href="#cb20-213" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_body_wt <span class="sc">~</span> log_brain_wt, <span class="at">data =</span> mammals)</span>
-<span id="cb20-214"><a href="#cb20-214" aria-hidden="true" tabindex="-1"></a>r_sq2 <span class="ot">&lt;-</span> <span class="fu">cor</span>(model2<span class="sc">$</span>fitted.values, mammals<span class="sc">$</span>log_body_wt)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb20-215"><a href="#cb20-215" aria-hidden="true" tabindex="-1"></a><span class="co"># R² ≈ 0.92</span></span>
-<span id="cb20-216"><a href="#cb20-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-197"><a href="#cb20-197" aria-hidden="true" tabindex="-1"></a>When you plot the log-transformed data, you can now clearly see a linear relationship between log(brain weight) and log(body weight).</span>
+<span id="cb20-198"><a href="#cb20-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-199"><a href="#cb20-199" aria-hidden="true" tabindex="-1"></a>**Step 3 — Build a model on transformed data:**</span>
+<span id="cb20-200"><a href="#cb20-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-203"><a href="#cb20-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-204"><a href="#cb20-204" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-205"><a href="#cb20-205" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_body_wt <span class="sc">~</span> log_brain_wt, <span class="at">data =</span> mammals)</span>
+<span id="cb20-206"><a href="#cb20-206" aria-hidden="true" tabindex="-1"></a>r_sq2 <span class="ot">&lt;-</span> <span class="fu">cor</span>(model2<span class="sc">$</span>fitted.values, mammals<span class="sc">$</span>log_body_wt)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb20-207"><a href="#cb20-207" aria-hidden="true" tabindex="-1"></a><span class="co"># R² ≈ 0.92</span></span>
+<span id="cb20-208"><a href="#cb20-208" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-209"><a href="#cb20-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-210"><a href="#cb20-210" aria-hidden="true" tabindex="-1"></a>The R² improved from 0.87 to 0.92. As the slides noted, this represents a **37.79% reduction in error rate**. That is a significant improvement gained purely from transforming the data — not from changing the algorithm.</span>
+<span id="cb20-211"><a href="#cb20-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-212"><a href="#cb20-212" aria-hidden="true" tabindex="-1"></a>**Key insight:** If your data is skewed, consider applying a log transformation (or other transformations) before modelling. This is a form of **feature engineering** and can dramatically improve model performance.</span>
+<span id="cb20-213"><a href="#cb20-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-214"><a href="#cb20-214" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb20-215"><a href="#cb20-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-216"><a href="#cb20-216" aria-hidden="true" tabindex="-1"></a><span class="fu">## Packages and the `qplot` Function</span></span>
 <span id="cb20-217"><a href="#cb20-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-218"><a href="#cb20-218" aria-hidden="true" tabindex="-1"></a>The R² improved from 0.87 to 0.92. As the slides noted, this represents a **37.79% reduction in error rate**. That is a significant improvement gained purely from transforming the data — not from changing the algorithm.</span>
+<span id="cb20-218"><a href="#cb20-218" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required Packages</span></span>
 <span id="cb20-219"><a href="#cb20-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-220"><a href="#cb20-220" aria-hidden="true" tabindex="-1"></a>**Key insight:** If your data is skewed, consider applying a log transformation (or other transformations) before modelling. This is a form of **feature engineering** and can dramatically improve model performance.</span>
-<span id="cb20-221"><a href="#cb20-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-222"><a href="#cb20-222" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb20-223"><a href="#cb20-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-224"><a href="#cb20-224" aria-hidden="true" tabindex="-1"></a><span class="fu">## Packages and the `qplot` Function</span></span>
-<span id="cb20-225"><a href="#cb20-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-226"><a href="#cb20-226" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required Packages</span></span>
-<span id="cb20-227"><a href="#cb20-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-230"><a href="#cb20-230" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-231"><a href="#cb20-231" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-232"><a href="#cb20-232" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)     <span class="co"># Plotting — qplot and ggplot functions</span></span>
-<span id="cb20-233"><a href="#cb20-233" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)   <span class="co"># Arrange multiple plots in a grid</span></span>
-<span id="cb20-234"><a href="#cb20-234" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datasets)    <span class="co"># Built-in R datasets (iris, etc.)</span></span>
-<span id="cb20-235"><a href="#cb20-235" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)    <span class="co"># Correlation plot visualisations</span></span>
-<span id="cb20-236"><a href="#cb20-236" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(titanic)     <span class="co"># Titanic dataset</span></span>
-<span id="cb20-237"><a href="#cb20-237" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)       <span class="co"># pairs.panels() for pairs plots</span></span>
-<span id="cb20-238"><a href="#cb20-238" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openintro)   <span class="co"># mammals dataset and others</span></span>
-<span id="cb20-239"><a href="#cb20-239" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-240"><a href="#cb20-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-241"><a href="#cb20-241" aria-hidden="true" tabindex="-1"></a>If you get errors like <span class="in">`could not find function "xxxxx"`</span>, it almost certainly means you need to install and/or load the package first.</span>
-<span id="cb20-242"><a href="#cb20-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-243"><a href="#cb20-243" aria-hidden="true" tabindex="-1"></a><span class="fu">### The `qplot` Function (Quick Plot)</span></span>
-<span id="cb20-244"><a href="#cb20-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-245"><a href="#cb20-245" aria-hidden="true" tabindex="-1"></a><span class="in">`qplot`</span> is part of <span class="in">`ggplot2`</span> and provides a quick way to create plots:</span>
-<span id="cb20-246"><a href="#cb20-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-247"><a href="#cb20-247" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**One variable** → defaults to a **histogram**.</span>
-<span id="cb20-248"><a href="#cb20-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Two variables** → defaults to a **scatterplot**.</span>
-<span id="cb20-249"><a href="#cb20-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Change the plot type with the <span class="in">`geom`</span> parameter (e.g., <span class="in">`geom = "density"`</span>, <span class="in">`geom = "boxplot"`</span>).</span>
-<span id="cb20-250"><a href="#cb20-250" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use <span class="in">`main`</span> for title, <span class="in">`xlab`</span> for x-axis label, <span class="in">`ylab`</span> for y-axis label.</span>
-<span id="cb20-251"><a href="#cb20-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-252"><a href="#cb20-252" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb20-253"><a href="#cb20-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-254"><a href="#cb20-254" aria-hidden="true" tabindex="-1"></a><span class="fu">## Datasets in R</span></span>
-<span id="cb20-255"><a href="#cb20-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-256"><a href="#cb20-256" aria-hidden="true" tabindex="-1"></a>R comes with many built-in datasets through the <span class="in">`datasets`</span> package. Some notable ones:</span>
-<span id="cb20-257"><a href="#cb20-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-258"><a href="#cb20-258" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**iris:** 150 observations of iris flowers (3 species, 4 measurements each). A classic ML dataset.</span>
-<span id="cb20-259"><a href="#cb20-259" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Titanic:** Survival data for passengers.</span>
-<span id="cb20-260"><a href="#cb20-260" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**airquality:** New York air quality measurements.</span>
-<span id="cb20-261"><a href="#cb20-261" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**anscombe:** Four datasets with nearly identical summary statistics but very different distributions — a great demonstration of why you should always visualise your data.</span>
+<span id="cb20-222"><a href="#cb20-222" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-223"><a href="#cb20-223" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-224"><a href="#cb20-224" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)     <span class="co"># Plotting — qplot and ggplot functions</span></span>
+<span id="cb20-225"><a href="#cb20-225" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)   <span class="co"># Arrange multiple plots in a grid</span></span>
+<span id="cb20-226"><a href="#cb20-226" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datasets)    <span class="co"># Built-in R datasets (iris, etc.)</span></span>
+<span id="cb20-227"><a href="#cb20-227" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)    <span class="co"># Correlation plot visualisations</span></span>
+<span id="cb20-228"><a href="#cb20-228" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(titanic)     <span class="co"># Titanic dataset</span></span>
+<span id="cb20-229"><a href="#cb20-229" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)       <span class="co"># pairs.panels() for pairs plots</span></span>
+<span id="cb20-230"><a href="#cb20-230" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openintro)   <span class="co"># mammals dataset and others</span></span>
+<span id="cb20-231"><a href="#cb20-231" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-232"><a href="#cb20-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-233"><a href="#cb20-233" aria-hidden="true" tabindex="-1"></a>If you get errors like <span class="in">`could not find function "xxxxx"`</span>, it almost certainly means you need to install and/or load the package first.</span>
+<span id="cb20-234"><a href="#cb20-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-235"><a href="#cb20-235" aria-hidden="true" tabindex="-1"></a><span class="fu">### The `qplot` Function (Quick Plot)</span></span>
+<span id="cb20-236"><a href="#cb20-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-237"><a href="#cb20-237" aria-hidden="true" tabindex="-1"></a><span class="in">`qplot`</span> is part of <span class="in">`ggplot2`</span> and provides a quick way to create plots:</span>
+<span id="cb20-238"><a href="#cb20-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-239"><a href="#cb20-239" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**One variable** → defaults to a **histogram**.</span>
+<span id="cb20-240"><a href="#cb20-240" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Two variables** → defaults to a **scatterplot**.</span>
+<span id="cb20-241"><a href="#cb20-241" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Change the plot type with the <span class="in">`geom`</span> parameter (e.g., <span class="in">`geom = "density"`</span>, <span class="in">`geom = "boxplot"`</span>).</span>
+<span id="cb20-242"><a href="#cb20-242" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Use <span class="in">`main`</span> for title, <span class="in">`xlab`</span> for x-axis label, <span class="in">`ylab`</span> for y-axis label.</span>
+<span id="cb20-243"><a href="#cb20-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-244"><a href="#cb20-244" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb20-245"><a href="#cb20-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-246"><a href="#cb20-246" aria-hidden="true" tabindex="-1"></a><span class="fu">## Datasets in R</span></span>
+<span id="cb20-247"><a href="#cb20-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-248"><a href="#cb20-248" aria-hidden="true" tabindex="-1"></a>R comes with many built-in datasets through the <span class="in">`datasets`</span> package. Some notable ones:</span>
+<span id="cb20-249"><a href="#cb20-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-250"><a href="#cb20-250" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**iris:** 150 observations of iris flowers (3 species, 4 measurements each). A classic ML dataset.</span>
+<span id="cb20-251"><a href="#cb20-251" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Titanic:** Survival data for passengers.</span>
+<span id="cb20-252"><a href="#cb20-252" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**airquality:** New York air quality measurements.</span>
+<span id="cb20-253"><a href="#cb20-253" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**anscombe:** Four datasets with nearly identical summary statistics but very different distributions — a great demonstration of why you should always visualise your data.</span>
+<span id="cb20-254"><a href="#cb20-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-257"><a href="#cb20-257" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-258"><a href="#cb20-258" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-259"><a href="#cb20-259" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="at">help =</span> <span class="st">"datasets"</span>)  <span class="co"># See all available datasets</span></span>
+<span id="cb20-260"><a href="#cb20-260" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)                    <span class="co"># Load a specific dataset</span></span>
+<span id="cb20-261"><a href="#cb20-261" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb20-262"><a href="#cb20-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-265"><a href="#cb20-265" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-266"><a href="#cb20-266" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-267"><a href="#cb20-267" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="at">help =</span> <span class="st">"datasets"</span>)  <span class="co"># See all available datasets</span></span>
-<span id="cb20-268"><a href="#cb20-268" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)                    <span class="co"># Load a specific dataset</span></span>
-<span id="cb20-269"><a href="#cb20-269" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-263"><a href="#cb20-263" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb20-264"><a href="#cb20-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-265"><a href="#cb20-265" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Exploration: The Iris Dataset</span></span>
+<span id="cb20-266"><a href="#cb20-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-267"><a href="#cb20-267" aria-hidden="true" tabindex="-1"></a>Data exploration is **critical** to the success of any ML project. As the lecturer emphasised: it is more important than anything you do in the model-building stage, including picking an algorithm. You should look at missing data, check for incomplete data, perform statistical analysis, and create visualisations. The insights you gain here should actively guide your feature engineering and modelling decisions — not just be a box-ticking exercise.</span>
+<span id="cb20-268"><a href="#cb20-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-269"><a href="#cb20-269" aria-hidden="true" tabindex="-1"></a><span class="fu">### About the Iris Dataset</span></span>
 <span id="cb20-270"><a href="#cb20-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-271"><a href="#cb20-271" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-271"><a href="#cb20-271" aria-hidden="true" tabindex="-1"></a>Introduced by Ronald Fisher in 1936, the Iris dataset contains 150 observations: 50 each of three species (setosa, versicolor, virginica). Four numeric features are measured: Sepal.Length, Sepal.Width, Petal.Length, and Petal.Width. The goal is to classify species based on these measurements.</span>
 <span id="cb20-272"><a href="#cb20-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-273"><a href="#cb20-273" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Exploration: The Iris Dataset</span></span>
+<span id="cb20-273"><a href="#cb20-273" aria-hidden="true" tabindex="-1"></a><span class="fu">### Initial Exploration</span></span>
 <span id="cb20-274"><a href="#cb20-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-275"><a href="#cb20-275" aria-hidden="true" tabindex="-1"></a>Data exploration is **critical** to the success of any ML project. As the lecturer emphasised: it is more important than anything you do in the model-building stage, including picking an algorithm. You should look at missing data, check for incomplete data, perform statistical analysis, and create visualisations. The insights you gain here should actively guide your feature engineering and modelling decisions — not just be a box-ticking exercise.</span>
-<span id="cb20-276"><a href="#cb20-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-277"><a href="#cb20-277" aria-hidden="true" tabindex="-1"></a><span class="fu">### About the Iris Dataset</span></span>
-<span id="cb20-278"><a href="#cb20-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-279"><a href="#cb20-279" aria-hidden="true" tabindex="-1"></a>Introduced by Ronald Fisher in 1936, the Iris dataset contains 150 observations: 50 each of three species (setosa, versicolor, virginica). Four numeric features are measured: Sepal.Length, Sepal.Width, Petal.Length, and Petal.Width. The goal is to classify species based on these measurements.</span>
-<span id="cb20-280"><a href="#cb20-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-281"><a href="#cb20-281" aria-hidden="true" tabindex="-1"></a><span class="fu">### Initial Exploration</span></span>
-<span id="cb20-282"><a href="#cb20-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-285"><a href="#cb20-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-286"><a href="#cb20-286" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-287"><a href="#cb20-287" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
-<span id="cb20-288"><a href="#cb20-288" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(iris)       <span class="co"># 150 rows, 5 columns</span></span>
-<span id="cb20-289"><a href="#cb20-289" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(iris)     <span class="co"># "Sepal.Length" "Sepal.Width" "Petal.Length" "Petal.Width" "Species"</span></span>
-<span id="cb20-290"><a href="#cb20-290" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(iris)       <span class="co"># Shows types: 4 numeric columns + 1 factor (Species)</span></span>
-<span id="cb20-291"><a href="#cb20-291" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])  <span class="co"># Summary stats for numeric columns only</span></span>
-<span id="cb20-292"><a href="#cb20-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-293"><a href="#cb20-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-294"><a href="#cb20-294" aria-hidden="true" tabindex="-1"></a><span class="fu">### Column Types</span></span>
-<span id="cb20-295"><a href="#cb20-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-296"><a href="#cb20-296" aria-hidden="true" tabindex="-1"></a>Getting column types right is crucial in R:</span>
-<span id="cb20-297"><a href="#cb20-297" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-298"><a href="#cb20-298" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**numeric / integer:** Numbers.</span>
-<span id="cb20-299"><a href="#cb20-299" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**character:** Text strings.</span>
-<span id="cb20-300"><a href="#cb20-300" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**logical:** TRUE/FALSE.</span>
-<span id="cb20-301"><a href="#cb20-301" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**factor:** Categorical variables with a fixed set of levels (like Species with 3 levels).</span>
-<span id="cb20-302"><a href="#cb20-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-303"><a href="#cb20-303" aria-hidden="true" tabindex="-1"></a>You can convert between types with <span class="in">`as.numeric()`</span>, <span class="in">`as.character()`</span>, <span class="in">`as.factor()`</span>, etc. But not all conversions are possible — <span class="in">`as.numeric("three")`</span> produces <span class="in">`NA`</span> with a warning.</span>
-<span id="cb20-304"><a href="#cb20-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-305"><a href="#cb20-305" aria-hidden="true" tabindex="-1"></a><span class="fu">### Histograms — Iris</span></span>
-<span id="cb20-306"><a href="#cb20-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-309"><a href="#cb20-309" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-310"><a href="#cb20-310" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-311"><a href="#cb20-311" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
-<span id="cb20-312"><a href="#cb20-312" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Sepal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Length"</span>)</span>
-<span id="cb20-313"><a href="#cb20-313" aria-hidden="true" tabindex="-1"></a>p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Width, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
-<span id="cb20-314"><a href="#cb20-314" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Sepal.Width"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Width"</span>)</span>
-<span id="cb20-315"><a href="#cb20-315" aria-hidden="true" tabindex="-1"></a>p03 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Petal.Length, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
-<span id="cb20-316"><a href="#cb20-316" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Petal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Petal.Length"</span>)</span>
-<span id="cb20-317"><a href="#cb20-317" aria-hidden="true" tabindex="-1"></a>p04 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Petal.Width, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
-<span id="cb20-318"><a href="#cb20-318" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Petal.Width"</span>, <span class="at">xlab =</span> <span class="st">"Petal.Width"</span>)</span>
-<span id="cb20-319"><a href="#cb20-319" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
-<span id="cb20-320"><a href="#cb20-320" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-321"><a href="#cb20-321" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-322"><a href="#cb20-322" aria-hidden="true" tabindex="-1"></a>**What to notice:** Petal.Length and Petal.Width show a clear bimodal distribution (two humps). This suggests there might be distinct groups in the data — which makes sense because setosa has much smaller petals than the other two species.</span>
-<span id="cb20-323"><a href="#cb20-323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-324"><a href="#cb20-324" aria-hidden="true" tabindex="-1"></a><span class="fu">### Density Plots — Iris</span></span>
-<span id="cb20-325"><a href="#cb20-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-328"><a href="#cb20-328" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-329"><a href="#cb20-329" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-330"><a href="#cb20-330" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">geom =</span> <span class="st">"density"</span>,</span>
-<span id="cb20-331"><a href="#cb20-331" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Density plot on Sepal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Length"</span>)</span>
-<span id="cb20-332"><a href="#cb20-332" aria-hidden="true" tabindex="-1"></a><span class="co"># ... similar for the other three variables</span></span>
-<span id="cb20-333"><a href="#cb20-333" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
-<span id="cb20-334"><a href="#cb20-334" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-335"><a href="#cb20-335" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-336"><a href="#cb20-336" aria-hidden="true" tabindex="-1"></a>The density plots confirm the same patterns seen in the histograms, but the smooth curves make the bimodal shape of the petal measurements even more obvious.</span>
-<span id="cb20-337"><a href="#cb20-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-338"><a href="#cb20-338" aria-hidden="true" tabindex="-1"></a><span class="fu">### Box Plots — Iris (by Species)</span></span>
-<span id="cb20-339"><a href="#cb20-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-342"><a href="#cb20-342" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-343"><a href="#cb20-343" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-344"><a href="#cb20-344" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Species, Sepal.Length, <span class="at">data =</span> iris, <span class="at">geom =</span> <span class="st">"boxplot"</span>,</span>
-<span id="cb20-345"><a href="#cb20-345" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Boxplot on Sepal.Length"</span>)</span>
-<span id="cb20-346"><a href="#cb20-346" aria-hidden="true" tabindex="-1"></a><span class="co"># ... similar for other variables</span></span>
-<span id="cb20-347"><a href="#cb20-347" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
-<span id="cb20-348"><a href="#cb20-348" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-349"><a href="#cb20-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-350"><a href="#cb20-350" aria-hidden="true" tabindex="-1"></a>**What to notice:** When we split by species, the box plots reveal that setosa is very clearly separated from the other two species on Petal.Length and Petal.Width (almost no overlap). Versicolor and virginica overlap more, but are still distinguishable. Sepal.Width is an interesting variable — setosa actually has *wider* sepals than the other species.</span>
-<span id="cb20-351"><a href="#cb20-351" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-352"><a href="#cb20-352" aria-hidden="true" tabindex="-1"></a><span class="fu">### Scatter Plots — Iris (Multivariate)</span></span>
-<span id="cb20-353"><a href="#cb20-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-354"><a href="#cb20-354" aria-hidden="true" tabindex="-1"></a>Scatter plots show the relationship between two variables at once. By colouring by species, we can see how well the species separate:</span>
-<span id="cb20-355"><a href="#cb20-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-358"><a href="#cb20-358" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-359"><a href="#cb20-359" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-360"><a href="#cb20-360" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Sepal.Width, Sepal.Length, <span class="at">data =</span> iris, <span class="at">colour =</span> Species,</span>
-<span id="cb20-361"><a href="#cb20-361" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Sepal.Width v Sepal.Length"</span>)</span>
-<span id="cb20-362"><a href="#cb20-362" aria-hidden="true" tabindex="-1"></a>p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Petal.Length, Petal.Width, <span class="at">data =</span> iris, <span class="at">colour =</span> Species,</span>
-<span id="cb20-363"><a href="#cb20-363" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Petal.Length v Petal.Width"</span>)</span>
-<span id="cb20-364"><a href="#cb20-364" aria-hidden="true" tabindex="-1"></a><span class="co"># ... more combinations</span></span>
-<span id="cb20-365"><a href="#cb20-365" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
-<span id="cb20-366"><a href="#cb20-366" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-367"><a href="#cb20-367" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-368"><a href="#cb20-368" aria-hidden="true" tabindex="-1"></a>**Key insight:** The Petal.Length vs Petal.Width scatter plot shows the clearest separation between all three species. This tells you these are likely the most useful features for classification.</span>
-<span id="cb20-369"><a href="#cb20-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-370"><a href="#cb20-370" aria-hidden="true" tabindex="-1"></a><span class="fu">### Correlation Analysis</span></span>
-<span id="cb20-371"><a href="#cb20-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-372"><a href="#cb20-372" aria-hidden="true" tabindex="-1"></a>Correlation measures the linear relationship between two numeric variables, ranging from −1 (perfect negative) to +1 (perfect positive), with 0 meaning no linear relationship.</span>
+<span id="cb20-277"><a href="#cb20-277" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-278"><a href="#cb20-278" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-279"><a href="#cb20-279" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb20-280"><a href="#cb20-280" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(iris)       <span class="co"># 150 rows, 5 columns</span></span>
+<span id="cb20-281"><a href="#cb20-281" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(iris)     <span class="co"># "Sepal.Length" "Sepal.Width" "Petal.Length" "Petal.Width" "Species"</span></span>
+<span id="cb20-282"><a href="#cb20-282" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(iris)       <span class="co"># Shows types: 4 numeric columns + 1 factor (Species)</span></span>
+<span id="cb20-283"><a href="#cb20-283" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])  <span class="co"># Summary stats for numeric columns only</span></span>
+<span id="cb20-284"><a href="#cb20-284" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-285"><a href="#cb20-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-286"><a href="#cb20-286" aria-hidden="true" tabindex="-1"></a><span class="fu">### Column Types</span></span>
+<span id="cb20-287"><a href="#cb20-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-288"><a href="#cb20-288" aria-hidden="true" tabindex="-1"></a>Getting column types right is crucial in R:</span>
+<span id="cb20-289"><a href="#cb20-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-290"><a href="#cb20-290" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**numeric / integer:** Numbers.</span>
+<span id="cb20-291"><a href="#cb20-291" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**character:** Text strings.</span>
+<span id="cb20-292"><a href="#cb20-292" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**logical:** TRUE/FALSE.</span>
+<span id="cb20-293"><a href="#cb20-293" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**factor:** Categorical variables with a fixed set of levels (like Species with 3 levels).</span>
+<span id="cb20-294"><a href="#cb20-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-295"><a href="#cb20-295" aria-hidden="true" tabindex="-1"></a>You can convert between types with <span class="in">`as.numeric()`</span>, <span class="in">`as.character()`</span>, <span class="in">`as.factor()`</span>, etc. But not all conversions are possible — <span class="in">`as.numeric("three")`</span> produces <span class="in">`NA`</span> with a warning.</span>
+<span id="cb20-296"><a href="#cb20-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-297"><a href="#cb20-297" aria-hidden="true" tabindex="-1"></a><span class="fu">### Histograms — Iris</span></span>
+<span id="cb20-298"><a href="#cb20-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-301"><a href="#cb20-301" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-302"><a href="#cb20-302" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-303"><a href="#cb20-303" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb20-304"><a href="#cb20-304" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Sepal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Length"</span>)</span>
+<span id="cb20-305"><a href="#cb20-305" aria-hidden="true" tabindex="-1"></a>p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Width, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb20-306"><a href="#cb20-306" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Sepal.Width"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Width"</span>)</span>
+<span id="cb20-307"><a href="#cb20-307" aria-hidden="true" tabindex="-1"></a>p03 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Petal.Length, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb20-308"><a href="#cb20-308" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Petal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Petal.Length"</span>)</span>
+<span id="cb20-309"><a href="#cb20-309" aria-hidden="true" tabindex="-1"></a>p04 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Petal.Width, <span class="at">geom =</span> <span class="st">"histogram"</span>, <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb20-310"><a href="#cb20-310" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Histogram on Petal.Width"</span>, <span class="at">xlab =</span> <span class="st">"Petal.Width"</span>)</span>
+<span id="cb20-311"><a href="#cb20-311" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
+<span id="cb20-312"><a href="#cb20-312" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-313"><a href="#cb20-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-314"><a href="#cb20-314" aria-hidden="true" tabindex="-1"></a>**What to notice:** Petal.Length and Petal.Width show a clear bimodal distribution (two humps). This suggests there might be distinct groups in the data — which makes sense because setosa has much smaller petals than the other two species.</span>
+<span id="cb20-315"><a href="#cb20-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-316"><a href="#cb20-316" aria-hidden="true" tabindex="-1"></a><span class="fu">### Density Plots — Iris</span></span>
+<span id="cb20-317"><a href="#cb20-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-320"><a href="#cb20-320" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-321"><a href="#cb20-321" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-322"><a href="#cb20-322" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">geom =</span> <span class="st">"density"</span>,</span>
+<span id="cb20-323"><a href="#cb20-323" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Density plot on Sepal.Length"</span>, <span class="at">xlab =</span> <span class="st">"Sepal.Length"</span>)</span>
+<span id="cb20-324"><a href="#cb20-324" aria-hidden="true" tabindex="-1"></a><span class="co"># ... similar for the other three variables</span></span>
+<span id="cb20-325"><a href="#cb20-325" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
+<span id="cb20-326"><a href="#cb20-326" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-327"><a href="#cb20-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-328"><a href="#cb20-328" aria-hidden="true" tabindex="-1"></a>The density plots confirm the same patterns seen in the histograms, but the smooth curves make the bimodal shape of the petal measurements even more obvious.</span>
+<span id="cb20-329"><a href="#cb20-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-330"><a href="#cb20-330" aria-hidden="true" tabindex="-1"></a><span class="fu">### Box Plots — Iris (by Species)</span></span>
+<span id="cb20-331"><a href="#cb20-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-334"><a href="#cb20-334" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-335"><a href="#cb20-335" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-336"><a href="#cb20-336" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Species, Sepal.Length, <span class="at">data =</span> iris, <span class="at">geom =</span> <span class="st">"boxplot"</span>,</span>
+<span id="cb20-337"><a href="#cb20-337" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Boxplot on Sepal.Length"</span>)</span>
+<span id="cb20-338"><a href="#cb20-338" aria-hidden="true" tabindex="-1"></a><span class="co"># ... similar for other variables</span></span>
+<span id="cb20-339"><a href="#cb20-339" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
+<span id="cb20-340"><a href="#cb20-340" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-341"><a href="#cb20-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-342"><a href="#cb20-342" aria-hidden="true" tabindex="-1"></a>**What to notice:** When we split by species, the box plots reveal that setosa is very clearly separated from the other two species on Petal.Length and Petal.Width (almost no overlap). Versicolor and virginica overlap more, but are still distinguishable. Sepal.Width is an interesting variable — setosa actually has *wider* sepals than the other species.</span>
+<span id="cb20-343"><a href="#cb20-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-344"><a href="#cb20-344" aria-hidden="true" tabindex="-1"></a><span class="fu">### Scatter Plots — Iris (Multivariate)</span></span>
+<span id="cb20-345"><a href="#cb20-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-346"><a href="#cb20-346" aria-hidden="true" tabindex="-1"></a>Scatter plots show the relationship between two variables at once. By colouring by species, we can see how well the species separate:</span>
+<span id="cb20-347"><a href="#cb20-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-350"><a href="#cb20-350" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-351"><a href="#cb20-351" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-352"><a href="#cb20-352" aria-hidden="true" tabindex="-1"></a>p01 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Sepal.Width, Sepal.Length, <span class="at">data =</span> iris, <span class="at">colour =</span> Species,</span>
+<span id="cb20-353"><a href="#cb20-353" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Sepal.Width v Sepal.Length"</span>)</span>
+<span id="cb20-354"><a href="#cb20-354" aria-hidden="true" tabindex="-1"></a>p02 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Petal.Length, Petal.Width, <span class="at">data =</span> iris, <span class="at">colour =</span> Species,</span>
+<span id="cb20-355"><a href="#cb20-355" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Petal.Length v Petal.Width"</span>)</span>
+<span id="cb20-356"><a href="#cb20-356" aria-hidden="true" tabindex="-1"></a><span class="co"># ... more combinations</span></span>
+<span id="cb20-357"><a href="#cb20-357" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p01, p02, p03, p04)</span>
+<span id="cb20-358"><a href="#cb20-358" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-359"><a href="#cb20-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-360"><a href="#cb20-360" aria-hidden="true" tabindex="-1"></a>**Key insight:** The Petal.Length vs Petal.Width scatter plot shows the clearest separation between all three species. This tells you these are likely the most useful features for classification.</span>
+<span id="cb20-361"><a href="#cb20-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-362"><a href="#cb20-362" aria-hidden="true" tabindex="-1"></a><span class="fu">### Correlation Analysis</span></span>
+<span id="cb20-363"><a href="#cb20-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-364"><a href="#cb20-364" aria-hidden="true" tabindex="-1"></a>Correlation measures the linear relationship between two numeric variables, ranging from −1 (perfect negative) to +1 (perfect positive), with 0 meaning no linear relationship.</span>
+<span id="cb20-365"><a href="#cb20-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-368"><a href="#cb20-368" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-369"><a href="#cb20-369" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-370"><a href="#cb20-370" aria-hidden="true" tabindex="-1"></a>corr_mat <span class="ot">&lt;-</span> <span class="fu">cor</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])   <span class="co"># Exclude Species (not numeric)</span></span>
+<span id="cb20-371"><a href="#cb20-371" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot.mixed</span>(corr_mat)</span>
+<span id="cb20-372"><a href="#cb20-372" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb20-373"><a href="#cb20-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-376"><a href="#cb20-376" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-377"><a href="#cb20-377" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-378"><a href="#cb20-378" aria-hidden="true" tabindex="-1"></a>corr_mat <span class="ot">&lt;-</span> <span class="fu">cor</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])   <span class="co"># Exclude Species (not numeric)</span></span>
-<span id="cb20-379"><a href="#cb20-379" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot.mixed</span>(corr_mat)</span>
-<span id="cb20-380"><a href="#cb20-380" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-374"><a href="#cb20-374" aria-hidden="true" tabindex="-1"></a>**Key correlations in iris:**</span>
+<span id="cb20-375"><a href="#cb20-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-376"><a href="#cb20-376" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Petal.Length and Petal.Width: **0.96** (very strong positive — as petals get longer, they also get wider).</span>
+<span id="cb20-377"><a href="#cb20-377" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Sepal.Length and Petal.Length: **0.87** (strong positive).</span>
+<span id="cb20-378"><a href="#cb20-378" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Sepal.Length and Petal.Width: **0.82** (strong positive).</span>
+<span id="cb20-379"><a href="#cb20-379" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Sepal.Width and Petal.Length: **−0.43** (moderate negative).</span>
+<span id="cb20-380"><a href="#cb20-380" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Sepal.Length and Sepal.Width: **−0.12** (very weak negative — almost no relationship).</span>
 <span id="cb20-381"><a href="#cb20-381" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-382"><a href="#cb20-382" aria-hidden="true" tabindex="-1"></a>**Key correlations in iris:**</span>
+<span id="cb20-382"><a href="#cb20-382" aria-hidden="true" tabindex="-1"></a><span class="fu">### Pairs Plots</span></span>
 <span id="cb20-383"><a href="#cb20-383" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-384"><a href="#cb20-384" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Petal.Length and Petal.Width: **0.96** (very strong positive — as petals get longer, they also get wider).</span>
-<span id="cb20-385"><a href="#cb20-385" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sepal.Length and Petal.Length: **0.87** (strong positive).</span>
-<span id="cb20-386"><a href="#cb20-386" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sepal.Length and Petal.Width: **0.82** (strong positive).</span>
-<span id="cb20-387"><a href="#cb20-387" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sepal.Width and Petal.Length: **−0.43** (moderate negative).</span>
-<span id="cb20-388"><a href="#cb20-388" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sepal.Length and Sepal.Width: **−0.12** (very weak negative — almost no relationship).</span>
-<span id="cb20-389"><a href="#cb20-389" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-390"><a href="#cb20-390" aria-hidden="true" tabindex="-1"></a><span class="fu">### Pairs Plots</span></span>
-<span id="cb20-391"><a href="#cb20-391" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-392"><a href="#cb20-392" aria-hidden="true" tabindex="-1"></a>A pairs plot combines histograms (on the diagonal), scatter plots (below the diagonal), and correlation values (above the diagonal) into a single comprehensive view:</span>
+<span id="cb20-384"><a href="#cb20-384" aria-hidden="true" tabindex="-1"></a>A pairs plot combines histograms (on the diagonal), scatter plots (below the diagonal), and correlation values (above the diagonal) into a single comprehensive view:</span>
+<span id="cb20-385"><a href="#cb20-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-388"><a href="#cb20-388" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-389"><a href="#cb20-389" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-390"><a href="#cb20-390" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs.panels</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], <span class="at">method =</span> <span class="st">"pearson"</span>,</span>
+<span id="cb20-391"><a href="#cb20-391" aria-hidden="true" tabindex="-1"></a>             <span class="at">hist.col =</span> <span class="st">"#00AFBB"</span>, <span class="at">density =</span> <span class="cn">TRUE</span>, <span class="at">ellipses =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-392"><a href="#cb20-392" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb20-393"><a href="#cb20-393" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-396"><a href="#cb20-396" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-397"><a href="#cb20-397" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-398"><a href="#cb20-398" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs.panels</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], <span class="at">method =</span> <span class="st">"pearson"</span>,</span>
-<span id="cb20-399"><a href="#cb20-399" aria-hidden="true" tabindex="-1"></a>             <span class="at">hist.col =</span> <span class="st">"#00AFBB"</span>, <span class="at">density =</span> <span class="cn">TRUE</span>, <span class="at">ellipses =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb20-400"><a href="#cb20-400" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-394"><a href="#cb20-394" aria-hidden="true" tabindex="-1"></a>This is one of the most useful exploratory tools because it gives you a full picture of all pairwise relationships at a glance.</span>
+<span id="cb20-395"><a href="#cb20-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-396"><a href="#cb20-396" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb20-397"><a href="#cb20-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-398"><a href="#cb20-398" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Titanic Dataset: A Brief Introduction</span></span>
+<span id="cb20-399"><a href="#cb20-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-400"><a href="#cb20-400" aria-hidden="true" tabindex="-1"></a>The Titanic dataset is a classic ML classification problem: **Can we predict which passengers survived the shipwreck?**</span>
 <span id="cb20-401"><a href="#cb20-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-402"><a href="#cb20-402" aria-hidden="true" tabindex="-1"></a>This is one of the most useful exploratory tools because it gives you a full picture of all pairwise relationships at a glance.</span>
+<span id="cb20-402"><a href="#cb20-402" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loading and Inspecting</span></span>
 <span id="cb20-403"><a href="#cb20-403" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-404"><a href="#cb20-404" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb20-405"><a href="#cb20-405" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-406"><a href="#cb20-406" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Titanic Dataset: A Brief Introduction</span></span>
-<span id="cb20-407"><a href="#cb20-407" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-408"><a href="#cb20-408" aria-hidden="true" tabindex="-1"></a>The Titanic dataset is a classic ML classification problem: **Can we predict which passengers survived the shipwreck?**</span>
-<span id="cb20-409"><a href="#cb20-409" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-410"><a href="#cb20-410" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loading and Inspecting</span></span>
+<span id="cb20-406"><a href="#cb20-406" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-407"><a href="#cb20-407" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-408"><a href="#cb20-408" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic_train)</span>
+<span id="cb20-409"><a href="#cb20-409" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(titanic_train)   <span class="co"># 891 obs. of 12 variables</span></span>
+<span id="cb20-410"><a href="#cb20-410" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb20-411"><a href="#cb20-411" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-414"><a href="#cb20-414" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-415"><a href="#cb20-415" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-416"><a href="#cb20-416" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic_train)</span>
-<span id="cb20-417"><a href="#cb20-417" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(titanic_train)   <span class="co"># 891 obs. of 12 variables</span></span>
-<span id="cb20-418"><a href="#cb20-418" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-419"><a href="#cb20-419" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-420"><a href="#cb20-420" aria-hidden="true" tabindex="-1"></a><span class="fu">### Understanding the Variables</span></span>
-<span id="cb20-421"><a href="#cb20-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-422"><a href="#cb20-422" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable    <span class="pp">|</span> Meaning                               <span class="pp">|</span> Notes                                       <span class="pp">|</span></span>
-<span id="cb20-423"><a href="#cb20-423" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------------|---------------------------------------|---------------------------------------------|</span></span>
-<span id="cb20-424"><a href="#cb20-424" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> PassengerId <span class="pp">|</span> Unique identifier                     <span class="pp">|</span> Drop for modelling (unique per row)         <span class="pp">|</span></span>
-<span id="cb20-425"><a href="#cb20-425" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Survived    <span class="pp">|</span> Did they survive? (0 = No, 1 = Yes)  <span class="pp">|</span> This is our **target variable**             <span class="pp">|</span></span>
-<span id="cb20-426"><a href="#cb20-426" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Pclass      <span class="pp">|</span> Ticket class (1st, 2nd, 3rd)         <span class="pp">|</span> Important — consider converting to factor   <span class="pp">|</span></span>
-<span id="cb20-427"><a href="#cb20-427" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Name        <span class="pp">|</span> Passenger name                        <span class="pp">|</span> Drop (not predictive by itself)             <span class="pp">|</span></span>
-<span id="cb20-428"><a href="#cb20-428" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sex         <span class="pp">|</span> Male or Female                        <span class="pp">|</span> Very important — women more likely survived <span class="pp">|</span></span>
-<span id="cb20-429"><a href="#cb20-429" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Age         <span class="pp">|</span> Age in years                          <span class="pp">|</span> Children more likely survived; has 177 NAs  <span class="pp">|</span></span>
-<span id="cb20-430"><a href="#cb20-430" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SibSp       <span class="pp">|</span> Number of siblings/spouses aboard     <span class="pp">|</span> Needs investigation                         <span class="pp">|</span></span>
-<span id="cb20-431"><a href="#cb20-431" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parch       <span class="pp">|</span> Number of parents/children aboard     <span class="pp">|</span> Needs investigation                         <span class="pp">|</span></span>
-<span id="cb20-432"><a href="#cb20-432" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Ticket      <span class="pp">|</span> Ticket number                         <span class="pp">|</span> Probably drop, unless embedded patterns     <span class="pp">|</span></span>
-<span id="cb20-433"><a href="#cb20-433" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Fare        <span class="pp">|</span> Ticket price                          <span class="pp">|</span> May relate to survival (wealth/class proxy) <span class="pp">|</span></span>
-<span id="cb20-434"><a href="#cb20-434" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Cabin       <span class="pp">|</span> Cabin number                          <span class="pp">|</span> 687 blanks — might indicate location on ship<span class="pp">|</span></span>
-<span id="cb20-435"><a href="#cb20-435" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Embarked    <span class="pp">|</span> Port of embarkation (C/Q/S)           <span class="pp">|</span> Test whether it affects survival            <span class="pp">|</span></span>
-<span id="cb20-436"><a href="#cb20-436" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-437"><a href="#cb20-437" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exploring Unique Values and Missing Data</span></span>
+<span id="cb20-412"><a href="#cb20-412" aria-hidden="true" tabindex="-1"></a><span class="fu">### Understanding the Variables</span></span>
+<span id="cb20-413"><a href="#cb20-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-414"><a href="#cb20-414" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Meaning <span class="pp">|</span> Notes <span class="pp">|</span></span>
+<span id="cb20-415"><a href="#cb20-415" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------------|--------------------------|------------------------------|</span></span>
+<span id="cb20-416"><a href="#cb20-416" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> PassengerId <span class="pp">|</span> Unique identifier <span class="pp">|</span> Drop for modelling (unique per row) <span class="pp">|</span></span>
+<span id="cb20-417"><a href="#cb20-417" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Survived <span class="pp">|</span> Did they survive? (0 = No, 1 = Yes) <span class="pp">|</span> This is our **target variable** <span class="pp">|</span></span>
+<span id="cb20-418"><a href="#cb20-418" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Pclass <span class="pp">|</span> Ticket class (1st, 2nd, 3rd) <span class="pp">|</span> Important — consider converting to factor <span class="pp">|</span></span>
+<span id="cb20-419"><a href="#cb20-419" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Name <span class="pp">|</span> Passenger name <span class="pp">|</span> Drop (not predictive by itself) <span class="pp">|</span></span>
+<span id="cb20-420"><a href="#cb20-420" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sex <span class="pp">|</span> Male or Female <span class="pp">|</span> Very important — women more likely survived <span class="pp">|</span></span>
+<span id="cb20-421"><a href="#cb20-421" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Age <span class="pp">|</span> Age in years <span class="pp">|</span> Children more likely survived; has 177 NAs <span class="pp">|</span></span>
+<span id="cb20-422"><a href="#cb20-422" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SibSp <span class="pp">|</span> Number of siblings/spouses aboard <span class="pp">|</span> Needs investigation <span class="pp">|</span></span>
+<span id="cb20-423"><a href="#cb20-423" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parch <span class="pp">|</span> Number of parents/children aboard <span class="pp">|</span> Needs investigation <span class="pp">|</span></span>
+<span id="cb20-424"><a href="#cb20-424" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Ticket <span class="pp">|</span> Ticket number <span class="pp">|</span> Probably drop, unless embedded patterns <span class="pp">|</span></span>
+<span id="cb20-425"><a href="#cb20-425" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Fare <span class="pp">|</span> Ticket price <span class="pp">|</span> May relate to survival (wealth/class proxy) <span class="pp">|</span></span>
+<span id="cb20-426"><a href="#cb20-426" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Cabin <span class="pp">|</span> Cabin number <span class="pp">|</span> 687 blanks — might indicate location on ship <span class="pp">|</span></span>
+<span id="cb20-427"><a href="#cb20-427" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Embarked <span class="pp">|</span> Port of embarkation (C/Q/S) <span class="pp">|</span> Test whether it affects survival <span class="pp">|</span></span>
+<span id="cb20-428"><a href="#cb20-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-429"><a href="#cb20-429" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exploring Unique Values and Missing Data</span></span>
+<span id="cb20-430"><a href="#cb20-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-433"><a href="#cb20-433" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-434"><a href="#cb20-434" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-435"><a href="#cb20-435" aria-hidden="true" tabindex="-1"></a><span class="co"># Count unique values per column</span></span>
+<span id="cb20-436"><a href="#cb20-436" aria-hidden="true" tabindex="-1"></a>uniq_len <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">length</span>(<span class="fu">unique</span>(x)) }</span>
+<span id="cb20-437"><a href="#cb20-437" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, uniq_len)</span>
 <span id="cb20-438"><a href="#cb20-438" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-441"><a href="#cb20-441" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-442"><a href="#cb20-442" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-443"><a href="#cb20-443" aria-hidden="true" tabindex="-1"></a><span class="co"># Count unique values per column</span></span>
-<span id="cb20-444"><a href="#cb20-444" aria-hidden="true" tabindex="-1"></a>uniq_len <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">length</span>(<span class="fu">unique</span>(x)) }</span>
-<span id="cb20-445"><a href="#cb20-445" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, uniq_len)</span>
-<span id="cb20-446"><a href="#cb20-446" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-447"><a href="#cb20-447" aria-hidden="true" tabindex="-1"></a><span class="co"># Count missing/blank values per column</span></span>
-<span id="cb20-448"><a href="#cb20-448" aria-hidden="true" tabindex="-1"></a>countBlank <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">sum</span>(<span class="fu">is.na</span>(x) <span class="sc">|</span> x <span class="sc">==</span> <span class="st">""</span>) }</span>
-<span id="cb20-449"><a href="#cb20-449" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, countBlank)</span>
-<span id="cb20-450"><a href="#cb20-450" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-451"><a href="#cb20-451" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-452"><a href="#cb20-452" aria-hidden="true" tabindex="-1"></a>**Key findings:**</span>
-<span id="cb20-453"><a href="#cb20-453" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-454"><a href="#cb20-454" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**PassengerId** and **Name** have 891 unique values (same as row count) — unique identifiers, drop both.</span>
-<span id="cb20-455"><a href="#cb20-455" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Age** has 177 missing values — need to decide whether to fill them in (impute) or drop the column.</span>
-<span id="cb20-456"><a href="#cb20-456" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cabin** has 687 blank values (77% missing!) — possibly useful if you extract deck letter, but the missingness itself is a challenge.</span>
-<span id="cb20-457"><a href="#cb20-457" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Embarked** has 2 blank values — easy to fill.</span>
-<span id="cb20-458"><a href="#cb20-458" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-459"><a href="#cb20-459" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb20-460"><a href="#cb20-460" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-461"><a href="#cb20-461" aria-hidden="true" tabindex="-1"></a><span class="fu">## Feature Engineering</span></span>
-<span id="cb20-462"><a href="#cb20-462" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-463"><a href="#cb20-463" aria-hidden="true" tabindex="-1"></a>Feature engineering is the process of transforming raw data into features that are more useful for ML models. It happens after data exploration and is **more important than your choice of algorithm**. Common tasks include:</span>
-<span id="cb20-464"><a href="#cb20-464" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-465"><a href="#cb20-465" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Removing irrelevant columns** (e.g., PassengerId, Name).</span>
-<span id="cb20-466"><a href="#cb20-466" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Converting column types** (e.g., Pclass from integer to factor, since it is categorical).</span>
-<span id="cb20-467"><a href="#cb20-467" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Handling missing values** — filling them in (imputation) or dropping affected rows/columns.</span>
-<span id="cb20-468"><a href="#cb20-468" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Transforming or splitting columns** (e.g., extracting a title like "Mr" or "Mrs" from the Name column; creating an "is child" flag from Age).</span>
-<span id="cb20-469"><a href="#cb20-469" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Handling skewed variables** — applying log or other transformations.</span>
-<span id="cb20-470"><a href="#cb20-470" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Scaling numeric variables** — ensuring all variables are on similar scales so no single variable dominates due to its units.</span>
-<span id="cb20-471"><a href="#cb20-471" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-472"><a href="#cb20-472" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb20-473"><a href="#cb20-473" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-474"><a href="#cb20-474" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary of Key Takeaways</span></span>
+<span id="cb20-439"><a href="#cb20-439" aria-hidden="true" tabindex="-1"></a><span class="co"># Count missing/blank values per column</span></span>
+<span id="cb20-440"><a href="#cb20-440" aria-hidden="true" tabindex="-1"></a>countBlank <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">sum</span>(<span class="fu">is.na</span>(x) <span class="sc">|</span> x <span class="sc">==</span> <span class="st">""</span>) }</span>
+<span id="cb20-441"><a href="#cb20-441" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(titanic_train, countBlank)</span>
+<span id="cb20-442"><a href="#cb20-442" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-443"><a href="#cb20-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-444"><a href="#cb20-444" aria-hidden="true" tabindex="-1"></a>**Key findings:**</span>
+<span id="cb20-445"><a href="#cb20-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-446"><a href="#cb20-446" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**PassengerId** and **Name** have 891 unique values (same as row count) — unique identifiers, drop both.</span>
+<span id="cb20-447"><a href="#cb20-447" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Age** has 177 missing values — need to decide whether to fill them in (impute) or drop the column.</span>
+<span id="cb20-448"><a href="#cb20-448" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Cabin** has 687 blank values (77% missing!) — possibly useful if you extract deck letter, but the missingness itself is a challenge.</span>
+<span id="cb20-449"><a href="#cb20-449" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Embarked** has 2 blank values — easy to fill.</span>
+<span id="cb20-450"><a href="#cb20-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-451"><a href="#cb20-451" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb20-452"><a href="#cb20-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-453"><a href="#cb20-453" aria-hidden="true" tabindex="-1"></a><span class="fu">## Feature Engineering</span></span>
+<span id="cb20-454"><a href="#cb20-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-455"><a href="#cb20-455" aria-hidden="true" tabindex="-1"></a>Feature engineering is the process of transforming raw data into features that are more useful for ML models. It happens after data exploration and is **more important than your choice of algorithm**. Common tasks include:</span>
+<span id="cb20-456"><a href="#cb20-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-457"><a href="#cb20-457" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Removing irrelevant columns** (e.g., PassengerId, Name).</span>
+<span id="cb20-458"><a href="#cb20-458" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Converting column types** (e.g., Pclass from integer to factor, since it is categorical).</span>
+<span id="cb20-459"><a href="#cb20-459" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Handling missing values** — filling them in (imputation) or dropping affected rows/columns.</span>
+<span id="cb20-460"><a href="#cb20-460" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Transforming or splitting columns** (e.g., extracting a title like "Mr" or "Mrs" from the Name column; creating an "is child" flag from Age).</span>
+<span id="cb20-461"><a href="#cb20-461" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Handling skewed variables** — applying log or other transformations.</span>
+<span id="cb20-462"><a href="#cb20-462" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Scaling numeric variables** — ensuring all variables are on similar scales so no single variable dominates due to its units.</span>
+<span id="cb20-463"><a href="#cb20-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-464"><a href="#cb20-464" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb20-465"><a href="#cb20-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-466"><a href="#cb20-466" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary of Key Takeaways</span></span>
+<span id="cb20-467"><a href="#cb20-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-468"><a href="#cb20-468" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Business understanding comes first.** The PayPal churn example shows that problem decomposition and domain knowledge can be more powerful than any algorithm.</span>
+<span id="cb20-469"><a href="#cb20-469" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Data exploration is not optional.** It should actively drive your feature engineering decisions, not just be a formality before modelling.</span>
+<span id="cb20-470"><a href="#cb20-470" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Understand mean vs median.** Use median for skewed data; the mean can be misleading when outliers are present.</span>
+<span id="cb20-471"><a href="#cb20-471" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Know your univariate plots.** Histograms, density plots, and box plots each show distribution — learn to read all three.</span>
+<span id="cb20-472"><a href="#cb20-472" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>**Skewness matters for ML.** Log transformations on skewed data can substantially improve model performance (the mammals example improved R² from 0.87 to 0.92).</span>
+<span id="cb20-473"><a href="#cb20-473" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>**Explore relationships between variables** using scatter plots, correlation matrices, and pairs plots.</span>
+<span id="cb20-474"><a href="#cb20-474" aria-hidden="true" tabindex="-1"></a><span class="ss">7.  </span>**Feature engineering is more important than algorithm choice.** Cleaning, transforming, and preparing your data well will have a bigger impact on results than picking the "best" algorithm.</span>
 <span id="cb20-475"><a href="#cb20-475" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-476"><a href="#cb20-476" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Business understanding comes first.** The PayPal churn example shows that problem decomposition and domain knowledge can be more powerful than any algorithm.</span>
-<span id="cb20-477"><a href="#cb20-477" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Data exploration is not optional.** It should actively drive your feature engineering decisions, not just be a formality before modelling.</span>
-<span id="cb20-478"><a href="#cb20-478" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Understand mean vs median.** Use median for skewed data; the mean can be misleading when outliers are present.</span>
-<span id="cb20-479"><a href="#cb20-479" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Know your univariate plots.** Histograms, density plots, and box plots each show distribution — learn to read all three.</span>
-<span id="cb20-480"><a href="#cb20-480" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Skewness matters for ML.** Log transformations on skewed data can substantially improve model performance (the mammals example improved R² from 0.87 to 0.92).</span>
-<span id="cb20-481"><a href="#cb20-481" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Explore relationships between variables** using scatter plots, correlation matrices, and pairs plots.</span>
-<span id="cb20-482"><a href="#cb20-482" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>**Feature engineering is more important than algorithm choice.** Cleaning, transforming, and preparing your data well will have a bigger impact on results than picking the "best" algorithm.</span>
-<span id="cb20-483"><a href="#cb20-483" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-484"><a href="#cb20-484" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-476"><a href="#cb20-476" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb20-477"><a href="#cb20-477" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-478"><a href="#cb20-478" aria-hidden="true" tabindex="-1"></a><span class="fu">## Homework / Next Steps</span></span>
+<span id="cb20-479"><a href="#cb20-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-480"><a href="#cb20-480" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ensure R and RStudio are installed and working.</span>
+<span id="cb20-481"><a href="#cb20-481" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Run all the code snippets from this week locally.</span>
+<span id="cb20-482"><a href="#cb20-482" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Explore the iris and Titanic datasets in more detail on your own.</span>
+<span id="cb20-483"><a href="#cb20-483" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Look at the free books listed in the course resources.</span>
+<span id="cb20-484"><a href="#cb20-484" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Next week:** Machine Learning Algorithms — Decision Trees, and Lab 3.</span>
 <span id="cb20-485"><a href="#cb20-485" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-486"><a href="#cb20-486" aria-hidden="true" tabindex="-1"></a><span class="fu">## Homework / Next Steps</span></span>
+<span id="cb20-486"><a href="#cb20-486" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb20-487"><a href="#cb20-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-488"><a href="#cb20-488" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Ensure R and RStudio are installed and working.</span>
-<span id="cb20-489"><a href="#cb20-489" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Run all the code snippets from this week locally.</span>
-<span id="cb20-490"><a href="#cb20-490" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Explore the iris and Titanic datasets in more detail on your own.</span>
-<span id="cb20-491"><a href="#cb20-491" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Look at the free books listed in the course resources.</span>
-<span id="cb20-492"><a href="#cb20-492" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Next week:** Machine Learning Algorithms — Decision Trees, and Lab 3.</span>
-<span id="cb20-493"><a href="#cb20-493" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-494"><a href="#cb20-494" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb20-495"><a href="#cb20-495" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-496"><a href="#cb20-496" aria-hidden="true" tabindex="-1"></a>*[Space for my additional notes]*</span>
-<span id="cb20-497"><a href="#cb20-497" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-498"><a href="#cb20-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-488"><a href="#cb20-488" aria-hidden="true" tabindex="-1"></a>*\[Space for my additional notes\]*</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bcb4737e8fbcf1e9dfc00b59f8305558.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -275,6 +275,18 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 9</span></a>
   </div>
@@ -388,7 +400,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data-mining/index.html">Data Mining</a></li><li class="breadcrumb-item"><a href="../data-mining/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../data-mining/week-1.html">Week 1</a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">STAT9013 - Data Mining: Week 1 Notes</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">STAT9013 - Data Mining: Week 1 Notes</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 <p class="subtitle lead">Data Mining Overview, ML Concepts &amp; Linear Regression in R</p>
 </div>
 
@@ -666,6 +678,8 @@ window.Quarto = {
 <section id="setting-up-the-data" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="setting-up-the-data"><span class="header-section-number">6.2</span> Setting Up the Data</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>) <span class="co"># Ensures reproducibility — same "random" numbers every time</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fl">1.4</span>      <span class="co"># True slope</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">1.2</span>     <span class="co"># True intercept</span></span>
@@ -673,6 +687,7 @@ window.Quarto = {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> m <span class="sc">*</span> x <span class="sc">+</span> b              <span class="co"># The TRUE relationship (green line)</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>py <span class="ot">&lt;-</span> y <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)          <span class="co"># Observed values = true + random noise</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p><strong>What’s happening here:</strong></p>
 <ul>
@@ -685,6 +700,8 @@ window.Quarto = {
 <section id="building-and-plotting-the-model" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="building-and-plotting-the-model"><span class="header-section-number">6.3</span> Building and Plotting the Model</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the true line (green) and observed data points (X marks)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="st">"green"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"y = "</span>, m, <span class="st">"x "</span>, b, <span class="at">sep =</span> <span class="st">""</span>))</span>
@@ -696,6 +713,7 @@ window.Quarto = {
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the predicted line (blue dashed)</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, model1<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">*</span> x <span class="sc">+</span> model1<span class="sc">$</span>coefficients[<span class="dv">1</span>],</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p><strong>Understanding <code>lm(py ~ x)</code>:</strong></p>
 <ul>
@@ -713,10 +731,13 @@ window.Quarto = {
 <section id="interpreting-the-model-output" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="interpreting-the-model-output"><span class="header-section-number">6.4</span> Interpreting the Model Output</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model1</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)         x</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">##    -0.7895    1.4304</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>The model estimated:</p>
 <ul>
@@ -728,7 +749,10 @@ window.Quarto = {
 <section id="the-model-summary" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="the-model-summary"><span class="header-section-number">6.5</span> The Model Summary</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>The <code>summary()</code> function gives detailed statistical information, including:</p>
 <ul>
@@ -741,9 +765,12 @@ window.Quarto = {
 <section id="understanding-r-squared" class="level2" data-number="6.6">
 <h2 data-number="6.6" class="anchored" data-anchor-id="understanding-r-squared"><span class="header-section-number">6.6</span> Understanding R-squared</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>r_squared1 <span class="ot">&lt;-</span> <span class="fu">cor</span>(x, py) <span class="sc">^</span> <span class="dv">2</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>r_squared1</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.9645404</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p><strong>What is R-squared?</strong></p>
 <ul>
@@ -767,12 +794,15 @@ window.Quarto = {
 <h2 data-number="6.7" class="anchored" data-anchor-id="the-effect-of-more-noise"><span class="header-section-number">6.7</span> The Effect of More Noise</h2>
 <p>The lecture then re-runs the same analysis with more randomness added to the data:</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>py <span class="ot">&lt;-</span> y <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)  <span class="co"># New random noise (different from before since set.seed not called again)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(py <span class="sc">~</span> x)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>r_squared2 <span class="ot">&lt;-</span> <span class="fu">cor</span>(x, py) <span class="sc">^</span> <span class="dv">2</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>r_squared2</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.8524506</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p><strong>Key takeaway:</strong> With more noise (randomness) in the data:</p>
 <ul>
@@ -1369,427 +1399,419 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "STAT9013 - Data Mining: Week 1 Notes"</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Data Mining Overview, ML Concepts &amp; Linear Regression in R"</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu"># Course Overview</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>**Lecturer:** Mark Hodnett — 15 years experience in Data Science and analytics, author of *R Deep Learning Essentials*.</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>This is a practical, hands-on course. The assignments are entirely practical: you receive a dataset and are asked to complete a machine learning task using R. The students who do the labs consistently have an easier time with the assignments.</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>**Key advice from the lecturer:** Learn by doing. Use Gen AI sparingly as a coding assistant for small tasks (e.g. splitting a dataset), but do not rely on it to generate major parts of your solutions. Companies increasingly test coding skills in interviews without allowing AI tools — if you've relied too heavily on them, you may struggle.</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu"># Course Overview</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## 12-Week Roadmap</span></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>**Lecturer:** Mark Hodnett — 15 years experience in Data Science and analytics, author of *R Deep Learning Essentials*.</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>This is a practical, hands-on course. The assignments are entirely practical: you receive a dataset and are asked to complete a machine learning task using R. The students who do the labs consistently have an easier time with the assignments.</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>**Key advice from the lecturer:** Learn by doing. Use Gen AI sparingly as a coding assistant for small tasks (e.g. splitting a dataset), but do not rely on it to generate major parts of your solutions. Companies increasingly test coding skills in interviews without allowing AI tools — if you've relied too heavily on them, you may struggle.</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## 12-Week Roadmap</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Week <span class="pp">|</span> Topics <span class="pp">|</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------------------------------|-----------------------------------------|</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 1 <span class="pp">|</span> Data Mining overview, ML types, Linear Regression example <span class="pp">|</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 2 <span class="pp">|</span> Basic Statistics &amp; Visualisations in R, Data Exploration (Iris, Titanic) <span class="pp">|</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 3 <span class="pp">|</span> Classification, Decision Trees, Confusion Matrix, Evaluation Metrics <span class="pp">|</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 4 <span class="pp">|</span> Bias-Variance Tradeoff, One-hot Encoding, Logistic Regression, Naive Bayes, SVM, Random Forest, Neural Networks <span class="pp">|</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 5 <span class="pp">|</span> LDA, QDA, Data Leakage, Hyperparameter Optimisation, Imbalanced Datasets <span class="pp">|</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 6 <span class="pp">|</span> Clustering (k-means, Hierarchical), Data Visualisation &amp; Communication <span class="pp">|</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 7 <span class="pp">|</span> Generative AI as a coding assistant <span class="pp">|</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 8 <span class="pp">|</span> Dimensionality Reduction, t-SNE, PCA <span class="pp">|</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 9 <span class="pp">|</span> MNIST database, Dimensionality Reduction for Classification <span class="pp">|</span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 10 <span class="pp">|</span> High-dimensional Data, Outlier / Anomaly Detection <span class="pp">|</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 11 <span class="pp">|</span> Real-world Examples <span class="pp">|</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 12 <span class="pp">|</span> Wrap-up <span class="pp">|</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Week <span class="pp">|</span> Topics <span class="pp">|</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------------------------------|-----------------------------------------|</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 1 <span class="pp">|</span> Data Mining overview, ML types, Linear Regression example <span class="pp">|</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 2 <span class="pp">|</span> Basic Statistics &amp; Visualisations in R, Data Exploration (Iris, Titanic) <span class="pp">|</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 3 <span class="pp">|</span> Classification, Decision Trees, Confusion Matrix, Evaluation Metrics <span class="pp">|</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 4 <span class="pp">|</span> Bias-Variance Tradeoff, One-hot Encoding, Logistic Regression, Naive Bayes, SVM, Random Forest, Neural Networks <span class="pp">|</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 5 <span class="pp">|</span> LDA, QDA, Data Leakage, Hyperparameter Optimisation, Imbalanced Datasets <span class="pp">|</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 6 <span class="pp">|</span> Clustering (k-means, Hierarchical), Data Visualisation &amp; Communication <span class="pp">|</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 7 <span class="pp">|</span> Generative AI as a coding assistant <span class="pp">|</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 8 <span class="pp">|</span> Dimensionality Reduction, t-SNE, PCA <span class="pp">|</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 9 <span class="pp">|</span> MNIST database, Dimensionality Reduction for Classification <span class="pp">|</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 10 <span class="pp">|</span> High-dimensional Data, Outlier / Anomaly Detection <span class="pp">|</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 11 <span class="pp">|</span> Real-world Examples <span class="pp">|</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 12 <span class="pp">|</span> Wrap-up <span class="pp">|</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="fu"># What is Data Mining and How Does It Relate to AI?</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>Understanding the hierarchy of these terms is fundamental to the entire course.</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="fu">## Artificial Intelligence (AI)</span></span>
 <span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>AI is the broadest term. It refers to **when computers can perform tasks that are human-like** — tasks that normally require human intelligence. This covers a huge range of areas beyond just machine learning, including search algorithms, process mining, robotics, natural language understanding, and more.</span>
 <span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="fu"># What is Data Mining and How Does It Relate to AI?</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>A useful reference: the classic textbook by Peter Norvig on AI covers around 20 chapters, and only one or two are about machine learning — the rest cover other AI subfields.</span>
 <span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>Understanding the hierarchy of these terms is fundamental to the entire course.</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>**Example:** Google Maps performing route optimisation is a form of AI — it's doing something that would normally require human intelligence to figure out.</span>
 <span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Artificial Intelligence (AI)</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Machine Learning (ML)</span></span>
 <span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>AI is the broadest term. It refers to **when computers can perform tasks that are human-like** — tasks that normally require human intelligence. This covers a huge range of areas beyond just machine learning, including search algorithms, process mining, robotics, natural language understanding, and more.</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>Machine learning is a *subset* of AI. It uses **statistical algorithms to allow machines to get better at tasks with more experience and data**.</span>
 <span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>A useful reference: the classic textbook by Peter Norvig on AI covers around 20 chapters, and only one or two are about machine learning — the rest cover other AI subfields.</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>The key distinction from traditional software is that ML systems are **stochastic** (probabilistic), not **deterministic**:</span>
 <span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>**Example:** Google Maps performing route optimisation is a form of AI — it's doing something that would normally require human intelligence to figure out.</span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="fu">## Machine Learning (ML)</span></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>Machine learning is a *subset* of AI. It uses **statistical algorithms to allow machines to get better at tasks with more experience and data**.</span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>The key distinction from traditional software is that ML systems are **stochastic** (probabilistic), not **deterministic**:</span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Deterministic system (traditional software):** The same input always produces the same output. Rules are hard-coded.</span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Stochastic system (ML):** The output can change as the model learns from new data. A fraud detection model might classify a transaction as legitimate today, but after being retrained with new fraudulent examples, it might flag that same transaction pattern as fraudulent tomorrow.</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Deterministic system (traditional software):** The same input always produces the same output. Rules are hard-coded.</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Stochastic system (ML):** The output can change as the model learns from new data. A fraud detection model might classify a transaction as legitimate today, but after being retrained with new fraudulent examples, it might flag that same transaction pattern as fraudulent tomorrow.</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>This is the core idea: ML algorithms **learn and adapt** from data, rather than following fixed rules.</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Mining</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>Data mining means **extracting rules and patterns from large quantities of data**. It is an older term, rarely used in industry today. For practical purposes, consider it interchangeable with machine learning. This course uses the term in its title, but the content is fundamentally about machine learning.</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Deep Learning</span></span>
 <span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>This is the core idea: ML algorithms **learn and adapt** from data, rather than following fixed rules.</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>Deep learning is a **family of algorithms within machine learning** that is especially good at:</span>
 <span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Mining</span></span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>Data mining means **extracting rules and patterns from large quantities of data**. It is an older term, rarely used in industry today. For practical purposes, consider it interchangeable with machine learning. This course uses the term in its title, but the content is fundamentally about machine learning.</span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Deep Learning</span></span>
-<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>Deep learning is a **family of algorithms within machine learning** that is especially good at:</span>
-<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Computer vision** (image recognition, object detection)</span>
-<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Text analysis** (natural language processing, language generation)</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Computer vision** (image recognition, object detection)</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Text analysis** (natural language processing, language generation)</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>Deep learning is the foundation for Large Language Models (LLMs) like ChatGPT and for generative AI.</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="fu">## How They Fit Together</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>Think of these as nested circles: AI is the largest circle, ML sits inside AI, and Deep Learning sits inside ML.</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>**Concrete example — Self-driving car:**</span>
 <span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>Deep learning is the foundation for Large Language Models (LLMs) like ChatGPT and for generative AI.</span>
-<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## How They Fit Together</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The self-driving car as a whole is **AI** (performing a human-like task)</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It uses a **Deep Learning** model to "see" and interpret its surroundings</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>That Deep Learning model is a type of **Machine Learning** model, since Deep Learning is a subset of ML</span>
 <span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>Think of these as nested circles: AI is the largest circle, ML sits inside AI, and Deep Learning sits inside ML.</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>**Concrete example — Self-driving car:**</span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="fu"># AI Applications in Industry</span></span>
 <span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The self-driving car as a whole is **AI** (performing a human-like task)</span>
-<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It uses a **Deep Learning** model to "see" and interpret its surroundings</span>
-<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>That Deep Learning model is a type of **Machine Learning** model, since Deep Learning is a subset of ML</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>Understanding where ML is applied in the real world helps you appreciate why certain techniques matter. Here are the key domains covered in class:</span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a><span class="fu">## Marketing</span></span>
 <span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
-<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="fu"># AI Applications in Industry</span></span>
-<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>Understanding where ML is applied in the real world helps you appreciate why certain techniques matter. Here are the key domains covered in class:</span>
-<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a><span class="fu">## Marketing</span></span>
-<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Customer survey analysis** using Natural Language Processing (NLP) to categorise feedback</span>
-<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Churn prediction:** Identifying customers likely to leave *before* they decide to leave (typically 1–2 months ahead), so you can intervene. By the time someone decides to cancel, it's usually too late.</span>
-<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Cross-selling and upselling:** After someone buys a TV, they're unlikely to buy another TV — but they might buy a soundbar or cables. Smart recommendation engines exploit this.</span>
-<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Customer segmentation:** The famous Tesco Clubcard story — Tesco used clustering/segmentation on loyalty card data to group customers (e.g. "double income, no kids", "young families", "early retirees") and then targeted marketing to each group. This was so valuable that Tesco bought the analytics company (Dunnhumby) to prevent competitors from accessing the same capability.</span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Customer survey analysis** using Natural Language Processing (NLP) to categorise feedback</span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Churn prediction:** Identifying customers likely to leave *before* they decide to leave (typically 1–2 months ahead), so you can intervene. By the time someone decides to cancel, it's usually too late.</span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Cross-selling and upselling:** After someone buys a TV, they're unlikely to buy another TV — but they might buy a soundbar or cables. Smart recommendation engines exploit this.</span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Customer segmentation:** The famous Tesco Clubcard story — Tesco used clustering/segmentation on loyalty card data to group customers (e.g. "double income, no kids", "young families", "early retirees") and then targeted marketing to each group. This was so valuable that Tesco bought the analytics company (Dunnhumby) to prevent competitors from accessing the same capability.</span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## Finance &amp; Banking</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Fraud detection:** One of ML's earliest and most critical successes. The entire contactless payment system relies on keeping fraud rates extremely low (well under 1%). If fraud rates climbed, people would lose trust and return to cash.</span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Credit risk:** Automating loan decisions — but with important legal and ethical constraints (you cannot use ML as an excuse to discriminate based on race, gender, etc.)</span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Automated trading:** Over 99% of stock exchange transactions are done by bots. Speed is critical — algorithms must be written in low-level languages (C++) and machines must be physically co-located near the exchange.</span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Document processing:** Using AI/GenAI to extract and verify information from mortgage applications (bank statements, payslips, etc.)</span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Digital banks** (Revolut, N26, Monzo) rely heavily on AI for operations since they have no physical branches.</span>
 <span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a><span class="fu">## Finance &amp; Banking</span></span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a><span class="fu">## Manufacturing</span></span>
 <span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Fraud detection:** One of ML's earliest and most critical successes. The entire contactless payment system relies on keeping fraud rates extremely low (well under 1%). If fraud rates climbed, people would lose trust and return to cash.</span>
-<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Credit risk:** Automating loan decisions — but with important legal and ethical constraints (you cannot use ML as an excuse to discriminate based on race, gender, etc.)</span>
-<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Automated trading:** Over 99% of stock exchange transactions are done by bots. Speed is critical — algorithms must be written in low-level languages (C++) and machines must be physically co-located near the exchange.</span>
-<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Document processing:** Using AI/GenAI to extract and verify information from mortgage applications (bank statements, payslips, etc.)</span>
-<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Digital banks** (Revolut, N26, Monzo) rely heavily on AI for operations since they have no physical branches.</span>
-<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a><span class="fu">## Manufacturing</span></span>
-<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Optimal production scheduling</span>
-<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Predicting supply and demand</span>
-<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Anomaly detection** in production processes</span>
-<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Predictive maintenance** — predicting when equipment will fail before it does</span>
-<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a><span class="fu">## Telecommunications</span></span>
-<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Speech recognition for customer service</span>
-<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Churn prediction (similar to marketing)</span>
-<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Analysing ad spend and promotions</span>
-<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Spatial data analysis for cell tower placement</span>
-<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a><span class="fu">## Pharmaceuticals</span></span>
-<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Manufacturing site data analysis</span>
-<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Drug discovery</span>
-<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Clinical trial research</span>
-<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Radiology and radiotherapy</span>
-<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Smart electronic health records</span>
-<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Epidemic outbreak prediction</span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Optimal production scheduling</span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Predicting supply and demand</span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Anomaly detection** in production processes</span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Predictive maintenance** — predicting when equipment will fail before it does</span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a><span class="fu">## Telecommunications</span></span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Speech recognition for customer service</span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Churn prediction (similar to marketing)</span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Analysing ad spend and promotions</span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Spatial data analysis for cell tower placement</span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a><span class="fu">## Pharmaceuticals</span></span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Manufacturing site data analysis</span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Drug discovery</span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Clinical trial research</span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Radiology and radiotherapy</span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Smart electronic health records</span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Epidemic outbreak prediction</span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a><span class="fu"># Machine Learning Workflows: CRISP-DM</span></span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a>When approaching an ML problem, you need a structured process. This is fundamentally a **research problem**, not a standard software development task.</span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is CRISP-DM?</span></span>
 <span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a>**CRISP-DM** stands for **CRoss Industry Standard Process for Data Mining**. It is the most widely used process model for data science projects. It is an **agile, iterative** approach — the phases are not rigid, and you frequently move back and forth between them.</span>
 <span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a><span class="fu"># Machine Learning Workflows: CRISP-DM</span></span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Six Phases</span></span>
 <span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a>When approaching an ML problem, you need a structured process. This is fundamentally a **research problem**, not a standard software development task.</span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Business Understanding** — What does the business actually need? What problem are we solving? This is where you define the objective.</span>
 <span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is CRISP-DM?</span></span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Data Understanding** — What data do we have? What data do we need? Is it clean? Is it complete? This is where you explore and get familiar with the data.</span>
 <span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a>**CRISP-DM** stands for **CRoss Industry Standard Process for Data Mining**. It is the most widely used process model for data science projects. It is an **agile, iterative** approach — the phases are not rigid, and you frequently move back and forth between them.</span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Data Preparation** — How do we organise and transform the data for modelling? This includes cleaning, feature engineering, handling missing values, encoding variables, etc. This phase often takes the most time.</span>
 <span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Six Phases</span></span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Modelling** — What modelling techniques should we apply? This is where you train your ML algorithms on the prepared data.</span>
 <span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Business Understanding** — What does the business actually need? What problem are we solving? This is where you define the objective.</span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>**Evaluation** — Which model best meets the business objectives? Not just which has the best accuracy, but which actually solves the business problem.</span>
 <span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Data Understanding** — What data do we have? What data do we need? Is it clean? Is it complete? This is where you explore and get familiar with the data.</span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>**Deployment** — How do stakeholders access the results? How is the model put into production?</span>
 <span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Data Preparation** — How do we organise and transform the data for modelling? This includes cleaning, feature engineering, handling missing values, encoding variables, etc. This phase often takes the most time.</span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a>**Critical point:** The outcome of each phase determines what comes next. You might build a model, realise the data needs more preparation, go back to step 3, then return to modelling.</span>
 <span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Modelling** — What modelling techniques should we apply? This is where you train your ML algorithms on the prepared data.</span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a><span class="fu">## Ethics and Fairness in ML</span></span>
 <span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>**Evaluation** — Which model best meets the business objectives? Not just which has the best accuracy, but which actually solves the business problem.</span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a>This is not optional — it is a core responsibility of anyone working in data science.</span>
 <span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>**Deployment** — How do stakeholders access the results? How is the model put into production?</span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a>**Key principle:** ML is fundamentally a complex pattern matcher. If your data contains biases, the model will learn and reproduce those biases. The bias is almost always caused by the data reflecting existing real-world biases.</span>
 <span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>**Critical point:** The outcome of each phase determines what comes next. You might build a model, realise the data needs more preparation, go back to step 3, then return to modelling.</span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>**Real-world examples of ML bias:**</span>
 <span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a><span class="fu">## Ethics and Fairness in ML</span></span>
-<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>This is not optional — it is a core responsibility of anyone working in data science.</span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Amazon's recruiting tool** was found to discriminate against women because it was trained on historical hiring data that was predominantly male.</span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Facial recognition systems** have been shown to perform poorly on certain demographic groups.</span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Criminal justice algorithms** have been criticised for producing biased risk assessments.</span>
 <span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>**Key principle:** ML is fundamentally a complex pattern matcher. If your data contains biases, the model will learn and reproduce those biases. The bias is almost always caused by the data reflecting existing real-world biases.</span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>**Your responsibility as a data scientist:** You must be willing to stand up and say "I don't think this model will work fairly" if you have concerns. The reputational damage companies suffer from deploying discriminatory ML models is severe.</span>
 <span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>**Real-world examples of ML bias:**</span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Amazon's recruiting tool** was found to discriminate against women because it was trained on historical hiring data that was predominantly male.</span>
-<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Facial recognition systems** have been shown to perform poorly on certain demographic groups.</span>
-<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Criminal justice algorithms** have been criticised for producing biased risk assessments.</span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a><span class="fu"># Types of Machine Learning</span></span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a>There are three main categories of machine learning, and understanding the distinction is essential.</span>
 <span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a>**Your responsibility as a data scientist:** You must be willing to stand up and say "I don't think this model will work fairly" if you have concerns. The reputational damage companies suffer from deploying discriminatory ML models is severe.</span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a><span class="fu">## Supervised Learning</span></span>
 <span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a>**What it is:** You have labelled data — both the input features (X) and the known outcome (Y). The algorithm learns the relationship between X and Y so it can predict Y for new, unseen data.</span>
 <span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a><span class="fu"># Types of Machine Learning</span></span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>**Key terminology:**</span>
 <span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>There are three main categories of machine learning, and understanding the distinction is essential.</span>
-<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a><span class="fu">## Supervised Learning</span></span>
-<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>**What it is:** You have labelled data — both the input features (X) and the known outcome (Y). The algorithm learns the relationship between X and Y so it can predict Y for new, unseen data.</span>
-<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a>**Key terminology:**</span>
-<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Predictor variables (X):** The features/columns you use to make predictions (also called independent variables or features)</span>
-<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Predicted variable (Y):** What you are trying to predict (also called the target, dependent variable, or label)</span>
-<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Model training / Model building:** The process of creating the ML model from historical data</span>
-<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Prediction / Inference:** Using the trained model on new data to estimate Y</span>
-<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a>**Two sub-types of supervised learning:**</span>
-<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a><span class="fu">### Classification</span></span>
-<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a>Predicting a **category** — the output is one of a discrete set of values.</span>
-<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Binary classification:** Two possible outcomes (e.g. fraud/not fraud, spam/not spam, survived/died)</span>
-<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Multi-class classification:** More than two possible outcomes (e.g. classifying an image as cat/dog/bird)</span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Predictor variables (X):** The features/columns you use to make predictions (also called independent variables or features)</span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Predicted variable (Y):** What you are trying to predict (also called the target, dependent variable, or label)</span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Model training / Model building:** The process of creating the ML model from historical data</span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Prediction / Inference:** Using the trained model on new data to estimate Y</span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a>**Two sub-types of supervised learning:**</span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a><span class="fu">### Classification</span></span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a>Predicting a **category** — the output is one of a discrete set of values.</span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Binary classification:** Two possible outcomes (e.g. fraud/not fraud, spam/not spam, survived/died)</span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Multi-class classification:** More than two possible outcomes (e.g. classifying an image as cat/dog/bird)</span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a>**Common classification algorithms:** Logistic Regression, Decision Trees, Support Vector Machines (SVM), Naive Bayes, Random Forests, Gradient Boosted Trees, Deep Learning</span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a><span class="fu">### Regression</span></span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a>Predicting a **continuous number** — the output is a numerical value.</span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Examples: predicting house prices, predicting temperature, predicting sales revenue</span>
 <span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a>**Common classification algorithms:** Logistic Regression, Decision Trees, Support Vector Machines (SVM), Naive Bayes, Random Forests, Gradient Boosted Trees, Deep Learning</span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a>**Common regression algorithms:** Linear Regression, Generalised Linear Models, Decision Trees, Random Forests, Deep Learning</span>
 <span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a><span class="fu">### Regression</span></span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a><span class="fu">## Unsupervised Learning</span></span>
 <span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>Predicting a **continuous number** — the output is a numerical value.</span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>**What it is:** You have data but **no labels** — there is no Y variable. The algorithm tries to find hidden structure or patterns in the data on its own.</span>
 <span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Examples: predicting house prices, predicting temperature, predicting sales revenue</span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a>**Key techniques:**</span>
 <span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a>**Common regression algorithms:** Linear Regression, Generalised Linear Models, Decision Trees, Random Forests, Deep Learning</span>
-<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a><span class="fu">## Unsupervised Learning</span></span>
-<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a>**What it is:** You have data but **no labels** — there is no Y variable. The algorithm tries to find hidden structure or patterns in the data on its own.</span>
-<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>**Key techniques:**</span>
-<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Clustering / Segmentation:** Grouping similar data points together (e.g. customer segmentation — the Tesco example above)</span>
-<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Dimensionality Reduction:** Reducing the number of features while preserving important information (e.g. PCA, t-SNE)</span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Clustering / Segmentation:** Grouping similar data points together (e.g. customer segmentation — the Tesco example above)</span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Dimensionality Reduction:** Reducing the number of features while preserving important information (e.g. PCA, t-SNE)</span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reinforcement Learning</span></span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a>**What it is:** An algorithm learns by **trial and error**, receiving rewards or penalties for its actions. It adapts its strategy over time.</span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a>**Examples:** Self-driving cars, game-playing AI (like AlphaGo), robotics</span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reinforcement Learning</span></span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a><span class="fu"># Worked Example: Linear Regression in R</span></span>
 <span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a>**What it is:** An algorithm learns by **trial and error**, receiving rewards or penalties for its actions. It adapts its strategy over time.</span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a>This section walks through the code from the Week 1 lab. Linear regression is the "granddaddy" of statistical analysis and ML — understanding it is foundational to everything that follows.</span>
 <span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a>**Examples:** Self-driving cars, game-playing AI (like AlphaGo), robotics</span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is Linear Regression?</span></span>
 <span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>Linear regression finds the **line of best fit** through a set of data points. If you remember <span class="in">`y = mx + b`</span> from school (where <span class="in">`m`</span> is the slope and <span class="in">`b`</span> is the y-intercept), that's exactly what linear regression computes — but it finds the *best* values of m and b given noisy, real-world data.</span>
 <span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a><span class="fu"># Worked Example: Linear Regression in R</span></span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setting Up the Data</span></span>
 <span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a>This section walks through the code from the Week 1 lab. Linear regression is the "granddaddy" of statistical analysis and ML — understanding it is foundational to everything that follows.</span>
-<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is Linear Regression?</span></span>
-<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a>Linear regression finds the **line of best fit** through a set of data points. If you remember <span class="in">`y = mx + b`</span> from school (where <span class="in">`m`</span> is the slope and <span class="in">`b`</span> is the y-intercept), that's exactly what linear regression computes — but it finds the *best* values of m and b given noisy, real-world data.</span>
-<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setting Up the Data</span></span>
-<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>) <span class="co"># Ensures reproducibility — same "random" numbers every time</span></span>
-<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fl">1.4</span>      <span class="co"># True slope</span></span>
-<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">1.2</span>     <span class="co"># True intercept</span></span>
-<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>      <span class="co"># X values: 0, 1, 2, ..., 9</span></span>
-<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> m <span class="sc">*</span> x <span class="sc">+</span> b              <span class="co"># The TRUE relationship (green line)</span></span>
-<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a>py <span class="ot">&lt;-</span> y <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)          <span class="co"># Observed values = true + random noise</span></span>
-<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a>**What's happening here:**</span>
-<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>We define a "true" linear relationship: <span class="in">`y = 1.4x - 1.2`</span></span>
-<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`y`</span> represents the perfect, noise-free values (the green line in the plot)</span>
-<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`py`</span> adds random noise using <span class="in">`rnorm(10)`</span> — this simulates real-world data, which is never perfectly on the line</span>
-<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`set.seed(42)`</span> makes the random numbers reproducible — anyone running this code gets the same results</span>
-<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a><span class="fu">## Building and Plotting the Model</span></span>
-<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the true line (green) and observed data points (X marks)</span></span>
-<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="st">"green"</span>,</span>
-<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"y = "</span>, m, <span class="st">"x "</span>, b, <span class="at">sep =</span> <span class="st">""</span>))</span>
-<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(x, py, <span class="at">pch =</span> <span class="dv">4</span>)</span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>) <span class="co"># Ensures reproducibility — same "random" numbers every time</span></span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fl">1.4</span>      <span class="co"># True slope</span></span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">1.2</span>     <span class="co"># True intercept</span></span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>      <span class="co"># X values: 0, 1, 2, ..., 9</span></span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> m <span class="sc">*</span> x <span class="sc">+</span> b              <span class="co"># The TRUE relationship (green line)</span></span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a>py <span class="ot">&lt;-</span> y <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)          <span class="co"># Observed values = true + random noise</span></span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a>**What's happening here:**</span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>We define a "true" linear relationship: <span class="in">`y = 1.4x - 1.2`</span></span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`y`</span> represents the perfect, noise-free values (the green line in the plot)</span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`py`</span> adds random noise using <span class="in">`rnorm(10)`</span> — this simulates real-world data, which is never perfectly on the line</span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`set.seed(42)`</span> makes the random numbers reproducible — anyone running this code gets the same results</span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a><span class="fu">## Building and Plotting the Model</span></span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the true line (green) and observed data points (X marks)</span></span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="st">"green"</span>,</span>
+<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"y = "</span>, m, <span class="st">"x "</span>, b, <span class="at">sep =</span> <span class="st">""</span>))</span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(x, py, <span class="at">pch =</span> <span class="dv">4</span>)</span>
+<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a linear regression model</span></span>
+<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(py <span class="sc">~</span> x)</span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the predicted line (blue dashed)</span></span>
+<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, model1<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">*</span> x <span class="sc">+</span> model1<span class="sc">$</span>coefficients[<span class="dv">1</span>],</span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a>      <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a linear regression model</span></span>
-<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(py <span class="sc">~</span> x)</span>
-<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the predicted line (blue dashed)</span></span>
-<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, model1<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">*</span> x <span class="sc">+</span> model1<span class="sc">$</span>coefficients[<span class="dv">1</span>],</span>
-<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a>      <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
-<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a>**Understanding `lm(py ~ x)`:**</span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`lm`</span> stands for "linear model" — it's R's function for linear regression</span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`py ~ x`</span> is a **formula**: it means "model py as a function of x"</span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The function returns a model object with properties like <span class="in">`coefficients`</span></span>
+<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a>**The plot shows three things:**</span>
 <span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a>**Understanding `lm(py ~ x)`:**</span>
-<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`lm`</span> stands for "linear model" — it's R's function for linear regression</span>
-<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`py ~ x`</span> is a **formula**: it means "model py as a function of x"</span>
-<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The function returns a model object with properties like <span class="in">`coefficients`</span></span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Green line:** The true underlying relationship (which in real life we wouldn't know)</span>
+<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**X marks:** The observed/measured data points (noisy)</span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Blue dashed line:** The model's best estimate of the relationship</span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interpreting the Model Output</span></span>
 <span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a>**The plot shows three things:**</span>
-<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Green line:** The true underlying relationship (which in real life we wouldn't know)</span>
-<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**X marks:** The observed/measured data points (noisy)</span>
-<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Blue dashed line:** The model's best estimate of the relationship</span>
-<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interpreting the Model Output</span></span>
-<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a>model1</span>
-<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
-<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)         x</span></span>
-<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a><span class="do">##    -0.7895    1.4304</span></span>
-<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a>The model estimated:</span>
-<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Intercept = -0.7895** (true value was -1.2)</span>
-<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Slope = 1.4304** (true value was 1.4)</span>
-<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a>These are close but not exact, because the model is working from noisy data. This is a fundamental concept: **models are approximations of reality**.</span>
-<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Model Summary</span></span>
-<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span>
-<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a>model1</span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)         x</span></span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a><span class="do">##    -0.7895    1.4304</span></span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a>The model estimated:</span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Intercept = -0.7895** (true value was -1.2)</span>
+<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Slope = 1.4304** (true value was 1.4)</span>
+<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a>These are close but not exact, because the model is working from noisy data. This is a fundamental concept: **models are approximations of reality**.</span>
+<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Model Summary</span></span>
+<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span>
+<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a>The <span class="in">`summary()`</span> function gives detailed statistical information, including:</span>
+<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Coefficients table:** Shows the estimate, standard error, t-value, and p-value for each coefficient</span>
+<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Significance codes:** Stars (<span class="sc">\*\*\*</span>) indicate statistically significant variables</span>
+<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**R-squared:** A measure of how well the model fits the data</span>
+<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a>**Important lecture insight on coefficients:** Even if a variable is statistically significant (has stars), you should also look at the *magnitude* of its coefficient. If the coefficient is tiny (e.g. 0.000001), multiplying it by the X values won't meaningfully affect predictions — so it may not be practically important, even if it's statistically significant. Always consider both the statistical significance AND the scale/magnitude.</span>
 <span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a>The <span class="in">`summary()`</span> function gives detailed statistical information, including:</span>
+<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a><span class="fu">## Understanding R-squared</span></span>
 <span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Coefficients table:** Shows the estimate, standard error, t-value, and p-value for each coefficient</span>
-<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Significance codes:** Stars (<span class="sc">\*\*\*</span>) indicate statistically significant variables</span>
-<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**R-squared:** A measure of how well the model fits the data</span>
-<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a>**Important lecture insight on coefficients:** Even if a variable is statistically significant (has stars), you should also look at the *magnitude* of its coefficient. If the coefficient is tiny (e.g. 0.000001), multiplying it by the X values won't meaningfully affect predictions — so it may not be practically important, even if it's statistically significant. Always consider both the statistical significance AND the scale/magnitude.</span>
-<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a><span class="fu">## Understanding R-squared</span></span>
-<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-325"><a href="#cb7-325" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-326"><a href="#cb7-326" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb7-327"><a href="#cb7-327" aria-hidden="true" tabindex="-1"></a>r_squared1 <span class="ot">&lt;-</span> <span class="fu">cor</span>(x, py) <span class="sc">^</span> <span class="dv">2</span></span>
-<span id="cb7-328"><a href="#cb7-328" aria-hidden="true" tabindex="-1"></a>r_squared1</span>
-<span id="cb7-329"><a href="#cb7-329" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.9645404</span></span>
-<span id="cb7-330"><a href="#cb7-330" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-331"><a href="#cb7-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-332"><a href="#cb7-332" aria-hidden="true" tabindex="-1"></a>**What is R-squared?**</span>
-<span id="cb7-333"><a href="#cb7-333" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-334"><a href="#cb7-334" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It measures the **goodness of fit** of a regression model</span>
-<span id="cb7-335"><a href="#cb7-335" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It ranges from **0 to 1**, where 1 means a perfect fit</span>
-<span id="cb7-336"><a href="#cb7-336" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It can be calculated as the square of the correlation between X and Y</span>
-<span id="cb7-337"><a href="#cb7-337" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>An R-squared of 0.9645 means approximately 96.45% of the variance in the data is explained by the model</span>
-<span id="cb7-338"><a href="#cb7-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-339"><a href="#cb7-339" aria-hidden="true" tabindex="-1"></a>**What is correlation?**</span>
-<span id="cb7-340"><a href="#cb7-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-341"><a href="#cb7-341" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Correlation measures the strength and direction of the linear relationship between two variables</span>
-<span id="cb7-342"><a href="#cb7-342" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It ranges from **-1 to +1**</span>
-<span id="cb7-343"><a href="#cb7-343" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**+1:** Perfect positive relationship (as one increases, the other increases proportionally)</span>
-<span id="cb7-344"><a href="#cb7-344" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**-1:** Perfect negative relationship (as one increases, the other decreases proportionally)</span>
-<span id="cb7-345"><a href="#cb7-345" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**0:** No linear relationship</span>
-<span id="cb7-346"><a href="#cb7-346" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Generally, correlations above 0.7 (or below -0.7) indicate a strong relationship</span>
-<span id="cb7-347"><a href="#cb7-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-348"><a href="#cb7-348" aria-hidden="true" tabindex="-1"></a>**Critical practical advice from the lecturer:** If you ever see an R-squared above \~0.85–0.90 on real-world tabular data, be suspicious. It might indicate **data leakage** (a concept covered in Week 5) or that the problem is so simple it doesn't need ML. In reality, real-world datasets are messy and an R-squared this high is unusual.</span>
-<span id="cb7-349"><a href="#cb7-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-350"><a href="#cb7-350" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Effect of More Noise</span></span>
+<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a>r_squared1 <span class="ot">&lt;-</span> <span class="fu">cor</span>(x, py) <span class="sc">^</span> <span class="dv">2</span></span>
+<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a>r_squared1</span>
+<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.9645404</span></span>
+<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-323"><a href="#cb7-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-324"><a href="#cb7-324" aria-hidden="true" tabindex="-1"></a>**What is R-squared?**</span>
+<span id="cb7-325"><a href="#cb7-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-326"><a href="#cb7-326" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It measures the **goodness of fit** of a regression model</span>
+<span id="cb7-327"><a href="#cb7-327" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It ranges from **0 to 1**, where 1 means a perfect fit</span>
+<span id="cb7-328"><a href="#cb7-328" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It can be calculated as the square of the correlation between X and Y</span>
+<span id="cb7-329"><a href="#cb7-329" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>An R-squared of 0.9645 means approximately 96.45% of the variance in the data is explained by the model</span>
+<span id="cb7-330"><a href="#cb7-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-331"><a href="#cb7-331" aria-hidden="true" tabindex="-1"></a>**What is correlation?**</span>
+<span id="cb7-332"><a href="#cb7-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-333"><a href="#cb7-333" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Correlation measures the strength and direction of the linear relationship between two variables</span>
+<span id="cb7-334"><a href="#cb7-334" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It ranges from **-1 to +1**</span>
+<span id="cb7-335"><a href="#cb7-335" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**+1:** Perfect positive relationship (as one increases, the other increases proportionally)</span>
+<span id="cb7-336"><a href="#cb7-336" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**-1:** Perfect negative relationship (as one increases, the other decreases proportionally)</span>
+<span id="cb7-337"><a href="#cb7-337" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**0:** No linear relationship</span>
+<span id="cb7-338"><a href="#cb7-338" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Generally, correlations above 0.7 (or below -0.7) indicate a strong relationship</span>
+<span id="cb7-339"><a href="#cb7-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-340"><a href="#cb7-340" aria-hidden="true" tabindex="-1"></a>**Critical practical advice from the lecturer:** If you ever see an R-squared above \~0.85–0.90 on real-world tabular data, be suspicious. It might indicate **data leakage** (a concept covered in Week 5) or that the problem is so simple it doesn't need ML. In reality, real-world datasets are messy and an R-squared this high is unusual.</span>
+<span id="cb7-341"><a href="#cb7-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-342"><a href="#cb7-342" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Effect of More Noise</span></span>
+<span id="cb7-343"><a href="#cb7-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-344"><a href="#cb7-344" aria-hidden="true" tabindex="-1"></a>The lecture then re-runs the same analysis with more randomness added to the data:</span>
+<span id="cb7-345"><a href="#cb7-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-348"><a href="#cb7-348" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-349"><a href="#cb7-349" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb7-350"><a href="#cb7-350" aria-hidden="true" tabindex="-1"></a>py <span class="ot">&lt;-</span> y <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)  <span class="co"># New random noise (different from before since set.seed not called again)</span></span>
 <span id="cb7-351"><a href="#cb7-351" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-352"><a href="#cb7-352" aria-hidden="true" tabindex="-1"></a>The lecture then re-runs the same analysis with more randomness added to the data:</span>
-<span id="cb7-353"><a href="#cb7-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-356"><a href="#cb7-356" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-357"><a href="#cb7-357" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb7-358"><a href="#cb7-358" aria-hidden="true" tabindex="-1"></a>py <span class="ot">&lt;-</span> y <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)  <span class="co"># New random noise (different from before since set.seed not called again)</span></span>
+<span id="cb7-352"><a href="#cb7-352" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(py <span class="sc">~</span> x)</span>
+<span id="cb7-353"><a href="#cb7-353" aria-hidden="true" tabindex="-1"></a>r_squared2 <span class="ot">&lt;-</span> <span class="fu">cor</span>(x, py) <span class="sc">^</span> <span class="dv">2</span></span>
+<span id="cb7-354"><a href="#cb7-354" aria-hidden="true" tabindex="-1"></a>r_squared2</span>
+<span id="cb7-355"><a href="#cb7-355" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.8524506</span></span>
+<span id="cb7-356"><a href="#cb7-356" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-357"><a href="#cb7-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-358"><a href="#cb7-358" aria-hidden="true" tabindex="-1"></a>**Key takeaway:** With more noise (randomness) in the data:</span>
 <span id="cb7-359"><a href="#cb7-359" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-360"><a href="#cb7-360" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(py <span class="sc">~</span> x)</span>
-<span id="cb7-361"><a href="#cb7-361" aria-hidden="true" tabindex="-1"></a>r_squared2 <span class="ot">&lt;-</span> <span class="fu">cor</span>(x, py) <span class="sc">^</span> <span class="dv">2</span></span>
-<span id="cb7-362"><a href="#cb7-362" aria-hidden="true" tabindex="-1"></a>r_squared2</span>
-<span id="cb7-363"><a href="#cb7-363" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.8524506</span></span>
-<span id="cb7-364"><a href="#cb7-364" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-360"><a href="#cb7-360" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The R-squared dropped from **0.9645 to 0.8525**</span>
+<span id="cb7-361"><a href="#cb7-361" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The blue line (model prediction) diverges more from the green line (true relationship)</span>
+<span id="cb7-362"><a href="#cb7-362" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>This demonstrates that **noisier data leads to less accurate models** — the model struggles more when the signal-to-noise ratio is lower</span>
+<span id="cb7-363"><a href="#cb7-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-364"><a href="#cb7-364" aria-hidden="true" tabindex="-1"></a>This is a fundamental concept you'll see throughout the course: the quality and cleanliness of your data directly impacts how well any model can perform.</span>
 <span id="cb7-365"><a href="#cb7-365" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-366"><a href="#cb7-366" aria-hidden="true" tabindex="-1"></a>**Key takeaway:** With more noise (randomness) in the data:</span>
+<span id="cb7-366"><a href="#cb7-366" aria-hidden="true" tabindex="-1"></a><span class="fu">## The General Linear Regression Formula</span></span>
 <span id="cb7-367"><a href="#cb7-367" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-368"><a href="#cb7-368" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The R-squared dropped from **0.9645 to 0.8525**</span>
-<span id="cb7-369"><a href="#cb7-369" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The blue line (model prediction) diverges more from the green line (true relationship)</span>
-<span id="cb7-370"><a href="#cb7-370" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>This demonstrates that **noisier data leads to less accurate models** — the model struggles more when the signal-to-noise ratio is lower</span>
+<span id="cb7-368"><a href="#cb7-368" aria-hidden="true" tabindex="-1"></a>For multiple predictor variables, the formula extends to:</span>
+<span id="cb7-369"><a href="#cb7-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-370"><a href="#cb7-370" aria-hidden="true" tabindex="-1"></a>$$\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \dots + \beta_n x_n$$</span>
 <span id="cb7-371"><a href="#cb7-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-372"><a href="#cb7-372" aria-hidden="true" tabindex="-1"></a>This is a fundamental concept you'll see throughout the course: the quality and cleanliness of your data directly impacts how well any model can perform.</span>
+<span id="cb7-372"><a href="#cb7-372" aria-hidden="true" tabindex="-1"></a>Where:</span>
 <span id="cb7-373"><a href="#cb7-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-374"><a href="#cb7-374" aria-hidden="true" tabindex="-1"></a><span class="fu">## The General Linear Regression Formula</span></span>
-<span id="cb7-375"><a href="#cb7-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-376"><a href="#cb7-376" aria-hidden="true" tabindex="-1"></a>For multiple predictor variables, the formula extends to:</span>
-<span id="cb7-377"><a href="#cb7-377" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-378"><a href="#cb7-378" aria-hidden="true" tabindex="-1"></a>$$\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \dots + \beta_n x_n$$</span>
-<span id="cb7-379"><a href="#cb7-379" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-380"><a href="#cb7-380" aria-hidden="true" tabindex="-1"></a>Where:</span>
-<span id="cb7-381"><a href="#cb7-381" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-382"><a href="#cb7-382" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\hat{y}$ is the predicted value</span>
-<span id="cb7-383"><a href="#cb7-383" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\beta_0$ is the intercept</span>
-<span id="cb7-384"><a href="#cb7-384" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\beta_1, \beta_2, \dots, \beta_n$ are the coefficients (learned from the data)</span>
-<span id="cb7-385"><a href="#cb7-385" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$x_1, x_2, \dots, x_n$ are the input feature values</span>
-<span id="cb7-386"><a href="#cb7-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-387"><a href="#cb7-387" aria-hidden="true" tabindex="-1"></a>Each coefficient is multiplied by its corresponding feature value and summed together. The model learns the optimal coefficient values during training.</span>
-<span id="cb7-388"><a href="#cb7-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-389"><a href="#cb7-389" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gradient Descent (Brief Introduction)</span></span>
+<span id="cb7-374"><a href="#cb7-374" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\hat{y}$ is the predicted value</span>
+<span id="cb7-375"><a href="#cb7-375" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\beta_0$ is the intercept</span>
+<span id="cb7-376"><a href="#cb7-376" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\beta_1, \beta_2, \dots, \beta_n$ are the coefficients (learned from the data)</span>
+<span id="cb7-377"><a href="#cb7-377" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$x_1, x_2, \dots, x_n$ are the input feature values</span>
+<span id="cb7-378"><a href="#cb7-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-379"><a href="#cb7-379" aria-hidden="true" tabindex="-1"></a>Each coefficient is multiplied by its corresponding feature value and summed together. The model learns the optimal coefficient values during training.</span>
+<span id="cb7-380"><a href="#cb7-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-381"><a href="#cb7-381" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gradient Descent (Brief Introduction)</span></span>
+<span id="cb7-382"><a href="#cb7-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-383"><a href="#cb7-383" aria-hidden="true" tabindex="-1"></a>The lecturer briefly mentioned **gradient descent** — the foundational algorithm that many ML models use to find the best-fit parameters:</span>
+<span id="cb7-384"><a href="#cb7-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-385"><a href="#cb7-385" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Start with an initial guess for the line of best fit</span>
+<span id="cb7-386"><a href="#cb7-386" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Shift it slightly in one direction</span>
+<span id="cb7-387"><a href="#cb7-387" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Check: did the fit improve?</span>
+<span id="cb7-388"><a href="#cb7-388" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>If yes, keep going in that direction; if no, try the other direction</span>
+<span id="cb7-389"><a href="#cb7-389" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Repeat until you find the minimum error</span>
 <span id="cb7-390"><a href="#cb7-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-391"><a href="#cb7-391" aria-hidden="true" tabindex="-1"></a>The lecturer briefly mentioned **gradient descent** — the foundational algorithm that many ML models use to find the best-fit parameters:</span>
+<span id="cb7-391"><a href="#cb7-391" aria-hidden="true" tabindex="-1"></a>This iterative optimisation process is the basis for training many ML algorithms, from linear regression to SVMs to deep learning.</span>
 <span id="cb7-392"><a href="#cb7-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-393"><a href="#cb7-393" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Start with an initial guess for the line of best fit</span>
-<span id="cb7-394"><a href="#cb7-394" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Shift it slightly in one direction</span>
-<span id="cb7-395"><a href="#cb7-395" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Check: did the fit improve?</span>
-<span id="cb7-396"><a href="#cb7-396" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>If yes, keep going in that direction; if no, try the other direction</span>
-<span id="cb7-397"><a href="#cb7-397" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Repeat until you find the minimum error</span>
-<span id="cb7-398"><a href="#cb7-398" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-399"><a href="#cb7-399" aria-hidden="true" tabindex="-1"></a>This iterative optimisation process is the basis for training many ML algorithms, from linear regression to SVMs to deep learning.</span>
-<span id="cb7-400"><a href="#cb7-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-401"><a href="#cb7-401" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
-<span id="cb7-402"><a href="#cb7-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-403"><a href="#cb7-403" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Concepts Summary</span></span>
-<span id="cb7-404"><a href="#cb7-404" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-405"><a href="#cb7-405" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Concept <span class="pp">|</span> Definition <span class="pp">|</span></span>
-<span id="cb7-406"><a href="#cb7-406" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------------------------------|---------------------------------------|</span></span>
-<span id="cb7-407"><a href="#cb7-407" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> AI <span class="pp">|</span> Computers performing human-like tasks <span class="pp">|</span></span>
-<span id="cb7-408"><a href="#cb7-408" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Machine Learning <span class="pp">|</span> Statistical algorithms that improve with more data <span class="pp">|</span></span>
-<span id="cb7-409"><a href="#cb7-409" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Deep Learning <span class="pp">|</span> ML algorithms especially good at vision and text <span class="pp">|</span></span>
-<span id="cb7-410"><a href="#cb7-410" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Data Mining <span class="pp">|</span> Extracting patterns from large data (≈ ML) <span class="pp">|</span></span>
-<span id="cb7-411"><a href="#cb7-411" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Supervised Learning <span class="pp">|</span> Learning from labelled data (has X and Y) <span class="pp">|</span></span>
-<span id="cb7-412"><a href="#cb7-412" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Unsupervised Learning <span class="pp">|</span> Finding patterns in unlabelled data (only X) <span class="pp">|</span></span>
-<span id="cb7-413"><a href="#cb7-413" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Reinforcement Learning <span class="pp">|</span> Learning by trial and error with rewards <span class="pp">|</span></span>
-<span id="cb7-414"><a href="#cb7-414" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Classification <span class="pp">|</span> Predicting categories <span class="pp">|</span></span>
-<span id="cb7-415"><a href="#cb7-415" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Regression <span class="pp">|</span> Predicting continuous values <span class="pp">|</span></span>
-<span id="cb7-416"><a href="#cb7-416" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> CRISP-DM <span class="pp">|</span> Iterative process: Business → Data → Prep → Model → Evaluate → Deploy <span class="pp">|</span></span>
-<span id="cb7-417"><a href="#cb7-417" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> R-squared <span class="pp">|</span> Goodness of fit metric (0 to 1) <span class="pp">|</span></span>
-<span id="cb7-418"><a href="#cb7-418" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Correlation <span class="pp">|</span> Strength of linear relationship (-1 to +1) <span class="pp">|</span></span>
-<span id="cb7-419"><a href="#cb7-419" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Deterministic <span class="pp">|</span> Same input → same output (traditional software) <span class="pp">|</span></span>
-<span id="cb7-420"><a href="#cb7-420" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Stochastic <span class="pp">|</span> Same input can give different outputs as model learns (ML) <span class="pp">|</span></span>
+<span id="cb7-393"><a href="#cb7-393" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb7-394"><a href="#cb7-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-395"><a href="#cb7-395" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Concepts Summary</span></span>
+<span id="cb7-396"><a href="#cb7-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-397"><a href="#cb7-397" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Concept <span class="pp">|</span> Definition <span class="pp">|</span></span>
+<span id="cb7-398"><a href="#cb7-398" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------------------------------|---------------------------------------|</span></span>
+<span id="cb7-399"><a href="#cb7-399" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> AI <span class="pp">|</span> Computers performing human-like tasks <span class="pp">|</span></span>
+<span id="cb7-400"><a href="#cb7-400" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Machine Learning <span class="pp">|</span> Statistical algorithms that improve with more data <span class="pp">|</span></span>
+<span id="cb7-401"><a href="#cb7-401" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Deep Learning <span class="pp">|</span> ML algorithms especially good at vision and text <span class="pp">|</span></span>
+<span id="cb7-402"><a href="#cb7-402" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Data Mining <span class="pp">|</span> Extracting patterns from large data (≈ ML) <span class="pp">|</span></span>
+<span id="cb7-403"><a href="#cb7-403" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Supervised Learning <span class="pp">|</span> Learning from labelled data (has X and Y) <span class="pp">|</span></span>
+<span id="cb7-404"><a href="#cb7-404" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Unsupervised Learning <span class="pp">|</span> Finding patterns in unlabelled data (only X) <span class="pp">|</span></span>
+<span id="cb7-405"><a href="#cb7-405" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Reinforcement Learning <span class="pp">|</span> Learning by trial and error with rewards <span class="pp">|</span></span>
+<span id="cb7-406"><a href="#cb7-406" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Classification <span class="pp">|</span> Predicting categories <span class="pp">|</span></span>
+<span id="cb7-407"><a href="#cb7-407" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Regression <span class="pp">|</span> Predicting continuous values <span class="pp">|</span></span>
+<span id="cb7-408"><a href="#cb7-408" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> CRISP-DM <span class="pp">|</span> Iterative process: Business → Data → Prep → Model → Evaluate → Deploy <span class="pp">|</span></span>
+<span id="cb7-409"><a href="#cb7-409" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> R-squared <span class="pp">|</span> Goodness of fit metric (0 to 1) <span class="pp">|</span></span>
+<span id="cb7-410"><a href="#cb7-410" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Correlation <span class="pp">|</span> Strength of linear relationship (-1 to +1) <span class="pp">|</span></span>
+<span id="cb7-411"><a href="#cb7-411" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Deterministic <span class="pp">|</span> Same input → same output (traditional software) <span class="pp">|</span></span>
+<span id="cb7-412"><a href="#cb7-412" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Stochastic <span class="pp">|</span> Same input can give different outputs as model learns (ML) <span class="pp">|</span></span>
+<span id="cb7-413"><a href="#cb7-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-414"><a href="#cb7-414" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb7-415"><a href="#cb7-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-416"><a href="#cb7-416" aria-hidden="true" tabindex="-1"></a><span class="fu"># Homework</span></span>
+<span id="cb7-417"><a href="#cb7-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-418"><a href="#cb7-418" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Install R and RStudio on your machine</span>
+<span id="cb7-419"><a href="#cb7-419" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Run the Week 1 R code locally and experiment with changing values</span>
+<span id="cb7-420"><a href="#cb7-420" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Look at the free books listed in the course resources</span>
 <span id="cb7-421"><a href="#cb7-421" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-422"><a href="#cb7-422" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb7-423"><a href="#cb7-423" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-424"><a href="#cb7-424" aria-hidden="true" tabindex="-1"></a><span class="fu"># Homework</span></span>
+<span id="cb7-424"><a href="#cb7-424" aria-hidden="true" tabindex="-1"></a>*These are base notes for Week 1. Review the lecture recording and add your own observations, examples, and questions below.*</span>
 <span id="cb7-425"><a href="#cb7-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-426"><a href="#cb7-426" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Install R and RStudio on your machine</span>
-<span id="cb7-427"><a href="#cb7-427" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Run the Week 1 R code locally and experiment with changing values</span>
-<span id="cb7-428"><a href="#cb7-428" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Look at the free books listed in the course resources</span>
-<span id="cb7-429"><a href="#cb7-429" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-430"><a href="#cb7-430" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
-<span id="cb7-431"><a href="#cb7-431" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-432"><a href="#cb7-432" aria-hidden="true" tabindex="-1"></a>*These are base notes for Week 1. Review the lecture recording and add your own observations, examples, and questions below.*</span>
-<span id="cb7-433"><a href="#cb7-433" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-434"><a href="#cb7-434" aria-hidden="true" tabindex="-1"></a><span class="fu">## My Additional Notes</span></span>
-<span id="cb7-435"><a href="#cb7-435" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-436"><a href="#cb7-436" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Add your own notes here after reviewing the lecture --&gt;</span></span>
+<span id="cb7-426"><a href="#cb7-426" aria-hidden="true" tabindex="-1"></a><span class="fu">## My Additional Notes</span></span>
+<span id="cb7-427"><a href="#cb7-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-428"><a href="#cb7-428" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Add your own notes here after reviewing the lecture --&gt;</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

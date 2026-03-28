@@ -1153,27 +1153,7 @@
     "href": "index.html",
     "title": "Home",
     "section": "",
-    "text": "Welcome to my semester notes website.\nTo run this website, open the terminal and run: quarto preview\nUse the sidebar to navigate by module and week.\n\n\n\nData Mining\nRegression Analysis\nTime Series\n\n\n\n\n\nWeekly lecture notes\nLab practice and R examples\nRevision summaries\nExam preparation notes",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#modules",
-    "href": "index.html#modules",
-    "title": "Home",
-    "section": "",
-    "text": "Data Mining\nRegression Analysis\nTime Series",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#how-ill-use-this-site",
-    "href": "index.html#how-ill-use-this-site",
-    "title": "Home",
-    "section": "",
-    "text": "Weekly lecture notes\nLab practice and R examples\nRevision summaries\nExam preparation notes",
+    "text": "Data Analytics — Semester Notes\n  A living reference for lecture content, lab work, and exam prep. Browse by module in the sidebar, or follow the guide below to run this site locally or push updates to GitHub Pages.\n\n\n\n\n  \n    ⛏️\n    Data Mining\n    Weeks 1–8\n  \n  \n    📈\n    Regression Analysis\n    Weeks 1–9\n  \n  \n    🕒\n    Time Series\n    Weeks 1–2\n  \n\n\nWhat you'll find here:\n\n  Weekly lecture notes\n  Lab practice & R examples\n  Revision summaries\n  Exam preparation notes\n\n\n\n\n\n\n  Running this site locally\n  Ideal when you want to preview changes before publishing — works offline too.\n\n  \n    1\n    \n      Open your terminal and navigate to the project folder. If you cloned the repo, it'll be wherever you saved it.\n      cd data-analytics-notes\n    \n  \n\n  \n    2\n    \n      Start the Quarto preview server. This builds the site and opens it in your browser automatically.\n      quarto preview\n      The site will live-reload whenever you save a .qmd file — no need to restart.\n    \n  \n\n  \n    3\n    \n      Open your browser and go to the address shown in the terminal — usually:\n      http://localhost:4321\n    \n  \n\n  \n    ✓ Tip: Press Ctrl + C in the terminal when you're done to stop the preview server.\n  \n\n\n\n\n\n\n  Publishing to GitHub Pages\n  Quarto has a built-in command for this — no manual file copying needed.\n\n  \n    1\n    \n      Make sure GitHub Pages is set up. In your repo on GitHub, go to Settings → Pages and set the source to the gh-pages branch. You only need to do this once.\n    \n  \n\n  \n    2\n    \n      Commit your changes to the main branch as normal. Quarto publishes separately from your source files.\n      git add .\n      git commit -m \"Update week 3 notes\"\n      git push\n    \n  \n\n  \n    3\n    \n      Publish with Quarto. This builds the site and pushes the rendered output to your gh-pages branch in one go.\n      quarto publish gh-pages\n      The first time you run this, Quarto may ask you to confirm the publishing destination — just hit Enter.\n    \n  \n\n  \n    4\n    \n      Wait ~30–60 seconds, then visit your site. GitHub Pages takes a moment to deploy the new build.\n      https://lgolin.github.io/data-analytics-notes/\n    \n  \n\n  \n    ⚠ Note: Don't edit the gh-pages branch directly — it's managed by Quarto. Always make edits in your source files and re-run quarto publish gh-pages.",
     "crumbs": [
       "Home"
     ]

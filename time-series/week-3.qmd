@@ -1,0 +1,602 @@
+---
+title: "STAT9005 – Time Series Analysis"
+subtitle: "Week 3: Classical Models – ETS, Decomposition & Exponential Smoothing"
+---
+
+<!-- ============================================================
+     STUDY GUIDE — Week 3
+     Source: Lecture_2__TS_CLASSICAL_MODELS_2026.pdf
+              Chapter_2_Classical_Models_RSTUDIO_2.R
+              IncomesTourism.txt (Spain tourism data, monthly Jan 1990–Dec 2005)
+     Notes: Aula_3.txt appears to contain only the week number (3).
+     ============================================================ -->
+
+# Key Topics
+
+- **Time Series Decomposition** — components, additive vs multiplicative models
+- **Seasonal Adjustment** — removing the seasonal signal to expose trend
+- **STL Decomposition** — Seasonal and Trend decomposition using Loess
+- **Prediction from Decomposition** — using decomposed components to forecast
+- **Simple Exponential Smoothing (SES)** — weighted averaging with exponential decay
+- **Trend Methods** — Holt Linear and Holt Damped
+- **Prediction Error Measurements** — MAD/MAE, MSE, MAPE
+- **Seasonal Methods** — Holt-Winters additive, multiplicative, and damped
+- **ETS in R** — automated model selection with `ets()`
+
+---
+
+# Core Explanations
+
+## Time Series Components
+
+A **time series (TS)** can be broken into three building blocks that together explain the
+observed data.
+
+- **Seasonal variation** — a repeating pattern that completes itself within one calendar
+  year (e.g., higher ice-cream sales every summer). This is a *periodic* cycle.
+- **Cyclical variation** — longer-term waves of ups and downs that last *more than two
+  years* and do not follow a fixed calendar (e.g., economic booms and recessions).
+- **Trend** — the long-run direction of the series (up, down, or flat). A time series
+  has one overall trend, but it can be interrupted by multiple cyclical swings.
+
+The **ETS framework** (Error, Trend, Seasonality) provides a unified way to describe and
+model all three simultaneously.
+
+## Time Series Decomposition
+
+The general decomposition model says the observed value $y_t$ is a function of three
+components:
+
+$$y_t = f(S_t,\; T_t,\; R_t)$$
+
+| Symbol | Meaning |
+|--------|---------|
+| $y_t$ | Observed value at time $t$ |
+| $S_t$ | Seasonal component at time $t$ |
+| $T_t$ | Trend–cycle component at time $t$ |
+| $R_t$ | Random (remainder) component at time $t$ |
+
+There are two forms of this model:
+
+**Additive decomposition** (use when seasonal swings are roughly *constant* over time):
+
+$$y_t = S_t + T_t + R_t$$
+
+**Multiplicative decomposition** (use when seasonal swings *grow* as the level of the
+series rises):
+
+$$y_t = S_t \times T_t \times R_t$$
+
+> **Tip — converting multiplicative to additive:** Taking logarithms turns a
+> multiplicative model into an additive one. This is an example of a
+> **Box-Cox transformation**:
+>
+> $$\log(y_t) = \log S_t + \log T_t + \log R_t$$
+>
+> In R you can pass `lambda = "auto"` to `mstl()` to do this automatically.
+
+### Key R functions for extracting components
+
+```r
+library(forecast)
+library(fpp2)
+
+fit <- stl(elecequip, s.window = 7)
+
+seasonal(fit)    # seasonal component  S_t
+trendcycle(fit)  # trend–cycle component  T_t
+remainder(fit)   # random component  R_t
+seasadj(fit)     # seasonally adjusted series  (T_t + R_t for additive)
+```
+
+## Seasonal Adjustment
+
+**Seasonal adjustment** means stripping the seasonal component out of the observed
+series so you can see the underlying trend more clearly.
+
+- **Additive:**  $y_t - S_t = T_t + R_t$
+- **Multiplicative:**  $y_t \,/\, S_t = T_t \times R_t$
+
+The seasonal component $S_t$ is *estimated* from past data (e.g., via STL) and then used
+to adjust current values.
+
+> **Important caveat:** A seasonally adjusted series still contains the random component
+> $R_t$, so it will look jagged and can give the false impression of real ups and downs.
+> To identify genuine **turning points**, focus on the smooth **trend-cycle** component
+> instead.
+
+```r
+# Example — elecequip dataset
+fit <- stl(elecequip, s.window = 7)
+
+autoplot(elecequip, series = "Data") +
+  autolayer(seasadj(fit), series = "Adjusted Seasonality")
+
+autoplot(elecequip, series = "Data") +
+  autolayer(trendcycle(fit), series = "Trend-cycle")
+```
+
+## STL Decomposition
+
+**STL** stands for *Seasonal and Trend decomposition using Loess*. Loess is a local
+smoothing technique that is robust to extreme (outlier) values.
+
+**Advantages of STL:**
+
+- Robust — not distorted by unusual observations
+- Can handle any seasonality with a single peak per cycle
+- Both the seasonal and trend-cycle smoothness can be tuned by the user
+
+**Disadvantages of STL:**
+
+- No built-in calendar-effect correction
+- Strictly additive — apply `log()` or Box-Cox for multiplicative series
+
+### Key parameters
+
+| Parameter | Controls |
+|-----------|----------|
+| `s.window` | How much the seasonal component is allowed to vary over time. Use `"periodic"` to force a fixed seasonal pattern. |
+| `t.window` | How smooth (wavey) the trend-cycle component is. Larger = smoother. |
+| `robust = TRUE` | Downweights outliers when fitting. |
+
+```r
+# Fixed seasonal pattern, robust fitting
+fit <- stl(elecequip,
+           t.window = 15,
+           s.window = "periodic",
+           robust   = TRUE)
+autoplot(fit) + ggtitle("STL Decomposition Electric Equipment index")
+
+# Automatic window selection (plus optional Box-Cox)
+elecequip %>% mstl(lambda = "auto") %>% autoplot()
+```
+
+> `mstl()` automatically selects `s.window` and also supports multi-seasonal data
+> (e.g., both weekly and annual seasonality). It accepts a `lambda` argument for
+> Box-Cox transformations.
+
+### Spain Tourism example (from class data)
+
+```r
+x <- scan("IncomesTourism.txt", skip = 4)
+x.ts <- ts(x, frequency = 12, start = c(1990, 1))
+
+# Visual inspection
+autoplot(x.ts)
+autoplot(log(x.ts))   # check whether log stabilises variance
+
+# STL on data from 2000
+x.ts %>%
+  window(start = 2000) %>%
+  stl(s.window = 11, robust = TRUE) -> fit
+
+autoplot(fit)
+autoplot(seasadj(fit))
+
+# Seasonal plot to inspect year-on-year patterns
+ggseasonplot(window(x.ts, start = c(1990, 1)),
+             year.labels = TRUE) +
+  ggtitle("Total Income Tourism") +
+  ylab("€ x 1,000")
+```
+
+## Prediction Using Decomposition
+
+The workflow for forecasting with decomposition:
+
+1. Decompose the series using STL.
+2. **Seasonal component:** repeat the last year's seasonal pattern (naïve seasonal
+   forecast).
+3. **Trend-cycle / seasonally-adjusted component:** apply a non-seasonal method (e.g.,
+   naïve, SES, Holt).
+4. Combine the forecasts.
+
+> Decomposition is primarily used to *understand* a series before choosing a dedicated
+> forecasting model. The `stlf()` function in R automates steps 1–4.
+
+```r
+# STL decomposition → naïve forecast on seasonally-adjusted data
+fit <- stl(elecequip, t.window = 13, s.window = "periodic")
+
+fit %>% seasadj() %>% naive() %>%
+  autoplot() +
+  ylab("New orders index") +
+  ggtitle("Seasonal adjusted data — Naïve Forecast")
+
+# Shortcut with stlf()
+elecequip %>%
+  stlf(method = "naive") %>%
+  autoplot() +
+  ylab("New orders index")
+```
+
+## Simple Exponential Smoothing (SES)
+
+### When to use SES
+
+SES belongs to the family of **pure time-series methods** — they only use the series
+itself (no external predictors). Use SES when:
+
+- There is **no trend** and **no seasonality** in the series.
+- You have few or no independent variables to include.
+
+### How it works
+
+Rather than giving equal weight to all past observations (like a simple moving average),
+SES gives **more weight to recent observations** and **exponentially decreasing weight** to
+older ones.
+
+The **smoothing parameter** $\alpha$ (0 ≤ α ≤ 1) controls how fast the weights decay:
+
+| $\alpha$ value | Effect |
+|---|---|
+| Close to **1** | Almost all weight on the most recent observation — reacts quickly, less smooth |
+| Close to **0** | Weight spread evenly over all past observations — very smooth, slow to react |
+
+### Equations
+
+**Forecast equation** (the prediction for any future horizon $h$ is the same value):
+
+$$\hat{y}_{t+h|t} = \ell_t$$
+
+**Smoothing (level) equation:**
+
+$$\ell_t = \alpha y_t + (1 - \alpha)\ell_{t-1}$$
+
+$\ell_t$ is called the **level** of the series at time $t$.
+
+By iterating the smoothing equation backwards, the forecast becomes a weighted average
+of *all* past observations:
+
+$$\hat{y}_{T+1|T} = \sum_{j=0}^{T-1} \alpha(1-\alpha)^j y_{T-j} + (1-\alpha)^T \ell_0$$
+
+The weights $\alpha,\; \alpha(1-\alpha),\; \alpha(1-\alpha)^2, \ldots$ decay
+*exponentially* — hence the name.
+
+### Optimisation
+
+The parameters $\alpha$ and the initial level $\ell_0$ are chosen by **minimising the
+Sum of Squared Errors (SSE)**:
+
+$$\text{SSE} = \sum_{t=1}^{T}(y_t - \hat{y}_{t|t-1})^2 = \sum_{t=1}^{T} e_t^2$$
+
+This requires numerical (non-linear) optimisation, which R handles automatically.
+
+```r
+library(fpp2)
+
+oildata <- window(oil, start = 1996)
+fc <- ses(oildata, h = 5)
+fc   # shows alpha, initial level, AIC, BIC, forecasts
+
+autoplot(fc) +
+  autolayer(fitted(fc), series = "Fitted") +
+  ylab("Oil (1M Tonnes)") +
+  xlab("Year")
+
+# Equivalent via ets()  — ETS(A,N,N) = Additive error, No trend, No seasonality
+SES_model <- ets(oildata, model = "ANN", alpha = 0.2)
+```
+
+## Trend Methods
+
+### Holt Linear Trend
+
+An extension of SES for series **with a linear trend but no seasonality**.
+It adds a second smoothing equation for the **slope** (trend):
+
+$$\hat{y}_{t+h|t} = \ell_t + h b_t$$
+
+$$\ell_t = \alpha y_t + (1-\alpha)(\ell_{t-1} + b_{t-1})$$
+
+$$b_t = \beta^*(\ell_t - \ell_{t-1}) + (1-\beta^*)b_{t-1}$$
+
+| Parameter | Role |
+|---|---|
+| $\alpha$ | Smoothing for the **level** |
+| $\beta^*$ | Smoothing for the **slope (trend)** |
+| $\ell_t$ | Current level estimate |
+| $b_t$ | Current slope estimate |
+
+Both $\alpha$ and $\beta^*$ lie in $[0, 1]$. $\ell_0$ and $b_0$ are also optimised
+by minimising SSE.
+
+### Holt Damped Trend
+
+Holt's method keeps projecting the trend indefinitely into the future, which is often
+unrealistic. The **damped** version introduces a **damping parameter** $\phi$
+($0 < \phi < 1$) that gradually flattens the forecast towards a constant:
+
+$$\hat{y}_{t+h|t} = \ell_t + (\phi + \phi^2 + \cdots + \phi^h)b_t$$
+
+$$\ell_t = \alpha y_t + (1-\alpha)(\ell_{t-1} + \phi b_{t-1})$$
+
+$$b_t = \beta^*(\ell_t - \ell_{t-1}) + (1-\beta^*)\phi b_{t-1}$$
+
+> When $\phi = 1$ the damped model is identical to linear Holt. In practice the damped
+> Holt method is often more accurate because real trends rarely continue indefinitely.
+
+```r
+# Linear Holt
+window(ausair, start = 1990, end = 2004) %>%
+  holt(h = 5, PI = FALSE) %>%
+  autoplot()
+
+# Damped Holt
+window(ausair, start = 1990, end = 2004) %>%
+  holt(damped = TRUE, h = 5, PI = FALSE) %>%
+  autoplot()
+```
+
+## Prediction Error Measurements
+
+To compare models, we measure how far forecasts are from actual values.
+
+### Common metrics
+
+**Mean Absolute Deviation / Error (MAD / MAE)**
+— average of absolute forecast errors, in the *same units* as the data:
+
+$$\text{MAD} = \frac{\sum |Y_t - F_t|}{n}$$
+
+**Mean Squared Error (MSE)**
+— penalises large errors more heavily (units are squared):
+
+$$\text{MSE} = \frac{\sum (Y_t - F_t)^2}{n - 1}$$
+
+**Mean Absolute Percentage Error (MAPE)**
+— unit-free measure, useful for comparing across different series:
+
+$$\text{MAPE} = \frac{1}{n}\sum \left|\frac{Y_t - F_t}{Y_t}\right| \times 100$$
+
+Other criteria used for model selection include **AIC**, **AICc** (corrected AIC), and
+**BIC** — lower values indicate a better-fitting model relative to its complexity.
+
+```r
+# Compare SES, Holt, and Damped Holt on livestock data
+livestock2 <- window(livestock, start = 1970, end = 2000)
+fit1 <- ses(livestock2)
+fit2 <- holt(livestock2)
+fit3 <- holt(livestock2, damped = TRUE)
+
+accuracy(fit1, livestock)
+accuracy(fit2, livestock)
+accuracy(fit3, livestock)
+```
+
+## Seasonal Methods — Holt-Winters
+
+Holt-Winters extends Holt by adding a third equation for **seasonality**, making it
+suitable for series that have both trend and season.
+
+### Additive Holt-Winters
+
+Use when seasonal fluctuations are **roughly constant** in size over time.
+
+$$\hat{y}_{t+h|t} = \ell_t + hb_t + s_{t+h-m(k+1)}$$
+
+$$\ell_t = \alpha(y_t - s_{t-m}) + (1-\alpha)(\ell_{t-1} + b_{t-1})$$
+
+$$b_t = \beta^*(\ell_t - \ell_{t-1}) + (1-\beta^*)b_{t-1}$$
+
+$$s_t = \gamma(y_t - \ell_{t-1} - b_{t-1}) + (1-\gamma)s_{t-m}$$
+
+### Multiplicative Holt-Winters
+
+Use when seasonal fluctuations **grow proportionally** with the level of the series.
+
+$$\hat{y}_{t+h|t} = (\ell_t + hb_t)\, s_{t+h-m(k+1)}$$
+
+$$\ell_t = \alpha\frac{y_t}{s_{t-m}} + (1-\alpha)(\ell_{t-1} + b_{t-1})$$
+
+$$s_t = \gamma\frac{y_t}{\ell_{t-1} + b_{t-1}} + (1-\gamma)s_{t-m}$$
+
+### Damped Holt-Winters
+
+Usually the **best-performing** method for seasonal series. Combines the damped trend
+($\phi$) with multiplicative seasonality.
+
+### Parameters summary
+
+| Parameter | Range | Role |
+|---|---|---|
+| $\alpha$ | $[0,1]$ | Level smoothing |
+| $\beta^*$ | $[0,1]$ | Trend smoothing |
+| $\gamma$ | $[0, 1-\alpha]$ | Seasonal smoothing |
+| $m$ | integer | Seasonal period (e.g., 12 for monthly) |
+| $\phi$ | $(0,1)$ | Damping factor (damped model only) |
+
+$k = \lfloor(h-1)/m\rfloor$ ensures the most recent full year of seasonal estimates is
+used in every forecast.
+
+```r
+aust <- window(austourists, start = 2005)
+
+fit1 <- hw(aust, seasonal = "additive")
+fit2 <- hw(aust, seasonal = "multiplicative")
+
+# Damped multiplicative (often the best choice)
+fc <- hw(subset(hyndsight, end = length(hyndsight) - 35),
+         damped   = TRUE,
+         seasonal = "multiplicative",
+         h        = 35)
+
+autoplot(hyndsight) +
+  autolayer(fc, series = "HW multi damped", PI = FALSE)
+```
+
+## ETS in R
+
+The `ets()` function in the **forecast** package is the master tool for ETS models. It:
+
+1. Automatically selects the best combination of error type, trend, and seasonality
+   using **AICc** (by default).
+2. Can fit any combination you specify manually.
+
+The model is named **ETS(error, trend, seasonality)** where each position takes:
+`A` = Additive, `M` = Multiplicative, `N` = None, `d` = damped trend.
+
+| Example | Meaning |
+|---|---|
+| `ETS(A,N,N)` | SES (additive error, no trend, no season) |
+| `ETS(A,A,N)` | Holt linear (additive error and trend, no season) |
+| `ETS(M,Ad,M)` | Multiplicative error, damped additive trend, multiplicative season |
+
+```r
+library(fpp2)
+
+aust <- window(austourists, start = 2005)
+fit  <- ets(aust)        # automatic model selection
+summary(fit)
+autoplot(fit)
+
+# Forecast
+fit %>% forecast(h = 8) %>% autoplot()
+
+# Manual model specification
+ets(h02, model = "AAA", damped = FALSE)
+
+# Train / Test split workflow
+train <- window(h02, end   = c(2004, 12))
+test  <- window(h02, start = 2005)
+fit1  <- ets(train)
+fit2  <- ets(test, model = fit1, use.initial.values = TRUE)
+
+accuracy(fit2)
+accuracy(forecast(fit1, 10), test)
+
+# Residual diagnostics
+cbind("Residuals"      = residuals(fit),
+      "Forecast errors" = residuals(fit, type = "response")) %>%
+  autoplot(facet = TRUE) +
+  xlab("Year")
+```
+
+---
+
+# Key Equations / Formulas Summary
+
+```
+Additive decomposition:      y_t = S_t + T_t + R_t
+Multiplicative decomposition: y_t = S_t × T_t × R_t
+Log transformation:           log(y_t) = log(S_t) + log(T_t) + log(R_t)
+
+Moving Average:               F_t = MA_p = (1/p) Σ D_i
+
+SES forecast:                 ŷ_{t+h|t} = ℓ_t
+SES level:                    ℓ_t = α·y_t + (1−α)·ℓ_{t−1}
+
+Holt forecast:                ŷ_{t+h|t} = ℓ_t + h·b_t
+Holt level:                   ℓ_t = α·y_t + (1−α)(ℓ_{t−1} + b_{t−1})
+Holt slope:                   b_t = β*(ℓ_t − ℓ_{t−1}) + (1−β*)·b_{t−1}
+
+Holt Damped forecast:         ŷ_{t+h|t} = ℓ_t + (φ + φ² + ... + φ^h)·b_t
+
+HW Additive forecast:         ŷ_{t+h|t} = ℓ_t + h·b_t + s_{t+h−m(k+1)}
+HW Multiplicative forecast:   ŷ_{t+h|t} = (ℓ_t + h·b_t)·s_{t+h−m(k+1)}
+
+SSE optimisation:             SSE = Σ(y_t − ŷ_{t|t−1})²
+
+MAD = Σ|Y_t − F_t| / n
+MSE = Σ(Y_t − F_t)² / (n−1)
+MAPE = (1/n) Σ |Y_t − F_t| / Y_t × 100
+```
+
+---
+
+# Practical Examples
+
+## Datasets used in class
+
+| Dataset | Description | Where used |
+|---|---|---|
+| `elecequip` | Monthly new orders index for electrical equipment (fpp2) | STL decomposition, trend-cycle extraction |
+| `oildata` | Oil production (fpp2 / gamlss.data) | SES example |
+| `ausair` | Australian air passengers (fpp2) | Holt linear & damped |
+| `livestock` | Sheep in Asia (fpp2) | SES vs Holt comparison |
+| `austourists` | Australian hotel stays (fpp2) | Holt-Winters additive & multiplicative |
+| `hyndsight` | Daily website visits (fpp2) | HW damped multiplicative |
+| `h02` | Monthly cortecosteroid drug subsidies (fpp2) | ETS with R |
+| `IncomesTourism.txt` | Monthly tourism income in Spain 1990–2005 | STL, seasonal plot (class exercise) |
+| `wineind` / `gas` | Wine / Gas production | Moving average, student exercises |
+| `eggs` (BCA) | US egg prices | Student exercise — Holt linear & damped |
+| `AirPassengers` | Classic airline passenger data | Box-Cox / log transformation check |
+
+## Comparing SES, Holt, and Damped Holt (livestock example)
+
+```r
+livestock2 <- window(livestock, start = 1970, end = 2000)
+fit1 <- ses(livestock2)
+fit2 <- holt(livestock2)
+fit3 <- holt(livestock2, damped = TRUE)
+
+autoplot(livestock2) +
+  autolayer(fit1, series = "SES",          PI = FALSE) +
+  autolayer(fit2, series = "Holt's",       PI = FALSE) +
+  autolayer(fit3, series = "Damped Holt",  PI = FALSE) +
+  ggtitle("Livestock sheep — Prediction methods") +
+  xlab("Year") + ylab("Livestock sheep in Asia (millions)")
+```
+
+---
+
+# Summary Points
+
+- A time series can be decomposed into **seasonal**, **trend-cycle**, and **random**
+  components using additive or multiplicative models.
+- Choose **additive** when seasonal amplitude is constant; choose **multiplicative** (or
+  apply `log()`) when it grows with the series level.
+- **STL** is the preferred decomposition method — it is robust and flexible. Use
+  `s.window = "periodic"` for a fixed seasonal pattern; tune `t.window` for trend
+  smoothness.
+- **Seasonally adjusted series** are not smooth — use the trend-cycle for identifying
+  turning points.
+- **SES** is suitable for series with *no trend and no seasonality*. The parameter
+  $\alpha$ controls reactivity: high $\alpha$ = more reactive.
+- **Holt's method** adds a trend component. The **damped** variant is usually more
+  realistic for longer horizons.
+- **Holt-Winters** further adds seasonality ($\gamma$). The **damped multiplicative**
+  version is often the best overall performer.
+- `ets()` in R automates model selection using AICc and can fit any ETS(E,T,S)
+  combination.
+- Always evaluate models on a **held-out test set** using MAE, RMSE, MAPE, or MASE —
+  not just training accuracy.
+
+---
+
+# Slides to Review / Topics to Cross-Check
+
+> *(Self-study checklist based on lecture material and R script)*
+
+- [ ] **Slides not fully covered in this guide:** The R script shows `tslm()` — fitting
+  linear regression models to time series with `trend + season` terms. This appears in
+  the script but **not** in the lecture PDF slides. Check if it was covered verbally or
+  belongs to a different week.
+- [ ] **`decompose()` vs `stl()`:** The script uses `decompose(wineind)` and
+  `decompose(log(wineind))`. Understand the difference — `decompose()` uses a simple
+  moving-average approach and is less flexible than STL.
+- [ ] **`taylor` dataset / multi-seasonal STL:** The script uses `mstl(taylor,
+  lambda = "auto")` on half-hourly electricity demand. Multi-seasonality (daily *and*
+  weekly cycles) was explored. Check if this is examinable.
+- [ ] **Residual diagnostics:** The script normalises and plots residuals (z-scores),
+  adds ±1.96 and ±3 reference lines, and inspects histograms and ACF. Understanding
+  what "good" residuals look like (white noise) is important.
+- [ ] **Student exercises from slides:** Two were set — (1) apply H-W multiplicative
+  (and damped) to `gas`, compare residuals; (2) apply Holt linear and damped to `eggs`.
+  Make sure you have attempted these.
+- [ ] **`accuracy()` metrics:** Be able to interpret all columns — ME, RMSE, MAE, MPE,
+  MAPE, MASE, ACF1, Theil's U — especially the difference between *training* and *test*
+  set performance.
+
+---
+
+<!-- Space for personal annotations -->
+
+## Personal Annotations
+
+> *Add your own notes here after reviewing the slides and re-running the R code.*
+
+```
+[Annotation space]
+```

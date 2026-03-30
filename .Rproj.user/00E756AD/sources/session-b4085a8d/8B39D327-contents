@@ -1,0 +1,464 @@
+---
+title: "STAT9005 – Time Series: Week 4 Study Guide"
+subtitle: "Classical Models – Lab Review, Decomposition & Exponential Smoothing"
+---
+
+> 📝 **Note to self:** These notes combine the Week 4 lecture (Aula_4), the Lab 1 handout, the Lab 1 solution R script, and the Lecture 2 Classical Models slides. Gaps and follow-up slides are flagged throughout.
+
+---
+
+# Key Topics
+
+- Lab 1 walkthrough: Kings, Births, and Souvenirs datasets
+- How to identify a valid time series vs. a non-time-series problem
+- Visual identification of time series components (trend, seasonality, residual)
+- Additive vs. multiplicative decomposition — choosing the right one
+- Residual analysis: confirming a good decomposition
+- STL decomposition (Seasonal & Trend decomposition using Loess)
+- Forecasting using decomposition (naïve + STL-based)
+- Introduction to Simple Exponential Smoothing (SES)
+- Overview of the full classical models family (SES → Holt → Holt-Winters)
+- Upcoming topics: Holt trend methods, Holt-Winters, error metrics, AIC/BIC
+
+---
+
+# Core Explanations
+
+## Is It Actually a Time Series? — The Kings Dataset
+
+Before doing any analysis, you must verify that your data actually qualifies as a time series. The first requirement is **equally spaced observations** — data points must be recorded at regular, consistent intervals.
+
+The **Kings dataset** records the ages at death of successive Kings of England. At first glance it looks like sequential data, but it is *not* a time series. Each value is just the age a king happened to die — there is no regular time interval between observations. This is better framed as a **regression problem** (predicting the next king's age at death), not a forecasting problem. Francisco made this distinction explicitly in class: *we forget about the Kings dataset for this module.*
+
+The rule of thumb: ask yourself *"Am I predicting future values of a process that unfolds over equally spaced time?"* If yes, it is a time series. If no, it is something else.
+
+## Loading Data and the `ts()` Function
+
+In R, raw data loaded with `scan()` is just a numeric vector — it has no time awareness. The `ts()` function wraps that vector with time series metadata.
+
+```r
+# Kings — no frequency info needed (annual-ish, frequency = 1 by default)
+kings <- scan("http://robjhyndman.com/tsdldata/misc/kings.dat", skip = 3)
+kingstimeseries <- ts(kings)
+
+# Births — monthly data starting January 1946
+births <- scan("http://robjhyndman.com/tsdldata/data/nybirths.dat")
+birthstimeseries <- ts(births, frequency = 12, start = c(1946, 1))
+
+# Souvenir sales — monthly data starting January 1987
+souvenir <- scan("http://robjhyndman.com/tsdldata/data/fancy.dat")
+souvenirtimeseries <- ts(souvenir, frequency = 12, start = c(1987, 1))
+```
+
+The key arguments are:
+
+- `frequency` — number of observations per cycle (12 = monthly, 4 = quarterly, 1 = annual)
+- `start` — vector giving the start time, e.g. `c(1946, 1)` means January 1946
+
+Always plot immediately after creating the time series object to get your first visual read on the data.
+
+```r
+par(mfrow = c(1, 3))
+plot.ts(kingstimeseries)
+plot.ts(birthstimeseries)
+plot.ts(souvenirtimeseries)
+```
+
+## Identifying Components Visually
+
+Every time series is assumed to be a function of up to four components:
+
+$$y_t = f(S_t, T_t, R_t)$$
+
+Where:
+
+- $y_t$ = observed value at time $t$
+- $S_t$ = **seasonal component** — repeating patterns within a calendar year
+- $T_t$ = **trend-cycle component** — long-run direction (includes multi-year cycles)
+- $R_t$ = **remainder/residual** — everything unexplained (random noise)
+
+When you plot your data, you are trying to answer three questions visually:
+
+**1. Is there a trend?**  
+Look for a consistent upward or downward direction over the full series. The births dataset shows a clear increasing linear trend, interrupted by a notable drop around 1955–1956.
+
+**2. What type of seasonality is present?**  
+Compare the *amplitude* (height) of seasonal swings across different years:
+- If the swings stay roughly the same height → **homogeneous seasonality → use additive model**
+- If the swings grow bigger as the series increases → **increasing/multiplicative seasonality → use multiplicative model**
+
+The births dataset shows fairly constant swings → **additive expected**.  
+The souvenir dataset shows swings that grow year on year → **multiplicative expected**.
+
+**3. Are there any cycles?**  
+Multi-year business or economic cycles are visible as broad wave patterns that stretch beyond a single year. In the tourism employment example from the lecture slides, the 2008–2009 economic crisis created a visible dip and recovery cycle. Cycles are handled by the **damped** parameter in Holt methods.
+
+## Decomposition: Additive vs. Multiplicative
+
+### The Two Models
+
+**Additive** (for constant seasonality):
+$$y_t = S_t + T_t + R_t$$
+
+**Multiplicative** (for growing seasonality):
+$$y_t = S_t \times T_t \times R_t$$
+
+You can convert multiplicative to additive using a log transformation:
+$$\log(y_t) = \log S_t + \log T_t + \log R_t$$
+
+This is the **Box-Cox transformation** idea mentioned in class and in the Lecture 2 slides.
+
+### Running Decomposition in R
+
+```r
+# Additive decomposition (default)
+births.ts.comp <- decompose(births.ts)
+plot(births.ts.comp)
+
+# Multiplicative decomposition
+souvenir.ts.comp <- decompose(souvenirtimeseries, type = "multiplicative")
+plot(souvenir.ts.comp)
+```
+
+### What to Look At in the Decomposition Output
+
+The plot shows four panels: **data → trend → seasonal → residual (random)**
+
+- **Trend panel**: Should show smooth directional movement.
+- **Seasonal panel**: Should show a *consistent, repeating* pattern — the same shape each year. This is by definition: the seasonal component is the average of each period (mean of all Januaries, mean of all Februaries, etc.) repeated throughout.
+- **Residual panel**: ***This is the most important panel for model selection.*** You want it to look like white noise — no obvious patterns, no trend, no obvious clusters.
+
+> **Key insight from class:** If the residual panel of your additive decomposition looks like a shrunken version of the original data (you can still see the pattern), it means the model has not captured the structure properly. Switch to multiplicative.
+
+### Missing Values in Decomposition
+
+The classical `decompose()` function uses a **centred moving average** to estimate the trend. Because this requires averaging neighbouring values symmetrically, it cannot produce estimates for the first and last $p/2$ observations (where $p$ is the frequency). For monthly data ($p = 12$), you lose 6 observations at each end of the trend and residual components.
+
+## Residual Analysis — Confirming Your Model
+
+Once you have chosen a decomposition, extract the residuals and check four things:
+
+```r
+residuals <- births.ts.comp$random
+# Remove NAs introduced by moving average
+residuals_clean <- na.omit(residuals)
+```
+
+**1. Mean ≈ 0 and Mean ≈ Median (symmetry)**
+```r
+summary(residuals_clean)
+```
+If mean and median are close to zero and close to each other, the residuals are approximately symmetric.
+
+**2. Histogram — should look bell-shaped**
+```r
+hist(residuals_clean, main = "Residuals", xlab = "Residual value")
+```
+A good residual histogram is roughly symmetric, centred near zero.
+
+**3. Scatter plot / time plot — should look random**
+```r
+plot(residuals_clean, main = "Residuals over time")
+abline(h = c(-2, 2), col = "blue")
+```
+About 95% of standardised values should fall within ±2 and 99% within ±4.
+
+**4. QQ plot — checks normality**
+```r
+qqnorm(residuals_clean)
+qqline(residuals_clean, col = "red")
+```
+Points should sit close to the red diagonal line, especially in the central ±2 range. Small departures at the tails are acceptable.
+
+> **Why does this matter?** The residual distribution is what generates your **confidence intervals**. If your residuals follow a normal distribution centred on zero, you can construct statistically valid prediction intervals. If they don't, your confidence intervals are unreliable.
+
+## STL Decomposition
+
+**STL** = **S**easonal and **T**rend decomposition using **L**oess (locally weighted regression)
+
+Instead of calculating a simple moving average for the trend, STL fits a local regression line through small windows of data, sliding that window across the entire series. This avoids missing values at the ends.
+
+```r
+library(forecast)
+fit <- stl(elecequip, s.window = 7)
+autoplot(fit) + xlab("year")
+```
+
+### Key Parameters
+
+| Parameter | What it controls |
+|-----------|-----------------|
+| `s.window` | Controls variation in the seasonal component. Use `"periodic"` to fix the season as constant. |
+| `t.window` | Controls smoothness of the trend. Larger = smoother trend. |
+| `robust = TRUE` | Makes estimation resistant to outliers. |
+
+### Choosing the Right `s.window`
+
+- **Too small** (e.g. 5): The seasonal component is allowed to change too much → it absorbs signal that should be in the trend or residual.
+- **`"periodic"`** (recommended default): Forces the seasonal component to repeat identically every year — matches our theoretical definition of seasonality.
+
+As shown in the lecture slides, using `s.window = "periodic"` usually gives a cleaner, more constant seasonal component and a more random-looking remainder.
+
+### Advantages and Disadvantages of STL
+
+**Advantages:**
+
+- Robust to outliers (when `robust = TRUE`)
+- No missing values at series ends
+- Can handle seasonal component that changes gradually over time
+- User can control how smooth the trend and seasonal extraction are
+
+**Disadvantages:**
+
+- No calendar effect (cannot model Easter, public holidays that shift dates each year)
+- Only handles **additive** models natively (apply `log()` transform first for multiplicative data)
+- Only handles **one** seasonal period (use `mstl()` for multiple seasonalities)
+
+### Useful STL-related R Functions
+
+```r
+seasonal(fit)     # Extract seasonal component
+trendcycle(fit)   # Extract trend-cycle component
+remainder(fit)    # Extract residual component
+seasadj(fit)      # Seasonally adjusted series (= data minus seasonal)
+mstl(x)           # Multiple STL — handles more than one seasonal period
+```
+
+### Seasonal Adjustment
+
+After decomposition, you can strip out the seasonal component to expose the underlying trend more clearly:
+
+**Additive:** $y_t - S_t = T_t + R_t$
+
+**Multiplicative:** $y_t / S_t = T_t \times R_t$
+
+```r
+# Additive seasonal adjustment
+births.ts.sadj <- births.ts - births.ts.comp$seasonal
+plot(births.ts.sadj)
+```
+
+> **Important caveat (from slides):** Seasonally adjusted series still contain trend AND random noise, so they can look jagged and create "false" ups and downs. The trend-cycle component alone is smoother and better for identifying inflection points.
+
+## Forecasting with Decomposition (Naïve Methods)
+
+Before using formal models, you can produce simple forecasts directly from decomposition:
+
+- The **seasonal component** is forecast by repeating the pattern from the last year (naïve seasonal forecast).
+- The **trend-cycle** is forecast using a simple method like naïve (random walk) on the seasonally adjusted series.
+- The two are **combined** to produce the full forecast.
+
+```r
+# STL + naïve forecast
+fit <- stl(elecequip, t.window = 13, s.window = "periodic")
+fit %>% seasadj() %>% naive() %>% autoplot()
+
+# Or use the stlf() shortcut
+elecequip %>% stlf(method = "naive") %>% autoplot()
+```
+
+The confidence intervals come from the residual distribution — another reason clean, normal residuals are important.
+
+## Simple Exponential Smoothing (SES)
+
+### When to Use It
+
+Use SES when your data:
+
+- **Has no trend** (or trend is negligible)
+- **Has no seasonality**
+- Is a confirmed time series (equally spaced)
+
+### The Core Idea
+
+SES computes a **weighted average of all past observations**, where weights decrease exponentially as you go further back in time. More recent observations get more weight.
+
+### Key Equations
+
+**Forecast equation:**
+$$\hat{y}_{t+h|t} = \ell_t$$
+
+**Smoothing (level) equation:**
+$$\ell_t = \alpha y_t + (1 - \alpha)\ell_{t-1}$$
+
+By iterating, this expands to:
+$$\hat{y}_{T+1|T} = \sum_{j=0}^{T-1} \alpha(1-\alpha)^j y_{T-j} + (1-\alpha)^T \ell_0$$
+
+### The Smoothing Parameter α
+
+$$0 \leq \alpha \leq 1$$
+
+| α value | Meaning |
+|---------|---------|
+| Close to **1** | Short memory — almost all weight on last observation (approaches random walk) |
+| Close to **0** | Long memory — weights spread far back in history (approaches overall mean) |
+
+> **Trick for interpretation:** If R estimates α = 0.83 (as in the oil data example), the model has a very short memory — your prediction will be close to your last known value.
+
+### Optimization
+
+α and the initial level $\ell_0$ are chosen by minimising the **Sum of Squared Errors (SSE)**:
+
+$$\text{SSE} = \sum_{t=1}^{T}(y_t - \hat{y}_{t|t-1})^2 = \sum_{t=1}^{T} e_t^2$$
+
+This is a **non-linear optimization** problem (unlike OLS regression), so R uses numerical methods.
+
+### R Code
+
+```r
+library(forecast)
+
+# Method 1: ses() directly
+fc <- ses(oildata, h = 5)
+autoplot(fc) + autolayer(fitted(fc), series = "Fitted")
+
+# Method 2: ets() family function — equivalent for SES
+ses_model <- ets(train.ts, model = "ANN", alpha = 0.2)
+# ANN = Additive error, No trend, No seasonality
+```
+
+### SES Prediction Behaviour
+
+Because SES produces a **flat forecast** (same value for all h steps ahead), the **point forecast never changes** after the last observation. However, the **confidence interval widens** as h increases, because the uncertainty accumulates with each step forward.
+
+## Overview of All Classical Models
+
+From the lecture, the full family is:
+
+| Components Present | Model | R Function |
+|---|---|---|
+| No trend, no seasonality | **Simple Exponential Smoothing (SES)** | `ses()` or `ets(..., model="ANN")` |
+| Trend only (linear) | **Holt's Linear Method** | `holt()` or `ets(..., model="AAN")` |
+| Trend + cycle/damping | **Holt Damped** | `holt(..., damped=TRUE)` |
+| Trend + seasonality (constant) | **Holt-Winters Additive** | `hw(..., seasonal="additive")` |
+| Trend + seasonality (growing) | **Holt-Winters Multiplicative** | `hw(..., seasonal="multiplicative")` |
+| Best of all the above | **ETS (automatic)** | `ets()` |
+
+**ETS** stands for **Error, Trend, Seasonality**. The `ets()` function automatically selects the best model by minimising AICc.
+
+---
+
+# Key Equations / Formulas
+
+### Time Series Decomposition
+
+$$y_t = S_t + T_t + R_t \quad \text{(Additive)}$$
+
+$$y_t = S_t \times T_t \times R_t \quad \text{(Multiplicative)}$$
+
+### Simple Moving Average (used internally in `decompose()`)
+
+$$F_t = MA_p = \frac{\sum_{i=1}^{p} D_i}{p}$$
+
+Where $F_t$ = prediction, $D_i$ = observation, $p$ = periodicity (frequency)
+
+### SES Prediction Equation (expanded)
+
+$$\hat{y}_{T+1|T} = \alpha y_T + \alpha(1-\alpha)y_{T-1} + \alpha(1-\alpha)^2 y_{T-2} + \cdots \quad 0 \leq \alpha \leq 1$$
+
+### SSE Optimization
+
+$$\text{SSE} = \sum_{t=1}^{T}(y_t - \hat{y}_{t|t-1})^2$$
+
+### Prediction Error Metrics (mentioned, to be covered next class)
+
+$$\text{MAD} = \frac{\sum |Y_t - F_t|}{n}$$
+
+$$\text{MSE} = \frac{\sum (Y_t - F_t)^2}{n-1}$$
+
+$$\text{MAPE} = \frac{1}{n} \sum \left|\frac{Y_t - F_t}{Y_t}\right| \times 100$$
+
+---
+
+# Practical Examples from Class
+
+### Example 1 — Births Dataset (Additive)
+
+- **Visual check**: Increasing trend, constant seasonal amplitude → expect additive
+- **Decompose**: Both additive and multiplicative residuals look random, but additive is simpler → **choose additive**
+- **Residual check**: Mean ≈ Median ≈ 0, histogram is roughly normal, scatter plot is noisy within ±2 → **decomposition confirmed as valid**
+
+### Example 2 — Souvenir Dataset (Multiplicative)
+
+- **Visual check**: Increasing trend, *growing* seasonal amplitude → expect multiplicative
+- **Decompose additive**: Residual panel shows the same trend/seasonal pattern as the original data → **additive decomposition is bad**
+- **Decompose multiplicative**: Residual panel looks much more random → **multiplicative confirmed**
+- **Residual check for additive**: Mean ≈ −270, Median ≈ 98 (very different), histogram skewed → model inadequate
+- **Residual check for multiplicative**: Mean ≈ Median, histogram roughly symmetric, QQ plot shows minor tail departures only → **model is valid**
+
+### Example 3 — Oil Data (SES)
+
+- Data shows no clear trend or seasonality → SES appropriate
+- R estimates α = 0.8339 → short memory data
+- Point forecast is flat (constant); confidence intervals widen as horizon grows
+- AIC = 178.14, AICc = 179.86, BIC = 180.81 (used for model comparison — to be discussed next class)
+
+---
+
+# Summary Points
+
+- **Always verify** you have a time series before analysis — check for equally spaced observations.
+- **Always plot first** to visually identify trend, seasonality type (additive/multiplicative), and potential cycles.
+- **Decompose** your data using `decompose()` or `stl()` and **examine the residual panel** — this is your primary diagnostic tool for model selection.
+- **Prefer additive** over multiplicative when both seem to work equally well (simpler is better).
+- **Use log transformation** to convert a multiplicative series to additive before applying STL.
+- **Residuals should look normal** (mean ≈ 0, symmetric, within ±2 for 95% of values) — this is what enables valid confidence intervals.
+- **STL** is more robust than `decompose()` — no missing values, less sensitive to outliers, controllable windows.
+- **SES** is for data with *no trend and no seasonality*. α near 1 = short memory (like random walk). α near 0 = long memory (like mean).
+- **ETS** is the unified family covering SES (ANN), Holt (AAN), and Holt-Winters (AAA or MAM etc.).
+- The **classical models family** progresses: SES → Holt → Holt-Winters, adding components (trend, then seasonality) as needed.
+
+---
+
+# What Was Covered vs. What Is Still Pending
+
+## ✅ Covered in Week 4
+
+| Topic | Source |
+|---|---|
+| Lab 1 walkthrough (kings, births, souvenir) | Aula_4, Lab_1_SOL.R, Lab_1 handout |
+| Identifying valid time series | Aula_4 |
+| Visual component identification | Aula_4 + Lecture 2 slides pp. 3–4 |
+| `decompose()` — additive vs. multiplicative | Aula_4 + Lecture 2 p. 4, Lab 1 handout p. 2 |
+| Residual analysis (histogram, boxplot, QQ, scatter) | Aula_4 |
+| STL decomposition overview | Aula_4 + Lecture 2 slides pp. 20–24 |
+| Seasonal adjustment | Aula_4 + Lecture 2 slides pp. 8–9 |
+| Forecasting with decomposition | Aula_4 + Lecture 2 slides pp. 25–28 |
+| Simple Exponential Smoothing (SES) | Aula_4 + Lecture 2 slides pp. 30–34 |
+
+## ⚠️ Started but NOT Finished
+
+| Topic | Where to Check |
+|---|---|
+| **Holt Linear Trend method** | Lecture 2 slides pp. 38–40 — **READ THESE** |
+| **Holt Damped method** | Lecture 2 slides pp. 41–42 — **READ THESE** |
+| **Prediction error metrics (MAD, MSE, MAPE)** | Lecture 2 slides pp. 43–46 — **READ THESE** |
+| **Holt-Winters Additive** | Lecture 2 slides pp. 48 — **READ THESE** |
+| **Holt-Winters Multiplicative** | Lecture 2 slides pp. 49–53 — **READ THESE** |
+| **Holt-Winters Damped** | Lecture 2 slides pp. 54–55 — **READ THESE** |
+| **ETS in R (`ets()` function)** | Lecture 2 slides pp. 57–59 — **READ THESE** |
+| **AIC / BIC model selection** | Lecture 2 slides p. 36 + to be expanded next class |
+
+## 📋 Labs Assigned for Next Week
+
+Francisco uploaded these to Canvas:
+
+1. **Lab 1 Solution** — the R script we went through today (already uploaded as `Lab_1_SOL.R`)
+2. **Lab 2** — new lab on classical models; datasets include wine industry, air miles, unemployment rates, US accidents, stock market
+3. The unemployment rates dataset needs to be downloaded from Canvas (it is NOT built into R)
+
+---
+
+# Annotations / Questions to Revisit
+
+> 💬 *Add your own notes here as you review the material*
+
+- [ ] What exactly is the `theta` method mentioned at the end of class? Francisco said he would clarify — check next lecture.
+- [ ] Revisit AIC vs. BIC: what is the difference in penalty term? (To be covered next class)
+- [ ] Francisco mentioned the `window()` function for subsetting a TS — check the Lecture 2 slides examples (pp. 15–17) for the tourism employment dataset.
+- [ ] Review the `mstl()` function — when would you use it over `stl()`?
+- [ ] Explore the extra R libraries mentioned at end of class (e.g., splines-based forecasting) — not examinable but good to know.
+
+---
+
+*End of Week 4 Study Guide — STAT9005 Time Series*

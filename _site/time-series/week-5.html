@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 5 – Exponential Smoothing Methods (Holt &amp; Holt-Winters) – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../time-series/week-6.qmd" rel="next">
+<link href="../time-series/week-4.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-5.html">Week 5</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-5.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-6.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-7.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-8.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8 - empty</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics-this-week" id="toc-key-topics-this-week" class="nav-link active" data-scroll-target="#key-topics-this-week"><span class="header-section-number">1</span> Key Topics This Week</a></li>
+  <li><a href="#recap-the-ets-family" id="toc-recap-the-ets-family" class="nav-link" data-scroll-target="#recap-the-ets-family"><span class="header-section-number">2</span> Recap: The ETS Family</a></li>
+  <li><a href="#core-explanations" id="toc-core-explanations" class="nav-link" data-scroll-target="#core-explanations"><span class="header-section-number">3</span> Core Explanations</a>
+  <ul class="collapse">
+  <li><a href="#single-exponential-smoothing-ses-quick-recap" id="toc-single-exponential-smoothing-ses-quick-recap" class="nav-link" data-scroll-target="#single-exponential-smoothing-ses-quick-recap"><span class="header-section-number">3.1</span> Single Exponential Smoothing (SES) – Quick Recap</a></li>
+  <li><a href="#holts-method-double-exponential-smoothing" id="toc-holts-method-double-exponential-smoothing" class="nav-link" data-scroll-target="#holts-method-double-exponential-smoothing"><span class="header-section-number">3.2</span> Holt’s Method (Double Exponential Smoothing)</a>
+  <ul class="collapse">
+  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">3.2.1</span> How it works</a></li>
+  </ul></li>
+  <li><a href="#damped-trend-holt-with-damping" id="toc-damped-trend-holt-with-damping" class="nav-link" data-scroll-target="#damped-trend-holt-with-damping"><span class="header-section-number">3.3</span> Damped Trend (Holt with Damping)</a></li>
+  <li><a href="#holt-winters-method-triple-exponential-smoothing" id="toc-holt-winters-method-triple-exponential-smoothing" class="nav-link" data-scroll-target="#holt-winters-method-triple-exponential-smoothing"><span class="header-section-number">3.4</span> Holt-Winters Method (Triple Exponential Smoothing)</a>
+  <ul class="collapse">
+  <li><a href="#additive-vs.-multiplicative-seasonality" id="toc-additive-vs.-multiplicative-seasonality" class="nav-link" data-scroll-target="#additive-vs.-multiplicative-seasonality"><span class="header-section-number">3.4.1</span> Additive vs.&nbsp;Multiplicative Seasonality</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">4</span> Key Equations / Formulas</a>
+  <ul class="collapse">
+  <li><a href="#ses-forecast" id="toc-ses-forecast" class="nav-link" data-scroll-target="#ses-forecast"><span class="header-section-number">4.1</span> SES Forecast</a></li>
+  <li><a href="#holts-method-forecast" id="toc-holts-method-forecast" class="nav-link" data-scroll-target="#holts-method-forecast"><span class="header-section-number">4.2</span> Holt’s Method Forecast</a></li>
+  <li><a href="#confidence-interval-general-form" id="toc-confidence-interval-general-form" class="nav-link" data-scroll-target="#confidence-interval-general-form"><span class="header-section-number">4.3</span> Confidence Interval (general form)</a></li>
+  <li><a href="#error-metrics" id="toc-error-metrics" class="nav-link" data-scroll-target="#error-metrics"><span class="header-section-number">4.4</span> Error Metrics</a></li>
+  </ul></li>
+  <li><a href="#r-code-examples" id="toc-r-code-examples" class="nav-link" data-scroll-target="#r-code-examples"><span class="header-section-number">5</span> R Code Examples</a>
+  <ul class="collapse">
+  <li><a href="#fitting-models-with-the-forecast-library" id="toc-fitting-models-with-the-forecast-library" class="nav-link" data-scroll-target="#fitting-models-with-the-forecast-library"><span class="header-section-number">5.1</span> Fitting models with the <code>forecast</code> library</a></li>
+  <li><a href="#comparing-models-using-error-metrics" id="toc-comparing-models-using-error-metrics" class="nav-link" data-scroll-target="#comparing-models-using-error-metrics"><span class="header-section-number">5.2</span> Comparing models using error metrics</a></li>
+  <li><a href="#plotting-forecasts" id="toc-plotting-forecasts" class="nav-link" data-scroll-target="#plotting-forecasts"><span class="header-section-number">5.3</span> Plotting forecasts</a></li>
+  </ul></li>
+  <li><a href="#practical-examples-from-the-lecture" id="toc-practical-examples-from-the-lecture" class="nav-link" data-scroll-target="#practical-examples-from-the-lecture"><span class="header-section-number">6</span> Practical Examples from the Lecture</a>
+  <ul class="collapse">
+  <li><a href="#oil-data-set" id="toc-oil-data-set" class="nav-link" data-scroll-target="#oil-data-set"><span class="header-section-number">6.1</span> Oil Data Set</a></li>
+  <li><a href="#livestock-data-set" id="toc-livestock-data-set" class="nav-link" data-scroll-target="#livestock-data-set"><span class="header-section-number">6.2</span> Livestock Data Set</a></li>
+  <li><a href="#hotel-stays-data-set" id="toc-hotel-stays-data-set" class="nav-link" data-scroll-target="#hotel-stays-data-set"><span class="header-section-number">6.3</span> Hotel Stays Data Set</a></li>
+  </ul></li>
+  <li><a href="#information-criteria-aic-and-bic" id="toc-information-criteria-aic-and-bic" class="nav-link" data-scroll-target="#information-criteria-aic-and-bic"><span class="header-section-number">7</span> Information Criteria: AIC and BIC</a></li>
+  <li><a href="#lab-work-week-5" id="toc-lab-work-week-5" class="nav-link" data-scroll-target="#lab-work-week-5"><span class="header-section-number">8</span> Lab Work (Week 5)</a>
+  <ul class="collapse">
+  <li><a href="#datasets-to-work-with-mentioned-in-class" id="toc-datasets-to-work-with-mentioned-in-class" class="nav-link" data-scroll-target="#datasets-to-work-with-mentioned-in-class"><span class="header-section-number">8.0.1</span> Datasets to work with (mentioned in class):</a></li>
+  </ul></li>
+  <li><a href="#what-to-check-in-the-slides" id="toc-what-to-check-in-the-slides" class="nav-link" data-scroll-target="#what-to-check-in-the-slides"><span class="header-section-number">9</span> What to Check in the Slides</a></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">10</span> Summary Points</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-5.html">Week 5</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 5 – Exponential Smoothing Methods (Holt &amp; Holt-Winters)</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Time Series Analysis – Study Guide</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>📝 <em>These notes are a summary of the Week 5 lecture. Use the space under each section to add your own annotations, questions, or examples as you review.</em></p>
+</blockquote>
+<hr>
+<section id="key-topics-this-week" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics This Week</h1>
+<ul>
+<li>Recap of <strong>Single Exponential Smoothing (SES)</strong> and its limitations</li>
+<li><strong>Holt’s Method</strong> (Double Exponential Smoothing) — adding a trend component</li>
+<li><strong>Damped Trend</strong> — modelling non-linear / cyclical behaviour</li>
+<li><strong>Holt-Winters Method</strong> — adding a seasonality component (additive vs.&nbsp;multiplicative)</li>
+<li><strong>Error metrics</strong> for comparing models: MAE, MSE, MAPE</li>
+<li><strong>Information Criteria</strong>: AIC and BIC</li>
+<li>The <strong>ETS framework</strong> in R and how to use it</li>
+<li>Practical application using the <code>forecast</code> library in R</li>
+</ul>
+<hr>
+</section>
+<section id="recap-the-ets-family" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Recap: The ETS Family</h1>
+<p>All three classical exponential smoothing methods belong to the <strong>ETS (Error, Trend, Seasonal)</strong> family. They differ only in which components they model:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Level (α)</th>
+<th>Trend (β)</th>
+<th>Seasonality (γ)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>SES</strong></td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr class="even">
+<td><strong>Holt</strong></td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr class="odd">
+<td><strong>Holt-Winters</strong></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>💡 <em>The more complex the data (trend, seasonality), the more parameters you need.</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="core-explanations" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Core Explanations</h1>
+<section id="single-exponential-smoothing-ses-quick-recap" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="single-exponential-smoothing-ses-quick-recap"><span class="header-section-number">3.1</span> Single Exponential Smoothing (SES) – Quick Recap</h2>
+<p><strong>Use when:</strong> Your data has <strong>no trend and no seasonality</strong> — just a fluctuating level.</p>
+<p>The key idea is that the <strong>prediction equals the level</strong>, which is a weighted average of past observations. The weight of each past observation <strong>decays exponentially</strong> as you go further back in time.</p>
+<ul>
+<li><strong>α close to 1</strong> → short memory → only recent observations matter</li>
+<li><strong>α close to 0</strong> → long memory → many past observations are used</li>
+</ul>
+<p>The <strong>forecast is constant</strong>: every future prediction is the same value, only the <strong>confidence interval grows wider</strong> the further out you predict.</p>
+<blockquote class="blockquote">
+<p>✏️ <em>Your annotation space:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="holts-method-double-exponential-smoothing" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="holts-method-double-exponential-smoothing"><span class="header-section-number">3.2</span> Holt’s Method (Double Exponential Smoothing)</h2>
+<p><strong>Use when:</strong> Your data has a <strong>trend</strong> (upward or downward), but <strong>no seasonality</strong>.</p>
+<p>Holt’s method adds a <strong>trend component</strong> on top of the level.</p>
+<section id="how-it-works" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">3.2.1</span> How it works</h3>
+<p>The forecast equation is similar to the equation of a straight line:</p>
+<p><span class="math display">\[\hat{y}_{t+h} = \ell_t + h \cdot b_t\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(\ell_t\)</span> = <strong>level</strong> at time <span class="math inline">\(t\)</span> (how far back to look for relevant information)</li>
+<li><span class="math inline">\(b_t\)</span> = <strong>trend / slope</strong> at time <span class="math inline">\(t\)</span></li>
+<li><span class="math inline">\(h\)</span> = number of steps ahead</li>
+</ul>
+<p>The level is updated using <strong>α</strong> (0 to 1) and the trend is updated using <strong>β</strong> (0 to 1), both found by minimising the <strong>Sum of Squared Errors (SSE)</strong> — R does this automatically using quadratic programming.</p>
+<blockquote class="blockquote">
+<p>💡 <em>Think of it like fitting a line of best fit, but the line is constantly being updated as new data arrives.</em></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>✏️ <em>Your annotation space:</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="damped-trend-holt-with-damping" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="damped-trend-holt-with-damping"><span class="header-section-number">3.3</span> Damped Trend (Holt with Damping)</h2>
+<p><strong>Use when:</strong> The trend is <strong>not linear</strong> — it may slow down, flatten, or follow a cyclical pattern over time.</p>
+<p>The <strong>damped trend</strong> adds a <strong>φ (phi) parameter</strong> that “bends” the trend forecast, preventing it from projecting indefinitely upward or downward. This is useful when the data contains a <strong>cyclical component</strong> (long-term oscillation, not to be confused with short-term seasonality).</p>
+<ul>
+<li>A <strong>polynomial trend</strong> with more degrees captures more complex shapes.</li>
+<li>The lecture referred to this as the <strong>damp</strong> component in R output.</li>
+</ul>
+<blockquote class="blockquote">
+<p>✏️ <em>Your annotation space:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="holt-winters-method-triple-exponential-smoothing" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="holt-winters-method-triple-exponential-smoothing"><span class="header-section-number">3.4</span> Holt-Winters Method (Triple Exponential Smoothing)</h2>
+<p><strong>Use when:</strong> Your data has <strong>trend AND seasonality</strong>.</p>
+<p>Three parameters are estimated:</p>
+<ul>
+<li><strong>α</strong> → level</li>
+<li><strong>β</strong> → trend</li>
+<li><strong>γ (gamma)</strong> → seasonality</li>
+</ul>
+<section id="additive-vs.-multiplicative-seasonality" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="additive-vs.-multiplicative-seasonality"><span class="header-section-number">3.4.1</span> Additive vs.&nbsp;Multiplicative Seasonality</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>When to use</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Additive</strong></td>
+<td>Seasonal swings are <strong>constant</strong> in size</td>
+<td>Pattern has the same amplitude over time</td>
+</tr>
+<tr class="even">
+<td><strong>Multiplicative</strong></td>
+<td>Seasonal swings <strong>grow</strong> with the level</td>
+<td>Pattern amplitude increases as data increases</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>💡 <em>If your time series looks like a trumpet (widening fluctuations), use multiplicative. If the ups and downs stay the same height, use additive.</em></p>
+</blockquote>
+<p>The lecture noted that <strong>multiplicative</strong> better captures a stable seasonal pattern, while <strong>additive</strong> can misrepresent a growing seasonal effect.</p>
+<blockquote class="blockquote">
+<p>✏️ <em>Your annotation space:</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+</section>
+<section id="key-equations-formulas" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Key Equations / Formulas</h1>
+<section id="ses-forecast" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="ses-forecast"><span class="header-section-number">4.1</span> SES Forecast</h2>
+<p><span class="math display">\[\hat{y}_{t+1} = \ell_t = \alpha y_t + (1 - \alpha)\ell_{t-1}\]</span></p>
+</section>
+<section id="holts-method-forecast" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="holts-method-forecast"><span class="header-section-number">4.2</span> Holt’s Method Forecast</h2>
+<p><span class="math display">\[\hat{y}_{t+h} = \ell_t + h \cdot b_t\]</span></p>
+<p><span class="math display">\[\ell_t = \alpha y_t + (1 - \alpha)(\ell_{t-1} + b_{t-1})\]</span></p>
+<p><span class="math display">\[b_t = \beta(\ell_t - \ell_{t-1}) + (1 - \beta)b_{t-1}\]</span></p>
+</section>
+<section id="confidence-interval-general-form" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="confidence-interval-general-form"><span class="header-section-number">4.3</span> Confidence Interval (general form)</h2>
+<p><span class="math display">\[\hat{y} \pm z^* \cdot \frac{\sigma}{\sqrt{n}}\]</span></p>
+<p>Where <span class="math inline">\(z^* = 1.96\)</span> for 95% confidence (standard normal distribution).</p>
+</section>
+<section id="error-metrics" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="error-metrics"><span class="header-section-number">4.4</span> Error Metrics</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Formula</th>
+<th>Key Property</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>MAE</strong></td>
+<td><span class="math inline">\(\frac{1}{n}\sum \|y_t - \hat{y}_t\|\)</span></td>
+<td>Average absolute error</td>
+</tr>
+<tr class="even">
+<td><strong>MSE</strong></td>
+<td><span class="math inline">\(\frac{1}{n}\sum (y_t - \hat{y}_t)^2\)</span></td>
+<td><strong>Penalises large errors more</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>MAPE</strong></td>
+<td><span class="math inline">\(\frac{1}{n}\sum \left|\frac{y_t - \hat{y}_t}{y_t}\right| \times 100\)</span></td>
+<td><strong>Unit-free</strong> — good for comparing different scales</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>💡 <em>Prefer <strong>MSE</strong> when large errors are costly. Use <strong>MAPE</strong> when comparing models across different datasets or units.</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="r-code-examples" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> R Code Examples</h1>
+<section id="fitting-models-with-the-forecast-library" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="fitting-models-with-the-forecast-library"><span class="header-section-number">5.1</span> Fitting models with the <code>forecast</code> library</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Single Exponential Smoothing</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>fit_ses <span class="ot">&lt;-</span> <span class="fu">ses</span>(data, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt's method (trend, no seasonality)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>fit_holt <span class="ot">&lt;-</span> <span class="fu">holt</span>(data, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt with damped trend</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>fit_holt_damp <span class="ot">&lt;-</span> <span class="fu">holt</span>(data, <span class="at">damped =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt-Winters (additive seasonality)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>fit_hw_add <span class="ot">&lt;-</span> <span class="fu">hw</span>(data, <span class="at">seasonal =</span> <span class="st">"additive"</span>, <span class="at">h =</span> <span class="dv">12</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt-Winters (multiplicative seasonality)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>fit_hw_mult <span class="ot">&lt;-</span> <span class="fu">hw</span>(data, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>, <span class="at">h =</span> <span class="dv">12</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># ETS automatic (R chooses best model minimising BIC)</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>fit_ets <span class="ot">&lt;-</span> <span class="fu">ets</span>(data)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_ets)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># ETS with specified components (additive error, additive trend, additive seasonal)</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>fit_ets_aaa <span class="ot">&lt;-</span> <span class="fu">ets</span>(data, <span class="at">model =</span> <span class="st">"AAA"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_ets_aaa)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="comparing-models-using-error-metrics" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="comparing-models-using-error-metrics"><span class="header-section-number">5.2</span> Comparing models using error metrics</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract accuracy metrics</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit_ses)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit_holt)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit_holt_damp)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare AIC / BIC (lower is better)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>fit_ses<span class="sc">$</span>model<span class="sc">$</span>aic</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>fit_holt<span class="sc">$</span>model<span class="sc">$</span>aic</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="plotting-forecasts" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="plotting-forecasts"><span class="header-section-number">5.3</span> Plotting forecasts</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">forecast</span>(fit_holt, <span class="at">h =</span> <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="practical-examples-from-the-lecture" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Practical Examples from the Lecture</h1>
+<section id="oil-data-set" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="oil-data-set"><span class="header-section-number">6.1</span> Oil Data Set</h2>
+<ul>
+<li>Used to compare <strong>SES vs.&nbsp;Holt</strong> (possible trend present)</li>
+<li>Resulted in α ≈ 0.4 → short memory data set</li>
+<li>SES prediction was <strong>constant</strong> (flat line) with <strong>growing confidence intervals</strong></li>
+</ul>
+</section>
+<section id="livestock-data-set" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="livestock-data-set"><span class="header-section-number">6.2</span> Livestock Data Set</h2>
+<p>Three models were fitted and compared using MSE and MAE:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>MSE</th>
+<th>MAE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SES</td>
+<td>14.7</td>
+<td>8.72</td>
+</tr>
+<tr class="even">
+<td>Holt (linear)</td>
+<td>13.98</td>
+<td>7.80</td>
+</tr>
+<tr class="odd">
+<td>Holt (damped)</td>
+<td>13.90</td>
+<td>7.74</td>
+</tr>
+</tbody>
+</table>
+<p>➡️ <strong>Holt damped</strong> had the lowest MAE. <strong>Holt linear</strong> had the lowest MSE. Selection depends on which metric you prioritise.</p>
+</section>
+<section id="hotel-stays-data-set" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="hotel-stays-data-set"><span class="header-section-number">6.3</span> Hotel Stays Data Set</h2>
+<ul>
+<li>Data: number of hotel stays (millions)</li>
+<li>Used to compare <strong>Holt-Winters additive vs.&nbsp;multiplicative</strong></li>
+<li>Multiplicative better captured the stable, consistent seasonal pattern</li>
+<li>Additive produced a non-constant (incorrect) seasonal component</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="information-criteria-aic-and-bic" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Information Criteria: AIC and BIC</h1>
+<p><strong>AIC (Akaike Information Criterion)</strong> and <strong>BIC (Bayesian Information Criterion)</strong> are used to compare models:</p>
+<ul>
+<li>Values have <strong>no meaning on their own</strong></li>
+<li>Only useful for <strong>comparing two models on the same dataset</strong></li>
+<li><strong>Lower value = better model</strong></li>
+</ul>
+<blockquote class="blockquote">
+<p>🔜 <em>The lecturer noted that differences between AIC and BIC will be explained further next week.</em></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>✏️ <em>Your annotation space:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="lab-work-week-5" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Lab Work (Week 5)</h1>
+<p>The lecturer referred to <strong>Lab 2</strong>, which was uploaded to the course platform. Key tasks:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Read a dataset manually into R as a vector</label></li>
+<li><label><input type="checkbox">Convert the data to a <strong>time series object</strong> (important — missing this step causes errors)</label></li>
+<li><label><input type="checkbox">Plot the data and identify components</label></li>
+<li><label><input type="checkbox">Apply the <code>decompose()</code> function — try both <strong>additive</strong> and <strong>multiplicative</strong></label></li>
+<li><label><input type="checkbox">Analyse <strong>residuals</strong>: histogram, QQ plot, scatter plot — check for normality and constant variance</label></li>
+<li><label><input type="checkbox">Fit models with <strong>SES, Holt, Holt-Winters</strong></label></li>
+<li><label><input type="checkbox">Compare models using <strong>MSE, MAE, AIC, BIC</strong></label></li>
+</ul>
+<section id="datasets-to-work-with-mentioned-in-class" class="level3" data-number="8.0.1">
+<h3 data-number="8.0.1" class="anchored" data-anchor-id="datasets-to-work-with-mentioned-in-class"><span class="header-section-number">8.0.1</span> Datasets to work with (mentioned in class):</h3>
+<ul>
+<li><strong>Shampoo dataset</strong> (from a linked website — read into R and perform full analysis)</li>
+<li><strong>Gas dataset</strong></li>
+<li><strong>Dataset X</strong> (referenced for upcoming weeks)</li>
+<li><strong>H2O dataset</strong> (used for ETS demonstration)</li>
+</ul>
+<blockquote class="blockquote">
+<p>⚠️ <em>The lecturer mentioned extra material was uploaded at the beginning of the module with more detailed explanations of decomposition and how the moving average algorithm works. This is useful background reading if you want to recreate the <code>decompose()</code> output manually.</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="what-to-check-in-the-slides" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> What to Check in the Slides</h1>
+<p>Based on the lecture, you should make sure you have slides covering:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SES formula and weighted average diagram</td>
+<td>☐ Check</td>
+</tr>
+<tr class="even">
+<td>Holt equations (level + trend)</td>
+<td>☐ Check</td>
+</tr>
+<tr class="odd">
+<td>Damped trend equation (with φ parameter)</td>
+<td>☐ Check</td>
+</tr>
+<tr class="even">
+<td>Holt-Winters equations (additive &amp; multiplicative)</td>
+<td>☐ Check</td>
+</tr>
+<tr class="odd">
+<td>Oil dataset output from R (α value, confidence intervals)</td>
+<td>☐ Check</td>
+</tr>
+<tr class="even">
+<td>Livestock dataset model comparison table (MSE/MAE)</td>
+<td>☐ Check</td>
+</tr>
+<tr class="odd">
+<td>Hotel stays dataset plots (additive vs.&nbsp;multiplicative components)</td>
+<td>☐ Check</td>
+</tr>
+<tr class="even">
+<td>ETS model output table (H2O dataset, comparing AAA vs auto)</td>
+<td>☐ Check</td>
+</tr>
+<tr class="odd">
+<td>AIC/BIC comparison table</td>
+<td>☐ Check</td>
+</tr>
+<tr class="even">
+<td>ETS command syntax reference table</td>
+<td>☐ Check</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>💡 <em>The lecturer explicitly said he would cover differences between AIC and BIC further <strong>next week</strong>, so do not worry if your slides are light on that topic for now.</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="summary-points" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Summary Points</h1>
+<ul>
+<li><strong>SES</strong> = level only → flat forecast, growing confidence interval</li>
+<li><strong>Holt</strong> = level + trend → forecast follows a line</li>
+<li><strong>Holt damped</strong> = level + non-linear/cyclical trend → curved forecast that stabilises</li>
+<li><strong>Holt-Winters</strong> = level + trend + seasonality → use additive if variance is constant, multiplicative if it grows</li>
+<li>All methods belong to the <strong>ETS family</strong> and can be called using <code>ets()</code> in R</li>
+<li>To compare models: use <strong>MSE or MAE</strong> for residual quality; <strong>AIC/BIC</strong> for model selection</li>
+<li><strong>MAPE</strong> is preferred when comparing across datasets with different units or scales</li>
+<li>Always analyse residuals: they should be <strong>normally distributed, centred at zero, with constant variance and be independent</strong></li>
+<li>R minimises <strong>SSE</strong> automatically — you do not need to do this by hand</li>
+</ul>
+<hr>
+<blockquote class="blockquote">
+<p>📌 <em>Next week: ETS in more depth, differences between AIC and BIC, and continuing with the gas/dataset X exercises.</em></p>
+</blockquote>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../time-series/week-4.html" class="pagination-link" aria-label="Week 4">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 4</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../time-series/week-6.qmd" class="pagination-link" aria-label="Week 6 - empty">
+        <span class="nav-page-text">Week 6 - empty</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 5 – Exponential Smoothing Methods (Holt &amp; Holt-Winters)"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Time Series Analysis – Study Guide"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 *These notes are a summary of the Week 5 lecture. Use the space under each section to add your own annotations, questions, or examples as you review.*</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics This Week</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Recap of **Single Exponential Smoothing (SES)** and its limitations</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Holt's Method** (Double Exponential Smoothing) — adding a trend component</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Damped Trend** — modelling non-linear / cyclical behaviour</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Holt-Winters Method** — adding a seasonality component (additive vs. multiplicative)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Error metrics** for comparing models: MAE, MSE, MAPE</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Information Criteria**: AIC and BIC</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **ETS framework** in R and how to use it</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Practical application using the <span class="in">`forecast`</span> library in R</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="fu"># Recap: The ETS Family</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>All three classical exponential smoothing methods belong to the **ETS (Error, Trend, Seasonal)** family. They differ only in which components they model:</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Method <span class="pp">|</span> Level (α) <span class="pp">|</span> Trend (β) <span class="pp">|</span> Seasonality (γ) <span class="pp">|</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **SES** <span class="pp">|</span> ✅ <span class="pp">|</span> ❌ <span class="pp">|</span> ❌ <span class="pp">|</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt** <span class="pp">|</span> ✅ <span class="pp">|</span> ✅ <span class="pp">|</span> ❌ <span class="pp">|</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt-Winters** <span class="pp">|</span> ✅ <span class="pp">|</span> ✅ <span class="pp">|</span> ✅ <span class="pp">|</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 *The more complex the data (trend, seasonality), the more parameters you need.*</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanations</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Single Exponential Smoothing (SES) – Quick Recap</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>**Use when:** Your data has **no trend and no seasonality** — just a fluctuating level.</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>The key idea is that the **prediction equals the level**, which is a weighted average of past observations. The weight of each past observation **decays exponentially** as you go further back in time.</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**α close to 1** → short memory → only recent observations matter</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**α close to 0** → long memory → many past observations are used</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>The **forecast is constant**: every future prediction is the same value, only the **confidence interval grows wider** the further out you predict.</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your annotation space:*</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="fu">## Holt's Method (Double Exponential Smoothing)</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>**Use when:** Your data has a **trend** (upward or downward), but **no seasonality**.</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>Holt's method adds a **trend component** on top of the level.</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="fu">### How it works</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>The forecast equation is similar to the equation of a straight line:</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{t+h} = \ell_t + h \cdot b_t$$</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>Where:</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\ell_t$ = **level** at time $t$ (how far back to look for relevant information)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$b_t$ = **trend / slope** at time $t$</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$h$ = number of steps ahead</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>The level is updated using **α** (0 to 1) and the trend is updated using **β** (0 to 1), both found by minimising the **Sum of Squared Errors (SSE)** — R does this automatically using quadratic programming.</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 *Think of it like fitting a line of best fit, but the line is constantly being updated as new data arrives.*</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your annotation space:*</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="fu">## Damped Trend (Holt with Damping)</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>**Use when:** The trend is **not linear** — it may slow down, flatten, or follow a cyclical pattern over time.</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>The **damped trend** adds a **φ (phi) parameter** that "bends" the trend forecast, preventing it from projecting indefinitely upward or downward. This is useful when the data contains a **cyclical component** (long-term oscillation, not to be confused with short-term seasonality).</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A **polynomial trend** with more degrees captures more complex shapes.</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The lecture referred to this as the **damp** component in R output.</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your annotation space:*</span></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="fu">## Holt-Winters Method (Triple Exponential Smoothing)</span></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>**Use when:** Your data has **trend AND seasonality**.</span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>Three parameters are estimated:</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**α** → level</span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**β** → trend</span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**γ (gamma)** → seasonality</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="fu">### Additive vs. Multiplicative Seasonality</span></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Type <span class="pp">|</span> When to use <span class="pp">|</span> Behaviour <span class="pp">|</span></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Additive** | Seasonal swings are **constant** in size <span class="pp">|</span> Pattern has the same amplitude over time <span class="pp">|</span></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Multiplicative** | Seasonal swings **grow** with the level <span class="pp">|</span> Pattern amplitude increases as data increases <span class="pp">|</span></span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 *If your time series looks like a trumpet (widening fluctuations), use multiplicative. If the ups and downs stay the same height, use additive.*</span></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>The lecture noted that **multiplicative** better captures a stable seasonal pattern, while **additive** can misrepresent a growing seasonal effect.</span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your annotation space:*</span></span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## SES Forecast</span></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{t+1} = \ell_t = \alpha y_t + (1 - \alpha)\ell_{t-1}$$</span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## Holt's Method Forecast</span></span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{t+h} = \ell_t + h \cdot b_t$$</span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>$$\ell_t = \alpha y_t + (1 - \alpha)(\ell_{t-1} + b_{t-1})$$</span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>$$b_t = \beta(\ell_t - \ell_{t-1}) + (1 - \beta)b_{t-1}$$</span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a><span class="fu">## Confidence Interval (general form)</span></span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>$$\hat{y} \pm z^* \cdot \frac{\sigma}{\sqrt{n}}$$</span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>Where $z^* = 1.96$ for 95% confidence (standard normal distribution).</span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a><span class="fu">## Error Metrics</span></span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Metric <span class="pp">|</span> Formula <span class="pp">|</span> Key Property <span class="pp">|</span></span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MAE** <span class="pp">|</span> $\frac{1}{n}\sum <span class="sc">\|</span>y_t - \hat{y}_t<span class="sc">\|</span>$ <span class="pp">|</span> Average absolute error <span class="pp">|</span></span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MSE** | $\frac{1}{n}\sum (y_t - \hat{y}_t)^2$ | **Penalises large errors more** <span class="pp">|</span></span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MAPE** | $\frac{1}{n}\sum \left|\frac{y_t - \hat{y}_t}{y_t}\right| \times 100$ | **Unit-free** — good for comparing different scales <span class="pp">|</span></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 *Prefer **MSE** when large errors are costly. Use **MAPE** when comparing models across different datasets or units.*</span></span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a><span class="fu"># R Code Examples</span></span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a><span class="fu">## Fitting models with the `forecast` library</span></span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a><span class="co"># Single Exponential Smoothing</span></span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>fit_ses <span class="ot">&lt;-</span> <span class="fu">ses</span>(data, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt's method (trend, no seasonality)</span></span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>fit_holt <span class="ot">&lt;-</span> <span class="fu">holt</span>(data, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt with damped trend</span></span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>fit_holt_damp <span class="ot">&lt;-</span> <span class="fu">holt</span>(data, <span class="at">damped =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt-Winters (additive seasonality)</span></span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>fit_hw_add <span class="ot">&lt;-</span> <span class="fu">hw</span>(data, <span class="at">seasonal =</span> <span class="st">"additive"</span>, <span class="at">h =</span> <span class="dv">12</span>)</span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt-Winters (multiplicative seasonality)</span></span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>fit_hw_mult <span class="ot">&lt;-</span> <span class="fu">hw</span>(data, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>, <span class="at">h =</span> <span class="dv">12</span>)</span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a><span class="co"># ETS automatic (R chooses best model minimising BIC)</span></span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a>fit_ets <span class="ot">&lt;-</span> <span class="fu">ets</span>(data)</span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_ets)</span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a><span class="co"># ETS with specified components (additive error, additive trend, additive seasonal)</span></span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>fit_ets_aaa <span class="ot">&lt;-</span> <span class="fu">ets</span>(data, <span class="at">model =</span> <span class="st">"AAA"</span>)</span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_ets_aaa)</span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a><span class="fu">## Comparing models using error metrics</span></span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract accuracy metrics</span></span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit_ses)</span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit_holt)</span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit_holt_damp)</span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare AIC / BIC (lower is better)</span></span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a>fit_ses<span class="sc">$</span>model<span class="sc">$</span>aic</span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a>fit_holt<span class="sc">$</span>model<span class="sc">$</span>aic</span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a><span class="fu">## Plotting forecasts</span></span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">forecast</span>(fit_holt, <span class="at">h =</span> <span class="dv">10</span>))</span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Examples from the Lecture</span></span>
+<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a><span class="fu">## Oil Data Set</span></span>
+<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Used to compare **SES vs. Holt** (possible trend present)</span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Resulted in α ≈ 0.4 → short memory data set</span>
+<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SES prediction was **constant** (flat line) with **growing confidence intervals**</span>
+<span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a><span class="fu">## Livestock Data Set</span></span>
+<span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a>Three models were fitted and compared using MSE and MAE:</span>
+<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Model <span class="pp">|</span> MSE <span class="pp">|</span> MAE <span class="pp">|</span></span>
+<span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SES <span class="pp">|</span> 14.7 <span class="pp">|</span> 8.72 <span class="pp">|</span></span>
+<span id="cb4-214"><a href="#cb4-214" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Holt (linear) <span class="pp">|</span> 13.98 <span class="pp">|</span> 7.80 <span class="pp">|</span></span>
+<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Holt (damped) <span class="pp">|</span> 13.90 <span class="pp">|</span> 7.74 <span class="pp">|</span></span>
+<span id="cb4-216"><a href="#cb4-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-217"><a href="#cb4-217" aria-hidden="true" tabindex="-1"></a>➡️ **Holt damped** had the lowest MAE. **Holt linear** had the lowest MSE. Selection depends on which metric you prioritise.</span>
+<span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-219"><a href="#cb4-219" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hotel Stays Data Set</span></span>
+<span id="cb4-220"><a href="#cb4-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-221"><a href="#cb4-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Data: number of hotel stays (millions)</span>
+<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Used to compare **Holt-Winters additive vs. multiplicative**</span>
+<span id="cb4-223"><a href="#cb4-223" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Multiplicative better captured the stable, consistent seasonal pattern</span>
+<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Additive produced a non-constant (incorrect) seasonal component</span>
+<span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-226"><a href="#cb4-226" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-227"><a href="#cb4-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-228"><a href="#cb4-228" aria-hidden="true" tabindex="-1"></a><span class="fu"># Information Criteria: AIC and BIC</span></span>
+<span id="cb4-229"><a href="#cb4-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-230"><a href="#cb4-230" aria-hidden="true" tabindex="-1"></a>**AIC (Akaike Information Criterion)** and **BIC (Bayesian Information Criterion)** are used to compare models:</span>
+<span id="cb4-231"><a href="#cb4-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Values have **no meaning on their own**</span>
+<span id="cb4-233"><a href="#cb4-233" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Only useful for **comparing two models on the same dataset**</span>
+<span id="cb4-234"><a href="#cb4-234" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Lower value = better model**</span>
+<span id="cb4-235"><a href="#cb4-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-236"><a href="#cb4-236" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 🔜 *The lecturer noted that differences between AIC and BIC will be explained further next week.*</span></span>
+<span id="cb4-237"><a href="#cb4-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-238"><a href="#cb4-238" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Your annotation space:*</span></span>
+<span id="cb4-239"><a href="#cb4-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-240"><a href="#cb4-240" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-241"><a href="#cb4-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-242"><a href="#cb4-242" aria-hidden="true" tabindex="-1"></a><span class="fu"># Lab Work (Week 5)</span></span>
+<span id="cb4-243"><a href="#cb4-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-244"><a href="#cb4-244" aria-hidden="true" tabindex="-1"></a>The lecturer referred to **Lab 2**, which was uploaded to the course platform. Key tasks:</span>
+<span id="cb4-245"><a href="#cb4-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-246"><a href="#cb4-246" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Read a dataset manually into R as a vector</span>
+<span id="cb4-247"><a href="#cb4-247" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Convert the data to a **time series object** (important — missing this step causes errors)</span>
+<span id="cb4-248"><a href="#cb4-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Plot the data and identify components</span>
+<span id="cb4-249"><a href="#cb4-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Apply the <span class="in">`decompose()`</span> function — try both **additive** and **multiplicative**</span>
+<span id="cb4-250"><a href="#cb4-250" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Analyse **residuals**: histogram, QQ plot, scatter plot — check for normality and constant variance</span>
+<span id="cb4-251"><a href="#cb4-251" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Fit models with **SES, Holt, Holt-Winters**</span>
+<span id="cb4-252"><a href="#cb4-252" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Compare models using **MSE, MAE, AIC, BIC**</span>
+<span id="cb4-253"><a href="#cb4-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-254"><a href="#cb4-254" aria-hidden="true" tabindex="-1"></a><span class="fu">### Datasets to work with (mentioned in class):</span></span>
+<span id="cb4-255"><a href="#cb4-255" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Shampoo dataset** (from a linked website — read into R and perform full analysis)</span>
+<span id="cb4-256"><a href="#cb4-256" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Gas dataset**</span>
+<span id="cb4-257"><a href="#cb4-257" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Dataset X** (referenced for upcoming weeks)</span>
+<span id="cb4-258"><a href="#cb4-258" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**H2O dataset** (used for ETS demonstration)</span>
+<span id="cb4-259"><a href="#cb4-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-260"><a href="#cb4-260" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ *The lecturer mentioned extra material was uploaded at the beginning of the module with more detailed explanations of decomposition and how the moving average algorithm works. This is useful background reading if you want to recreate the `decompose()` output manually.*</span></span>
+<span id="cb4-261"><a href="#cb4-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-262"><a href="#cb4-262" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-263"><a href="#cb4-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-264"><a href="#cb4-264" aria-hidden="true" tabindex="-1"></a><span class="fu"># What to Check in the Slides</span></span>
+<span id="cb4-265"><a href="#cb4-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-266"><a href="#cb4-266" aria-hidden="true" tabindex="-1"></a>Based on the lecture, you should make sure you have slides covering:</span>
+<span id="cb4-267"><a href="#cb4-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-268"><a href="#cb4-268" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Status <span class="pp">|</span></span>
+<span id="cb4-269"><a href="#cb4-269" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb4-270"><a href="#cb4-270" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SES formula and weighted average diagram <span class="pp">|</span> ☐ Check <span class="pp">|</span></span>
+<span id="cb4-271"><a href="#cb4-271" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Holt equations (level + trend) <span class="pp">|</span> ☐ Check <span class="pp">|</span></span>
+<span id="cb4-272"><a href="#cb4-272" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Damped trend equation (with φ parameter) <span class="pp">|</span> ☐ Check <span class="pp">|</span></span>
+<span id="cb4-273"><a href="#cb4-273" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Holt-Winters equations (additive &amp; multiplicative) <span class="pp">|</span> ☐ Check <span class="pp">|</span></span>
+<span id="cb4-274"><a href="#cb4-274" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Oil dataset output from R (α value, confidence intervals) <span class="pp">|</span> ☐ Check <span class="pp">|</span></span>
+<span id="cb4-275"><a href="#cb4-275" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Livestock dataset model comparison table (MSE/MAE) <span class="pp">|</span> ☐ Check <span class="pp">|</span></span>
+<span id="cb4-276"><a href="#cb4-276" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Hotel stays dataset plots (additive vs. multiplicative components) <span class="pp">|</span> ☐ Check <span class="pp">|</span></span>
+<span id="cb4-277"><a href="#cb4-277" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> ETS model output table (H2O dataset, comparing AAA vs auto) <span class="pp">|</span> ☐ Check <span class="pp">|</span></span>
+<span id="cb4-278"><a href="#cb4-278" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> AIC/BIC comparison table <span class="pp">|</span> ☐ Check <span class="pp">|</span></span>
+<span id="cb4-279"><a href="#cb4-279" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> ETS command syntax reference table <span class="pp">|</span> ☐ Check <span class="pp">|</span></span>
+<span id="cb4-280"><a href="#cb4-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-281"><a href="#cb4-281" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 *The lecturer explicitly said he would cover differences between AIC and BIC further **next week**, so do not worry if your slides are light on that topic for now.*</span></span>
+<span id="cb4-282"><a href="#cb4-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-283"><a href="#cb4-283" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-284"><a href="#cb4-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-285"><a href="#cb4-285" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb4-286"><a href="#cb4-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-287"><a href="#cb4-287" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**SES** = level only → flat forecast, growing confidence interval</span>
+<span id="cb4-288"><a href="#cb4-288" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Holt** = level + trend → forecast follows a line</span>
+<span id="cb4-289"><a href="#cb4-289" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Holt damped** = level + non-linear/cyclical trend → curved forecast that stabilises</span>
+<span id="cb4-290"><a href="#cb4-290" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Holt-Winters** = level + trend + seasonality → use additive if variance is constant, multiplicative if it grows</span>
+<span id="cb4-291"><a href="#cb4-291" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>All methods belong to the **ETS family** and can be called using <span class="in">`ets()`</span> in R</span>
+<span id="cb4-292"><a href="#cb4-292" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>To compare models: use **MSE or MAE** for residual quality; **AIC/BIC** for model selection</span>
+<span id="cb4-293"><a href="#cb4-293" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MAPE** is preferred when comparing across datasets with different units or scales</span>
+<span id="cb4-294"><a href="#cb4-294" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always analyse residuals: they should be **normally distributed, centred at zero, with constant variance and be independent**</span>
+<span id="cb4-295"><a href="#cb4-295" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>R minimises **SSE** automatically — you do not need to do this by hand</span>
+<span id="cb4-296"><a href="#cb4-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-297"><a href="#cb4-297" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-298"><a href="#cb4-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-299"><a href="#cb4-299" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 *Next week: ETS in more depth, differences between AIC and BIC, and continuing with the gas/dataset X exercises.*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

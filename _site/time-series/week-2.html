@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>week-2 – Semester Notes</title>
+<title>STAT9005 – Time Series Analysis: Classical Models – Semester Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../time-series/week-3.qmd" rel="next">
+<link href="../time-series/week-3.html" rel="next">
 <link href="../time-series/week-1.html" rel="prev">
 <link href="../favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -107,6 +107,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -120,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-2.html">Week 2 - empty</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-2.html">Week 2</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -270,26 +299,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/week-6.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 6 - empty</span></a>
+  <a href="../regression-analysis/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/week-7.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 7 - empty</span></a>
+  <a href="../regression-analysis/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/week-8.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 8 - empty</span></a>
+  <a href="../regression-analysis/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 9 - empty</span></a>
+ <span class="menu-text">Week 9</span></a>
   </div>
 </li>
       </ul>
@@ -317,31 +346,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 1 - empty</span></a>
+ <span class="menu-text">Week 1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Week 2 - empty</span></a>
+ <span class="menu-text">Week 2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/week-3.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 3 - empty</span></a>
+  <a href="../time-series/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/week-4.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 4 - empty</span></a>
+  <a href="../time-series/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/week-5.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 5 - empty</span></a>
+  <a href="../time-series/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -371,19 +400,892 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics" id="toc-key-topics" class="nav-link active" data-scroll-target="#key-topics"><span class="header-section-number">1</span> Key Topics</a></li>
+  <li><a href="#core-explanation" id="toc-core-explanation" class="nav-link" data-scroll-target="#core-explanation"><span class="header-section-number">2</span> Core Explanation</a>
+  <ul class="collapse">
+  <li><a href="#time-series-components-recap" id="toc-time-series-components-recap" class="nav-link" data-scroll-target="#time-series-components-recap"><span class="header-section-number">2.1</span> Time Series Components — Recap</a>
+  <ul class="collapse">
+  <li><a href="#the-periodicity-concept" id="toc-the-periodicity-concept" class="nav-link" data-scroll-target="#the-periodicity-concept"><span class="header-section-number">2.1.1</span> The Periodicity Concept</a></li>
+  </ul></li>
+  <li><a href="#time-series-decomposition" id="toc-time-series-decomposition" class="nav-link" data-scroll-target="#time-series-decomposition"><span class="header-section-number">2.2</span> Time Series Decomposition</a>
+  <ul class="collapse">
+  <li><a href="#the-decomposition-model" id="toc-the-decomposition-model" class="nav-link" data-scroll-target="#the-decomposition-model"><span class="header-section-number">2.2.1</span> The Decomposition Model</a></li>
+  <li><a href="#converting-multiplicative-to-additive-box-cox-log-transform" id="toc-converting-multiplicative-to-additive-box-cox-log-transform" class="nav-link" data-scroll-target="#converting-multiplicative-to-additive-box-cox-log-transform"><span class="header-section-number">2.2.2</span> Converting Multiplicative to Additive (Box-Cox / log transform)</a></li>
+  </ul></li>
+  <li><a href="#seasonal-adjustment" id="toc-seasonal-adjustment" class="nav-link" data-scroll-target="#seasonal-adjustment"><span class="header-section-number">2.3</span> Seasonal Adjustment</a>
+  <ul class="collapse">
+  <li><a href="#key-r-functions-for-decomposition" id="toc-key-r-functions-for-decomposition" class="nav-link" data-scroll-target="#key-r-functions-for-decomposition"><span class="header-section-number">2.3.1</span> Key R functions for decomposition</a></li>
+  </ul></li>
+  <li><a href="#stl-decomposition" id="toc-stl-decomposition" class="nav-link" data-scroll-target="#stl-decomposition"><span class="header-section-number">2.4</span> STL Decomposition</a>
+  <ul class="collapse">
+  <li><a href="#advantages-of-stl-over-classical-decomposition" id="toc-advantages-of-stl-over-classical-decomposition" class="nav-link" data-scroll-target="#advantages-of-stl-over-classical-decomposition"><span class="header-section-number">2.4.1</span> Advantages of STL over classical decomposition</a></li>
+  <li><a href="#disadvantages" id="toc-disadvantages" class="nav-link" data-scroll-target="#disadvantages"><span class="header-section-number">2.4.2</span> Disadvantages</a></li>
+  <li><a href="#key-parameters" id="toc-key-parameters" class="nav-link" data-scroll-target="#key-parameters"><span class="header-section-number">2.4.3</span> Key parameters</a></li>
+  <li><a href="#r-code" id="toc-r-code" class="nav-link" data-scroll-target="#r-code"><span class="header-section-number">2.4.4</span> R code</a></li>
+  </ul></li>
+  <li><a href="#prediction-using-decomposition" id="toc-prediction-using-decomposition" class="nav-link" data-scroll-target="#prediction-using-decomposition"><span class="header-section-number">2.5</span> Prediction Using Decomposition</a>
+  <ul class="collapse">
+  <li><a href="#r-code-example" id="toc-r-code-example" class="nav-link" data-scroll-target="#r-code-example"><span class="header-section-number">2.5.1</span> R code example</a></li>
+  </ul></li>
+  <li><a href="#simple-moving-average-sma" id="toc-simple-moving-average-sma" class="nav-link" data-scroll-target="#simple-moving-average-sma"><span class="header-section-number">2.6</span> Simple Moving Average (SMA)</a>
+  <ul class="collapse">
+  <li><a href="#formula" id="toc-formula" class="nav-link" data-scroll-target="#formula"><span class="header-section-number">2.6.1</span> Formula</a></li>
+  <li><a href="#how-to-calculate-it-manually-from-the-excel-lecture" id="toc-how-to-calculate-it-manually-from-the-excel-lecture" class="nav-link" data-scroll-target="#how-to-calculate-it-manually-from-the-excel-lecture"><span class="header-section-number">2.6.2</span> How to calculate it manually (from the Excel lecture)</a></li>
+  <li><a href="#r-code-1" id="toc-r-code-1" class="nav-link" data-scroll-target="#r-code-1"><span class="header-section-number">2.6.3</span> R code</a></li>
+  </ul></li>
+  <li><a href="#exponential-smoothing-introduction" id="toc-exponential-smoothing-introduction" class="nav-link" data-scroll-target="#exponential-smoothing-introduction"><span class="header-section-number">2.7</span> Exponential Smoothing — Introduction</a>
+  <ul class="collapse">
+  <li><a href="#when-to-use-exponential-smoothing" id="toc-when-to-use-exponential-smoothing" class="nav-link" data-scroll-target="#when-to-use-exponential-smoothing"><span class="header-section-number">2.7.1</span> When to use exponential smoothing</a></li>
+  <li><a href="#types-of-exponential-smoothing" id="toc-types-of-exponential-smoothing" class="nav-link" data-scroll-target="#types-of-exponential-smoothing"><span class="header-section-number">2.7.2</span> Types of Exponential Smoothing</a></li>
+  </ul></li>
+  <li><a href="#simple-exponential-smoothing-ses" id="toc-simple-exponential-smoothing-ses" class="nav-link" data-scroll-target="#simple-exponential-smoothing-ses"><span class="header-section-number">2.8</span> Simple Exponential Smoothing (SES)</a>
+  <ul class="collapse">
+  <li><a href="#the-two-key-equations" id="toc-the-two-key-equations" class="nav-link" data-scroll-target="#the-two-key-equations"><span class="header-section-number">2.8.1</span> The Two Key Equations</a></li>
+  <li><a href="#the-smoothing-parameter-alpha" id="toc-the-smoothing-parameter-alpha" class="nav-link" data-scroll-target="#the-smoothing-parameter-alpha"><span class="header-section-number">2.8.2</span> The smoothing parameter <span class="math inline">\(\alpha\)</span></a></li>
+  <li><a href="#choosing-alpha-and-ell_0-optimisation" id="toc-choosing-alpha-and-ell_0-optimisation" class="nav-link" data-scroll-target="#choosing-alpha-and-ell_0-optimisation"><span class="header-section-number">2.8.3</span> Choosing <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\ell_0\)</span> — Optimisation</a></li>
+  <li><a href="#ets-notation-etsann" id="toc-ets-notation-etsann" class="nav-link" data-scroll-target="#ets-notation-etsann"><span class="header-section-number">2.8.4</span> ETS notation: ETS(A,N,N)</a></li>
+  <li><a href="#r-code-2" id="toc-r-code-2" class="nav-link" data-scroll-target="#r-code-2"><span class="header-section-number">2.8.5</span> R code</a></li>
+  </ul></li>
+  <li><a href="#trend-methods" id="toc-trend-methods" class="nav-link" data-scroll-target="#trend-methods"><span class="header-section-number">2.9</span> Trend Methods</a>
+  <ul class="collapse">
+  <li><a href="#holts-linear-trend-method" id="toc-holts-linear-trend-method" class="nav-link" data-scroll-target="#holts-linear-trend-method"><span class="header-section-number">2.9.1</span> Holt’s Linear Trend Method</a></li>
+  <li><a href="#holts-damped-trend-method" id="toc-holts-damped-trend-method" class="nav-link" data-scroll-target="#holts-damped-trend-method"><span class="header-section-number">2.9.2</span> Holt’s Damped Trend Method</a></li>
+  <li><a href="#r-code-3" id="toc-r-code-3" class="nav-link" data-scroll-target="#r-code-3"><span class="header-section-number">2.9.3</span> R code</a></li>
+  </ul></li>
+  <li><a href="#seasonal-methods-holt-winters" id="toc-seasonal-methods-holt-winters" class="nav-link" data-scroll-target="#seasonal-methods-holt-winters"><span class="header-section-number">2.10</span> Seasonal Methods — Holt-Winters</a>
+  <ul class="collapse">
+  <li><a href="#holt-winters-additive" id="toc-holt-winters-additive" class="nav-link" data-scroll-target="#holt-winters-additive"><span class="header-section-number">2.10.1</span> Holt-Winters Additive</a></li>
+  <li><a href="#holt-winters-multiplicative" id="toc-holt-winters-multiplicative" class="nav-link" data-scroll-target="#holt-winters-multiplicative"><span class="header-section-number">2.10.2</span> Holt-Winters Multiplicative</a></li>
+  <li><a href="#holt-winters-damped" id="toc-holt-winters-damped" class="nav-link" data-scroll-target="#holt-winters-damped"><span class="header-section-number">2.10.3</span> Holt-Winters Damped</a></li>
+  <li><a href="#r-code-4" id="toc-r-code-4" class="nav-link" data-scroll-target="#r-code-4"><span class="header-section-number">2.10.4</span> R code</a></li>
+  </ul></li>
+  <li><a href="#prediction-error-measurements" id="toc-prediction-error-measurements" class="nav-link" data-scroll-target="#prediction-error-measurements"><span class="header-section-number">2.11</span> Prediction Error Measurements</a></li>
+  <li><a href="#ets-framework-in-r" id="toc-ets-framework-in-r" class="nav-link" data-scroll-target="#ets-framework-in-r"><span class="header-section-number">2.12</span> ETS Framework in R</a>
+  <ul class="collapse">
+  <li><a href="#r-code-5" id="toc-r-code-5" class="nav-link" data-scroll-target="#r-code-5"><span class="header-section-number">2.12.1</span> R code</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#key-equationsformulas-summary" id="toc-key-equationsformulas-summary" class="nav-link" data-scroll-target="#key-equationsformulas-summary"><span class="header-section-number">3</span> Key Equations/Formulas Summary</a></li>
+  <li><a href="#practical-examples" id="toc-practical-examples" class="nav-link" data-scroll-target="#practical-examples"><span class="header-section-number">4</span> Practical Examples</a>
+  <ul class="collapse">
+  <li><a href="#example-1-stl-on-electric-equipment-index" id="toc-example-1-stl-on-electric-equipment-index" class="nav-link" data-scroll-target="#example-1-stl-on-electric-equipment-index"><span class="header-section-number">4.1</span> Example 1 — STL on Electric Equipment Index</a></li>
+  <li><a href="#example-2-ses-on-oil-production-data" id="toc-example-2-ses-on-oil-production-data" class="nav-link" data-scroll-target="#example-2-ses-on-oil-production-data"><span class="header-section-number">4.2</span> Example 2 — SES on Oil Production Data</a></li>
+  <li><a href="#example-3-comparing-models-on-livestock-data-sheep-in-asia" id="toc-example-3-comparing-models-on-livestock-data-sheep-in-asia" class="nav-link" data-scroll-target="#example-3-comparing-models-on-livestock-data-sheep-in-asia"><span class="header-section-number">4.3</span> Example 3 — Comparing Models on Livestock Data (sheep in Asia)</a></li>
+  <li><a href="#example-4-hotel-stays-holt-winters" id="toc-example-4-hotel-stays-holt-winters" class="nav-link" data-scroll-target="#example-4-hotel-stays-holt-winters"><span class="header-section-number">4.4</span> Example 4 — Hotel Stays (Holt-Winters)</a></li>
+  </ul></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">5</span> Summary Points</a></li>
+  <li><a href="#slides-material-to-review" id="toc-slides-material-to-review" class="nav-link" data-scroll-target="#slides-material-to-review"><span class="header-section-number">6</span> Slides / Material to Review</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-2.html">Week 2 - empty</a></li></ol></nav><h1 class="title display-7"></h1></header><div class="quarto-title-block"><div class="quarto-title-tools-only"><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-2.html">Week 2</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">STAT9005 – Time Series Analysis: Classical Models</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Week 2 Study Guide</p>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><strong>Note to self:</strong> These notes are a summary of Week 2 lecture material. The Excel workbook (<code>Lecture_2_CIT_template.xlsx</code>) contains manual exercises on moving averages and seasonal decomposition — complete those before reading further. The R scripts (<code>Chapter_2_Classical_Models_RSTUDIO_2.R</code> and <code>Lab_1_RES.R</code>) contain the full worked code for all examples below.</p>
+</blockquote>
+<hr>
+<section id="key-topics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics</h1>
+<ul>
+<li>Time Series components recap (Trend, Seasonal, Cyclical, Residual)</li>
+<li>Time Series Decomposition — additive vs.&nbsp;multiplicative models</li>
+<li>Seasonal Adjustment</li>
+<li>STL Decomposition (Seasonal &amp; Trend decomposition using Loess)</li>
+<li>Prediction using Decomposition</li>
+<li>Simple Moving Average (SMA)</li>
+<li>Exponential Smoothing — introduction and types</li>
+<li>Simple Exponential Smoothing (SES)</li>
+<li>Trend Methods: Holt Linear and Holt Damped</li>
+<li>Seasonal Methods: Holt-Winters (additive, multiplicative, damped)</li>
+<li>Prediction Error Measurements (MAD, MSE, MAPE)</li>
+<li>ETS framework in R</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanation" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanation</h1>
+<section id="time-series-components-recap" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="time-series-components-recap"><span class="header-section-number">2.1</span> Time Series Components — Recap</h2>
+<p>A <strong>time series</strong> is a sequence of observations collected at equally spaced time points. The key idea is that we try to <strong>understand the pattern</strong> in the data before making forecasts.</p>
+<p>A time series <span class="math inline">\(y_t\)</span> can be decomposed into four main components:</p>
+<ul>
+<li><strong>Trend (<span class="math inline">\(T_t\)</span>):</strong> The long-term increase or decrease in the data. Can be linear, exponential, or more complex.</li>
+<li><strong>Seasonal variation (<span class="math inline">\(S_t\)</span>):</strong> A <strong>periodic</strong> pattern that repeats within a fixed calendar period (e.g., every year). <em>The variation completes itself within one year.</em></li>
+<li><strong>Cyclical variation:</strong> A <strong>non-periodic</strong>, longer-term (&gt; 2 years) wave-like pattern. Unlike seasonality, cycles don’t have a fixed length. In practice, these are often absorbed into the trend component in our models.</li>
+<li><strong>Residual/Random variation (<span class="math inline">\(R_t\)</span>):</strong> Everything that cannot be explained by the three components above. This is the <strong>stochastic (random) part</strong>. If this component still shows a pattern, something has gone wrong in the decomposition.</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Important from the lecture (Aula_2):</strong> The first three components are <em>deterministic</em> — they follow mathematical patterns we can model. The residual is <em>stochastic</em> — it should look like white noise (random, centred around zero, normally distributed). If your residuals show a pattern, you have not correctly identified trend or seasonality.</p>
+</blockquote>
+<section id="the-periodicity-concept" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="the-periodicity-concept"><span class="header-section-number">2.1.1</span> The Periodicity Concept</h3>
+<p><strong>Periodicity (<span class="math inline">\(p\)</span>)</strong> = the number of observations in one complete seasonal cycle.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Data frequency</th>
+<th>Periodicity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Monthly</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>Quarterly</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>Weekly (Mon–Fri)</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>Weekly (Mon–Sun)</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>Hourly (daily pattern)</td>
+<td>24</td>
+</tr>
+<tr class="even">
+<td>Annual</td>
+<td>No seasonality</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Rule of thumb from the lecture:</strong> You need <strong>at least 3–4 complete seasonal cycles</strong> worth of data to reliably estimate trend and seasonality. For monthly data that means ≥ 36 observations.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="time-series-decomposition" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="time-series-decomposition"><span class="header-section-number">2.2</span> Time Series Decomposition</h2>
+<section id="the-decomposition-model" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="the-decomposition-model"><span class="header-section-number">2.2.1</span> The Decomposition Model</h3>
+<p><span class="math display">\[y_t = f(S_t,\ T_t,\ R_t)\]</span></p>
+<p>The choice of how to <em>combine</em> the components depends on whether the <strong>seasonal variation is constant or growing</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Formula</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Additive</strong></td>
+<td><span class="math inline">\(y_t = S_t + T_t + R_t\)</span></td>
+<td>Seasonal amplitude is <strong>constant</strong> (homogeneous seasonality)</td>
+</tr>
+<tr class="even">
+<td><strong>Multiplicative</strong></td>
+<td><span class="math inline">\(y_t = S_t \times T_t \times R_t\)</span></td>
+<td>Seasonal amplitude <strong>grows</strong> with the level (heterogeneous / heteroscedastic)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Tip:</strong> If your time series shows increasing “swings” as the level goes up (like sales growing with bigger peaks every year), use multiplicative. If the swings stay roughly the same size, use additive.</p>
+</blockquote>
+</section>
+<section id="converting-multiplicative-to-additive-box-cox-log-transform" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="converting-multiplicative-to-additive-box-cox-log-transform"><span class="header-section-number">2.2.2</span> Converting Multiplicative to Additive (Box-Cox / log transform)</h3>
+<p>A multiplicative model can be converted to additive by taking logs:</p>
+<p><span class="math display">\[\log(y_t) = \log(S_t) + \log(T_t) + \log(R_t)\]</span></p>
+<p>This is a special case of the <strong>Box-Cox transformation</strong>, which can be applied whenever you need to stabilise the variance.</p>
+<hr>
+</section>
+</section>
+<section id="seasonal-adjustment" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="seasonal-adjustment"><span class="header-section-number">2.3</span> Seasonal Adjustment</h2>
+<p>Once we have an estimate of the seasonal component, we can <strong>remove it</strong> to study the underlying trend more clearly:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Seasonally adjusted series</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Additive</td>
+<td><span class="math inline">\(y_t - \hat{S}_t = T_t + R_t\)</span></td>
+</tr>
+<tr class="even">
+<td>Multiplicative</td>
+<td><span class="math inline">\(y_t / \hat{S}_t = T_t \times R_t\)</span></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Warning from the lecture slides:</strong> A seasonally adjusted series still contains the trend <em>and</em> the residuals, so it is <strong>not smooth</strong> — it can show apparent “ups and downs” that are actually just noise. Use the <strong>trend-cycle component</strong> if you want to see inflection points more clearly.</p>
+</blockquote>
+<section id="key-r-functions-for-decomposition" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="key-r-functions-for-decomposition"><span class="header-section-number">2.3.1</span> Key R functions for decomposition</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Classical decomposition (additive or multiplicative)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>births.ts.comp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(births.ts)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.comp)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract individual components</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>seasonal   <span class="co"># seasonal component</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>trend      <span class="co"># trend component</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>random     <span class="co"># random/residual component</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Seasonally adjust</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>births.ts.sadj <span class="ot">&lt;-</span> births.ts <span class="sc">-</span> births.ts.comp<span class="sc">$</span>seasonal  <span class="co"># additive</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.sadj)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># STL components (see Section 3.3)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">seasonal</span>(fit)     <span class="co"># seasonal component</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">trendcycle</span>(fit)   <span class="co"># trend-cycle component</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">remainder</span>(fit)    <span class="co"># residual component</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">seasadj</span>(fit)      <span class="co"># seasonally adjusted series</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="stl-decomposition" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="stl-decomposition"><span class="header-section-number">2.4</span> STL Decomposition</h2>
+<p><strong>STL</strong> stands for <em>“Seasonal and Trend decomposition using Loess”</em>. It is the recommended method for most practical work.</p>
+<section id="advantages-of-stl-over-classical-decomposition" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="advantages-of-stl-over-classical-decomposition"><span class="header-section-number">2.4.1</span> Advantages of STL over classical decomposition</h3>
+<ul>
+<li><strong>Robust</strong> to outliers (extreme values have less influence)</li>
+<li>Can handle any type of seasonality</li>
+<li>The user can control how “wiggly” the trend and seasonal components are via the window parameters</li>
+</ul>
+</section>
+<section id="disadvantages" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="disadvantages"><span class="header-section-number">2.4.2</span> Disadvantages</h3>
+<ul>
+<li>Designed for <strong>additive models only</strong> (apply log/Box-Cox for multiplicative)</li>
+<li>Does not handle calendar effects automatically</li>
+</ul>
+</section>
+<section id="key-parameters" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="key-parameters"><span class="header-section-number">2.4.3</span> Key parameters</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Controls</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>s.window</code></td>
+<td>How much the seasonal component is allowed to change over time. Use <code>"periodic"</code> to fix it constant.</td>
+</tr>
+<tr class="even">
+<td><code>t.window</code></td>
+<td>How smooth the trend component is.</td>
+</tr>
+<tr class="odd">
+<td><code>robust = TRUE</code></td>
+<td>Makes the decomposition resistant to outliers.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="r-code" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4" class="anchored" data-anchor-id="r-code"><span class="header-section-number">2.4.4</span> R code</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp2)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># STL with fixed seasonal component</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fit) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"year"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># STL with slowly changing seasonality and robust option</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">s.window =</span> <span class="dv">7</span>, <span class="at">robust =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fit) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"year"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust t.window and s.window manually</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">t.window =</span> <span class="dv">15</span>, <span class="at">s.window =</span> <span class="st">"periodic"</span>, <span class="at">robust =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># mstl(): automatically selects s.window; supports Box-Cox via lambda</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>elecequip <span class="sc">%&gt;%</span> <span class="fu">mstl</span>() <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>elecequip <span class="sc">%&gt;%</span> <span class="fu">mstl</span>(<span class="at">lambda =</span> <span class="st">"auto"</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()  <span class="co"># with Box-Cox</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="prediction-using-decomposition" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="prediction-using-decomposition"><span class="header-section-number">2.5</span> Prediction Using Decomposition</h2>
+<p>The typical workflow is:</p>
+<ol type="1">
+<li><strong>Decompose</strong> the series with STL to understand its structure.</li>
+<li><strong>Seasonally adjust</strong> the series (remove <span class="math inline">\(\hat{S}_t\)</span>).</li>
+<li><strong>Apply a non-seasonal forecast method</strong> (e.g., naive, SES, Holt) to the adjusted series.</li>
+<li><strong>Re-add</strong> the seasonal component to produce the final forecast.</li>
+</ol>
+<blockquote class="blockquote">
+<p>The seasonal component is forecast by repeating the <strong>last observed seasonal pattern</strong> (naive seasonal forecast).</p>
+</blockquote>
+<section id="r-code-example" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="r-code-example"><span class="header-section-number">2.5.1</span> R code example</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">t.window =</span> <span class="dv">13</span>, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Forecast using naive method on seasonally adjusted data</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">seasadj</span>() <span class="sc">%&gt;%</span> <span class="fu">naive</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"New orders index"</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Seasonal adjusted data ETS Predictions"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Shorthand: stlf() does all steps automatically</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>elecequip <span class="sc">%&gt;%</span> <span class="fu">stlf</span>(<span class="at">method =</span> <span class="st">'naive'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"New orders index"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Year"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="simple-moving-average-sma" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="simple-moving-average-sma"><span class="header-section-number">2.6</span> Simple Moving Average (SMA)</h2>
+<p>The <strong>Simple Moving Average</strong> smooths a time series by replacing each value with the average of the surrounding <span class="math inline">\(p\)</span> values. It is the foundation of trend estimation in classical decomposition.</p>
+<section id="formula" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="formula"><span class="header-section-number">2.6.1</span> Formula</h3>
+<p><span class="math display">\[F_t = MA_p = \frac{\sum_{i=1}^{p} D_i}{p}\]</span></p>
+<p>where <span class="math inline">\(F_t\)</span> is the prediction, <span class="math inline">\(D_i\)</span> are the observations, and <span class="math inline">\(p\)</span> is the periodicity.</p>
+</section>
+<section id="how-to-calculate-it-manually-from-the-excel-lecture" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="how-to-calculate-it-manually-from-the-excel-lecture"><span class="header-section-number">2.6.2</span> How to calculate it manually (from the Excel lecture)</h3>
+<ol type="1">
+<li>Identify the <strong>periodicity</strong> <span class="math inline">\(p\)</span>.</li>
+<li>Take a <strong>block</strong> of <span class="math inline">\(p\)</span> consecutive observations.</li>
+<li>Calculate the <strong>mean</strong> of that block.</li>
+<li>Place the mean at the <strong>centre</strong> of the block.</li>
+<li>Slide the window one step forward and repeat.</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Important:</strong> You lose <span class="math inline">\(\lfloor p/2 \rfloor\)</span> values at the <strong>start</strong> and <strong>end</strong> of the series because there is no full block available there.</p>
+</blockquote>
+<p><strong>Special case — even <span class="math inline">\(p\)</span>:</strong> When <span class="math inline">\(p\)</span> is even (e.g., <span class="math inline">\(p=4\)</span> for quarterly data), there is no integer centre. You need <strong>two steps</strong>: calculate <span class="math inline">\(MA_p\)</span>, then calculate <span class="math inline">\(MA_2\)</span> of consecutive <span class="math inline">\(MA_p\)</span> values. This centres the estimate correctly.</p>
+</section>
+<section id="r-code-1" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="r-code-1"><span class="header-section-number">2.6.3</span> R code</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(TTR)   <span class="co"># also provides SMA</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sm <span class="ot">&lt;-</span> <span class="fu">ma</span>(wineind, <span class="at">order =</span> <span class="dv">12</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wineind)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(sm, <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="exponential-smoothing-introduction" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="exponential-smoothing-introduction"><span class="header-section-number">2.7</span> Exponential Smoothing — Introduction</h2>
+<p>Exponential smoothing is a family of <strong>pure time series methods</strong> — they use only the history of the variable being forecast, with no external predictors.</p>
+<p><strong>Key idea:</strong> Recent observations should receive <strong>more weight</strong> than older ones. The weights decrease <em>exponentially</em> as observations get older.</p>
+<section id="when-to-use-exponential-smoothing" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="when-to-use-exponential-smoothing"><span class="header-section-number">2.7.1</span> When to use exponential smoothing</h3>
+<ul>
+<li>When you only have data for the series itself (no independent variables)</li>
+<li>When there are too few variables to build a causal model</li>
+<li>When quick forecasts are needed with reasonable accuracy</li>
+</ul>
+</section>
+<section id="types-of-exponential-smoothing" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="types-of-exponential-smoothing"><span class="header-section-number">2.7.2</span> Types of Exponential Smoothing</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Trend</th>
+<th>Seasonality</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>SES</strong> (Simple Exponential Smoothing)</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td><strong>Holt Linear</strong></td>
+<td>Additive (linear)</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td><strong>Holt Damped</strong></td>
+<td>Damped (flattens out)</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td><strong>Holt-Winters Additive</strong></td>
+<td>Additive</td>
+<td>Additive</td>
+</tr>
+<tr class="odd">
+<td><strong>Holt-Winters Multiplicative</strong></td>
+<td>Additive</td>
+<td>Multiplicative</td>
+</tr>
+<tr class="even">
+<td><strong>Holt-Winters Damped</strong></td>
+<td>Damped</td>
+<td>Multiplicative</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="simple-exponential-smoothing-ses" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="simple-exponential-smoothing-ses"><span class="header-section-number">2.8</span> Simple Exponential Smoothing (SES)</h2>
+<p><strong>Use when:</strong> Series has <strong>no trend</strong> and <strong>no seasonality</strong>.</p>
+<section id="the-two-key-equations" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="the-two-key-equations"><span class="header-section-number">2.8.1</span> The Two Key Equations</h3>
+<p><strong>Forecast equation:</strong> <span class="math display">\[\hat{y}_{t+h|t} = \ell_t\]</span></p>
+<p><strong>Smoothing (level) equation:</strong> <span class="math display">\[\ell_t = \alpha y_t + (1 - \alpha)\ell_{t-1}, \quad 0 \leq \alpha \leq 1\]</span></p>
+<p><span class="math inline">\(\ell_t\)</span> is called the <strong>level</strong> (or exponential smoothing) of the series.</p>
+<p>By expanding the smoothing equation recursively: <span class="math display">\[\hat{y}_{T+1|T} = \sum_{j=0}^{T-1} \alpha(1-\alpha)^j y_{T-j} + (1-\alpha)^T \ell_0\]</span></p>
+<p>This shows the forecast is a <strong>weighted average of all past observations</strong>, with weights declining exponentially.</p>
+</section>
+<section id="the-smoothing-parameter-alpha" class="level3" data-number="2.8.2">
+<h3 data-number="2.8.2" class="anchored" data-anchor-id="the-smoothing-parameter-alpha"><span class="header-section-number">2.8.2</span> The smoothing parameter <span class="math inline">\(\alpha\)</span></h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(\alpha\)</span> value</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Close to <strong>1</strong></td>
+<td>Nearly all weight on the most recent observation (reactive, under-smoothed)</td>
+</tr>
+<tr class="even">
+<td>Close to <strong>0</strong></td>
+<td>Weight spread equally across all past observations (smooth, slow to adapt)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="choosing-alpha-and-ell_0-optimisation" class="level3" data-number="2.8.3">
+<h3 data-number="2.8.3" class="anchored" data-anchor-id="choosing-alpha-and-ell_0-optimisation"><span class="header-section-number">2.8.3</span> Choosing <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\ell_0\)</span> — Optimisation</h3>
+<p>Optimal values are found by <strong>minimising the Sum of Squared Errors (SSE)</strong>:</p>
+<p><span class="math display">\[\text{SSE} = \sum_{t=1}^{T}(y_t - \hat{y}_{t|t-1})^2 = \sum_{t=1}^{T} e_t^2\]</span></p>
+<p>This is a non-linear minimisation — R handles it numerically.</p>
+</section>
+<section id="ets-notation-etsann" class="level3" data-number="2.8.4">
+<h3 data-number="2.8.4" class="anchored" data-anchor-id="ets-notation-etsann"><span class="header-section-number">2.8.4</span> ETS notation: ETS(A,N,N)</h3>
+<p>SES is the ETS model with <strong>A</strong>dditive error, <strong>N</strong>o trend, <strong>N</strong>o seasonality.</p>
+</section>
+<section id="r-code-2" class="level3" data-number="2.8.5">
+<h3 data-number="2.8.5" class="anchored" data-anchor-id="r-code-2"><span class="header-section-number">2.8.5</span> R code</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit SES — R optimises alpha automatically</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> <span class="fu">ses</span>(oildata, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fc)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot forecast with fitted values</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fc) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(<span class="fu">fitted</span>(fc), <span class="at">series =</span> <span class="st">"Fitted"</span>) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"oil (1M Tones)"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"year"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Using ets() for more control</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>SES <span class="ot">&lt;-</span> <span class="fu">ets</span>(train.ts, <span class="at">model =</span> <span class="st">"ANN"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># ETS(A,N,N): error = Additive, Trend = None, Seasonality = None</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="trend-methods" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="trend-methods"><span class="header-section-number">2.9</span> Trend Methods</h2>
+<section id="holts-linear-trend-method" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="holts-linear-trend-method"><span class="header-section-number">2.9.1</span> Holt’s Linear Trend Method</h3>
+<p><strong>Use when:</strong> Series has a <strong>linear trend</strong> but <strong>no seasonality</strong>.</p>
+<p>Extends SES with a slope (trend) equation:</p>
+<p><strong>Forecast equation:</strong> <span class="math display">\[\hat{y}_{t+h|t} = \ell_t + h b_t\]</span></p>
+<p><strong>Level equation:</strong> <span class="math display">\[\ell_t = \alpha y_t + (1-\alpha)(\ell_{t-1} + b_{t-1})\]</span></p>
+<p><strong>Trend (slope) equation:</strong> <span class="math display">\[b_t = \beta^*(\ell_t - \ell_{t-1}) + (1-\beta^*)b_{t-1}\]</span></p>
+<p>Parameters: <span class="math inline">\(\alpha, \beta^* \in [0,1]\)</span>. Choose <span class="math inline">\(\alpha, \beta^*, \ell_0, b_0\)</span> to minimise SSE.</p>
+</section>
+<section id="holts-damped-trend-method" class="level3" data-number="2.9.2">
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="holts-damped-trend-method"><span class="header-section-number">2.9.2</span> Holt’s Damped Trend Method</h3>
+<p><strong>Problem with Holt Linear:</strong> Forecasts trend indefinitely into the future — often too optimistic long term.</p>
+<p><strong>Solution:</strong> Introduce a <strong>damping parameter <span class="math inline">\(\phi\)</span></strong> that flattens the trend over time:</p>
+<p><span class="math display">\[\hat{y}_{t+h|t} = \ell_t + (\phi + \phi^2 + \cdots + \phi^h)b_t\]</span></p>
+<p><span class="math display">\[\ell_t = \alpha y_t + (1-\alpha)(\ell_{t-1} + \phi b_{t-1})\]</span></p>
+<p><span class="math display">\[b_t = \beta^*(\ell_t - \ell_{t-1}) + (1-\beta^*)\phi b_{t-1}\]</span></p>
+<ul>
+<li><span class="math inline">\(0 &lt; \phi &lt; 1\)</span>: dampened trend (recommended for long-horizon forecasts)</li>
+<li><span class="math inline">\(\phi = 1\)</span>: equivalent to Holt’s linear trend</li>
+</ul>
+</section>
+<section id="r-code-3" class="level3" data-number="2.9.3">
+<h3 data-number="2.9.3" class="anchored" data-anchor-id="r-code-3"><span class="header-section-number">2.9.3</span> R code</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp2)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>air_data <span class="ot">&lt;-</span> <span class="fu">window</span>(ausair, <span class="at">start =</span> <span class="dv">1990</span>, <span class="at">end =</span> <span class="dv">2004</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt's linear trend</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>air_data <span class="sc">%&gt;%</span> <span class="fu">holt</span>(<span class="at">h =</span> <span class="dv">5</span>, <span class="at">PI =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt's damped trend</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>air_data <span class="sc">%&gt;%</span> <span class="fu">holt</span>(<span class="at">damped =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">5</span>, <span class="at">PI =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare models on livestock data</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>livestock2 <span class="ot">&lt;-</span> <span class="fu">window</span>(livestock, <span class="at">start =</span> <span class="dv">1970</span>, <span class="at">end =</span> <span class="dv">2000</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">ses</span>(livestock2)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">holt</span>(livestock2)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">holt</span>(livestock2, <span class="at">damped =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare accuracy</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit1, livestock)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit2, livestock)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit3, livestock)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="seasonal-methods-holt-winters" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="seasonal-methods-holt-winters"><span class="header-section-number">2.10</span> Seasonal Methods — Holt-Winters</h2>
+<p>Extends Holt to include a <strong>seasonal component <span class="math inline">\(s_t\)</span></strong>.</p>
+<section id="holt-winters-additive" class="level3" data-number="2.10.1">
+<h3 data-number="2.10.1" class="anchored" data-anchor-id="holt-winters-additive"><span class="header-section-number">2.10.1</span> Holt-Winters Additive</h3>
+<p><strong>Use when:</strong> Seasonal amplitude is <strong>constant</strong> (does not grow with the level).</p>
+<p><span class="math display">\[\hat{y}_{t+h|t} = \ell_t + h b_t + s_{t+h-m(k+1)}\]</span></p>
+<p><span class="math display">\[\ell_t = \alpha(y_t - s_{t-m}) + (1-\alpha)(\ell_{t-1} + b_{t-1})\]</span></p>
+<p><span class="math display">\[b_t = \beta^*(\ell_t - \ell_{t-1}) + (1-\beta^*)b_{t-1}\]</span></p>
+<p><span class="math display">\[s_t = \gamma(y_t - \ell_{t-1} - b_{t-1}) + (1-\gamma)s_{t-m}\]</span></p>
+<p>Parameters: <span class="math inline">\(0 \leq \alpha \leq 1\)</span>, <span class="math inline">\(0 \leq \beta^* \leq 1\)</span>, <span class="math inline">\(0 \leq \gamma \leq 1-\alpha\)</span></p>
+<p><span class="math inline">\(m\)</span> = periodicity (e.g., 12 for monthly), <span class="math inline">\(k = \lfloor(h-1)/m\rfloor\)</span></p>
+</section>
+<section id="holt-winters-multiplicative" class="level3" data-number="2.10.2">
+<h3 data-number="2.10.2" class="anchored" data-anchor-id="holt-winters-multiplicative"><span class="header-section-number">2.10.2</span> Holt-Winters Multiplicative</h3>
+<p><strong>Use when:</strong> Seasonal amplitude <strong>grows proportionally</strong> with the level.</p>
+<p><span class="math display">\[\hat{y}_{t+h|t} = (\ell_t + h b_t) s_{t+h-m(k+1)}\]</span></p>
+<p><span class="math display">\[\ell_t = \alpha \frac{y_t}{s_{t-m}} + (1-\alpha)(\ell_{t-1} + b_{t-1})\]</span></p>
+<p><span class="math display">\[s_t = \gamma \frac{y_t}{\ell_{t-1} + b_{t-1}} + (1-\gamma)s_{t-m}\]</span></p>
+</section>
+<section id="holt-winters-damped" class="level3" data-number="2.10.3">
+<h3 data-number="2.10.3" class="anchored" data-anchor-id="holt-winters-damped"><span class="header-section-number">2.10.3</span> Holt-Winters Damped</h3>
+<p>Usually the <strong>best performing method</strong> for seasonal series. Adds the damping parameter <span class="math inline">\(\phi\)</span> to the multiplicative seasonal model.</p>
+</section>
+<section id="r-code-4" class="level3" data-number="2.10.4">
+<h3 data-number="2.10.4" class="anchored" data-anchor-id="r-code-4"><span class="header-section-number">2.10.4</span> R code</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>aust <span class="ot">&lt;-</span> <span class="fu">window</span>(austourists, <span class="at">start =</span> <span class="dv">2005</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit additive and multiplicative Holt-Winters</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">hw</span>(aust, <span class="at">seasonal =</span> <span class="st">"additive"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">hw</span>(aust, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot both</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Data =</span> aust,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>             <span class="st">"HW additive"</span>       <span class="ot">=</span> fit1[[<span class="st">"mean"</span>]],</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">"HW multiplicative"</span> <span class="ot">=</span> fit2[[<span class="st">"mean"</span>]])</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(tmp) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Year"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Hotel Stays (millions)"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Damped multiplicative (usually best for seasonal TS)</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> <span class="fu">hw</span>(<span class="fu">subset</span>(hyndsight, <span class="at">end =</span> <span class="fu">length</span>(hyndsight) <span class="sc">-</span> <span class="dv">35</span>),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">damped =</span> <span class="cn">TRUE</span>, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>, <span class="at">h =</span> <span class="dv">35</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract estimated components</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>addstates  <span class="ot">&lt;-</span> fit1<span class="sc">$</span>model<span class="sc">$</span>states[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>multstates <span class="ot">&lt;-</span> fit2<span class="sc">$</span>model<span class="sc">$</span>states[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(addstates) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(multstates) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"level"</span>,<span class="st">"slope"</span>,<span class="st">"seasonality"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="prediction-error-measurements" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="prediction-error-measurements"><span class="header-section-number">2.11</span> Prediction Error Measurements</h2>
+<p>These metrics allow you to <strong>compare competing models</strong> on a test set.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Formula</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>MAE / MAD</strong></td>
+<td><span class="math inline">\(\frac{\sum |Y_t - F_t|}{n}\)</span></td>
+<td>Same units as data; easy to interpret</td>
+</tr>
+<tr class="even">
+<td><strong>MSE</strong></td>
+<td><span class="math inline">\(\frac{\sum (Y_t - F_t)^2}{n-1}\)</span></td>
+<td>Penalises large errors more heavily</td>
+</tr>
+<tr class="odd">
+<td><strong>MAPE</strong></td>
+<td><span class="math inline">\(\frac{1}{n}\sum\left|\frac{Y_t - F_t}{Y_t}\right| \times 100\)</span></td>
+<td>Percentage; unit-free; allows comparison across series</td>
+</tr>
+<tr class="even">
+<td><strong>RMSE</strong></td>
+<td><span class="math inline">\(\sqrt{MSE}\)</span></td>
+<td>Same units as data; commonly reported</td>
+</tr>
+<tr class="odd">
+<td><strong>MASE</strong></td>
+<td>Scaled MAE</td>
+<td>Useful when comparing across different scales</td>
+</tr>
+</tbody>
+</table>
+<p>Also used: <strong>AIC</strong>, <strong>AICc</strong>, <strong>BIC</strong> — information criteria for model selection (lower = better).</p>
+<blockquote class="blockquote">
+<p><strong>From the livestock example:</strong> The Holt Linear method outperformed both SES and Holt Damped on the test set (lower RMSE, MAE, MAPE). Always evaluate on a <strong>held-out test set</strong>, not just training data.</p>
+</blockquote>
+<hr>
+</section>
+<section id="ets-framework-in-r" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="ets-framework-in-r"><span class="header-section-number">2.12</span> ETS Framework in R</h2>
+<p><strong>ETS</strong> = <strong>E</strong>rror, <strong>T</strong>rend, <strong>S</strong>easonality. This unified framework encompasses all exponential smoothing methods.</p>
+<p>Each component takes a type:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Types</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Error</td>
+<td><strong>A</strong> (additive), <strong>M</strong> (multiplicative)</td>
+</tr>
+<tr class="even">
+<td>Trend</td>
+<td><strong>N</strong> (none), <strong>A</strong> (additive), <strong>Ad</strong> (additive damped)</td>
+</tr>
+<tr class="odd">
+<td>Seasonality</td>
+<td><strong>N</strong> (none), <strong>A</strong> (additive), <strong>M</strong> (multiplicative)</td>
+</tr>
+</tbody>
+</table>
+<p>Examples: <code>ETS(A,N,N)</code> = SES; <code>ETS(A,A,A)</code> = Holt-Winters additive; <code>ETS(M,Ad,M)</code> = Holt-Winters damped multiplicative.</p>
+<section id="r-code-5" class="level3" data-number="2.12.1">
+<h3 data-number="2.12.1" class="anchored" data-anchor-id="r-code-5"><span class="header-section-number">2.12.1</span> R code</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp2)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>aust <span class="ot">&lt;-</span> <span class="fu">window</span>(austourists, <span class="at">start =</span> <span class="dv">2005</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Auto-select model by AICc</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">ets</span>(aust)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fit)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Force a specific model</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ets</span>(h02, <span class="at">model =</span> <span class="st">"AAA"</span>, <span class="at">damped =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Train/test split workflow</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">window</span>(h02, <span class="at">end  =</span> <span class="fu">c</span>(<span class="dv">2004</span>, <span class="dv">12</span>))</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">window</span>(h02, <span class="at">start =</span> <span class="dv">2005</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">ets</span>(train)                                    <span class="co"># fit on train</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">ets</span>(test, <span class="at">model =</span> fit1, <span class="at">use.initial.values =</span> <span class="cn">TRUE</span>)  <span class="co"># apply to test</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit2)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(<span class="fu">forecast</span>(fit1, <span class="dv">10</span>), test)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Residual diagnostics</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="st">'Residuals'</span>      <span class="ot">=</span> <span class="fu">residuals</span>(fit),</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">'Forecast errors'</span> <span class="ot">=</span> <span class="fu">residuals</span>(fit, <span class="at">type =</span> <span class="st">'response'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="at">facet =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Year"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+</section>
+<section id="key-equationsformulas-summary" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Key Equations/Formulas Summary</h1>
+<p><strong>Decomposition:</strong> <span class="math display">\[y_t = S_t + T_t + R_t \quad \text{(additive)} \qquad y_t = S_t \times T_t \times R_t \quad \text{(multiplicative)}\]</span></p>
+<p><strong>Simple Moving Average:</strong> <span class="math display">\[MA_p = \frac{\sum_{i=1}^{p} D_i}{p}\]</span></p>
+<p><strong>SES forecast &amp; smoothing:</strong> <span class="math display">\[\hat{y}_{t+h|t} = \ell_t \qquad \ell_t = \alpha y_t + (1-\alpha)\ell_{t-1}\]</span></p>
+<p><strong>Holt’s linear trend:</strong> <span class="math display">\[\hat{y}_{t+h|t} = \ell_t + hb_t \qquad b_t = \beta^*(\ell_t - \ell_{t-1}) + (1-\beta^*)b_{t-1}\]</span></p>
+<p><strong>Optimisation criterion (SSE):</strong> <span class="math display">\[\text{SSE} = \sum_{t=1}^{T}(y_t - \hat{y}_{t|t-1})^2\]</span></p>
+<p><strong>Error metrics:</strong> <span class="math display">\[\text{MAE} = \frac{\sum|Y_t - F_t|}{n} \qquad \text{MAPE} = \frac{1}{n}\sum\left|\frac{Y_t-F_t}{Y_t}\right|\times100\]</span></p>
+<hr>
+</section>
+<section id="practical-examples" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Practical Examples</h1>
+<section id="example-1-stl-on-electric-equipment-index" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="example-1-stl-on-electric-equipment-index"><span class="header-section-number">4.1</span> Example 1 — STL on Electric Equipment Index</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp2)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">s.window =</span> <span class="dv">5</span>, <span class="at">robust =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fit) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"STL Decomposition Electric Equipment index"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Shows clearly separated trend, seasonal (periodic ~12-month cycle), and small remainder.</p>
+</section>
+<section id="example-2-ses-on-oil-production-data" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="example-2-ses-on-oil-production-data"><span class="header-section-number">4.2</span> Example 2 — SES on Oil Production Data</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> <span class="fu">ses</span>(oildata, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># alpha = 0.8339 (high — most weight on recent observations)</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># All 5-step forecasts are flat (constant) = feature of SES</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="example-3-comparing-models-on-livestock-data-sheep-in-asia" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="example-3-comparing-models-on-livestock-data-sheep-in-asia"><span class="header-section-number">4.3</span> Example 3 — Comparing Models on Livestock Data (sheep in Asia)</h2>
+<p>The three models fitted were SES, Holt Linear, and Holt Damped. Key results:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Test RMSE</th>
+<th>Test MAE</th>
+<th>Test MAPE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SES</td>
+<td>25.46</td>
+<td>20.38</td>
+<td>4.60</td>
+</tr>
+<tr class="even">
+<td>Holt Linear</td>
+<td><strong>11.88</strong></td>
+<td><strong>10.71</strong></td>
+<td><strong>2.54</strong></td>
+</tr>
+<tr class="odd">
+<td>Holt Damped</td>
+<td>14.73</td>
+<td>13.30</td>
+<td>3.07</td>
+</tr>
+</tbody>
+</table>
+<p>Holt Linear performed best despite the series having a trend change — the damped version was conservative.</p>
+</section>
+<section id="example-4-hotel-stays-holt-winters" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="example-4-hotel-stays-holt-winters"><span class="header-section-number">4.4</span> Example 4 — Hotel Stays (Holt-Winters)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>aust  <span class="ot">&lt;-</span> <span class="fu">window</span>(austourists, <span class="at">start =</span> <span class="dv">2005</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fit1  <span class="ot">&lt;-</span> <span class="fu">hw</span>(aust, <span class="at">seasonal =</span> <span class="st">"additive"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fit2  <span class="ot">&lt;-</span> <span class="fu">hw</span>(aust, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Both methods perform very similarly here. Use multiplicative when seasonal swings grow over time.</p>
+<hr>
+</section>
+</section>
+<section id="summary-points" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Summary Points</h1>
+<ul>
+<li>A time series is decomposed into <strong>Trend + Seasonal + Cyclical + Residual</strong>. The cyclical component is usually absorbed into the trend in practice.</li>
+<li>Choose <strong>additive decomposition</strong> for constant seasonality; <strong>multiplicative</strong> (or log-transform) for growing seasonality.</li>
+<li><strong>STL</strong> is preferred over classical decomposition — it is robust to outliers and gives user control over smoothness.</li>
+<li>The <strong>residuals</strong> after decomposition must look <strong>random</strong> (no pattern, centred on zero, approximately normal). If they don’t, the decomposition is incomplete.</li>
+<li><strong>SES</strong> is for series with no trend and no seasonality. The parameter <span class="math inline">\(\alpha\)</span> controls how quickly the model “forgets” old data.</li>
+<li><strong>Holt’s method</strong> adds a trend component (linear or damped). The <strong>damped version</strong> is safer for long-horizon forecasts.</li>
+<li><strong>Holt-Winters</strong> adds a seasonal component on top of Holt. The <strong>damped multiplicative</strong> version is often the best performer.</li>
+<li>Always evaluate models on a <strong>test set</strong> using error metrics (MAE, RMSE, MAPE). Minimise <strong>AICc</strong> for model selection within the ETS framework.</li>
+<li><code>ets()</code> in R selects the best ETS model automatically using AICc — but use <code>ses()</code>, <code>holt()</code>, and <code>hw()</code> when you want direct control.</li>
+</ul>
+<hr>
+</section>
+<section id="slides-material-to-review" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Slides / Material to Review</h1>
+<p>Based on all the uploaded files, here is a checklist of what to go back and study:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Material</th>
+<th>What to check</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Lecture_2_TS_CLASSICAL_MODELS_2026.pdf</code></td>
+<td>All 59 slides — the main lecture deck</td>
+<td>☐</td>
+</tr>
+<tr class="even">
+<td><code>Lecture_2_CIT_template.xlsx</code></td>
+<td><strong>Complete the 3 manual exercises</strong> (moving average + seasonal index, additive and multiplicative)</td>
+<td>☐</td>
+</tr>
+<tr class="odd">
+<td><code>Lab_1_Time_Series.pdf</code></td>
+<td>Lab 1 exercises — <code>ts()</code>, <code>decompose()</code>, seasonal/trend adjustment</td>
+<td>☐</td>
+</tr>
+<tr class="even">
+<td><code>Lab_1_RES.R</code></td>
+<td>R script with Lab 1 results — compare your output</td>
+<td>☐</td>
+</tr>
+<tr class="odd">
+<td><code>Lab_1_SOL.R</code></td>
+<td>Lab 1 solutions — check after attempting yourself</td>
+<td>☐</td>
+</tr>
+<tr class="even">
+<td><code>Chapter_2_Classical_Models_RSTUDIO_2.R</code></td>
+<td>Lecture demo R code — run it step by step in RStudio</td>
+<td>☐</td>
+</tr>
+<tr class="odd">
+<td><code>Intro_to_Time_Series.pdf</code></td>
+<td>Supplementary reading — deeper detail on components, moving averages, periodicity</td>
+<td>☐ (optional but recommended)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Priority:</strong> Finish the Excel file first (manual decomposition), then run <code>Chapter_2_Classical_Models_RSTUDIO_2.R</code> in RStudio to see all the plots live. The <code>Intro_to_Time_Series.pdf</code> is a book chapter — use it for clarification if the lecture slides are unclear.</p>
+</blockquote>
+<hr>
+<p><em><!-- Add your own annotations, worked examples, or questions here --></em></p>
 
 
 <!-- -->
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -510,7 +1412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -839,17 +1741,622 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../time-series/week-1.html" class="pagination-link" aria-label="Week 1 - empty">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 1 - empty</span>
+      <a href="../time-series/week-1.html" class="pagination-link" aria-label="Week 1">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 1</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../time-series/week-3.qmd" class="pagination-link" aria-label="Week 3 - empty">
-        <span class="nav-page-text">Week 3 - empty</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../time-series/week-3.html" class="pagination-link" aria-label="Week 3">
+        <span class="nav-page-text">Week 3</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "STAT9005 – Time Series Analysis: Classical Models"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Week 2 Study Guide"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note to self:** These notes are a summary of Week 2 lecture material. </span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; The Excel workbook (</span><span class="in">`Lecture_2_CIT_template.xlsx`</span><span class="at">) contains manual exercises </span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; on moving averages and seasonal decomposition — complete those before reading </span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; further. The R scripts (</span><span class="in">`Chapter_2_Classical_Models_RSTUDIO_2.R`</span><span class="at"> and </span><span class="in">`Lab_1_RES.R`</span><span class="at">) </span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; contain the full worked code for all examples below.</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Time Series components recap (Trend, Seasonal, Cyclical, Residual)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Time Series Decomposition — additive vs. multiplicative models</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Seasonal Adjustment</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>STL Decomposition (Seasonal &amp; Trend decomposition using Loess)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Prediction using Decomposition</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Simple Moving Average (SMA)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Exponential Smoothing — introduction and types</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Simple Exponential Smoothing (SES)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Trend Methods: Holt Linear and Holt Damped</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Seasonal Methods: Holt-Winters (additive, multiplicative, damped)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Prediction Error Measurements (MAD, MSE, MAPE)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ETS framework in R</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanation</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Time Series Components — Recap</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>A **time series** is a sequence of observations collected at equally spaced time points. The key idea is that we try to **understand the pattern** in the data before making forecasts.</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>A time series $y_t$ can be decomposed into four main components:</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Trend ($T_t$):** The long-term increase or decrease in the data. Can be linear, exponential, or more complex.</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Seasonal variation ($S_t$):** A **periodic** pattern that repeats within a fixed calendar period (e.g., every year). *The variation completes itself within one year.*</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cyclical variation:** A **non-periodic**, longer-term (&gt; 2 years) wave-like pattern. Unlike seasonality, cycles don't have a fixed length. In practice, these are often absorbed into the trend component in our models.</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Residual/Random variation ($R_t$):** Everything that cannot be explained by the three components above. This is the **stochastic (random) part**. If this component still shows a pattern, something has gone wrong in the decomposition.</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Important from the lecture (Aula_2):** The first three components are *deterministic* — they follow mathematical patterns we can model. The residual is *stochastic* — it should look like white noise (random, centred around zero, normally distributed). If your residuals show a pattern, you have not correctly identified trend or seasonality.</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Periodicity Concept</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>**Periodicity ($p$)** = the number of observations in one complete seasonal cycle.</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Data frequency <span class="pp">|</span> Periodicity <span class="pp">|</span></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Monthly <span class="pp">|</span> 12 <span class="pp">|</span></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Quarterly <span class="pp">|</span> 4 <span class="pp">|</span></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Weekly (Mon–Fri) <span class="pp">|</span> 5 <span class="pp">|</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Weekly (Mon–Sun) <span class="pp">|</span> 7 <span class="pp">|</span></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Hourly (daily pattern) <span class="pp">|</span> 24 <span class="pp">|</span></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Annual <span class="pp">|</span> No seasonality <span class="pp">|</span></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Rule of thumb from the lecture:** You need **at least 3–4 complete seasonal cycles** worth of data to reliably estimate trend and seasonality. For monthly data that means ≥ 36 observations.</span></span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## Time Series Decomposition</span></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Decomposition Model</span></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>$$y_t = f(S_t,\ T_t,\ R_t)$$</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>The choice of how to *combine* the components depends on whether the **seasonal variation is constant or growing**:</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Model <span class="pp">|</span> Formula <span class="pp">|</span> When to use <span class="pp">|</span></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Additive** | $y_t = S_t + T_t + R_t$ | Seasonal amplitude is **constant** (homogeneous seasonality) <span class="pp">|</span></span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Multiplicative** | $y_t = S_t \times T_t \times R_t$ | Seasonal amplitude **grows** with the level (heterogeneous / heteroscedastic) <span class="pp">|</span></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Tip:** If your time series shows increasing "swings" as the level goes up (like sales growing with bigger peaks every year), use multiplicative. If the swings stay roughly the same size, use additive.</span></span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a><span class="fu">### Converting Multiplicative to Additive (Box-Cox / log transform)</span></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>A multiplicative model can be converted to additive by taking logs:</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>$$\log(y_t) = \log(S_t) + \log(T_t) + \log(R_t)$$</span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>This is a special case of the **Box-Cox transformation**, which can be applied whenever you need to stabilise the variance.</span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a><span class="fu">## Seasonal Adjustment</span></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>Once we have an estimate of the seasonal component, we can **remove it** to study the underlying trend more clearly:</span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Model <span class="pp">|</span> Seasonally adjusted series <span class="pp">|</span></span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Additive <span class="pp">|</span> $y_t - \hat{S}_t = T_t + R_t$ <span class="pp">|</span></span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Multiplicative <span class="pp">|</span> $y_t / \hat{S}_t = T_t \times R_t$ <span class="pp">|</span></span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Warning from the lecture slides:** A seasonally adjusted series still contains the trend *and* the residuals, so it is **not smooth** — it can show apparent "ups and downs" that are actually just noise. Use the **trend-cycle component** if you want to see inflection points more clearly.</span></span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key R functions for decomposition</span></span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a><span class="co"># Classical decomposition (additive or multiplicative)</span></span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>births.ts.comp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(births.ts)</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.comp)</span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract individual components</span></span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>seasonal   <span class="co"># seasonal component</span></span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>trend      <span class="co"># trend component</span></span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>random     <span class="co"># random/residual component</span></span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a><span class="co"># Seasonally adjust</span></span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a>births.ts.sadj <span class="ot">&lt;-</span> births.ts <span class="sc">-</span> births.ts.comp<span class="sc">$</span>seasonal  <span class="co"># additive</span></span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.sadj)</span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a><span class="co"># STL components (see Section 3.3)</span></span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a><span class="fu">seasonal</span>(fit)     <span class="co"># seasonal component</span></span>
+<span id="cb12-119"><a href="#cb12-119" aria-hidden="true" tabindex="-1"></a><span class="fu">trendcycle</span>(fit)   <span class="co"># trend-cycle component</span></span>
+<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a><span class="fu">remainder</span>(fit)    <span class="co"># residual component</span></span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a><span class="fu">seasadj</span>(fit)      <span class="co"># seasonally adjusted series</span></span>
+<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a><span class="fu">## STL Decomposition</span></span>
+<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a>**STL** stands for *"Seasonal and Trend decomposition using Loess"*. It is the recommended method for most practical work.</span>
+<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a><span class="fu">### Advantages of STL over classical decomposition</span></span>
+<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Robust** to outliers (extreme values have less influence)</span>
+<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Can handle any type of seasonality</span>
+<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The user can control how "wiggly" the trend and seasonal components are via the window parameters</span>
+<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-136"><a href="#cb12-136" aria-hidden="true" tabindex="-1"></a><span class="fu">### Disadvantages</span></span>
+<span id="cb12-137"><a href="#cb12-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Designed for **additive models only** (apply log/Box-Cox for multiplicative)</span>
+<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Does not handle calendar effects automatically</span>
+<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key parameters</span></span>
+<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parameter <span class="pp">|</span> Controls <span class="pp">|</span></span>
+<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`s.window`</span> <span class="pp">|</span> How much the seasonal component is allowed to change over time. Use <span class="in">`"periodic"`</span> to fix it constant. <span class="pp">|</span></span>
+<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`t.window`</span> <span class="pp">|</span> How smooth the trend component is. <span class="pp">|</span></span>
+<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`robust = TRUE`</span> <span class="pp">|</span> Makes the decomposition resistant to outliers. <span class="pp">|</span></span>
+<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a><span class="fu">### R code</span></span>
+<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp2)</span>
+<span id="cb12-153"><a href="#cb12-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-154"><a href="#cb12-154" aria-hidden="true" tabindex="-1"></a><span class="co"># STL with fixed seasonal component</span></span>
+<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span>
+<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fit) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"year"</span>)</span>
+<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a><span class="co"># STL with slowly changing seasonality and robust option</span></span>
+<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">s.window =</span> <span class="dv">7</span>, <span class="at">robust =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fit) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"year"</span>)</span>
+<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust t.window and s.window manually</span></span>
+<span id="cb12-163"><a href="#cb12-163" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">t.window =</span> <span class="dv">15</span>, <span class="at">s.window =</span> <span class="st">"periodic"</span>, <span class="at">robust =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-164"><a href="#cb12-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-165"><a href="#cb12-165" aria-hidden="true" tabindex="-1"></a><span class="co"># mstl(): automatically selects s.window; supports Box-Cox via lambda</span></span>
+<span id="cb12-166"><a href="#cb12-166" aria-hidden="true" tabindex="-1"></a>elecequip <span class="sc">%&gt;%</span> <span class="fu">mstl</span>() <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span>
+<span id="cb12-167"><a href="#cb12-167" aria-hidden="true" tabindex="-1"></a>elecequip <span class="sc">%&gt;%</span> <span class="fu">mstl</span>(<span class="at">lambda =</span> <span class="st">"auto"</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()  <span class="co"># with Box-Cox</span></span>
+<span id="cb12-168"><a href="#cb12-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-169"><a href="#cb12-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-170"><a href="#cb12-170" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-171"><a href="#cb12-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-172"><a href="#cb12-172" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prediction Using Decomposition</span></span>
+<span id="cb12-173"><a href="#cb12-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-174"><a href="#cb12-174" aria-hidden="true" tabindex="-1"></a>The typical workflow is:</span>
+<span id="cb12-175"><a href="#cb12-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-176"><a href="#cb12-176" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Decompose** the series with STL to understand its structure.</span>
+<span id="cb12-177"><a href="#cb12-177" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Seasonally adjust** the series (remove $\hat{S}_t$).</span>
+<span id="cb12-178"><a href="#cb12-178" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Apply a non-seasonal forecast method** (e.g., naive, SES, Holt) to the adjusted series.</span>
+<span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Re-add** the seasonal component to produce the final forecast.</span>
+<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; The seasonal component is forecast by repeating the **last observed seasonal pattern** (naive seasonal forecast).</span></span>
+<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### R code example</span></span>
+<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-186"><a href="#cb12-186" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">t.window =</span> <span class="dv">13</span>, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span>
+<span id="cb12-187"><a href="#cb12-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-188"><a href="#cb12-188" aria-hidden="true" tabindex="-1"></a><span class="co"># Forecast using naive method on seasonally adjusted data</span></span>
+<span id="cb12-189"><a href="#cb12-189" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">seasadj</span>() <span class="sc">%&gt;%</span> <span class="fu">naive</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-190"><a href="#cb12-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"New orders index"</span>) <span class="sc">+</span></span>
+<span id="cb12-191"><a href="#cb12-191" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Seasonal adjusted data ETS Predictions"</span>)</span>
+<span id="cb12-192"><a href="#cb12-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-193"><a href="#cb12-193" aria-hidden="true" tabindex="-1"></a><span class="co"># Shorthand: stlf() does all steps automatically</span></span>
+<span id="cb12-194"><a href="#cb12-194" aria-hidden="true" tabindex="-1"></a>elecequip <span class="sc">%&gt;%</span> <span class="fu">stlf</span>(<span class="at">method =</span> <span class="st">'naive'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-195"><a href="#cb12-195" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"New orders index"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Year"</span>)</span>
+<span id="cb12-196"><a href="#cb12-196" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-197"><a href="#cb12-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-198"><a href="#cb12-198" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-199"><a href="#cb12-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-200"><a href="#cb12-200" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simple Moving Average (SMA)</span></span>
+<span id="cb12-201"><a href="#cb12-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-202"><a href="#cb12-202" aria-hidden="true" tabindex="-1"></a>The **Simple Moving Average** smooths a time series by replacing each value with the average of the surrounding $p$ values. It is the foundation of trend estimation in classical decomposition.</span>
+<span id="cb12-203"><a href="#cb12-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-204"><a href="#cb12-204" aria-hidden="true" tabindex="-1"></a><span class="fu">### Formula</span></span>
+<span id="cb12-205"><a href="#cb12-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-206"><a href="#cb12-206" aria-hidden="true" tabindex="-1"></a>$$F_t = MA_p = \frac{\sum_{i=1}^{p} D_i}{p}$$</span>
+<span id="cb12-207"><a href="#cb12-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-208"><a href="#cb12-208" aria-hidden="true" tabindex="-1"></a>where $F_t$ is the prediction, $D_i$ are the observations, and $p$ is the periodicity.</span>
+<span id="cb12-209"><a href="#cb12-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-210"><a href="#cb12-210" aria-hidden="true" tabindex="-1"></a><span class="fu">### How to calculate it manually (from the Excel lecture)</span></span>
+<span id="cb12-211"><a href="#cb12-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-212"><a href="#cb12-212" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Identify the **periodicity** $p$.</span>
+<span id="cb12-213"><a href="#cb12-213" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Take a **block** of $p$ consecutive observations.</span>
+<span id="cb12-214"><a href="#cb12-214" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Calculate the **mean** of that block.</span>
+<span id="cb12-215"><a href="#cb12-215" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Place the mean at the **centre** of the block.</span>
+<span id="cb12-216"><a href="#cb12-216" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Slide the window one step forward and repeat.</span>
+<span id="cb12-217"><a href="#cb12-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-218"><a href="#cb12-218" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Important:** You lose $\lfloor p/2 \rfloor$ values at the **start** and **end** of the series because there is no full block available there.</span></span>
+<span id="cb12-219"><a href="#cb12-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-220"><a href="#cb12-220" aria-hidden="true" tabindex="-1"></a>**Special case — even $p$:** When $p$ is even (e.g., $p=4$ for quarterly data), there is no integer centre. You need **two steps**: calculate $MA_p$, then calculate $MA_2$ of consecutive $MA_p$ values. This centres the estimate correctly.</span>
+<span id="cb12-221"><a href="#cb12-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-222"><a href="#cb12-222" aria-hidden="true" tabindex="-1"></a><span class="fu">### R code</span></span>
+<span id="cb12-223"><a href="#cb12-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-224"><a href="#cb12-224" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-225"><a href="#cb12-225" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb12-226"><a href="#cb12-226" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(TTR)   <span class="co"># also provides SMA</span></span>
+<span id="cb12-227"><a href="#cb12-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-228"><a href="#cb12-228" aria-hidden="true" tabindex="-1"></a>sm <span class="ot">&lt;-</span> <span class="fu">ma</span>(wineind, <span class="at">order =</span> <span class="dv">12</span>)</span>
+<span id="cb12-229"><a href="#cb12-229" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wineind)</span>
+<span id="cb12-230"><a href="#cb12-230" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(sm, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb12-231"><a href="#cb12-231" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-232"><a href="#cb12-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-233"><a href="#cb12-233" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-234"><a href="#cb12-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-235"><a href="#cb12-235" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exponential Smoothing — Introduction</span></span>
+<span id="cb12-236"><a href="#cb12-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-237"><a href="#cb12-237" aria-hidden="true" tabindex="-1"></a>Exponential smoothing is a family of **pure time series methods** — they use only the history of the variable being forecast, with no external predictors.</span>
+<span id="cb12-238"><a href="#cb12-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-239"><a href="#cb12-239" aria-hidden="true" tabindex="-1"></a>**Key idea:** Recent observations should receive **more weight** than older ones. The weights decrease *exponentially* as observations get older.</span>
+<span id="cb12-240"><a href="#cb12-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-241"><a href="#cb12-241" aria-hidden="true" tabindex="-1"></a><span class="fu">### When to use exponential smoothing</span></span>
+<span id="cb12-242"><a href="#cb12-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-243"><a href="#cb12-243" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>When you only have data for the series itself (no independent variables)</span>
+<span id="cb12-244"><a href="#cb12-244" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>When there are too few variables to build a causal model</span>
+<span id="cb12-245"><a href="#cb12-245" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>When quick forecasts are needed with reasonable accuracy</span>
+<span id="cb12-246"><a href="#cb12-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-247"><a href="#cb12-247" aria-hidden="true" tabindex="-1"></a><span class="fu">### Types of Exponential Smoothing</span></span>
+<span id="cb12-248"><a href="#cb12-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-249"><a href="#cb12-249" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Method <span class="pp">|</span> Trend <span class="pp">|</span> Seasonality <span class="pp">|</span></span>
+<span id="cb12-250"><a href="#cb12-250" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb12-251"><a href="#cb12-251" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **SES** (Simple Exponential Smoothing) <span class="pp">|</span> None <span class="pp">|</span> None <span class="pp">|</span></span>
+<span id="cb12-252"><a href="#cb12-252" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt Linear** <span class="pp">|</span> Additive (linear) <span class="pp">|</span> None <span class="pp">|</span></span>
+<span id="cb12-253"><a href="#cb12-253" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt Damped** <span class="pp">|</span> Damped (flattens out) <span class="pp">|</span> None <span class="pp">|</span></span>
+<span id="cb12-254"><a href="#cb12-254" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt-Winters Additive** <span class="pp">|</span> Additive <span class="pp">|</span> Additive <span class="pp">|</span></span>
+<span id="cb12-255"><a href="#cb12-255" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt-Winters Multiplicative** <span class="pp">|</span> Additive <span class="pp">|</span> Multiplicative <span class="pp">|</span></span>
+<span id="cb12-256"><a href="#cb12-256" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt-Winters Damped** <span class="pp">|</span> Damped <span class="pp">|</span> Multiplicative <span class="pp">|</span></span>
+<span id="cb12-257"><a href="#cb12-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-258"><a href="#cb12-258" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-259"><a href="#cb12-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-260"><a href="#cb12-260" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simple Exponential Smoothing (SES)</span></span>
+<span id="cb12-261"><a href="#cb12-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-262"><a href="#cb12-262" aria-hidden="true" tabindex="-1"></a>**Use when:** Series has **no trend** and **no seasonality**.</span>
+<span id="cb12-263"><a href="#cb12-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-264"><a href="#cb12-264" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Two Key Equations</span></span>
+<span id="cb12-265"><a href="#cb12-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-266"><a href="#cb12-266" aria-hidden="true" tabindex="-1"></a>**Forecast equation:**</span>
+<span id="cb12-267"><a href="#cb12-267" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{t+h|t} = \ell_t$$</span>
+<span id="cb12-268"><a href="#cb12-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-269"><a href="#cb12-269" aria-hidden="true" tabindex="-1"></a>**Smoothing (level) equation:**</span>
+<span id="cb12-270"><a href="#cb12-270" aria-hidden="true" tabindex="-1"></a>$$\ell_t = \alpha y_t + (1 - \alpha)\ell_{t-1}, \quad 0 \leq \alpha \leq 1$$</span>
+<span id="cb12-271"><a href="#cb12-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-272"><a href="#cb12-272" aria-hidden="true" tabindex="-1"></a>$\ell_t$ is called the **level** (or exponential smoothing) of the series.</span>
+<span id="cb12-273"><a href="#cb12-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-274"><a href="#cb12-274" aria-hidden="true" tabindex="-1"></a>By expanding the smoothing equation recursively:</span>
+<span id="cb12-275"><a href="#cb12-275" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{T+1|T} = \sum_{j=0}^{T-1} \alpha(1-\alpha)^j y_{T-j} + (1-\alpha)^T \ell_0$$</span>
+<span id="cb12-276"><a href="#cb12-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-277"><a href="#cb12-277" aria-hidden="true" tabindex="-1"></a>This shows the forecast is a **weighted average of all past observations**, with weights declining exponentially.</span>
+<span id="cb12-278"><a href="#cb12-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-279"><a href="#cb12-279" aria-hidden="true" tabindex="-1"></a><span class="fu">### The smoothing parameter $\alpha$</span></span>
+<span id="cb12-280"><a href="#cb12-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-281"><a href="#cb12-281" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\alpha$ value <span class="pp">|</span> Effect <span class="pp">|</span></span>
+<span id="cb12-282"><a href="#cb12-282" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb12-283"><a href="#cb12-283" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Close to **1** <span class="pp">|</span> Nearly all weight on the most recent observation (reactive, under-smoothed) <span class="pp">|</span></span>
+<span id="cb12-284"><a href="#cb12-284" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Close to **0** <span class="pp">|</span> Weight spread equally across all past observations (smooth, slow to adapt) <span class="pp">|</span></span>
+<span id="cb12-285"><a href="#cb12-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-286"><a href="#cb12-286" aria-hidden="true" tabindex="-1"></a><span class="fu">### Choosing $\alpha$ and $\ell_0$ — Optimisation</span></span>
+<span id="cb12-287"><a href="#cb12-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-288"><a href="#cb12-288" aria-hidden="true" tabindex="-1"></a>Optimal values are found by **minimising the Sum of Squared Errors (SSE)**:</span>
+<span id="cb12-289"><a href="#cb12-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-290"><a href="#cb12-290" aria-hidden="true" tabindex="-1"></a>$$\text{SSE} = \sum_{t=1}^{T}(y_t - \hat{y}_{t|t-1})^2 = \sum_{t=1}^{T} e_t^2$$</span>
+<span id="cb12-291"><a href="#cb12-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-292"><a href="#cb12-292" aria-hidden="true" tabindex="-1"></a>This is a non-linear minimisation — R handles it numerically.</span>
+<span id="cb12-293"><a href="#cb12-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-294"><a href="#cb12-294" aria-hidden="true" tabindex="-1"></a><span class="fu">### ETS notation: ETS(A,N,N)</span></span>
+<span id="cb12-295"><a href="#cb12-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-296"><a href="#cb12-296" aria-hidden="true" tabindex="-1"></a>SES is the ETS model with **A**dditive error, **N**o trend, **N**o seasonality.</span>
+<span id="cb12-297"><a href="#cb12-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-298"><a href="#cb12-298" aria-hidden="true" tabindex="-1"></a><span class="fu">### R code</span></span>
+<span id="cb12-299"><a href="#cb12-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-300"><a href="#cb12-300" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-301"><a href="#cb12-301" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb12-302"><a href="#cb12-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-303"><a href="#cb12-303" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit SES — R optimises alpha automatically</span></span>
+<span id="cb12-304"><a href="#cb12-304" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> <span class="fu">ses</span>(oildata, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb12-305"><a href="#cb12-305" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fc)</span>
+<span id="cb12-306"><a href="#cb12-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-307"><a href="#cb12-307" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot forecast with fitted values</span></span>
+<span id="cb12-308"><a href="#cb12-308" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fc) <span class="sc">+</span></span>
+<span id="cb12-309"><a href="#cb12-309" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(<span class="fu">fitted</span>(fc), <span class="at">series =</span> <span class="st">"Fitted"</span>) <span class="sc">+</span></span>
+<span id="cb12-310"><a href="#cb12-310" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"oil (1M Tones)"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"year"</span>)</span>
+<span id="cb12-311"><a href="#cb12-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-312"><a href="#cb12-312" aria-hidden="true" tabindex="-1"></a><span class="co"># Using ets() for more control</span></span>
+<span id="cb12-313"><a href="#cb12-313" aria-hidden="true" tabindex="-1"></a>SES <span class="ot">&lt;-</span> <span class="fu">ets</span>(train.ts, <span class="at">model =</span> <span class="st">"ANN"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>)</span>
+<span id="cb12-314"><a href="#cb12-314" aria-hidden="true" tabindex="-1"></a><span class="co"># ETS(A,N,N): error = Additive, Trend = None, Seasonality = None</span></span>
+<span id="cb12-315"><a href="#cb12-315" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-316"><a href="#cb12-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-317"><a href="#cb12-317" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-318"><a href="#cb12-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-319"><a href="#cb12-319" aria-hidden="true" tabindex="-1"></a><span class="fu">## Trend Methods</span></span>
+<span id="cb12-320"><a href="#cb12-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-321"><a href="#cb12-321" aria-hidden="true" tabindex="-1"></a><span class="fu">### Holt's Linear Trend Method</span></span>
+<span id="cb12-322"><a href="#cb12-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-323"><a href="#cb12-323" aria-hidden="true" tabindex="-1"></a>**Use when:** Series has a **linear trend** but **no seasonality**.</span>
+<span id="cb12-324"><a href="#cb12-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-325"><a href="#cb12-325" aria-hidden="true" tabindex="-1"></a>Extends SES with a slope (trend) equation:</span>
+<span id="cb12-326"><a href="#cb12-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-327"><a href="#cb12-327" aria-hidden="true" tabindex="-1"></a>**Forecast equation:**</span>
+<span id="cb12-328"><a href="#cb12-328" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{t+h|t} = \ell_t + h b_t$$</span>
+<span id="cb12-329"><a href="#cb12-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-330"><a href="#cb12-330" aria-hidden="true" tabindex="-1"></a>**Level equation:**</span>
+<span id="cb12-331"><a href="#cb12-331" aria-hidden="true" tabindex="-1"></a>$$\ell_t = \alpha y_t + (1-\alpha)(\ell_{t-1} + b_{t-1})$$</span>
+<span id="cb12-332"><a href="#cb12-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-333"><a href="#cb12-333" aria-hidden="true" tabindex="-1"></a>**Trend (slope) equation:**</span>
+<span id="cb12-334"><a href="#cb12-334" aria-hidden="true" tabindex="-1"></a>$$b_t = \beta^*(\ell_t - \ell_{t-1}) + (1-\beta^*)b_{t-1}$$</span>
+<span id="cb12-335"><a href="#cb12-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-336"><a href="#cb12-336" aria-hidden="true" tabindex="-1"></a>Parameters: $\alpha, \beta^* \in <span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>$. Choose $\alpha, \beta^*, \ell_0, b_0$ to minimise SSE.</span>
+<span id="cb12-337"><a href="#cb12-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-338"><a href="#cb12-338" aria-hidden="true" tabindex="-1"></a><span class="fu">### Holt's Damped Trend Method</span></span>
+<span id="cb12-339"><a href="#cb12-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-340"><a href="#cb12-340" aria-hidden="true" tabindex="-1"></a>**Problem with Holt Linear:** Forecasts trend indefinitely into the future — often too optimistic long term.</span>
+<span id="cb12-341"><a href="#cb12-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-342"><a href="#cb12-342" aria-hidden="true" tabindex="-1"></a>**Solution:** Introduce a **damping parameter $\phi$** that flattens the trend over time:</span>
+<span id="cb12-343"><a href="#cb12-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-344"><a href="#cb12-344" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{t+h|t} = \ell_t + (\phi + \phi^2 + \cdots + \phi^h)b_t$$</span>
+<span id="cb12-345"><a href="#cb12-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-346"><a href="#cb12-346" aria-hidden="true" tabindex="-1"></a>$$\ell_t = \alpha y_t + (1-\alpha)(\ell_{t-1} + \phi b_{t-1})$$</span>
+<span id="cb12-347"><a href="#cb12-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-348"><a href="#cb12-348" aria-hidden="true" tabindex="-1"></a>$$b_t = \beta^*(\ell_t - \ell_{t-1}) + (1-\beta^*)\phi b_{t-1}$$</span>
+<span id="cb12-349"><a href="#cb12-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-350"><a href="#cb12-350" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$0 &lt; \phi &lt; 1$: dampened trend (recommended for long-horizon forecasts)</span>
+<span id="cb12-351"><a href="#cb12-351" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\phi = 1$: equivalent to Holt's linear trend</span>
+<span id="cb12-352"><a href="#cb12-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-353"><a href="#cb12-353" aria-hidden="true" tabindex="-1"></a><span class="fu">### R code</span></span>
+<span id="cb12-354"><a href="#cb12-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-355"><a href="#cb12-355" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-356"><a href="#cb12-356" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp2)</span>
+<span id="cb12-357"><a href="#cb12-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-358"><a href="#cb12-358" aria-hidden="true" tabindex="-1"></a>air_data <span class="ot">&lt;-</span> <span class="fu">window</span>(ausair, <span class="at">start =</span> <span class="dv">1990</span>, <span class="at">end =</span> <span class="dv">2004</span>)</span>
+<span id="cb12-359"><a href="#cb12-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-360"><a href="#cb12-360" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt's linear trend</span></span>
+<span id="cb12-361"><a href="#cb12-361" aria-hidden="true" tabindex="-1"></a>air_data <span class="sc">%&gt;%</span> <span class="fu">holt</span>(<span class="at">h =</span> <span class="dv">5</span>, <span class="at">PI =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span>
+<span id="cb12-362"><a href="#cb12-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-363"><a href="#cb12-363" aria-hidden="true" tabindex="-1"></a><span class="co"># Holt's damped trend</span></span>
+<span id="cb12-364"><a href="#cb12-364" aria-hidden="true" tabindex="-1"></a>air_data <span class="sc">%&gt;%</span> <span class="fu">holt</span>(<span class="at">damped =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">5</span>, <span class="at">PI =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span>
+<span id="cb12-365"><a href="#cb12-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-366"><a href="#cb12-366" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare models on livestock data</span></span>
+<span id="cb12-367"><a href="#cb12-367" aria-hidden="true" tabindex="-1"></a>livestock2 <span class="ot">&lt;-</span> <span class="fu">window</span>(livestock, <span class="at">start =</span> <span class="dv">1970</span>, <span class="at">end =</span> <span class="dv">2000</span>)</span>
+<span id="cb12-368"><a href="#cb12-368" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">ses</span>(livestock2)</span>
+<span id="cb12-369"><a href="#cb12-369" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">holt</span>(livestock2)</span>
+<span id="cb12-370"><a href="#cb12-370" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">holt</span>(livestock2, <span class="at">damped =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-371"><a href="#cb12-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-372"><a href="#cb12-372" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare accuracy</span></span>
+<span id="cb12-373"><a href="#cb12-373" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit1, livestock)</span>
+<span id="cb12-374"><a href="#cb12-374" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit2, livestock)</span>
+<span id="cb12-375"><a href="#cb12-375" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit3, livestock)</span>
+<span id="cb12-376"><a href="#cb12-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-377"><a href="#cb12-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-378"><a href="#cb12-378" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-379"><a href="#cb12-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-380"><a href="#cb12-380" aria-hidden="true" tabindex="-1"></a><span class="fu">## Seasonal Methods — Holt-Winters</span></span>
+<span id="cb12-381"><a href="#cb12-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-382"><a href="#cb12-382" aria-hidden="true" tabindex="-1"></a>Extends Holt to include a **seasonal component $s_t$**.</span>
+<span id="cb12-383"><a href="#cb12-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-384"><a href="#cb12-384" aria-hidden="true" tabindex="-1"></a><span class="fu">### Holt-Winters Additive</span></span>
+<span id="cb12-385"><a href="#cb12-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-386"><a href="#cb12-386" aria-hidden="true" tabindex="-1"></a>**Use when:** Seasonal amplitude is **constant** (does not grow with the level).</span>
+<span id="cb12-387"><a href="#cb12-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-388"><a href="#cb12-388" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{t+h|t} = \ell_t + h b_t + s_{t+h-m(k+1)}$$</span>
+<span id="cb12-389"><a href="#cb12-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-390"><a href="#cb12-390" aria-hidden="true" tabindex="-1"></a>$$\ell_t = \alpha(y_t - s_{t-m}) + (1-\alpha)(\ell_{t-1} + b_{t-1})$$</span>
+<span id="cb12-391"><a href="#cb12-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-392"><a href="#cb12-392" aria-hidden="true" tabindex="-1"></a>$$b_t = \beta^*(\ell_t - \ell_{t-1}) + (1-\beta^*)b_{t-1}$$</span>
+<span id="cb12-393"><a href="#cb12-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-394"><a href="#cb12-394" aria-hidden="true" tabindex="-1"></a>$$s_t = \gamma(y_t - \ell_{t-1} - b_{t-1}) + (1-\gamma)s_{t-m}$$</span>
+<span id="cb12-395"><a href="#cb12-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-396"><a href="#cb12-396" aria-hidden="true" tabindex="-1"></a>Parameters: $0 \leq \alpha \leq 1$, $0 \leq \beta^* \leq 1$, $0 \leq \gamma \leq 1-\alpha$</span>
+<span id="cb12-397"><a href="#cb12-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-398"><a href="#cb12-398" aria-hidden="true" tabindex="-1"></a>$m$ = periodicity (e.g., 12 for monthly), $k = \lfloor(h-1)/m\rfloor$</span>
+<span id="cb12-399"><a href="#cb12-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-400"><a href="#cb12-400" aria-hidden="true" tabindex="-1"></a><span class="fu">### Holt-Winters Multiplicative</span></span>
+<span id="cb12-401"><a href="#cb12-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-402"><a href="#cb12-402" aria-hidden="true" tabindex="-1"></a>**Use when:** Seasonal amplitude **grows proportionally** with the level.</span>
+<span id="cb12-403"><a href="#cb12-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-404"><a href="#cb12-404" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{t+h|t} = (\ell_t + h b_t) s_{t+h-m(k+1)}$$</span>
+<span id="cb12-405"><a href="#cb12-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-406"><a href="#cb12-406" aria-hidden="true" tabindex="-1"></a>$$\ell_t = \alpha \frac{y_t}{s_{t-m}} + (1-\alpha)(\ell_{t-1} + b_{t-1})$$</span>
+<span id="cb12-407"><a href="#cb12-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-408"><a href="#cb12-408" aria-hidden="true" tabindex="-1"></a>$$s_t = \gamma \frac{y_t}{\ell_{t-1} + b_{t-1}} + (1-\gamma)s_{t-m}$$</span>
+<span id="cb12-409"><a href="#cb12-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-410"><a href="#cb12-410" aria-hidden="true" tabindex="-1"></a><span class="fu">### Holt-Winters Damped</span></span>
+<span id="cb12-411"><a href="#cb12-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-412"><a href="#cb12-412" aria-hidden="true" tabindex="-1"></a>Usually the **best performing method** for seasonal series. Adds the damping parameter $\phi$ to the multiplicative seasonal model.</span>
+<span id="cb12-413"><a href="#cb12-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-414"><a href="#cb12-414" aria-hidden="true" tabindex="-1"></a><span class="fu">### R code</span></span>
+<span id="cb12-415"><a href="#cb12-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-416"><a href="#cb12-416" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-417"><a href="#cb12-417" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp2)</span>
+<span id="cb12-418"><a href="#cb12-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-419"><a href="#cb12-419" aria-hidden="true" tabindex="-1"></a>aust <span class="ot">&lt;-</span> <span class="fu">window</span>(austourists, <span class="at">start =</span> <span class="dv">2005</span>)</span>
+<span id="cb12-420"><a href="#cb12-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-421"><a href="#cb12-421" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit additive and multiplicative Holt-Winters</span></span>
+<span id="cb12-422"><a href="#cb12-422" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">hw</span>(aust, <span class="at">seasonal =</span> <span class="st">"additive"</span>)</span>
+<span id="cb12-423"><a href="#cb12-423" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">hw</span>(aust, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>)</span>
+<span id="cb12-424"><a href="#cb12-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-425"><a href="#cb12-425" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot both</span></span>
+<span id="cb12-426"><a href="#cb12-426" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Data =</span> aust,</span>
+<span id="cb12-427"><a href="#cb12-427" aria-hidden="true" tabindex="-1"></a>             <span class="st">"HW additive"</span>       <span class="ot">=</span> fit1[[<span class="st">"mean"</span>]],</span>
+<span id="cb12-428"><a href="#cb12-428" aria-hidden="true" tabindex="-1"></a>             <span class="st">"HW multiplicative"</span> <span class="ot">=</span> fit2[[<span class="st">"mean"</span>]])</span>
+<span id="cb12-429"><a href="#cb12-429" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(tmp) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Year"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Hotel Stays (millions)"</span>)</span>
+<span id="cb12-430"><a href="#cb12-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-431"><a href="#cb12-431" aria-hidden="true" tabindex="-1"></a><span class="co"># Damped multiplicative (usually best for seasonal TS)</span></span>
+<span id="cb12-432"><a href="#cb12-432" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> <span class="fu">hw</span>(<span class="fu">subset</span>(hyndsight, <span class="at">end =</span> <span class="fu">length</span>(hyndsight) <span class="sc">-</span> <span class="dv">35</span>),</span>
+<span id="cb12-433"><a href="#cb12-433" aria-hidden="true" tabindex="-1"></a>         <span class="at">damped =</span> <span class="cn">TRUE</span>, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>, <span class="at">h =</span> <span class="dv">35</span>)</span>
+<span id="cb12-434"><a href="#cb12-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-435"><a href="#cb12-435" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract estimated components</span></span>
+<span id="cb12-436"><a href="#cb12-436" aria-hidden="true" tabindex="-1"></a>addstates  <span class="ot">&lt;-</span> fit1<span class="sc">$</span>model<span class="sc">$</span>states[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb12-437"><a href="#cb12-437" aria-hidden="true" tabindex="-1"></a>multstates <span class="ot">&lt;-</span> fit2<span class="sc">$</span>model<span class="sc">$</span>states[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb12-438"><a href="#cb12-438" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(addstates) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(multstates) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"level"</span>,<span class="st">"slope"</span>,<span class="st">"seasonality"</span>)</span>
+<span id="cb12-439"><a href="#cb12-439" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-440"><a href="#cb12-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-441"><a href="#cb12-441" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-442"><a href="#cb12-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-443"><a href="#cb12-443" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prediction Error Measurements</span></span>
+<span id="cb12-444"><a href="#cb12-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-445"><a href="#cb12-445" aria-hidden="true" tabindex="-1"></a>These metrics allow you to **compare competing models** on a test set.</span>
+<span id="cb12-446"><a href="#cb12-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-447"><a href="#cb12-447" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Metric <span class="pp">|</span> Formula <span class="pp">|</span> Notes <span class="pp">|</span></span>
+<span id="cb12-448"><a href="#cb12-448" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb12-449"><a href="#cb12-449" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MAE / MAD** <span class="pp">|</span> $\frac{\sum <span class="pp">|</span>Y_t - F_t<span class="pp">|</span>}{n}$ <span class="pp">|</span> Same units as data; easy to interpret <span class="pp">|</span></span>
+<span id="cb12-450"><a href="#cb12-450" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MSE** <span class="pp">|</span> $\frac{\sum (Y_t - F_t)^2}{n-1}$ <span class="pp">|</span> Penalises large errors more heavily <span class="pp">|</span></span>
+<span id="cb12-451"><a href="#cb12-451" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MAPE** <span class="pp">|</span> $\frac{1}{n}\sum\left<span class="pp">|</span>\frac{Y_t - F_t}{Y_t}\right<span class="pp">|</span> \times 100$ <span class="pp">|</span> Percentage; unit-free; allows comparison across series <span class="pp">|</span></span>
+<span id="cb12-452"><a href="#cb12-452" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **RMSE** <span class="pp">|</span> $\sqrt{MSE}$ <span class="pp">|</span> Same units as data; commonly reported <span class="pp">|</span></span>
+<span id="cb12-453"><a href="#cb12-453" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MASE** <span class="pp">|</span> Scaled MAE <span class="pp">|</span> Useful when comparing across different scales <span class="pp">|</span></span>
+<span id="cb12-454"><a href="#cb12-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-455"><a href="#cb12-455" aria-hidden="true" tabindex="-1"></a>Also used: **AIC**, **AICc**, **BIC** — information criteria for model selection (lower = better).</span>
+<span id="cb12-456"><a href="#cb12-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-457"><a href="#cb12-457" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **From the livestock example:** The Holt Linear method outperformed both SES and Holt Damped on the test set (lower RMSE, MAE, MAPE). Always evaluate on a **held-out test set**, not just training data.</span></span>
+<span id="cb12-458"><a href="#cb12-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-459"><a href="#cb12-459" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-460"><a href="#cb12-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-461"><a href="#cb12-461" aria-hidden="true" tabindex="-1"></a><span class="fu">## ETS Framework in R</span></span>
+<span id="cb12-462"><a href="#cb12-462" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-463"><a href="#cb12-463" aria-hidden="true" tabindex="-1"></a>**ETS** = **E**rror, **T**rend, **S**easonality. This unified framework encompasses all exponential smoothing methods.</span>
+<span id="cb12-464"><a href="#cb12-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-465"><a href="#cb12-465" aria-hidden="true" tabindex="-1"></a>Each component takes a type:</span>
+<span id="cb12-466"><a href="#cb12-466" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-467"><a href="#cb12-467" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Component <span class="pp">|</span> Types <span class="pp">|</span></span>
+<span id="cb12-468"><a href="#cb12-468" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb12-469"><a href="#cb12-469" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Error <span class="pp">|</span> **A** (additive), **M** (multiplicative) <span class="pp">|</span></span>
+<span id="cb12-470"><a href="#cb12-470" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Trend <span class="pp">|</span> **N** (none), **A** (additive), **Ad** (additive damped) <span class="pp">|</span></span>
+<span id="cb12-471"><a href="#cb12-471" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Seasonality <span class="pp">|</span> **N** (none), **A** (additive), **M** (multiplicative) <span class="pp">|</span></span>
+<span id="cb12-472"><a href="#cb12-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-473"><a href="#cb12-473" aria-hidden="true" tabindex="-1"></a>Examples: <span class="in">`ETS(A,N,N)`</span> = SES; <span class="in">`ETS(A,A,A)`</span> = Holt-Winters additive; <span class="in">`ETS(M,Ad,M)`</span> = Holt-Winters damped multiplicative.</span>
+<span id="cb12-474"><a href="#cb12-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-475"><a href="#cb12-475" aria-hidden="true" tabindex="-1"></a><span class="fu">### R code</span></span>
+<span id="cb12-476"><a href="#cb12-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-477"><a href="#cb12-477" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-478"><a href="#cb12-478" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp2)</span>
+<span id="cb12-479"><a href="#cb12-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-480"><a href="#cb12-480" aria-hidden="true" tabindex="-1"></a>aust <span class="ot">&lt;-</span> <span class="fu">window</span>(austourists, <span class="at">start =</span> <span class="dv">2005</span>)</span>
+<span id="cb12-481"><a href="#cb12-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-482"><a href="#cb12-482" aria-hidden="true" tabindex="-1"></a><span class="co"># Auto-select model by AICc</span></span>
+<span id="cb12-483"><a href="#cb12-483" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">ets</span>(aust)</span>
+<span id="cb12-484"><a href="#cb12-484" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb12-485"><a href="#cb12-485" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fit)</span>
+<span id="cb12-486"><a href="#cb12-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-487"><a href="#cb12-487" aria-hidden="true" tabindex="-1"></a><span class="co"># Force a specific model</span></span>
+<span id="cb12-488"><a href="#cb12-488" aria-hidden="true" tabindex="-1"></a><span class="fu">ets</span>(h02, <span class="at">model =</span> <span class="st">"AAA"</span>, <span class="at">damped =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-489"><a href="#cb12-489" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-490"><a href="#cb12-490" aria-hidden="true" tabindex="-1"></a><span class="co"># Train/test split workflow</span></span>
+<span id="cb12-491"><a href="#cb12-491" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">window</span>(h02, <span class="at">end  =</span> <span class="fu">c</span>(<span class="dv">2004</span>, <span class="dv">12</span>))</span>
+<span id="cb12-492"><a href="#cb12-492" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">window</span>(h02, <span class="at">start =</span> <span class="dv">2005</span>)</span>
+<span id="cb12-493"><a href="#cb12-493" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-494"><a href="#cb12-494" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">ets</span>(train)                                    <span class="co"># fit on train</span></span>
+<span id="cb12-495"><a href="#cb12-495" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">ets</span>(test, <span class="at">model =</span> fit1, <span class="at">use.initial.values =</span> <span class="cn">TRUE</span>)  <span class="co"># apply to test</span></span>
+<span id="cb12-496"><a href="#cb12-496" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-497"><a href="#cb12-497" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit2)</span>
+<span id="cb12-498"><a href="#cb12-498" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(<span class="fu">forecast</span>(fit1, <span class="dv">10</span>), test)</span>
+<span id="cb12-499"><a href="#cb12-499" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-500"><a href="#cb12-500" aria-hidden="true" tabindex="-1"></a><span class="co"># Residual diagnostics</span></span>
+<span id="cb12-501"><a href="#cb12-501" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="st">'Residuals'</span>      <span class="ot">=</span> <span class="fu">residuals</span>(fit),</span>
+<span id="cb12-502"><a href="#cb12-502" aria-hidden="true" tabindex="-1"></a>      <span class="st">'Forecast errors'</span> <span class="ot">=</span> <span class="fu">residuals</span>(fit, <span class="at">type =</span> <span class="st">'response'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-503"><a href="#cb12-503" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="at">facet =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Year"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>)</span>
+<span id="cb12-504"><a href="#cb12-504" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-505"><a href="#cb12-505" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-506"><a href="#cb12-506" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-507"><a href="#cb12-507" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-508"><a href="#cb12-508" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations/Formulas Summary</span></span>
+<span id="cb12-509"><a href="#cb12-509" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-510"><a href="#cb12-510" aria-hidden="true" tabindex="-1"></a>**Decomposition:**</span>
+<span id="cb12-511"><a href="#cb12-511" aria-hidden="true" tabindex="-1"></a>$$y_t = S_t + T_t + R_t \quad \text{(additive)} \qquad y_t = S_t \times T_t \times R_t \quad \text{(multiplicative)}$$</span>
+<span id="cb12-512"><a href="#cb12-512" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-513"><a href="#cb12-513" aria-hidden="true" tabindex="-1"></a>**Simple Moving Average:**</span>
+<span id="cb12-514"><a href="#cb12-514" aria-hidden="true" tabindex="-1"></a>$$MA_p = \frac{\sum_{i=1}^{p} D_i}{p}$$</span>
+<span id="cb12-515"><a href="#cb12-515" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-516"><a href="#cb12-516" aria-hidden="true" tabindex="-1"></a>**SES forecast &amp; smoothing:**</span>
+<span id="cb12-517"><a href="#cb12-517" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{t+h|t} = \ell_t \qquad \ell_t = \alpha y_t + (1-\alpha)\ell_{t-1}$$</span>
+<span id="cb12-518"><a href="#cb12-518" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-519"><a href="#cb12-519" aria-hidden="true" tabindex="-1"></a>**Holt's linear trend:**</span>
+<span id="cb12-520"><a href="#cb12-520" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{t+h|t} = \ell_t + hb_t \qquad b_t = \beta^*(\ell_t - \ell_{t-1}) + (1-\beta^*)b_{t-1}$$</span>
+<span id="cb12-521"><a href="#cb12-521" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-522"><a href="#cb12-522" aria-hidden="true" tabindex="-1"></a>**Optimisation criterion (SSE):**</span>
+<span id="cb12-523"><a href="#cb12-523" aria-hidden="true" tabindex="-1"></a>$$\text{SSE} = \sum_{t=1}^{T}(y_t - \hat{y}_{t|t-1})^2$$</span>
+<span id="cb12-524"><a href="#cb12-524" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-525"><a href="#cb12-525" aria-hidden="true" tabindex="-1"></a>**Error metrics:**</span>
+<span id="cb12-526"><a href="#cb12-526" aria-hidden="true" tabindex="-1"></a>$$\text{MAE} = \frac{\sum|Y_t - F_t|}{n} \qquad \text{MAPE} = \frac{1}{n}\sum\left|\frac{Y_t-F_t}{Y_t}\right|\times100$$</span>
+<span id="cb12-527"><a href="#cb12-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-528"><a href="#cb12-528" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-529"><a href="#cb12-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-530"><a href="#cb12-530" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Examples</span></span>
+<span id="cb12-531"><a href="#cb12-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-532"><a href="#cb12-532" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 1 — STL on Electric Equipment Index</span></span>
+<span id="cb12-533"><a href="#cb12-533" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-534"><a href="#cb12-534" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-535"><a href="#cb12-535" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp2)</span>
+<span id="cb12-536"><a href="#cb12-536" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">s.window =</span> <span class="dv">5</span>, <span class="at">robust =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-537"><a href="#cb12-537" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fit) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"STL Decomposition Electric Equipment index"</span>)</span>
+<span id="cb12-538"><a href="#cb12-538" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-539"><a href="#cb12-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-540"><a href="#cb12-540" aria-hidden="true" tabindex="-1"></a>Shows clearly separated trend, seasonal (periodic ~12-month cycle), and small remainder.</span>
+<span id="cb12-541"><a href="#cb12-541" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-542"><a href="#cb12-542" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 2 — SES on Oil Production Data</span></span>
+<span id="cb12-543"><a href="#cb12-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-544"><a href="#cb12-544" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-545"><a href="#cb12-545" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> <span class="fu">ses</span>(oildata, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb12-546"><a href="#cb12-546" aria-hidden="true" tabindex="-1"></a><span class="co"># alpha = 0.8339 (high — most weight on recent observations)</span></span>
+<span id="cb12-547"><a href="#cb12-547" aria-hidden="true" tabindex="-1"></a><span class="co"># All 5-step forecasts are flat (constant) = feature of SES</span></span>
+<span id="cb12-548"><a href="#cb12-548" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-549"><a href="#cb12-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-550"><a href="#cb12-550" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 3 — Comparing Models on Livestock Data (sheep in Asia)</span></span>
+<span id="cb12-551"><a href="#cb12-551" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-552"><a href="#cb12-552" aria-hidden="true" tabindex="-1"></a>The three models fitted were SES, Holt Linear, and Holt Damped. Key results:</span>
+<span id="cb12-553"><a href="#cb12-553" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-554"><a href="#cb12-554" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Model <span class="pp">|</span> Test RMSE <span class="pp">|</span> Test MAE <span class="pp">|</span> Test MAPE <span class="pp">|</span></span>
+<span id="cb12-555"><a href="#cb12-555" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|</span></span>
+<span id="cb12-556"><a href="#cb12-556" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SES <span class="pp">|</span> 25.46 <span class="pp">|</span> 20.38 <span class="pp">|</span> 4.60 <span class="pp">|</span></span>
+<span id="cb12-557"><a href="#cb12-557" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Holt Linear <span class="pp">|</span> **11.88** | **10.71** | **2.54** <span class="pp">|</span></span>
+<span id="cb12-558"><a href="#cb12-558" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Holt Damped <span class="pp">|</span> 14.73 <span class="pp">|</span> 13.30 <span class="pp">|</span> 3.07 <span class="pp">|</span></span>
+<span id="cb12-559"><a href="#cb12-559" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-560"><a href="#cb12-560" aria-hidden="true" tabindex="-1"></a>Holt Linear performed best despite the series having a trend change — the damped version was conservative.</span>
+<span id="cb12-561"><a href="#cb12-561" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-562"><a href="#cb12-562" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 4 — Hotel Stays (Holt-Winters)</span></span>
+<span id="cb12-563"><a href="#cb12-563" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-564"><a href="#cb12-564" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb12-565"><a href="#cb12-565" aria-hidden="true" tabindex="-1"></a>aust  <span class="ot">&lt;-</span> <span class="fu">window</span>(austourists, <span class="at">start =</span> <span class="dv">2005</span>)</span>
+<span id="cb12-566"><a href="#cb12-566" aria-hidden="true" tabindex="-1"></a>fit1  <span class="ot">&lt;-</span> <span class="fu">hw</span>(aust, <span class="at">seasonal =</span> <span class="st">"additive"</span>)</span>
+<span id="cb12-567"><a href="#cb12-567" aria-hidden="true" tabindex="-1"></a>fit2  <span class="ot">&lt;-</span> <span class="fu">hw</span>(aust, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>)</span>
+<span id="cb12-568"><a href="#cb12-568" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-569"><a href="#cb12-569" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-570"><a href="#cb12-570" aria-hidden="true" tabindex="-1"></a>Both methods perform very similarly here. Use multiplicative when seasonal swings grow over time.</span>
+<span id="cb12-571"><a href="#cb12-571" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-572"><a href="#cb12-572" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-573"><a href="#cb12-573" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-574"><a href="#cb12-574" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb12-575"><a href="#cb12-575" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-576"><a href="#cb12-576" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A time series is decomposed into **Trend + Seasonal + Cyclical + Residual**. The cyclical component is usually absorbed into the trend in practice.</span>
+<span id="cb12-577"><a href="#cb12-577" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Choose **additive decomposition** for constant seasonality; **multiplicative** (or log-transform) for growing seasonality.</span>
+<span id="cb12-578"><a href="#cb12-578" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**STL** is preferred over classical decomposition — it is robust to outliers and gives user control over smoothness.</span>
+<span id="cb12-579"><a href="#cb12-579" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **residuals** after decomposition must look **random** (no pattern, centred on zero, approximately normal). If they don't, the decomposition is incomplete.</span>
+<span id="cb12-580"><a href="#cb12-580" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**SES** is for series with no trend and no seasonality. The parameter $\alpha$ controls how quickly the model "forgets" old data.</span>
+<span id="cb12-581"><a href="#cb12-581" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Holt's method** adds a trend component (linear or damped). The **damped version** is safer for long-horizon forecasts.</span>
+<span id="cb12-582"><a href="#cb12-582" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Holt-Winters** adds a seasonal component on top of Holt. The **damped multiplicative** version is often the best performer.</span>
+<span id="cb12-583"><a href="#cb12-583" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always evaluate models on a **test set** using error metrics (MAE, RMSE, MAPE). Minimise **AICc** for model selection within the ETS framework.</span>
+<span id="cb12-584"><a href="#cb12-584" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`ets()`</span> in R selects the best ETS model automatically using AICc — but use <span class="in">`ses()`</span>, <span class="in">`holt()`</span>, and <span class="in">`hw()`</span> when you want direct control.</span>
+<span id="cb12-585"><a href="#cb12-585" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-586"><a href="#cb12-586" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-587"><a href="#cb12-587" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-588"><a href="#cb12-588" aria-hidden="true" tabindex="-1"></a><span class="fu"># Slides / Material to Review</span></span>
+<span id="cb12-589"><a href="#cb12-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-590"><a href="#cb12-590" aria-hidden="true" tabindex="-1"></a>Based on all the uploaded files, here is a checklist of what to go back and study:</span>
+<span id="cb12-591"><a href="#cb12-591" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-592"><a href="#cb12-592" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Material <span class="pp">|</span> What to check <span class="pp">|</span> Status <span class="pp">|</span></span>
+<span id="cb12-593"><a href="#cb12-593" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb12-594"><a href="#cb12-594" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Lecture_2_TS_CLASSICAL_MODELS_2026.pdf`</span> <span class="pp">|</span> All 59 slides — the main lecture deck <span class="pp">|</span> ☐ <span class="pp">|</span></span>
+<span id="cb12-595"><a href="#cb12-595" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Lecture_2_CIT_template.xlsx`</span> <span class="pp">|</span> **Complete the 3 manual exercises** (moving average + seasonal index, additive and multiplicative) <span class="pp">|</span> ☐ <span class="pp">|</span></span>
+<span id="cb12-596"><a href="#cb12-596" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Lab_1_Time_Series.pdf`</span> <span class="pp">|</span> Lab 1 exercises — <span class="in">`ts()`</span>, <span class="in">`decompose()`</span>, seasonal/trend adjustment <span class="pp">|</span> ☐ <span class="pp">|</span></span>
+<span id="cb12-597"><a href="#cb12-597" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Lab_1_RES.R`</span> <span class="pp">|</span> R script with Lab 1 results — compare your output <span class="pp">|</span> ☐ <span class="pp">|</span></span>
+<span id="cb12-598"><a href="#cb12-598" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Lab_1_SOL.R`</span> <span class="pp">|</span> Lab 1 solutions — check after attempting yourself <span class="pp">|</span> ☐ <span class="pp">|</span></span>
+<span id="cb12-599"><a href="#cb12-599" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Chapter_2_Classical_Models_RSTUDIO_2.R`</span> <span class="pp">|</span> Lecture demo R code — run it step by step in RStudio <span class="pp">|</span> ☐ <span class="pp">|</span></span>
+<span id="cb12-600"><a href="#cb12-600" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Intro_to_Time_Series.pdf`</span> <span class="pp">|</span> Supplementary reading — deeper detail on components, moving averages, periodicity <span class="pp">|</span> ☐ (optional but recommended) <span class="pp">|</span></span>
+<span id="cb12-601"><a href="#cb12-601" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-602"><a href="#cb12-602" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Priority:** Finish the Excel file first (manual decomposition), then run </span><span class="in">`Chapter_2_Classical_Models_RSTUDIO_2.R`</span><span class="at"> in RStudio to see all the plots live. The </span><span class="in">`Intro_to_Time_Series.pdf`</span><span class="at"> is a book chapter — use it for clarification if the lecture slides are unclear.</span></span>
+<span id="cb12-603"><a href="#cb12-603" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-604"><a href="#cb12-604" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-605"><a href="#cb12-605" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-606"><a href="#cb12-606" aria-hidden="true" tabindex="-1"></a>*&lt;!-- Add your own annotations, worked examples, or questions here --&gt;*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

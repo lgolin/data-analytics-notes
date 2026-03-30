@@ -63,15 +63,15 @@ website:
             file: time-series/index.qmd
             section: "Weekly Notes"
             contents:
-              - text: "Week 1 - empty"
+              - text: "Week 1"
                 file: time-series/week-1.qmd
-              - text: "Week 2 - empty"
+              - text: "Week 2"
                 file: time-series/week-2.qmd
-              - text: "Week 3 - empty"
+              - text: "Week 3"
                 file: time-series/week-3.qmd
-              - text: "Week 4 - empty"
+              - text: "Week 4"
                 file: time-series/week-4.qmd
-              - text: "Week 5 - empty"
+              - text: "Week 5"
                 file: time-series/week-5.qmd
               - text: "Week 6 - empty"
                 file: time-series/week-6.qmd

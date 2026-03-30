@@ -1868,14 +1868,375 @@
     ]
   },
   {
-    "objectID": "time-series/index.html",
-    "href": "time-series/index.html",
-    "title": "",
+    "objectID": "time-series/week-2.html",
+    "href": "time-series/week-2.html",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
     "section": "",
-    "text": "Code",
+    "text": "Note to self: These notes are a summary of Week 2 lecture material. The Excel workbook (Lecture_2_CIT_template.xlsx) contains manual exercises on moving averages and seasonal decomposition — complete those before reading further. The R scripts (Chapter_2_Classical_Models_RSTUDIO_2.R and Lab_1_RES.R) contain the full worked code for all examples below.",
     "crumbs": [
       "Time Series",
-      "Weekly Notes"
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#time-series-components-recap",
+    "href": "time-series/week-2.html#time-series-components-recap",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.1 Time Series Components — Recap",
+    "text": "2.1 Time Series Components — Recap\nA time series is a sequence of observations collected at equally spaced time points. The key idea is that we try to understand the pattern in the data before making forecasts.\nA time series \\(y_t\\) can be decomposed into four main components:\n\nTrend (\\(T_t\\)): The long-term increase or decrease in the data. Can be linear, exponential, or more complex.\nSeasonal variation (\\(S_t\\)): A periodic pattern that repeats within a fixed calendar period (e.g., every year). The variation completes itself within one year.\nCyclical variation: A non-periodic, longer-term (&gt; 2 years) wave-like pattern. Unlike seasonality, cycles don’t have a fixed length. In practice, these are often absorbed into the trend component in our models.\nResidual/Random variation (\\(R_t\\)): Everything that cannot be explained by the three components above. This is the stochastic (random) part. If this component still shows a pattern, something has gone wrong in the decomposition.\n\n\nImportant from the lecture (Aula_2): The first three components are deterministic — they follow mathematical patterns we can model. The residual is stochastic — it should look like white noise (random, centred around zero, normally distributed). If your residuals show a pattern, you have not correctly identified trend or seasonality.\n\n\n2.1.1 The Periodicity Concept\nPeriodicity (\\(p\\)) = the number of observations in one complete seasonal cycle.\n\n\n\nData frequency\nPeriodicity\n\n\n\n\nMonthly\n12\n\n\nQuarterly\n4\n\n\nWeekly (Mon–Fri)\n5\n\n\nWeekly (Mon–Sun)\n7\n\n\nHourly (daily pattern)\n24\n\n\nAnnual\nNo seasonality\n\n\n\n\nRule of thumb from the lecture: You need at least 3–4 complete seasonal cycles worth of data to reliably estimate trend and seasonality. For monthly data that means ≥ 36 observations.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#time-series-decomposition",
+    "href": "time-series/week-2.html#time-series-decomposition",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.2 Time Series Decomposition",
+    "text": "2.2 Time Series Decomposition\n\n2.2.1 The Decomposition Model\n\\[y_t = f(S_t,\\ T_t,\\ R_t)\\]\nThe choice of how to combine the components depends on whether the seasonal variation is constant or growing:\n\n\n\n\n\n\n\n\nModel\nFormula\nWhen to use\n\n\n\n\nAdditive\n\\(y_t = S_t + T_t + R_t\\)\nSeasonal amplitude is constant (homogeneous seasonality)\n\n\nMultiplicative\n\\(y_t = S_t \\times T_t \\times R_t\\)\nSeasonal amplitude grows with the level (heterogeneous / heteroscedastic)\n\n\n\n\nTip: If your time series shows increasing “swings” as the level goes up (like sales growing with bigger peaks every year), use multiplicative. If the swings stay roughly the same size, use additive.\n\n\n\n2.2.2 Converting Multiplicative to Additive (Box-Cox / log transform)\nA multiplicative model can be converted to additive by taking logs:\n\\[\\log(y_t) = \\log(S_t) + \\log(T_t) + \\log(R_t)\\]\nThis is a special case of the Box-Cox transformation, which can be applied whenever you need to stabilise the variance.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#seasonal-adjustment",
+    "href": "time-series/week-2.html#seasonal-adjustment",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.3 Seasonal Adjustment",
+    "text": "2.3 Seasonal Adjustment\nOnce we have an estimate of the seasonal component, we can remove it to study the underlying trend more clearly:\n\n\n\nModel\nSeasonally adjusted series\n\n\n\n\nAdditive\n\\(y_t - \\hat{S}_t = T_t + R_t\\)\n\n\nMultiplicative\n\\(y_t / \\hat{S}_t = T_t \\times R_t\\)\n\n\n\n\nWarning from the lecture slides: A seasonally adjusted series still contains the trend and the residuals, so it is not smooth — it can show apparent “ups and downs” that are actually just noise. Use the trend-cycle component if you want to see inflection points more clearly.\n\n\n2.3.1 Key R functions for decomposition\nlibrary(forecast)\n\n# Classical decomposition (additive or multiplicative)\nbirths.ts.comp &lt;- decompose(births.ts)\nplot(births.ts.comp)\n\n# Extract individual components\nbirths.ts.comp$seasonal   # seasonal component\nbirths.ts.comp$trend      # trend component\nbirths.ts.comp$random     # random/residual component\n\n# Seasonally adjust\nbirths.ts.sadj &lt;- births.ts - births.ts.comp$seasonal  # additive\nplot(births.ts.sadj)\n\n# STL components (see Section 3.3)\nseasonal(fit)     # seasonal component\ntrendcycle(fit)   # trend-cycle component\nremainder(fit)    # residual component\nseasadj(fit)      # seasonally adjusted series",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#stl-decomposition",
+    "href": "time-series/week-2.html#stl-decomposition",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.4 STL Decomposition",
+    "text": "2.4 STL Decomposition\nSTL stands for “Seasonal and Trend decomposition using Loess”. It is the recommended method for most practical work.\n\n2.4.1 Advantages of STL over classical decomposition\n\nRobust to outliers (extreme values have less influence)\nCan handle any type of seasonality\nThe user can control how “wiggly” the trend and seasonal components are via the window parameters\n\n\n\n2.4.2 Disadvantages\n\nDesigned for additive models only (apply log/Box-Cox for multiplicative)\nDoes not handle calendar effects automatically\n\n\n\n2.4.3 Key parameters\n\n\n\n\n\n\n\nParameter\nControls\n\n\n\n\ns.window\nHow much the seasonal component is allowed to change over time. Use \"periodic\" to fix it constant.\n\n\nt.window\nHow smooth the trend component is.\n\n\nrobust = TRUE\nMakes the decomposition resistant to outliers.\n\n\n\n\n\n2.4.4 R code\nlibrary(fpp2)\n\n# STL with fixed seasonal component\nfit &lt;- stl(elecequip, s.window = \"periodic\")\nautoplot(fit) + xlab(\"year\")\n\n# STL with slowly changing seasonality and robust option\nfit &lt;- stl(elecequip, s.window = 7, robust = TRUE)\nautoplot(fit) + xlab(\"year\")\n\n# Adjust t.window and s.window manually\nfit &lt;- stl(elecequip, t.window = 15, s.window = \"periodic\", robust = TRUE)\n\n# mstl(): automatically selects s.window; supports Box-Cox via lambda\nelecequip %&gt;% mstl() %&gt;% autoplot()\nelecequip %&gt;% mstl(lambda = \"auto\") %&gt;% autoplot()  # with Box-Cox",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#prediction-using-decomposition",
+    "href": "time-series/week-2.html#prediction-using-decomposition",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.5 Prediction Using Decomposition",
+    "text": "2.5 Prediction Using Decomposition\nThe typical workflow is:\n\nDecompose the series with STL to understand its structure.\nSeasonally adjust the series (remove \\(\\hat{S}_t\\)).\nApply a non-seasonal forecast method (e.g., naive, SES, Holt) to the adjusted series.\nRe-add the seasonal component to produce the final forecast.\n\n\nThe seasonal component is forecast by repeating the last observed seasonal pattern (naive seasonal forecast).\n\n\n2.5.1 R code example\nfit &lt;- stl(elecequip, t.window = 13, s.window = \"periodic\")\n\n# Forecast using naive method on seasonally adjusted data\nfit %&gt;% seasadj() %&gt;% naive() %&gt;%\n  autoplot() + ylab(\"New orders index\") +\n  ggtitle(\"Seasonal adjusted data ETS Predictions\")\n\n# Shorthand: stlf() does all steps automatically\nelecequip %&gt;% stlf(method = 'naive') %&gt;%\n  autoplot() + ylab(\"New orders index\") + xlab(\"Year\")",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#simple-moving-average-sma",
+    "href": "time-series/week-2.html#simple-moving-average-sma",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.6 Simple Moving Average (SMA)",
+    "text": "2.6 Simple Moving Average (SMA)\nThe Simple Moving Average smooths a time series by replacing each value with the average of the surrounding \\(p\\) values. It is the foundation of trend estimation in classical decomposition.\n\n2.6.1 Formula\n\\[F_t = MA_p = \\frac{\\sum_{i=1}^{p} D_i}{p}\\]\nwhere \\(F_t\\) is the prediction, \\(D_i\\) are the observations, and \\(p\\) is the periodicity.\n\n\n2.6.2 How to calculate it manually (from the Excel lecture)\n\nIdentify the periodicity \\(p\\).\nTake a block of \\(p\\) consecutive observations.\nCalculate the mean of that block.\nPlace the mean at the centre of the block.\nSlide the window one step forward and repeat.\n\n\nImportant: You lose \\(\\lfloor p/2 \\rfloor\\) values at the start and end of the series because there is no full block available there.\n\nSpecial case — even \\(p\\): When \\(p\\) is even (e.g., \\(p=4\\) for quarterly data), there is no integer centre. You need two steps: calculate \\(MA_p\\), then calculate \\(MA_2\\) of consecutive \\(MA_p\\) values. This centres the estimate correctly.\n\n\n2.6.3 R code\nlibrary(forecast)\nlibrary(TTR)   # also provides SMA\n\nsm &lt;- ma(wineind, order = 12)\nplot(wineind)\nlines(sm, col = \"red\")",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#exponential-smoothing-introduction",
+    "href": "time-series/week-2.html#exponential-smoothing-introduction",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.7 Exponential Smoothing — Introduction",
+    "text": "2.7 Exponential Smoothing — Introduction\nExponential smoothing is a family of pure time series methods — they use only the history of the variable being forecast, with no external predictors.\nKey idea: Recent observations should receive more weight than older ones. The weights decrease exponentially as observations get older.\n\n2.7.1 When to use exponential smoothing\n\nWhen you only have data for the series itself (no independent variables)\nWhen there are too few variables to build a causal model\nWhen quick forecasts are needed with reasonable accuracy\n\n\n\n2.7.2 Types of Exponential Smoothing\n\n\n\nMethod\nTrend\nSeasonality\n\n\n\n\nSES (Simple Exponential Smoothing)\nNone\nNone\n\n\nHolt Linear\nAdditive (linear)\nNone\n\n\nHolt Damped\nDamped (flattens out)\nNone\n\n\nHolt-Winters Additive\nAdditive\nAdditive\n\n\nHolt-Winters Multiplicative\nAdditive\nMultiplicative\n\n\nHolt-Winters Damped\nDamped\nMultiplicative",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#simple-exponential-smoothing-ses",
+    "href": "time-series/week-2.html#simple-exponential-smoothing-ses",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.8 Simple Exponential Smoothing (SES)",
+    "text": "2.8 Simple Exponential Smoothing (SES)\nUse when: Series has no trend and no seasonality.\n\n2.8.1 The Two Key Equations\nForecast equation: \\[\\hat{y}_{t+h|t} = \\ell_t\\]\nSmoothing (level) equation: \\[\\ell_t = \\alpha y_t + (1 - \\alpha)\\ell_{t-1}, \\quad 0 \\leq \\alpha \\leq 1\\]\n\\(\\ell_t\\) is called the level (or exponential smoothing) of the series.\nBy expanding the smoothing equation recursively: \\[\\hat{y}_{T+1|T} = \\sum_{j=0}^{T-1} \\alpha(1-\\alpha)^j y_{T-j} + (1-\\alpha)^T \\ell_0\\]\nThis shows the forecast is a weighted average of all past observations, with weights declining exponentially.\n\n\n2.8.2 The smoothing parameter \\(\\alpha\\)\n\n\n\n\n\n\n\n\\(\\alpha\\) value\nEffect\n\n\n\n\nClose to 1\nNearly all weight on the most recent observation (reactive, under-smoothed)\n\n\nClose to 0\nWeight spread equally across all past observations (smooth, slow to adapt)\n\n\n\n\n\n2.8.3 Choosing \\(\\alpha\\) and \\(\\ell_0\\) — Optimisation\nOptimal values are found by minimising the Sum of Squared Errors (SSE):\n\\[\\text{SSE} = \\sum_{t=1}^{T}(y_t - \\hat{y}_{t|t-1})^2 = \\sum_{t=1}^{T} e_t^2\\]\nThis is a non-linear minimisation — R handles it numerically.\n\n\n2.8.4 ETS notation: ETS(A,N,N)\nSES is the ETS model with Additive error, No trend, No seasonality.\n\n\n2.8.5 R code\nlibrary(forecast)\n\n# Fit SES — R optimises alpha automatically\nfc &lt;- ses(oildata, h = 5)\nsummary(fc)\n\n# Plot forecast with fitted values\nautoplot(fc) +\n  autolayer(fitted(fc), series = \"Fitted\") +\n  ylab(\"oil (1M Tones)\") + xlab(\"year\")\n\n# Using ets() for more control\nSES &lt;- ets(train.ts, model = \"ANN\", alpha = 0.2)\n# ETS(A,N,N): error = Additive, Trend = None, Seasonality = None",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#trend-methods",
+    "href": "time-series/week-2.html#trend-methods",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.9 Trend Methods",
+    "text": "2.9 Trend Methods\n\n2.9.1 Holt’s Linear Trend Method\nUse when: Series has a linear trend but no seasonality.\nExtends SES with a slope (trend) equation:\nForecast equation: \\[\\hat{y}_{t+h|t} = \\ell_t + h b_t\\]\nLevel equation: \\[\\ell_t = \\alpha y_t + (1-\\alpha)(\\ell_{t-1} + b_{t-1})\\]\nTrend (slope) equation: \\[b_t = \\beta^*(\\ell_t - \\ell_{t-1}) + (1-\\beta^*)b_{t-1}\\]\nParameters: \\(\\alpha, \\beta^* \\in [0,1]\\). Choose \\(\\alpha, \\beta^*, \\ell_0, b_0\\) to minimise SSE.\n\n\n2.9.2 Holt’s Damped Trend Method\nProblem with Holt Linear: Forecasts trend indefinitely into the future — often too optimistic long term.\nSolution: Introduce a damping parameter \\(\\phi\\) that flattens the trend over time:\n\\[\\hat{y}_{t+h|t} = \\ell_t + (\\phi + \\phi^2 + \\cdots + \\phi^h)b_t\\]\n\\[\\ell_t = \\alpha y_t + (1-\\alpha)(\\ell_{t-1} + \\phi b_{t-1})\\]\n\\[b_t = \\beta^*(\\ell_t - \\ell_{t-1}) + (1-\\beta^*)\\phi b_{t-1}\\]\n\n\\(0 &lt; \\phi &lt; 1\\): dampened trend (recommended for long-horizon forecasts)\n\\(\\phi = 1\\): equivalent to Holt’s linear trend\n\n\n\n2.9.3 R code\nlibrary(fpp2)\n\nair_data &lt;- window(ausair, start = 1990, end = 2004)\n\n# Holt's linear trend\nair_data %&gt;% holt(h = 5, PI = FALSE) %&gt;% autoplot()\n\n# Holt's damped trend\nair_data %&gt;% holt(damped = TRUE, h = 5, PI = FALSE) %&gt;% autoplot()\n\n# Compare models on livestock data\nlivestock2 &lt;- window(livestock, start = 1970, end = 2000)\nfit1 &lt;- ses(livestock2)\nfit2 &lt;- holt(livestock2)\nfit3 &lt;- holt(livestock2, damped = TRUE)\n\n# Compare accuracy\naccuracy(fit1, livestock)\naccuracy(fit2, livestock)\naccuracy(fit3, livestock)",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#seasonal-methods-holt-winters",
+    "href": "time-series/week-2.html#seasonal-methods-holt-winters",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.10 Seasonal Methods — Holt-Winters",
+    "text": "2.10 Seasonal Methods — Holt-Winters\nExtends Holt to include a seasonal component \\(s_t\\).\n\n2.10.1 Holt-Winters Additive\nUse when: Seasonal amplitude is constant (does not grow with the level).\n\\[\\hat{y}_{t+h|t} = \\ell_t + h b_t + s_{t+h-m(k+1)}\\]\n\\[\\ell_t = \\alpha(y_t - s_{t-m}) + (1-\\alpha)(\\ell_{t-1} + b_{t-1})\\]\n\\[b_t = \\beta^*(\\ell_t - \\ell_{t-1}) + (1-\\beta^*)b_{t-1}\\]\n\\[s_t = \\gamma(y_t - \\ell_{t-1} - b_{t-1}) + (1-\\gamma)s_{t-m}\\]\nParameters: \\(0 \\leq \\alpha \\leq 1\\), \\(0 \\leq \\beta^* \\leq 1\\), \\(0 \\leq \\gamma \\leq 1-\\alpha\\)\n\\(m\\) = periodicity (e.g., 12 for monthly), \\(k = \\lfloor(h-1)/m\\rfloor\\)\n\n\n2.10.2 Holt-Winters Multiplicative\nUse when: Seasonal amplitude grows proportionally with the level.\n\\[\\hat{y}_{t+h|t} = (\\ell_t + h b_t) s_{t+h-m(k+1)}\\]\n\\[\\ell_t = \\alpha \\frac{y_t}{s_{t-m}} + (1-\\alpha)(\\ell_{t-1} + b_{t-1})\\]\n\\[s_t = \\gamma \\frac{y_t}{\\ell_{t-1} + b_{t-1}} + (1-\\gamma)s_{t-m}\\]\n\n\n2.10.3 Holt-Winters Damped\nUsually the best performing method for seasonal series. Adds the damping parameter \\(\\phi\\) to the multiplicative seasonal model.\n\n\n2.10.4 R code\nlibrary(fpp2)\n\naust &lt;- window(austourists, start = 2005)\n\n# Fit additive and multiplicative Holt-Winters\nfit1 &lt;- hw(aust, seasonal = \"additive\")\nfit2 &lt;- hw(aust, seasonal = \"multiplicative\")\n\n# Plot both\ntmp &lt;- cbind(Data = aust,\n             \"HW additive\"       = fit1[[\"mean\"]],\n             \"HW multiplicative\" = fit2[[\"mean\"]])\nautoplot(tmp) + xlab(\"Year\") + ylab(\"Hotel Stays (millions)\")\n\n# Damped multiplicative (usually best for seasonal TS)\nfc &lt;- hw(subset(hyndsight, end = length(hyndsight) - 35),\n         damped = TRUE, seasonal = \"multiplicative\", h = 35)\n\n# Extract estimated components\naddstates  &lt;- fit1$model$states[, 1:3]\nmultstates &lt;- fit2$model$states[, 1:3]\ncolnames(addstates) &lt;- colnames(multstates) &lt;- c(\"level\",\"slope\",\"seasonality\")",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#prediction-error-measurements",
+    "href": "time-series/week-2.html#prediction-error-measurements",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.11 Prediction Error Measurements",
+    "text": "2.11 Prediction Error Measurements\nThese metrics allow you to compare competing models on a test set.\n\n\n\n\n\n\n\n\nMetric\nFormula\nNotes\n\n\n\n\nMAE / MAD\n\\(\\frac{\\sum |Y_t - F_t|}{n}\\)\nSame units as data; easy to interpret\n\n\nMSE\n\\(\\frac{\\sum (Y_t - F_t)^2}{n-1}\\)\nPenalises large errors more heavily\n\n\nMAPE\n\\(\\frac{1}{n}\\sum\\left|\\frac{Y_t - F_t}{Y_t}\\right| \\times 100\\)\nPercentage; unit-free; allows comparison across series\n\n\nRMSE\n\\(\\sqrt{MSE}\\)\nSame units as data; commonly reported\n\n\nMASE\nScaled MAE\nUseful when comparing across different scales\n\n\n\nAlso used: AIC, AICc, BIC — information criteria for model selection (lower = better).\n\nFrom the livestock example: The Holt Linear method outperformed both SES and Holt Damped on the test set (lower RMSE, MAE, MAPE). Always evaluate on a held-out test set, not just training data.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#ets-framework-in-r",
+    "href": "time-series/week-2.html#ets-framework-in-r",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "2.12 ETS Framework in R",
+    "text": "2.12 ETS Framework in R\nETS = Error, Trend, Seasonality. This unified framework encompasses all exponential smoothing methods.\nEach component takes a type:\n\n\n\nComponent\nTypes\n\n\n\n\nError\nA (additive), M (multiplicative)\n\n\nTrend\nN (none), A (additive), Ad (additive damped)\n\n\nSeasonality\nN (none), A (additive), M (multiplicative)\n\n\n\nExamples: ETS(A,N,N) = SES; ETS(A,A,A) = Holt-Winters additive; ETS(M,Ad,M) = Holt-Winters damped multiplicative.\n\n2.12.1 R code\nlibrary(fpp2)\n\naust &lt;- window(austourists, start = 2005)\n\n# Auto-select model by AICc\nfit &lt;- ets(aust)\nsummary(fit)\nautoplot(fit)\n\n# Force a specific model\nets(h02, model = \"AAA\", damped = FALSE)\n\n# Train/test split workflow\ntrain &lt;- window(h02, end  = c(2004, 12))\ntest  &lt;- window(h02, start = 2005)\n\nfit1 &lt;- ets(train)                                    # fit on train\nfit2 &lt;- ets(test, model = fit1, use.initial.values = TRUE)  # apply to test\n\naccuracy(fit2)\naccuracy(forecast(fit1, 10), test)\n\n# Residual diagnostics\ncbind('Residuals'      = residuals(fit),\n      'Forecast errors' = residuals(fit, type = 'response')) %&gt;%\n  autoplot(facet = TRUE) + xlab(\"Year\") + ylab(\"\")",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#example-1-stl-on-electric-equipment-index",
+    "href": "time-series/week-2.html#example-1-stl-on-electric-equipment-index",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "4.1 Example 1 — STL on Electric Equipment Index",
+    "text": "4.1 Example 1 — STL on Electric Equipment Index\nlibrary(fpp2)\nfit &lt;- stl(elecequip, s.window = 5, robust = TRUE)\nautoplot(fit) + ggtitle(\"STL Decomposition Electric Equipment index\")\nShows clearly separated trend, seasonal (periodic ~12-month cycle), and small remainder.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#example-2-ses-on-oil-production-data",
+    "href": "time-series/week-2.html#example-2-ses-on-oil-production-data",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "4.2 Example 2 — SES on Oil Production Data",
+    "text": "4.2 Example 2 — SES on Oil Production Data\nfc &lt;- ses(oildata, h = 5)\n# alpha = 0.8339 (high — most weight on recent observations)\n# All 5-step forecasts are flat (constant) = feature of SES",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#example-3-comparing-models-on-livestock-data-sheep-in-asia",
+    "href": "time-series/week-2.html#example-3-comparing-models-on-livestock-data-sheep-in-asia",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "4.3 Example 3 — Comparing Models on Livestock Data (sheep in Asia)",
+    "text": "4.3 Example 3 — Comparing Models on Livestock Data (sheep in Asia)\nThe three models fitted were SES, Holt Linear, and Holt Damped. Key results:\n\n\n\nModel\nTest RMSE\nTest MAE\nTest MAPE\n\n\n\n\nSES\n25.46\n20.38\n4.60\n\n\nHolt Linear\n11.88\n10.71\n2.54\n\n\nHolt Damped\n14.73\n13.30\n3.07\n\n\n\nHolt Linear performed best despite the series having a trend change — the damped version was conservative.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-2.html#example-4-hotel-stays-holt-winters",
+    "href": "time-series/week-2.html#example-4-hotel-stays-holt-winters",
+    "title": "STAT9005 – Time Series Analysis: Classical Models",
+    "section": "4.4 Example 4 — Hotel Stays (Holt-Winters)",
+    "text": "4.4 Example 4 — Hotel Stays (Holt-Winters)\naust  &lt;- window(austourists, start = 2005)\nfit1  &lt;- hw(aust, seasonal = \"additive\")\nfit2  &lt;- hw(aust, seasonal = \"multiplicative\")\nBoth methods perform very similarly here. Use multiplicative when seasonal swings grow over time.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 2"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html",
+    "href": "time-series/week-3.html",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "",
+    "text": "Time Series Decomposition — components, additive vs multiplicative models\nSeasonal Adjustment — removing the seasonal signal to expose trend\nSTL Decomposition — Seasonal and Trend decomposition using Loess\nPrediction from Decomposition — using decomposed components to forecast\nSimple Exponential Smoothing (SES) — weighted averaging with exponential decay\nTrend Methods — Holt Linear and Holt Damped\nPrediction Error Measurements — MAD/MAE, MSE, MAPE\nSeasonal Methods — Holt-Winters additive, multiplicative, and damped\nETS in R — automated model selection with ets()",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#time-series-components",
+    "href": "time-series/week-3.html#time-series-components",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.1 Time Series Components",
+    "text": "2.1 Time Series Components\nA time series (TS) can be broken into three building blocks that together explain the observed data.\n\nSeasonal variation — a repeating pattern that completes itself within one calendar year (e.g., higher ice-cream sales every summer). This is a periodic cycle.\nCyclical variation — longer-term waves of ups and downs that last more than two years and do not follow a fixed calendar (e.g., economic booms and recessions).\nTrend — the long-run direction of the series (up, down, or flat). A time series has one overall trend, but it can be interrupted by multiple cyclical swings.\n\nThe ETS framework (Error, Trend, Seasonality) provides a unified way to describe and model all three simultaneously.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#time-series-decomposition",
+    "href": "time-series/week-3.html#time-series-decomposition",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.2 Time Series Decomposition",
+    "text": "2.2 Time Series Decomposition\nThe general decomposition model says the observed value \\(y_t\\) is a function of three components:\n\\[y_t = f(S_t,\\; T_t,\\; R_t)\\]\n\n\n\nSymbol\nMeaning\n\n\n\n\n\\(y_t\\)\nObserved value at time \\(t\\)\n\n\n\\(S_t\\)\nSeasonal component at time \\(t\\)\n\n\n\\(T_t\\)\nTrend–cycle component at time \\(t\\)\n\n\n\\(R_t\\)\nRandom (remainder) component at time \\(t\\)\n\n\n\nThere are two forms of this model:\nAdditive decomposition (use when seasonal swings are roughly constant over time):\n\\[y_t = S_t + T_t + R_t\\]\nMultiplicative decomposition (use when seasonal swings grow as the level of the series rises):\n\\[y_t = S_t \\times T_t \\times R_t\\]\n\nTip — converting multiplicative to additive: Taking logarithms turns a multiplicative model into an additive one. This is an example of a Box-Cox transformation:\n\\[\\log(y_t) = \\log S_t + \\log T_t + \\log R_t\\]\nIn R you can pass lambda = \"auto\" to mstl() to do this automatically.\n\n\n2.2.1 Key R functions for extracting components\nlibrary(forecast)\nlibrary(fpp2)\n\nfit &lt;- stl(elecequip, s.window = 7)\n\nseasonal(fit)    # seasonal component  S_t\ntrendcycle(fit)  # trend–cycle component  T_t\nremainder(fit)   # random component  R_t\nseasadj(fit)     # seasonally adjusted series  (T_t + R_t for additive)",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#seasonal-adjustment",
+    "href": "time-series/week-3.html#seasonal-adjustment",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.3 Seasonal Adjustment",
+    "text": "2.3 Seasonal Adjustment\nSeasonal adjustment means stripping the seasonal component out of the observed series so you can see the underlying trend more clearly.\n\nAdditive: \\(y_t - S_t = T_t + R_t\\)\nMultiplicative: \\(y_t \\,/\\, S_t = T_t \\times R_t\\)\n\nThe seasonal component \\(S_t\\) is estimated from past data (e.g., via STL) and then used to adjust current values.\n\nImportant caveat: A seasonally adjusted series still contains the random component \\(R_t\\), so it will look jagged and can give the false impression of real ups and downs. To identify genuine turning points, focus on the smooth trend-cycle component instead.\n\n# Example — elecequip dataset\nfit &lt;- stl(elecequip, s.window = 7)\n\nautoplot(elecequip, series = \"Data\") +\n  autolayer(seasadj(fit), series = \"Adjusted Seasonality\")\n\nautoplot(elecequip, series = \"Data\") +\n  autolayer(trendcycle(fit), series = \"Trend-cycle\")",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#stl-decomposition",
+    "href": "time-series/week-3.html#stl-decomposition",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.4 STL Decomposition",
+    "text": "2.4 STL Decomposition\nSTL stands for Seasonal and Trend decomposition using Loess. Loess is a local smoothing technique that is robust to extreme (outlier) values.\nAdvantages of STL:\n\nRobust — not distorted by unusual observations\nCan handle any seasonality with a single peak per cycle\nBoth the seasonal and trend-cycle smoothness can be tuned by the user\n\nDisadvantages of STL:\n\nNo built-in calendar-effect correction\nStrictly additive — apply log() or Box-Cox for multiplicative series\n\n\n2.4.1 Key parameters\n\n\n\n\n\n\n\nParameter\nControls\n\n\n\n\ns.window\nHow much the seasonal component is allowed to vary over time. Use \"periodic\" to force a fixed seasonal pattern.\n\n\nt.window\nHow smooth (wavey) the trend-cycle component is. Larger = smoother.\n\n\nrobust = TRUE\nDownweights outliers when fitting.\n\n\n\n# Fixed seasonal pattern, robust fitting\nfit &lt;- stl(elecequip,\n           t.window = 15,\n           s.window = \"periodic\",\n           robust   = TRUE)\nautoplot(fit) + ggtitle(\"STL Decomposition Electric Equipment index\")\n\n# Automatic window selection (plus optional Box-Cox)\nelecequip %&gt;% mstl(lambda = \"auto\") %&gt;% autoplot()\n\nmstl() automatically selects s.window and also supports multi-seasonal data (e.g., both weekly and annual seasonality). It accepts a lambda argument for Box-Cox transformations.\n\n\n\n2.4.2 Spain Tourism example (from class data)\nx &lt;- scan(\"IncomesTourism.txt\", skip = 4)\nx.ts &lt;- ts(x, frequency = 12, start = c(1990, 1))\n\n# Visual inspection\nautoplot(x.ts)\nautoplot(log(x.ts))   # check whether log stabilises variance\n\n# STL on data from 2000\nx.ts %&gt;%\n  window(start = 2000) %&gt;%\n  stl(s.window = 11, robust = TRUE) -&gt; fit\n\nautoplot(fit)\nautoplot(seasadj(fit))\n\n# Seasonal plot to inspect year-on-year patterns\nggseasonplot(window(x.ts, start = c(1990, 1)),\n             year.labels = TRUE) +\n  ggtitle(\"Total Income Tourism\") +\n  ylab(\"€ x 1,000\")",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#prediction-using-decomposition",
+    "href": "time-series/week-3.html#prediction-using-decomposition",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.5 Prediction Using Decomposition",
+    "text": "2.5 Prediction Using Decomposition\nThe workflow for forecasting with decomposition:\n\nDecompose the series using STL.\nSeasonal component: repeat the last year’s seasonal pattern (naïve seasonal forecast).\nTrend-cycle / seasonally-adjusted component: apply a non-seasonal method (e.g., naïve, SES, Holt).\nCombine the forecasts.\n\n\nDecomposition is primarily used to understand a series before choosing a dedicated forecasting model. The stlf() function in R automates steps 1–4.\n\n# STL decomposition → naïve forecast on seasonally-adjusted data\nfit &lt;- stl(elecequip, t.window = 13, s.window = \"periodic\")\n\nfit %&gt;% seasadj() %&gt;% naive() %&gt;%\n  autoplot() +\n  ylab(\"New orders index\") +\n  ggtitle(\"Seasonal adjusted data — Naïve Forecast\")\n\n# Shortcut with stlf()\nelecequip %&gt;%\n  stlf(method = \"naive\") %&gt;%\n  autoplot() +\n  ylab(\"New orders index\")",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#simple-exponential-smoothing-ses",
+    "href": "time-series/week-3.html#simple-exponential-smoothing-ses",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.6 Simple Exponential Smoothing (SES)",
+    "text": "2.6 Simple Exponential Smoothing (SES)\n\n2.6.1 When to use SES\nSES belongs to the family of pure time-series methods — they only use the series itself (no external predictors). Use SES when:\n\nThere is no trend and no seasonality in the series.\nYou have few or no independent variables to include.\n\n\n\n2.6.2 How it works\nRather than giving equal weight to all past observations (like a simple moving average), SES gives more weight to recent observations and exponentially decreasing weight to older ones.\nThe smoothing parameter \\(\\alpha\\) (0 ≤ α ≤ 1) controls how fast the weights decay:\n\n\n\n\n\n\n\n\\(\\alpha\\) value\nEffect\n\n\n\n\nClose to 1\nAlmost all weight on the most recent observation — reacts quickly, less smooth\n\n\nClose to 0\nWeight spread evenly over all past observations — very smooth, slow to react\n\n\n\n\n\n2.6.3 Equations\nForecast equation (the prediction for any future horizon \\(h\\) is the same value):\n\\[\\hat{y}_{t+h|t} = \\ell_t\\]\nSmoothing (level) equation:\n\\[\\ell_t = \\alpha y_t + (1 - \\alpha)\\ell_{t-1}\\]\n\\(\\ell_t\\) is called the level of the series at time \\(t\\).\nBy iterating the smoothing equation backwards, the forecast becomes a weighted average of all past observations:\n\\[\\hat{y}_{T+1|T} = \\sum_{j=0}^{T-1} \\alpha(1-\\alpha)^j y_{T-j} + (1-\\alpha)^T \\ell_0\\]\nThe weights \\(\\alpha,\\; \\alpha(1-\\alpha),\\; \\alpha(1-\\alpha)^2, \\ldots\\) decay exponentially — hence the name.\n\n\n2.6.4 Optimisation\nThe parameters \\(\\alpha\\) and the initial level \\(\\ell_0\\) are chosen by minimising the Sum of Squared Errors (SSE):\n\\[\\text{SSE} = \\sum_{t=1}^{T}(y_t - \\hat{y}_{t|t-1})^2 = \\sum_{t=1}^{T} e_t^2\\]\nThis requires numerical (non-linear) optimisation, which R handles automatically.\nlibrary(fpp2)\n\noildata &lt;- window(oil, start = 1996)\nfc &lt;- ses(oildata, h = 5)\nfc   # shows alpha, initial level, AIC, BIC, forecasts\n\nautoplot(fc) +\n  autolayer(fitted(fc), series = \"Fitted\") +\n  ylab(\"Oil (1M Tonnes)\") +\n  xlab(\"Year\")\n\n# Equivalent via ets()  — ETS(A,N,N) = Additive error, No trend, No seasonality\nSES_model &lt;- ets(oildata, model = \"ANN\", alpha = 0.2)",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#trend-methods",
+    "href": "time-series/week-3.html#trend-methods",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.7 Trend Methods",
+    "text": "2.7 Trend Methods\n\n2.7.1 Holt Linear Trend\nAn extension of SES for series with a linear trend but no seasonality. It adds a second smoothing equation for the slope (trend):\n\\[\\hat{y}_{t+h|t} = \\ell_t + h b_t\\]\n\\[\\ell_t = \\alpha y_t + (1-\\alpha)(\\ell_{t-1} + b_{t-1})\\]\n\\[b_t = \\beta^*(\\ell_t - \\ell_{t-1}) + (1-\\beta^*)b_{t-1}\\]\n\n\n\nParameter\nRole\n\n\n\n\n\\(\\alpha\\)\nSmoothing for the level\n\n\n\\(\\beta^*\\)\nSmoothing for the slope (trend)\n\n\n\\(\\ell_t\\)\nCurrent level estimate\n\n\n\\(b_t\\)\nCurrent slope estimate\n\n\n\nBoth \\(\\alpha\\) and \\(\\beta^*\\) lie in \\([0, 1]\\). \\(\\ell_0\\) and \\(b_0\\) are also optimised by minimising SSE.\n\n\n2.7.2 Holt Damped Trend\nHolt’s method keeps projecting the trend indefinitely into the future, which is often unrealistic. The damped version introduces a damping parameter \\(\\phi\\) (\\(0 &lt; \\phi &lt; 1\\)) that gradually flattens the forecast towards a constant:\n\\[\\hat{y}_{t+h|t} = \\ell_t + (\\phi + \\phi^2 + \\cdots + \\phi^h)b_t\\]\n\\[\\ell_t = \\alpha y_t + (1-\\alpha)(\\ell_{t-1} + \\phi b_{t-1})\\]\n\\[b_t = \\beta^*(\\ell_t - \\ell_{t-1}) + (1-\\beta^*)\\phi b_{t-1}\\]\n\nWhen \\(\\phi = 1\\) the damped model is identical to linear Holt. In practice the damped Holt method is often more accurate because real trends rarely continue indefinitely.\n\n# Linear Holt\nwindow(ausair, start = 1990, end = 2004) %&gt;%\n  holt(h = 5, PI = FALSE) %&gt;%\n  autoplot()\n\n# Damped Holt\nwindow(ausair, start = 1990, end = 2004) %&gt;%\n  holt(damped = TRUE, h = 5, PI = FALSE) %&gt;%\n  autoplot()",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#prediction-error-measurements",
+    "href": "time-series/week-3.html#prediction-error-measurements",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.8 Prediction Error Measurements",
+    "text": "2.8 Prediction Error Measurements\nTo compare models, we measure how far forecasts are from actual values.\n\n2.8.1 Common metrics\nMean Absolute Deviation / Error (MAD / MAE) — average of absolute forecast errors, in the same units as the data:\n\\[\\text{MAD} = \\frac{\\sum |Y_t - F_t|}{n}\\]\nMean Squared Error (MSE) — penalises large errors more heavily (units are squared):\n\\[\\text{MSE} = \\frac{\\sum (Y_t - F_t)^2}{n - 1}\\]\nMean Absolute Percentage Error (MAPE) — unit-free measure, useful for comparing across different series:\n\\[\\text{MAPE} = \\frac{1}{n}\\sum \\left|\\frac{Y_t - F_t}{Y_t}\\right| \\times 100\\]\nOther criteria used for model selection include AIC, AICc (corrected AIC), and BIC — lower values indicate a better-fitting model relative to its complexity.\n# Compare SES, Holt, and Damped Holt on livestock data\nlivestock2 &lt;- window(livestock, start = 1970, end = 2000)\nfit1 &lt;- ses(livestock2)\nfit2 &lt;- holt(livestock2)\nfit3 &lt;- holt(livestock2, damped = TRUE)\n\naccuracy(fit1, livestock)\naccuracy(fit2, livestock)\naccuracy(fit3, livestock)",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#seasonal-methods-holt-winters",
+    "href": "time-series/week-3.html#seasonal-methods-holt-winters",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.9 Seasonal Methods — Holt-Winters",
+    "text": "2.9 Seasonal Methods — Holt-Winters\nHolt-Winters extends Holt by adding a third equation for seasonality, making it suitable for series that have both trend and season.\n\n2.9.1 Additive Holt-Winters\nUse when seasonal fluctuations are roughly constant in size over time.\n\\[\\hat{y}_{t+h|t} = \\ell_t + hb_t + s_{t+h-m(k+1)}\\]\n\\[\\ell_t = \\alpha(y_t - s_{t-m}) + (1-\\alpha)(\\ell_{t-1} + b_{t-1})\\]\n\\[b_t = \\beta^*(\\ell_t - \\ell_{t-1}) + (1-\\beta^*)b_{t-1}\\]\n\\[s_t = \\gamma(y_t - \\ell_{t-1} - b_{t-1}) + (1-\\gamma)s_{t-m}\\]\n\n\n2.9.2 Multiplicative Holt-Winters\nUse when seasonal fluctuations grow proportionally with the level of the series.\n\\[\\hat{y}_{t+h|t} = (\\ell_t + hb_t)\\, s_{t+h-m(k+1)}\\]\n\\[\\ell_t = \\alpha\\frac{y_t}{s_{t-m}} + (1-\\alpha)(\\ell_{t-1} + b_{t-1})\\]\n\\[s_t = \\gamma\\frac{y_t}{\\ell_{t-1} + b_{t-1}} + (1-\\gamma)s_{t-m}\\]\n\n\n2.9.3 Damped Holt-Winters\nUsually the best-performing method for seasonal series. Combines the damped trend (\\(\\phi\\)) with multiplicative seasonality.\n\n\n2.9.4 Parameters summary\n\n\n\nParameter\nRange\nRole\n\n\n\n\n\\(\\alpha\\)\n\\([0,1]\\)\nLevel smoothing\n\n\n\\(\\beta^*\\)\n\\([0,1]\\)\nTrend smoothing\n\n\n\\(\\gamma\\)\n\\([0, 1-\\alpha]\\)\nSeasonal smoothing\n\n\n\\(m\\)\ninteger\nSeasonal period (e.g., 12 for monthly)\n\n\n\\(\\phi\\)\n\\((0,1)\\)\nDamping factor (damped model only)\n\n\n\n\\(k = \\lfloor(h-1)/m\\rfloor\\) ensures the most recent full year of seasonal estimates is used in every forecast.\naust &lt;- window(austourists, start = 2005)\n\nfit1 &lt;- hw(aust, seasonal = \"additive\")\nfit2 &lt;- hw(aust, seasonal = \"multiplicative\")\n\n# Damped multiplicative (often the best choice)\nfc &lt;- hw(subset(hyndsight, end = length(hyndsight) - 35),\n         damped   = TRUE,\n         seasonal = \"multiplicative\",\n         h        = 35)\n\nautoplot(hyndsight) +\n  autolayer(fc, series = \"HW multi damped\", PI = FALSE)",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#ets-in-r",
+    "href": "time-series/week-3.html#ets-in-r",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.10 ETS in R",
+    "text": "2.10 ETS in R\nThe ets() function in the forecast package is the master tool for ETS models. It:\n\nAutomatically selects the best combination of error type, trend, and seasonality using AICc (by default).\nCan fit any combination you specify manually.\n\nThe model is named ETS(error, trend, seasonality) where each position takes: A = Additive, M = Multiplicative, N = None, d = damped trend.\n\n\n\n\n\n\n\nExample\nMeaning\n\n\n\n\nETS(A,N,N)\nSES (additive error, no trend, no season)\n\n\nETS(A,A,N)\nHolt linear (additive error and trend, no season)\n\n\nETS(M,Ad,M)\nMultiplicative error, damped additive trend, multiplicative season\n\n\n\nlibrary(fpp2)\n\naust &lt;- window(austourists, start = 2005)\nfit  &lt;- ets(aust)        # automatic model selection\nsummary(fit)\nautoplot(fit)\n\n# Forecast\nfit %&gt;% forecast(h = 8) %&gt;% autoplot()\n\n# Manual model specification\nets(h02, model = \"AAA\", damped = FALSE)\n\n# Train / Test split workflow\ntrain &lt;- window(h02, end   = c(2004, 12))\ntest  &lt;- window(h02, start = 2005)\nfit1  &lt;- ets(train)\nfit2  &lt;- ets(test, model = fit1, use.initial.values = TRUE)\n\naccuracy(fit2)\naccuracy(forecast(fit1, 10), test)\n\n# Residual diagnostics\ncbind(\"Residuals\"      = residuals(fit),\n      \"Forecast errors\" = residuals(fit, type = \"response\")) %&gt;%\n  autoplot(facet = TRUE) +\n  xlab(\"Year\")",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#datasets-used-in-class",
+    "href": "time-series/week-3.html#datasets-used-in-class",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "4.1 Datasets used in class",
+    "text": "4.1 Datasets used in class\n\n\n\n\n\n\n\n\nDataset\nDescription\nWhere used\n\n\n\n\nelecequip\nMonthly new orders index for electrical equipment (fpp2)\nSTL decomposition, trend-cycle extraction\n\n\noildata\nOil production (fpp2 / gamlss.data)\nSES example\n\n\nausair\nAustralian air passengers (fpp2)\nHolt linear & damped\n\n\nlivestock\nSheep in Asia (fpp2)\nSES vs Holt comparison\n\n\naustourists\nAustralian hotel stays (fpp2)\nHolt-Winters additive & multiplicative\n\n\nhyndsight\nDaily website visits (fpp2)\nHW damped multiplicative\n\n\nh02\nMonthly cortecosteroid drug subsidies (fpp2)\nETS with R\n\n\nIncomesTourism.txt\nMonthly tourism income in Spain 1990–2005\nSTL, seasonal plot (class exercise)\n\n\nwineind / gas\nWine / Gas production\nMoving average, student exercises\n\n\neggs (BCA)\nUS egg prices\nStudent exercise — Holt linear & damped\n\n\nAirPassengers\nClassic airline passenger data\nBox-Cox / log transformation check",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#comparing-ses-holt-and-damped-holt-livestock-example",
+    "href": "time-series/week-3.html#comparing-ses-holt-and-damped-holt-livestock-example",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "4.2 Comparing SES, Holt, and Damped Holt (livestock example)",
+    "text": "4.2 Comparing SES, Holt, and Damped Holt (livestock example)\nlivestock2 &lt;- window(livestock, start = 1970, end = 2000)\nfit1 &lt;- ses(livestock2)\nfit2 &lt;- holt(livestock2)\nfit3 &lt;- holt(livestock2, damped = TRUE)\n\nautoplot(livestock2) +\n  autolayer(fit1, series = \"SES\",          PI = FALSE) +\n  autolayer(fit2, series = \"Holt's\",       PI = FALSE) +\n  autolayer(fit3, series = \"Damped Holt\",  PI = FALSE) +\n  ggtitle(\"Livestock sheep — Prediction methods\") +\n  xlab(\"Year\") + ylab(\"Livestock sheep in Asia (millions)\")",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
+    ]
+  },
+  {
+    "objectID": "time-series/week-3.html#personal-annotations",
+    "href": "time-series/week-3.html#personal-annotations",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "6.1 Personal Annotations",
+    "text": "6.1 Personal Annotations\n\nAdd your own notes here after reviewing the slides and re-running the R code.\n\n[Annotation space]",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 3"
     ]
   },
   {
@@ -1893,27 +2254,518 @@
     "text": "Code"
   },
   {
-    "objectID": "time-series/week-1.html",
-    "href": "time-series/week-1.html",
+    "objectID": "time-series/week-7.html",
+    "href": "time-series/week-7.html",
     "title": "",
     "section": "",
     "text": "Code",
     "crumbs": [
       "Time Series",
       "Weekly Notes",
-      "Week 1 - empty"
+      "Week 7 - empty"
     ]
   },
   {
-    "objectID": "time-series/week-2.html",
-    "href": "time-series/week-2.html",
+    "objectID": "time-series/week-6.html",
+    "href": "time-series/week-6.html",
     "title": "",
     "section": "",
     "text": "Code",
     "crumbs": [
       "Time Series",
       "Weekly Notes",
-      "Week 2 - empty"
+      "Week 6 - empty"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html",
+    "href": "time-series/week-5.html",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "",
+    "text": "📝 These notes are a summary of the Week 5 lecture. Use the space under each section to add your own annotations, questions, or examples as you review.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#single-exponential-smoothing-ses-quick-recap",
+    "href": "time-series/week-5.html#single-exponential-smoothing-ses-quick-recap",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "3.1 Single Exponential Smoothing (SES) – Quick Recap",
+    "text": "3.1 Single Exponential Smoothing (SES) – Quick Recap\nUse when: Your data has no trend and no seasonality — just a fluctuating level.\nThe key idea is that the prediction equals the level, which is a weighted average of past observations. The weight of each past observation decays exponentially as you go further back in time.\n\nα close to 1 → short memory → only recent observations matter\nα close to 0 → long memory → many past observations are used\n\nThe forecast is constant: every future prediction is the same value, only the confidence interval grows wider the further out you predict.\n\n✏️ Your annotation space:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#holts-method-double-exponential-smoothing",
+    "href": "time-series/week-5.html#holts-method-double-exponential-smoothing",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "3.2 Holt’s Method (Double Exponential Smoothing)",
+    "text": "3.2 Holt’s Method (Double Exponential Smoothing)\nUse when: Your data has a trend (upward or downward), but no seasonality.\nHolt’s method adds a trend component on top of the level.\n\n3.2.1 How it works\nThe forecast equation is similar to the equation of a straight line:\n\\[\\hat{y}_{t+h} = \\ell_t + h \\cdot b_t\\]\nWhere:\n\n\\(\\ell_t\\) = level at time \\(t\\) (how far back to look for relevant information)\n\\(b_t\\) = trend / slope at time \\(t\\)\n\\(h\\) = number of steps ahead\n\nThe level is updated using α (0 to 1) and the trend is updated using β (0 to 1), both found by minimising the Sum of Squared Errors (SSE) — R does this automatically using quadratic programming.\n\n💡 Think of it like fitting a line of best fit, but the line is constantly being updated as new data arrives.\n\n\n✏️ Your annotation space:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#damped-trend-holt-with-damping",
+    "href": "time-series/week-5.html#damped-trend-holt-with-damping",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "3.3 Damped Trend (Holt with Damping)",
+    "text": "3.3 Damped Trend (Holt with Damping)\nUse when: The trend is not linear — it may slow down, flatten, or follow a cyclical pattern over time.\nThe damped trend adds a φ (phi) parameter that “bends” the trend forecast, preventing it from projecting indefinitely upward or downward. This is useful when the data contains a cyclical component (long-term oscillation, not to be confused with short-term seasonality).\n\nA polynomial trend with more degrees captures more complex shapes.\nThe lecture referred to this as the damp component in R output.\n\n\n✏️ Your annotation space:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#holt-winters-method-triple-exponential-smoothing",
+    "href": "time-series/week-5.html#holt-winters-method-triple-exponential-smoothing",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "3.4 Holt-Winters Method (Triple Exponential Smoothing)",
+    "text": "3.4 Holt-Winters Method (Triple Exponential Smoothing)\nUse when: Your data has trend AND seasonality.\nThree parameters are estimated:\n\nα → level\nβ → trend\nγ (gamma) → seasonality\n\n\n3.4.1 Additive vs. Multiplicative Seasonality\n\n\n\n\n\n\n\n\nType\nWhen to use\nBehaviour\n\n\n\n\nAdditive\nSeasonal swings are constant in size\nPattern has the same amplitude over time\n\n\nMultiplicative\nSeasonal swings grow with the level\nPattern amplitude increases as data increases\n\n\n\n\n💡 If your time series looks like a trumpet (widening fluctuations), use multiplicative. If the ups and downs stay the same height, use additive.\n\nThe lecture noted that multiplicative better captures a stable seasonal pattern, while additive can misrepresent a growing seasonal effect.\n\n✏️ Your annotation space:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#ses-forecast",
+    "href": "time-series/week-5.html#ses-forecast",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "4.1 SES Forecast",
+    "text": "4.1 SES Forecast\n\\[\\hat{y}_{t+1} = \\ell_t = \\alpha y_t + (1 - \\alpha)\\ell_{t-1}\\]",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#holts-method-forecast",
+    "href": "time-series/week-5.html#holts-method-forecast",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "4.2 Holt’s Method Forecast",
+    "text": "4.2 Holt’s Method Forecast\n\\[\\hat{y}_{t+h} = \\ell_t + h \\cdot b_t\\]\n\\[\\ell_t = \\alpha y_t + (1 - \\alpha)(\\ell_{t-1} + b_{t-1})\\]\n\\[b_t = \\beta(\\ell_t - \\ell_{t-1}) + (1 - \\beta)b_{t-1}\\]",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#confidence-interval-general-form",
+    "href": "time-series/week-5.html#confidence-interval-general-form",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "4.3 Confidence Interval (general form)",
+    "text": "4.3 Confidence Interval (general form)\n\\[\\hat{y} \\pm z^* \\cdot \\frac{\\sigma}{\\sqrt{n}}\\]\nWhere \\(z^* = 1.96\\) for 95% confidence (standard normal distribution).",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#error-metrics",
+    "href": "time-series/week-5.html#error-metrics",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "4.4 Error Metrics",
+    "text": "4.4 Error Metrics\n\n\n\n\n\n\n\n\nMetric\nFormula\nKey Property\n\n\n\n\nMAE\n\\(\\frac{1}{n}\\sum \\|y_t - \\hat{y}_t\\|\\)\nAverage absolute error\n\n\nMSE\n\\(\\frac{1}{n}\\sum (y_t - \\hat{y}_t)^2\\)\nPenalises large errors more\n\n\nMAPE\n\\(\\frac{1}{n}\\sum \\left|\\frac{y_t - \\hat{y}_t}{y_t}\\right| \\times 100\\)\nUnit-free — good for comparing different scales\n\n\n\n\n💡 Prefer MSE when large errors are costly. Use MAPE when comparing models across different datasets or units.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#fitting-models-with-the-forecast-library",
+    "href": "time-series/week-5.html#fitting-models-with-the-forecast-library",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "5.1 Fitting models with the forecast library",
+    "text": "5.1 Fitting models with the forecast library\nlibrary(forecast)\n\n# Single Exponential Smoothing\nfit_ses &lt;- ses(data, h = 5)\n\n# Holt's method (trend, no seasonality)\nfit_holt &lt;- holt(data, h = 5)\n\n# Holt with damped trend\nfit_holt_damp &lt;- holt(data, damped = TRUE, h = 5)\n\n# Holt-Winters (additive seasonality)\nfit_hw_add &lt;- hw(data, seasonal = \"additive\", h = 12)\n\n# Holt-Winters (multiplicative seasonality)\nfit_hw_mult &lt;- hw(data, seasonal = \"multiplicative\", h = 12)\n\n# ETS automatic (R chooses best model minimising BIC)\nfit_ets &lt;- ets(data)\nsummary(fit_ets)\n\n# ETS with specified components (additive error, additive trend, additive seasonal)\nfit_ets_aaa &lt;- ets(data, model = \"AAA\")\nsummary(fit_ets_aaa)",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#comparing-models-using-error-metrics",
+    "href": "time-series/week-5.html#comparing-models-using-error-metrics",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "5.2 Comparing models using error metrics",
+    "text": "5.2 Comparing models using error metrics\n# Extract accuracy metrics\naccuracy(fit_ses)\naccuracy(fit_holt)\naccuracy(fit_holt_damp)\n\n# Compare AIC / BIC (lower is better)\nfit_ses$model$aic\nfit_holt$model$aic",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#plotting-forecasts",
+    "href": "time-series/week-5.html#plotting-forecasts",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "5.3 Plotting forecasts",
+    "text": "5.3 Plotting forecasts\nplot(forecast(fit_holt, h = 10))",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#oil-data-set",
+    "href": "time-series/week-5.html#oil-data-set",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "6.1 Oil Data Set",
+    "text": "6.1 Oil Data Set\n\nUsed to compare SES vs. Holt (possible trend present)\nResulted in α ≈ 0.4 → short memory data set\nSES prediction was constant (flat line) with growing confidence intervals",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#livestock-data-set",
+    "href": "time-series/week-5.html#livestock-data-set",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "6.2 Livestock Data Set",
+    "text": "6.2 Livestock Data Set\nThree models were fitted and compared using MSE and MAE:\n\n\n\nModel\nMSE\nMAE\n\n\n\n\nSES\n14.7\n8.72\n\n\nHolt (linear)\n13.98\n7.80\n\n\nHolt (damped)\n13.90\n7.74\n\n\n\n➡️ Holt damped had the lowest MAE. Holt linear had the lowest MSE. Selection depends on which metric you prioritise.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-5.html#hotel-stays-data-set",
+    "href": "time-series/week-5.html#hotel-stays-data-set",
+    "title": "Week 5 – Exponential Smoothing Methods (Holt & Holt-Winters)",
+    "section": "6.3 Hotel Stays Data Set",
+    "text": "6.3 Hotel Stays Data Set\n\nData: number of hotel stays (millions)\nUsed to compare Holt-Winters additive vs. multiplicative\nMultiplicative better captured the stable, consistent seasonal pattern\nAdditive produced a non-constant (incorrect) seasonal component",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 5"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html",
+    "href": "time-series/week-4.html",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "",
+    "text": "📝 Note to self: These notes combine the Week 4 lecture (Aula_4), the Lab 1 handout, the Lab 1 solution R script, and the Lecture 2 Classical Models slides. Gaps and follow-up slides are flagged throughout.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#is-it-actually-a-time-series-the-kings-dataset",
+    "href": "time-series/week-4.html#is-it-actually-a-time-series-the-kings-dataset",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "2.1 Is It Actually a Time Series? — The Kings Dataset",
+    "text": "2.1 Is It Actually a Time Series? — The Kings Dataset\nBefore doing any analysis, you must verify that your data actually qualifies as a time series. The first requirement is equally spaced observations — data points must be recorded at regular, consistent intervals.\nThe Kings dataset records the ages at death of successive Kings of England. At first glance it looks like sequential data, but it is not a time series. Each value is just the age a king happened to die — there is no regular time interval between observations. This is better framed as a regression problem (predicting the next king’s age at death), not a forecasting problem. Francisco made this distinction explicitly in class: we forget about the Kings dataset for this module.\nThe rule of thumb: ask yourself “Am I predicting future values of a process that unfolds over equally spaced time?” If yes, it is a time series. If no, it is something else.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#loading-data-and-the-ts-function",
+    "href": "time-series/week-4.html#loading-data-and-the-ts-function",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "2.2 Loading Data and the ts() Function",
+    "text": "2.2 Loading Data and the ts() Function\nIn R, raw data loaded with scan() is just a numeric vector — it has no time awareness. The ts() function wraps that vector with time series metadata.\n# Kings — no frequency info needed (annual-ish, frequency = 1 by default)\nkings &lt;- scan(\"http://robjhyndman.com/tsdldata/misc/kings.dat\", skip = 3)\nkingstimeseries &lt;- ts(kings)\n\n# Births — monthly data starting January 1946\nbirths &lt;- scan(\"http://robjhyndman.com/tsdldata/data/nybirths.dat\")\nbirthstimeseries &lt;- ts(births, frequency = 12, start = c(1946, 1))\n\n# Souvenir sales — monthly data starting January 1987\nsouvenir &lt;- scan(\"http://robjhyndman.com/tsdldata/data/fancy.dat\")\nsouvenirtimeseries &lt;- ts(souvenir, frequency = 12, start = c(1987, 1))\nThe key arguments are:\n\nfrequency — number of observations per cycle (12 = monthly, 4 = quarterly, 1 = annual)\nstart — vector giving the start time, e.g. c(1946, 1) means January 1946\n\nAlways plot immediately after creating the time series object to get your first visual read on the data.\npar(mfrow = c(1, 3))\nplot.ts(kingstimeseries)\nplot.ts(birthstimeseries)\nplot.ts(souvenirtimeseries)",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#identifying-components-visually",
+    "href": "time-series/week-4.html#identifying-components-visually",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "2.3 Identifying Components Visually",
+    "text": "2.3 Identifying Components Visually\nEvery time series is assumed to be a function of up to four components:\n\\[y_t = f(S_t, T_t, R_t)\\]\nWhere:\n\n\\(y_t\\) = observed value at time \\(t\\)\n\\(S_t\\) = seasonal component — repeating patterns within a calendar year\n\\(T_t\\) = trend-cycle component — long-run direction (includes multi-year cycles)\n\\(R_t\\) = remainder/residual — everything unexplained (random noise)\n\nWhen you plot your data, you are trying to answer three questions visually:\n1. Is there a trend?\nLook for a consistent upward or downward direction over the full series. The births dataset shows a clear increasing linear trend, interrupted by a notable drop around 1955–1956.\n2. What type of seasonality is present?\nCompare the amplitude (height) of seasonal swings across different years: - If the swings stay roughly the same height → homogeneous seasonality → use additive model - If the swings grow bigger as the series increases → increasing/multiplicative seasonality → use multiplicative model\nThe births dataset shows fairly constant swings → additive expected.\nThe souvenir dataset shows swings that grow year on year → multiplicative expected.\n3. Are there any cycles?\nMulti-year business or economic cycles are visible as broad wave patterns that stretch beyond a single year. In the tourism employment example from the lecture slides, the 2008–2009 economic crisis created a visible dip and recovery cycle. Cycles are handled by the damped parameter in Holt methods.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#decomposition-additive-vs.-multiplicative",
+    "href": "time-series/week-4.html#decomposition-additive-vs.-multiplicative",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "2.4 Decomposition: Additive vs. Multiplicative",
+    "text": "2.4 Decomposition: Additive vs. Multiplicative\n\n2.4.1 The Two Models\nAdditive (for constant seasonality): \\[y_t = S_t + T_t + R_t\\]\nMultiplicative (for growing seasonality): \\[y_t = S_t \\times T_t \\times R_t\\]\nYou can convert multiplicative to additive using a log transformation: \\[\\log(y_t) = \\log S_t + \\log T_t + \\log R_t\\]\nThis is the Box-Cox transformation idea mentioned in class and in the Lecture 2 slides.\n\n\n2.4.2 Running Decomposition in R\n# Additive decomposition (default)\nbirths.ts.comp &lt;- decompose(births.ts)\nplot(births.ts.comp)\n\n# Multiplicative decomposition\nsouvenir.ts.comp &lt;- decompose(souvenirtimeseries, type = \"multiplicative\")\nplot(souvenir.ts.comp)\n\n\n2.4.3 What to Look At in the Decomposition Output\nThe plot shows four panels: data → trend → seasonal → residual (random)\n\nTrend panel: Should show smooth directional movement.\nSeasonal panel: Should show a consistent, repeating pattern — the same shape each year. This is by definition: the seasonal component is the average of each period (mean of all Januaries, mean of all Februaries, etc.) repeated throughout.\nResidual panel: This is the most important panel for model selection. You want it to look like white noise — no obvious patterns, no trend, no obvious clusters.\n\n\nKey insight from class: If the residual panel of your additive decomposition looks like a shrunken version of the original data (you can still see the pattern), it means the model has not captured the structure properly. Switch to multiplicative.\n\n\n\n2.4.4 Missing Values in Decomposition\nThe classical decompose() function uses a centred moving average to estimate the trend. Because this requires averaging neighbouring values symmetrically, it cannot produce estimates for the first and last \\(p/2\\) observations (where \\(p\\) is the frequency). For monthly data (\\(p = 12\\)), you lose 6 observations at each end of the trend and residual components.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#residual-analysis-confirming-your-model",
+    "href": "time-series/week-4.html#residual-analysis-confirming-your-model",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "2.5 Residual Analysis — Confirming Your Model",
+    "text": "2.5 Residual Analysis — Confirming Your Model\nOnce you have chosen a decomposition, extract the residuals and check four things:\nresiduals &lt;- births.ts.comp$random\n# Remove NAs introduced by moving average\nresiduals_clean &lt;- na.omit(residuals)\n1. Mean ≈ 0 and Mean ≈ Median (symmetry)\nsummary(residuals_clean)\nIf mean and median are close to zero and close to each other, the residuals are approximately symmetric.\n2. Histogram — should look bell-shaped\nhist(residuals_clean, main = \"Residuals\", xlab = \"Residual value\")\nA good residual histogram is roughly symmetric, centred near zero.\n3. Scatter plot / time plot — should look random\nplot(residuals_clean, main = \"Residuals over time\")\nabline(h = c(-2, 2), col = \"blue\")\nAbout 95% of standardised values should fall within ±2 and 99% within ±4.\n4. QQ plot — checks normality\nqqnorm(residuals_clean)\nqqline(residuals_clean, col = \"red\")\nPoints should sit close to the red diagonal line, especially in the central ±2 range. Small departures at the tails are acceptable.\n\nWhy does this matter? The residual distribution is what generates your confidence intervals. If your residuals follow a normal distribution centred on zero, you can construct statistically valid prediction intervals. If they don’t, your confidence intervals are unreliable.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#stl-decomposition",
+    "href": "time-series/week-4.html#stl-decomposition",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "2.6 STL Decomposition",
+    "text": "2.6 STL Decomposition\nSTL = Seasonal and Trend decomposition using Loess (locally weighted regression)\nInstead of calculating a simple moving average for the trend, STL fits a local regression line through small windows of data, sliding that window across the entire series. This avoids missing values at the ends.\nlibrary(forecast)\nfit &lt;- stl(elecequip, s.window = 7)\nautoplot(fit) + xlab(\"year\")\n\n2.6.1 Key Parameters\n\n\n\n\n\n\n\nParameter\nWhat it controls\n\n\n\n\ns.window\nControls variation in the seasonal component. Use \"periodic\" to fix the season as constant.\n\n\nt.window\nControls smoothness of the trend. Larger = smoother trend.\n\n\nrobust = TRUE\nMakes estimation resistant to outliers.\n\n\n\n\n\n2.6.2 Choosing the Right s.window\n\nToo small (e.g. 5): The seasonal component is allowed to change too much → it absorbs signal that should be in the trend or residual.\n\"periodic\" (recommended default): Forces the seasonal component to repeat identically every year — matches our theoretical definition of seasonality.\n\nAs shown in the lecture slides, using s.window = \"periodic\" usually gives a cleaner, more constant seasonal component and a more random-looking remainder.\n\n\n2.6.3 Advantages and Disadvantages of STL\nAdvantages:\n\nRobust to outliers (when robust = TRUE)\nNo missing values at series ends\nCan handle seasonal component that changes gradually over time\nUser can control how smooth the trend and seasonal extraction are\n\nDisadvantages:\n\nNo calendar effect (cannot model Easter, public holidays that shift dates each year)\nOnly handles additive models natively (apply log() transform first for multiplicative data)\nOnly handles one seasonal period (use mstl() for multiple seasonalities)\n\n\n\n2.6.4 Useful STL-related R Functions\nseasonal(fit)     # Extract seasonal component\ntrendcycle(fit)   # Extract trend-cycle component\nremainder(fit)    # Extract residual component\nseasadj(fit)      # Seasonally adjusted series (= data minus seasonal)\nmstl(x)           # Multiple STL — handles more than one seasonal period\n\n\n2.6.5 Seasonal Adjustment\nAfter decomposition, you can strip out the seasonal component to expose the underlying trend more clearly:\nAdditive: \\(y_t - S_t = T_t + R_t\\)\nMultiplicative: \\(y_t / S_t = T_t \\times R_t\\)\n# Additive seasonal adjustment\nbirths.ts.sadj &lt;- births.ts - births.ts.comp$seasonal\nplot(births.ts.sadj)\n\nImportant caveat (from slides): Seasonally adjusted series still contain trend AND random noise, so they can look jagged and create “false” ups and downs. The trend-cycle component alone is smoother and better for identifying inflection points.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#forecasting-with-decomposition-naïve-methods",
+    "href": "time-series/week-4.html#forecasting-with-decomposition-naïve-methods",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "2.7 Forecasting with Decomposition (Naïve Methods)",
+    "text": "2.7 Forecasting with Decomposition (Naïve Methods)\nBefore using formal models, you can produce simple forecasts directly from decomposition:\n\nThe seasonal component is forecast by repeating the pattern from the last year (naïve seasonal forecast).\nThe trend-cycle is forecast using a simple method like naïve (random walk) on the seasonally adjusted series.\nThe two are combined to produce the full forecast.\n\n# STL + naïve forecast\nfit &lt;- stl(elecequip, t.window = 13, s.window = \"periodic\")\nfit %&gt;% seasadj() %&gt;% naive() %&gt;% autoplot()\n\n# Or use the stlf() shortcut\nelecequip %&gt;% stlf(method = \"naive\") %&gt;% autoplot()\nThe confidence intervals come from the residual distribution — another reason clean, normal residuals are important.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#simple-exponential-smoothing-ses",
+    "href": "time-series/week-4.html#simple-exponential-smoothing-ses",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "2.8 Simple Exponential Smoothing (SES)",
+    "text": "2.8 Simple Exponential Smoothing (SES)\n\n2.8.1 When to Use It\nUse SES when your data:\n\nHas no trend (or trend is negligible)\nHas no seasonality\nIs a confirmed time series (equally spaced)\n\n\n\n2.8.2 The Core Idea\nSES computes a weighted average of all past observations, where weights decrease exponentially as you go further back in time. More recent observations get more weight.\n\n\n2.8.3 Key Equations\nForecast equation: \\[\\hat{y}_{t+h|t} = \\ell_t\\]\nSmoothing (level) equation: \\[\\ell_t = \\alpha y_t + (1 - \\alpha)\\ell_{t-1}\\]\nBy iterating, this expands to: \\[\\hat{y}_{T+1|T} = \\sum_{j=0}^{T-1} \\alpha(1-\\alpha)^j y_{T-j} + (1-\\alpha)^T \\ell_0\\]\n\n\n2.8.4 The Smoothing Parameter α\n\\[0 \\leq \\alpha \\leq 1\\]\n\n\n\n\n\n\n\nα value\nMeaning\n\n\n\n\nClose to 1\nShort memory — almost all weight on last observation (approaches random walk)\n\n\nClose to 0\nLong memory — weights spread far back in history (approaches overall mean)\n\n\n\n\nTrick for interpretation: If R estimates α = 0.83 (as in the oil data example), the model has a very short memory — your prediction will be close to your last known value.\n\n\n\n2.8.5 Optimization\nα and the initial level \\(\\ell_0\\) are chosen by minimising the Sum of Squared Errors (SSE):\n\\[\\text{SSE} = \\sum_{t=1}^{T}(y_t - \\hat{y}_{t|t-1})^2 = \\sum_{t=1}^{T} e_t^2\\]\nThis is a non-linear optimization problem (unlike OLS regression), so R uses numerical methods.\n\n\n2.8.6 R Code\nlibrary(forecast)\n\n# Method 1: ses() directly\nfc &lt;- ses(oildata, h = 5)\nautoplot(fc) + autolayer(fitted(fc), series = \"Fitted\")\n\n# Method 2: ets() family function — equivalent for SES\nses_model &lt;- ets(train.ts, model = \"ANN\", alpha = 0.2)\n# ANN = Additive error, No trend, No seasonality\n\n\n2.8.7 SES Prediction Behaviour\nBecause SES produces a flat forecast (same value for all h steps ahead), the point forecast never changes after the last observation. However, the confidence interval widens as h increases, because the uncertainty accumulates with each step forward.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#overview-of-all-classical-models",
+    "href": "time-series/week-4.html#overview-of-all-classical-models",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "2.9 Overview of All Classical Models",
+    "text": "2.9 Overview of All Classical Models\nFrom the lecture, the full family is:\n\n\n\n\n\n\n\n\nComponents Present\nModel\nR Function\n\n\n\n\nNo trend, no seasonality\nSimple Exponential Smoothing (SES)\nses() or ets(..., model=\"ANN\")\n\n\nTrend only (linear)\nHolt’s Linear Method\nholt() or ets(..., model=\"AAN\")\n\n\nTrend + cycle/damping\nHolt Damped\nholt(..., damped=TRUE)\n\n\nTrend + seasonality (constant)\nHolt-Winters Additive\nhw(..., seasonal=\"additive\")\n\n\nTrend + seasonality (growing)\nHolt-Winters Multiplicative\nhw(..., seasonal=\"multiplicative\")\n\n\nBest of all the above\nETS (automatic)\nets()\n\n\n\nETS stands for Error, Trend, Seasonality. The ets() function automatically selects the best model by minimising AICc.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#covered-in-week-4",
+    "href": "time-series/week-4.html#covered-in-week-4",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "6.1 ✅ Covered in Week 4",
+    "text": "6.1 ✅ Covered in Week 4\n\n\n\n\n\n\n\nTopic\nSource\n\n\n\n\nLab 1 walkthrough (kings, births, souvenir)\nAula_4, Lab_1_SOL.R, Lab_1 handout\n\n\nIdentifying valid time series\nAula_4\n\n\nVisual component identification\nAula_4 + Lecture 2 slides pp. 3–4\n\n\ndecompose() — additive vs. multiplicative\nAula_4 + Lecture 2 p. 4, Lab 1 handout p. 2\n\n\nResidual analysis (histogram, boxplot, QQ, scatter)\nAula_4\n\n\nSTL decomposition overview\nAula_4 + Lecture 2 slides pp. 20–24\n\n\nSeasonal adjustment\nAula_4 + Lecture 2 slides pp. 8–9\n\n\nForecasting with decomposition\nAula_4 + Lecture 2 slides pp. 25–28\n\n\nSimple Exponential Smoothing (SES)\nAula_4 + Lecture 2 slides pp. 30–34",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#started-but-not-finished",
+    "href": "time-series/week-4.html#started-but-not-finished",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "6.2 ⚠️ Started but NOT Finished",
+    "text": "6.2 ⚠️ Started but NOT Finished\n\n\n\n\n\n\n\nTopic\nWhere to Check\n\n\n\n\nHolt Linear Trend method\nLecture 2 slides pp. 38–40 — READ THESE\n\n\nHolt Damped method\nLecture 2 slides pp. 41–42 — READ THESE\n\n\nPrediction error metrics (MAD, MSE, MAPE)\nLecture 2 slides pp. 43–46 — READ THESE\n\n\nHolt-Winters Additive\nLecture 2 slides pp. 48 — READ THESE\n\n\nHolt-Winters Multiplicative\nLecture 2 slides pp. 49–53 — READ THESE\n\n\nHolt-Winters Damped\nLecture 2 slides pp. 54–55 — READ THESE\n\n\nETS in R (ets() function)\nLecture 2 slides pp. 57–59 — READ THESE\n\n\nAIC / BIC model selection\nLecture 2 slides p. 36 + to be expanded next class",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-4.html#labs-assigned-for-next-week",
+    "href": "time-series/week-4.html#labs-assigned-for-next-week",
+    "title": "STAT9005 – Time Series: Week 4 Study Guide",
+    "section": "6.3 📋 Labs Assigned for Next Week",
+    "text": "6.3 📋 Labs Assigned for Next Week\nFrancisco uploaded these to Canvas:\n\nLab 1 Solution — the R script we went through today (already uploaded as Lab_1_SOL.R)\nLab 2 — new lab on classical models; datasets include wine industry, air miles, unemployment rates, US accidents, stock market\nThe unemployment rates dataset needs to be downloaded from Canvas (it is NOT built into R)",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html",
+    "href": "time-series/week-1.html",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "",
+    "text": "📝 Annotation space: Use the callout blocks and blank lines throughout this guide to add your own notes after reviewing the material.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html#what-is-a-time-series",
+    "href": "time-series/week-1.html#what-is-a-time-series",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.1 What is a Time Series?",
+    "text": "2.1 What is a Time Series?\nA time series is a sequence of data points recorded at regular intervals over time — for example, daily attendance figures, quarterly income, or monthly airline passengers. The defining feature is that the order of observations matters: what happened yesterday influences what happens today.\nThe core goal of time series analysis is to:\n\nUnderstand the historical behaviour of the data\nModel the underlying patterns mathematically\nForecast future values with measurable confidence\n\n\n📝 Your notes here:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html#the-four-components-of-a-time-series",
+    "href": "time-series/week-1.html#the-four-components-of-a-time-series",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.2 The Four Components of a Time Series",
+    "text": "2.2 The Four Components of a Time Series\nEvery time series can be broken down into four building blocks:\n\n\n\n\n\n\n\n\nComponent\nSymbol\nWhat it represents\n\n\n\n\nTrend\nT\nThe long-run direction (upward, downward, or flat)\n\n\nSeasonality\nS\nRegular, repeating patterns within a fixed period (e.g., every week, every year)\n\n\nCyclical\nC\nLonger-term waves not tied to a fixed period (e.g., economic boom/bust cycles)\n\n\nResidual / Remainder\nR (or ε)\nWhat is left after removing the other components — random noise\n\n\n\nExample from the lecture: A drug sales dataset (used in the textbook) shows:\n\nAn upward trend over 30 years\nA seasonal pattern: sales rise and fall in the same shape each year\nResiduals that contain random fluctuation\n\n\n📝 Your notes here:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html#decomposition-models-additive-vs.-multiplicative",
+    "href": "time-series/week-1.html#decomposition-models-additive-vs.-multiplicative",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.3 Decomposition Models: Additive vs. Multiplicative",
+    "text": "2.3 Decomposition Models: Additive vs. Multiplicative\nHow you combine the components determines your decomposition model.\n\n2.3.1 Additive Model\nUse this when the size of the seasonal swings stays roughly constant over time (homogeneous variance).\n\\[\ny_t = T_t + S_t + R_t\n\\]\nTherefore, the residual is:\n\\[\nR_t = y_t - T_t - S_t\n\\]\n\n\n2.3.2 Multiplicative Model\nUse this when the seasonal swings grow or shrink proportionally with the trend (heterogeneous variance / heteroscedasticity). A log transformation can convert this to an additive form.\n\\[\ny_t = T_t \\times S_t \\times R_t\n\\]\nTherefore, the residual is:\n\\[\nR_t = \\frac{y_t}{T_t \\times S_t}\n\\]\nHow to decide which model? Look at the time series plot. If the peaks and troughs get wider as the trend increases → Multiplicative. If they stay the same width → Additive.\n\n📝 Your notes here:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html#moving-average-ma-estimating-the-trend",
+    "href": "time-series/week-1.html#moving-average-ma-estimating-the-trend",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.4 Moving Average (MA) — Estimating the Trend",
+    "text": "2.4 Moving Average (MA) — Estimating the Trend\nA Moving Average smooths out the short-term noise to reveal the underlying trend. You take a window of consecutive values, average them, and slide the window one step forward.\nFor a periodicity of \\(p\\), the moving average at time \\(t\\) is:\n\\[\nMA_t = \\frac{1}{p} \\sum_{i=0}^{p-1} y_{t-i}\n\\]\nFrom the Excel lab (Ex1 — Weekly Attendance, p = 5):\nThe data records daily attendance (Mon–Fri) for 3 weeks. A 5-point moving average is computed:\nMA = (Mon + Tue + Wed + Thu + Fri) / 5\nThis strips out the day-of-week seasonal pattern, leaving a cleaner picture of the trend.\n\n📝 Your notes here:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html#centred-moving-average-cma",
+    "href": "time-series/week-1.html#centred-moving-average-cma",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.5 Centred Moving Average (CMA)",
+    "text": "2.5 Centred Moving Average (CMA)\nWhen the period \\(p\\) is even (e.g., \\(p = 4\\) for quarterly data), the simple MA falls between time points. To realign it with actual observations, you compute the Centred Moving Average:\n\\[\nCMA_t = \\frac{MA_t + MA_{t+1}}{2}\n\\]\nFrom the Excel lab (Ex2 — Quarterly Income, p = 4):\nBecause there are 4 quarters, the 4-point MA sits between Q2 and Q3. Averaging two consecutive MAs centres it on Q3 of each year.\n\n📝 Your notes here:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html#seasonal-index-measuring-the-seasonal-effect",
+    "href": "time-series/week-1.html#seasonal-index-measuring-the-seasonal-effect",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.6 Seasonal Index — Measuring the Seasonal Effect",
+    "text": "2.6 Seasonal Index — Measuring the Seasonal Effect\nThe seasonal index quantifies how much each period (e.g., each day of the week, each quarter) systematically differs from the average.\n\n2.6.1 Step-by-step (Additive):\n\nCompute CMA (the trend estimate)\nCalculate deviations: \\(y_t - CMA_t\\)\nAverage the deviations for each season across all years → raw seasonal index\nCorrect the indices so they sum to zero:\n\n\\[\n\\text{Corrected Index} = \\text{Raw Index} - \\bar{\\text{Index}}\n\\]\n\n\n2.6.2 Step-by-step (Multiplicative):\n\nCompute CMA\nCalculate ratios: \\(y_t / CMA_t\\)\nAverage ratios per season → raw index\nCorrect so they average to 1 (i.e., sum = number of seasons):\n\n\\[\n\\text{Corrected Index} = \\frac{\\text{Raw Index}}{\\bar{\\text{Index}}}\n\\]\n\n📝 Your notes here:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html#big-picture-arima-and-sarima",
+    "href": "time-series/week-1.html#big-picture-arima-and-sarima",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "2.7 Big Picture: ARIMA and SARIMA",
+    "text": "2.7 Big Picture: ARIMA and SARIMA\nThe lecturer gave a preview of where the course is heading. The classical decomposition methods (above) are intuitive but limited. The more powerful statistical approach is the SARIMA framework:\n\\[\n\\text{SARIMA}(p, d, q)(P, D, Q)_s\n\\]\n\nAR(p): AutoRegressive — today’s value depends on the past \\(p\\) values\nI(d): Integrated — we difference the series \\(d\\) times to achieve stationarity\nMA(q): Moving Average — today’s value depends on past \\(q\\) residual errors\nThe seasonal \\((P, D, Q)_s\\) terms do the same for the seasonal pattern\n\nBuilding SARIMA requires first achieving stationarity (constant mean and variance). This will be covered in detail in later weeks.\n\n📝 Your notes here:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html#exercise-1-daily-attendance-p-5-additive",
+    "href": "time-series/week-1.html#exercise-1-daily-attendance-p-5-additive",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "4.1 Exercise 1 — Daily Attendance (p = 5, Additive)",
+    "text": "4.1 Exercise 1 — Daily Attendance (p = 5, Additive)\n\nData: Mon–Fri attendance over 3 weeks\nTask: Compute 5-point MA, seasonal index per day, and residuals\nKey insight: Friday has a consistently negative index (~-8.5), while Monday/Tuesday are positive. This makes intuitive sense — attendance drops at the end of the week.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html#exercise-2-quarterly-income-p-4",
+    "href": "time-series/week-1.html#exercise-2-quarterly-income-p-4",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "4.2 Exercise 2 — Quarterly Income (p = 4)",
+    "text": "4.2 Exercise 2 — Quarterly Income (p = 4)\n\nData: Quarterly income figures from 2007–2010 across four years\nTabs:\n\nEx2 (A) — Additive decomposition (Y = T + S + R)\nEx2 (m) — Multiplicative decomposition (Y = T × S × R)\nEx2 (A v M) — Side-by-side comparison of both approaches\n\nKey insight: The income series shows heteroscedasticity (variance changes over time), suggesting the multiplicative model is more appropriate. This can also be addressed with a log(y_t) transformation.",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/week-1.html#exercises-3-exerc1exerc3-practice-datasets",
+    "href": "time-series/week-1.html#exercises-3-exerc1exerc3-practice-datasets",
+    "title": "STAT9005 – Time Series Analysis",
+    "section": "4.3 Exercises 3 (exerc1–exerc3) — Practice datasets",
+    "text": "4.3 Exercises 3 (exerc1–exerc3) — Practice datasets\nThree blank templates for you to practise decomposition independently:\n\n\n\nSheet\nVariable\nPeriod\n\n\n\n\nexerc1\nAirline Passengers\nQuarterly, 2008–2010\n\n\nexerc2\nFuel\nQuarterly, 2008–2011\n\n\nexerc3\nPC Sales\nQuarterly, 2009–2011\n\n\n\n\n📝 Your notes here:",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 1"
+    ]
+  },
+  {
+    "objectID": "time-series/index.html",
+    "href": "time-series/index.html",
+    "title": "",
+    "section": "",
+    "text": "Code",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes"
+    ]
+  },
+  {
+    "objectID": "time-series/week-8.html",
+    "href": "time-series/week-8.html",
+    "title": "",
+    "section": "",
+    "text": "Code",
+    "crumbs": [
+      "Time Series",
+      "Weekly Notes",
+      "Week 8 - empty"
     ]
   },
   {

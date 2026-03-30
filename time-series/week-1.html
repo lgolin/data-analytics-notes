@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>week-1 – Semester Notes</title>
+<title>STAT9005 – Time Series Analysis – Semester Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,6 +107,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -120,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Week 1 - empty</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Week 1</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -317,48 +346,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Week 1 - empty</span></a>
+ <span class="menu-text">Week 1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 2 - empty</span></a>
+ <span class="menu-text">Week 2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/week-3.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 3 - empty</span></a>
+  <a href="../time-series/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/week-4.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 4 - empty</span></a>
+  <a href="../time-series/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/week-5.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 5 - empty</span></a>
+  <a href="../time-series/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/week-6.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../time-series/week-6.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 6 - empty</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/week-7.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../time-series/week-7.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 7 - empty</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/week-8.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../time-series/week-8.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 8 - empty</span></a>
   </div>
 </li>
@@ -371,19 +400,494 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics-covered-this-week" id="toc-key-topics-covered-this-week" class="nav-link active" data-scroll-target="#key-topics-covered-this-week"><span class="header-section-number">1</span> Key Topics Covered This Week</a></li>
+  <li><a href="#core-explanation" id="toc-core-explanation" class="nav-link" data-scroll-target="#core-explanation"><span class="header-section-number">2</span> Core Explanation</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-time-series" id="toc-what-is-a-time-series" class="nav-link" data-scroll-target="#what-is-a-time-series"><span class="header-section-number">2.1</span> What is a Time Series?</a></li>
+  <li><a href="#the-four-components-of-a-time-series" id="toc-the-four-components-of-a-time-series" class="nav-link" data-scroll-target="#the-four-components-of-a-time-series"><span class="header-section-number">2.2</span> The Four Components of a Time Series</a></li>
+  <li><a href="#decomposition-models-additive-vs.-multiplicative" id="toc-decomposition-models-additive-vs.-multiplicative" class="nav-link" data-scroll-target="#decomposition-models-additive-vs.-multiplicative"><span class="header-section-number">2.3</span> Decomposition Models: Additive vs.&nbsp;Multiplicative</a>
+  <ul class="collapse">
+  <li><a href="#additive-model" id="toc-additive-model" class="nav-link" data-scroll-target="#additive-model"><span class="header-section-number">2.3.1</span> Additive Model</a></li>
+  <li><a href="#multiplicative-model" id="toc-multiplicative-model" class="nav-link" data-scroll-target="#multiplicative-model"><span class="header-section-number">2.3.2</span> Multiplicative Model</a></li>
+  </ul></li>
+  <li><a href="#moving-average-ma-estimating-the-trend" id="toc-moving-average-ma-estimating-the-trend" class="nav-link" data-scroll-target="#moving-average-ma-estimating-the-trend"><span class="header-section-number">2.4</span> Moving Average (MA) — Estimating the Trend</a></li>
+  <li><a href="#centred-moving-average-cma" id="toc-centred-moving-average-cma" class="nav-link" data-scroll-target="#centred-moving-average-cma"><span class="header-section-number">2.5</span> Centred Moving Average (CMA)</a></li>
+  <li><a href="#seasonal-index-measuring-the-seasonal-effect" id="toc-seasonal-index-measuring-the-seasonal-effect" class="nav-link" data-scroll-target="#seasonal-index-measuring-the-seasonal-effect"><span class="header-section-number">2.6</span> Seasonal Index — Measuring the Seasonal Effect</a>
+  <ul class="collapse">
+  <li><a href="#step-by-step-additive" id="toc-step-by-step-additive" class="nav-link" data-scroll-target="#step-by-step-additive"><span class="header-section-number">2.6.1</span> Step-by-step (Additive):</a></li>
+  <li><a href="#step-by-step-multiplicative" id="toc-step-by-step-multiplicative" class="nav-link" data-scroll-target="#step-by-step-multiplicative"><span class="header-section-number">2.6.2</span> Step-by-step (Multiplicative):</a></li>
+  </ul></li>
+  <li><a href="#big-picture-arima-and-sarima" id="toc-big-picture-arima-and-sarima" class="nav-link" data-scroll-target="#big-picture-arima-and-sarima"><span class="header-section-number">2.7</span> Big Picture: ARIMA and SARIMA</a></li>
+  </ul></li>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">3</span> Key Equations / Formulas</a></li>
+  <li><a href="#practical-examples-excel-lab" id="toc-practical-examples-excel-lab" class="nav-link" data-scroll-target="#practical-examples-excel-lab"><span class="header-section-number">4</span> Practical Examples (Excel Lab)</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1-daily-attendance-p-5-additive" id="toc-exercise-1-daily-attendance-p-5-additive" class="nav-link" data-scroll-target="#exercise-1-daily-attendance-p-5-additive"><span class="header-section-number">4.1</span> Exercise 1 — Daily Attendance (p = 5, Additive)</a></li>
+  <li><a href="#exercise-2-quarterly-income-p-4" id="toc-exercise-2-quarterly-income-p-4" class="nav-link" data-scroll-target="#exercise-2-quarterly-income-p-4"><span class="header-section-number">4.2</span> Exercise 2 — Quarterly Income (p = 4)</a></li>
+  <li><a href="#exercises-3-exerc1exerc3-practice-datasets" id="toc-exercises-3-exerc1exerc3-practice-datasets" class="nav-link" data-scroll-target="#exercises-3-exerc1exerc3-practice-datasets"><span class="header-section-number">4.3</span> Exercises 3 (exerc1–exerc3) — Practice datasets</a></li>
+  </ul></li>
+  <li><a href="#slides-to-review" id="toc-slides-to-review" class="nav-link" data-scroll-target="#slides-to-review"><span class="header-section-number">5</span> Slides to Review</a>
+  <ul class="collapse">
+  <li><a href="#slides-not-in-the-uploaded-pdf-mentioned-in-lecture-check-canvas" id="toc-slides-not-in-the-uploaded-pdf-mentioned-in-lecture-check-canvas" class="nav-link" data-scroll-target="#slides-not-in-the-uploaded-pdf-mentioned-in-lecture-check-canvas"><span class="header-section-number">5.0.1</span> ⚠️ Slides NOT in the uploaded PDF (mentioned in lecture — check Canvas)</a></li>
+  </ul></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">6</span> Summary Points</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">7</span> Resources</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Week 1 - empty</a></li></ol></nav><h1 class="title display-7"></h1></header><div class="quarto-title-block"><div class="quarto-title-tools-only"><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Week 1</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">STAT9005 – Time Series Analysis</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Week 1: Module Introduction &amp; Time Series Overview</p>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>📝 <strong>Annotation space:</strong> Use the callout blocks and blank lines throughout this guide to add your own notes after reviewing the material.</p>
+</blockquote>
+<hr>
+<section id="key-topics-covered-this-week" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics Covered This Week</h1>
+<ul>
+<li>What is a <strong>Time Series</strong> and why it matters</li>
+<li><strong>Module overview</strong>: learning outcomes, assessments, and schedule</li>
+<li><strong>Components of a Time Series</strong>: Trend, Seasonality, Cyclical, Residual</li>
+<li><strong>Decomposition models</strong>: Additive vs.&nbsp;Multiplicative</li>
+<li><strong>Moving Average (MA)</strong> for trend estimation</li>
+<li><strong>Centred Moving Average (CMA)</strong></li>
+<li>Calculating <strong>Seasonal Indices</strong> (corrected)</li>
+<li>Introduction to <strong>ARIMA / SARIMA</strong> models (big picture)</li>
+<li>Software: <strong>R / RStudio</strong> and <strong>Excel</strong> (used in lab this week)</li>
+<li>Practical lab: Manual decomposition in Excel (Exercises 1–3)</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanation" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanation</h1>
+<section id="what-is-a-time-series" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-is-a-time-series"><span class="header-section-number">2.1</span> What is a Time Series?</h2>
+<p>A <strong>time series</strong> is a sequence of data points recorded at regular intervals over time — for example, daily attendance figures, quarterly income, or monthly airline passengers. The defining feature is that the <strong>order of observations matters</strong>: what happened yesterday influences what happens today.</p>
+<p>The core goal of time series analysis is to:</p>
+<ol type="1">
+<li><strong>Understand</strong> the historical behaviour of the data</li>
+<li><strong>Model</strong> the underlying patterns mathematically</li>
+<li><strong>Forecast</strong> future values with measurable confidence</li>
+</ol>
+<blockquote class="blockquote">
+<p>📝 <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="the-four-components-of-a-time-series" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="the-four-components-of-a-time-series"><span class="header-section-number">2.2</span> The Four Components of a Time Series</h2>
+<p>Every time series can be broken down into four building blocks:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 20%">
+<col style="width: 51%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Symbol</th>
+<th>What it represents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Trend</strong></td>
+<td>T</td>
+<td>The long-run direction (upward, downward, or flat)</td>
+</tr>
+<tr class="even">
+<td><strong>Seasonality</strong></td>
+<td>S</td>
+<td>Regular, repeating patterns within a fixed period (e.g., every week, every year)</td>
+</tr>
+<tr class="odd">
+<td><strong>Cyclical</strong></td>
+<td>C</td>
+<td>Longer-term waves not tied to a fixed period (e.g., economic boom/bust cycles)</td>
+</tr>
+<tr class="even">
+<td><strong>Residual / Remainder</strong></td>
+<td>R (or ε)</td>
+<td>What is left after removing the other components — random noise</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example from the lecture:</strong> A drug sales dataset (used in the textbook) shows:</p>
+<ul>
+<li>An upward <strong>trend</strong> over 30 years</li>
+<li>A <strong>seasonal</strong> pattern: sales rise and fall in the same shape each year</li>
+<li><strong>Residuals</strong> that contain random fluctuation</li>
+</ul>
+<blockquote class="blockquote">
+<p>📝 <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="decomposition-models-additive-vs.-multiplicative" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="decomposition-models-additive-vs.-multiplicative"><span class="header-section-number">2.3</span> Decomposition Models: Additive vs.&nbsp;Multiplicative</h2>
+<p>How you combine the components determines your <strong>decomposition model</strong>.</p>
+<section id="additive-model" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="additive-model"><span class="header-section-number">2.3.1</span> Additive Model</h3>
+<p>Use this when the <strong>size of the seasonal swings stays roughly constant</strong> over time (homogeneous variance).</p>
+<p><span class="math display">\[
+y_t = T_t + S_t + R_t
+\]</span></p>
+<p>Therefore, the residual is:</p>
+<p><span class="math display">\[
+R_t = y_t - T_t - S_t
+\]</span></p>
+</section>
+<section id="multiplicative-model" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="multiplicative-model"><span class="header-section-number">2.3.2</span> Multiplicative Model</h3>
+<p>Use this when the <strong>seasonal swings grow or shrink proportionally</strong> with the trend (heterogeneous variance / heteroscedasticity). A log transformation can convert this to an additive form.</p>
+<p><span class="math display">\[
+y_t = T_t \times S_t \times R_t
+\]</span></p>
+<p>Therefore, the residual is:</p>
+<p><span class="math display">\[
+R_t = \frac{y_t}{T_t \times S_t}
+\]</span></p>
+<p><strong>How to decide which model?</strong> Look at the time series plot. If the peaks and troughs get wider as the trend increases → <strong>Multiplicative</strong>. If they stay the same width → <strong>Additive</strong>.</p>
+<blockquote class="blockquote">
+<p>📝 <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="moving-average-ma-estimating-the-trend" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="moving-average-ma-estimating-the-trend"><span class="header-section-number">2.4</span> Moving Average (MA) — Estimating the Trend</h2>
+<p>A <strong>Moving Average</strong> smooths out the short-term noise to reveal the underlying trend. You take a window of consecutive values, average them, and slide the window one step forward.</p>
+<p>For a <strong>periodicity of <span class="math inline">\(p\)</span></strong>, the moving average at time <span class="math inline">\(t\)</span> is:</p>
+<p><span class="math display">\[
+MA_t = \frac{1}{p} \sum_{i=0}^{p-1} y_{t-i}
+\]</span></p>
+<p><strong>From the Excel lab (Ex1 — Weekly Attendance, p = 5):</strong></p>
+<p>The data records daily attendance (Mon–Fri) for 3 weeks. A 5-point moving average is computed:</p>
+<pre><code>MA = (Mon + Tue + Wed + Thu + Fri) / 5</code></pre>
+<p>This strips out the day-of-week seasonal pattern, leaving a cleaner picture of the trend.</p>
+<blockquote class="blockquote">
+<p>📝 <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="centred-moving-average-cma" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="centred-moving-average-cma"><span class="header-section-number">2.5</span> Centred Moving Average (CMA)</h2>
+<p>When the <strong>period <span class="math inline">\(p\)</span> is even</strong> (e.g., <span class="math inline">\(p = 4\)</span> for quarterly data), the simple MA falls <em>between</em> time points. To realign it with actual observations, you compute the <strong>Centred Moving Average</strong>:</p>
+<p><span class="math display">\[
+CMA_t = \frac{MA_t + MA_{t+1}}{2}
+\]</span></p>
+<p><strong>From the Excel lab (Ex2 — Quarterly Income, p = 4):</strong></p>
+<p>Because there are 4 quarters, the 4-point MA sits between Q2 and Q3. Averaging two consecutive MAs centres it on Q3 of each year.</p>
+<blockquote class="blockquote">
+<p>📝 <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="seasonal-index-measuring-the-seasonal-effect" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="seasonal-index-measuring-the-seasonal-effect"><span class="header-section-number">2.6</span> Seasonal Index — Measuring the Seasonal Effect</h2>
+<p>The <strong>seasonal index</strong> quantifies how much each period (e.g., each day of the week, each quarter) systematically differs from the average.</p>
+<section id="step-by-step-additive" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="step-by-step-additive"><span class="header-section-number">2.6.1</span> Step-by-step (Additive):</h3>
+<ol type="1">
+<li>Compute CMA (the trend estimate)</li>
+<li>Calculate deviations: <span class="math inline">\(y_t - CMA_t\)</span></li>
+<li>Average the deviations for each season across all years → raw seasonal index</li>
+<li><strong>Correct</strong> the indices so they sum to zero:</li>
+</ol>
+<p><span class="math display">\[
+\text{Corrected Index} = \text{Raw Index} - \bar{\text{Index}}
+\]</span></p>
+</section>
+<section id="step-by-step-multiplicative" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="step-by-step-multiplicative"><span class="header-section-number">2.6.2</span> Step-by-step (Multiplicative):</h3>
+<ol type="1">
+<li>Compute CMA</li>
+<li>Calculate ratios: <span class="math inline">\(y_t / CMA_t\)</span></li>
+<li>Average ratios per season → raw index</li>
+<li><strong>Correct</strong> so they average to 1 (i.e., sum = number of seasons):</li>
+</ol>
+<p><span class="math display">\[
+\text{Corrected Index} = \frac{\text{Raw Index}}{\bar{\text{Index}}}
+\]</span></p>
+<blockquote class="blockquote">
+<p>📝 <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="big-picture-arima-and-sarima" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="big-picture-arima-and-sarima"><span class="header-section-number">2.7</span> Big Picture: ARIMA and SARIMA</h2>
+<p>The lecturer gave a preview of where the course is heading. The classical decomposition methods (above) are intuitive but limited. The more powerful statistical approach is the <strong>SARIMA</strong> framework:</p>
+<p><span class="math display">\[
+\text{SARIMA}(p, d, q)(P, D, Q)_s
+\]</span></p>
+<ul>
+<li><strong>AR(p)</strong>: AutoRegressive — today’s value depends on the past <span class="math inline">\(p\)</span> values</li>
+<li><strong>I(d)</strong>: Integrated — we difference the series <span class="math inline">\(d\)</span> times to achieve stationarity</li>
+<li><strong>MA(q)</strong>: Moving Average — today’s value depends on past <span class="math inline">\(q\)</span> residual errors</li>
+<li>The seasonal <span class="math inline">\((P, D, Q)_s\)</span> terms do the same for the seasonal pattern</li>
+</ul>
+<p>Building SARIMA requires first achieving <strong>stationarity</strong> (constant mean and variance). This will be covered in detail in later weeks.</p>
+<blockquote class="blockquote">
+<p>📝 <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="key-equations-formulas" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Key Equations / Formulas</h1>
+<pre><code>Additive model:         y_t = T_t + S_t + R_t
+Multiplicative model:   y_t = T_t × S_t × R_t
+
+Moving Average (odd p): MA_t = (1/p) × Σ y_{t-i}
+
+Centred MA (even p):    CMA_t = (MA_t + MA_{t+1}) / 2
+
+Additive residual:      R_t = y_t - T_t - S_t
+Multiplicative residual: R_t = y_t / (T_t × S_t)
+
+Seasonal index correction (additive):  Corrected = Raw - Mean(Raw indices)
+Seasonal index correction (multiplicative): Corrected = Raw / Mean(Raw indices)</code></pre>
+<blockquote class="blockquote">
+<p>📝 <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="practical-examples-excel-lab" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Practical Examples (Excel Lab)</h1>
+<p>Three exercises were set up in <code>Lecture_1_CIT_template_SOLUTION_9Feb.xlsx</code>:</p>
+<section id="exercise-1-daily-attendance-p-5-additive" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="exercise-1-daily-attendance-p-5-additive"><span class="header-section-number">4.1</span> Exercise 1 — Daily Attendance (p = 5, Additive)</h2>
+<ul>
+<li><strong>Data:</strong> Mon–Fri attendance over 3 weeks</li>
+<li><strong>Task:</strong> Compute 5-point MA, seasonal index per day, and residuals</li>
+<li><strong>Key insight:</strong> Friday has a consistently negative index (~-8.5), while Monday/Tuesday are positive. This makes intuitive sense — attendance drops at the end of the week.</li>
+</ul>
+</section>
+<section id="exercise-2-quarterly-income-p-4" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="exercise-2-quarterly-income-p-4"><span class="header-section-number">4.2</span> Exercise 2 — Quarterly Income (p = 4)</h2>
+<ul>
+<li><strong>Data:</strong> Quarterly income figures from 2007–2010 across four years</li>
+<li><strong>Tabs:</strong>
+<ul>
+<li><code>Ex2 (A)</code> — Additive decomposition (Y = T + S + R)</li>
+<li><code>Ex2 (m)</code> — Multiplicative decomposition (Y = T × S × R)</li>
+<li><code>Ex2 (A v M)</code> — Side-by-side comparison of both approaches</li>
+</ul></li>
+<li><strong>Key insight:</strong> The income series shows heteroscedasticity (variance changes over time), suggesting the <strong>multiplicative model</strong> is more appropriate. This can also be addressed with a <code>log(y_t)</code> transformation.</li>
+</ul>
+</section>
+<section id="exercises-3-exerc1exerc3-practice-datasets" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="exercises-3-exerc1exerc3-practice-datasets"><span class="header-section-number">4.3</span> Exercises 3 (exerc1–exerc3) — Practice datasets</h2>
+<p>Three blank templates for you to practise decomposition independently:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Sheet</th>
+<th>Variable</th>
+<th>Period</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>exerc1</td>
+<td>Airline Passengers</td>
+<td>Quarterly, 2008–2010</td>
+</tr>
+<tr class="even">
+<td>exerc2</td>
+<td>Fuel</td>
+<td>Quarterly, 2008–2011</td>
+</tr>
+<tr class="odd">
+<td>exerc3</td>
+<td>PC Sales</td>
+<td>Quarterly, 2009–2011</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>📝 <em>Your notes here:</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="slides-to-review" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Slides to Review</h1>
+<p>Based on the lecture transcript and materials, here is a checklist of the <strong>presentation slides</strong> from <code>STAT9005_TS_Module_Presentation.pdf</code> and what was covered:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 31%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Slide</th>
+<th>Title</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Title slide</td>
+<td>✅ Covered</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Module Scope – Learning Outcomes (LO1–LO6)</td>
+<td>✅ Covered in depth</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Module Timetable</td>
+<td>✅ Note: <strong>classes moved to Monday</strong> (update pending)</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Module Contents (overview)</td>
+<td>✅ Covered</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Module Contents – Time Series (10-week breakdown)</td>
+<td>✅ Covered</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Assessments Breakdown</td>
+<td>✅ Covered</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Software (R + RStudio)</td>
+<td>✅ Mentioned — install for Week 3</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Further Resources — Books</td>
+<td>✅ Covered</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Further Resources — Web Links</td>
+<td>✅ Covered</td>
+</tr>
+</tbody>
+</table>
+<section id="slides-not-in-the-uploaded-pdf-mentioned-in-lecture-check-canvas" class="level3" data-number="5.0.1">
+<h3 data-number="5.0.1" class="anchored" data-anchor-id="slides-not-in-the-uploaded-pdf-mentioned-in-lecture-check-canvas"><span class="header-section-number">5.0.1</span> ⚠️ Slides NOT in the uploaded PDF (mentioned in lecture — check Canvas)</h3>
+<p>The lecturer referenced additional visual slides during the walkthrough of concepts that appear to be from a <strong>separate content presentation</strong> (not the module intro PDF). Look on Canvas for slides covering:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Time series plot of <strong>drug/anti-diabetic sales</strong> (trend + seasonality illustration)</label></li>
+<li><label><input type="checkbox"><strong>Scatter plot / ACF / PACF</strong> of beer sales (correlation with 4-period lags)</label></li>
+<li><label><input type="checkbox"><strong>Regression model prediction chart</strong> (blue trend line + confidence interval shading)</label></li>
+<li><label><input type="checkbox"><strong>Time series decomposition diagram</strong> (T, S, R components visualised separately)</label></li>
+<li><label><input type="checkbox"><strong>Holt-Winters exponential smoothing</strong> model diagram</label></li>
+<li><label><input type="checkbox"><strong>Stationarity illustration</strong> (constant mean + constant variance plots)</label></li>
+<li><label><input type="checkbox"><strong>Differencing transformation</strong> example (non-stationary → stationary)</label></li>
+<li><label><input type="checkbox"><strong>ARIMA forecast plot</strong> with confidence intervals</label></li>
+</ul>
+<blockquote class="blockquote">
+<p>These are likely in a separate “Lecture 1 content” slide deck — the uploaded PDF was only the module introduction/overview.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="summary-points" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Summary Points</h1>
+<ul>
+<li>A time series is data collected over regular time intervals; <strong>order matters</strong></li>
+<li>Every series can be decomposed into <strong>Trend + Seasonality + Cyclical + Residual</strong></li>
+<li>Use an <strong>Additive model</strong> (Y = T + S + R) when variance is stable; use a <strong>Multiplicative model</strong> (Y = T × S × R) when variance grows with the trend</li>
+<li><strong>Moving Average</strong> estimates the trend by smoothing; use <strong>Centred MA</strong> for even-period data</li>
+<li><strong>Seasonal indices</strong> measure how each season deviates from average — they must sum to zero (additive) or average to 1 (multiplicative)</li>
+<li>The <strong>residuals</strong> (remainder) are used to build <strong>confidence intervals</strong> for forecasts</li>
+<li>The ultimate goal this semester: build <strong>SARIMA</strong> models for forecasting</li>
+<li><strong>First 2 weeks:</strong> Excel-based manual decomposition to build intuition</li>
+<li><strong>From Week 3 onwards:</strong> R / RStudio for all analysis</li>
+<li><strong>Assessment:</strong> 20% MCQ test + 40% R practical + 40% project/presentation (no final exam)</li>
+</ul>
+<hr>
+</section>
+<section id="resources" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Resources</h1>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Resource</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Online Textbook (3rd ed.)</td>
+<td><a href="https://otexts.com/fpp3/" class="uri">https://otexts.com/fpp3/</a></td>
+</tr>
+<tr class="even">
+<td>Online Textbook (2nd ed.)</td>
+<td><a href="https://otexts.com/fpp2/" class="uri">https://otexts.com/fpp2/</a></td>
+</tr>
+<tr class="odd">
+<td>TDS Article (full TS walkthrough)</td>
+<td><a href="https://towardsdatascience.com/the-complete-guide-to-time-series-analysis-and-forecasting-70d476bfe775" class="uri">https://towardsdatascience.com/the-complete-guide-to-time-series-analysis-and-forecasting-70d476bfe775</a></td>
+</tr>
+<tr class="even">
+<td>R Project</td>
+<td><a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a></td>
+</tr>
+<tr class="odd">
+<td>RStudio IDE</td>
+<td><a href="https://www.rstudio.com/" class="uri">https://www.rstudio.com/</a></td>
+</tr>
+<tr class="even">
+<td>Tidyverse</td>
+<td><a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a></td>
+</tr>
+<tr class="odd">
+<td>ggplot2 gallery</td>
+<td><a href="https://www.r-graph-gallery.com/" class="uri">https://www.r-graph-gallery.com/</a></td>
+</tr>
+<tr class="even">
+<td>R Markdown</td>
+<td><a href="https://rmarkdown.rstudio.com" class="uri">https://rmarkdown.rstudio.com</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><em>End of Week 1 Study Guide — STAT9005 Time Series Analysis</em></p>
 
 
 <!-- -->
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -844,12 +1348,317 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../time-series/week-2.html" class="pagination-link" aria-label="Week 2 - empty">
-        <span class="nav-page-text">Week 2 - empty</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../time-series/week-2.html" class="pagination-link" aria-label="Week 2">
+        <span class="nav-page-text">Week 2</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "STAT9005 – Time Series Analysis"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Week 1: Module Introduction &amp; Time Series Overview"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Annotation space:** Use the callout blocks and blank lines throughout this guide to add your own notes after reviewing the material.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics Covered This Week</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What is a **Time Series** and why it matters</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Module overview**: learning outcomes, assessments, and schedule</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Components of a Time Series**: Trend, Seasonality, Cyclical, Residual</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Decomposition models**: Additive vs. Multiplicative</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Moving Average (MA)** for trend estimation</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Centred Moving Average (CMA)**</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Calculating **Seasonal Indices** (corrected)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Introduction to **ARIMA / SARIMA** models (big picture)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Software: **R / RStudio** and **Excel** (used in lab this week)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Practical lab: Manual decomposition in Excel (Exercises 1–3)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanation</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is a Time Series?</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>A **time series** is a sequence of data points recorded at regular intervals over time — for example, daily attendance figures, quarterly income, or monthly airline passengers. The defining feature is that the **order of observations matters**: what happened yesterday influences what happens today.</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>The core goal of time series analysis is to:</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Understand** the historical behaviour of the data</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Model** the underlying patterns mathematically</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Forecast** future values with measurable confidence</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 *Your notes here:*</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Four Components of a Time Series</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>Every time series can be broken down into four building blocks:</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Component <span class="pp">|</span> Symbol <span class="pp">|</span> What it represents <span class="pp">|</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------|--------|--------------------|</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Trend** <span class="pp">|</span> T <span class="pp">|</span> The long-run direction (upward, downward, or flat) <span class="pp">|</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Seasonality** <span class="pp">|</span> S <span class="pp">|</span> Regular, repeating patterns within a fixed period (e.g., every week, every year) <span class="pp">|</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Cyclical** <span class="pp">|</span> C <span class="pp">|</span> Longer-term waves not tied to a fixed period (e.g., economic boom/bust cycles) <span class="pp">|</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Residual / Remainder** <span class="pp">|</span> R (or ε) <span class="pp">|</span> What is left after removing the other components — random noise <span class="pp">|</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>**Example from the lecture:** A drug sales dataset (used in the textbook) shows:</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>An upward **trend** over 30 years</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A **seasonal** pattern: sales rise and fall in the same shape each year</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Residuals** that contain random fluctuation</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 *Your notes here:*</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="fu">## Decomposition Models: Additive vs. Multiplicative</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>How you combine the components determines your **decomposition model**.</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="fu">### Additive Model</span></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>Use this when the **size of the seasonal swings stays roughly constant** over time (homogeneous variance).</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>y_t = T_t + S_t + R_t</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>Therefore, the residual is:</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>R_t = y_t - T_t - S_t</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multiplicative Model</span></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>Use this when the **seasonal swings grow or shrink proportionally** with the trend (heterogeneous variance / heteroscedasticity). A log transformation can convert this to an additive form.</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>y_t = T_t \times S_t \times R_t</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>Therefore, the residual is:</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>R_t = \frac{y_t}{T_t \times S_t}</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>**How to decide which model?** Look at the time series plot. If the peaks and troughs get wider as the trend increases → **Multiplicative**. If they stay the same width → **Additive**.</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 *Your notes here:*</span></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a><span class="fu">## Moving Average (MA) — Estimating the Trend</span></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>A **Moving Average** smooths out the short-term noise to reveal the underlying trend. You take a window of consecutive values, average them, and slide the window one step forward.</span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>For a **periodicity of $p$**, the moving average at time $t$ is:</span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>MA_t = \frac{1}{p} \sum_{i=0}^{p-1} y_{t-i}</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>**From the Excel lab (Ex1 — Weekly Attendance, p = 5):**</span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>The data records daily attendance (Mon–Fri) for 3 weeks. A 5-point moving average is computed:</span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a><span class="in">MA = (Mon + Tue + Wed + Thu + Fri) / 5</span></span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>This strips out the day-of-week seasonal pattern, leaving a cleaner picture of the trend.</span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 *Your notes here:*</span></span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="fu">## Centred Moving Average (CMA)</span></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>When the **period $p$ is even** (e.g., $p = 4$ for quarterly data), the simple MA falls *between* time points. To realign it with actual observations, you compute the **Centred Moving Average**:</span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>CMA_t = \frac{MA_t + MA_{t+1}}{2}</span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>**From the Excel lab (Ex2 — Quarterly Income, p = 4):**</span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>Because there are 4 quarters, the 4-point MA sits between Q2 and Q3. Averaging two consecutive MAs centres it on Q3 of each year.</span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 *Your notes here:*</span></span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a><span class="fu">## Seasonal Index — Measuring the Seasonal Effect</span></span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a>The **seasonal index** quantifies how much each period (e.g., each day of the week, each quarter) systematically differs from the average.</span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step-by-step (Additive):</span></span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Compute CMA (the trend estimate)</span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Calculate deviations: $y_t - CMA_t$</span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Average the deviations for each season across all years → raw seasonal index</span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Correct** the indices so they sum to zero:</span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>\text{Corrected Index} = \text{Raw Index} - \bar{\text{Index}}</span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step-by-step (Multiplicative):</span></span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Compute CMA</span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Calculate ratios: $y_t / CMA_t$</span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Average ratios per season → raw index</span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Correct** so they average to 1 (i.e., sum = number of seasons):</span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>\text{Corrected Index} = \frac{\text{Raw Index}}{\bar{\text{Index}}}</span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 *Your notes here:*</span></span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## Big Picture: ARIMA and SARIMA</span></span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a>The lecturer gave a preview of where the course is heading. The classical decomposition methods (above) are intuitive but limited. The more powerful statistical approach is the **SARIMA** framework:</span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a>\text{SARIMA}(p, d, q)(P, D, Q)_s</span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**AR(p)**: AutoRegressive — today's value depends on the past $p$ values</span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**I(d)**: Integrated — we difference the series $d$ times to achieve stationarity</span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MA(q)**: Moving Average — today's value depends on past $q$ residual errors</span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The seasonal $(P, D, Q)_s$ terms do the same for the seasonal pattern</span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a>Building SARIMA requires first achieving **stationarity** (constant mean and variance). This will be covered in detail in later weeks.</span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 *Your notes here:*</span></span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a><span class="in">Additive model:         y_t = T_t + S_t + R_t</span></span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a><span class="in">Multiplicative model:   y_t = T_t × S_t × R_t</span></span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a><span class="in">Moving Average (odd p): MA_t = (1/p) × Σ y_{t-i}</span></span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a><span class="in">Centred MA (even p):    CMA_t = (MA_t + MA_{t+1}) / 2</span></span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a><span class="in">Additive residual:      R_t = y_t - T_t - S_t</span></span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a><span class="in">Multiplicative residual: R_t = y_t / (T_t × S_t)</span></span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a><span class="in">Seasonal index correction (additive):  Corrected = Raw - Mean(Raw indices)</span></span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a><span class="in">Seasonal index correction (multiplicative): Corrected = Raw / Mean(Raw indices)</span></span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 *Your notes here:*</span></span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Examples (Excel Lab)</span></span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a>Three exercises were set up in <span class="in">`Lecture_1_CIT_template_SOLUTION_9Feb.xlsx`</span>:</span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 1 — Daily Attendance (p = 5, Additive)</span></span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Data:** Mon–Fri attendance over 3 weeks</span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Task:** Compute 5-point MA, seasonal index per day, and residuals</span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Key insight:** Friday has a consistently negative index (~-8.5), while Monday/Tuesday are positive. This makes intuitive sense — attendance drops at the end of the week.</span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 2 — Quarterly Income (p = 4)</span></span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Data:** Quarterly income figures from 2007–2010 across four years</span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Tabs:**</span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`Ex2 (A)`</span> — Additive decomposition (Y = T + S + R)</span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`Ex2 (m)`</span> — Multiplicative decomposition (Y = T × S × R)</span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`Ex2 (A v M)`</span> — Side-by-side comparison of both approaches</span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Key insight:** The income series shows heteroscedasticity (variance changes over time), suggesting the **multiplicative model** is more appropriate. This can also be addressed with a <span class="in">`log(y_t)`</span> transformation.</span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises 3 (exerc1–exerc3) — Practice datasets</span></span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a>Three blank templates for you to practise decomposition independently:</span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sheet <span class="pp">|</span> Variable <span class="pp">|</span> Period <span class="pp">|</span></span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|----------|--------|</span></span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> exerc1 <span class="pp">|</span> Airline Passengers <span class="pp">|</span> Quarterly, 2008–2010 <span class="pp">|</span></span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> exerc2 <span class="pp">|</span> Fuel <span class="pp">|</span> Quarterly, 2008–2011 <span class="pp">|</span></span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> exerc3 <span class="pp">|</span> PC Sales <span class="pp">|</span> Quarterly, 2009–2011 <span class="pp">|</span></span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 *Your notes here:*</span></span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a><span class="fu"># Slides to Review</span></span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a>Based on the lecture transcript and materials, here is a checklist of the **presentation slides** from <span class="in">`STAT9005_TS_Module_Presentation.pdf`</span> and what was covered:</span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Slide <span class="pp">|</span> Title <span class="pp">|</span> Status <span class="pp">|</span></span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|-------|--------|</span></span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 1 <span class="pp">|</span> Title slide <span class="pp">|</span> ✅ Covered <span class="pp">|</span></span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 2 <span class="pp">|</span> Module Scope – Learning Outcomes (LO1–LO6) <span class="pp">|</span> ✅ Covered in depth <span class="pp">|</span></span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 3 <span class="pp">|</span> Module Timetable <span class="pp">|</span> ✅ Note: **classes moved to Monday** (update pending) <span class="pp">|</span></span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 4 <span class="pp">|</span> Module Contents (overview) <span class="pp">|</span> ✅ Covered <span class="pp">|</span></span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 5 <span class="pp">|</span> Module Contents – Time Series (10-week breakdown) <span class="pp">|</span> ✅ Covered <span class="pp">|</span></span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 6 <span class="pp">|</span> Assessments Breakdown <span class="pp">|</span> ✅ Covered <span class="pp">|</span></span>
+<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 7 <span class="pp">|</span> Software (R + RStudio) <span class="pp">|</span> ✅ Mentioned — install for Week 3 <span class="pp">|</span></span>
+<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 8 <span class="pp">|</span> Further Resources — Books <span class="pp">|</span> ✅ Covered <span class="pp">|</span></span>
+<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 9 <span class="pp">|</span> Further Resources — Web Links <span class="pp">|</span> ✅ Covered <span class="pp">|</span></span>
+<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a><span class="fu">### ⚠️ Slides NOT in the uploaded PDF (mentioned in lecture — check Canvas)</span></span>
+<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a>The lecturer referenced additional visual slides during the walkthrough of concepts that appear to be from a **separate content presentation** (not the module intro PDF). Look on Canvas for slides covering:</span>
+<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Time series plot of **drug/anti-diabetic sales** (trend + seasonality illustration)</span>
+<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> **Scatter plot / ACF / PACF** of beer sales (correlation with 4-period lags)</span>
+<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> **Regression model prediction chart** (blue trend line + confidence interval shading)</span>
+<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> **Time series decomposition diagram** (T, S, R components visualised separately)</span>
+<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> **Holt-Winters exponential smoothing** model diagram</span>
+<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> **Stationarity illustration** (constant mean + constant variance plots)</span>
+<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> **Differencing transformation** example (non-stationary → stationary)</span>
+<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> **ARIMA forecast plot** with confidence intervals</span>
+<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; These are likely in a separate "Lecture 1 content" slide deck — the uploaded PDF was only the module introduction/overview.</span></span>
+<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A time series is data collected over regular time intervals; **order matters**</span>
+<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Every series can be decomposed into **Trend + Seasonality + Cyclical + Residual**</span>
+<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use an **Additive model** (Y = T + S + R) when variance is stable; use a **Multiplicative model** (Y = T × S × R) when variance grows with the trend</span>
+<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Moving Average** estimates the trend by smoothing; use **Centred MA** for even-period data</span>
+<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Seasonal indices** measure how each season deviates from average — they must sum to zero (additive) or average to 1 (multiplicative)</span>
+<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **residuals** (remainder) are used to build **confidence intervals** for forecasts</span>
+<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The ultimate goal this semester: build **SARIMA** models for forecasting</span>
+<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**First 2 weeks:** Excel-based manual decomposition to build intuition</span>
+<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**From Week 3 onwards:** R / RStudio for all analysis</span>
+<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Assessment:** 20% MCQ test + 40% R practical + 40% project/presentation (no final exam)</span>
+<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a><span class="fu"># Resources</span></span>
+<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Resource <span class="pp">|</span> Link <span class="pp">|</span></span>
+<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|------|</span></span>
+<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Online Textbook (3rd ed.) <span class="pp">|</span> <span class="ot">&lt;https://otexts.com/fpp3/&gt;</span> <span class="pp">|</span></span>
+<span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Online Textbook (2nd ed.) <span class="pp">|</span> <span class="ot">&lt;https://otexts.com/fpp2/&gt;</span> <span class="pp">|</span></span>
+<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> TDS Article (full TS walkthrough) <span class="pp">|</span> <span class="ot">&lt;https://towardsdatascience.com/the-complete-guide-to-time-series-analysis-and-forecasting-70d476bfe775&gt;</span> <span class="pp">|</span></span>
+<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> R Project <span class="pp">|</span> <span class="ot">&lt;https://www.r-project.org/&gt;</span> <span class="pp">|</span></span>
+<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> RStudio IDE <span class="pp">|</span> <span class="ot">&lt;https://www.rstudio.com/&gt;</span> <span class="pp">|</span></span>
+<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Tidyverse <span class="pp">|</span> <span class="ot">&lt;https://www.tidyverse.org/&gt;</span> <span class="pp">|</span></span>
+<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> ggplot2 gallery <span class="pp">|</span> <span class="ot">&lt;https://www.r-graph-gallery.com/&gt;</span> <span class="pp">|</span></span>
+<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> R Markdown <span class="pp">|</span> <span class="ot">&lt;https://rmarkdown.rstudio.com&gt;</span> <span class="pp">|</span></span>
+<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a>*End of Week 1 Study Guide — STAT9005 Time Series Analysis*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>STAT9005 – Time Series: Week 4 Study Guide – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../time-series/week-5.html" rel="next">
+<link href="../time-series/week-3.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-4.html">Week 4</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8 - empty</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics" id="toc-key-topics" class="nav-link active" data-scroll-target="#key-topics"><span class="header-section-number">1</span> Key Topics</a></li>
+  <li><a href="#core-explanations" id="toc-core-explanations" class="nav-link" data-scroll-target="#core-explanations"><span class="header-section-number">2</span> Core Explanations</a>
+  <ul class="collapse">
+  <li><a href="#is-it-actually-a-time-series-the-kings-dataset" id="toc-is-it-actually-a-time-series-the-kings-dataset" class="nav-link" data-scroll-target="#is-it-actually-a-time-series-the-kings-dataset"><span class="header-section-number">2.1</span> Is It Actually a Time Series? — The Kings Dataset</a></li>
+  <li><a href="#loading-data-and-the-ts-function" id="toc-loading-data-and-the-ts-function" class="nav-link" data-scroll-target="#loading-data-and-the-ts-function"><span class="header-section-number">2.2</span> Loading Data and the <code>ts()</code> Function</a></li>
+  <li><a href="#identifying-components-visually" id="toc-identifying-components-visually" class="nav-link" data-scroll-target="#identifying-components-visually"><span class="header-section-number">2.3</span> Identifying Components Visually</a></li>
+  <li><a href="#decomposition-additive-vs.-multiplicative" id="toc-decomposition-additive-vs.-multiplicative" class="nav-link" data-scroll-target="#decomposition-additive-vs.-multiplicative"><span class="header-section-number">2.4</span> Decomposition: Additive vs.&nbsp;Multiplicative</a>
+  <ul class="collapse">
+  <li><a href="#the-two-models" id="toc-the-two-models" class="nav-link" data-scroll-target="#the-two-models"><span class="header-section-number">2.4.1</span> The Two Models</a></li>
+  <li><a href="#running-decomposition-in-r" id="toc-running-decomposition-in-r" class="nav-link" data-scroll-target="#running-decomposition-in-r"><span class="header-section-number">2.4.2</span> Running Decomposition in R</a></li>
+  <li><a href="#what-to-look-at-in-the-decomposition-output" id="toc-what-to-look-at-in-the-decomposition-output" class="nav-link" data-scroll-target="#what-to-look-at-in-the-decomposition-output"><span class="header-section-number">2.4.3</span> What to Look At in the Decomposition Output</a></li>
+  <li><a href="#missing-values-in-decomposition" id="toc-missing-values-in-decomposition" class="nav-link" data-scroll-target="#missing-values-in-decomposition"><span class="header-section-number">2.4.4</span> Missing Values in Decomposition</a></li>
+  </ul></li>
+  <li><a href="#residual-analysis-confirming-your-model" id="toc-residual-analysis-confirming-your-model" class="nav-link" data-scroll-target="#residual-analysis-confirming-your-model"><span class="header-section-number">2.5</span> Residual Analysis — Confirming Your Model</a></li>
+  <li><a href="#stl-decomposition" id="toc-stl-decomposition" class="nav-link" data-scroll-target="#stl-decomposition"><span class="header-section-number">2.6</span> STL Decomposition</a>
+  <ul class="collapse">
+  <li><a href="#key-parameters" id="toc-key-parameters" class="nav-link" data-scroll-target="#key-parameters"><span class="header-section-number">2.6.1</span> Key Parameters</a></li>
+  <li><a href="#choosing-the-right-s.window" id="toc-choosing-the-right-s.window" class="nav-link" data-scroll-target="#choosing-the-right-s.window"><span class="header-section-number">2.6.2</span> Choosing the Right <code>s.window</code></a></li>
+  <li><a href="#advantages-and-disadvantages-of-stl" id="toc-advantages-and-disadvantages-of-stl" class="nav-link" data-scroll-target="#advantages-and-disadvantages-of-stl"><span class="header-section-number">2.6.3</span> Advantages and Disadvantages of STL</a></li>
+  <li><a href="#useful-stl-related-r-functions" id="toc-useful-stl-related-r-functions" class="nav-link" data-scroll-target="#useful-stl-related-r-functions"><span class="header-section-number">2.6.4</span> Useful STL-related R Functions</a></li>
+  <li><a href="#seasonal-adjustment" id="toc-seasonal-adjustment" class="nav-link" data-scroll-target="#seasonal-adjustment"><span class="header-section-number">2.6.5</span> Seasonal Adjustment</a></li>
+  </ul></li>
+  <li><a href="#forecasting-with-decomposition-naïve-methods" id="toc-forecasting-with-decomposition-naïve-methods" class="nav-link" data-scroll-target="#forecasting-with-decomposition-naïve-methods"><span class="header-section-number">2.7</span> Forecasting with Decomposition (Naïve Methods)</a></li>
+  <li><a href="#simple-exponential-smoothing-ses" id="toc-simple-exponential-smoothing-ses" class="nav-link" data-scroll-target="#simple-exponential-smoothing-ses"><span class="header-section-number">2.8</span> Simple Exponential Smoothing (SES)</a>
+  <ul class="collapse">
+  <li><a href="#when-to-use-it" id="toc-when-to-use-it" class="nav-link" data-scroll-target="#when-to-use-it"><span class="header-section-number">2.8.1</span> When to Use It</a></li>
+  <li><a href="#the-core-idea" id="toc-the-core-idea" class="nav-link" data-scroll-target="#the-core-idea"><span class="header-section-number">2.8.2</span> The Core Idea</a></li>
+  <li><a href="#key-equations" id="toc-key-equations" class="nav-link" data-scroll-target="#key-equations"><span class="header-section-number">2.8.3</span> Key Equations</a></li>
+  <li><a href="#the-smoothing-parameter-α" id="toc-the-smoothing-parameter-α" class="nav-link" data-scroll-target="#the-smoothing-parameter-α"><span class="header-section-number">2.8.4</span> The Smoothing Parameter α</a></li>
+  <li><a href="#optimization" id="toc-optimization" class="nav-link" data-scroll-target="#optimization"><span class="header-section-number">2.8.5</span> Optimization</a></li>
+  <li><a href="#r-code" id="toc-r-code" class="nav-link" data-scroll-target="#r-code"><span class="header-section-number">2.8.6</span> R Code</a></li>
+  <li><a href="#ses-prediction-behaviour" id="toc-ses-prediction-behaviour" class="nav-link" data-scroll-target="#ses-prediction-behaviour"><span class="header-section-number">2.8.7</span> SES Prediction Behaviour</a></li>
+  </ul></li>
+  <li><a href="#overview-of-all-classical-models" id="toc-overview-of-all-classical-models" class="nav-link" data-scroll-target="#overview-of-all-classical-models"><span class="header-section-number">2.9</span> Overview of All Classical Models</a></li>
+  </ul></li>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">3</span> Key Equations / Formulas</a>
+  <ul class="collapse">
+  <li><a href="#time-series-decomposition" id="toc-time-series-decomposition" class="nav-link" data-scroll-target="#time-series-decomposition"><span class="header-section-number">3.0.1</span> Time Series Decomposition</a></li>
+  <li><a href="#simple-moving-average-used-internally-in-decompose" id="toc-simple-moving-average-used-internally-in-decompose" class="nav-link" data-scroll-target="#simple-moving-average-used-internally-in-decompose"><span class="header-section-number">3.0.2</span> Simple Moving Average (used internally in <code>decompose()</code>)</a></li>
+  <li><a href="#ses-prediction-equation-expanded" id="toc-ses-prediction-equation-expanded" class="nav-link" data-scroll-target="#ses-prediction-equation-expanded"><span class="header-section-number">3.0.3</span> SES Prediction Equation (expanded)</a></li>
+  <li><a href="#sse-optimization" id="toc-sse-optimization" class="nav-link" data-scroll-target="#sse-optimization"><span class="header-section-number">3.0.4</span> SSE Optimization</a></li>
+  <li><a href="#prediction-error-metrics-mentioned-to-be-covered-next-class" id="toc-prediction-error-metrics-mentioned-to-be-covered-next-class" class="nav-link" data-scroll-target="#prediction-error-metrics-mentioned-to-be-covered-next-class"><span class="header-section-number">3.0.5</span> Prediction Error Metrics (mentioned, to be covered next class)</a></li>
+  </ul></li>
+  <li><a href="#practical-examples-from-class" id="toc-practical-examples-from-class" class="nav-link" data-scroll-target="#practical-examples-from-class"><span class="header-section-number">4</span> Practical Examples from Class</a>
+  <ul class="collapse">
+  <li><a href="#example-1-births-dataset-additive" id="toc-example-1-births-dataset-additive" class="nav-link" data-scroll-target="#example-1-births-dataset-additive"><span class="header-section-number">4.0.1</span> Example 1 — Births Dataset (Additive)</a></li>
+  <li><a href="#example-2-souvenir-dataset-multiplicative" id="toc-example-2-souvenir-dataset-multiplicative" class="nav-link" data-scroll-target="#example-2-souvenir-dataset-multiplicative"><span class="header-section-number">4.0.2</span> Example 2 — Souvenir Dataset (Multiplicative)</a></li>
+  <li><a href="#example-3-oil-data-ses" id="toc-example-3-oil-data-ses" class="nav-link" data-scroll-target="#example-3-oil-data-ses"><span class="header-section-number">4.0.3</span> Example 3 — Oil Data (SES)</a></li>
+  </ul></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">5</span> Summary Points</a></li>
+  <li><a href="#what-was-covered-vs.-what-is-still-pending" id="toc-what-was-covered-vs.-what-is-still-pending" class="nav-link" data-scroll-target="#what-was-covered-vs.-what-is-still-pending"><span class="header-section-number">6</span> What Was Covered vs.&nbsp;What Is Still Pending</a>
+  <ul class="collapse">
+  <li><a href="#covered-in-week-4" id="toc-covered-in-week-4" class="nav-link" data-scroll-target="#covered-in-week-4"><span class="header-section-number">6.1</span> ✅ Covered in Week 4</a></li>
+  <li><a href="#started-but-not-finished" id="toc-started-but-not-finished" class="nav-link" data-scroll-target="#started-but-not-finished"><span class="header-section-number">6.2</span> ⚠️ Started but NOT Finished</a></li>
+  <li><a href="#labs-assigned-for-next-week" id="toc-labs-assigned-for-next-week" class="nav-link" data-scroll-target="#labs-assigned-for-next-week"><span class="header-section-number">6.3</span> 📋 Labs Assigned for Next Week</a></li>
+  </ul></li>
+  <li><a href="#annotations-questions-to-revisit" id="toc-annotations-questions-to-revisit" class="nav-link" data-scroll-target="#annotations-questions-to-revisit"><span class="header-section-number">7</span> Annotations / Questions to Revisit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-4.html">Week 4</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">STAT9005 – Time Series: Week 4 Study Guide</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Classical Models – Lab Review, Decomposition &amp; Exponential Smoothing</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>📝 <strong>Note to self:</strong> These notes combine the Week 4 lecture (Aula_4), the Lab 1 handout, the Lab 1 solution R script, and the Lecture 2 Classical Models slides. Gaps and follow-up slides are flagged throughout.</p>
+</blockquote>
+<hr>
+<section id="key-topics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics</h1>
+<ul>
+<li>Lab 1 walkthrough: Kings, Births, and Souvenirs datasets</li>
+<li>How to identify a valid time series vs.&nbsp;a non-time-series problem</li>
+<li>Visual identification of time series components (trend, seasonality, residual)</li>
+<li>Additive vs.&nbsp;multiplicative decomposition — choosing the right one</li>
+<li>Residual analysis: confirming a good decomposition</li>
+<li>STL decomposition (Seasonal &amp; Trend decomposition using Loess)</li>
+<li>Forecasting using decomposition (naïve + STL-based)</li>
+<li>Introduction to Simple Exponential Smoothing (SES)</li>
+<li>Overview of the full classical models family (SES → Holt → Holt-Winters)</li>
+<li>Upcoming topics: Holt trend methods, Holt-Winters, error metrics, AIC/BIC</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanations" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanations</h1>
+<section id="is-it-actually-a-time-series-the-kings-dataset" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="is-it-actually-a-time-series-the-kings-dataset"><span class="header-section-number">2.1</span> Is It Actually a Time Series? — The Kings Dataset</h2>
+<p>Before doing any analysis, you must verify that your data actually qualifies as a time series. The first requirement is <strong>equally spaced observations</strong> — data points must be recorded at regular, consistent intervals.</p>
+<p>The <strong>Kings dataset</strong> records the ages at death of successive Kings of England. At first glance it looks like sequential data, but it is <em>not</em> a time series. Each value is just the age a king happened to die — there is no regular time interval between observations. This is better framed as a <strong>regression problem</strong> (predicting the next king’s age at death), not a forecasting problem. Francisco made this distinction explicitly in class: <em>we forget about the Kings dataset for this module.</em></p>
+<p>The rule of thumb: ask yourself <em>“Am I predicting future values of a process that unfolds over equally spaced time?”</em> If yes, it is a time series. If no, it is something else.</p>
+</section>
+<section id="loading-data-and-the-ts-function" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="loading-data-and-the-ts-function"><span class="header-section-number">2.2</span> Loading Data and the <code>ts()</code> Function</h2>
+<p>In R, raw data loaded with <code>scan()</code> is just a numeric vector — it has no time awareness. The <code>ts()</code> function wraps that vector with time series metadata.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kings — no frequency info needed (annual-ish, frequency = 1 by default)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>kings <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/misc/kings.dat"</span>, <span class="at">skip =</span> <span class="dv">3</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>kingstimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(kings)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Births — monthly data starting January 1946</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>births <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/data/nybirths.dat"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>birthstimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(births, <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1946</span>, <span class="dv">1</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Souvenir sales — monthly data starting January 1987</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>souvenir <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/data/fancy.dat"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>souvenirtimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(souvenir, <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1987</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The key arguments are:</p>
+<ul>
+<li><code>frequency</code> — number of observations per cycle (12 = monthly, 4 = quarterly, 1 = annual)</li>
+<li><code>start</code> — vector giving the start time, e.g.&nbsp;<code>c(1946, 1)</code> means January 1946</li>
+</ul>
+<p>Always plot immediately after creating the time series object to get your first visual read on the data.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(kingstimeseries)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(birthstimeseries)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(souvenirtimeseries)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="identifying-components-visually" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="identifying-components-visually"><span class="header-section-number">2.3</span> Identifying Components Visually</h2>
+<p>Every time series is assumed to be a function of up to four components:</p>
+<p><span class="math display">\[y_t = f(S_t, T_t, R_t)\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(y_t\)</span> = observed value at time <span class="math inline">\(t\)</span></li>
+<li><span class="math inline">\(S_t\)</span> = <strong>seasonal component</strong> — repeating patterns within a calendar year</li>
+<li><span class="math inline">\(T_t\)</span> = <strong>trend-cycle component</strong> — long-run direction (includes multi-year cycles)</li>
+<li><span class="math inline">\(R_t\)</span> = <strong>remainder/residual</strong> — everything unexplained (random noise)</li>
+</ul>
+<p>When you plot your data, you are trying to answer three questions visually:</p>
+<p><strong>1. Is there a trend?</strong><br>
+Look for a consistent upward or downward direction over the full series. The births dataset shows a clear increasing linear trend, interrupted by a notable drop around 1955–1956.</p>
+<p><strong>2. What type of seasonality is present?</strong><br>
+Compare the <em>amplitude</em> (height) of seasonal swings across different years: - If the swings stay roughly the same height → <strong>homogeneous seasonality → use additive model</strong> - If the swings grow bigger as the series increases → <strong>increasing/multiplicative seasonality → use multiplicative model</strong></p>
+<p>The births dataset shows fairly constant swings → <strong>additive expected</strong>.<br>
+The souvenir dataset shows swings that grow year on year → <strong>multiplicative expected</strong>.</p>
+<p><strong>3. Are there any cycles?</strong><br>
+Multi-year business or economic cycles are visible as broad wave patterns that stretch beyond a single year. In the tourism employment example from the lecture slides, the 2008–2009 economic crisis created a visible dip and recovery cycle. Cycles are handled by the <strong>damped</strong> parameter in Holt methods.</p>
+</section>
+<section id="decomposition-additive-vs.-multiplicative" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="decomposition-additive-vs.-multiplicative"><span class="header-section-number">2.4</span> Decomposition: Additive vs.&nbsp;Multiplicative</h2>
+<section id="the-two-models" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="the-two-models"><span class="header-section-number">2.4.1</span> The Two Models</h3>
+<p><strong>Additive</strong> (for constant seasonality): <span class="math display">\[y_t = S_t + T_t + R_t\]</span></p>
+<p><strong>Multiplicative</strong> (for growing seasonality): <span class="math display">\[y_t = S_t \times T_t \times R_t\]</span></p>
+<p>You can convert multiplicative to additive using a log transformation: <span class="math display">\[\log(y_t) = \log S_t + \log T_t + \log R_t\]</span></p>
+<p>This is the <strong>Box-Cox transformation</strong> idea mentioned in class and in the Lecture 2 slides.</p>
+</section>
+<section id="running-decomposition-in-r" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="running-decomposition-in-r"><span class="header-section-number">2.4.2</span> Running Decomposition in R</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Additive decomposition (default)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>births.ts.comp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(births.ts)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.comp)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplicative decomposition</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>souvenir.ts.comp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(souvenirtimeseries, <span class="at">type =</span> <span class="st">"multiplicative"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(souvenir.ts.comp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="what-to-look-at-in-the-decomposition-output" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="what-to-look-at-in-the-decomposition-output"><span class="header-section-number">2.4.3</span> What to Look At in the Decomposition Output</h3>
+<p>The plot shows four panels: <strong>data → trend → seasonal → residual (random)</strong></p>
+<ul>
+<li><strong>Trend panel</strong>: Should show smooth directional movement.</li>
+<li><strong>Seasonal panel</strong>: Should show a <em>consistent, repeating</em> pattern — the same shape each year. This is by definition: the seasonal component is the average of each period (mean of all Januaries, mean of all Februaries, etc.) repeated throughout.</li>
+<li><strong>Residual panel</strong>: <strong><em>This is the most important panel for model selection.</em></strong> You want it to look like white noise — no obvious patterns, no trend, no obvious clusters.</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Key insight from class:</strong> If the residual panel of your additive decomposition looks like a shrunken version of the original data (you can still see the pattern), it means the model has not captured the structure properly. Switch to multiplicative.</p>
+</blockquote>
+</section>
+<section id="missing-values-in-decomposition" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4" class="anchored" data-anchor-id="missing-values-in-decomposition"><span class="header-section-number">2.4.4</span> Missing Values in Decomposition</h3>
+<p>The classical <code>decompose()</code> function uses a <strong>centred moving average</strong> to estimate the trend. Because this requires averaging neighbouring values symmetrically, it cannot produce estimates for the first and last <span class="math inline">\(p/2\)</span> observations (where <span class="math inline">\(p\)</span> is the frequency). For monthly data (<span class="math inline">\(p = 12\)</span>), you lose 6 observations at each end of the trend and residual components.</p>
+</section>
+</section>
+<section id="residual-analysis-confirming-your-model" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="residual-analysis-confirming-your-model"><span class="header-section-number">2.5</span> Residual Analysis — Confirming Your Model</h2>
+<p>Once you have chosen a decomposition, extract the residuals and check four things:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>residuals <span class="ot">&lt;-</span> births.ts.comp<span class="sc">$</span>random</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove NAs introduced by moving average</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>residuals_clean <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(residuals)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>1. Mean ≈ 0 and Mean ≈ Median (symmetry)</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(residuals_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If mean and median are close to zero and close to each other, the residuals are approximately symmetric.</p>
+<p><strong>2. Histogram — should look bell-shaped</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(residuals_clean, <span class="at">main =</span> <span class="st">"Residuals"</span>, <span class="at">xlab =</span> <span class="st">"Residual value"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A good residual histogram is roughly symmetric, centred near zero.</p>
+<p><strong>3. Scatter plot / time plot — should look random</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(residuals_clean, <span class="at">main =</span> <span class="st">"Residuals over time"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>About 95% of standardised values should fall within ±2 and 99% within ±4.</p>
+<p><strong>4. QQ plot — checks normality</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(residuals_clean)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(residuals_clean, <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Points should sit close to the red diagonal line, especially in the central ±2 range. Small departures at the tails are acceptable.</p>
+<blockquote class="blockquote">
+<p><strong>Why does this matter?</strong> The residual distribution is what generates your <strong>confidence intervals</strong>. If your residuals follow a normal distribution centred on zero, you can construct statistically valid prediction intervals. If they don’t, your confidence intervals are unreliable.</p>
+</blockquote>
+</section>
+<section id="stl-decomposition" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="stl-decomposition"><span class="header-section-number">2.6</span> STL Decomposition</h2>
+<p><strong>STL</strong> = <strong>S</strong>easonal and <strong>T</strong>rend decomposition using <strong>L</strong>oess (locally weighted regression)</p>
+<p>Instead of calculating a simple moving average for the trend, STL fits a local regression line through small windows of data, sliding that window across the entire series. This avoids missing values at the ends.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">s.window =</span> <span class="dv">7</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fit) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"year"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="key-parameters" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="key-parameters"><span class="header-section-number">2.6.1</span> Key Parameters</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 39%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>What it controls</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>s.window</code></td>
+<td>Controls variation in the seasonal component. Use <code>"periodic"</code> to fix the season as constant.</td>
+</tr>
+<tr class="even">
+<td><code>t.window</code></td>
+<td>Controls smoothness of the trend. Larger = smoother trend.</td>
+</tr>
+<tr class="odd">
+<td><code>robust = TRUE</code></td>
+<td>Makes estimation resistant to outliers.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="choosing-the-right-s.window" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="choosing-the-right-s.window"><span class="header-section-number">2.6.2</span> Choosing the Right <code>s.window</code></h3>
+<ul>
+<li><strong>Too small</strong> (e.g.&nbsp;5): The seasonal component is allowed to change too much → it absorbs signal that should be in the trend or residual.</li>
+<li><strong><code>"periodic"</code></strong> (recommended default): Forces the seasonal component to repeat identically every year — matches our theoretical definition of seasonality.</li>
+</ul>
+<p>As shown in the lecture slides, using <code>s.window = "periodic"</code> usually gives a cleaner, more constant seasonal component and a more random-looking remainder.</p>
+</section>
+<section id="advantages-and-disadvantages-of-stl" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="advantages-and-disadvantages-of-stl"><span class="header-section-number">2.6.3</span> Advantages and Disadvantages of STL</h3>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>Robust to outliers (when <code>robust = TRUE</code>)</li>
+<li>No missing values at series ends</li>
+<li>Can handle seasonal component that changes gradually over time</li>
+<li>User can control how smooth the trend and seasonal extraction are</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li>No calendar effect (cannot model Easter, public holidays that shift dates each year)</li>
+<li>Only handles <strong>additive</strong> models natively (apply <code>log()</code> transform first for multiplicative data)</li>
+<li>Only handles <strong>one</strong> seasonal period (use <code>mstl()</code> for multiple seasonalities)</li>
+</ul>
+</section>
+<section id="useful-stl-related-r-functions" class="level3" data-number="2.6.4">
+<h3 data-number="2.6.4" class="anchored" data-anchor-id="useful-stl-related-r-functions"><span class="header-section-number">2.6.4</span> Useful STL-related R Functions</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seasonal</span>(fit)     <span class="co"># Extract seasonal component</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">trendcycle</span>(fit)   <span class="co"># Extract trend-cycle component</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">remainder</span>(fit)    <span class="co"># Extract residual component</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">seasadj</span>(fit)      <span class="co"># Seasonally adjusted series (= data minus seasonal)</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mstl</span>(x)           <span class="co"># Multiple STL — handles more than one seasonal period</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="seasonal-adjustment" class="level3" data-number="2.6.5">
+<h3 data-number="2.6.5" class="anchored" data-anchor-id="seasonal-adjustment"><span class="header-section-number">2.6.5</span> Seasonal Adjustment</h3>
+<p>After decomposition, you can strip out the seasonal component to expose the underlying trend more clearly:</p>
+<p><strong>Additive:</strong> <span class="math inline">\(y_t - S_t = T_t + R_t\)</span></p>
+<p><strong>Multiplicative:</strong> <span class="math inline">\(y_t / S_t = T_t \times R_t\)</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Additive seasonal adjustment</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>births.ts.sadj <span class="ot">&lt;-</span> births.ts <span class="sc">-</span> births.ts.comp<span class="sc">$</span>seasonal</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.sadj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p><strong>Important caveat (from slides):</strong> Seasonally adjusted series still contain trend AND random noise, so they can look jagged and create “false” ups and downs. The trend-cycle component alone is smoother and better for identifying inflection points.</p>
+</blockquote>
+</section>
+</section>
+<section id="forecasting-with-decomposition-naïve-methods" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="forecasting-with-decomposition-naïve-methods"><span class="header-section-number">2.7</span> Forecasting with Decomposition (Naïve Methods)</h2>
+<p>Before using formal models, you can produce simple forecasts directly from decomposition:</p>
+<ul>
+<li>The <strong>seasonal component</strong> is forecast by repeating the pattern from the last year (naïve seasonal forecast).</li>
+<li>The <strong>trend-cycle</strong> is forecast using a simple method like naïve (random walk) on the seasonally adjusted series.</li>
+<li>The two are <strong>combined</strong> to produce the full forecast.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># STL + naïve forecast</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">t.window =</span> <span class="dv">13</span>, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">seasadj</span>() <span class="sc">%&gt;%</span> <span class="fu">naive</span>() <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Or use the stlf() shortcut</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>elecequip <span class="sc">%&gt;%</span> <span class="fu">stlf</span>(<span class="at">method =</span> <span class="st">"naive"</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The confidence intervals come from the residual distribution — another reason clean, normal residuals are important.</p>
+</section>
+<section id="simple-exponential-smoothing-ses" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="simple-exponential-smoothing-ses"><span class="header-section-number">2.8</span> Simple Exponential Smoothing (SES)</h2>
+<section id="when-to-use-it" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="when-to-use-it"><span class="header-section-number">2.8.1</span> When to Use It</h3>
+<p>Use SES when your data:</p>
+<ul>
+<li><strong>Has no trend</strong> (or trend is negligible)</li>
+<li><strong>Has no seasonality</strong></li>
+<li>Is a confirmed time series (equally spaced)</li>
+</ul>
+</section>
+<section id="the-core-idea" class="level3" data-number="2.8.2">
+<h3 data-number="2.8.2" class="anchored" data-anchor-id="the-core-idea"><span class="header-section-number">2.8.2</span> The Core Idea</h3>
+<p>SES computes a <strong>weighted average of all past observations</strong>, where weights decrease exponentially as you go further back in time. More recent observations get more weight.</p>
+</section>
+<section id="key-equations" class="level3" data-number="2.8.3">
+<h3 data-number="2.8.3" class="anchored" data-anchor-id="key-equations"><span class="header-section-number">2.8.3</span> Key Equations</h3>
+<p><strong>Forecast equation:</strong> <span class="math display">\[\hat{y}_{t+h|t} = \ell_t\]</span></p>
+<p><strong>Smoothing (level) equation:</strong> <span class="math display">\[\ell_t = \alpha y_t + (1 - \alpha)\ell_{t-1}\]</span></p>
+<p>By iterating, this expands to: <span class="math display">\[\hat{y}_{T+1|T} = \sum_{j=0}^{T-1} \alpha(1-\alpha)^j y_{T-j} + (1-\alpha)^T \ell_0\]</span></p>
+</section>
+<section id="the-smoothing-parameter-α" class="level3" data-number="2.8.4">
+<h3 data-number="2.8.4" class="anchored" data-anchor-id="the-smoothing-parameter-α"><span class="header-section-number">2.8.4</span> The Smoothing Parameter α</h3>
+<p><span class="math display">\[0 \leq \alpha \leq 1\]</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>α value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Close to <strong>1</strong></td>
+<td>Short memory — almost all weight on last observation (approaches random walk)</td>
+</tr>
+<tr class="even">
+<td>Close to <strong>0</strong></td>
+<td>Long memory — weights spread far back in history (approaches overall mean)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Trick for interpretation:</strong> If R estimates α = 0.83 (as in the oil data example), the model has a very short memory — your prediction will be close to your last known value.</p>
+</blockquote>
+</section>
+<section id="optimization" class="level3" data-number="2.8.5">
+<h3 data-number="2.8.5" class="anchored" data-anchor-id="optimization"><span class="header-section-number">2.8.5</span> Optimization</h3>
+<p>α and the initial level <span class="math inline">\(\ell_0\)</span> are chosen by minimising the <strong>Sum of Squared Errors (SSE)</strong>:</p>
+<p><span class="math display">\[\text{SSE} = \sum_{t=1}^{T}(y_t - \hat{y}_{t|t-1})^2 = \sum_{t=1}^{T} e_t^2\]</span></p>
+<p>This is a <strong>non-linear optimization</strong> problem (unlike OLS regression), so R uses numerical methods.</p>
+</section>
+<section id="r-code" class="level3" data-number="2.8.6">
+<h3 data-number="2.8.6" class="anchored" data-anchor-id="r-code"><span class="header-section-number">2.8.6</span> R Code</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Method 1: ses() directly</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> <span class="fu">ses</span>(oildata, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fc) <span class="sc">+</span> <span class="fu">autolayer</span>(<span class="fu">fitted</span>(fc), <span class="at">series =</span> <span class="st">"Fitted"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Method 2: ets() family function — equivalent for SES</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>ses_model <span class="ot">&lt;-</span> <span class="fu">ets</span>(train.ts, <span class="at">model =</span> <span class="st">"ANN"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ANN = Additive error, No trend, No seasonality</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="ses-prediction-behaviour" class="level3" data-number="2.8.7">
+<h3 data-number="2.8.7" class="anchored" data-anchor-id="ses-prediction-behaviour"><span class="header-section-number">2.8.7</span> SES Prediction Behaviour</h3>
+<p>Because SES produces a <strong>flat forecast</strong> (same value for all h steps ahead), the <strong>point forecast never changes</strong> after the last observation. However, the <strong>confidence interval widens</strong> as h increases, because the uncertainty accumulates with each step forward.</p>
+</section>
+</section>
+<section id="overview-of-all-classical-models" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="overview-of-all-classical-models"><span class="header-section-number">2.9</span> Overview of All Classical Models</h2>
+<p>From the lecture, the full family is:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Components Present</th>
+<th>Model</th>
+<th>R Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No trend, no seasonality</td>
+<td><strong>Simple Exponential Smoothing (SES)</strong></td>
+<td><code>ses()</code> or <code>ets(..., model="ANN")</code></td>
+</tr>
+<tr class="even">
+<td>Trend only (linear)</td>
+<td><strong>Holt’s Linear Method</strong></td>
+<td><code>holt()</code> or <code>ets(..., model="AAN")</code></td>
+</tr>
+<tr class="odd">
+<td>Trend + cycle/damping</td>
+<td><strong>Holt Damped</strong></td>
+<td><code>holt(..., damped=TRUE)</code></td>
+</tr>
+<tr class="even">
+<td>Trend + seasonality (constant)</td>
+<td><strong>Holt-Winters Additive</strong></td>
+<td><code>hw(..., seasonal="additive")</code></td>
+</tr>
+<tr class="odd">
+<td>Trend + seasonality (growing)</td>
+<td><strong>Holt-Winters Multiplicative</strong></td>
+<td><code>hw(..., seasonal="multiplicative")</code></td>
+</tr>
+<tr class="even">
+<td>Best of all the above</td>
+<td><strong>ETS (automatic)</strong></td>
+<td><code>ets()</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>ETS</strong> stands for <strong>Error, Trend, Seasonality</strong>. The <code>ets()</code> function automatically selects the best model by minimising AICc.</p>
+<hr>
+</section>
+</section>
+<section id="key-equations-formulas" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Key Equations / Formulas</h1>
+<section id="time-series-decomposition" class="level3" data-number="3.0.1">
+<h3 data-number="3.0.1" class="anchored" data-anchor-id="time-series-decomposition"><span class="header-section-number">3.0.1</span> Time Series Decomposition</h3>
+<p><span class="math display">\[y_t = S_t + T_t + R_t \quad \text{(Additive)}\]</span></p>
+<p><span class="math display">\[y_t = S_t \times T_t \times R_t \quad \text{(Multiplicative)}\]</span></p>
+</section>
+<section id="simple-moving-average-used-internally-in-decompose" class="level3" data-number="3.0.2">
+<h3 data-number="3.0.2" class="anchored" data-anchor-id="simple-moving-average-used-internally-in-decompose"><span class="header-section-number">3.0.2</span> Simple Moving Average (used internally in <code>decompose()</code>)</h3>
+<p><span class="math display">\[F_t = MA_p = \frac{\sum_{i=1}^{p} D_i}{p}\]</span></p>
+<p>Where <span class="math inline">\(F_t\)</span> = prediction, <span class="math inline">\(D_i\)</span> = observation, <span class="math inline">\(p\)</span> = periodicity (frequency)</p>
+</section>
+<section id="ses-prediction-equation-expanded" class="level3" data-number="3.0.3">
+<h3 data-number="3.0.3" class="anchored" data-anchor-id="ses-prediction-equation-expanded"><span class="header-section-number">3.0.3</span> SES Prediction Equation (expanded)</h3>
+<p><span class="math display">\[\hat{y}_{T+1|T} = \alpha y_T + \alpha(1-\alpha)y_{T-1} + \alpha(1-\alpha)^2 y_{T-2} + \cdots \quad 0 \leq \alpha \leq 1\]</span></p>
+</section>
+<section id="sse-optimization" class="level3" data-number="3.0.4">
+<h3 data-number="3.0.4" class="anchored" data-anchor-id="sse-optimization"><span class="header-section-number">3.0.4</span> SSE Optimization</h3>
+<p><span class="math display">\[\text{SSE} = \sum_{t=1}^{T}(y_t - \hat{y}_{t|t-1})^2\]</span></p>
+</section>
+<section id="prediction-error-metrics-mentioned-to-be-covered-next-class" class="level3" data-number="3.0.5">
+<h3 data-number="3.0.5" class="anchored" data-anchor-id="prediction-error-metrics-mentioned-to-be-covered-next-class"><span class="header-section-number">3.0.5</span> Prediction Error Metrics (mentioned, to be covered next class)</h3>
+<p><span class="math display">\[\text{MAD} = \frac{\sum |Y_t - F_t|}{n}\]</span></p>
+<p><span class="math display">\[\text{MSE} = \frac{\sum (Y_t - F_t)^2}{n-1}\]</span></p>
+<p><span class="math display">\[\text{MAPE} = \frac{1}{n} \sum \left|\frac{Y_t - F_t}{Y_t}\right| \times 100\]</span></p>
+<hr>
+</section>
+</section>
+<section id="practical-examples-from-class" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Practical Examples from Class</h1>
+<section id="example-1-births-dataset-additive" class="level3" data-number="4.0.1">
+<h3 data-number="4.0.1" class="anchored" data-anchor-id="example-1-births-dataset-additive"><span class="header-section-number">4.0.1</span> Example 1 — Births Dataset (Additive)</h3>
+<ul>
+<li><strong>Visual check</strong>: Increasing trend, constant seasonal amplitude → expect additive</li>
+<li><strong>Decompose</strong>: Both additive and multiplicative residuals look random, but additive is simpler → <strong>choose additive</strong></li>
+<li><strong>Residual check</strong>: Mean ≈ Median ≈ 0, histogram is roughly normal, scatter plot is noisy within ±2 → <strong>decomposition confirmed as valid</strong></li>
+</ul>
+</section>
+<section id="example-2-souvenir-dataset-multiplicative" class="level3" data-number="4.0.2">
+<h3 data-number="4.0.2" class="anchored" data-anchor-id="example-2-souvenir-dataset-multiplicative"><span class="header-section-number">4.0.2</span> Example 2 — Souvenir Dataset (Multiplicative)</h3>
+<ul>
+<li><strong>Visual check</strong>: Increasing trend, <em>growing</em> seasonal amplitude → expect multiplicative</li>
+<li><strong>Decompose additive</strong>: Residual panel shows the same trend/seasonal pattern as the original data → <strong>additive decomposition is bad</strong></li>
+<li><strong>Decompose multiplicative</strong>: Residual panel looks much more random → <strong>multiplicative confirmed</strong></li>
+<li><strong>Residual check for additive</strong>: Mean ≈ −270, Median ≈ 98 (very different), histogram skewed → model inadequate</li>
+<li><strong>Residual check for multiplicative</strong>: Mean ≈ Median, histogram roughly symmetric, QQ plot shows minor tail departures only → <strong>model is valid</strong></li>
+</ul>
+</section>
+<section id="example-3-oil-data-ses" class="level3" data-number="4.0.3">
+<h3 data-number="4.0.3" class="anchored" data-anchor-id="example-3-oil-data-ses"><span class="header-section-number">4.0.3</span> Example 3 — Oil Data (SES)</h3>
+<ul>
+<li>Data shows no clear trend or seasonality → SES appropriate</li>
+<li>R estimates α = 0.8339 → short memory data</li>
+<li>Point forecast is flat (constant); confidence intervals widen as horizon grows</li>
+<li>AIC = 178.14, AICc = 179.86, BIC = 180.81 (used for model comparison — to be discussed next class)</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="summary-points" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Summary Points</h1>
+<ul>
+<li><strong>Always verify</strong> you have a time series before analysis — check for equally spaced observations.</li>
+<li><strong>Always plot first</strong> to visually identify trend, seasonality type (additive/multiplicative), and potential cycles.</li>
+<li><strong>Decompose</strong> your data using <code>decompose()</code> or <code>stl()</code> and <strong>examine the residual panel</strong> — this is your primary diagnostic tool for model selection.</li>
+<li><strong>Prefer additive</strong> over multiplicative when both seem to work equally well (simpler is better).</li>
+<li><strong>Use log transformation</strong> to convert a multiplicative series to additive before applying STL.</li>
+<li><strong>Residuals should look normal</strong> (mean ≈ 0, symmetric, within ±2 for 95% of values) — this is what enables valid confidence intervals.</li>
+<li><strong>STL</strong> is more robust than <code>decompose()</code> — no missing values, less sensitive to outliers, controllable windows.</li>
+<li><strong>SES</strong> is for data with <em>no trend and no seasonality</em>. α near 1 = short memory (like random walk). α near 0 = long memory (like mean).</li>
+<li><strong>ETS</strong> is the unified family covering SES (ANN), Holt (AAN), and Holt-Winters (AAA or MAM etc.).</li>
+<li>The <strong>classical models family</strong> progresses: SES → Holt → Holt-Winters, adding components (trend, then seasonality) as needed.</li>
+</ul>
+<hr>
+</section>
+<section id="what-was-covered-vs.-what-is-still-pending" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> What Was Covered vs.&nbsp;What Is Still Pending</h1>
+<section id="covered-in-week-4" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="covered-in-week-4"><span class="header-section-number">6.1</span> ✅ Covered in Week 4</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lab 1 walkthrough (kings, births, souvenir)</td>
+<td>Aula_4, Lab_1_SOL.R, Lab_1 handout</td>
+</tr>
+<tr class="even">
+<td>Identifying valid time series</td>
+<td>Aula_4</td>
+</tr>
+<tr class="odd">
+<td>Visual component identification</td>
+<td>Aula_4 + Lecture 2 slides pp.&nbsp;3–4</td>
+</tr>
+<tr class="even">
+<td><code>decompose()</code> — additive vs.&nbsp;multiplicative</td>
+<td>Aula_4 + Lecture 2 p.&nbsp;4, Lab 1 handout p.&nbsp;2</td>
+</tr>
+<tr class="odd">
+<td>Residual analysis (histogram, boxplot, QQ, scatter)</td>
+<td>Aula_4</td>
+</tr>
+<tr class="even">
+<td>STL decomposition overview</td>
+<td>Aula_4 + Lecture 2 slides pp.&nbsp;20–24</td>
+</tr>
+<tr class="odd">
+<td>Seasonal adjustment</td>
+<td>Aula_4 + Lecture 2 slides pp.&nbsp;8–9</td>
+</tr>
+<tr class="even">
+<td>Forecasting with decomposition</td>
+<td>Aula_4 + Lecture 2 slides pp.&nbsp;25–28</td>
+</tr>
+<tr class="odd">
+<td>Simple Exponential Smoothing (SES)</td>
+<td>Aula_4 + Lecture 2 slides pp.&nbsp;30–34</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="started-but-not-finished" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="started-but-not-finished"><span class="header-section-number">6.2</span> ⚠️ Started but NOT Finished</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Where to Check</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Holt Linear Trend method</strong></td>
+<td>Lecture 2 slides pp.&nbsp;38–40 — <strong>READ THESE</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Holt Damped method</strong></td>
+<td>Lecture 2 slides pp.&nbsp;41–42 — <strong>READ THESE</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Prediction error metrics (MAD, MSE, MAPE)</strong></td>
+<td>Lecture 2 slides pp.&nbsp;43–46 — <strong>READ THESE</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Holt-Winters Additive</strong></td>
+<td>Lecture 2 slides pp.&nbsp;48 — <strong>READ THESE</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Holt-Winters Multiplicative</strong></td>
+<td>Lecture 2 slides pp.&nbsp;49–53 — <strong>READ THESE</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Holt-Winters Damped</strong></td>
+<td>Lecture 2 slides pp.&nbsp;54–55 — <strong>READ THESE</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>ETS in R (<code>ets()</code> function)</strong></td>
+<td>Lecture 2 slides pp.&nbsp;57–59 — <strong>READ THESE</strong></td>
+</tr>
+<tr class="even">
+<td><strong>AIC / BIC model selection</strong></td>
+<td>Lecture 2 slides p.&nbsp;36 + to be expanded next class</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="labs-assigned-for-next-week" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="labs-assigned-for-next-week"><span class="header-section-number">6.3</span> 📋 Labs Assigned for Next Week</h2>
+<p>Francisco uploaded these to Canvas:</p>
+<ol type="1">
+<li><strong>Lab 1 Solution</strong> — the R script we went through today (already uploaded as <code>Lab_1_SOL.R</code>)</li>
+<li><strong>Lab 2</strong> — new lab on classical models; datasets include wine industry, air miles, unemployment rates, US accidents, stock market</li>
+<li>The unemployment rates dataset needs to be downloaded from Canvas (it is NOT built into R)</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="annotations-questions-to-revisit" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Annotations / Questions to Revisit</h1>
+<blockquote class="blockquote">
+<p>💬 <em>Add your own notes here as you review the material</em></p>
+</blockquote>
+<ul class="task-list">
+<li><label><input type="checkbox">What exactly is the <code>theta</code> method mentioned at the end of class? Francisco said he would clarify — check next lecture.</label></li>
+<li><label><input type="checkbox">Revisit AIC vs.&nbsp;BIC: what is the difference in penalty term? (To be covered next class)</label></li>
+<li><label><input type="checkbox">Francisco mentioned the <code>window()</code> function for subsetting a TS — check the Lecture 2 slides examples (pp.&nbsp;15–17) for the tourism employment dataset.</label></li>
+<li><label><input type="checkbox">Review the <code>mstl()</code> function — when would you use it over <code>stl()</code>?</label></li>
+<li><label><input type="checkbox">Explore the extra R libraries mentioned at end of class (e.g., splines-based forecasting) — not examinable but good to know.</label></li>
+</ul>
+<hr>
+<p><em>End of Week 4 Study Guide — STAT9005 Time Series</em></p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../time-series/week-3.html" class="pagination-link" aria-label="Week 3">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 3</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../time-series/week-5.html" class="pagination-link" aria-label="Week 5">
+        <span class="nav-page-text">Week 5</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "STAT9005 – Time Series: Week 4 Study Guide"</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Classical Models – Lab Review, Decomposition &amp; Exponential Smoothing"</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Note to self:** These notes combine the Week 4 lecture (Aula_4), the Lab 1 handout, the Lab 1 solution R script, and the Lecture 2 Classical Models slides. Gaps and follow-up slides are flagged throughout.</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Lab 1 walkthrough: Kings, Births, and Souvenirs datasets</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>How to identify a valid time series vs. a non-time-series problem</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Visual identification of time series components (trend, seasonality, residual)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Additive vs. multiplicative decomposition — choosing the right one</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Residual analysis: confirming a good decomposition</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>STL decomposition (Seasonal &amp; Trend decomposition using Loess)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Forecasting using decomposition (naïve + STL-based)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Introduction to Simple Exponential Smoothing (SES)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Overview of the full classical models family (SES → Holt → Holt-Winters)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Upcoming topics: Holt trend methods, Holt-Winters, error metrics, AIC/BIC</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanations</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## Is It Actually a Time Series? — The Kings Dataset</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>Before doing any analysis, you must verify that your data actually qualifies as a time series. The first requirement is **equally spaced observations** — data points must be recorded at regular, consistent intervals.</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>The **Kings dataset** records the ages at death of successive Kings of England. At first glance it looks like sequential data, but it is *not* a time series. Each value is just the age a king happened to die — there is no regular time interval between observations. This is better framed as a **regression problem** (predicting the next king's age at death), not a forecasting problem. Francisco made this distinction explicitly in class: *we forget about the Kings dataset for this module.*</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>The rule of thumb: ask yourself *"Am I predicting future values of a process that unfolds over equally spaced time?"* If yes, it is a time series. If no, it is something else.</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Loading Data and the `ts()` Function</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>In R, raw data loaded with <span class="in">`scan()`</span> is just a numeric vector — it has no time awareness. The <span class="in">`ts()`</span> function wraps that vector with time series metadata.</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Kings — no frequency info needed (annual-ish, frequency = 1 by default)</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>kings <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/misc/kings.dat"</span>, <span class="at">skip =</span> <span class="dv">3</span>)</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>kingstimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(kings)</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Births — monthly data starting January 1946</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>births <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/data/nybirths.dat"</span>)</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>birthstimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(births, <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1946</span>, <span class="dv">1</span>))</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Souvenir sales — monthly data starting January 1987</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>souvenir <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/data/fancy.dat"</span>)</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>souvenirtimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(souvenir, <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1987</span>, <span class="dv">1</span>))</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>The key arguments are:</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`frequency`</span> — number of observations per cycle (12 = monthly, 4 = quarterly, 1 = annual)</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`start`</span> — vector giving the start time, e.g. <span class="in">`c(1946, 1)`</span> means January 1946</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>Always plot immediately after creating the time series object to get your first visual read on the data.</span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(kingstimeseries)</span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(birthstimeseries)</span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(souvenirtimeseries)</span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a><span class="fu">## Identifying Components Visually</span></span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>Every time series is assumed to be a function of up to four components:</span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>$$y_t = f(S_t, T_t, R_t)$$</span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>Where:</span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$y_t$ = observed value at time $t$</span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$S_t$ = **seasonal component** — repeating patterns within a calendar year</span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$T_t$ = **trend-cycle component** — long-run direction (includes multi-year cycles)</span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$R_t$ = **remainder/residual** — everything unexplained (random noise)</span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a>When you plot your data, you are trying to answer three questions visually:</span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>**1. Is there a trend?**  </span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>Look for a consistent upward or downward direction over the full series. The births dataset shows a clear increasing linear trend, interrupted by a notable drop around 1955–1956.</span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a>**2. What type of seasonality is present?**  </span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>Compare the *amplitude* (height) of seasonal swings across different years:</span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If the swings stay roughly the same height → **homogeneous seasonality → use additive model**</span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If the swings grow bigger as the series increases → **increasing/multiplicative seasonality → use multiplicative model**</span>
+<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a>The births dataset shows fairly constant swings → **additive expected**.  </span>
+<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a>The souvenir dataset shows swings that grow year on year → **multiplicative expected**.</span>
+<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a>**3. Are there any cycles?**  </span>
+<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a>Multi-year business or economic cycles are visible as broad wave patterns that stretch beyond a single year. In the tourism employment example from the lecture slides, the 2008–2009 economic crisis created a visible dip and recovery cycle. Cycles are handled by the **damped** parameter in Holt methods.</span>
+<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a><span class="fu">## Decomposition: Additive vs. Multiplicative</span></span>
+<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Two Models</span></span>
+<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a>**Additive** (for constant seasonality):</span>
+<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a>$$y_t = S_t + T_t + R_t$$</span>
+<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-103"><a href="#cb14-103" aria-hidden="true" tabindex="-1"></a>**Multiplicative** (for growing seasonality):</span>
+<span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a>$$y_t = S_t \times T_t \times R_t$$</span>
+<span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a>You can convert multiplicative to additive using a log transformation:</span>
+<span id="cb14-107"><a href="#cb14-107" aria-hidden="true" tabindex="-1"></a>$$\log(y_t) = \log S_t + \log T_t + \log R_t$$</span>
+<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a>This is the **Box-Cox transformation** idea mentioned in class and in the Lecture 2 slides.</span>
+<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a><span class="fu">### Running Decomposition in R</span></span>
+<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a><span class="co"># Additive decomposition (default)</span></span>
+<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a>births.ts.comp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(births.ts)</span>
+<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.comp)</span>
+<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplicative decomposition</span></span>
+<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a>souvenir.ts.comp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(souvenirtimeseries, <span class="at">type =</span> <span class="st">"multiplicative"</span>)</span>
+<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(souvenir.ts.comp)</span>
+<span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-122"><a href="#cb14-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-123"><a href="#cb14-123" aria-hidden="true" tabindex="-1"></a><span class="fu">### What to Look At in the Decomposition Output</span></span>
+<span id="cb14-124"><a href="#cb14-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-125"><a href="#cb14-125" aria-hidden="true" tabindex="-1"></a>The plot shows four panels: **data → trend → seasonal → residual (random)**</span>
+<span id="cb14-126"><a href="#cb14-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-127"><a href="#cb14-127" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Trend panel**: Should show smooth directional movement.</span>
+<span id="cb14-128"><a href="#cb14-128" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Seasonal panel**: Should show a *consistent, repeating* pattern — the same shape each year. This is by definition: the seasonal component is the average of each period (mean of all Januaries, mean of all Februaries, etc.) repeated throughout.</span>
+<span id="cb14-129"><a href="#cb14-129" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Residual panel**: ***This is the most important panel for model selection.*** You want it to look like white noise — no obvious patterns, no trend, no obvious clusters.</span>
+<span id="cb14-130"><a href="#cb14-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-131"><a href="#cb14-131" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Key insight from class:** If the residual panel of your additive decomposition looks like a shrunken version of the original data (you can still see the pattern), it means the model has not captured the structure properly. Switch to multiplicative.</span></span>
+<span id="cb14-132"><a href="#cb14-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-133"><a href="#cb14-133" aria-hidden="true" tabindex="-1"></a><span class="fu">### Missing Values in Decomposition</span></span>
+<span id="cb14-134"><a href="#cb14-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-135"><a href="#cb14-135" aria-hidden="true" tabindex="-1"></a>The classical <span class="in">`decompose()`</span> function uses a **centred moving average** to estimate the trend. Because this requires averaging neighbouring values symmetrically, it cannot produce estimates for the first and last $p/2$ observations (where $p$ is the frequency). For monthly data ($p = 12$), you lose 6 observations at each end of the trend and residual components.</span>
+<span id="cb14-136"><a href="#cb14-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-137"><a href="#cb14-137" aria-hidden="true" tabindex="-1"></a><span class="fu">## Residual Analysis — Confirming Your Model</span></span>
+<span id="cb14-138"><a href="#cb14-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-139"><a href="#cb14-139" aria-hidden="true" tabindex="-1"></a>Once you have chosen a decomposition, extract the residuals and check four things:</span>
+<span id="cb14-140"><a href="#cb14-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-141"><a href="#cb14-141" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-142"><a href="#cb14-142" aria-hidden="true" tabindex="-1"></a>residuals <span class="ot">&lt;-</span> births.ts.comp<span class="sc">$</span>random</span>
+<span id="cb14-143"><a href="#cb14-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove NAs introduced by moving average</span></span>
+<span id="cb14-144"><a href="#cb14-144" aria-hidden="true" tabindex="-1"></a>residuals_clean <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(residuals)</span>
+<span id="cb14-145"><a href="#cb14-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-146"><a href="#cb14-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-147"><a href="#cb14-147" aria-hidden="true" tabindex="-1"></a>**1. Mean ≈ 0 and Mean ≈ Median (symmetry)**</span>
+<span id="cb14-148"><a href="#cb14-148" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-149"><a href="#cb14-149" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(residuals_clean)</span>
+<span id="cb14-150"><a href="#cb14-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-151"><a href="#cb14-151" aria-hidden="true" tabindex="-1"></a>If mean and median are close to zero and close to each other, the residuals are approximately symmetric.</span>
+<span id="cb14-152"><a href="#cb14-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-153"><a href="#cb14-153" aria-hidden="true" tabindex="-1"></a>**2. Histogram — should look bell-shaped**</span>
+<span id="cb14-154"><a href="#cb14-154" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-155"><a href="#cb14-155" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(residuals_clean, <span class="at">main =</span> <span class="st">"Residuals"</span>, <span class="at">xlab =</span> <span class="st">"Residual value"</span>)</span>
+<span id="cb14-156"><a href="#cb14-156" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-157"><a href="#cb14-157" aria-hidden="true" tabindex="-1"></a>A good residual histogram is roughly symmetric, centred near zero.</span>
+<span id="cb14-158"><a href="#cb14-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-159"><a href="#cb14-159" aria-hidden="true" tabindex="-1"></a>**3. Scatter plot / time plot — should look random**</span>
+<span id="cb14-160"><a href="#cb14-160" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-161"><a href="#cb14-161" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(residuals_clean, <span class="at">main =</span> <span class="st">"Residuals over time"</span>)</span>
+<span id="cb14-162"><a href="#cb14-162" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb14-163"><a href="#cb14-163" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-164"><a href="#cb14-164" aria-hidden="true" tabindex="-1"></a>About 95% of standardised values should fall within ±2 and 99% within ±4.</span>
+<span id="cb14-165"><a href="#cb14-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-166"><a href="#cb14-166" aria-hidden="true" tabindex="-1"></a>**4. QQ plot — checks normality**</span>
+<span id="cb14-167"><a href="#cb14-167" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-168"><a href="#cb14-168" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(residuals_clean)</span>
+<span id="cb14-169"><a href="#cb14-169" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(residuals_clean, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb14-170"><a href="#cb14-170" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-171"><a href="#cb14-171" aria-hidden="true" tabindex="-1"></a>Points should sit close to the red diagonal line, especially in the central ±2 range. Small departures at the tails are acceptable.</span>
+<span id="cb14-172"><a href="#cb14-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-173"><a href="#cb14-173" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Why does this matter?** The residual distribution is what generates your **confidence intervals**. If your residuals follow a normal distribution centred on zero, you can construct statistically valid prediction intervals. If they don't, your confidence intervals are unreliable.</span></span>
+<span id="cb14-174"><a href="#cb14-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-175"><a href="#cb14-175" aria-hidden="true" tabindex="-1"></a><span class="fu">## STL Decomposition</span></span>
+<span id="cb14-176"><a href="#cb14-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-177"><a href="#cb14-177" aria-hidden="true" tabindex="-1"></a>**STL** = **S**easonal and **T**rend decomposition using **L**oess (locally weighted regression)</span>
+<span id="cb14-178"><a href="#cb14-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-179"><a href="#cb14-179" aria-hidden="true" tabindex="-1"></a>Instead of calculating a simple moving average for the trend, STL fits a local regression line through small windows of data, sliding that window across the entire series. This avoids missing values at the ends.</span>
+<span id="cb14-180"><a href="#cb14-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-181"><a href="#cb14-181" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-182"><a href="#cb14-182" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb14-183"><a href="#cb14-183" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">s.window =</span> <span class="dv">7</span>)</span>
+<span id="cb14-184"><a href="#cb14-184" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fit) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"year"</span>)</span>
+<span id="cb14-185"><a href="#cb14-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-186"><a href="#cb14-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-187"><a href="#cb14-187" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Parameters</span></span>
+<span id="cb14-188"><a href="#cb14-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-189"><a href="#cb14-189" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parameter <span class="pp">|</span> What it controls <span class="pp">|</span></span>
+<span id="cb14-190"><a href="#cb14-190" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------|-----------------|</span></span>
+<span id="cb14-191"><a href="#cb14-191" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`s.window`</span> <span class="pp">|</span> Controls variation in the seasonal component. Use <span class="in">`"periodic"`</span> to fix the season as constant. <span class="pp">|</span></span>
+<span id="cb14-192"><a href="#cb14-192" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`t.window`</span> <span class="pp">|</span> Controls smoothness of the trend. Larger = smoother trend. <span class="pp">|</span></span>
+<span id="cb14-193"><a href="#cb14-193" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`robust = TRUE`</span> <span class="pp">|</span> Makes estimation resistant to outliers. <span class="pp">|</span></span>
+<span id="cb14-194"><a href="#cb14-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-195"><a href="#cb14-195" aria-hidden="true" tabindex="-1"></a><span class="fu">### Choosing the Right `s.window`</span></span>
+<span id="cb14-196"><a href="#cb14-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-197"><a href="#cb14-197" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Too small** (e.g. 5): The seasonal component is allowed to change too much → it absorbs signal that should be in the trend or residual.</span>
+<span id="cb14-198"><a href="#cb14-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**`"periodic"`** (recommended default): Forces the seasonal component to repeat identically every year — matches our theoretical definition of seasonality.</span>
+<span id="cb14-199"><a href="#cb14-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-200"><a href="#cb14-200" aria-hidden="true" tabindex="-1"></a>As shown in the lecture slides, using <span class="in">`s.window = "periodic"`</span> usually gives a cleaner, more constant seasonal component and a more random-looking remainder.</span>
+<span id="cb14-201"><a href="#cb14-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-202"><a href="#cb14-202" aria-hidden="true" tabindex="-1"></a><span class="fu">### Advantages and Disadvantages of STL</span></span>
+<span id="cb14-203"><a href="#cb14-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-204"><a href="#cb14-204" aria-hidden="true" tabindex="-1"></a>**Advantages:**</span>
+<span id="cb14-205"><a href="#cb14-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-206"><a href="#cb14-206" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Robust to outliers (when <span class="in">`robust = TRUE`</span>)</span>
+<span id="cb14-207"><a href="#cb14-207" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No missing values at series ends</span>
+<span id="cb14-208"><a href="#cb14-208" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Can handle seasonal component that changes gradually over time</span>
+<span id="cb14-209"><a href="#cb14-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>User can control how smooth the trend and seasonal extraction are</span>
+<span id="cb14-210"><a href="#cb14-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-211"><a href="#cb14-211" aria-hidden="true" tabindex="-1"></a>**Disadvantages:**</span>
+<span id="cb14-212"><a href="#cb14-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-213"><a href="#cb14-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No calendar effect (cannot model Easter, public holidays that shift dates each year)</span>
+<span id="cb14-214"><a href="#cb14-214" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Only handles **additive** models natively (apply <span class="in">`log()`</span> transform first for multiplicative data)</span>
+<span id="cb14-215"><a href="#cb14-215" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Only handles **one** seasonal period (use <span class="in">`mstl()`</span> for multiple seasonalities)</span>
+<span id="cb14-216"><a href="#cb14-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-217"><a href="#cb14-217" aria-hidden="true" tabindex="-1"></a><span class="fu">### Useful STL-related R Functions</span></span>
+<span id="cb14-218"><a href="#cb14-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-219"><a href="#cb14-219" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-220"><a href="#cb14-220" aria-hidden="true" tabindex="-1"></a><span class="fu">seasonal</span>(fit)     <span class="co"># Extract seasonal component</span></span>
+<span id="cb14-221"><a href="#cb14-221" aria-hidden="true" tabindex="-1"></a><span class="fu">trendcycle</span>(fit)   <span class="co"># Extract trend-cycle component</span></span>
+<span id="cb14-222"><a href="#cb14-222" aria-hidden="true" tabindex="-1"></a><span class="fu">remainder</span>(fit)    <span class="co"># Extract residual component</span></span>
+<span id="cb14-223"><a href="#cb14-223" aria-hidden="true" tabindex="-1"></a><span class="fu">seasadj</span>(fit)      <span class="co"># Seasonally adjusted series (= data minus seasonal)</span></span>
+<span id="cb14-224"><a href="#cb14-224" aria-hidden="true" tabindex="-1"></a><span class="fu">mstl</span>(x)           <span class="co"># Multiple STL — handles more than one seasonal period</span></span>
+<span id="cb14-225"><a href="#cb14-225" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-226"><a href="#cb14-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-227"><a href="#cb14-227" aria-hidden="true" tabindex="-1"></a><span class="fu">### Seasonal Adjustment</span></span>
+<span id="cb14-228"><a href="#cb14-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-229"><a href="#cb14-229" aria-hidden="true" tabindex="-1"></a>After decomposition, you can strip out the seasonal component to expose the underlying trend more clearly:</span>
+<span id="cb14-230"><a href="#cb14-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-231"><a href="#cb14-231" aria-hidden="true" tabindex="-1"></a>**Additive:** $y_t - S_t = T_t + R_t$</span>
+<span id="cb14-232"><a href="#cb14-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-233"><a href="#cb14-233" aria-hidden="true" tabindex="-1"></a>**Multiplicative:** $y_t / S_t = T_t \times R_t$</span>
+<span id="cb14-234"><a href="#cb14-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-235"><a href="#cb14-235" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a><span class="co"># Additive seasonal adjustment</span></span>
+<span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a>births.ts.sadj <span class="ot">&lt;-</span> births.ts <span class="sc">-</span> births.ts.comp<span class="sc">$</span>seasonal</span>
+<span id="cb14-238"><a href="#cb14-238" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.sadj)</span>
+<span id="cb14-239"><a href="#cb14-239" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-240"><a href="#cb14-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-241"><a href="#cb14-241" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Important caveat (from slides):** Seasonally adjusted series still contain trend AND random noise, so they can look jagged and create "false" ups and downs. The trend-cycle component alone is smoother and better for identifying inflection points.</span></span>
+<span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-243"><a href="#cb14-243" aria-hidden="true" tabindex="-1"></a><span class="fu">## Forecasting with Decomposition (Naïve Methods)</span></span>
+<span id="cb14-244"><a href="#cb14-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a>Before using formal models, you can produce simple forecasts directly from decomposition:</span>
+<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **seasonal component** is forecast by repeating the pattern from the last year (naïve seasonal forecast).</span>
+<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **trend-cycle** is forecast using a simple method like naïve (random walk) on the seasonally adjusted series.</span>
+<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The two are **combined** to produce the full forecast.</span>
+<span id="cb14-250"><a href="#cb14-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-251"><a href="#cb14-251" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-252"><a href="#cb14-252" aria-hidden="true" tabindex="-1"></a><span class="co"># STL + naïve forecast</span></span>
+<span id="cb14-253"><a href="#cb14-253" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stl</span>(elecequip, <span class="at">t.window =</span> <span class="dv">13</span>, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span>
+<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">seasadj</span>() <span class="sc">%&gt;%</span> <span class="fu">naive</span>() <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span>
+<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-256"><a href="#cb14-256" aria-hidden="true" tabindex="-1"></a><span class="co"># Or use the stlf() shortcut</span></span>
+<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a>elecequip <span class="sc">%&gt;%</span> <span class="fu">stlf</span>(<span class="at">method =</span> <span class="st">"naive"</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span>
+<span id="cb14-258"><a href="#cb14-258" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a>The confidence intervals come from the residual distribution — another reason clean, normal residuals are important.</span>
+<span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-262"><a href="#cb14-262" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simple Exponential Smoothing (SES)</span></span>
+<span id="cb14-263"><a href="#cb14-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a><span class="fu">### When to Use It</span></span>
+<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a>Use SES when your data:</span>
+<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Has no trend** (or trend is negligible)</span>
+<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Has no seasonality**</span>
+<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Is a confirmed time series (equally spaced)</span>
+<span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Core Idea</span></span>
+<span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a>SES computes a **weighted average of all past observations**, where weights decrease exponentially as you go further back in time. More recent observations get more weight.</span>
+<span id="cb14-275"><a href="#cb14-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-276"><a href="#cb14-276" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Equations</span></span>
+<span id="cb14-277"><a href="#cb14-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-278"><a href="#cb14-278" aria-hidden="true" tabindex="-1"></a>**Forecast equation:**</span>
+<span id="cb14-279"><a href="#cb14-279" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{t+h|t} = \ell_t$$</span>
+<span id="cb14-280"><a href="#cb14-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-281"><a href="#cb14-281" aria-hidden="true" tabindex="-1"></a>**Smoothing (level) equation:**</span>
+<span id="cb14-282"><a href="#cb14-282" aria-hidden="true" tabindex="-1"></a>$$\ell_t = \alpha y_t + (1 - \alpha)\ell_{t-1}$$</span>
+<span id="cb14-283"><a href="#cb14-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-284"><a href="#cb14-284" aria-hidden="true" tabindex="-1"></a>By iterating, this expands to:</span>
+<span id="cb14-285"><a href="#cb14-285" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{T+1|T} = \sum_{j=0}^{T-1} \alpha(1-\alpha)^j y_{T-j} + (1-\alpha)^T \ell_0$$</span>
+<span id="cb14-286"><a href="#cb14-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-287"><a href="#cb14-287" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Smoothing Parameter α</span></span>
+<span id="cb14-288"><a href="#cb14-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-289"><a href="#cb14-289" aria-hidden="true" tabindex="-1"></a>$$0 \leq \alpha \leq 1$$</span>
+<span id="cb14-290"><a href="#cb14-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-291"><a href="#cb14-291" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> α value <span class="pp">|</span> Meaning <span class="pp">|</span></span>
+<span id="cb14-292"><a href="#cb14-292" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|---------|</span></span>
+<span id="cb14-293"><a href="#cb14-293" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Close to **1** <span class="pp">|</span> Short memory — almost all weight on last observation (approaches random walk) <span class="pp">|</span></span>
+<span id="cb14-294"><a href="#cb14-294" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Close to **0** <span class="pp">|</span> Long memory — weights spread far back in history (approaches overall mean) <span class="pp">|</span></span>
+<span id="cb14-295"><a href="#cb14-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-296"><a href="#cb14-296" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Trick for interpretation:** If R estimates α = 0.83 (as in the oil data example), the model has a very short memory — your prediction will be close to your last known value.</span></span>
+<span id="cb14-297"><a href="#cb14-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-298"><a href="#cb14-298" aria-hidden="true" tabindex="-1"></a><span class="fu">### Optimization</span></span>
+<span id="cb14-299"><a href="#cb14-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-300"><a href="#cb14-300" aria-hidden="true" tabindex="-1"></a>α and the initial level $\ell_0$ are chosen by minimising the **Sum of Squared Errors (SSE)**:</span>
+<span id="cb14-301"><a href="#cb14-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-302"><a href="#cb14-302" aria-hidden="true" tabindex="-1"></a>$$\text{SSE} = \sum_{t=1}^{T}(y_t - \hat{y}_{t|t-1})^2 = \sum_{t=1}^{T} e_t^2$$</span>
+<span id="cb14-303"><a href="#cb14-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-304"><a href="#cb14-304" aria-hidden="true" tabindex="-1"></a>This is a **non-linear optimization** problem (unlike OLS regression), so R uses numerical methods.</span>
+<span id="cb14-305"><a href="#cb14-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-306"><a href="#cb14-306" aria-hidden="true" tabindex="-1"></a><span class="fu">### R Code</span></span>
+<span id="cb14-307"><a href="#cb14-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-308"><a href="#cb14-308" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb14-309"><a href="#cb14-309" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a><span class="co"># Method 1: ses() directly</span></span>
+<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> <span class="fu">ses</span>(oildata, <span class="at">h =</span> <span class="dv">5</span>)</span>
+<span id="cb14-313"><a href="#cb14-313" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fc) <span class="sc">+</span> <span class="fu">autolayer</span>(<span class="fu">fitted</span>(fc), <span class="at">series =</span> <span class="st">"Fitted"</span>)</span>
+<span id="cb14-314"><a href="#cb14-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-315"><a href="#cb14-315" aria-hidden="true" tabindex="-1"></a><span class="co"># Method 2: ets() family function — equivalent for SES</span></span>
+<span id="cb14-316"><a href="#cb14-316" aria-hidden="true" tabindex="-1"></a>ses_model <span class="ot">&lt;-</span> <span class="fu">ets</span>(train.ts, <span class="at">model =</span> <span class="st">"ANN"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>)</span>
+<span id="cb14-317"><a href="#cb14-317" aria-hidden="true" tabindex="-1"></a><span class="co"># ANN = Additive error, No trend, No seasonality</span></span>
+<span id="cb14-318"><a href="#cb14-318" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-319"><a href="#cb14-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-320"><a href="#cb14-320" aria-hidden="true" tabindex="-1"></a><span class="fu">### SES Prediction Behaviour</span></span>
+<span id="cb14-321"><a href="#cb14-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-322"><a href="#cb14-322" aria-hidden="true" tabindex="-1"></a>Because SES produces a **flat forecast** (same value for all h steps ahead), the **point forecast never changes** after the last observation. However, the **confidence interval widens** as h increases, because the uncertainty accumulates with each step forward.</span>
+<span id="cb14-323"><a href="#cb14-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-324"><a href="#cb14-324" aria-hidden="true" tabindex="-1"></a><span class="fu">## Overview of All Classical Models</span></span>
+<span id="cb14-325"><a href="#cb14-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-326"><a href="#cb14-326" aria-hidden="true" tabindex="-1"></a>From the lecture, the full family is:</span>
+<span id="cb14-327"><a href="#cb14-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-328"><a href="#cb14-328" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Components Present <span class="pp">|</span> Model <span class="pp">|</span> R Function <span class="pp">|</span></span>
+<span id="cb14-329"><a href="#cb14-329" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb14-330"><a href="#cb14-330" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> No trend, no seasonality <span class="pp">|</span> **Simple Exponential Smoothing (SES)** <span class="pp">|</span> <span class="in">`ses()`</span> or <span class="in">`ets(..., model="ANN")`</span> <span class="pp">|</span></span>
+<span id="cb14-331"><a href="#cb14-331" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Trend only (linear) <span class="pp">|</span> **Holt's Linear Method** <span class="pp">|</span> <span class="in">`holt()`</span> or <span class="in">`ets(..., model="AAN")`</span> <span class="pp">|</span></span>
+<span id="cb14-332"><a href="#cb14-332" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Trend + cycle/damping <span class="pp">|</span> **Holt Damped** <span class="pp">|</span> <span class="in">`holt(..., damped=TRUE)`</span> <span class="pp">|</span></span>
+<span id="cb14-333"><a href="#cb14-333" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Trend + seasonality (constant) <span class="pp">|</span> **Holt-Winters Additive** <span class="pp">|</span> <span class="in">`hw(..., seasonal="additive")`</span> <span class="pp">|</span></span>
+<span id="cb14-334"><a href="#cb14-334" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Trend + seasonality (growing) <span class="pp">|</span> **Holt-Winters Multiplicative** <span class="pp">|</span> <span class="in">`hw(..., seasonal="multiplicative")`</span> <span class="pp">|</span></span>
+<span id="cb14-335"><a href="#cb14-335" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Best of all the above <span class="pp">|</span> **ETS (automatic)** <span class="pp">|</span> <span class="in">`ets()`</span> <span class="pp">|</span></span>
+<span id="cb14-336"><a href="#cb14-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-337"><a href="#cb14-337" aria-hidden="true" tabindex="-1"></a>**ETS** stands for **Error, Trend, Seasonality**. The <span class="in">`ets()`</span> function automatically selects the best model by minimising AICc.</span>
+<span id="cb14-338"><a href="#cb14-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-339"><a href="#cb14-339" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb14-340"><a href="#cb14-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-341"><a href="#cb14-341" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb14-342"><a href="#cb14-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-343"><a href="#cb14-343" aria-hidden="true" tabindex="-1"></a><span class="fu">### Time Series Decomposition</span></span>
+<span id="cb14-344"><a href="#cb14-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-345"><a href="#cb14-345" aria-hidden="true" tabindex="-1"></a>$$y_t = S_t + T_t + R_t \quad \text{(Additive)}$$</span>
+<span id="cb14-346"><a href="#cb14-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-347"><a href="#cb14-347" aria-hidden="true" tabindex="-1"></a>$$y_t = S_t \times T_t \times R_t \quad \text{(Multiplicative)}$$</span>
+<span id="cb14-348"><a href="#cb14-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-349"><a href="#cb14-349" aria-hidden="true" tabindex="-1"></a><span class="fu">### Simple Moving Average (used internally in `decompose()`)</span></span>
+<span id="cb14-350"><a href="#cb14-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-351"><a href="#cb14-351" aria-hidden="true" tabindex="-1"></a>$$F_t = MA_p = \frac{\sum_{i=1}^{p} D_i}{p}$$</span>
+<span id="cb14-352"><a href="#cb14-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-353"><a href="#cb14-353" aria-hidden="true" tabindex="-1"></a>Where $F_t$ = prediction, $D_i$ = observation, $p$ = periodicity (frequency)</span>
+<span id="cb14-354"><a href="#cb14-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-355"><a href="#cb14-355" aria-hidden="true" tabindex="-1"></a><span class="fu">### SES Prediction Equation (expanded)</span></span>
+<span id="cb14-356"><a href="#cb14-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-357"><a href="#cb14-357" aria-hidden="true" tabindex="-1"></a>$$\hat{y}_{T+1|T} = \alpha y_T + \alpha(1-\alpha)y_{T-1} + \alpha(1-\alpha)^2 y_{T-2} + \cdots \quad 0 \leq \alpha \leq 1$$</span>
+<span id="cb14-358"><a href="#cb14-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-359"><a href="#cb14-359" aria-hidden="true" tabindex="-1"></a><span class="fu">### SSE Optimization</span></span>
+<span id="cb14-360"><a href="#cb14-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-361"><a href="#cb14-361" aria-hidden="true" tabindex="-1"></a>$$\text{SSE} = \sum_{t=1}^{T}(y_t - \hat{y}_{t|t-1})^2$$</span>
+<span id="cb14-362"><a href="#cb14-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-363"><a href="#cb14-363" aria-hidden="true" tabindex="-1"></a><span class="fu">### Prediction Error Metrics (mentioned, to be covered next class)</span></span>
+<span id="cb14-364"><a href="#cb14-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-365"><a href="#cb14-365" aria-hidden="true" tabindex="-1"></a>$$\text{MAD} = \frac{\sum |Y_t - F_t|}{n}$$</span>
+<span id="cb14-366"><a href="#cb14-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-367"><a href="#cb14-367" aria-hidden="true" tabindex="-1"></a>$$\text{MSE} = \frac{\sum (Y_t - F_t)^2}{n-1}$$</span>
+<span id="cb14-368"><a href="#cb14-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-369"><a href="#cb14-369" aria-hidden="true" tabindex="-1"></a>$$\text{MAPE} = \frac{1}{n} \sum \left|\frac{Y_t - F_t}{Y_t}\right| \times 100$$</span>
+<span id="cb14-370"><a href="#cb14-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-371"><a href="#cb14-371" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb14-372"><a href="#cb14-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-373"><a href="#cb14-373" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Examples from Class</span></span>
+<span id="cb14-374"><a href="#cb14-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-375"><a href="#cb14-375" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example 1 — Births Dataset (Additive)</span></span>
+<span id="cb14-376"><a href="#cb14-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-377"><a href="#cb14-377" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Visual check**: Increasing trend, constant seasonal amplitude → expect additive</span>
+<span id="cb14-378"><a href="#cb14-378" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Decompose**: Both additive and multiplicative residuals look random, but additive is simpler → **choose additive**</span>
+<span id="cb14-379"><a href="#cb14-379" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Residual check**: Mean ≈ Median ≈ 0, histogram is roughly normal, scatter plot is noisy within ±2 → **decomposition confirmed as valid**</span>
+<span id="cb14-380"><a href="#cb14-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-381"><a href="#cb14-381" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example 2 — Souvenir Dataset (Multiplicative)</span></span>
+<span id="cb14-382"><a href="#cb14-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-383"><a href="#cb14-383" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Visual check**: Increasing trend, *growing* seasonal amplitude → expect multiplicative</span>
+<span id="cb14-384"><a href="#cb14-384" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Decompose additive**: Residual panel shows the same trend/seasonal pattern as the original data → **additive decomposition is bad**</span>
+<span id="cb14-385"><a href="#cb14-385" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Decompose multiplicative**: Residual panel looks much more random → **multiplicative confirmed**</span>
+<span id="cb14-386"><a href="#cb14-386" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Residual check for additive**: Mean ≈ −270, Median ≈ 98 (very different), histogram skewed → model inadequate</span>
+<span id="cb14-387"><a href="#cb14-387" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Residual check for multiplicative**: Mean ≈ Median, histogram roughly symmetric, QQ plot shows minor tail departures only → **model is valid**</span>
+<span id="cb14-388"><a href="#cb14-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-389"><a href="#cb14-389" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example 3 — Oil Data (SES)</span></span>
+<span id="cb14-390"><a href="#cb14-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-391"><a href="#cb14-391" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Data shows no clear trend or seasonality → SES appropriate</span>
+<span id="cb14-392"><a href="#cb14-392" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>R estimates α = 0.8339 → short memory data</span>
+<span id="cb14-393"><a href="#cb14-393" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Point forecast is flat (constant); confidence intervals widen as horizon grows</span>
+<span id="cb14-394"><a href="#cb14-394" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>AIC = 178.14, AICc = 179.86, BIC = 180.81 (used for model comparison — to be discussed next class)</span>
+<span id="cb14-395"><a href="#cb14-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-396"><a href="#cb14-396" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb14-397"><a href="#cb14-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-398"><a href="#cb14-398" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb14-399"><a href="#cb14-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-400"><a href="#cb14-400" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Always verify** you have a time series before analysis — check for equally spaced observations.</span>
+<span id="cb14-401"><a href="#cb14-401" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Always plot first** to visually identify trend, seasonality type (additive/multiplicative), and potential cycles.</span>
+<span id="cb14-402"><a href="#cb14-402" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Decompose** your data using `decompose()` or `stl()` and **examine the residual panel** — this is your primary diagnostic tool for model selection.</span>
+<span id="cb14-403"><a href="#cb14-403" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prefer additive** over multiplicative when both seem to work equally well (simpler is better).</span>
+<span id="cb14-404"><a href="#cb14-404" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Use log transformation** to convert a multiplicative series to additive before applying STL.</span>
+<span id="cb14-405"><a href="#cb14-405" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Residuals should look normal** (mean ≈ 0, symmetric, within ±2 for 95% of values) — this is what enables valid confidence intervals.</span>
+<span id="cb14-406"><a href="#cb14-406" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**STL** is more robust than <span class="in">`decompose()`</span> — no missing values, less sensitive to outliers, controllable windows.</span>
+<span id="cb14-407"><a href="#cb14-407" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**SES** is for data with *no trend and no seasonality*. α near 1 = short memory (like random walk). α near 0 = long memory (like mean).</span>
+<span id="cb14-408"><a href="#cb14-408" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**ETS** is the unified family covering SES (ANN), Holt (AAN), and Holt-Winters (AAA or MAM etc.).</span>
+<span id="cb14-409"><a href="#cb14-409" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **classical models family** progresses: SES → Holt → Holt-Winters, adding components (trend, then seasonality) as needed.</span>
+<span id="cb14-410"><a href="#cb14-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-411"><a href="#cb14-411" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb14-412"><a href="#cb14-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-413"><a href="#cb14-413" aria-hidden="true" tabindex="-1"></a><span class="fu"># What Was Covered vs. What Is Still Pending</span></span>
+<span id="cb14-414"><a href="#cb14-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-415"><a href="#cb14-415" aria-hidden="true" tabindex="-1"></a><span class="fu">## ✅ Covered in Week 4</span></span>
+<span id="cb14-416"><a href="#cb14-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-417"><a href="#cb14-417" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Source <span class="pp">|</span></span>
+<span id="cb14-418"><a href="#cb14-418" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb14-419"><a href="#cb14-419" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Lab 1 walkthrough (kings, births, souvenir) <span class="pp">|</span> Aula_4, Lab_1_SOL.R, Lab_1 handout <span class="pp">|</span></span>
+<span id="cb14-420"><a href="#cb14-420" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Identifying valid time series <span class="pp">|</span> Aula_4 <span class="pp">|</span></span>
+<span id="cb14-421"><a href="#cb14-421" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Visual component identification <span class="pp">|</span> Aula_4 + Lecture 2 slides pp. 3–4 <span class="pp">|</span></span>
+<span id="cb14-422"><a href="#cb14-422" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`decompose()`</span> — additive vs. multiplicative <span class="pp">|</span> Aula_4 + Lecture 2 p. 4, Lab 1 handout p. 2 <span class="pp">|</span></span>
+<span id="cb14-423"><a href="#cb14-423" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Residual analysis (histogram, boxplot, QQ, scatter) <span class="pp">|</span> Aula_4 <span class="pp">|</span></span>
+<span id="cb14-424"><a href="#cb14-424" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> STL decomposition overview <span class="pp">|</span> Aula_4 + Lecture 2 slides pp. 20–24 <span class="pp">|</span></span>
+<span id="cb14-425"><a href="#cb14-425" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Seasonal adjustment <span class="pp">|</span> Aula_4 + Lecture 2 slides pp. 8–9 <span class="pp">|</span></span>
+<span id="cb14-426"><a href="#cb14-426" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Forecasting with decomposition <span class="pp">|</span> Aula_4 + Lecture 2 slides pp. 25–28 <span class="pp">|</span></span>
+<span id="cb14-427"><a href="#cb14-427" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Simple Exponential Smoothing (SES) <span class="pp">|</span> Aula_4 + Lecture 2 slides pp. 30–34 <span class="pp">|</span></span>
+<span id="cb14-428"><a href="#cb14-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-429"><a href="#cb14-429" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚠️ Started but NOT Finished</span></span>
+<span id="cb14-430"><a href="#cb14-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-431"><a href="#cb14-431" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Where to Check <span class="pp">|</span></span>
+<span id="cb14-432"><a href="#cb14-432" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb14-433"><a href="#cb14-433" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt Linear Trend method** | Lecture 2 slides pp. 38–40 — **READ THESE** <span class="pp">|</span></span>
+<span id="cb14-434"><a href="#cb14-434" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt Damped method** | Lecture 2 slides pp. 41–42 — **READ THESE** <span class="pp">|</span></span>
+<span id="cb14-435"><a href="#cb14-435" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Prediction error metrics (MAD, MSE, MAPE)** | Lecture 2 slides pp. 43–46 — **READ THESE** <span class="pp">|</span></span>
+<span id="cb14-436"><a href="#cb14-436" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt-Winters Additive** | Lecture 2 slides pp. 48 — **READ THESE** <span class="pp">|</span></span>
+<span id="cb14-437"><a href="#cb14-437" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt-Winters Multiplicative** | Lecture 2 slides pp. 49–53 — **READ THESE** <span class="pp">|</span></span>
+<span id="cb14-438"><a href="#cb14-438" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt-Winters Damped** | Lecture 2 slides pp. 54–55 — **READ THESE** <span class="pp">|</span></span>
+<span id="cb14-439"><a href="#cb14-439" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **ETS in R (`ets()` function)** | Lecture 2 slides pp. 57–59 — **READ THESE** <span class="pp">|</span></span>
+<span id="cb14-440"><a href="#cb14-440" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AIC / BIC model selection** <span class="pp">|</span> Lecture 2 slides p. 36 + to be expanded next class <span class="pp">|</span></span>
+<span id="cb14-441"><a href="#cb14-441" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-442"><a href="#cb14-442" aria-hidden="true" tabindex="-1"></a><span class="fu">## 📋 Labs Assigned for Next Week</span></span>
+<span id="cb14-443"><a href="#cb14-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-444"><a href="#cb14-444" aria-hidden="true" tabindex="-1"></a>Francisco uploaded these to Canvas:</span>
+<span id="cb14-445"><a href="#cb14-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-446"><a href="#cb14-446" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Lab 1 Solution** — the R script we went through today (already uploaded as <span class="in">`Lab_1_SOL.R`</span>)</span>
+<span id="cb14-447"><a href="#cb14-447" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Lab 2** — new lab on classical models; datasets include wine industry, air miles, unemployment rates, US accidents, stock market</span>
+<span id="cb14-448"><a href="#cb14-448" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The unemployment rates dataset needs to be downloaded from Canvas (it is NOT built into R)</span>
+<span id="cb14-449"><a href="#cb14-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-450"><a href="#cb14-450" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb14-451"><a href="#cb14-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-452"><a href="#cb14-452" aria-hidden="true" tabindex="-1"></a><span class="fu"># Annotations / Questions to Revisit</span></span>
+<span id="cb14-453"><a href="#cb14-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-454"><a href="#cb14-454" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💬 *Add your own notes here as you review the material*</span></span>
+<span id="cb14-455"><a href="#cb14-455" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-456"><a href="#cb14-456" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> What exactly is the <span class="in">`theta`</span> method mentioned at the end of class? Francisco said he would clarify — check next lecture.</span>
+<span id="cb14-457"><a href="#cb14-457" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Revisit AIC vs. BIC: what is the difference in penalty term? (To be covered next class)</span>
+<span id="cb14-458"><a href="#cb14-458" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Francisco mentioned the <span class="in">`window()`</span> function for subsetting a TS — check the Lecture 2 slides examples (pp. 15–17) for the tourism employment dataset.</span>
+<span id="cb14-459"><a href="#cb14-459" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Review the <span class="in">`mstl()`</span> function — when would you use it over <span class="in">`stl()`</span>?</span>
+<span id="cb14-460"><a href="#cb14-460" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Explore the extra R libraries mentioned at end of class (e.g., splines-based forecasting) — not examinable but good to know.</span>
+<span id="cb14-461"><a href="#cb14-461" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-462"><a href="#cb14-462" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb14-463"><a href="#cb14-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-464"><a href="#cb14-464" aria-hidden="true" tabindex="-1"></a>*End of Week 4 Study Guide — STAT9005 Time Series*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

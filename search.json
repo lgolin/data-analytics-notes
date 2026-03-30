@@ -839,6 +839,162 @@
     ]
   },
   {
+    "objectID": "data-mining/week-6.html",
+    "href": "data-mining/week-6.html",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "",
+    "text": "NoteAbout These Notes\n\n\n\nThese notes are a beginner-friendly summary of Week 6 content from STAT9013. They cover Gradient Boosted Machines, Data Leakage, Sampling & Cross-Validation, Imbalanced Datasets, and an introduction to R Shiny. Leave space below each section for your own annotations and questions.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#gradient-boosted-machines-gbms",
+    "href": "data-mining/week-6.html#gradient-boosted-machines-gbms",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "2.1 Gradient Boosted Machines (GBMs)",
+    "text": "2.1 Gradient Boosted Machines (GBMs)\n\n2.1.1 What are they?\nGradient Boosted Machines (GBMs) are a family of machine learning algorithms that are among the most powerful tools available today. Together with Random Forests, GBMs tend to outperform most other algorithms on tabular data.\nBoth Random Forest and GBMs use many decision trees internally, but they build them in very different ways:\n\n\n\n\n\n\n\n\n\nRandom Forest\nGBM\n\n\n\n\nHow trees are built\nIndependently, all at the same time\nSequentially — one after the other\n\n\nHow data is selected\nBagging (random sampling with replacement)\nFocuses on errors from the previous tree\n\n\nEasy to interpret?\nSomewhat (feature importance available)\nNo — very difficult to interpret\n\n\nSpeed\nFaster (trees can be built in parallel)\nSlower (trees must be built one by one)\n\n\n\n\n\n2.1.2 Bagging (for Random Forest)\nBagging is short for Bootstrap Aggregating. The idea is to randomly select rows from your dataset with replacement (meaning the same row can be picked more than once). If you have 100 rows and you sample 100 rows with replacement, approximately 63% of rows will be unique — the rest are duplicates. This gives each decision tree a slightly different view of the data.\n\n\n2.1.3 How GBMs work (step by step)\n\nTrain the first decision tree on the full training data\nLook at which records the model got wrong (the errors, called residuals)\nBuild a second decision tree that focuses on those errors\nRepeat: each new tree tries to fix the mistakes of the previous tree\nCombine all trees to make the final prediction\n\n\n💡 Analogy: Imagine a student taking a practice test, then reviewing only the questions they got wrong, then taking another test focused on those weak areas. GBMs do exactly this, but with decision trees.\n\n\n\n2.1.4 Disadvantages of GBMs\n\nHard to interpret — you cannot easily see which features matter most\nComputationally expensive — trees must be built one by one (cannot be parallelised)\nRequire numeric input — all data must be converted to numbers first (using one-hot encoding)\nBenefit a lot from hyperparameter tuning (unlike Random Forests which often work well “out of the box”)\n\n\n\n2.1.5 R Code: Fitting a GBM with LightGBM\nlibrary(lightgbm)\n\n# Step 1: One-hot encode the training data (GBMs need all-numeric input)\ndmy &lt;- dummyVars(\" ~ .\", data = train_data)\ntrsf &lt;- data.frame(predict(dmy, newdata = train_data))\ntesf &lt;- data.frame(predict(dmy, newdata = test_data))\ntesf$Survived &lt;- NULL  # Remove the target from test data\n\n# Step 2: Separate the target (label) from the features\nlabels &lt;- trsf$Survived\ntrsf$Survived &lt;- NULL\n\n# Step 3: Convert to matrix (required by LightGBM)\nm_trsf &lt;- as.matrix(trsf)\n\n# Step 4: Train the GBM model\ngbm_model &lt;- lightgbm(\n  data  = m_trsf,\n  label = labels\n)\n\n# Step 5: Make predictions on the test set\npr &lt;- predict(gbm_model, newdata = as.matrix(tesf))\npr &lt;- ifelse(pr &gt; 0.5, 1, 0)   # Convert probabilities to class labels\npr &lt;- factor(pr, levels = c(1, 0))\n\n# Step 6: Evaluate accuracy\ntab      &lt;- table(pr, actuals)\naccuracy &lt;- 100 * sum(diag(tab) / sum(tab))\nprint(accuracy)  # ~76.7% on the Titanic dataset\n\n\n\n\n\n\nTipYour Notes\n\n\n\nAdd your own observations about GBMs here…",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#data-leakage",
+    "href": "data-mining/week-6.html#data-leakage",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "2.2 Data Leakage",
+    "text": "2.2 Data Leakage\n\n2.2.1 What is it?\nData leakage happens when the data used to train a model contains information about the target variable that would not actually be available at the time you make a real prediction in production.\nThe result: the model looks very accurate during testing, but performs poorly in the real world.\n\n\n2.2.2 Two types of data leakage\n1. Target leakage — a predictor variable was created or updated after the target event occurred.\n\nExample (medical): You are predicting whether a patient has a disease. One of your features is “prescribed antiviral drug X”. But the patient was only prescribed that drug because they were already diagnosed. So this variable was set after the event you are trying to predict.\n\n\nExample (Titanic): We created a fake field called Carpathia (the ship that rescued survivors). If someone is in the Carpathia list, they survived. This field could only be known after the Titanic sank — it cannot be used to predict survival.\n\n2. Data preparation leakage — you use information from the test set to prepare features in the training set.\n\nExample: If you calculate the mean age from the entire dataset (train + test) and use that to fill in missing ages, the test set has “leaked” into your training preparation. You should always calculate statistics like the mean only on the training data, then apply that value to both sets.\n\n\n\n2.2.3 How to spot data leakage\n\nA single feature produces a suspiciously high accuracy by itself\nThe most important feature in your model is something that logically could not be known at prediction time\nYour model is very simple (e.g. only 2–3 splits) but shows very high accuracy\n\n\n\n2.2.4 R Code: Correct way to impute missing values (no leakage)\n# CORRECT: calculate the mean from training data only\nmeanAge &lt;- mean(train_data$Age, na.rm = TRUE)\n\n# Apply that value to BOTH training and test sets\ntrain_data[is.na(train_data$Age), ]$Age &lt;- meanAge\ntest_data[is.na(test_data$Age), ]$Age   &lt;- meanAge\n\n\n\n\n\n\nTipYour Notes\n\n\n\nWrite examples of data leakage you can think of in real life…",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#sampling-and-cross-validation",
+    "href": "data-mining/week-6.html#sampling-and-cross-validation",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "2.3 Sampling and Cross-Validation",
+    "text": "2.3 Sampling and Cross-Validation\n\n2.3.1 The problem with a single train/test split\nWhen we split our data 90% train / 10% test and use set.seed(42) for reproducibility, the results we get depend on which 10% of records end up in the test set. For small datasets, this can cause the reported accuracy to vary a lot depending on the random split.\n# Running the same model with different seeds shows the variability:\n# [1] 80.00  73.33  74.44  77.78  76.67  83.33  81.11  75.56  80.00  71.11  76.67\nThe accuracy above ranges from 71% to 83% — a big swing caused only by which records happened to be in the test set!\n\n\n2.3.2 Why set.seed()?\nUsing set.seed(42) (or any fixed number) at the start of your code ensures that your results are reproducible — anyone who runs your code with the same data will get the same results. The number 42 has no special meaning; it is just a popular choice in the data science community (a reference to The Hitchhiker’s Guide to the Galaxy).\n\n\n2.3.3 Cross-Validation\nK-fold cross-validation is a better way to estimate model accuracy, especially for small datasets. Here is how it works:\n\nSplit your data into k equal groups (called folds)\nTrain k separate models. Each model uses k−1 folds for training and 1 fold for testing\nAverage the accuracy across all k models\n\nThe advantage is that every record gets used for testing exactly once, giving a more stable and unbiased estimate of accuracy.\n\nExample with k=5 (5-fold cross-validation): - Model 1 trains on folds 2,3,4,5 — tests on fold 1 - Model 2 trains on folds 1,3,4,5 — tests on fold 2 - … and so on\n\n\n\n2.3.4 R Code: Cross-Validation with caret\nlibrary(caret)\n\n# Run 5-fold cross-validation using a decision tree (rpart)\nmodel &lt;- train(\n  as.factor(Survived) ~ .,\n  data      = train_data,\n  method    = \"rpart\",\n  trControl = trainControl(method = \"cv\", number = 5)\n)\n\n# Evaluate on the test set\npr       &lt;- predict(model, newdata = test_data, type = \"raw\")\npr       &lt;- factor(pr, levels = c(1, 0))\ntab      &lt;- table(pr, actuals)\naccuracy &lt;- 100 * sum(diag(tab) / sum(tab))\nprint(accuracy)  # ~75.6%\n\n\n\n\n\n\nTipYour Notes\n\n\n\nAdd notes about when you would and would not use cross-validation…",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#imbalanced-datasets",
+    "href": "data-mining/week-6.html#imbalanced-datasets",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "2.4 Imbalanced Datasets",
+    "text": "2.4 Imbalanced Datasets\n\n2.4.1 What is the problem?\nIn many real-world classification problems, one class is much rarer than the other. Examples:\n\nMedical diagnosis: 99% of people screened do not have the disease\nFraud detection: less than 0.1% of transactions are fraudulent\nChurn analysis: most customers stay each month\nOnline advertising: click-through rates can be less than 0.1%\n\nThe problem: most machine learning algorithms assume roughly equal numbers of each class. When the data is imbalanced, the algorithm often just predicts the majority class every time — and still gets a high accuracy!\n\nExample: If 92% of records are “did not survive”, a model that always predicts “did not survive” achieves 92% accuracy — but it is completely useless at finding survivors.\n\n\n\n2.4.2 Three strategies to handle imbalanced data\n\n2.4.2.1 Strategy 1: Change the probability cut-off threshold\nBy default, a model predicts class 1 if the probability is ≥ 0.5. You can lower this threshold so that more records are classified as the minority class.\n# Default threshold: 0.5\n# Increase recall by lowering the threshold to 0.1\npr &lt;- predict(rpart, newdata = test_data)        # Get raw probabilities\npr &lt;- ifelse(pr[, 1] &gt; 0.9, 0, 1)               # Class 0 if P(class=0) &gt; 0.9\npr &lt;- factor(pr, levels = c(1, 0))\n\n\n2.4.2.2 Strategy 2: Assign a higher penalty to minority class errors\nSome algorithms allow you to say: “Penalise a False Negative more heavily than a False Positive.” This forces the model to try harder to detect the rare class.\n# In rpart, use the 'loss' matrix:\n# loss[i,j] = penalty for predicting class j when true class is i\n# Here: False Negatives (predicting 0 when truth is 1) cost 5x more than False Positives\nrpart_model &lt;- rpart(\n  Survived ~ .,\n  data   = train_data,\n  method = \"class\",\n  parms  = list(loss = matrix(c(0, 1, 5, 0), byrow = TRUE, nrow = 2))\n)\n\n\n2.4.2.3 Strategy 3: Resampling the training data\nThe most widely used approach is to change the training data itself so the classes are more balanced:\n\nUpsampling (oversampling): duplicate rows from the minority class until it matches the majority class size\nDownsampling (undersampling): remove rows from the majority class\n\n# Split training data by class\ntrain_data0 &lt;- train_data[train_data$Survived == 0, ]  # Majority class (549 rows)\ntrain_data1 &lt;- train_data[train_data$Survived == 1, ]  # Minority class (40 rows)\n\nnrows &lt;- 300  # Target size for each class\n\n# Downsample the majority class (take 300 from 494)\nsample0     &lt;- sample(nrow(train_data0), nrows)\ntrain_data0 &lt;- train_data0[sample0, ]\n\n# Upsample the minority class (take 300 from 40, with replacement = duplicates)\nsample1     &lt;- sample(nrow(train_data1), nrows, replace = TRUE)\ntrain_data1 &lt;- train_data1[sample1, ]\n\n# Combine and shuffle\ntrain_data &lt;- rbind(train_data0, train_data1)\ntrain_data &lt;- train_data[sample(nrow(train_data)), ]  # Shuffle rows\n\ntable(train_data$Survived)\n# 0   1\n# 300 300  &lt;-- Now balanced!\n\n\n\n2.4.3 The Precision–Recall Trade-Off\nWhen you try to increase recall (finding more of the minority class), you will usually decrease precision (some of your positive predictions will be wrong). This is a fundamental trade-off.\n\n\n\n\n\n\n\nTerm\nPlain English\n\n\n\n\nRecall (Sensitivity)\nOf all the actual positives, how many did the model find?\n\n\nPrecision\nOf all the records the model flagged as positive, how many were actually positive?\n\n\nHigh recall, low precision\nFind most of the sick/fraud cases, but also flag many healthy/legitimate ones\n\n\nLow recall, high precision\nOnly flag cases you are very sure about, but miss many real positives\n\n\n\n\n💡 A business user may say: “I need the model to find as many fraud cases as possible. We will then review them manually.” This means they want high recall, and they accept that some clean transactions will also be flagged for manual review.\n\n\n\n\n\n\n\nImportantKey Insight: Accuracy Is Not Always the Right Goal\n\n\n\nWhen data is imbalanced and you care about the rare class, accuracy is a misleading metric. Focus on recall (and precision) instead.\n\n\n\n\n\n\n\n\nTipYour Notes\n\n\n\nCan you think of a business problem where you would want high precision instead of high recall?",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#r-shiny-introduction",
+    "href": "data-mining/week-6.html#r-shiny-introduction",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "2.5 R Shiny (Introduction)",
+    "text": "2.5 R Shiny (Introduction)\nR Shiny is an R framework for building interactive web applications. It allows you to:\n\nCreate web dashboards and visualisations without knowing HTML/CSS/JavaScript\nLet users interact with the data in real time (sliders, dropdowns, inputs)\nShare your analysis as a live web link\n\n\n2.5.1 How to create your first Shiny app\n\nIn RStudio: File → New File → Shiny Web App\nGive your app a name (e.g. my_shiny_app)\nSelect Multiple File\nClick Create\nClick Run App and then Open in Browser\n\nYou will see a working histogram app where a slider controls the number of bins — and the graph updates in real time.\n\n\n2.5.2 Useful resources\n\n\n\nResource\nLink\n\n\n\n\nShiny tutorial\nhttps://shiny.posit.co/r/getstarted/shiny-basics/lesson1/index.html\n\n\nShiny gallery (examples + code)\nhttps://shiny.posit.co/r/gallery/\n\n\nMastering Shiny (free book)\nhttps://mastering-shiny.org/index.html\n\n\nDashboard examples\nhttps://rstudio.github.io/shinydashboard/examples.html\n\n\n\n\n\n\n\n\n\nTipYour Notes\n\n\n\nWhat kind of data would you like to visualise with a Shiny app?",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#accuracy",
+    "href": "data-mining/week-6.html#accuracy",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "3.1 Accuracy",
+    "text": "3.1 Accuracy\n\\[\n\\text{Accuracy} = \\frac{\\text{Correct predictions}}{\\text{Total predictions}} \\times 100\n\\]",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#precision",
+    "href": "data-mining/week-6.html#precision",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "3.2 Precision",
+    "text": "3.2 Precision\n\\[\n\\text{Precision} = \\frac{TP}{TP + FP}\n\\]",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#recall-sensitivity",
+    "href": "data-mining/week-6.html#recall-sensitivity",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "3.3 Recall (Sensitivity)",
+    "text": "3.3 Recall (Sensitivity)\n\\[\n\\text{Recall} = \\frac{TP}{TP + FN}\n\\]\nWhere:\n\nTP = True Positives (correctly predicted positives)\nFP = False Positives (predicted positive, actually negative)\nFN = False Negatives (predicted negative, actually positive)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#example-1-gbm-on-the-titanic-dataset",
+    "href": "data-mining/week-6.html#example-1-gbm-on-the-titanic-dataset",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "4.1 Example 1: GBM on the Titanic Dataset",
+    "text": "4.1 Example 1: GBM on the Titanic Dataset\nThe lightgbm package was used to train a Gradient Boosted Machine on the Titanic survival dataset. After one-hot encoding all categorical variables and converting to a matrix, the model achieved approximately 76.7% accuracy on the test set.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#example-2-data-leakage-the-carpathia-field",
+    "href": "data-mining/week-6.html#example-2-data-leakage-the-carpathia-field",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "4.2 Example 2: Data Leakage — the Carpathia Field",
+    "text": "4.2 Example 2: Data Leakage — the Carpathia Field\nA fake field Carpathia was added to the Titanic dataset. This field was strongly correlated with survival (survivors boarded the rescue ship Carpathia). Including this field:\n\nBoosted accuracy from ~76% to 91%\nProduced a very simple decision tree using only 3 variables\nThe top split was Carpathia = yes/no — a clear warning sign\n\nLesson: Always ask: Could this variable have been recorded before the event I am predicting?",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#example-3-cross-validation-stability",
+    "href": "data-mining/week-6.html#example-3-cross-validation-stability",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "4.3 Example 3: Cross-Validation Stability",
+    "text": "4.3 Example 3: Cross-Validation Stability\nRunning the same decision tree model with 10 different random seeds produced accuracies ranging from 71% to 83%. Using 5-fold cross-validation with caret gave a more stable estimate of ~76%.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#example-4-imbalanced-titanic-data",
+    "href": "data-mining/week-6.html#example-4-imbalanced-titanic-data",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "4.4 Example 4: Imbalanced Titanic Data",
+    "text": "4.4 Example 4: Imbalanced Titanic Data\nAfter artificially reducing the dataset to only 7.5% survivors:\n\n\n\nApproach\nAccuracy\nRecall (survivors found)\n\n\n\n\nDefault decision tree\n93%\n20% (1 of 5)\n\n\nLower threshold (0.9)\n75%\n60% (3 of 5)\n\n\nLoss matrix (FN penalty ×5)\n80%\n40% (2 of 5)\n\n\nUpsample minority class\n80%\n60% (3 of 5)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
     "objectID": "regression-analysis/week-2.html",
     "href": "regression-analysis/week-2.html",
     "title": "Week 2: Statistical Inference",
@@ -1144,7 +1300,7 @@
     "crumbs": [
       "Time Series",
       "Weekly Notes",
-      "Week 2"
+      "Week 2 - empty"
     ]
   },
   {
@@ -1156,7 +1312,7 @@
     "crumbs": [
       "Time Series",
       "Weekly Notes",
-      "Week 1"
+      "Week 1 - empty"
     ]
   },
   {
@@ -1802,7 +1958,223 @@
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
-      "Week 9"
+      "Week 9 - empty"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html",
+    "href": "data-mining/week-7.html",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "",
+    "text": "📝 Note for review: This document is a summary of the Week 7 lecture. You can add your own annotations, extra examples, or questions in the spaces marked with &lt;!-- ADD NOTES HERE --&gt;.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#why-communication-matters",
+    "href": "data-mining/week-7.html#why-communication-matters",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "3.1 Why Communication Matters",
+    "text": "3.1 Why Communication Matters\nOne of the most important skills for a data scientist is the ability to communicate results clearly to people who are not data scientists. The best model in the world has no value if nobody understands it or acts on it.\nKey guidelines:\n\nFocus on business value, not the machine learning technique. Nobody in business wants to hear about logistic regression – they want to know how many customers you will keep or how much money will be saved.\nKnow your audience. A process engineer understands box plots and statistics. A marketing analyst may not.\nMany data science projects do not need machine learning. Creating good dashboards and visualisations is often more valuable.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#three-ways-to-describe-the-same-model",
+    "href": "data-mining/week-7.html#three-ways-to-describe-the-same-model",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "3.2 Three Ways to Describe the Same Model",
+    "text": "3.2 Three Ways to Describe the Same Model\nHere is an example of three ways to explain the same churn prediction model:\n\n\n\n\n\n\n\n\nSummary\nAudience\nQuality\n\n\n\n\n“Logistic regression with regularisation, recall 80%, precision 66%”\nData scientist peers\nToo technical for business\n\n\n“Identifies 80% of customers who will not return in 30 days; wrong 33% of the time”\nMarketing team\nMuch better – explains the outcome\n\n\n“Campaign will break even at 10% coupon redemption; at 20% redemption, incremental spend = €11,648, 1,500 extra customers retained”\nBusiness decision makers\nBest – connects model to money\n\n\n\nKey idea: The third summary uses a mathematical model in Excel (not a machine learning model) to combine the data scientist’s metrics (recall, precision) with the marketing team’s assumptions (coupon cost, redemption rate). This allows both sides to be held accountable for their assumptions.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#what-is-clustering",
+    "href": "data-mining/week-7.html#what-is-clustering",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "4.1 What Is Clustering?",
+    "text": "4.1 What Is Clustering?\nClustering (also called segmentation) is an unsupervised machine learning task. This means there is no target variable – we are not trying to predict anything. Instead, we are trying to find groups of data that are similar to each other.\nPractical example: A supermarket might cluster its customers into groups like “young families”, “students”, and “pensioners”, each of which has different shopping habits. This allows the business to target each group differently.\n\n⚠️ Important: Clusters will almost never be the same size. Expect one large cluster (the “average” customer) and several smaller, more interesting ones.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#why-we-need-to-standardise-data",
+    "href": "data-mining/week-7.html#why-we-need-to-standardise-data",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "4.2 Why We Need to Standardise Data",
+    "text": "4.2 Why We Need to Standardise Data\nBefore clustering, we must standardise all numeric columns so they are on the same scale (0 to 1). Without this, columns with larger numbers (like square metres) will dominate over columns with smaller numbers (like number of bedrooms), even if the smaller column is more meaningful.\n\n4.2.1 Standardisation Formula\n\\[x_{standardised} = \\frac{x - \\min(x)}{\\max(x) - \\min(x)}\\]\nThis converts any numeric value to a number between 0 and 1.\nIn R:\nstandardise &lt;- function(x) {\n  (x - min(x)) / (max(x) - min(x))\n}\n\niris$Sepal.Length &lt;- standardise(iris$Sepal.Length)\niris$Sepal.Width  &lt;- standardise(iris$Sepal.Width)\niris$Petal.Length &lt;- standardise(iris$Petal.Length)\niris$Petal.Width  &lt;- standardise(iris$Petal.Width)\nAfter standardisation, the minimum of every column will be 0 and the maximum will be 1.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#k-means-clustering",
+    "href": "data-mining/week-7.html#k-means-clustering",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "4.3 K-Means Clustering",
+    "text": "4.3 K-Means Clustering\n\n4.3.1 How It Works\n\nYou choose k (the number of clusters) before running the algorithm.\nThe algorithm randomly places k centre points (called centroids).\nEach data point is assigned to the nearest centroid.\nEach centroid is moved to the average position of all points assigned to it.\nSteps 3 and 4 repeat until the assignments stop changing.\n\nThe algorithm is not guaranteed to find the perfect solution, so it is usually run multiple times (e.g. nstart = 10) and the best result is kept.\nK-means tries to minimise the within-cluster variation – it wants the points inside each cluster to be as close together as possible.\n\n\n4.3.2 R Code: K-Means on the Iris Dataset\n# Run k-means with 3 clusters, 10 random starts\nk_clusters &lt;- kmeans(iris[, 1:4], centers = 3, nstart = 10)\n\n# View results\nk_clusters\nThe output shows: - The cluster means (centre of each cluster for each variable) - Which cluster each data point belongs to - The within-cluster sum of squares (lower = tighter clusters)\n\n\n4.3.3 How to Choose k: The Elbow Method\nIf you do not know the number of clusters in advance, use the elbow method:\n\nRun k-means for k = 1, 2, 3, …, 10.\nPlot the total within-cluster sum of squares for each k.\nFind the point where the line “bends” like an elbow – that is your best k.\n\ntot.withinss &lt;- c()\n\nfor (k in 1:10) {\n  k_clusters &lt;- kmeans(iris[, 1:4], k, nstart = 10)\n  tot.withinss &lt;- c(tot.withinss, k_clusters$tot.withinss)\n}\n\nplot(main = \"Selecting k: Elbow Method\", tot.withinss, type = \"l\")\n\nThe curve drops steeply at first, then flattens out. The “elbow” (where the flattening begins) indicates the best number of clusters. For the iris dataset, the elbow is at k = 3.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#hierarchical-clustering",
+    "href": "data-mining/week-7.html#hierarchical-clustering",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "4.4 Hierarchical Clustering",
+    "text": "4.4 Hierarchical Clustering\n\n4.4.1 How It Works\nHierarchical clustering is a bottom-up approach:\n\nEvery data point starts as its own cluster (150 points = 150 clusters).\nThe two closest clusters are merged into one.\nStep 2 repeats until all points are in a single cluster.\n\nThe result is shown as a dendrogram (a tree diagram). You can then “cut” the tree at any height to get the number of clusters you want.\nAdvantage over k-means: You do not need to choose k in advance.\n\n\n4.4.2 Reading a Dendrogram\n\nDraw a horizontal line across the tree at any height.\nCount how many vertical lines it crosses – that is the number of clusters.\nThe vertical distance between merges tells you how different the clusters are. Larger gaps = more distinct clusters.\n\n\n\n4.4.3 R Code: Hierarchical Clustering on the Iris Dataset\n# Calculate distances between points, then cluster\nh_clusters &lt;- hclust(dist(iris[, 1:4]))\n\n# Cut the tree to get 3 clusters\nclusterId &lt;- cutree(h_clusters, 3)\n\n# Add the cluster ID back to the data\niris$clusterId &lt;- as.factor(clusterId)\n\n# Plot the dendrogram\nplot(h_clusters)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#interpreting-clusters",
+    "href": "data-mining/week-7.html#interpreting-clusters",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "4.5 Interpreting Clusters",
+    "text": "4.5 Interpreting Clusters\nAfter clustering, a common question is: what do the clusters mean?\nThe answer is to use the same exploratory data analysis techniques from earlier weeks – but instead of colouring plots by a target variable, colour them by cluster ID.\nlibrary(ggplot2)\n\n# Scatter plots coloured by cluster\np1 &lt;- qplot(Sepal.Width, Sepal.Length, data = iris,\n            colour = clusterId, main = \"Sepal.Width vs Sepal.Length\")\n\np2 &lt;- qplot(Petal.Length, Petal.Width, data = iris,\n            colour = clusterId, main = \"Petal.Length vs Petal.Width\")\n\ngridExtra::grid.arrange(p1, p2)\nLook for patterns in the plots: - Do certain clusters have higher values on certain variables? - Can you give a meaningful name to each cluster? (e.g. “Large flowers”, “Small flowers”)\n\n4.5.1 Comparing Clusters to a Known Variable\nEven though clustering does not use the Species column, we can check how well the clusters match it afterwards:\ntable(iris$clusterId, iris$Species)\nA good match between clusters and the known species confirms the clustering is working well.\n\n🔑 Key reminder: Clustering does not aim to create equal-sized groups. In real retail data, you might find 80% of customers in one large “average” cluster, and small but very interesting clusters of students, pensioners, or high-spending customers.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#what-are-they",
+    "href": "data-mining/week-7.html#what-are-they",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "5.1 What Are They?",
+    "text": "5.1 What Are They?\nRecommendation engines are systems that suggest products to customers based on what other customers bought. Examples:\n\n“People who bought this also bought…”\n“These items are commonly purchased together”\n\nThe most common algorithm for this is the Apriori algorithm, which finds patterns of items bought together in transactions (called market basket analysis).",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#three-key-metrics",
+    "href": "data-mining/week-7.html#three-key-metrics",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "5.2 Three Key Metrics",
+    "text": "5.2 Three Key Metrics\n\n5.2.1 1. Support\nHow common is this item or item set?\n\\[\\text{Support}(X) = \\frac{\\text{Number of transactions containing } X}{\\text{Total number of transactions}}\\]\nSupport is used to filter out rare items. If an item only appears in 0.01% of transactions, any rule involving it will not be useful in practice.\n\n\n5.2.2 2. Confidence\nIf a customer buys X, how likely are they to also buy Y?\n\\[\\text{Confidence}(X \\Rightarrow Y) = \\frac{\\text{Support}(X \\text{ and } Y)}{\\text{Support}(X)}\\]\nThis measures the strength of the rule “if X then Y”.\n\n\n5.2.3 3. Lift\nIs the relationship between X and Y stronger than what we would expect by chance?\n\\[\\text{Lift}(X \\Rightarrow Y) = \\frac{\\text{Support}(X \\text{ and } Y)}{\\text{Support}(X) \\times \\text{Support}(Y)}\\]\n\n\n\nLift value\nMeaning\n\n\n\n\n&gt; 1\nBuying X makes buying Y more likely than normal\n\n\n= 1\nX and Y are bought independently of each other\n\n\n&lt; 1\nBuying X makes buying Y less likely than normal\n\n\n\n\n🔑 Lift is the most important metric. Select rules with the highest lift. A lift of 3.0 means a customer is 3× more likely to buy Y when they have X in their basket.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#r-code-apriori-on-the-groceries-dataset",
+    "href": "data-mining/week-7.html#r-code-apriori-on-the-groceries-dataset",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "5.3 R Code: Apriori on the Groceries Dataset",
+    "text": "5.3 R Code: Apriori on the Groceries Dataset\nlibrary(arules)\nlibrary(arulesViz)\n\n# Load the built-in grocery dataset\ndata(\"Groceries\")\nsummary(Groceries)\n\n# Look at the first 3 transactions\ninspect(head(Groceries, 3))\n\n# See the most frequently bought items\nfreq &lt;- itemFrequency(Groceries, type = \"absolute\")\nfreq &lt;- sort(freq, decreasing = TRUE)\nhead(freq)\n\n# Plot item frequencies for top 20 items\nitemFrequencyPlot(Groceries, topN = 20)\n\n5.3.1 Running the Apriori Algorithm\n# Items must appear in at least 1% of transactions\n# Rules must have at least 30% confidence\nsupport    &lt;- 0.01\nconfidence &lt;- 0.30\nparameters &lt;- list(support = support, confidence = confidence, target = \"rules\")\n\nrules &lt;- apriori(Groceries, parameter = parameters)\n\n# View rules as a data frame\ndfRules &lt;- data.frame(item_set = labels(rules), quality = rules@quality)\nhead(dfRules)\n\n\n5.3.2 Plotting the Rules\n# Scatter plot of all rules\nplot(rules)\n\n# Network graph of only the strongest rules (lift &gt;= 3)\nrulesLift &lt;- subset(rules, lift &gt;= 3.0)\nplot(rulesLift, method = \"graph\")",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#verifying-calculations-manually",
+    "href": "data-mining/week-7.html#verifying-calculations-manually",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "5.4 Verifying Calculations Manually",
+    "text": "5.4 Verifying Calculations Manually\nYou can verify what the algorithm is doing by calculating the metrics by hand:\n# Convert sparse matrix to full data frame\ndfTrans &lt;- data.frame(as(Groceries, \"matrix\"))\n\n# Calculate support, confidence, and lift for beef =&gt; root vegetables\nsupport    &lt;- sum(dfTrans$beef & dfTrans$root.vegetables) / nrow(dfTrans)\nconfidence &lt;- sum(dfTrans$beef & dfTrans$root.vegetables) / sum(dfTrans$beef)\nlift       &lt;- support / ((sum(dfTrans$beef) / nrow(dfTrans)) *\n                         (sum(dfTrans$root.vegetables) / nrow(dfTrans)))",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#applying-recommendation-rules-in-practice",
+    "href": "data-mining/week-7.html#applying-recommendation-rules-in-practice",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "5.5 Applying Recommendation Rules in Practice",
+    "text": "5.5 Applying Recommendation Rules in Practice\nThings to consider when using recommendations in a real business:\n\nTransactional vs. member-based: You can group items by transaction ID (what is in one basket right now) or by member ID (what a person has bought over their whole history). Member-based rules can capture purchases that happen months apart (e.g. a cyclist buys a bike, then later a helmet, then cycling shoes).\nUse segmentation + recommendations together: Run the recommendation engine separately on each customer segment. This gives much more targeted and relevant suggestions.\nSubstitute vs. complement products:\n\nA substitute is a similar product (e.g. a different brand of TV). Goal: upsell (buy a better version).\nA complement is a product bought alongside the main product (e.g. a TV cable). Goal: cross-sell (buy something extra).\n\nAvoid bombarding customers. If someone just bought a TV, showing them more TV ads for 6 months is annoying and ineffective.\nEthics matter. A famous example: Target (US supermarket) identified pregnant women from their shopping habits and sent them baby product offers. One teenager’s father received the offers before he knew about the pregnancy. Always consider how customers will feel about personalised targeting.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#what-is-a-hyperparameter",
+    "href": "data-mining/week-7.html#what-is-a-hyperparameter",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "6.1 What Is a Hyperparameter?",
+    "text": "6.1 What Is a Hyperparameter?\nIn statistics, a parameter usually means a variable in your data (e.g. age, income).\nIn machine learning, a hyperparameter is a setting of the algorithm itself – something you choose before training, not learned from the data.\nExamples:\n\n\n\n\n\n\n\nAlgorithm\nHyperparameter examples\n\n\n\n\nDecision Tree\nSplitting criterion (Gini, entropy)\n\n\nSupport Vector Machine\nKernel function (linear, RBF)\n\n\nNeural Network\nNumber of layers, nodes per layer, learning rate\n\n\nRandom Forest\nNumber of trees (ntree), features per tree (mtry)\n\n\n\nThe process of finding the best set of hyperparameters is called hyperparameter optimisation.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#methods-for-hyperparameter-optimisation",
+    "href": "data-mining/week-7.html#methods-for-hyperparameter-optimisation",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "6.2 Methods for Hyperparameter Optimisation",
+    "text": "6.2 Methods for Hyperparameter Optimisation\n\n6.2.1 Grid Search\nTry every possible combination of hyperparameters. If you have 4 hyperparameters with 2, 5, 3, and 2 possible values each:\n\\[2 \\times 5 \\times 3 \\times 2 = 60 \\text{ experiments}\\]\nGrid search is exhaustive but very slow for large numbers of hyperparameters.\n\n\n6.2.2 Random Search\nSelect combinations at random. Useful when you cannot afford to run all combinations. Less thorough than grid search, but much faster.\n\n\n6.2.3 Bayesian Search\nStarts like random search, then focuses on the most promising area based on the results seen so far. Think of it like the hot/cold game – it “gets warmer” and homes in on the best region.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#r-code-manual-hyperparameter-search-random-forest",
+    "href": "data-mining/week-7.html#r-code-manual-hyperparameter-search-random-forest",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "6.3 R Code: Manual Hyperparameter Search (Random Forest)",
+    "text": "6.3 R Code: Manual Hyperparameter Search (Random Forest)\nlibrary(randomForest)\n\n# Define hyperparameter values to try\ntrees &lt;- c(50, 200, 500)\nmtrys &lt;- c(4, 6)\n\nbest_accuracy &lt;- 0\n\nfor (v1 in trees) {\n  for (v2 in mtrys) {\n    rf_model &lt;- randomForest(as.factor(Survived) ~ .,\n                             data  = train_data,\n                             ntree = v1,\n                             mtry  = v2)\n\n    pr  &lt;- predict(rf_model, newdata = test_data, type = \"class\")\n    pr  &lt;- factor(pr, levels = c(1, 0))\n    tab &lt;- table(pr, actuals)\n    accuracy &lt;- 100 * sum(diag(tab)) / sum(tab)\n\n    if (accuracy &gt; best_accuracy) {\n      best_tree     &lt;- v1\n      best_mtry     &lt;- v2\n      best_accuracy &lt;- accuracy\n    }\n  }\n}\n\nprint(paste0(\"Best accuracy = \", round(best_accuracy, 2),\n             \", ntree = \", best_tree,\n             \", mtry = \", best_mtry))\n\nThis runs 6 experiments (3 tree values × 2 mtry values). In practice, use the caret or tidymodels packages to do this automatically and more rigorously.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#important-warnings",
+    "href": "data-mining/week-7.html#important-warnings",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "6.4 Important Warnings",
+    "text": "6.4 Important Warnings\n\n6.4.1 You Need THREE Data Splits for Hyperparameter Optimisation\nWhen optimising hyperparameters, do not keep evaluating on the same test set – you are effectively peeking at the answers. Use:\n\nTraining set – train the model\nValidation set – compare hyperparameter combinations\nTest set – used only once at the very end to report final accuracy\n\nA typical split might be 70% / 15% / 15%.\n\n\n6.4.2 Hyperparameter Optimisation Is NOT the First Step\n\n⚠️ Feature engineering and data quality matter much more than hyperparameter tuning. Most algorithms give reasonable results with default settings. Only optimise hyperparameters once your data preparation is solid.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#automl",
+    "href": "data-mining/week-7.html#automl",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "6.5 AutoML",
+    "text": "6.5 AutoML\nSome tools (e.g. h2o.ai, AWS SageMaker) automate the whole process: selecting the algorithm AND tuning the hyperparameters. This is called AutoML.\n\nUseful for extracting the last small improvement in performance.\nCan run for days on large datasets using multiple cloud machines.\nThe improvement is usually small (often less than 1% accuracy difference between models).\nShould be the last step in your workflow, not the first.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
     ]
   },
   {

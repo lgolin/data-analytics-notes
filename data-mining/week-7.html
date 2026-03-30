@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>STAT9013 – Week 7 Study Guide – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../data-mining/week-8.html" rel="next">
+<link href="../data-mining/week-6.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data-mining/index.html">Data Mining</a></li><li class="breadcrumb-item"><a href="../data-mining/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../data-mining/week-7.html">Week 7</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-7.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-6.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-7.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-8.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8 - empty</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics-this-week" id="toc-key-topics-this-week" class="nav-link active" data-scroll-target="#key-topics-this-week"><span class="header-section-number">1</span> Key Topics This Week</a></li>
+  <li><a href="#recap-from-last-week" id="toc-recap-from-last-week" class="nav-link" data-scroll-target="#recap-from-last-week"><span class="header-section-number">2</span> Recap from Last Week</a></li>
+  <li><a href="#communicating-your-results" id="toc-communicating-your-results" class="nav-link" data-scroll-target="#communicating-your-results"><span class="header-section-number">3</span> Communicating Your Results</a>
+  <ul class="collapse">
+  <li><a href="#why-communication-matters" id="toc-why-communication-matters" class="nav-link" data-scroll-target="#why-communication-matters"><span class="header-section-number">3.1</span> Why Communication Matters</a></li>
+  <li><a href="#three-ways-to-describe-the-same-model" id="toc-three-ways-to-describe-the-same-model" class="nav-link" data-scroll-target="#three-ways-to-describe-the-same-model"><span class="header-section-number">3.2</span> Three Ways to Describe the Same Model</a></li>
+  </ul></li>
+  <li><a href="#clustering-segmentation" id="toc-clustering-segmentation" class="nav-link" data-scroll-target="#clustering-segmentation"><span class="header-section-number">4</span> Clustering (Segmentation)</a>
+  <ul class="collapse">
+  <li><a href="#what-is-clustering" id="toc-what-is-clustering" class="nav-link" data-scroll-target="#what-is-clustering"><span class="header-section-number">4.1</span> What Is Clustering?</a></li>
+  <li><a href="#why-we-need-to-standardise-data" id="toc-why-we-need-to-standardise-data" class="nav-link" data-scroll-target="#why-we-need-to-standardise-data"><span class="header-section-number">4.2</span> Why We Need to Standardise Data</a>
+  <ul class="collapse">
+  <li><a href="#standardisation-formula" id="toc-standardisation-formula" class="nav-link" data-scroll-target="#standardisation-formula"><span class="header-section-number">4.2.1</span> Standardisation Formula</a></li>
+  </ul></li>
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">4.3</span> K-Means Clustering</a>
+  <ul class="collapse">
+  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">4.3.1</span> How It Works</a></li>
+  <li><a href="#r-code-k-means-on-the-iris-dataset" id="toc-r-code-k-means-on-the-iris-dataset" class="nav-link" data-scroll-target="#r-code-k-means-on-the-iris-dataset"><span class="header-section-number">4.3.2</span> R Code: K-Means on the Iris Dataset</a></li>
+  <li><a href="#how-to-choose-k-the-elbow-method" id="toc-how-to-choose-k-the-elbow-method" class="nav-link" data-scroll-target="#how-to-choose-k-the-elbow-method"><span class="header-section-number">4.3.3</span> How to Choose k: The Elbow Method</a></li>
+  </ul></li>
+  <li><a href="#hierarchical-clustering" id="toc-hierarchical-clustering" class="nav-link" data-scroll-target="#hierarchical-clustering"><span class="header-section-number">4.4</span> Hierarchical Clustering</a>
+  <ul class="collapse">
+  <li><a href="#how-it-works-1" id="toc-how-it-works-1" class="nav-link" data-scroll-target="#how-it-works-1"><span class="header-section-number">4.4.1</span> How It Works</a></li>
+  <li><a href="#reading-a-dendrogram" id="toc-reading-a-dendrogram" class="nav-link" data-scroll-target="#reading-a-dendrogram"><span class="header-section-number">4.4.2</span> Reading a Dendrogram</a></li>
+  <li><a href="#r-code-hierarchical-clustering-on-the-iris-dataset" id="toc-r-code-hierarchical-clustering-on-the-iris-dataset" class="nav-link" data-scroll-target="#r-code-hierarchical-clustering-on-the-iris-dataset"><span class="header-section-number">4.4.3</span> R Code: Hierarchical Clustering on the Iris Dataset</a></li>
+  </ul></li>
+  <li><a href="#interpreting-clusters" id="toc-interpreting-clusters" class="nav-link" data-scroll-target="#interpreting-clusters"><span class="header-section-number">4.5</span> Interpreting Clusters</a>
+  <ul class="collapse">
+  <li><a href="#comparing-clusters-to-a-known-variable" id="toc-comparing-clusters-to-a-known-variable" class="nav-link" data-scroll-target="#comparing-clusters-to-a-known-variable"><span class="header-section-number">4.5.1</span> Comparing Clusters to a Known Variable</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#recommendation-engines" id="toc-recommendation-engines" class="nav-link" data-scroll-target="#recommendation-engines"><span class="header-section-number">5</span> Recommendation Engines</a>
+  <ul class="collapse">
+  <li><a href="#what-are-they" id="toc-what-are-they" class="nav-link" data-scroll-target="#what-are-they"><span class="header-section-number">5.1</span> What Are They?</a></li>
+  <li><a href="#three-key-metrics" id="toc-three-key-metrics" class="nav-link" data-scroll-target="#three-key-metrics"><span class="header-section-number">5.2</span> Three Key Metrics</a>
+  <ul class="collapse">
+  <li><a href="#support" id="toc-support" class="nav-link" data-scroll-target="#support"><span class="header-section-number">5.2.1</span> 1. Support</a></li>
+  <li><a href="#confidence" id="toc-confidence" class="nav-link" data-scroll-target="#confidence"><span class="header-section-number">5.2.2</span> 2. Confidence</a></li>
+  <li><a href="#lift" id="toc-lift" class="nav-link" data-scroll-target="#lift"><span class="header-section-number">5.2.3</span> 3. Lift</a></li>
+  </ul></li>
+  <li><a href="#r-code-apriori-on-the-groceries-dataset" id="toc-r-code-apriori-on-the-groceries-dataset" class="nav-link" data-scroll-target="#r-code-apriori-on-the-groceries-dataset"><span class="header-section-number">5.3</span> R Code: Apriori on the Groceries Dataset</a>
+  <ul class="collapse">
+  <li><a href="#running-the-apriori-algorithm" id="toc-running-the-apriori-algorithm" class="nav-link" data-scroll-target="#running-the-apriori-algorithm"><span class="header-section-number">5.3.1</span> Running the Apriori Algorithm</a></li>
+  <li><a href="#plotting-the-rules" id="toc-plotting-the-rules" class="nav-link" data-scroll-target="#plotting-the-rules"><span class="header-section-number">5.3.2</span> Plotting the Rules</a></li>
+  </ul></li>
+  <li><a href="#verifying-calculations-manually" id="toc-verifying-calculations-manually" class="nav-link" data-scroll-target="#verifying-calculations-manually"><span class="header-section-number">5.4</span> Verifying Calculations Manually</a></li>
+  <li><a href="#applying-recommendation-rules-in-practice" id="toc-applying-recommendation-rules-in-practice" class="nav-link" data-scroll-target="#applying-recommendation-rules-in-practice"><span class="header-section-number">5.5</span> Applying Recommendation Rules in Practice</a></li>
+  </ul></li>
+  <li><a href="#hyperparameter-optimisation" id="toc-hyperparameter-optimisation" class="nav-link" data-scroll-target="#hyperparameter-optimisation"><span class="header-section-number">6</span> Hyperparameter Optimisation</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-hyperparameter" id="toc-what-is-a-hyperparameter" class="nav-link" data-scroll-target="#what-is-a-hyperparameter"><span class="header-section-number">6.1</span> What Is a Hyperparameter?</a></li>
+  <li><a href="#methods-for-hyperparameter-optimisation" id="toc-methods-for-hyperparameter-optimisation" class="nav-link" data-scroll-target="#methods-for-hyperparameter-optimisation"><span class="header-section-number">6.2</span> Methods for Hyperparameter Optimisation</a>
+  <ul class="collapse">
+  <li><a href="#grid-search" id="toc-grid-search" class="nav-link" data-scroll-target="#grid-search"><span class="header-section-number">6.2.1</span> Grid Search</a></li>
+  <li><a href="#random-search" id="toc-random-search" class="nav-link" data-scroll-target="#random-search"><span class="header-section-number">6.2.2</span> Random Search</a></li>
+  <li><a href="#bayesian-search" id="toc-bayesian-search" class="nav-link" data-scroll-target="#bayesian-search"><span class="header-section-number">6.2.3</span> Bayesian Search</a></li>
+  </ul></li>
+  <li><a href="#r-code-manual-hyperparameter-search-random-forest" id="toc-r-code-manual-hyperparameter-search-random-forest" class="nav-link" data-scroll-target="#r-code-manual-hyperparameter-search-random-forest"><span class="header-section-number">6.3</span> R Code: Manual Hyperparameter Search (Random Forest)</a></li>
+  <li><a href="#important-warnings" id="toc-important-warnings" class="nav-link" data-scroll-target="#important-warnings"><span class="header-section-number">6.4</span> Important Warnings</a>
+  <ul class="collapse">
+  <li><a href="#you-need-three-data-splits-for-hyperparameter-optimisation" id="toc-you-need-three-data-splits-for-hyperparameter-optimisation" class="nav-link" data-scroll-target="#you-need-three-data-splits-for-hyperparameter-optimisation"><span class="header-section-number">6.4.1</span> You Need THREE Data Splits for Hyperparameter Optimisation</a></li>
+  <li><a href="#hyperparameter-optimisation-is-not-the-first-step" id="toc-hyperparameter-optimisation-is-not-the-first-step" class="nav-link" data-scroll-target="#hyperparameter-optimisation-is-not-the-first-step"><span class="header-section-number">6.4.2</span> Hyperparameter Optimisation Is NOT the First Step</a></li>
+  </ul></li>
+  <li><a href="#automl" id="toc-automl" class="nav-link" data-scroll-target="#automl"><span class="header-section-number">6.5</span> AutoML</a></li>
+  </ul></li>
+  <li><a href="#key-formulas-summary" id="toc-key-formulas-summary" class="nav-link" data-scroll-target="#key-formulas-summary"><span class="header-section-number">7</span> Key Formulas Summary</a></li>
+  <li><a href="#r-packages-used-this-week" id="toc-r-packages-used-this-week" class="nav-link" data-scroll-target="#r-packages-used-this-week"><span class="header-section-number">8</span> R Packages Used This Week</a></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">9</span> Summary Points</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data-mining/index.html">Data Mining</a></li><li class="breadcrumb-item"><a href="../data-mining/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../data-mining/week-7.html">Week 7</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">STAT9013 – Week 7 Study Guide</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Data Mining: Clustering, Recommendation Engines &amp; Hyperparameter Optimisation</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>📝 <strong>Note for review:</strong> This document is a summary of the Week 7 lecture. You can add your own annotations, extra examples, or questions in the spaces marked with <code>&lt;!-- ADD NOTES HERE --&gt;</code>.</p>
+</blockquote>
+<hr>
+<section id="key-topics-this-week" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics This Week</h1>
+<ul>
+<li>Communicating results to business users</li>
+<li><strong>Clustering / Segmentation</strong> (unsupervised machine learning)
+<ul>
+<li>K-means clustering</li>
+<li>Hierarchical clustering</li>
+<li>How to interpret clusters</li>
+</ul></li>
+<li><strong>Recommendation engines</strong> (the Apriori algorithm)
+<ul>
+<li>Support, Confidence, and Lift</li>
+<li>Applying rules to business problems</li>
+</ul></li>
+<li><strong>Hyperparameter optimisation</strong>
+<ul>
+<li>Grid search, random search, Bayesian search</li>
+<li>AutoML</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="recap-from-last-week" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Recap from Last Week</h1>
+<p>Last week covered the following topics (worth reviewing before reading further):</p>
+<ul>
+<li><strong>Data leakage</strong> – when training data contains information that would not be available at prediction time.</li>
+<li><strong>Sampling and cross-validation</strong> – splitting data correctly so results are reliable.</li>
+<li><strong>Imbalanced datasets</strong> – when one class (e.g.&nbsp;fraud, cancer) is very rare, accuracy alone is not a useful measure. Recall is more important.</li>
+<li><strong>Shiny</strong> – an R tool for building interactive web applications.</li>
+</ul>
+<!-- ADD NOTES HERE: Any questions from last week? -->
+<hr>
+</section>
+<section id="communicating-your-results" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Communicating Your Results</h1>
+<section id="why-communication-matters" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="why-communication-matters"><span class="header-section-number">3.1</span> Why Communication Matters</h2>
+<p>One of the most important skills for a data scientist is the ability to <strong>communicate results clearly</strong> to people who are not data scientists. The best model in the world has no value if nobody understands it or acts on it.</p>
+<p>Key guidelines:</p>
+<ul>
+<li><strong>Focus on business value</strong>, not the machine learning technique. Nobody in business wants to hear about logistic regression – they want to know how many customers you will keep or how much money will be saved.</li>
+<li>Know your audience. A process engineer understands box plots and statistics. A marketing analyst may not.</li>
+<li>Many data science projects do <strong>not</strong> need machine learning. Creating good dashboards and visualisations is often more valuable.</li>
+</ul>
+</section>
+<section id="three-ways-to-describe-the-same-model" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="three-ways-to-describe-the-same-model"><span class="header-section-number">3.2</span> Three Ways to Describe the Same Model</h2>
+<p>Here is an example of three ways to explain the same churn prediction model:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 35%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Summary</th>
+<th>Audience</th>
+<th>Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>“Logistic regression with regularisation, recall 80%, precision 66%”</td>
+<td>Data scientist peers</td>
+<td>Too technical for business</td>
+</tr>
+<tr class="even">
+<td>“Identifies 80% of customers who will not return in 30 days; wrong 33% of the time”</td>
+<td>Marketing team</td>
+<td>Much better – explains the outcome</td>
+</tr>
+<tr class="odd">
+<td>“Campaign will break even at 10% coupon redemption; at 20% redemption, incremental spend = €11,648, 1,500 extra customers retained”</td>
+<td>Business decision makers</td>
+<td>Best – connects model to money</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key idea:</strong> The third summary uses a <strong>mathematical model in Excel</strong> (not a machine learning model) to combine the data scientist’s metrics (recall, precision) with the marketing team’s assumptions (coupon cost, redemption rate). This allows both sides to be held accountable for their assumptions.</p>
+<!-- ADD NOTES HERE: What other examples of "translating" results into business language can you think of? -->
+<hr>
+</section>
+</section>
+<section id="clustering-segmentation" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Clustering (Segmentation)</h1>
+<section id="what-is-clustering" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="what-is-clustering"><span class="header-section-number">4.1</span> What Is Clustering?</h2>
+<p><strong>Clustering</strong> (also called <strong>segmentation</strong>) is an <strong>unsupervised machine learning</strong> task. This means there is <strong>no target variable</strong> – we are not trying to predict anything. Instead, we are trying to find groups of data that are similar to each other.</p>
+<p><strong>Practical example:</strong> A supermarket might cluster its customers into groups like “young families”, “students”, and “pensioners”, each of which has different shopping habits. This allows the business to target each group differently.</p>
+<blockquote class="blockquote">
+<p>⚠️ <strong>Important:</strong> Clusters will almost never be the same size. Expect one large cluster (the “average” customer) and several smaller, more interesting ones.</p>
+</blockquote>
+</section>
+<section id="why-we-need-to-standardise-data" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="why-we-need-to-standardise-data"><span class="header-section-number">4.2</span> Why We Need to Standardise Data</h2>
+<p>Before clustering, we must <strong>standardise</strong> all numeric columns so they are on the same scale (0 to 1). Without this, columns with larger numbers (like square metres) will dominate over columns with smaller numbers (like number of bedrooms), even if the smaller column is more meaningful.</p>
+<section id="standardisation-formula" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="standardisation-formula"><span class="header-section-number">4.2.1</span> Standardisation Formula</h3>
+<p><span class="math display">\[x_{standardised} = \frac{x - \min(x)}{\max(x) - \min(x)}\]</span></p>
+<p>This converts any numeric value to a number between 0 and 1.</p>
+<p><strong>In R:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>standardise <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (x <span class="sc">-</span> <span class="fu">min</span>(x)) <span class="sc">/</span> (<span class="fu">max</span>(x) <span class="sc">-</span> <span class="fu">min</span>(x))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>Sepal.Length <span class="ot">&lt;-</span> <span class="fu">standardise</span>(iris<span class="sc">$</span>Sepal.Length)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>Sepal.Width  <span class="ot">&lt;-</span> <span class="fu">standardise</span>(iris<span class="sc">$</span>Sepal.Width)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>Petal.Length <span class="ot">&lt;-</span> <span class="fu">standardise</span>(iris<span class="sc">$</span>Petal.Length)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>Petal.Width  <span class="ot">&lt;-</span> <span class="fu">standardise</span>(iris<span class="sc">$</span>Petal.Width)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>After standardisation, the minimum of every column will be 0 and the maximum will be 1.</p>
+<!-- ADD NOTES HERE: Why might mixing centimetres and kilograms in a clustering model cause problems? -->
+<hr>
+</section>
+</section>
+<section id="k-means-clustering" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">4.3</span> K-Means Clustering</h2>
+<section id="how-it-works" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">4.3.1</span> How It Works</h3>
+<ol type="1">
+<li>You choose <strong>k</strong> (the number of clusters) before running the algorithm.</li>
+<li>The algorithm randomly places <strong>k centre points</strong> (called centroids).</li>
+<li>Each data point is assigned to the nearest centroid.</li>
+<li>Each centroid is moved to the <strong>average position</strong> of all points assigned to it.</li>
+<li>Steps 3 and 4 repeat until the assignments stop changing.</li>
+</ol>
+<p>The algorithm is <strong>not guaranteed</strong> to find the perfect solution, so it is usually run multiple times (e.g.&nbsp;<code>nstart = 10</code>) and the best result is kept.</p>
+<p><strong>K-means tries to minimise the within-cluster variation</strong> – it wants the points inside each cluster to be as close together as possible.</p>
+</section>
+<section id="r-code-k-means-on-the-iris-dataset" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="r-code-k-means-on-the-iris-dataset"><span class="header-section-number">4.3.2</span> R Code: K-Means on the Iris Dataset</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run k-means with 3 clusters, 10 random starts</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>k_clusters <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># View results</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>k_clusters</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The output shows: - The <strong>cluster means</strong> (centre of each cluster for each variable) - Which cluster each data point belongs to - The <strong>within-cluster sum of squares</strong> (lower = tighter clusters)</p>
+</section>
+<section id="how-to-choose-k-the-elbow-method" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="how-to-choose-k-the-elbow-method"><span class="header-section-number">4.3.3</span> How to Choose k: The Elbow Method</h3>
+<p>If you do not know the number of clusters in advance, use the <strong>elbow method</strong>:</p>
+<ol type="1">
+<li>Run k-means for k = 1, 2, 3, …, 10.</li>
+<li>Plot the <strong>total within-cluster sum of squares</strong> for each k.</li>
+<li>Find the point where the line “bends” like an elbow – that is your best k.</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tot.withinss <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  k_clusters <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], k, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  tot.withinss <span class="ot">&lt;-</span> <span class="fu">c</span>(tot.withinss, k_clusters<span class="sc">$</span>tot.withinss)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">main =</span> <span class="st">"Selecting k: Elbow Method"</span>, tot.withinss, <span class="at">type =</span> <span class="st">"l"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p>The curve drops steeply at first, then flattens out. The “elbow” (where the flattening begins) indicates the best number of clusters. For the iris dataset, the elbow is at <strong>k = 3</strong>.</p>
+</blockquote>
+<!-- ADD NOTES HERE: What would happen if you chose k = 10 for a dataset that really has 3 natural groups? -->
+<hr>
+</section>
+</section>
+<section id="hierarchical-clustering" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="hierarchical-clustering"><span class="header-section-number">4.4</span> Hierarchical Clustering</h2>
+<section id="how-it-works-1" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="how-it-works-1"><span class="header-section-number">4.4.1</span> How It Works</h3>
+<p>Hierarchical clustering is a <strong>bottom-up</strong> approach:</p>
+<ol type="1">
+<li>Every data point starts as its own cluster (150 points = 150 clusters).</li>
+<li>The two <strong>closest</strong> clusters are merged into one.</li>
+<li>Step 2 repeats until all points are in a single cluster.</li>
+</ol>
+<p>The result is shown as a <strong>dendrogram</strong> (a tree diagram). You can then “cut” the tree at any height to get the number of clusters you want.</p>
+<p><strong>Advantage over k-means:</strong> You do <strong>not</strong> need to choose k in advance.</p>
+</section>
+<section id="reading-a-dendrogram" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="reading-a-dendrogram"><span class="header-section-number">4.4.2</span> Reading a Dendrogram</h3>
+<ul>
+<li>Draw a <strong>horizontal line</strong> across the tree at any height.</li>
+<li>Count how many vertical lines it crosses – that is the number of clusters.</li>
+<li>The <strong>vertical distance</strong> between merges tells you how different the clusters are. Larger gaps = more distinct clusters.</li>
+</ul>
+</section>
+<section id="r-code-hierarchical-clustering-on-the-iris-dataset" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="r-code-hierarchical-clustering-on-the-iris-dataset"><span class="header-section-number">4.4.3</span> R Code: Hierarchical Clustering on the Iris Dataset</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate distances between points, then cluster</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>h_clusters <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cut the tree to get 3 clusters</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>clusterId <span class="ot">&lt;-</span> <span class="fu">cutree</span>(h_clusters, <span class="dv">3</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the cluster ID back to the data</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>clusterId <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(clusterId)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the dendrogram</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h_clusters)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- ADD NOTES HERE: Compare k-means and hierarchical clustering. When would you use one over the other? -->
+<hr>
+</section>
+</section>
+<section id="interpreting-clusters" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="interpreting-clusters"><span class="header-section-number">4.5</span> Interpreting Clusters</h2>
+<p>After clustering, a common question is: <strong>what do the clusters mean?</strong></p>
+<p>The answer is to use the same <strong>exploratory data analysis</strong> techniques from earlier weeks – but instead of colouring plots by a target variable, colour them by <strong>cluster ID</strong>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plots coloured by cluster</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Sepal.Width, Sepal.Length, <span class="at">data =</span> iris,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> clusterId, <span class="at">main =</span> <span class="st">"Sepal.Width vs Sepal.Length"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Petal.Length, Petal.Width, <span class="at">data =</span> iris,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> clusterId, <span class="at">main =</span> <span class="st">"Petal.Length vs Petal.Width"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p1, p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Look for patterns in the plots: - Do certain clusters have higher values on certain variables? - Can you give a meaningful name to each cluster? (e.g.&nbsp;“Large flowers”, “Small flowers”)</p>
+<section id="comparing-clusters-to-a-known-variable" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="comparing-clusters-to-a-known-variable"><span class="header-section-number">4.5.1</span> Comparing Clusters to a Known Variable</h3>
+<p>Even though clustering does not use the <code>Species</code> column, we can check how well the clusters match it afterwards:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris<span class="sc">$</span>clusterId, iris<span class="sc">$</span>Species)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A good match between clusters and the known species confirms the clustering is working well.</p>
+<blockquote class="blockquote">
+<p>🔑 <strong>Key reminder:</strong> Clustering does not aim to create equal-sized groups. In real retail data, you might find 80% of customers in one large “average” cluster, and small but very interesting clusters of students, pensioners, or high-spending customers.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+</section>
+<section id="recommendation-engines" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Recommendation Engines</h1>
+<section id="what-are-they" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="what-are-they"><span class="header-section-number">5.1</span> What Are They?</h2>
+<p>Recommendation engines are systems that suggest products to customers based on what other customers bought. Examples:</p>
+<ul>
+<li>“People who bought this also bought…”</li>
+<li>“These items are commonly purchased together”</li>
+</ul>
+<p>The most common algorithm for this is the <strong>Apriori algorithm</strong>, which finds patterns of items bought together in transactions (called <strong>market basket analysis</strong>).</p>
+</section>
+<section id="three-key-metrics" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="three-key-metrics"><span class="header-section-number">5.2</span> Three Key Metrics</h2>
+<section id="support" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="support"><span class="header-section-number">5.2.1</span> 1. Support</h3>
+<p><strong>How common is this item or item set?</strong></p>
+<p><span class="math display">\[\text{Support}(X) = \frac{\text{Number of transactions containing } X}{\text{Total number of transactions}}\]</span></p>
+<p>Support is used to <strong>filter out rare items</strong>. If an item only appears in 0.01% of transactions, any rule involving it will not be useful in practice.</p>
+</section>
+<section id="confidence" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="confidence"><span class="header-section-number">5.2.2</span> 2. Confidence</h3>
+<p><strong>If a customer buys X, how likely are they to also buy Y?</strong></p>
+<p><span class="math display">\[\text{Confidence}(X \Rightarrow Y) = \frac{\text{Support}(X \text{ and } Y)}{\text{Support}(X)}\]</span></p>
+<p>This measures the <strong>strength of the rule</strong> “if X then Y”.</p>
+</section>
+<section id="lift" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="lift"><span class="header-section-number">5.2.3</span> 3. Lift</h3>
+<p><strong>Is the relationship between X and Y stronger than what we would expect by chance?</strong></p>
+<p><span class="math display">\[\text{Lift}(X \Rightarrow Y) = \frac{\text{Support}(X \text{ and } Y)}{\text{Support}(X) \times \text{Support}(Y)}\]</span></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Lift value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&gt; 1</td>
+<td>Buying X makes buying Y <strong>more likely</strong> than normal</td>
+</tr>
+<tr class="even">
+<td>= 1</td>
+<td>X and Y are bought <strong>independently</strong> of each other</td>
+</tr>
+<tr class="odd">
+<td>&lt; 1</td>
+<td>Buying X makes buying Y <strong>less likely</strong> than normal</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>🔑 <strong>Lift is the most important metric.</strong> Select rules with the highest lift. A lift of 3.0 means a customer is 3× more likely to buy Y when they have X in their basket.</p>
+</blockquote>
+<!-- ADD NOTES HERE: Can you think of a real-life product pair with very high lift? (e.g. nappies and beer is a classic example) -->
+</section>
+</section>
+<section id="r-code-apriori-on-the-groceries-dataset" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="r-code-apriori-on-the-groceries-dataset"><span class="header-section-number">5.3</span> R Code: Apriori on the Groceries Dataset</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arules)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arulesViz)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the built-in grocery dataset</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"Groceries"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Groceries)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at the first 3 transactions</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(<span class="fu">head</span>(Groceries, <span class="dv">3</span>))</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># See the most frequently bought items</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>freq <span class="ot">&lt;-</span> <span class="fu">itemFrequency</span>(Groceries, <span class="at">type =</span> <span class="st">"absolute"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>freq <span class="ot">&lt;-</span> <span class="fu">sort</span>(freq, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(freq)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot item frequencies for top 20 items</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">itemFrequencyPlot</span>(Groceries, <span class="at">topN =</span> <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="running-the-apriori-algorithm" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="running-the-apriori-algorithm"><span class="header-section-number">5.3.1</span> Running the Apriori Algorithm</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Items must appear in at least 1% of transactions</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Rules must have at least 30% confidence</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>support    <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>confidence <span class="ot">&lt;-</span> <span class="fl">0.30</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">support =</span> support, <span class="at">confidence =</span> confidence, <span class="at">target =</span> <span class="st">"rules"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">apriori</span>(Groceries, <span class="at">parameter =</span> parameters)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># View rules as a data frame</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>dfRules <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item_set =</span> <span class="fu">labels</span>(rules), <span class="at">quality =</span> rules<span class="sc">@</span>quality)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dfRules)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="plotting-the-rules" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="plotting-the-rules"><span class="header-section-number">5.3.2</span> Plotting the Rules</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot of all rules</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rules)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Network graph of only the strongest rules (lift &gt;= 3)</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>rulesLift <span class="ot">&lt;-</span> <span class="fu">subset</span>(rules, lift <span class="sc">&gt;=</span> <span class="fl">3.0</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rulesLift, <span class="at">method =</span> <span class="st">"graph"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="verifying-calculations-manually" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="verifying-calculations-manually"><span class="header-section-number">5.4</span> Verifying Calculations Manually</h2>
+<p>You can verify what the algorithm is doing by calculating the metrics by hand:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert sparse matrix to full data frame</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dfTrans <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">as</span>(Groceries, <span class="st">"matrix"</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate support, confidence, and lift for beef =&gt; root vegetables</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>support    <span class="ot">&lt;-</span> <span class="fu">sum</span>(dfTrans<span class="sc">$</span>beef <span class="sc">&amp;</span> dfTrans<span class="sc">$</span>root.vegetables) <span class="sc">/</span> <span class="fu">nrow</span>(dfTrans)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>confidence <span class="ot">&lt;-</span> <span class="fu">sum</span>(dfTrans<span class="sc">$</span>beef <span class="sc">&amp;</span> dfTrans<span class="sc">$</span>root.vegetables) <span class="sc">/</span> <span class="fu">sum</span>(dfTrans<span class="sc">$</span>beef)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>lift       <span class="ot">&lt;-</span> support <span class="sc">/</span> ((<span class="fu">sum</span>(dfTrans<span class="sc">$</span>beef) <span class="sc">/</span> <span class="fu">nrow</span>(dfTrans)) <span class="sc">*</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                         (<span class="fu">sum</span>(dfTrans<span class="sc">$</span>root.vegetables) <span class="sc">/</span> <span class="fu">nrow</span>(dfTrans)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="applying-recommendation-rules-in-practice" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="applying-recommendation-rules-in-practice"><span class="header-section-number">5.5</span> Applying Recommendation Rules in Practice</h2>
+<p>Things to consider when using recommendations in a real business:</p>
+<ul>
+<li><p><strong>Transactional vs.&nbsp;member-based:</strong> You can group items by transaction ID (what is in one basket right now) or by member ID (what a person has bought over their whole history). Member-based rules can capture purchases that happen months apart (e.g.&nbsp;a cyclist buys a bike, then later a helmet, then cycling shoes).</p></li>
+<li><p><strong>Use segmentation + recommendations together:</strong> Run the recommendation engine <strong>separately on each customer segment</strong>. This gives much more targeted and relevant suggestions.</p></li>
+<li><p><strong>Substitute vs.&nbsp;complement products:</strong></p>
+<ul>
+<li>A <strong>substitute</strong> is a similar product (e.g.&nbsp;a different brand of TV). Goal: <strong>upsell</strong> (buy a better version).</li>
+<li>A <strong>complement</strong> is a product bought alongside the main product (e.g.&nbsp;a TV cable). Goal: <strong>cross-sell</strong> (buy something extra).</li>
+</ul></li>
+<li><p><strong>Avoid bombarding customers.</strong> If someone just bought a TV, showing them more TV ads for 6 months is annoying and ineffective.</p></li>
+<li><p><strong>Ethics matter.</strong> A famous example: Target (US supermarket) identified pregnant women from their shopping habits and sent them baby product offers. One teenager’s father received the offers before he knew about the pregnancy. Always consider how customers will feel about personalised targeting.</p></li>
+</ul>
+<!-- ADD NOTES HERE: How would you combine clustering (Week 7) and recommendation engines in a single project? -->
+<hr>
+</section>
+</section>
+<section id="hyperparameter-optimisation" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Hyperparameter Optimisation</h1>
+<section id="what-is-a-hyperparameter" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="what-is-a-hyperparameter"><span class="header-section-number">6.1</span> What Is a Hyperparameter?</h2>
+<p>In statistics, a <strong>parameter</strong> usually means a variable in your data (e.g.&nbsp;<code>age</code>, <code>income</code>).</p>
+<p>In machine learning, a <strong>hyperparameter</strong> is a <strong>setting of the algorithm itself</strong> – something you choose before training, not learned from the data.</p>
+<p><strong>Examples:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Algorithm</th>
+<th>Hyperparameter examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Decision Tree</td>
+<td>Splitting criterion (Gini, entropy)</td>
+</tr>
+<tr class="even">
+<td>Support Vector Machine</td>
+<td>Kernel function (linear, RBF)</td>
+</tr>
+<tr class="odd">
+<td>Neural Network</td>
+<td>Number of layers, nodes per layer, learning rate</td>
+</tr>
+<tr class="even">
+<td>Random Forest</td>
+<td>Number of trees (<code>ntree</code>), features per tree (<code>mtry</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>The process of finding the <strong>best</strong> set of hyperparameters is called <strong>hyperparameter optimisation</strong>.</p>
+</section>
+<section id="methods-for-hyperparameter-optimisation" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="methods-for-hyperparameter-optimisation"><span class="header-section-number">6.2</span> Methods for Hyperparameter Optimisation</h2>
+<section id="grid-search" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="grid-search"><span class="header-section-number">6.2.1</span> Grid Search</h3>
+<p>Try <strong>every possible combination</strong> of hyperparameters. If you have 4 hyperparameters with 2, 5, 3, and 2 possible values each:</p>
+<p><span class="math display">\[2 \times 5 \times 3 \times 2 = 60 \text{ experiments}\]</span></p>
+<p>Grid search is <strong>exhaustive</strong> but <strong>very slow</strong> for large numbers of hyperparameters.</p>
+</section>
+<section id="random-search" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="random-search"><span class="header-section-number">6.2.2</span> Random Search</h3>
+<p>Select combinations <strong>at random</strong>. Useful when you cannot afford to run all combinations. Less thorough than grid search, but much faster.</p>
+</section>
+<section id="bayesian-search" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="bayesian-search"><span class="header-section-number">6.2.3</span> Bayesian Search</h3>
+<p>Starts like random search, then <strong>focuses on the most promising area</strong> based on the results seen so far. Think of it like the hot/cold game – it “gets warmer” and homes in on the best region.</p>
+</section>
+</section>
+<section id="r-code-manual-hyperparameter-search-random-forest" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="r-code-manual-hyperparameter-search-random-forest"><span class="header-section-number">6.3</span> R Code: Manual Hyperparameter Search (Random Forest)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define hyperparameter values to try</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>trees <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">200</span>, <span class="dv">500</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>mtrys <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>best_accuracy <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (v1 <span class="cf">in</span> trees) {</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (v2 <span class="cf">in</span> mtrys) {</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(<span class="fu">as.factor</span>(Survived) <span class="sc">~</span> .,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                             <span class="at">data  =</span> train_data,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                             <span class="at">ntree =</span> v1,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>                             <span class="at">mtry  =</span> v2)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    pr  <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_model, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    pr  <span class="ot">&lt;-</span> <span class="fu">factor</span>(pr, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    tab <span class="ot">&lt;-</span> <span class="fu">table</span>(pr, actuals)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    accuracy <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">diag</span>(tab)) <span class="sc">/</span> <span class="fu">sum</span>(tab)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (accuracy <span class="sc">&gt;</span> best_accuracy) {</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>      best_tree     <span class="ot">&lt;-</span> v1</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>      best_mtry     <span class="ot">&lt;-</span> v2</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>      best_accuracy <span class="ot">&lt;-</span> accuracy</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"Best accuracy = "</span>, <span class="fu">round</span>(best_accuracy, <span class="dv">2</span>),</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>             <span class="st">", ntree = "</span>, best_tree,</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>             <span class="st">", mtry = "</span>, best_mtry))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p>This runs 6 experiments (3 tree values × 2 mtry values). In practice, use the <code>caret</code> or <code>tidymodels</code> packages to do this automatically and more rigorously.</p>
+</blockquote>
+</section>
+<section id="important-warnings" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="important-warnings"><span class="header-section-number">6.4</span> Important Warnings</h2>
+<section id="you-need-three-data-splits-for-hyperparameter-optimisation" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="you-need-three-data-splits-for-hyperparameter-optimisation"><span class="header-section-number">6.4.1</span> You Need THREE Data Splits for Hyperparameter Optimisation</h3>
+<p>When optimising hyperparameters, do <strong>not</strong> keep evaluating on the same test set – you are effectively peeking at the answers. Use:</p>
+<ol type="1">
+<li><strong>Training set</strong> – train the model</li>
+<li><strong>Validation set</strong> – compare hyperparameter combinations</li>
+<li><strong>Test set</strong> – used <strong>only once</strong> at the very end to report final accuracy</li>
+</ol>
+<p>A typical split might be 70% / 15% / 15%.</p>
+</section>
+<section id="hyperparameter-optimisation-is-not-the-first-step" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="hyperparameter-optimisation-is-not-the-first-step"><span class="header-section-number">6.4.2</span> Hyperparameter Optimisation Is NOT the First Step</h3>
+<blockquote class="blockquote">
+<p>⚠️ Feature engineering and data quality matter <strong>much more</strong> than hyperparameter tuning. Most algorithms give reasonable results with default settings. Only optimise hyperparameters once your data preparation is solid.</p>
+</blockquote>
+</section>
+</section>
+<section id="automl" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="automl"><span class="header-section-number">6.5</span> AutoML</h2>
+<p>Some tools (e.g.&nbsp;<strong>h2o.ai</strong>, <strong>AWS SageMaker</strong>) automate the whole process: selecting the algorithm AND tuning the hyperparameters. This is called <strong>AutoML</strong>.</p>
+<ul>
+<li>Useful for extracting the last small improvement in performance.</li>
+<li>Can run for days on large datasets using multiple cloud machines.</li>
+<li>The improvement is usually small (often less than 1% accuracy difference between models).</li>
+<li>Should be the <strong>last</strong> step in your workflow, not the first.</li>
+</ul>
+<!-- ADD NOTES HERE: What other hyperparameters of random forest might be worth tuning? Look at `?randomForest` in R. -->
+<hr>
+</section>
+</section>
+<section id="key-formulas-summary" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Key Formulas Summary</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 59%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Formula</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x_{std} = \frac{x - \min(x)}{\max(x) - \min(x)}\)</span></td>
+<td>Standardisation (min-max scaling)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\text{Support}(X) = \frac{\text{count}(X)}{N}\)</span></td>
+<td>Fraction of transactions containing X</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\text{Confidence}(X \Rightarrow Y) = \frac{\text{Support}(X, Y)}{\text{Support}(X)}\)</span></td>
+<td>Probability of Y given X is in the basket</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\text{Lift}(X \Rightarrow Y) = \frac{\text{Support}(X, Y)}{\text{Support}(X) \times \text{Support}(Y)}\)</span></td>
+<td>How much more likely Y is when X is present</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="r-packages-used-this-week" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> R Packages Used This Week</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arules)      <span class="co"># Apriori algorithm and transactions</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arulesViz)   <span class="co"># Visualise association rules</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)     <span class="co"># Plotting</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)   <span class="co"># Arrange multiple plots</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest) <span class="co"># Random forest for hyperparameter example</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="summary-points" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Summary Points</h1>
+<ul>
+<li><p><strong>Communication is a core skill.</strong> Always connect your model to business outcomes (revenue, cost savings, customer retention).</p></li>
+<li><p><strong>Clustering is unsupervised</strong> – no target variable. It groups similar data points together. Always <strong>standardise</strong> data before clustering.</p></li>
+<li><p><strong>K-means</strong> requires you to choose k in advance. Use the <strong>elbow method</strong> to help. Run multiple times with <code>nstart</code> to avoid bad random starts.</p></li>
+<li><p><strong>Hierarchical clustering</strong> builds a tree (dendrogram) bottom-up, so you can choose the number of clusters after running it.</p></li>
+<li><p><strong>Clusters are not equal in size.</strong> The most interesting clusters are often the small ones.</p></li>
+<li><p><strong>After clustering, use exploratory data analysis</strong> (scatter plots, box plots) to understand what each cluster represents.</p></li>
+<li><p><strong>Recommendation engines use three metrics:</strong></p>
+<ul>
+<li><strong>Support</strong> – how common is this item?</li>
+<li><strong>Confidence</strong> – given X, how likely is Y?</li>
+<li><strong>Lift</strong> – is the X→Y relationship stronger than expected by chance? (Want &gt; 1)</li>
+</ul></li>
+<li><p><strong>Hyperparameters</strong> are settings of the algorithm (not the data). Finding the best ones is called <strong>hyperparameter optimisation</strong>.</p></li>
+<li><p><strong>Grid search</strong> tries all combinations. <strong>Random search</strong> tries random ones. <strong>Bayesian search</strong> focuses on promising areas.</p></li>
+<li><p>Always split data into <strong>3 parts</strong> (train / validation / test) when doing hyperparameter optimisation.</p></li>
+<li><p><strong>Feature engineering &gt; hyperparameter tuning.</strong> Fix your data first.</p></li>
+</ul>
+<!-- ADD NOTES HERE: Any final questions or things to follow up before the next class? -->
+<hr>
+<p><em>End of Week 7 Study Guide – STAT9013 Data Mining</em></p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../data-mining/week-6.html" class="pagination-link" aria-label="Week 6">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 6</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../data-mining/week-8.html" class="pagination-link" aria-label="Week 8">
+        <span class="nav-page-text">Week 8</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "STAT9013 – Week 7 Study Guide"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Data Mining: Clustering, Recommendation Engines &amp; Hyperparameter Optimisation"</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Note for review:** This document is a summary of the Week 7 lecture. You can add your own annotations, extra examples, or questions in the spaces marked with </span><span class="in">`&lt;!-- ADD NOTES HERE --&gt;`</span><span class="at">.</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics This Week</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Communicating results to business users</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clustering / Segmentation** (unsupervised machine learning)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>K-means clustering</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Hierarchical clustering</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>How to interpret clusters</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Recommendation engines** (the Apriori algorithm)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Support, Confidence, and Lift</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Applying rules to business problems</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Hyperparameter optimisation**</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Grid search, random search, Bayesian search</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>AutoML</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="fu"># Recap from Last Week</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>Last week covered the following topics (worth reviewing before reading further):</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Data leakage** – when training data contains information that would not be available at prediction time.</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sampling and cross-validation** – splitting data correctly so results are reliable.</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Imbalanced datasets** – when one class (e.g. fraud, cancer) is very rare, accuracy alone is not a useful measure. Recall is more important.</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Shiny** – an R tool for building interactive web applications.</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD NOTES HERE: Any questions from last week? --&gt;</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="fu"># Communicating Your Results</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why Communication Matters</span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>One of the most important skills for a data scientist is the ability to **communicate results clearly** to people who are not data scientists. The best model in the world has no value if nobody understands it or acts on it.</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>Key guidelines:</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Focus on business value**, not the machine learning technique. Nobody in business wants to hear about logistic regression – they want to know how many customers you will keep or how much money will be saved.</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Know your audience. A process engineer understands box plots and statistics. A marketing analyst may not.</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Many data science projects do **not** need machine learning. Creating good dashboards and visualisations is often more valuable.</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="fu">## Three Ways to Describe the Same Model</span></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>Here is an example of three ways to explain the same churn prediction model:</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Summary <span class="pp">|</span> Audience <span class="pp">|</span> Quality <span class="pp">|</span></span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|----------|---------|</span></span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> "Logistic regression with regularisation, recall 80%, precision 66%" <span class="pp">|</span> Data scientist peers <span class="pp">|</span> Too technical for business <span class="pp">|</span></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> "Identifies 80% of customers who will not return in 30 days; wrong 33% of the time" <span class="pp">|</span> Marketing team <span class="pp">|</span> Much better – explains the outcome <span class="pp">|</span></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> "Campaign will break even at 10% coupon redemption; at 20% redemption, incremental spend = €11,648, 1,500 extra customers retained" <span class="pp">|</span> Business decision makers <span class="pp">|</span> Best – connects model to money <span class="pp">|</span></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>**Key idea:** The third summary uses a **mathematical model in Excel** (not a machine learning model) to combine the data scientist's metrics (recall, precision) with the marketing team's assumptions (coupon cost, redemption rate). This allows both sides to be held accountable for their assumptions.</span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD NOTES HERE: What other examples of "translating" results into business language can you think of? --&gt;</span></span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a><span class="fu"># Clustering (Segmentation)</span></span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a><span class="fu">## What Is Clustering?</span></span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>**Clustering** (also called **segmentation**) is an **unsupervised machine learning** task. This means there is **no target variable** – we are not trying to predict anything. Instead, we are trying to find groups of data that are similar to each other.</span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>**Practical example:** A supermarket might cluster its customers into groups like "young families", "students", and "pensioners", each of which has different shopping habits. This allows the business to target each group differently.</span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ **Important:** Clusters will almost never be the same size. Expect one large cluster (the "average" customer) and several smaller, more interesting ones.</span></span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why We Need to Standardise Data</span></span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>Before clustering, we must **standardise** all numeric columns so they are on the same scale (0 to 1). Without this, columns with larger numbers (like square metres) will dominate over columns with smaller numbers (like number of bedrooms), even if the smaller column is more meaningful.</span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a><span class="fu">### Standardisation Formula</span></span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>$$x_{standardised} = \frac{x - \min(x)}{\max(x) - \min(x)}$$</span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>This converts any numeric value to a number between 0 and 1.</span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a>**In R:**</span>
+<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a>standardise <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a>  (x <span class="sc">-</span> <span class="fu">min</span>(x)) <span class="sc">/</span> (<span class="fu">max</span>(x) <span class="sc">-</span> <span class="fu">min</span>(x))</span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>Sepal.Length <span class="ot">&lt;-</span> <span class="fu">standardise</span>(iris<span class="sc">$</span>Sepal.Length)</span>
+<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>Sepal.Width  <span class="ot">&lt;-</span> <span class="fu">standardise</span>(iris<span class="sc">$</span>Sepal.Width)</span>
+<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>Petal.Length <span class="ot">&lt;-</span> <span class="fu">standardise</span>(iris<span class="sc">$</span>Petal.Length)</span>
+<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>Petal.Width  <span class="ot">&lt;-</span> <span class="fu">standardise</span>(iris<span class="sc">$</span>Petal.Width)</span>
+<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a>After standardisation, the minimum of every column will be 0 and the maximum will be 1.</span>
+<span id="cb13-101"><a href="#cb13-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD NOTES HERE: Why might mixing centimetres and kilograms in a clustering model cause problems? --&gt;</span></span>
+<span id="cb13-103"><a href="#cb13-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-104"><a href="#cb13-104" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-105"><a href="#cb13-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-106"><a href="#cb13-106" aria-hidden="true" tabindex="-1"></a><span class="fu">## K-Means Clustering</span></span>
+<span id="cb13-107"><a href="#cb13-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-108"><a href="#cb13-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### How It Works</span></span>
+<span id="cb13-109"><a href="#cb13-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-110"><a href="#cb13-110" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>You choose **k** (the number of clusters) before running the algorithm.</span>
+<span id="cb13-111"><a href="#cb13-111" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The algorithm randomly places **k centre points** (called centroids).</span>
+<span id="cb13-112"><a href="#cb13-112" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Each data point is assigned to the nearest centroid.</span>
+<span id="cb13-113"><a href="#cb13-113" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Each centroid is moved to the **average position** of all points assigned to it.</span>
+<span id="cb13-114"><a href="#cb13-114" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Steps 3 and 4 repeat until the assignments stop changing.</span>
+<span id="cb13-115"><a href="#cb13-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-116"><a href="#cb13-116" aria-hidden="true" tabindex="-1"></a>The algorithm is **not guaranteed** to find the perfect solution, so it is usually run multiple times (e.g. <span class="in">`nstart = 10`</span>) and the best result is kept.</span>
+<span id="cb13-117"><a href="#cb13-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-118"><a href="#cb13-118" aria-hidden="true" tabindex="-1"></a>**K-means tries to minimise the within-cluster variation** – it wants the points inside each cluster to be as close together as possible.</span>
+<span id="cb13-119"><a href="#cb13-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-120"><a href="#cb13-120" aria-hidden="true" tabindex="-1"></a><span class="fu">### R Code: K-Means on the Iris Dataset</span></span>
+<span id="cb13-121"><a href="#cb13-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-122"><a href="#cb13-122" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-123"><a href="#cb13-123" aria-hidden="true" tabindex="-1"></a><span class="co"># Run k-means with 3 clusters, 10 random starts</span></span>
+<span id="cb13-124"><a href="#cb13-124" aria-hidden="true" tabindex="-1"></a>k_clusters <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb13-125"><a href="#cb13-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-126"><a href="#cb13-126" aria-hidden="true" tabindex="-1"></a><span class="co"># View results</span></span>
+<span id="cb13-127"><a href="#cb13-127" aria-hidden="true" tabindex="-1"></a>k_clusters</span>
+<span id="cb13-128"><a href="#cb13-128" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-129"><a href="#cb13-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-130"><a href="#cb13-130" aria-hidden="true" tabindex="-1"></a>The output shows:</span>
+<span id="cb13-131"><a href="#cb13-131" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **cluster means** (centre of each cluster for each variable)</span>
+<span id="cb13-132"><a href="#cb13-132" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Which cluster each data point belongs to</span>
+<span id="cb13-133"><a href="#cb13-133" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **within-cluster sum of squares** (lower = tighter clusters)</span>
+<span id="cb13-134"><a href="#cb13-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-135"><a href="#cb13-135" aria-hidden="true" tabindex="-1"></a><span class="fu">### How to Choose k: The Elbow Method</span></span>
+<span id="cb13-136"><a href="#cb13-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-137"><a href="#cb13-137" aria-hidden="true" tabindex="-1"></a>If you do not know the number of clusters in advance, use the **elbow method**:</span>
+<span id="cb13-138"><a href="#cb13-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-139"><a href="#cb13-139" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Run k-means for k = 1, 2, 3, ..., 10.</span>
+<span id="cb13-140"><a href="#cb13-140" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Plot the **total within-cluster sum of squares** for each k.</span>
+<span id="cb13-141"><a href="#cb13-141" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Find the point where the line "bends" like an elbow – that is your best k.</span>
+<span id="cb13-142"><a href="#cb13-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-143"><a href="#cb13-143" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-144"><a href="#cb13-144" aria-hidden="true" tabindex="-1"></a>tot.withinss <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb13-145"><a href="#cb13-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-146"><a href="#cb13-146" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb13-147"><a href="#cb13-147" aria-hidden="true" tabindex="-1"></a>  k_clusters <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], k, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb13-148"><a href="#cb13-148" aria-hidden="true" tabindex="-1"></a>  tot.withinss <span class="ot">&lt;-</span> <span class="fu">c</span>(tot.withinss, k_clusters<span class="sc">$</span>tot.withinss)</span>
+<span id="cb13-149"><a href="#cb13-149" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-150"><a href="#cb13-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-151"><a href="#cb13-151" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">main =</span> <span class="st">"Selecting k: Elbow Method"</span>, tot.withinss, <span class="at">type =</span> <span class="st">"l"</span>)</span>
+<span id="cb13-152"><a href="#cb13-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-153"><a href="#cb13-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-154"><a href="#cb13-154" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; The curve drops steeply at first, then flattens out. The "elbow" (where the flattening begins) indicates the best number of clusters. For the iris dataset, the elbow is at **k = 3**.</span></span>
+<span id="cb13-155"><a href="#cb13-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-156"><a href="#cb13-156" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD NOTES HERE: What would happen if you chose k = 10 for a dataset that really has 3 natural groups? --&gt;</span></span>
+<span id="cb13-157"><a href="#cb13-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-158"><a href="#cb13-158" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-159"><a href="#cb13-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-160"><a href="#cb13-160" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hierarchical Clustering</span></span>
+<span id="cb13-161"><a href="#cb13-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-162"><a href="#cb13-162" aria-hidden="true" tabindex="-1"></a><span class="fu">### How It Works</span></span>
+<span id="cb13-163"><a href="#cb13-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-164"><a href="#cb13-164" aria-hidden="true" tabindex="-1"></a>Hierarchical clustering is a **bottom-up** approach:</span>
+<span id="cb13-165"><a href="#cb13-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-166"><a href="#cb13-166" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Every data point starts as its own cluster (150 points = 150 clusters).</span>
+<span id="cb13-167"><a href="#cb13-167" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The two **closest** clusters are merged into one.</span>
+<span id="cb13-168"><a href="#cb13-168" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Step 2 repeats until all points are in a single cluster.</span>
+<span id="cb13-169"><a href="#cb13-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-170"><a href="#cb13-170" aria-hidden="true" tabindex="-1"></a>The result is shown as a **dendrogram** (a tree diagram). You can then "cut" the tree at any height to get the number of clusters you want.</span>
+<span id="cb13-171"><a href="#cb13-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-172"><a href="#cb13-172" aria-hidden="true" tabindex="-1"></a>**Advantage over k-means:** You do **not** need to choose k in advance.</span>
+<span id="cb13-173"><a href="#cb13-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-174"><a href="#cb13-174" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reading a Dendrogram</span></span>
+<span id="cb13-175"><a href="#cb13-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-176"><a href="#cb13-176" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Draw a **horizontal line** across the tree at any height.</span>
+<span id="cb13-177"><a href="#cb13-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Count how many vertical lines it crosses – that is the number of clusters.</span>
+<span id="cb13-178"><a href="#cb13-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **vertical distance** between merges tells you how different the clusters are. Larger gaps = more distinct clusters.</span>
+<span id="cb13-179"><a href="#cb13-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-180"><a href="#cb13-180" aria-hidden="true" tabindex="-1"></a><span class="fu">### R Code: Hierarchical Clustering on the Iris Dataset</span></span>
+<span id="cb13-181"><a href="#cb13-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-182"><a href="#cb13-182" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-183"><a href="#cb13-183" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate distances between points, then cluster</span></span>
+<span id="cb13-184"><a href="#cb13-184" aria-hidden="true" tabindex="-1"></a>h_clusters <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
+<span id="cb13-185"><a href="#cb13-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-186"><a href="#cb13-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Cut the tree to get 3 clusters</span></span>
+<span id="cb13-187"><a href="#cb13-187" aria-hidden="true" tabindex="-1"></a>clusterId <span class="ot">&lt;-</span> <span class="fu">cutree</span>(h_clusters, <span class="dv">3</span>)</span>
+<span id="cb13-188"><a href="#cb13-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-189"><a href="#cb13-189" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the cluster ID back to the data</span></span>
+<span id="cb13-190"><a href="#cb13-190" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>clusterId <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(clusterId)</span>
+<span id="cb13-191"><a href="#cb13-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-192"><a href="#cb13-192" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the dendrogram</span></span>
+<span id="cb13-193"><a href="#cb13-193" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h_clusters)</span>
+<span id="cb13-194"><a href="#cb13-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-195"><a href="#cb13-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-196"><a href="#cb13-196" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD NOTES HERE: Compare k-means and hierarchical clustering. When would you use one over the other? --&gt;</span></span>
+<span id="cb13-197"><a href="#cb13-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-198"><a href="#cb13-198" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-199"><a href="#cb13-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-200"><a href="#cb13-200" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interpreting Clusters</span></span>
+<span id="cb13-201"><a href="#cb13-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-202"><a href="#cb13-202" aria-hidden="true" tabindex="-1"></a>After clustering, a common question is: **what do the clusters mean?**</span>
+<span id="cb13-203"><a href="#cb13-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-204"><a href="#cb13-204" aria-hidden="true" tabindex="-1"></a>The answer is to use the same **exploratory data analysis** techniques from earlier weeks – but instead of colouring plots by a target variable, colour them by **cluster ID**.</span>
+<span id="cb13-205"><a href="#cb13-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-206"><a href="#cb13-206" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-207"><a href="#cb13-207" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-208"><a href="#cb13-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-209"><a href="#cb13-209" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plots coloured by cluster</span></span>
+<span id="cb13-210"><a href="#cb13-210" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Sepal.Width, Sepal.Length, <span class="at">data =</span> iris,</span>
+<span id="cb13-211"><a href="#cb13-211" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> clusterId, <span class="at">main =</span> <span class="st">"Sepal.Width vs Sepal.Length"</span>)</span>
+<span id="cb13-212"><a href="#cb13-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-213"><a href="#cb13-213" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">qplot</span>(Petal.Length, Petal.Width, <span class="at">data =</span> iris,</span>
+<span id="cb13-214"><a href="#cb13-214" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> clusterId, <span class="at">main =</span> <span class="st">"Petal.Length vs Petal.Width"</span>)</span>
+<span id="cb13-215"><a href="#cb13-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-216"><a href="#cb13-216" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p1, p2)</span>
+<span id="cb13-217"><a href="#cb13-217" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-218"><a href="#cb13-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-219"><a href="#cb13-219" aria-hidden="true" tabindex="-1"></a>Look for patterns in the plots:</span>
+<span id="cb13-220"><a href="#cb13-220" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Do certain clusters have higher values on certain variables?</span>
+<span id="cb13-221"><a href="#cb13-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Can you give a meaningful name to each cluster? (e.g. "Large flowers", "Small flowers")</span>
+<span id="cb13-222"><a href="#cb13-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-223"><a href="#cb13-223" aria-hidden="true" tabindex="-1"></a><span class="fu">### Comparing Clusters to a Known Variable</span></span>
+<span id="cb13-224"><a href="#cb13-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-225"><a href="#cb13-225" aria-hidden="true" tabindex="-1"></a>Even though clustering does not use the <span class="in">`Species`</span> column, we can check how well the clusters match it afterwards:</span>
+<span id="cb13-226"><a href="#cb13-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-227"><a href="#cb13-227" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-228"><a href="#cb13-228" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris<span class="sc">$</span>clusterId, iris<span class="sc">$</span>Species)</span>
+<span id="cb13-229"><a href="#cb13-229" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-230"><a href="#cb13-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-231"><a href="#cb13-231" aria-hidden="true" tabindex="-1"></a>A good match between clusters and the known species confirms the clustering is working well.</span>
+<span id="cb13-232"><a href="#cb13-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-233"><a href="#cb13-233" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 🔑 **Key reminder:** Clustering does not aim to create equal-sized groups. In real retail data, you might find 80% of customers in one large "average" cluster, and small but very interesting clusters of students, pensioners, or high-spending customers.</span></span>
+<span id="cb13-234"><a href="#cb13-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-235"><a href="#cb13-235" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-236"><a href="#cb13-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-237"><a href="#cb13-237" aria-hidden="true" tabindex="-1"></a><span class="fu"># Recommendation Engines</span></span>
+<span id="cb13-238"><a href="#cb13-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-239"><a href="#cb13-239" aria-hidden="true" tabindex="-1"></a><span class="fu">## What Are They?</span></span>
+<span id="cb13-240"><a href="#cb13-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-241"><a href="#cb13-241" aria-hidden="true" tabindex="-1"></a>Recommendation engines are systems that suggest products to customers based on what other customers bought. Examples:</span>
+<span id="cb13-242"><a href="#cb13-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-243"><a href="#cb13-243" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>"People who bought this also bought…"</span>
+<span id="cb13-244"><a href="#cb13-244" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>"These items are commonly purchased together"</span>
+<span id="cb13-245"><a href="#cb13-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-246"><a href="#cb13-246" aria-hidden="true" tabindex="-1"></a>The most common algorithm for this is the **Apriori algorithm**, which finds patterns of items bought together in transactions (called **market basket analysis**).</span>
+<span id="cb13-247"><a href="#cb13-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-248"><a href="#cb13-248" aria-hidden="true" tabindex="-1"></a><span class="fu">## Three Key Metrics</span></span>
+<span id="cb13-249"><a href="#cb13-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-250"><a href="#cb13-250" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. Support</span></span>
+<span id="cb13-251"><a href="#cb13-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-252"><a href="#cb13-252" aria-hidden="true" tabindex="-1"></a>**How common is this item or item set?**</span>
+<span id="cb13-253"><a href="#cb13-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-254"><a href="#cb13-254" aria-hidden="true" tabindex="-1"></a>$$\text{Support}(X) = \frac{\text{Number of transactions containing } X}{\text{Total number of transactions}}$$</span>
+<span id="cb13-255"><a href="#cb13-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-256"><a href="#cb13-256" aria-hidden="true" tabindex="-1"></a>Support is used to **filter out rare items**. If an item only appears in 0.01% of transactions, any rule involving it will not be useful in practice.</span>
+<span id="cb13-257"><a href="#cb13-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-258"><a href="#cb13-258" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. Confidence</span></span>
+<span id="cb13-259"><a href="#cb13-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-260"><a href="#cb13-260" aria-hidden="true" tabindex="-1"></a>**If a customer buys X, how likely are they to also buy Y?**</span>
+<span id="cb13-261"><a href="#cb13-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-262"><a href="#cb13-262" aria-hidden="true" tabindex="-1"></a>$$\text{Confidence}(X \Rightarrow Y) = \frac{\text{Support}(X \text{ and } Y)}{\text{Support}(X)}$$</span>
+<span id="cb13-263"><a href="#cb13-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-264"><a href="#cb13-264" aria-hidden="true" tabindex="-1"></a>This measures the **strength of the rule** "if X then Y".</span>
+<span id="cb13-265"><a href="#cb13-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-266"><a href="#cb13-266" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3. Lift</span></span>
+<span id="cb13-267"><a href="#cb13-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-268"><a href="#cb13-268" aria-hidden="true" tabindex="-1"></a>**Is the relationship between X and Y stronger than what we would expect by chance?**</span>
+<span id="cb13-269"><a href="#cb13-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-270"><a href="#cb13-270" aria-hidden="true" tabindex="-1"></a>$$\text{Lift}(X \Rightarrow Y) = \frac{\text{Support}(X \text{ and } Y)}{\text{Support}(X) \times \text{Support}(Y)}$$</span>
+<span id="cb13-271"><a href="#cb13-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-272"><a href="#cb13-272" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Lift value <span class="pp">|</span> Meaning <span class="pp">|</span></span>
+<span id="cb13-273"><a href="#cb13-273" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------|---------|</span></span>
+<span id="cb13-274"><a href="#cb13-274" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> &gt; 1 <span class="pp">|</span> Buying X makes buying Y **more likely** than normal <span class="pp">|</span></span>
+<span id="cb13-275"><a href="#cb13-275" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> = 1 <span class="pp">|</span> X and Y are bought **independently** of each other <span class="pp">|</span></span>
+<span id="cb13-276"><a href="#cb13-276" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> &lt; 1 <span class="pp">|</span> Buying X makes buying Y **less likely** than normal <span class="pp">|</span></span>
+<span id="cb13-277"><a href="#cb13-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-278"><a href="#cb13-278" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 🔑 **Lift is the most important metric.** Select rules with the highest lift. A lift of 3.0 means a customer is 3× more likely to buy Y when they have X in their basket.</span></span>
+<span id="cb13-279"><a href="#cb13-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-280"><a href="#cb13-280" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD NOTES HERE: Can you think of a real-life product pair with very high lift? (e.g. nappies and beer is a classic example) --&gt;</span></span>
+<span id="cb13-281"><a href="#cb13-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-282"><a href="#cb13-282" aria-hidden="true" tabindex="-1"></a><span class="fu">## R Code: Apriori on the Groceries Dataset</span></span>
+<span id="cb13-283"><a href="#cb13-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-284"><a href="#cb13-284" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-285"><a href="#cb13-285" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arules)</span>
+<span id="cb13-286"><a href="#cb13-286" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arulesViz)</span>
+<span id="cb13-287"><a href="#cb13-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-288"><a href="#cb13-288" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the built-in grocery dataset</span></span>
+<span id="cb13-289"><a href="#cb13-289" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"Groceries"</span>)</span>
+<span id="cb13-290"><a href="#cb13-290" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Groceries)</span>
+<span id="cb13-291"><a href="#cb13-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-292"><a href="#cb13-292" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at the first 3 transactions</span></span>
+<span id="cb13-293"><a href="#cb13-293" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(<span class="fu">head</span>(Groceries, <span class="dv">3</span>))</span>
+<span id="cb13-294"><a href="#cb13-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-295"><a href="#cb13-295" aria-hidden="true" tabindex="-1"></a><span class="co"># See the most frequently bought items</span></span>
+<span id="cb13-296"><a href="#cb13-296" aria-hidden="true" tabindex="-1"></a>freq <span class="ot">&lt;-</span> <span class="fu">itemFrequency</span>(Groceries, <span class="at">type =</span> <span class="st">"absolute"</span>)</span>
+<span id="cb13-297"><a href="#cb13-297" aria-hidden="true" tabindex="-1"></a>freq <span class="ot">&lt;-</span> <span class="fu">sort</span>(freq, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-298"><a href="#cb13-298" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(freq)</span>
+<span id="cb13-299"><a href="#cb13-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-300"><a href="#cb13-300" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot item frequencies for top 20 items</span></span>
+<span id="cb13-301"><a href="#cb13-301" aria-hidden="true" tabindex="-1"></a><span class="fu">itemFrequencyPlot</span>(Groceries, <span class="at">topN =</span> <span class="dv">20</span>)</span>
+<span id="cb13-302"><a href="#cb13-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-303"><a href="#cb13-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-304"><a href="#cb13-304" aria-hidden="true" tabindex="-1"></a><span class="fu">### Running the Apriori Algorithm</span></span>
+<span id="cb13-305"><a href="#cb13-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-306"><a href="#cb13-306" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-307"><a href="#cb13-307" aria-hidden="true" tabindex="-1"></a><span class="co"># Items must appear in at least 1% of transactions</span></span>
+<span id="cb13-308"><a href="#cb13-308" aria-hidden="true" tabindex="-1"></a><span class="co"># Rules must have at least 30% confidence</span></span>
+<span id="cb13-309"><a href="#cb13-309" aria-hidden="true" tabindex="-1"></a>support    <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
+<span id="cb13-310"><a href="#cb13-310" aria-hidden="true" tabindex="-1"></a>confidence <span class="ot">&lt;-</span> <span class="fl">0.30</span></span>
+<span id="cb13-311"><a href="#cb13-311" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">support =</span> support, <span class="at">confidence =</span> confidence, <span class="at">target =</span> <span class="st">"rules"</span>)</span>
+<span id="cb13-312"><a href="#cb13-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-313"><a href="#cb13-313" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">apriori</span>(Groceries, <span class="at">parameter =</span> parameters)</span>
+<span id="cb13-314"><a href="#cb13-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-315"><a href="#cb13-315" aria-hidden="true" tabindex="-1"></a><span class="co"># View rules as a data frame</span></span>
+<span id="cb13-316"><a href="#cb13-316" aria-hidden="true" tabindex="-1"></a>dfRules <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item_set =</span> <span class="fu">labels</span>(rules), <span class="at">quality =</span> rules<span class="sc">@</span>quality)</span>
+<span id="cb13-317"><a href="#cb13-317" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dfRules)</span>
+<span id="cb13-318"><a href="#cb13-318" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-319"><a href="#cb13-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-320"><a href="#cb13-320" aria-hidden="true" tabindex="-1"></a><span class="fu">### Plotting the Rules</span></span>
+<span id="cb13-321"><a href="#cb13-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-322"><a href="#cb13-322" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-323"><a href="#cb13-323" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot of all rules</span></span>
+<span id="cb13-324"><a href="#cb13-324" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rules)</span>
+<span id="cb13-325"><a href="#cb13-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-326"><a href="#cb13-326" aria-hidden="true" tabindex="-1"></a><span class="co"># Network graph of only the strongest rules (lift &gt;= 3)</span></span>
+<span id="cb13-327"><a href="#cb13-327" aria-hidden="true" tabindex="-1"></a>rulesLift <span class="ot">&lt;-</span> <span class="fu">subset</span>(rules, lift <span class="sc">&gt;=</span> <span class="fl">3.0</span>)</span>
+<span id="cb13-328"><a href="#cb13-328" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rulesLift, <span class="at">method =</span> <span class="st">"graph"</span>)</span>
+<span id="cb13-329"><a href="#cb13-329" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-330"><a href="#cb13-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-331"><a href="#cb13-331" aria-hidden="true" tabindex="-1"></a><span class="fu">## Verifying Calculations Manually</span></span>
+<span id="cb13-332"><a href="#cb13-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-333"><a href="#cb13-333" aria-hidden="true" tabindex="-1"></a>You can verify what the algorithm is doing by calculating the metrics by hand:</span>
+<span id="cb13-334"><a href="#cb13-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-335"><a href="#cb13-335" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-336"><a href="#cb13-336" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert sparse matrix to full data frame</span></span>
+<span id="cb13-337"><a href="#cb13-337" aria-hidden="true" tabindex="-1"></a>dfTrans <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">as</span>(Groceries, <span class="st">"matrix"</span>))</span>
+<span id="cb13-338"><a href="#cb13-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-339"><a href="#cb13-339" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate support, confidence, and lift for beef =&gt; root vegetables</span></span>
+<span id="cb13-340"><a href="#cb13-340" aria-hidden="true" tabindex="-1"></a>support    <span class="ot">&lt;-</span> <span class="fu">sum</span>(dfTrans<span class="sc">$</span>beef <span class="sc">&amp;</span> dfTrans<span class="sc">$</span>root.vegetables) <span class="sc">/</span> <span class="fu">nrow</span>(dfTrans)</span>
+<span id="cb13-341"><a href="#cb13-341" aria-hidden="true" tabindex="-1"></a>confidence <span class="ot">&lt;-</span> <span class="fu">sum</span>(dfTrans<span class="sc">$</span>beef <span class="sc">&amp;</span> dfTrans<span class="sc">$</span>root.vegetables) <span class="sc">/</span> <span class="fu">sum</span>(dfTrans<span class="sc">$</span>beef)</span>
+<span id="cb13-342"><a href="#cb13-342" aria-hidden="true" tabindex="-1"></a>lift       <span class="ot">&lt;-</span> support <span class="sc">/</span> ((<span class="fu">sum</span>(dfTrans<span class="sc">$</span>beef) <span class="sc">/</span> <span class="fu">nrow</span>(dfTrans)) <span class="sc">*</span></span>
+<span id="cb13-343"><a href="#cb13-343" aria-hidden="true" tabindex="-1"></a>                         (<span class="fu">sum</span>(dfTrans<span class="sc">$</span>root.vegetables) <span class="sc">/</span> <span class="fu">nrow</span>(dfTrans)))</span>
+<span id="cb13-344"><a href="#cb13-344" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-345"><a href="#cb13-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-346"><a href="#cb13-346" aria-hidden="true" tabindex="-1"></a><span class="fu">## Applying Recommendation Rules in Practice</span></span>
+<span id="cb13-347"><a href="#cb13-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-348"><a href="#cb13-348" aria-hidden="true" tabindex="-1"></a>Things to consider when using recommendations in a real business:</span>
+<span id="cb13-349"><a href="#cb13-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-350"><a href="#cb13-350" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Transactional vs. member-based:** You can group items by transaction ID (what is in one basket right now) or by member ID (what a person has bought over their whole history). Member-based rules can capture purchases that happen months apart (e.g. a cyclist buys a bike, then later a helmet, then cycling shoes).</span>
+<span id="cb13-351"><a href="#cb13-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-352"><a href="#cb13-352" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Use segmentation + recommendations together:** Run the recommendation engine **separately on each customer segment**. This gives much more targeted and relevant suggestions.</span>
+<span id="cb13-353"><a href="#cb13-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-354"><a href="#cb13-354" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Substitute vs. complement products:**</span>
+<span id="cb13-355"><a href="#cb13-355" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>A **substitute** is a similar product (e.g. a different brand of TV). Goal: **upsell** (buy a better version).</span>
+<span id="cb13-356"><a href="#cb13-356" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>A **complement** is a product bought alongside the main product (e.g. a TV cable). Goal: **cross-sell** (buy something extra).</span>
+<span id="cb13-357"><a href="#cb13-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-358"><a href="#cb13-358" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Avoid bombarding customers.** If someone just bought a TV, showing them more TV ads for 6 months is annoying and ineffective.</span>
+<span id="cb13-359"><a href="#cb13-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-360"><a href="#cb13-360" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ethics matter.** A famous example: Target (US supermarket) identified pregnant women from their shopping habits and sent them baby product offers. One teenager's father received the offers before he knew about the pregnancy. Always consider how customers will feel about personalised targeting.</span>
+<span id="cb13-361"><a href="#cb13-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-362"><a href="#cb13-362" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD NOTES HERE: How would you combine clustering (Week 7) and recommendation engines in a single project? --&gt;</span></span>
+<span id="cb13-363"><a href="#cb13-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-364"><a href="#cb13-364" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-365"><a href="#cb13-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-366"><a href="#cb13-366" aria-hidden="true" tabindex="-1"></a><span class="fu"># Hyperparameter Optimisation</span></span>
+<span id="cb13-367"><a href="#cb13-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-368"><a href="#cb13-368" aria-hidden="true" tabindex="-1"></a><span class="fu">## What Is a Hyperparameter?</span></span>
+<span id="cb13-369"><a href="#cb13-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-370"><a href="#cb13-370" aria-hidden="true" tabindex="-1"></a>In statistics, a **parameter** usually means a variable in your data (e.g. <span class="in">`age`</span>, <span class="in">`income`</span>).</span>
+<span id="cb13-371"><a href="#cb13-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-372"><a href="#cb13-372" aria-hidden="true" tabindex="-1"></a>In machine learning, a **hyperparameter** is a **setting of the algorithm itself** – something you choose before training, not learned from the data.</span>
+<span id="cb13-373"><a href="#cb13-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-374"><a href="#cb13-374" aria-hidden="true" tabindex="-1"></a>**Examples:**</span>
+<span id="cb13-375"><a href="#cb13-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-376"><a href="#cb13-376" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Algorithm <span class="pp">|</span> Hyperparameter examples <span class="pp">|</span></span>
+<span id="cb13-377"><a href="#cb13-377" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------|------------------------|</span></span>
+<span id="cb13-378"><a href="#cb13-378" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Decision Tree <span class="pp">|</span> Splitting criterion (Gini, entropy) <span class="pp">|</span></span>
+<span id="cb13-379"><a href="#cb13-379" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Support Vector Machine <span class="pp">|</span> Kernel function (linear, RBF) <span class="pp">|</span></span>
+<span id="cb13-380"><a href="#cb13-380" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Neural Network <span class="pp">|</span> Number of layers, nodes per layer, learning rate <span class="pp">|</span></span>
+<span id="cb13-381"><a href="#cb13-381" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Random Forest <span class="pp">|</span> Number of trees (<span class="in">`ntree`</span>), features per tree (<span class="in">`mtry`</span>) <span class="pp">|</span></span>
+<span id="cb13-382"><a href="#cb13-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-383"><a href="#cb13-383" aria-hidden="true" tabindex="-1"></a>The process of finding the **best** set of hyperparameters is called **hyperparameter optimisation**.</span>
+<span id="cb13-384"><a href="#cb13-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-385"><a href="#cb13-385" aria-hidden="true" tabindex="-1"></a><span class="fu">## Methods for Hyperparameter Optimisation</span></span>
+<span id="cb13-386"><a href="#cb13-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-387"><a href="#cb13-387" aria-hidden="true" tabindex="-1"></a><span class="fu">### Grid Search</span></span>
+<span id="cb13-388"><a href="#cb13-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-389"><a href="#cb13-389" aria-hidden="true" tabindex="-1"></a>Try **every possible combination** of hyperparameters. If you have 4 hyperparameters with 2, 5, 3, and 2 possible values each:</span>
+<span id="cb13-390"><a href="#cb13-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-391"><a href="#cb13-391" aria-hidden="true" tabindex="-1"></a>$$2 \times 5 \times 3 \times 2 = 60 \text{ experiments}$$</span>
+<span id="cb13-392"><a href="#cb13-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-393"><a href="#cb13-393" aria-hidden="true" tabindex="-1"></a>Grid search is **exhaustive** but **very slow** for large numbers of hyperparameters.</span>
+<span id="cb13-394"><a href="#cb13-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-395"><a href="#cb13-395" aria-hidden="true" tabindex="-1"></a><span class="fu">### Random Search</span></span>
+<span id="cb13-396"><a href="#cb13-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-397"><a href="#cb13-397" aria-hidden="true" tabindex="-1"></a>Select combinations **at random**. Useful when you cannot afford to run all combinations. Less thorough than grid search, but much faster.</span>
+<span id="cb13-398"><a href="#cb13-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-399"><a href="#cb13-399" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bayesian Search</span></span>
+<span id="cb13-400"><a href="#cb13-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-401"><a href="#cb13-401" aria-hidden="true" tabindex="-1"></a>Starts like random search, then **focuses on the most promising area** based on the results seen so far. Think of it like the hot/cold game – it "gets warmer" and homes in on the best region.</span>
+<span id="cb13-402"><a href="#cb13-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-403"><a href="#cb13-403" aria-hidden="true" tabindex="-1"></a><span class="fu">## R Code: Manual Hyperparameter Search (Random Forest)</span></span>
+<span id="cb13-404"><a href="#cb13-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-405"><a href="#cb13-405" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-406"><a href="#cb13-406" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb13-407"><a href="#cb13-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-408"><a href="#cb13-408" aria-hidden="true" tabindex="-1"></a><span class="co"># Define hyperparameter values to try</span></span>
+<span id="cb13-409"><a href="#cb13-409" aria-hidden="true" tabindex="-1"></a>trees <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">200</span>, <span class="dv">500</span>)</span>
+<span id="cb13-410"><a href="#cb13-410" aria-hidden="true" tabindex="-1"></a>mtrys <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>)</span>
+<span id="cb13-411"><a href="#cb13-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-412"><a href="#cb13-412" aria-hidden="true" tabindex="-1"></a>best_accuracy <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-413"><a href="#cb13-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-414"><a href="#cb13-414" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (v1 <span class="cf">in</span> trees) {</span>
+<span id="cb13-415"><a href="#cb13-415" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (v2 <span class="cf">in</span> mtrys) {</span>
+<span id="cb13-416"><a href="#cb13-416" aria-hidden="true" tabindex="-1"></a>    rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(<span class="fu">as.factor</span>(Survived) <span class="sc">~</span> .,</span>
+<span id="cb13-417"><a href="#cb13-417" aria-hidden="true" tabindex="-1"></a>                             <span class="at">data  =</span> train_data,</span>
+<span id="cb13-418"><a href="#cb13-418" aria-hidden="true" tabindex="-1"></a>                             <span class="at">ntree =</span> v1,</span>
+<span id="cb13-419"><a href="#cb13-419" aria-hidden="true" tabindex="-1"></a>                             <span class="at">mtry  =</span> v2)</span>
+<span id="cb13-420"><a href="#cb13-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-421"><a href="#cb13-421" aria-hidden="true" tabindex="-1"></a>    pr  <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_model, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb13-422"><a href="#cb13-422" aria-hidden="true" tabindex="-1"></a>    pr  <span class="ot">&lt;-</span> <span class="fu">factor</span>(pr, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb13-423"><a href="#cb13-423" aria-hidden="true" tabindex="-1"></a>    tab <span class="ot">&lt;-</span> <span class="fu">table</span>(pr, actuals)</span>
+<span id="cb13-424"><a href="#cb13-424" aria-hidden="true" tabindex="-1"></a>    accuracy <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">diag</span>(tab)) <span class="sc">/</span> <span class="fu">sum</span>(tab)</span>
+<span id="cb13-425"><a href="#cb13-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-426"><a href="#cb13-426" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (accuracy <span class="sc">&gt;</span> best_accuracy) {</span>
+<span id="cb13-427"><a href="#cb13-427" aria-hidden="true" tabindex="-1"></a>      best_tree     <span class="ot">&lt;-</span> v1</span>
+<span id="cb13-428"><a href="#cb13-428" aria-hidden="true" tabindex="-1"></a>      best_mtry     <span class="ot">&lt;-</span> v2</span>
+<span id="cb13-429"><a href="#cb13-429" aria-hidden="true" tabindex="-1"></a>      best_accuracy <span class="ot">&lt;-</span> accuracy</span>
+<span id="cb13-430"><a href="#cb13-430" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-431"><a href="#cb13-431" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-432"><a href="#cb13-432" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-433"><a href="#cb13-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-434"><a href="#cb13-434" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"Best accuracy = "</span>, <span class="fu">round</span>(best_accuracy, <span class="dv">2</span>),</span>
+<span id="cb13-435"><a href="#cb13-435" aria-hidden="true" tabindex="-1"></a>             <span class="st">", ntree = "</span>, best_tree,</span>
+<span id="cb13-436"><a href="#cb13-436" aria-hidden="true" tabindex="-1"></a>             <span class="st">", mtry = "</span>, best_mtry))</span>
+<span id="cb13-437"><a href="#cb13-437" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-438"><a href="#cb13-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-439"><a href="#cb13-439" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; This runs 6 experiments (3 tree values × 2 mtry values). In practice, use the </span><span class="in">`caret`</span><span class="at"> or </span><span class="in">`tidymodels`</span><span class="at"> packages to do this automatically and more rigorously.</span></span>
+<span id="cb13-440"><a href="#cb13-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-441"><a href="#cb13-441" aria-hidden="true" tabindex="-1"></a><span class="fu">## Important Warnings</span></span>
+<span id="cb13-442"><a href="#cb13-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-443"><a href="#cb13-443" aria-hidden="true" tabindex="-1"></a><span class="fu">### You Need THREE Data Splits for Hyperparameter Optimisation</span></span>
+<span id="cb13-444"><a href="#cb13-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-445"><a href="#cb13-445" aria-hidden="true" tabindex="-1"></a>When optimising hyperparameters, do **not** keep evaluating on the same test set – you are effectively peeking at the answers. Use:</span>
+<span id="cb13-446"><a href="#cb13-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-447"><a href="#cb13-447" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Training set** – train the model</span>
+<span id="cb13-448"><a href="#cb13-448" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Validation set** – compare hyperparameter combinations</span>
+<span id="cb13-449"><a href="#cb13-449" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Test set** – used **only once** at the very end to report final accuracy</span>
+<span id="cb13-450"><a href="#cb13-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-451"><a href="#cb13-451" aria-hidden="true" tabindex="-1"></a>A typical split might be 70% / 15% / 15%.</span>
+<span id="cb13-452"><a href="#cb13-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-453"><a href="#cb13-453" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hyperparameter Optimisation Is NOT the First Step</span></span>
+<span id="cb13-454"><a href="#cb13-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-455"><a href="#cb13-455" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ Feature engineering and data quality matter **much more** than hyperparameter tuning. Most algorithms give reasonable results with default settings. Only optimise hyperparameters once your data preparation is solid.</span></span>
+<span id="cb13-456"><a href="#cb13-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-457"><a href="#cb13-457" aria-hidden="true" tabindex="-1"></a><span class="fu">## AutoML</span></span>
+<span id="cb13-458"><a href="#cb13-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-459"><a href="#cb13-459" aria-hidden="true" tabindex="-1"></a>Some tools (e.g. **h2o.ai**, **AWS SageMaker**) automate the whole process: selecting the algorithm AND tuning the hyperparameters. This is called **AutoML**.</span>
+<span id="cb13-460"><a href="#cb13-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-461"><a href="#cb13-461" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Useful for extracting the last small improvement in performance.</span>
+<span id="cb13-462"><a href="#cb13-462" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Can run for days on large datasets using multiple cloud machines.</span>
+<span id="cb13-463"><a href="#cb13-463" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The improvement is usually small (often less than 1% accuracy difference between models).</span>
+<span id="cb13-464"><a href="#cb13-464" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Should be the **last** step in your workflow, not the first.</span>
+<span id="cb13-465"><a href="#cb13-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-466"><a href="#cb13-466" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD NOTES HERE: What other hyperparameters of random forest might be worth tuning? Look at `?randomForest` in R. --&gt;</span></span>
+<span id="cb13-467"><a href="#cb13-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-468"><a href="#cb13-468" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-469"><a href="#cb13-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-470"><a href="#cb13-470" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Formulas Summary</span></span>
+<span id="cb13-471"><a href="#cb13-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-472"><a href="#cb13-472" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Formula <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb13-473"><a href="#cb13-473" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|-------------|</span></span>
+<span id="cb13-474"><a href="#cb13-474" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $x_{std} = \frac{x - \min(x)}{\max(x) - \min(x)}$ <span class="pp">|</span> Standardisation (min-max scaling) <span class="pp">|</span></span>
+<span id="cb13-475"><a href="#cb13-475" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\text{Support}(X) = \frac{\text{count}(X)}{N}$ <span class="pp">|</span> Fraction of transactions containing X <span class="pp">|</span></span>
+<span id="cb13-476"><a href="#cb13-476" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\text{Confidence}(X \Rightarrow Y) = \frac{\text{Support}(X, Y)}{\text{Support}(X)}$ <span class="pp">|</span> Probability of Y given X is in the basket <span class="pp">|</span></span>
+<span id="cb13-477"><a href="#cb13-477" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\text{Lift}(X \Rightarrow Y) = \frac{\text{Support}(X, Y)}{\text{Support}(X) \times \text{Support}(Y)}$ <span class="pp">|</span> How much more likely Y is when X is present <span class="pp">|</span></span>
+<span id="cb13-478"><a href="#cb13-478" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-479"><a href="#cb13-479" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-480"><a href="#cb13-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-481"><a href="#cb13-481" aria-hidden="true" tabindex="-1"></a><span class="fu"># R Packages Used This Week</span></span>
+<span id="cb13-482"><a href="#cb13-482" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-483"><a href="#cb13-483" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb13-484"><a href="#cb13-484" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arules)      <span class="co"># Apriori algorithm and transactions</span></span>
+<span id="cb13-485"><a href="#cb13-485" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arulesViz)   <span class="co"># Visualise association rules</span></span>
+<span id="cb13-486"><a href="#cb13-486" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)     <span class="co"># Plotting</span></span>
+<span id="cb13-487"><a href="#cb13-487" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)   <span class="co"># Arrange multiple plots</span></span>
+<span id="cb13-488"><a href="#cb13-488" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest) <span class="co"># Random forest for hyperparameter example</span></span>
+<span id="cb13-489"><a href="#cb13-489" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-490"><a href="#cb13-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-491"><a href="#cb13-491" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-492"><a href="#cb13-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-493"><a href="#cb13-493" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb13-494"><a href="#cb13-494" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-495"><a href="#cb13-495" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Communication is a core skill.** Always connect your model to business outcomes (revenue, cost savings, customer retention).</span>
+<span id="cb13-496"><a href="#cb13-496" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-497"><a href="#cb13-497" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clustering is unsupervised** – no target variable. It groups similar data points together. Always **standardise** data before clustering.</span>
+<span id="cb13-498"><a href="#cb13-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-499"><a href="#cb13-499" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**K-means** requires you to choose k in advance. Use the **elbow method** to help. Run multiple times with <span class="in">`nstart`</span> to avoid bad random starts.</span>
+<span id="cb13-500"><a href="#cb13-500" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-501"><a href="#cb13-501" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Hierarchical clustering** builds a tree (dendrogram) bottom-up, so you can choose the number of clusters after running it.</span>
+<span id="cb13-502"><a href="#cb13-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-503"><a href="#cb13-503" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clusters are not equal in size.** The most interesting clusters are often the small ones.</span>
+<span id="cb13-504"><a href="#cb13-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-505"><a href="#cb13-505" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**After clustering, use exploratory data analysis** (scatter plots, box plots) to understand what each cluster represents.</span>
+<span id="cb13-506"><a href="#cb13-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-507"><a href="#cb13-507" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Recommendation engines use three metrics:**</span>
+<span id="cb13-508"><a href="#cb13-508" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Support** – how common is this item?</span>
+<span id="cb13-509"><a href="#cb13-509" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Confidence** – given X, how likely is Y?</span>
+<span id="cb13-510"><a href="#cb13-510" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Lift** – is the X→Y relationship stronger than expected by chance? (Want &gt; 1)</span>
+<span id="cb13-511"><a href="#cb13-511" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-512"><a href="#cb13-512" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Hyperparameters** are settings of the algorithm (not the data). Finding the best ones is called **hyperparameter optimisation**.</span>
+<span id="cb13-513"><a href="#cb13-513" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-514"><a href="#cb13-514" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Grid search** tries all combinations. **Random search** tries random ones. **Bayesian search** focuses on promising areas.</span>
+<span id="cb13-515"><a href="#cb13-515" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-516"><a href="#cb13-516" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always split data into **3 parts** (train / validation / test) when doing hyperparameter optimisation.</span>
+<span id="cb13-517"><a href="#cb13-517" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-518"><a href="#cb13-518" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Feature engineering &gt; hyperparameter tuning.** Fix your data first.</span>
+<span id="cb13-519"><a href="#cb13-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-520"><a href="#cb13-520" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD NOTES HERE: Any final questions or things to follow up before the next class? --&gt;</span></span>
+<span id="cb13-521"><a href="#cb13-521" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-522"><a href="#cb13-522" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb13-523"><a href="#cb13-523" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-524"><a href="#cb13-524" aria-hidden="true" tabindex="-1"></a>*End of Week 7 Study Guide – STAT9013 Data Mining*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

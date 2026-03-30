@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 9 – Semester Notes</title>
+<title>Week 9 Study Guide: Multiple Linear Regression – Semester Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../time-series/index.html" rel="next">
-<link href="../regression-analysis/week-8.qmd" rel="prev">
+<link href="../regression-analysis/week-8.html" rel="prev">
 <link href="../favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -107,6 +107,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -120,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-9.html">Week 9 - empty</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-9.html">Week 9</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -270,26 +299,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/week-6.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 6 - empty</span></a>
+  <a href="../regression-analysis/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/week-7.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 7 - empty</span></a>
+  <a href="../regression-analysis/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../regression-analysis/week-8.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 8 - empty</span></a>
+  <a href="../regression-analysis/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Week 9 - empty</span></a>
+ <span class="menu-text">Week 9</span></a>
   </div>
 </li>
       </ul>
@@ -371,15 +400,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics-covered-this-week" id="toc-key-topics-covered-this-week" class="nav-link active" data-scroll-target="#key-topics-covered-this-week"><span class="header-section-number">1</span> Key Topics Covered This Week</a></li>
+  <li><a href="#core-explanations" id="toc-core-explanations" class="nav-link" data-scroll-target="#core-explanations"><span class="header-section-number">2</span> Core Explanations</a>
+  <ul class="collapse">
+  <li><a href="#multiple-linear-regression" id="toc-multiple-linear-regression" class="nav-link" data-scroll-target="#multiple-linear-regression"><span class="header-section-number">2.1</span> Multiple Linear Regression</a>
+  <ul class="collapse">
+  <li><a href="#interpreting-the-coefficients" id="toc-interpreting-the-coefficients" class="nav-link" data-scroll-target="#interpreting-the-coefficients"><span class="header-section-number">2.1.1</span> Interpreting the Coefficients</a></li>
+  </ul></li>
+  <li><a href="#matrix-notation" id="toc-matrix-notation" class="nav-link" data-scroll-target="#matrix-notation"><span class="header-section-number">2.2</span> Matrix Notation</a></li>
+  <li><a href="#least-squares-estimation" id="toc-least-squares-estimation" class="nav-link" data-scroll-target="#least-squares-estimation"><span class="header-section-number">2.3</span> Least Squares Estimation</a></li>
+  <li><a href="#assumptions-of-multiple-linear-regression" id="toc-assumptions-of-multiple-linear-regression" class="nav-link" data-scroll-target="#assumptions-of-multiple-linear-regression"><span class="header-section-number">2.4</span> Assumptions of Multiple Linear Regression</a></li>
+  <li><a href="#r²-and-adjusted-r²" id="toc-r²-and-adjusted-r²" class="nav-link" data-scroll-target="#r²-and-adjusted-r²"><span class="header-section-number">2.5</span> R² and Adjusted R²</a></li>
+  <li><a href="#the-global-f-test" id="toc-the-global-f-test" class="nav-link" data-scroll-target="#the-global-f-test"><span class="header-section-number">2.6</span> The Global F-Test</a></li>
+  <li><a href="#comparing-nested-models" id="toc-comparing-nested-models" class="nav-link" data-scroll-target="#comparing-nested-models"><span class="header-section-number">2.7</span> Comparing Nested Models</a></li>
+  <li><a href="#collinearity-multicollinearity" id="toc-collinearity-multicollinearity" class="nav-link" data-scroll-target="#collinearity-multicollinearity"><span class="header-section-number">2.8</span> Collinearity (Multicollinearity)</a></li>
+  <li><a href="#model-diagnostics" id="toc-model-diagnostics" class="nav-link" data-scroll-target="#model-diagnostics"><span class="header-section-number">2.9</span> Model Diagnostics</a>
+  <ul class="collapse">
+  <li><a href="#residuals-vs-fitted-values" id="toc-residuals-vs-fitted-values" class="nav-link" data-scroll-target="#residuals-vs-fitted-values"><span class="header-section-number">2.9.1</span> 1. Residuals vs Fitted Values</a></li>
+  <li><a href="#qq-plot-quantile-quantile-plot" id="toc-qq-plot-quantile-quantile-plot" class="nav-link" data-scroll-target="#qq-plot-quantile-quantile-plot"><span class="header-section-number">2.9.2</span> 2. QQ Plot (Quantile-Quantile Plot)</a></li>
+  <li><a href="#leverage" id="toc-leverage" class="nav-link" data-scroll-target="#leverage"><span class="header-section-number">2.9.3</span> 3. Leverage</a></li>
+  <li><a href="#studentised-residuals" id="toc-studentised-residuals" class="nav-link" data-scroll-target="#studentised-residuals"><span class="header-section-number">2.9.4</span> 4. Studentised Residuals</a></li>
+  <li><a href="#cooks-distance" id="toc-cooks-distance" class="nav-link" data-scroll-target="#cooks-distance"><span class="header-section-number">2.9.5</span> 5. Cook’s Distance</a></li>
+  <li><a href="#combined-interpretation" id="toc-combined-interpretation" class="nav-link" data-scroll-target="#combined-interpretation"><span class="header-section-number">2.9.6</span> Combined interpretation</a></li>
+  </ul></li>
+  <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation"><span class="header-section-number">2.10</span> Cross-Validation</a></li>
+  </ul></li>
+  <li><a href="#practical-example-the-savings-dataset" id="toc-practical-example-the-savings-dataset" class="nav-link" data-scroll-target="#practical-example-the-savings-dataset"><span class="header-section-number">3</span> Practical Example: The Savings Dataset</a>
+  <ul class="collapse">
+  <li><a href="#step-by-step-model-building-process-from-class" id="toc-step-by-step-model-building-process-from-class" class="nav-link" data-scroll-target="#step-by-step-model-building-process-from-class"><span class="header-section-number">3.0.1</span> Step-by-step model-building process (from class):</a></li>
+  </ul></li>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">4</span> Key Equations / Formulas</a></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">5</span> Summary Points</a></li>
+  <li><a href="#materials-referenced-in-class" id="toc-materials-referenced-in-class" class="nav-link" data-scroll-target="#materials-referenced-in-class"><span class="header-section-number">6</span> Materials Referenced in Class</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-9.html">Week 9 - empty</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-9.html">Week 9</a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Week 9</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Week 9 Study Guide: Multiple Linear Regression</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Regression Analysis</p>
 </div>
 
 
@@ -396,11 +463,530 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The main takeaway from this class is that we just need to make sure that I understand what it is that you need to look at when you’re looking at each one because we will need to be able to interpret them.</p>
+<blockquote class="blockquote">
+<p>📝 <strong>Note to self:</strong> These notes are a summary of the live lecture transcript. Review alongside the slides posted on campus and the lab exercises. Paula mentioned she will upload exercises after the break — revisit and annotate those sections once available.</p>
+</blockquote>
+<hr>
+<section id="key-topics-covered-this-week" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics Covered This Week</h1>
+<ul>
+<li><strong>Multiple Linear Regression (MLR)</strong> — extending simple regression to many explanatory variables</li>
+<li><strong>Matrix Notation</strong> for regression models</li>
+<li><strong>Least Squares Estimation</strong> — how the β coefficients are calculated</li>
+<li><strong>Model Interpretation</strong> — how to read coefficients, R², adjusted R², and p-values</li>
+<li><strong>R² vs Adjusted R²</strong> — why they differ, and which to use</li>
+<li><strong>Hypothesis Testing in MLR</strong> — global F-test and individual coefficient tests</li>
+<li><strong>Comparing Nested Models</strong> using ANOVA</li>
+<li><strong>Collinearity / Multicollinearity</strong> — when explanatory variables are correlated with each other</li>
+<li><strong>Model Diagnostics</strong> — residual plots, QQ plots, leverage, Cook’s Distance</li>
+<li><strong>Cross-Validation</strong> — testing how well the model generalises to new data</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanations" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanations</h1>
+<section id="multiple-linear-regression" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="multiple-linear-regression"><span class="header-section-number">2.1</span> Multiple Linear Regression</h2>
+<p><strong>Multiple linear regression</strong> is an extension of simple linear regression. Instead of one explanatory (independent) variable <span class="math inline">\(X\)</span>, you now have <strong>multiple</strong> explanatory variables <span class="math inline">\(X_1, X_2, \ldots, X_k\)</span>.</p>
+<p>The model looks like this:</p>
+<p><span class="math display">\[
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_k X_k + \varepsilon
+\]</span></p>
+<p>The word <strong>“linear”</strong> here does not mean the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is a straight line — it means that the <strong>response variable <span class="math inline">\(Y\)</span> is a linear function of the coefficients</strong> (<span class="math inline">\(\beta\)</span> values). This is an important distinction.</p>
+<section id="interpreting-the-coefficients" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="interpreting-the-coefficients"><span class="header-section-number">2.1.1</span> Interpreting the Coefficients</h3>
+<p>Each coefficient <span class="math inline">\(\beta_j\)</span> represents the <strong>expected change in the response <span class="math inline">\(Y\)</span> for a one-unit increase in <span class="math inline">\(X_j\)</span></strong>, <em>while all other explanatory variables are held constant.</em></p>
+<blockquote class="blockquote">
+<p>⚠️ <strong>Exam tip (Paula’s emphasis):</strong> When interpreting a coefficient in a multiple regression model, you <strong>must</strong> state that the other variables are held constant. This is key to getting full marks.</p>
+</blockquote>
+<p>Example from class (savings dataset):</p>
+<ul>
+<li>For a one-unit increase in <em>population under 15</em>, the savings rate <strong>decreases by 0.216</strong>, holding all other variables constant.</li>
+<li>For a one-unit increase in <em>percentage rate of change of disposable income (DDPI)</em>, the savings rate <strong>increases by 0.443</strong>, holding all other variables constant.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="matrix-notation" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="matrix-notation"><span class="header-section-number">2.2</span> Matrix Notation</h2>
+<p>The entire regression model can be written compactly using <strong>matrix notation</strong>:</p>
+<p><span class="math display">\[
+\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}
+\]</span></p>
+<p>Where:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 31%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Meaning</th>
+<th>Dimensions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mathbf{Y}\)</span></td>
+<td>Vector of response values</td>
+<td><span class="math inline">\(n \times 1\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathbf{X}\)</span></td>
+<td>Design matrix (includes a column of 1s for the intercept)</td>
+<td><span class="math inline">\(n \times (k+1)\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\boldsymbol{\beta}\)</span></td>
+<td>Vector of coefficients (intercept + slopes)</td>
+<td><span class="math inline">\((k+1) \times 1\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\boldsymbol{\varepsilon}\)</span></td>
+<td>Vector of error terms</td>
+<td><span class="math inline">\(n \times 1\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The first column of <span class="math inline">\(\mathbf{X}\)</span> is a column of 1s — this is a placeholder for the intercept <span class="math inline">\(\beta_0\)</span>.</p>
+<hr>
+</section>
+<section id="least-squares-estimation" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="least-squares-estimation"><span class="header-section-number">2.3</span> Least Squares Estimation</h2>
+<p>The <strong>least squares</strong> method finds the <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> that <strong>minimises the error sum of squares (SSE)</strong> — i.e., it minimises the total squared distance between the observed values and the fitted (predicted) values.</p>
+<p><span class="math display">\[
+SSE = \sum_{i=1}^{n}(y_i - \hat{y}_i)^2 = (\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}})^T(\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}})
+\]</span></p>
+<p>The solution (in matrix form) is:</p>
+<p><span class="math display">\[
+\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}
+\]</span></p>
+<p>The <strong>fitted values</strong> are then:</p>
+<p><span class="math display">\[
+\hat{\mathbf{Y}} = \mathbf{X}\hat{\boldsymbol{\beta}} = \mathbf{H}\mathbf{Y}
+\]</span></p>
+<p>Where <span class="math inline">\(\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\)</span> is known as the <strong>Hat Matrix</strong> (because it “puts the hat” on <span class="math inline">\(Y\)</span>).</p>
+<p>The <strong>residuals</strong> are:</p>
+<p><span class="math display">\[
+\hat{\boldsymbol{\varepsilon}} = \mathbf{Y} - \hat{\mathbf{Y}} = (\mathbf{I} - \mathbf{H})\mathbf{Y}
+\]</span></p>
+<p>The <strong>estimate of the error variance</strong> (<span class="math inline">\(\sigma^2\)</span>) is:</p>
+<p><span class="math display">\[
+\hat{\sigma}^2 = \frac{SSE}{n - k - 1}
+\]</span></p>
+<p>Where <span class="math inline">\(n\)</span> = number of observations and <span class="math inline">\(k\)</span> = number of explanatory variables.</p>
+<blockquote class="blockquote">
+<p>📌 Paula’s note: You don’t need to compute this by hand — just understand the theory behind it.</p>
+</blockquote>
+<hr>
+</section>
+<section id="assumptions-of-multiple-linear-regression" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="assumptions-of-multiple-linear-regression"><span class="header-section-number">2.4</span> Assumptions of Multiple Linear Regression</h2>
+<p>The assumptions are the same as in simple linear regression:</p>
+<ol type="1">
+<li><strong>Linearity</strong> — <span class="math inline">\(Y\)</span> is a linear function of the coefficients.</li>
+<li><strong>Independence</strong> — Error terms are independent of each other.</li>
+<li><strong>Normality</strong> — Errors are normally distributed: <span class="math inline">\(\varepsilon \sim N(0, \sigma^2)\)</span>.</li>
+<li><strong>Constant variance (homoscedasticity)</strong> — The variance of the errors is constant across all values of <span class="math inline">\(X\)</span>.</li>
+<li><strong>Explanatory variables are measured without error</strong> — No distributional assumptions are placed on the <span class="math inline">\(X\)</span> variables themselves.</li>
+</ol>
+<hr>
+</section>
+<section id="r²-and-adjusted-r²" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="r²-and-adjusted-r²"><span class="header-section-number">2.5</span> R² and Adjusted R²</h2>
+<p><strong>R² (R-squared / Coefficient of Determination):</strong> The proportion of variation in <span class="math inline">\(Y\)</span> that is explained by the model. Always expressed as a percentage.</p>
+<p><span class="math display">\[
+R^2 = 1 - \frac{SSE}{SST}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(R^2 = 0.2075\)</span> means <strong>20.75% of the variation in Y is explained by X</strong>.</li>
+<li>Whatever is not explained is due to <strong>other unknown variables</strong> or <strong>random error</strong>.</li>
+</ul>
+<p><strong>Problem with R²:</strong> It always increases (or stays the same) when you add more variables to the model, even if those variables are useless. This can make a model <em>look</em> better than it is.</p>
+<p><strong>Adjusted R²</strong> penalises the model for adding extra variables that don’t genuinely improve fit:</p>
+<p><span class="math display">\[
+\bar{R}^2 = 1 - \frac{SSE/(n-k-1)}{SST/(n-1)}
+\]</span></p>
+<blockquote class="blockquote">
+<p>⚠️ The <strong>Adjusted R²</strong> will always be <strong>lower than R²</strong> in a multiple regression model. This is expected and not a problem.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>📌 Also note: R² for the model with <em>both</em> explanatory variables (28.75%) is <strong>less than</strong> the sum of the two individual model R² values (20.75% + 9.29% = 30.04%). This is because the two variables share some overlapping explanatory power.</p>
+</blockquote>
+<hr>
+</section>
+<section id="the-global-f-test" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="the-global-f-test"><span class="header-section-number">2.6</span> The Global F-Test</h2>
+<p>Before looking at individual coefficients, the <strong>first step</strong> when interpreting a regression output is to check the <strong>overall model significance</strong> using the <strong>global F-test</strong>.</p>
+<p><strong>Hypotheses:</strong> <span class="math display">\[H_0: \beta_1 = \beta_2 = \cdots = \beta_k = 0\]</span> <span class="math display">\[H_1: \text{At least one } \beta_j \neq 0\]</span></p>
+<ul>
+<li>If the p-value is significant → at least one explanatory variable is associated with the response.</li>
+<li>This test is called the <strong>global F-test</strong> (also: comparing the full model to the null model).</li>
+</ul>
+<blockquote class="blockquote">
+<p>⚠️ <strong>Exam tip:</strong> Always check the overall model p-value <em>first</em>, before interpreting individual coefficients.</p>
+</blockquote>
+<hr>
+</section>
+<section id="comparing-nested-models" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="comparing-nested-models"><span class="header-section-number">2.7</span> Comparing Nested Models</h2>
+<p>Sometimes you want to compare a <strong>full model</strong> (all variables) with a <strong>reduced model</strong> (fewer variables).</p>
+<p>This is done using an <strong>ANOVA F-test</strong>:</p>
+<p><span class="math display">\[
+F = \frac{(SSE_{\text{reduced}} - SSE_{\text{full}}) / (p - q)}{SSE_{\text{full}} / (n - p)}
+\]</span></p>
+<p>Where: - <span class="math inline">\(p\)</span> = number of parameters in the full model - <span class="math inline">\(q\)</span> = number of parameters in the reduced model - <span class="math inline">\(n\)</span> = number of observations</p>
+<blockquote class="blockquote">
+<p>⚠️ <strong>Important:</strong> The summary output in R tests only <strong>one variable at a time</strong>. If you want to drop more than one variable, you must use ANOVA to compare models directly.</p>
+</blockquote>
+<p><strong>Example from class:</strong><br>
+Testing whether <em>population over 75</em> and <em>DPI</em> could both be dropped: F-statistic = 1.723, p-value = 0.19 → <strong>fail to reject H₀</strong> → the larger model does not fit significantly better, so those two variables can potentially be dropped.</p>
+<hr>
+</section>
+<section id="collinearity-multicollinearity" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="collinearity-multicollinearity"><span class="header-section-number">2.8</span> Collinearity (Multicollinearity)</h2>
+<p><strong>Collinearity</strong> occurs when two or more explanatory variables are <strong>highly correlated</strong> with each other.</p>
+<p>In the savings dataset example, <em>population under 15</em> and <em>population over 75</em> both measure age-related demographics and were <strong>negatively correlated with each other</strong>. Including both made one or both appear insignificant — even though each was significant on its own.</p>
+<p><strong>Effects of collinearity:</strong> - Imprecise (unstable) estimates of <span class="math inline">\(\hat{\beta}\)</span> with large standard errors - F-tests and t-tests may fail to reveal significance - The sign or magnitude of a coefficient can flip when variables are added or removed</p>
+<p><strong>Detection — Variance Inflation Factor (VIF):</strong></p>
+<p><span class="math display">\[
+VIF_j = \frac{1}{1 - R^2_j}
+\]</span></p>
+<p>where <span class="math inline">\(R^2_j\)</span> is the R² from regressing <span class="math inline">\(X_j\)</span> on all other explanatory variables.</p>
+<blockquote class="blockquote">
+<p>📌 <strong>Rule of thumb:</strong> If VIF &gt; 5, there is evidence of <strong>serious collinearity</strong>.</p>
+</blockquote>
+<p><strong>Solutions:</strong> - Remove one of the correlated variables - Use <strong>Principal Component Analysis (PCA)</strong> followed by regression — this creates a new, uncorrelated set of variables - Use <strong>shrinkage methods</strong> (e.g., Ridge regression, LASSO)</p>
+<hr>
+</section>
+<section id="model-diagnostics" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="model-diagnostics"><span class="header-section-number">2.9</span> Model Diagnostics</h2>
+<p>After fitting a regression model, you must check the assumptions using <strong>diagnostic plots</strong>. Paula emphasised that these will appear in the labs.</p>
+<section id="residuals-vs-fitted-values" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="residuals-vs-fitted-values"><span class="header-section-number">2.9.1</span> 1. Residuals vs Fitted Values</h3>
+<ul>
+<li>Plots the residuals (<span class="math inline">\(y_i - \hat{y}_i\)</span>) on the y-axis against the fitted values (<span class="math inline">\(\hat{y}_i\)</span>) on the x-axis.</li>
+<li><strong>What you want:</strong> A random, constant scatter of points with no pattern.</li>
+<li><strong>What’s bad:</strong> A curved or funnel-shaped pattern — this suggests the relationship is non-linear or the variance is non-constant (heteroscedasticity).</li>
+</ul>
+<blockquote class="blockquote">
+<p>💡 If a curved pattern appears, you may need to add a <strong>quadratic term</strong> (e.g., <span class="math inline">\(X^2\)</span>) to the model.</p>
+</blockquote>
+</section>
+<section id="qq-plot-quantile-quantile-plot" class="level3" data-number="2.9.2">
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="qq-plot-quantile-quantile-plot"><span class="header-section-number">2.9.2</span> 2. QQ Plot (Quantile-Quantile Plot)</h3>
+<ul>
+<li>Compares the quantiles of your residuals to the quantiles of a theoretical normal distribution.</li>
+<li><strong>What you want:</strong> Residuals that fall close to the diagonal line.</li>
+<li><strong>What’s bad:</strong> Strong deviations from the diagonal suggest non-normality.</li>
+</ul>
+<blockquote class="blockquote">
+<p>📌 QQ plots are preferred over histograms (especially for small samples), because histograms are sensitive to bin width choice. You can use both together.</p>
+</blockquote>
+</section>
+<section id="leverage" class="level3" data-number="2.9.3">
+<h3 data-number="2.9.3" class="anchored" data-anchor-id="leverage"><span class="header-section-number">2.9.3</span> 3. Leverage</h3>
+<p>Leverage measures how much an observation’s value on the <strong>explanatory variable(s)</strong> differs from the mean of those variables.</p>
+<p><span class="math display">\[
+h_{ii} = \text{diagonal entry of Hat Matrix } \mathbf{H}
+\]</span></p>
+<ul>
+<li>An observation with <span class="math inline">\(X\)</span> equal to the mean has <strong>zero leverage</strong>.</li>
+<li>High leverage → the observation is far from the mean of <span class="math inline">\(X\)</span> → it has the <strong>potential</strong> to influence the regression slope greatly.</li>
+</ul>
+<blockquote class="blockquote">
+<p>📌 <strong>Rule of thumb:</strong> Flag observations where leverage <span class="math inline">\(&gt; 2(k+1)/n\)</span>.</p>
+</blockquote>
+</section>
+<section id="studentised-residuals" class="level3" data-number="2.9.4">
+<h3 data-number="2.9.4" class="anchored" data-anchor-id="studentised-residuals"><span class="header-section-number">2.9.4</span> 4. Studentised Residuals</h3>
+<p>Standardised version of the residuals used to identify outliers.</p>
+<blockquote class="blockquote">
+<p>📌 <strong>Rule of thumb:</strong> An observation may be an outlier if <span class="math inline">\(|r_i| &gt; 2\)</span>.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Note: Standardised and studentised residuals are sometimes defined differently — double-check how R computes them.</p>
+</blockquote>
+</section>
+<section id="cooks-distance" class="level3" data-number="2.9.5">
+<h3 data-number="2.9.5" class="anchored" data-anchor-id="cooks-distance"><span class="header-section-number">2.9.5</span> 5. Cook’s Distance</h3>
+<p>Cook’s Distance measures the <strong>overall influence</strong> of a single observation on all the fitted values. It is proportional to the sum of squared differences between predictions made with and without that observation.</p>
+<ul>
+<li>If the predictions are the same with or without the observation → <strong>no influence</strong>.</li>
+<li>If the predictions differ → <strong>influential observation</strong>.</li>
+</ul>
+<blockquote class="blockquote">
+<p>📌 <strong>Rule of thumb:</strong> Flag observations with Cook’s Distance <span class="math inline">\(&gt; 1\)</span>.</p>
+</blockquote>
+</section>
+<section id="combined-interpretation" class="level3" data-number="2.9.6">
+<h3 data-number="2.9.6" class="anchored" data-anchor-id="combined-interpretation"><span class="header-section-number">2.9.6</span> Combined interpretation</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Standardised Residuals</th>
+<th>Leverage</th>
+<th>Influence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Low</td>
+<td>Low</td>
+<td>Small</td>
+</tr>
+<tr class="even">
+<td>High</td>
+<td>High</td>
+<td><strong>Highly influential</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="cross-validation" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="cross-validation"><span class="header-section-number">2.10</span> Cross-Validation</h2>
+<p>A model may fit the <strong>sample data</strong> well but fail to <strong>generalise</strong> to the broader population. <strong>Cross-validation</strong> tests this.</p>
+<p><strong>K-fold cross-validation process:</strong></p>
+<ol type="1">
+<li>Randomly partition the dataset into <span class="math inline">\(K\)</span> equal-sized subsamples.</li>
+<li>Fit the model on <span class="math inline">\(K - 1\)</span> of the subsamples.</li>
+<li>Validate (test) the model on the one subsample left out.</li>
+<li>Repeat <span class="math inline">\(K\)</span> times so every subsample is used as a validation set exactly once.</li>
+<li>Average the performance metrics across all <span class="math inline">\(K\)</span> runs to get a single estimate.</li>
+</ol>
+<blockquote class="blockquote">
+<p>📌 <strong>Bootstrapping</strong> is another method for assessing generalisation — Paula mentioned it briefly.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="practical-example-the-savings-dataset" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Practical Example: The Savings Dataset</h1>
+<p><strong>Source:</strong> <code>faraway</code> package in R<br>
+<strong>Data:</strong> Economic data on 50 countries, 1968–1970</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sr</code></td>
+<td>Savings ratio (savings as % of disposable income) — <strong>response</strong></td>
+</tr>
+<tr class="even">
+<td><code>pop15</code></td>
+<td>% of population under 15 — explanatory</td>
+</tr>
+<tr class="odd">
+<td><code>pop75</code></td>
+<td>% of population over 75 — explanatory</td>
+</tr>
+<tr class="even">
+<td><code>dpi</code></td>
+<td>Per capita disposable income — explanatory</td>
+</tr>
+<tr class="odd">
+<td><code>ddpi</code></td>
+<td>% rate of change of per capita disposable income — explanatory</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>⚠️ Note that <code>pop15</code> and <code>pop75</code> are both age-related and are <strong>negatively correlated</strong> — a classic setup for collinearity.</p>
+</blockquote>
+<section id="step-by-step-model-building-process-from-class" class="level3" data-number="3.0.1">
+<h3 data-number="3.0.1" class="anchored" data-anchor-id="step-by-step-model-building-process-from-class"><span class="header-section-number">3.0.1</span> Step-by-step model-building process (from class):</h3>
+<p><strong>Step 1 — Explore the data</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(faraway)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(savings)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(savings)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(savings)           <span class="co"># correlation matrix</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(savings)         <span class="co"># scatter plot matrix</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Step 2 — Fit the full multiple regression model</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model_full <span class="ot">&lt;-</span> <span class="fu">lm</span>(sr <span class="sc">~</span> pop15 <span class="sc">+</span> pop75 <span class="sc">+</span> dpi <span class="sc">+</span> ddpi, <span class="at">data =</span> savings)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_full)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Step 3 — Check overall model significance</strong></p>
+<p>Look at the <strong>F-statistic</strong> and its <strong>p-value</strong> at the bottom of the <code>summary()</code> output first.<br>
+In the class example: F = 3.756, p = 0.0079 → model is significant overall.</p>
+<p><strong>Step 4 — Interpret individual coefficients</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_full)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Only <code>pop15</code> and one other variable showed significance; <code>pop75</code> and <code>dpi</code> did not.</p>
+<p><strong>Step 5 — Compare nested models using ANOVA</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model_reduced <span class="ot">&lt;-</span> <span class="fu">lm</span>(sr <span class="sc">~</span> pop15 <span class="sc">+</span> ddpi, <span class="at">data =</span> savings)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_reduced, model_full)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>p = 0.19 → fail to reject H₀ → the full model does not fit significantly better.</p>
+<p><strong>Step 6 — Check for collinearity</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model_full)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Step 7 — Run diagnostics</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_full)        <span class="co"># produces 4 standard diagnostic plots</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="key-equations-formulas" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Key Equations / Formulas</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 59%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Formula</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \cdots + \beta_k X_k + \varepsilon\)</span></td>
+<td>Multiple regression model</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}\)</span></td>
+<td>Least squares estimate of coefficients</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\hat{\mathbf{Y}} = \mathbf{H}\mathbf{Y}\)</span></td>
+<td>Fitted values via Hat Matrix</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\hat{\sigma}^2 = SSE / (n - k - 1)\)</span></td>
+<td>Estimate of error variance</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(R^2 = 1 - SSE/SST\)</span></td>
+<td>Coefficient of determination</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\bar{R}^2 = 1 - \frac{SSE/(n-k-1)}{SST/(n-1)}\)</span></td>
+<td>Adjusted R²</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(F = \frac{(SSE_R - SSE_F)/(p-q)}{SSE_F/(n-p)}\)</span></td>
+<td>Nested model comparison F-statistic</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(VIF &gt; 5\)</span></td>
+<td>Rule of thumb threshold for serious collinearity</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(h_{ii} &gt; 2(k+1)/n\)</span></td>
+<td>Rule of thumb for high leverage</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\|r_i\| &gt; 2\)</span></td>
+<td>Rule of thumb for outlier detection</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(D_i &gt; 1\)</span></td>
+<td>Rule of thumb for Cook’s Distance (high influence)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="summary-points" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Summary Points</h1>
+<ul>
+<li><strong>Multiple regression</strong> extends simple linear regression to include <span class="math inline">\(k\)</span> explanatory variables. The interpretation of each coefficient requires stating that all other variables are <strong>held constant</strong>.</li>
+<li>The term “linear” in linear regression refers to linearity <strong>in the coefficients</strong>, not necessarily in the shape of the relationship.</li>
+<li>Errors are assumed to be <strong>independent, identically distributed</strong>, with mean zero and constant variance <span class="math inline">\(\sigma^2\)</span>.</li>
+<li><strong>R²</strong> tells you how much variation in <span class="math inline">\(Y\)</span> is explained. <strong>Adjusted R²</strong> is better for comparing models with different numbers of predictors — it will always be lower than R².</li>
+<li>Always check the <strong>global F-test</strong> (overall model p-value) <strong>first</strong> before examining individual coefficients.</li>
+<li>When dropping multiple variables, use <strong>ANOVA to compare nested models</strong> — the <code>summary()</code> function only handles one variable at a time.</li>
+<li><strong>Collinearity</strong> (correlated explanatory variables) can make coefficients unstable and insignificant. Detect it with <strong>VIF &gt; 5</strong>.</li>
+<li>Key diagnostic plots: <strong>residuals vs fitted</strong>, <strong>QQ plot</strong>, <strong>leverage plot</strong>, <strong>Cook’s Distance</strong>.</li>
+<li>Use <strong>cross-validation</strong> (or bootstrapping) to check how well your model generalises to the population.</li>
+</ul>
+<hr>
+</section>
+<section id="materials-referenced-in-class" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Materials Referenced in Class</h1>
+<p>The following sources and tools were referenced by Paula Harrison during the lecture:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Material</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><code>faraway</code> package (R)</strong></td>
+<td>Provides the <code>savings</code> dataset used throughout the worked example (50 countries, economic data 1968–1970)</td>
+</tr>
+<tr class="even">
+<td><strong>Lecture slides</strong></td>
+<td>96-slide deck — class covered up to slide ~37 before the break. Full set to be posted on campus.</td>
+</tr>
+<tr class="odd">
+<td><strong>Lab notes</strong></td>
+<td>Diagnostic plots (leverage, studentised residuals, Cook’s Distance) were produced in previous labs — Paula advised reviewing these.</td>
+</tr>
+<tr class="even">
+<td><strong>Experimental Design notes</strong></td>
+<td>Referenced briefly when discussing ANOVA types (full factorial, completely randomised, blocking).</td>
+</tr>
+<tr class="odd">
+<td><strong>R function: <code>lm()</code></strong></td>
+<td>Used to fit linear models throughout</td>
+</tr>
+<tr class="even">
+<td><strong>R function: <code>summary()</code></strong></td>
+<td>Extracts coefficient table, R², F-statistic, p-values</td>
+</tr>
+<tr class="odd">
+<td><strong>R function: <code>anova()</code></strong></td>
+<td>Compares nested models</td>
+</tr>
+<tr class="even">
+<td><strong>R function: <code>vif()</code> (from <code>car</code> package)</strong></td>
+<td>Computes Variance Inflation Factor for collinearity detection</td>
+</tr>
+<tr class="odd">
+<td><strong>QQ plots</strong></td>
+<td>Discussed as superior to histograms for checking normality of residuals</td>
+</tr>
+<tr class="even">
+<td><strong>Shrinkage methods (LASSO / Ridge regression)</strong></td>
+<td>Briefly mentioned as solutions to collinearity — not covered in depth</td>
+</tr>
+<tr class="odd">
+<td><strong>Principal Component Analysis (PCA)</strong></td>
+<td>Mentioned as another approach to handling collinearity</td>
+</tr>
+<tr class="even">
+<td><strong>Cross-validation / Bootstrapping</strong></td>
+<td>Discussed for model generalisation assessment</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote class="blockquote">
+<p>✏️ <em>Space for annotations — add your own notes below as you revise:</em></p>
+</blockquote>
+<!-- ANNOTATIONS -->
 
 
 <!-- -->
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -856,8 +1442,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../regression-analysis/week-8.qmd" class="pagination-link" aria-label="Week 8 - empty">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 8 - empty</span>
+      <a href="../regression-analysis/week-8.html" class="pagination-link" aria-label="Week 8">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 8</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -866,11 +1452,423 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 9"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>The main takeaway from this class is that we just need to make sure that I understand what it is that you need to look at when you're looking at each one because we will need to be able to interpret them.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 9 Study Guide: Multiple Linear Regression"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Regression Analysis"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Note to self:** These notes are a summary of the live lecture transcript. Review alongside the slides posted on campus and the lab exercises. Paula mentioned she will upload exercises after the break — revisit and annotate those sections once available.</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics Covered This Week</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multiple Linear Regression (MLR)** — extending simple regression to many explanatory variables</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Matrix Notation** for regression models</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Least Squares Estimation** — how the β coefficients are calculated</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Model Interpretation** — how to read coefficients, R², adjusted R², and p-values</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**R² vs Adjusted R²** — why they differ, and which to use</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Hypothesis Testing in MLR** — global F-test and individual coefficient tests</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Comparing Nested Models** using ANOVA</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Collinearity / Multicollinearity** — when explanatory variables are correlated with each other</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Model Diagnostics** — residual plots, QQ plots, leverage, Cook's Distance</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cross-Validation** — testing how well the model generalises to new data</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanations</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## Multiple Linear Regression</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>**Multiple linear regression** is an extension of simple linear regression. Instead of one explanatory (independent) variable $X$, you now have **multiple** explanatory variables $X_1, X_2, \ldots, X_k$.</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>The model looks like this:</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_k X_k + \varepsilon</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>The word **"linear"** here does not mean the relationship between $X$ and $Y$ is a straight line — it means that the **response variable $Y$ is a linear function of the coefficients** ($\beta$ values). This is an important distinction.</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interpreting the Coefficients</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>Each coefficient $\beta_j$ represents the **expected change in the response $Y$ for a one-unit increase in $X_j$**, *while all other explanatory variables are held constant.*</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ **Exam tip (Paula's emphasis):** When interpreting a coefficient in a multiple regression model, you **must** state that the other variables are held constant. This is key to getting full marks.</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>Example from class (savings dataset):</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>For a one-unit increase in *population under 15*, the savings rate **decreases by 0.216**, holding all other variables constant.</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>For a one-unit increase in *percentage rate of change of disposable income (DDPI)*, the savings rate **increases by 0.443**, holding all other variables constant.</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="fu">## Matrix Notation</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>The entire regression model can be written compactly using **matrix notation**:</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>Where:</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Symbol <span class="pp">|</span> Meaning <span class="pp">|</span> Dimensions <span class="pp">|</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|---------|------------|</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\mathbf{Y}$ <span class="pp">|</span> Vector of response values <span class="pp">|</span> $n \times 1$ <span class="pp">|</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\mathbf{X}$ <span class="pp">|</span> Design matrix (includes a column of 1s for the intercept) <span class="pp">|</span> $n \times (k+1)$ <span class="pp">|</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\boldsymbol{\beta}$ <span class="pp">|</span> Vector of coefficients (intercept + slopes) <span class="pp">|</span> $(k+1) \times 1$ <span class="pp">|</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\boldsymbol{\varepsilon}$ <span class="pp">|</span> Vector of error terms <span class="pp">|</span> $n \times 1$ <span class="pp">|</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>The first column of $\mathbf{X}$ is a column of 1s — this is a placeholder for the intercept $\beta_0$.</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a><span class="fu">## Least Squares Estimation</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>The **least squares** method finds the $\hat{\boldsymbol{\beta}}$ that **minimises the error sum of squares (SSE)** — i.e., it minimises the total squared distance between the observed values and the fitted (predicted) values.</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>SSE = \sum_{i=1}^{n}(y_i - \hat{y}_i)^2 = (\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}})^T(\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}})</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>The solution (in matrix form) is:</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>The **fitted values** are then:</span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>\hat{\mathbf{Y}} = \mathbf{X}\hat{\boldsymbol{\beta}} = \mathbf{H}\mathbf{Y}</span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>Where $\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ is known as the **Hat Matrix** (because it "puts the hat" on $Y$).</span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>The **residuals** are:</span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>\hat{\boldsymbol{\varepsilon}} = \mathbf{Y} - \hat{\mathbf{Y}} = (\mathbf{I} - \mathbf{H})\mathbf{Y}</span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>The **estimate of the error variance** ($\sigma^2$) is:</span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>\hat{\sigma}^2 = \frac{SSE}{n - k - 1}</span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>Where $n$ = number of observations and $k$ = number of explanatory variables.</span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 Paula's note: You don't need to compute this by hand — just understand the theory behind it.</span></span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumptions of Multiple Linear Regression</span></span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a>The assumptions are the same as in simple linear regression:</span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Linearity** — $Y$ is a linear function of the coefficients.</span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Independence** — Error terms are independent of each other.</span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Normality** — Errors are normally distributed: $\varepsilon \sim N(0, \sigma^2)$.</span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Constant variance (homoscedasticity)** — The variance of the errors is constant across all values of $X$.</span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Explanatory variables are measured without error** — No distributional assumptions are placed on the $X$ variables themselves.</span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a><span class="fu">## R² and Adjusted R²</span></span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a>**R² (R-squared / Coefficient of Determination):** The proportion of variation in $Y$ that is explained by the model. Always expressed as a percentage.</span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a>R^2 = 1 - \frac{SSE}{SST}</span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$R^2 = 0.2075$ means **20.75% of the variation in Y is explained by X**.</span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Whatever is not explained is due to **other unknown variables** or **random error**.</span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a>**Problem with R²:** It always increases (or stays the same) when you add more variables to the model, even if those variables are useless. This can make a model *look* better than it is.</span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a>**Adjusted R²** penalises the model for adding extra variables that don't genuinely improve fit:</span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a>\bar{R}^2 = 1 - \frac{SSE/(n-k-1)}{SST/(n-1)}</span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ The **Adjusted R²** will always be **lower than R²** in a multiple regression model. This is expected and not a problem.</span></span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 Also note: R² for the model with *both* explanatory variables (28.75%) is **less than** the sum of the two individual model R² values (20.75% + 9.29% = 30.04%). This is because the two variables share some overlapping explanatory power.</span></span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Global F-Test</span></span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a>Before looking at individual coefficients, the **first step** when interpreting a regression output is to check the **overall model significance** using the **global F-test**.</span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a>**Hypotheses:**</span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>$$H_0: \beta_1 = \beta_2 = \cdots = \beta_k = 0$$</span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>$$H_1: \text{At least one } \beta_j \neq 0$$</span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If the p-value is significant → at least one explanatory variable is associated with the response.</span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This test is called the **global F-test** (also: comparing the full model to the null model).</span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ **Exam tip:** Always check the overall model p-value *first*, before interpreting individual coefficients.</span></span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a><span class="fu">## Comparing Nested Models</span></span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a>Sometimes you want to compare a **full model** (all variables) with a **reduced model** (fewer variables).</span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a>This is done using an **ANOVA F-test**:</span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>F = \frac{(SSE_{\text{reduced}} - SSE_{\text{full}}) / (p - q)}{SSE_{\text{full}} / (n - p)}</span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>Where:</span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$p$ = number of parameters in the full model</span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$q$ = number of parameters in the reduced model</span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$n$ = number of observations</span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ **Important:** The summary output in R tests only **one variable at a time**. If you want to drop more than one variable, you must use ANOVA to compare models directly.</span></span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a>**Example from class:**  </span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a>Testing whether *population over 75* and *DPI* could both be dropped: F-statistic = 1.723, p-value = 0.19 → **fail to reject H₀** → the larger model does not fit significantly better, so those two variables can potentially be dropped.</span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a><span class="fu">## Collinearity (Multicollinearity)</span></span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a>**Collinearity** occurs when two or more explanatory variables are **highly correlated** with each other.</span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a>In the savings dataset example, *population under 15* and *population over 75* both measure age-related demographics and were **negatively correlated with each other**. Including both made one or both appear insignificant — even though each was significant on its own.</span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a>**Effects of collinearity:**</span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Imprecise (unstable) estimates of $\hat{\beta}$ with large standard errors</span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>F-tests and t-tests may fail to reveal significance</span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The sign or magnitude of a coefficient can flip when variables are added or removed</span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a>**Detection — Variance Inflation Factor (VIF):**</span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>VIF_j = \frac{1}{1 - R^2_j}</span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a>where $R^2_j$ is the R² from regressing $X_j$ on all other explanatory variables.</span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 **Rule of thumb:** If VIF &gt; 5, there is evidence of **serious collinearity**.</span></span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a>**Solutions:**</span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Remove one of the correlated variables</span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use **Principal Component Analysis (PCA)** followed by regression — this creates a new, uncorrelated set of variables</span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use **shrinkage methods** (e.g., Ridge regression, LASSO)</span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a><span class="fu">## Model Diagnostics</span></span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a>After fitting a regression model, you must check the assumptions using **diagnostic plots**. Paula emphasised that these will appear in the labs.</span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. Residuals vs Fitted Values</span></span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Plots the residuals ($y_i - \hat{y}_i$) on the y-axis against the fitted values ($\hat{y}_i$) on the x-axis.</span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**What you want:** A random, constant scatter of points with no pattern.</span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**What's bad:** A curved or funnel-shaped pattern — this suggests the relationship is non-linear or the variance is non-constant (heteroscedasticity).</span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 If a curved pattern appears, you may need to add a **quadratic term** (e.g., $X^2$) to the model.</span></span>
+<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. QQ Plot (Quantile-Quantile Plot)</span></span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Compares the quantiles of your residuals to the quantiles of a theoretical normal distribution.</span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**What you want:** Residuals that fall close to the diagonal line.</span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**What's bad:** Strong deviations from the diagonal suggest non-normality.</span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 QQ plots are preferred over histograms (especially for small samples), because histograms are sensitive to bin width choice. You can use both together.</span></span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3. Leverage</span></span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a>Leverage measures how much an observation's value on the **explanatory variable(s)** differs from the mean of those variables.</span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a>h_{ii} = \text{diagonal entry of Hat Matrix } \mathbf{H}</span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>An observation with $X$ equal to the mean has **zero leverage**.</span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>High leverage → the observation is far from the mean of $X$ → it has the **potential** to influence the regression slope greatly.</span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 **Rule of thumb:** Flag observations where leverage $&gt; 2(k+1)/n$.</span></span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4. Studentised Residuals</span></span>
+<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a>Standardised version of the residuals used to identify outliers.</span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 **Rule of thumb:** An observation may be an outlier if $</span><span class="pp">|</span><span class="at">r_i</span><span class="pp">|</span><span class="at"> &gt; 2$.</span></span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Note: Standardised and studentised residuals are sometimes defined differently — double-check how R computes them.</span></span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a><span class="fu">### 5. Cook's Distance</span></span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a>Cook's Distance measures the **overall influence** of a single observation on all the fitted values. It is proportional to the sum of squared differences between predictions made with and without that observation.</span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If the predictions are the same with or without the observation → **no influence**.</span>
+<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If the predictions differ → **influential observation**.</span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 **Rule of thumb:** Flag observations with Cook's Distance $&gt; 1$.</span></span>
+<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a><span class="fu">### Combined interpretation</span></span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Standardised Residuals <span class="pp">|</span> Leverage <span class="pp">|</span> Influence <span class="pp">|</span></span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|----------|-----------|</span></span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Low <span class="pp">|</span> Low <span class="pp">|</span> Small <span class="pp">|</span></span>
+<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> High <span class="pp">|</span> High <span class="pp">|</span> **Highly influential** <span class="pp">|</span></span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a><span class="fu">## Cross-Validation</span></span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a>A model may fit the **sample data** well but fail to **generalise** to the broader population. **Cross-validation** tests this.</span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a>**K-fold cross-validation process:**</span>
+<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Randomly partition the dataset into $K$ equal-sized subsamples.</span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Fit the model on $K - 1$ of the subsamples.</span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Validate (test) the model on the one subsample left out.</span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Repeat $K$ times so every subsample is used as a validation set exactly once.</span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Average the performance metrics across all $K$ runs to get a single estimate.</span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 **Bootstrapping** is another method for assessing generalisation — Paula mentioned it briefly.</span></span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Example: The Savings Dataset</span></span>
+<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a>**Source:** <span class="in">`faraway`</span> package in R  </span>
+<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a>**Data:** Economic data on 50 countries, 1968–1970</span>
+<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|-------------|</span></span>
+<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sr`</span> <span class="pp">|</span> Savings ratio (savings as % of disposable income) — **response** <span class="pp">|</span></span>
+<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pop15`</span> <span class="pp">|</span> % of population under 15 — explanatory <span class="pp">|</span></span>
+<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pop75`</span> <span class="pp">|</span> % of population over 75 — explanatory <span class="pp">|</span></span>
+<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`dpi`</span> <span class="pp">|</span> Per capita disposable income — explanatory <span class="pp">|</span></span>
+<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ddpi`</span> <span class="pp">|</span> % rate of change of per capita disposable income — explanatory <span class="pp">|</span></span>
+<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ Note that </span><span class="in">`pop15`</span><span class="at"> and </span><span class="in">`pop75`</span><span class="at"> are both age-related and are **negatively correlated** — a classic setup for collinearity.</span></span>
+<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step-by-step model-building process (from class):</span></span>
+<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a>**Step 1 — Explore the data**</span>
+<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(faraway)</span>
+<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(savings)</span>
+<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(savings)</span>
+<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(savings)           <span class="co"># correlation matrix</span></span>
+<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(savings)         <span class="co"># scatter plot matrix</span></span>
+<span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a>**Step 2 — Fit the full multiple regression model**</span>
+<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a>model_full <span class="ot">&lt;-</span> <span class="fu">lm</span>(sr <span class="sc">~</span> pop15 <span class="sc">+</span> pop75 <span class="sc">+</span> dpi <span class="sc">+</span> ddpi, <span class="at">data =</span> savings)</span>
+<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_full)</span>
+<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-323"><a href="#cb7-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-324"><a href="#cb7-324" aria-hidden="true" tabindex="-1"></a>**Step 3 — Check overall model significance**</span>
+<span id="cb7-325"><a href="#cb7-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-326"><a href="#cb7-326" aria-hidden="true" tabindex="-1"></a>Look at the **F-statistic** and its **p-value** at the bottom of the <span class="in">`summary()`</span> output first.  </span>
+<span id="cb7-327"><a href="#cb7-327" aria-hidden="true" tabindex="-1"></a>In the class example: F = 3.756, p = 0.0079 → model is significant overall.</span>
+<span id="cb7-328"><a href="#cb7-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-329"><a href="#cb7-329" aria-hidden="true" tabindex="-1"></a>**Step 4 — Interpret individual coefficients**</span>
+<span id="cb7-330"><a href="#cb7-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-331"><a href="#cb7-331" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb7-332"><a href="#cb7-332" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_full)<span class="sc">$</span>coefficients</span>
+<span id="cb7-333"><a href="#cb7-333" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-334"><a href="#cb7-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-335"><a href="#cb7-335" aria-hidden="true" tabindex="-1"></a>Only <span class="in">`pop15`</span> and one other variable showed significance; <span class="in">`pop75`</span> and <span class="in">`dpi`</span> did not.</span>
+<span id="cb7-336"><a href="#cb7-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-337"><a href="#cb7-337" aria-hidden="true" tabindex="-1"></a>**Step 5 — Compare nested models using ANOVA**</span>
+<span id="cb7-338"><a href="#cb7-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-339"><a href="#cb7-339" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb7-340"><a href="#cb7-340" aria-hidden="true" tabindex="-1"></a>model_reduced <span class="ot">&lt;-</span> <span class="fu">lm</span>(sr <span class="sc">~</span> pop15 <span class="sc">+</span> ddpi, <span class="at">data =</span> savings)</span>
+<span id="cb7-341"><a href="#cb7-341" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_reduced, model_full)</span>
+<span id="cb7-342"><a href="#cb7-342" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-343"><a href="#cb7-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-344"><a href="#cb7-344" aria-hidden="true" tabindex="-1"></a>p = 0.19 → fail to reject H₀ → the full model does not fit significantly better.</span>
+<span id="cb7-345"><a href="#cb7-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-346"><a href="#cb7-346" aria-hidden="true" tabindex="-1"></a>**Step 6 — Check for collinearity**</span>
+<span id="cb7-347"><a href="#cb7-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-348"><a href="#cb7-348" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb7-349"><a href="#cb7-349" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb7-350"><a href="#cb7-350" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model_full)</span>
+<span id="cb7-351"><a href="#cb7-351" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-352"><a href="#cb7-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-353"><a href="#cb7-353" aria-hidden="true" tabindex="-1"></a>**Step 7 — Run diagnostics**</span>
+<span id="cb7-354"><a href="#cb7-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-355"><a href="#cb7-355" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb7-356"><a href="#cb7-356" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb7-357"><a href="#cb7-357" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_full)        <span class="co"># produces 4 standard diagnostic plots</span></span>
+<span id="cb7-358"><a href="#cb7-358" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-359"><a href="#cb7-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-360"><a href="#cb7-360" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-361"><a href="#cb7-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-362"><a href="#cb7-362" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb7-363"><a href="#cb7-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-364"><a href="#cb7-364" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Formula <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb7-365"><a href="#cb7-365" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|-------------|</span></span>
+<span id="cb7-366"><a href="#cb7-366" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $Y = \beta_0 + \beta_1 X_1 + \cdots + \beta_k X_k + \varepsilon$ <span class="pp">|</span> Multiple regression model <span class="pp">|</span></span>
+<span id="cb7-367"><a href="#cb7-367" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ <span class="pp">|</span> Least squares estimate of coefficients <span class="pp">|</span></span>
+<span id="cb7-368"><a href="#cb7-368" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\hat{\mathbf{Y}} = \mathbf{H}\mathbf{Y}$ <span class="pp">|</span> Fitted values via Hat Matrix <span class="pp">|</span></span>
+<span id="cb7-369"><a href="#cb7-369" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\hat{\sigma}^2 = SSE / (n - k - 1)$ <span class="pp">|</span> Estimate of error variance <span class="pp">|</span></span>
+<span id="cb7-370"><a href="#cb7-370" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $R^2 = 1 - SSE/SST$ <span class="pp">|</span> Coefficient of determination <span class="pp">|</span></span>
+<span id="cb7-371"><a href="#cb7-371" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\bar{R}^2 = 1 - \frac{SSE/(n-k-1)}{SST/(n-1)}$ <span class="pp">|</span> Adjusted R² <span class="pp">|</span></span>
+<span id="cb7-372"><a href="#cb7-372" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $F = \frac{(SSE_R - SSE_F)/(p-q)}{SSE_F/(n-p)}$ <span class="pp">|</span> Nested model comparison F-statistic <span class="pp">|</span></span>
+<span id="cb7-373"><a href="#cb7-373" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $VIF &gt; 5$ <span class="pp">|</span> Rule of thumb threshold for serious collinearity <span class="pp">|</span></span>
+<span id="cb7-374"><a href="#cb7-374" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $h_{ii} &gt; 2(k+1)/n$ <span class="pp">|</span> Rule of thumb for high leverage <span class="pp">|</span></span>
+<span id="cb7-375"><a href="#cb7-375" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $<span class="sc">\|</span>r_i<span class="sc">\|</span> &gt; 2$ <span class="pp">|</span> Rule of thumb for outlier detection <span class="pp">|</span></span>
+<span id="cb7-376"><a href="#cb7-376" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $D_i &gt; 1$ <span class="pp">|</span> Rule of thumb for Cook's Distance (high influence) <span class="pp">|</span></span>
+<span id="cb7-377"><a href="#cb7-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-378"><a href="#cb7-378" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-379"><a href="#cb7-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-380"><a href="#cb7-380" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb7-381"><a href="#cb7-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-382"><a href="#cb7-382" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multiple regression** extends simple linear regression to include $k$ explanatory variables. The interpretation of each coefficient requires stating that all other variables are **held constant**.</span>
+<span id="cb7-383"><a href="#cb7-383" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The term "linear" in linear regression refers to linearity **in the coefficients**, not necessarily in the shape of the relationship.</span>
+<span id="cb7-384"><a href="#cb7-384" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Errors are assumed to be **independent, identically distributed**, with mean zero and constant variance $\sigma^2$.</span>
+<span id="cb7-385"><a href="#cb7-385" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**R²** tells you how much variation in $Y$ is explained. **Adjusted R²** is better for comparing models with different numbers of predictors — it will always be lower than R².</span>
+<span id="cb7-386"><a href="#cb7-386" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always check the **global F-test** (overall model p-value) **first** before examining individual coefficients.</span>
+<span id="cb7-387"><a href="#cb7-387" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>When dropping multiple variables, use **ANOVA to compare nested models** — the <span class="in">`summary()`</span> function only handles one variable at a time.</span>
+<span id="cb7-388"><a href="#cb7-388" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Collinearity** (correlated explanatory variables) can make coefficients unstable and insignificant. Detect it with **VIF &gt; 5**.</span>
+<span id="cb7-389"><a href="#cb7-389" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Key diagnostic plots: **residuals vs fitted**, **QQ plot**, **leverage plot**, **Cook's Distance**.</span>
+<span id="cb7-390"><a href="#cb7-390" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use **cross-validation** (or bootstrapping) to check how well your model generalises to the population.</span>
+<span id="cb7-391"><a href="#cb7-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-392"><a href="#cb7-392" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-393"><a href="#cb7-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-394"><a href="#cb7-394" aria-hidden="true" tabindex="-1"></a><span class="fu"># Materials Referenced in Class</span></span>
+<span id="cb7-395"><a href="#cb7-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-396"><a href="#cb7-396" aria-hidden="true" tabindex="-1"></a>The following sources and tools were referenced by Paula Harrison during the lecture:</span>
+<span id="cb7-397"><a href="#cb7-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-398"><a href="#cb7-398" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Material <span class="pp">|</span> Details <span class="pp">|</span></span>
+<span id="cb7-399"><a href="#cb7-399" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|---------|</span></span>
+<span id="cb7-400"><a href="#cb7-400" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **`faraway` package (R)** <span class="pp">|</span> Provides the <span class="in">`savings`</span> dataset used throughout the worked example (50 countries, economic data 1968–1970) <span class="pp">|</span></span>
+<span id="cb7-401"><a href="#cb7-401" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Lecture slides** <span class="pp">|</span> 96-slide deck — class covered up to slide ~37 before the break. Full set to be posted on campus. <span class="pp">|</span></span>
+<span id="cb7-402"><a href="#cb7-402" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Lab notes** <span class="pp">|</span> Diagnostic plots (leverage, studentised residuals, Cook's Distance) were produced in previous labs — Paula advised reviewing these. <span class="pp">|</span></span>
+<span id="cb7-403"><a href="#cb7-403" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Experimental Design notes** <span class="pp">|</span> Referenced briefly when discussing ANOVA types (full factorial, completely randomised, blocking). <span class="pp">|</span></span>
+<span id="cb7-404"><a href="#cb7-404" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **R function: `lm()`** <span class="pp">|</span> Used to fit linear models throughout <span class="pp">|</span></span>
+<span id="cb7-405"><a href="#cb7-405" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **R function: `summary()`** <span class="pp">|</span> Extracts coefficient table, R², F-statistic, p-values <span class="pp">|</span></span>
+<span id="cb7-406"><a href="#cb7-406" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **R function: `anova()`** <span class="pp">|</span> Compares nested models <span class="pp">|</span></span>
+<span id="cb7-407"><a href="#cb7-407" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **R function: `vif()` (from `car` package)** <span class="pp">|</span> Computes Variance Inflation Factor for collinearity detection <span class="pp">|</span></span>
+<span id="cb7-408"><a href="#cb7-408" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **QQ plots** <span class="pp">|</span> Discussed as superior to histograms for checking normality of residuals <span class="pp">|</span></span>
+<span id="cb7-409"><a href="#cb7-409" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Shrinkage methods (LASSO / Ridge regression)** <span class="pp">|</span> Briefly mentioned as solutions to collinearity — not covered in depth <span class="pp">|</span></span>
+<span id="cb7-410"><a href="#cb7-410" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Principal Component Analysis (PCA)** <span class="pp">|</span> Mentioned as another approach to handling collinearity <span class="pp">|</span></span>
+<span id="cb7-411"><a href="#cb7-411" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Cross-validation / Bootstrapping** <span class="pp">|</span> Discussed for model generalisation assessment <span class="pp">|</span></span>
+<span id="cb7-412"><a href="#cb7-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-413"><a href="#cb7-413" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-414"><a href="#cb7-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-415"><a href="#cb7-415" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Space for annotations — add your own notes below as you revise:*</span></span>
+<span id="cb7-416"><a href="#cb7-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-417"><a href="#cb7-417" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ANNOTATIONS --&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

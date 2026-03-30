@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 7 Study Guide: Multiple Comparisons &amp; Two-Way ANOVA – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../regression-analysis/week-8.html" rel="next">
+<link href="../regression-analysis/week-6.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-7.html">Week 7</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-7.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-3.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-4.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-5.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-6.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-7.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-8.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8 - empty</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics" id="toc-key-topics" class="nav-link active" data-scroll-target="#key-topics"><span class="header-section-number">1</span> Key Topics</a></li>
+  <li><a href="#core-explanations" id="toc-core-explanations" class="nav-link" data-scroll-target="#core-explanations"><span class="header-section-number">2</span> Core Explanations</a>
+  <ul class="collapse">
+  <li><a href="#the-multiple-comparisons-problem" id="toc-the-multiple-comparisons-problem" class="nav-link" data-scroll-target="#the-multiple-comparisons-problem"><span class="header-section-number">2.1</span> The Multiple Comparisons Problem</a>
+  <ul class="collapse">
+  <li><a href="#post-hoc-tests" id="toc-post-hoc-tests" class="nav-link" data-scroll-target="#post-hoc-tests"><span class="header-section-number">2.1.1</span> Post-Hoc Tests</a></li>
+  <li><a href="#worksheet-4-results-soil-yield-data" id="toc-worksheet-4-results-soil-yield-data" class="nav-link" data-scroll-target="#worksheet-4-results-soil-yield-data"><span class="header-section-number">2.1.2</span> Worksheet 4 Results (Soil Yield Data)</a></li>
+  </ul></li>
+  <li><a href="#two-way-anova" id="toc-two-way-anova" class="nav-link" data-scroll-target="#two-way-anova"><span class="header-section-number">2.2</span> Two-Way ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#what-is-it" id="toc-what-is-it" class="nav-link" data-scroll-target="#what-is-it"><span class="header-section-number">2.2.1</span> What is it?</a></li>
+  <li><a href="#main-effects-vs.-interaction-effect" id="toc-main-effects-vs.-interaction-effect" class="nav-link" data-scroll-target="#main-effects-vs.-interaction-effect"><span class="header-section-number">2.2.2</span> Main Effects vs.&nbsp;Interaction Effect</a></li>
+  <li><a href="#the-three-null-hypotheses" id="toc-the-three-null-hypotheses" class="nav-link" data-scroll-target="#the-three-null-hypotheses"><span class="header-section-number">2.2.3</span> The Three Null Hypotheses</a></li>
+  <li><a href="#the-two-way-anova-effects-model" id="toc-the-two-way-anova-effects-model" class="nav-link" data-scroll-target="#the-two-way-anova-effects-model"><span class="header-section-number">2.2.4</span> The Two-Way ANOVA Effects Model</a></li>
+  </ul></li>
+  <li><a href="#factorial-design" id="toc-factorial-design" class="nav-link" data-scroll-target="#factorial-design"><span class="header-section-number">2.3</span> Factorial Design</a></li>
+  <li><a href="#interaction-plots" id="toc-interaction-plots" class="nav-link" data-scroll-target="#interaction-plots"><span class="header-section-number">2.4</span> Interaction Plots</a></li>
+  <li><a href="#partitioning-variance-in-two-way-anova" id="toc-partitioning-variance-in-two-way-anova" class="nav-link" data-scroll-target="#partitioning-variance-in-two-way-anova"><span class="header-section-number">2.5</span> Partitioning Variance in Two-Way ANOVA</a></li>
+  <li><a href="#significance-stars-in-r-output" id="toc-significance-stars-in-r-output" class="nav-link" data-scroll-target="#significance-stars-in-r-output"><span class="header-section-number">2.6</span> Significance Stars in R Output</a></li>
+  <li><a href="#simple-effects-post-hoc-for-two-way-anova" id="toc-simple-effects-post-hoc-for-two-way-anova" class="nav-link" data-scroll-target="#simple-effects-post-hoc-for-two-way-anova"><span class="header-section-number">2.7</span> Simple Effects (Post-Hoc for Two-Way ANOVA)</a></li>
+  <li><a href="#effect-size-partial-eta-squared-η²ₚ" id="toc-effect-size-partial-eta-squared-η²ₚ" class="nav-link" data-scroll-target="#effect-size-partial-eta-squared-η²ₚ"><span class="header-section-number">2.8</span> Effect Size — Partial Eta Squared (η²ₚ)</a></li>
+  <li><a href="#anova-assumptions-checklist" id="toc-anova-assumptions-checklist" class="nav-link" data-scroll-target="#anova-assumptions-checklist"><span class="header-section-number">2.9</span> ANOVA Assumptions (Checklist)</a></li>
+  </ul></li>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">3</span> Key Equations / Formulas</a></li>
+  <li><a href="#practical-examples" id="toc-practical-examples" class="nav-link" data-scroll-target="#practical-examples"><span class="header-section-number">4</span> Practical Examples</a>
+  <ul class="collapse">
+  <li><a href="#example-1-soil-yield-one-way-anova-post-hoc-worksheet-4-lab" id="toc-example-1-soil-yield-one-way-anova-post-hoc-worksheet-4-lab" class="nav-link" data-scroll-target="#example-1-soil-yield-one-way-anova-post-hoc-worksheet-4-lab"><span class="header-section-number">4.1</span> Example 1: Soil Yield — One-Way ANOVA + Post-Hoc (Worksheet 4 / Lab)</a></li>
+  <li><a href="#example-2-viscosity-study-two-way-anova-with-interaction" id="toc-example-2-viscosity-study-two-way-anova-with-interaction" class="nav-link" data-scroll-target="#example-2-viscosity-study-two-way-anova-with-interaction"><span class="header-section-number">4.2</span> Example 2: Viscosity Study — Two-Way ANOVA with Interaction</a></li>
+  <li><a href="#example-3-new-car-interest-rate-worksheet-4-part-2" id="toc-example-3-new-car-interest-rate-worksheet-4-part-2" class="nav-link" data-scroll-target="#example-3-new-car-interest-rate-worksheet-4-part-2"><span class="header-section-number">4.3</span> Example 3: New Car Interest Rate (Worksheet 4, Part 2)</a></li>
+  </ul></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">5</span> Summary Points</a></li>
+  <li><a href="#annotations-notes" id="toc-annotations-notes" class="nav-link" data-scroll-target="#annotations-notes"><span class="header-section-number">6</span> Annotations &amp; Notes</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-7.html">Week 7</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 7 Study Guide: Multiple Comparisons &amp; Two-Way ANOVA</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Research Analysis / Applied Statistics</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- ============================================================
+     STUDY GUIDE — WEEK 7
+     Topics: Multiple Comparisons, Two-Way ANOVA, Factorial Design
+     Source: Lecture transcript + Worksheet 4
+     ============================================================ -->
+<section id="key-topics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics</h1>
+<p>This week covered two main areas:</p>
+<ul>
+<li><strong>Multiple Comparisons</strong> — how to fairly compare more than two group means after a significant ANOVA result</li>
+<li><strong>Two-Way ANOVA</strong> — extending one-way ANOVA to handle <em>two</em> independent variables simultaneously, including their <strong>interaction effect</strong></li>
+<li><strong>Factorial Design</strong> — the correct experimental design when testing for interactions</li>
+<li><strong>Effect Size</strong> — measuring how much of the variance is explained by each factor (partial η²)</li>
+<li><strong>Model Validation in R</strong> — checking ANOVA assumptions with diagnostic plots</li>
+<li><strong>Lab Practice</strong> — running one-way ANOVA by hand in Excel and in R, including post-hoc tests</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanations" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanations</h1>
+<section id="the-multiple-comparisons-problem" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="the-multiple-comparisons-problem"><span class="header-section-number">2.1</span> The Multiple Comparisons Problem</h2>
+<p>When ANOVA tells us that <em>at least one</em> group mean is different, it does <strong>not</strong> tell us <em>which</em> groups differ. A natural first instinct is to run separate t-tests for every pair of groups — but this creates a serious problem.</p>
+<p>Every individual test carries a risk (α, usually 5%) of a <strong>Type I error</strong> (falsely concluding there is a difference). When you run many tests on the same data, those error risks stack up. This inflated overall error rate is called the <strong>Family-Wise Error Rate (FWER)</strong>.</p>
+<blockquote class="blockquote">
+<p><strong>Example:</strong> Testing 3 soil types (Sand, Clay, Loam) means 3 pairwise comparisons.<br>
+With 6 cities (from the New Car Interest Rate dataset), there are <strong>15</strong> pairwise comparisons — the chance of at least one false positive becomes very large.</p>
+</blockquote>
+<section id="post-hoc-tests" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="post-hoc-tests"><span class="header-section-number">2.1.1</span> Post-Hoc Tests</h3>
+<p>Post-hoc (after-the-fact) tests are designed to run all pairwise comparisons while <em>controlling</em> the FWER at the chosen α level. They are more <strong>conservative</strong> than plain t-tests.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 38%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>How it works</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Tukey’s HSD</strong> (Honest Significant Difference)</td>
+<td>Controls FWER by adjusting critical values</td>
+<td>Most common; good general choice</td>
+</tr>
+<tr class="even">
+<td><strong>Bonferroni</strong></td>
+<td>Divides α by the number of comparisons</td>
+<td>Simple; conservative with many comparisons</td>
+</tr>
+<tr class="odd">
+<td>Separate t-tests</td>
+<td>No adjustment</td>
+<td><strong>Avoid</strong> — inflated Type I error</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="worksheet-4-results-soil-yield-data" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="worksheet-4-results-soil-yield-data"><span class="header-section-number">2.1.2</span> Worksheet 4 Results (Soil Yield Data)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Comparison</th>
+<th>Separate t-tests</th>
+<th>Tukey’s HSD</th>
+<th>Bonferroni</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Loam – Clay</td>
+<td>0.081</td>
+<td>0.179</td>
+<td>0.234</td>
+</tr>
+<tr class="even">
+<td><strong>Loam – Sand</strong></td>
+<td><strong>0.006</strong></td>
+<td><strong>0.020</strong></td>
+<td><strong>0.023</strong></td>
+</tr>
+<tr class="odd">
+<td>Clay – Sand</td>
+<td>0.351</td>
+<td>0.555</td>
+<td>0.914</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Key takeaway:</strong> Only the Loam vs.&nbsp;Sand comparison is statistically significant.<br>
+Notice how the adjusted p-values (Tukey, Bonferroni) are <em>larger</em> than the raw t-test p-values — this is the conservative adjustment at work.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="two-way-anova" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="two-way-anova"><span class="header-section-number">2.2</span> Two-Way ANOVA</h2>
+<section id="what-is-it" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="what-is-it"><span class="header-section-number">2.2.1</span> What is it?</h3>
+<p><strong>One-way ANOVA</strong> tested one independent variable (e.g., soil type) against one continuous dependent variable (yield).</p>
+<p><strong>Two-way ANOVA</strong> tests <strong>two</strong> independent (categorical) variables <em>simultaneously</em> against one continuous dependent variable. This is powerful because it also reveals whether the two factors <strong>interact</strong>.</p>
+</section>
+<section id="main-effects-vs.-interaction-effect" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="main-effects-vs.-interaction-effect"><span class="header-section-number">2.2.2</span> Main Effects vs.&nbsp;Interaction Effect</h3>
+<ul>
+<li><strong>Main effect of Factor A</strong> — the overall effect of Factor A on the response, <em>ignoring</em> Factor B.</li>
+<li><strong>Main effect of Factor B</strong> — the overall effect of Factor B on the response, <em>ignoring</em> Factor A.</li>
+<li><strong>Interaction effect (A × B)</strong> — does the effect of Factor A <em>depend on which level of Factor B we’re at</em>? This is the most important question in two-way ANOVA.</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Always check the interaction effect first.</strong> If it is significant, the main effects cannot be interpreted in isolation — you must look at them <em>within each level of the other factor</em> (called <strong>simple effects</strong>).</p>
+</blockquote>
+</section>
+<section id="the-three-null-hypotheses" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="the-three-null-hypotheses"><span class="header-section-number">2.2.3</span> The Three Null Hypotheses</h3>
+<p>For a two-way ANOVA with factors A and B:</p>
+<ol type="1">
+<li><strong>H₀ (Factor A):</strong> All population means for Factor A are equal (no main effect of A)</li>
+<li><strong>H₀ (Factor B):</strong> All population means for Factor B are equal (no main effect of B)</li>
+<li><strong>H₀ (Interaction):</strong> The effect of Factor A is the same at all levels of Factor B (no interaction)</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Thinking further:</strong> A <em>three-way</em> ANOVA has <strong>7</strong> hypotheses — 3 main effects + 3 two-way interactions + 1 three-way interaction.</p>
+</blockquote>
+</section>
+<section id="the-two-way-anova-effects-model" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="the-two-way-anova-effects-model"><span class="header-section-number">2.2.4</span> The Two-Way ANOVA Effects Model</h3>
+<p><span class="math display">\[Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}\]</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(Y_{ijk}\)</span></td>
+<td>Response variable (observation <span class="math inline">\(k\)</span> at level <span class="math inline">\(i\)</span> of A and level <span class="math inline">\(j\)</span> of B)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu\)</span></td>
+<td>Overall population mean</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\alpha_i\)</span></td>
+<td>Treatment effect of Factor A at level <span class="math inline">\(i\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta_j\)</span></td>
+<td>Treatment effect of Factor B at level <span class="math inline">\(j\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\((\alpha\beta)_{ij}\)</span></td>
+<td>Interaction effect</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\varepsilon_{ijk}\)</span></td>
+<td>Residual / error term</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(k\)</span></td>
+<td>Replicate index</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="factorial-design" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="factorial-design"><span class="header-section-number">2.3</span> Factorial Design</h2>
+<p>To test for an interaction effect, you must use a <strong>factorial (fully crossed) design</strong>:</p>
+<blockquote class="blockquote">
+<p><em>“All possible combinations of all treatment levels must be included for every replicate.”</em></p>
+</blockquote>
+<p>If Factor A has <strong>a</strong> levels and Factor B has <strong>b</strong> levels:</p>
+<p><span class="math display">\[\text{Number of treatment combinations} = a \times b\]</span></p>
+<p>With <span class="math inline">\(r\)</span> replicates:</p>
+<p><span class="math display">\[\text{Total observations} = r \times a \times b\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Example (Viscosity study):</strong><br>
+pH has 2 levels (5.6, 5.9) × Catalyst concentration has 2 levels (2.5, 2.7) = <strong>4 combinations</strong>.<br>
+With 3 replicates → <strong>12 total viscosity measurements</strong>.</p>
+</blockquote>
+<hr>
+</section>
+<section id="interaction-plots" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="interaction-plots"><span class="header-section-number">2.4</span> Interaction Plots</h2>
+<p>An <strong>interaction plot</strong> graphs the mean response for each combination of factor levels. It is the clearest way to visually assess whether an interaction exists.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 59%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Plot appearance</th>
+<th>Conclusion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lines are approximately <strong>parallel</strong></td>
+<td>No interaction between factors</td>
+</tr>
+<tr class="even">
+<td>Lines <strong>cross</strong> or diverge sharply</td>
+<td>Interaction is likely present</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Tip:</strong> Don’t overcomplicate it. Pick one line, trace how the response changes as the other factor changes — then repeat for the other line. If the <em>direction or magnitude</em> of change differs between lines, that’s an interaction.</p>
+</blockquote>
+<hr>
+</section>
+<section id="partitioning-variance-in-two-way-anova" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="partitioning-variance-in-two-way-anova"><span class="header-section-number">2.5</span> Partitioning Variance in Two-Way ANOVA</h2>
+<p>Total variability is split into components:</p>
+<p><span class="math display">\[SS_{Total} = SS_A + SS_B + SS_{AB} + SS_{Error}\]</span></p>
+<p>The <strong>ANOVA table</strong> for two-way:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>SS</th>
+<th>df</th>
+<th>MS = SS/df</th>
+<th>F = MS / MSₑ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factor A</td>
+<td><span class="math inline">\(SS_A\)</span></td>
+<td><span class="math inline">\(a - 1\)</span></td>
+<td><span class="math inline">\(MS_A\)</span></td>
+<td><span class="math inline">\(F_A\)</span></td>
+</tr>
+<tr class="even">
+<td>Factor B</td>
+<td><span class="math inline">\(SS_B\)</span></td>
+<td><span class="math inline">\(b - 1\)</span></td>
+<td><span class="math inline">\(MS_B\)</span></td>
+<td><span class="math inline">\(F_B\)</span></td>
+</tr>
+<tr class="odd">
+<td>Interaction A×B</td>
+<td><span class="math inline">\(SS_{AB}\)</span></td>
+<td><span class="math inline">\((a-1)(b-1)\)</span></td>
+<td><span class="math inline">\(MS_{AB}\)</span></td>
+<td><span class="math inline">\(F_{AB}\)</span></td>
+</tr>
+<tr class="even">
+<td>Error</td>
+<td><span class="math inline">\(SS_E\)</span></td>
+<td><span class="math inline">\(ab(r-1)\)</span></td>
+<td><span class="math inline">\(MS_E\)</span></td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><span class="math inline">\(SS_T\)</span></td>
+<td><span class="math inline">\(abr - 1\)</span></td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>A <strong>p-value</strong> (or critical F value) is then used to make the decision for each row.</p>
+<hr>
+</section>
+<section id="significance-stars-in-r-output" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="significance-stars-in-r-output"><span class="header-section-number">2.6</span> Significance Stars in R Output</h2>
+<p>R uses shorthand to indicate significance levels:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>p-value range</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(blank)</td>
+<td>&gt; 0.1</td>
+<td>Not significant</td>
+</tr>
+<tr class="even">
+<td><code>.</code></td>
+<td>0.05 – 0.1</td>
+<td>Marginal / weak</td>
+</tr>
+<tr class="odd">
+<td><code>*</code></td>
+<td>0.01 – 0.05</td>
+<td>Significant at 5%</td>
+</tr>
+<tr class="even">
+<td><code>**</code></td>
+<td>0.001 – 0.01</td>
+<td>Significant at 1%</td>
+</tr>
+<tr class="odd">
+<td><code>***</code></td>
+<td>&lt; 0.001</td>
+<td>Highly significant</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="simple-effects-post-hoc-for-two-way-anova" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="simple-effects-post-hoc-for-two-way-anova"><span class="header-section-number">2.7</span> Simple Effects (Post-Hoc for Two-Way ANOVA)</h2>
+<p>If the interaction is significant, examine <strong>simple effects</strong>: the effect of one factor while <strong>holding the other factor constant</strong> at each level.</p>
+<blockquote class="blockquote">
+<p><strong>Viscosity Example:</strong> The interaction was significant (p = 0.03).<br>
+- Effect of pH (5.6 vs 5.9) <em>when catalyst = 2.5</em>: not significant<br>
+- Effect of pH (5.6 vs 5.9) <em>when catalyst = 2.7</em>: <strong>significant</strong> (difference = 15, p = 0.01)</p>
+</blockquote>
+<hr>
+</section>
+<section id="effect-size-partial-eta-squared-η²ₚ" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="effect-size-partial-eta-squared-η²ₚ"><span class="header-section-number">2.8</span> Effect Size — Partial Eta Squared (η²ₚ)</h2>
+<p>To measure <em>how much</em> of the variance is explained by each factor:</p>
+<p><span class="math display">\[\eta^2_p = \frac{SS_{factor}}{SS_{factor} + SS_{error}}\]</span></p>
+<p>This is analogous to R² in regression. It tells you the proportion of variance in the response explained by a given factor, <em>after removing variance accounted for by the other variables</em>.</p>
+<blockquote class="blockquote">
+<p><strong>Interpretation example:</strong> η²ₚ = 0.33 for pH means <em>33% of the variation in viscosity</em> is associated with pH.</p>
+</blockquote>
+<hr>
+</section>
+<section id="anova-assumptions-checklist" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="anova-assumptions-checklist"><span class="header-section-number">2.9</span> ANOVA Assumptions (Checklist)</h2>
+<p>Before trusting ANOVA results, verify:</p>
+<ol type="1">
+<li><strong>Random sampling</strong> — ensured at data collection stage</li>
+<li><strong>Equal variances</strong> (homogeneity) — test with Levene’s test or Bartlett’s test</li>
+<li><strong>Independence of error terms</strong> — observations should not influence each other</li>
+<li><strong>Normality of residuals</strong> — check with QQ-plot and/or Shapiro-Wilk test</li>
+</ol>
+<blockquote class="blockquote">
+<p>If equal variance assumption is violated → use the non-parametric <strong>Kruskal-Wallis test</strong> (uses ranks/medians instead of means).</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="key-equations-formulas" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Key Equations / Formulas</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- ONE-WAY ANOVA (recap) ---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(frame<span class="sc">$</span>yield <span class="sc">~</span> frame<span class="sc">$</span>soil)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># --- POST-HOC TESTS ---</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model)                                          <span class="co"># Tukey's HSD</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(frame<span class="sc">$</span>yield, frame<span class="sc">$</span>soil, <span class="st">"bonferroni"</span>)   <span class="co"># Bonferroni</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># --- TWO-WAY ANOVA ---</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(viscosity <span class="sc">~</span> pH <span class="sc">*</span> catalyst, <span class="at">data =</span> df)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># --- INTERACTION PLOT ---</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(df<span class="sc">$</span>pH, df<span class="sc">$</span>catalyst, df<span class="sc">$</span>viscosity)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># --- EFFECT SIZE (partial eta squared) ---</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># SS_factor / (SS_factor + SS_error)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Can use: library(effectsize); eta_squared(model2, partial = TRUE)</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># --- MODEL VALIDATION PLOTS ---</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)   <span class="co"># Produces 4 diagnostic plots</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># --- OUTLIER </span><span class="al">TEST</span><span class="co"> ---</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(outliers)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">grubbs.test</span>(clay_data)   <span class="co"># Grubbs test (max normalised residual)</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># --- VARIANCE TESTS ---</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)   <span class="co"># library(car)</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># --- NON-PARAMETRIC ALTERNATIVE ---</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Two-Way ANOVA Effects Model:</strong></p>
+<p><span class="math display">\[Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}\]</span></p>
+<p><strong>Partial Eta Squared:</strong></p>
+<p><span class="math display">\[\eta^2_p = \frac{SS_{factor}}{SS_{factor} + SS_{Error}}\]</span></p>
+<p><strong>Total observations in a factorial design:</strong></p>
+<p><span class="math display">\[N = r \times a \times b\]</span></p>
+<hr>
+</section>
+<section id="practical-examples" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Practical Examples</h1>
+<section id="example-1-soil-yield-one-way-anova-post-hoc-worksheet-4-lab" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="example-1-soil-yield-one-way-anova-post-hoc-worksheet-4-lab"><span class="header-section-number">4.1</span> Example 1: Soil Yield — One-Way ANOVA + Post-Hoc (Worksheet 4 / Lab)</h2>
+<p><strong>Setup:</strong> Crop yields measured for 10 fields on each of 3 soil types (Sand, Clay, Loam).<br>
+<strong>Group means:</strong> Sand = 9.9, Clay = 11.5, Loam = 14.3<br>
+<strong>ANOVA p-value:</strong> 0.025 → significant (at least one mean differs)</p>
+<p><strong>Post-hoc conclusion:</strong> Only <strong>Loam vs.&nbsp;Sand</strong> is significantly different (Tukey p ≈ 0.020, Bonferroni p ≈ 0.023). Clay is not significantly different from either.</p>
+<hr>
+</section>
+<section id="example-2-viscosity-study-two-way-anova-with-interaction" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="example-2-viscosity-study-two-way-anova-with-interaction"><span class="header-section-number">4.2</span> Example 2: Viscosity Study — Two-Way ANOVA with Interaction</h2>
+<p><strong>Factors:</strong> - Factor A = pH (2 levels: 5.6, 5.9) - Factor B = Catalyst Concentration (2 levels: 2.5, 2.7) - 3 replicates → 12 total measurements</p>
+<p><strong>R Output Interpretation:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Effect</th>
+<th>p-value</th>
+<th>Conclusion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>pH (main)</td>
+<td>&gt; 0.05</td>
+<td>Not significant alone</td>
+</tr>
+<tr class="even">
+<td>Catalyst (main)</td>
+<td>&gt; 0.05</td>
+<td>Not significant alone</td>
+</tr>
+<tr class="odd">
+<td><strong>pH × Catalyst (interaction)</strong></td>
+<td><strong>0.03</strong></td>
+<td><strong>Significant</strong> ✓</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Because the interaction is significant:</strong><br>
+→ The main effects are <em>not meaningful in isolation</em><br>
+→ Must examine simple effects (e.g., effect of pH when catalyst is held at 2.5 vs.&nbsp;2.7)<br>
+→ When catalyst = 2.7, changing pH from 5.6 to 5.9 produces a statistically significant difference (p = 0.01)</p>
+<hr>
+</section>
+<section id="example-3-new-car-interest-rate-worksheet-4-part-2" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="example-3-new-car-interest-rate-worksheet-4-part-2"><span class="header-section-number">4.3</span> Example 3: New Car Interest Rate (Worksheet 4, Part 2)</h2>
+<p><strong>Setup:</strong> 1 factor (city) with <strong>6 levels</strong> → 15 pairwise comparisons<br>
+<strong>Task:</strong> Run one-way ANOVA, then compare Separate t-tests vs.&nbsp;Tukey vs.&nbsp;Bonferroni across all 15 pairs.</p>
+<blockquote class="blockquote">
+<p><strong>Purpose:</strong> To show how the multiple comparisons problem <em>scales</em> with more groups — with 15 tests, the chance of a false positive grows substantially if uncorrected p-values are used.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="summary-points" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Summary Points</h1>
+<ul>
+<li><p><strong>Multiple comparisons tests</strong> (Tukey’s HSD, Bonferroni) control the Family-Wise Error Rate; they are more conservative than raw pairwise t-tests — this is intentional and correct.</p></li>
+<li><p>In <strong>two-way ANOVA</strong>, always check the <strong>interaction effect first</strong>. If significant, the main effects cannot be interpreted on their own.</p></li>
+<li><p>An <strong>interaction</strong> means the effect of one factor <em>depends</em> on the level of the other factor. Interaction plots make this visible: <strong>crossing lines = interaction</strong>.</p></li>
+<li><p>A <strong>factorial design</strong> is required to detect interactions — every combination of factor levels must appear in the data.</p></li>
+<li><p><strong>Partial η²</strong> measures effect size for two-way ANOVA; interpreted like R² (proportion of variance explained).</p></li>
+<li><p>Before running ANOVA: check <strong>equal variances</strong> (Levene’s test) and <strong>normality of residuals</strong> (QQ-plot / Shapiro-Wilk). If variances are unequal, consider <strong>Kruskal-Wallis</strong>.</p></li>
+<li><p>In R, the <code>aov()</code> function fits ANOVA models; <code>TukeyHSD()</code> and <code>pairwise.t.test(..., "bonferroni")</code> run post-hoc tests; <code>plot(model)</code> produces four validation plots.</p></li>
+</ul>
+<hr>
+</section>
+<section id="annotations-notes" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Annotations &amp; Notes</h1>
+<!-- Space below for your own notes, questions, or additional examples -->
+<p><strong>Questions to revisit:</strong></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Why does Levene’s test require normality? When is Fligner-Killeen more appropriate?</label></li>
+<li><label><input type="checkbox">How does the choice of reference (baseline) group in R affect coefficient interpretation?</label></li>
+<li><label><input type="checkbox">Practice calculating SS_A, SS_B, SS_AB, and SS_Error by hand for the viscosity dataset.</label></li>
+<li><label><input type="checkbox">What exactly does the Grubbs test statistic measure? Look up the formula.</label></li>
+<li><label><input type="checkbox">Complete Worksheet 4, Part 2 (New Car Interest Rate): fill in the full comparison table.</label></li>
+</ul>
+<hr>
+<p><em>End of Week 7 Study Guide</em></p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../regression-analysis/week-6.html" class="pagination-link" aria-label="Week 6">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 6</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../regression-analysis/week-8.html" class="pagination-link" aria-label="Week 8">
+        <span class="nav-page-text">Week 8</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 7 Study Guide: Multiple Comparisons &amp; Two-Way ANOVA"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Research Analysis / Applied Statistics"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ============================================================</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">     STUDY GUIDE — WEEK 7</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">     Topics: Multiple Comparisons, Two-Way ANOVA, Factorial Design</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">     Source: Lecture transcript + Worksheet 4</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">     ============================================================ --&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>This week covered two main areas:</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multiple Comparisons** — how to fairly compare more than two group means after a significant ANOVA result</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Two-Way ANOVA** — extending one-way ANOVA to handle *two* independent variables simultaneously, including their **interaction effect**</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Factorial Design** — the correct experimental design when testing for interactions</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Effect Size** — measuring how much of the variance is explained by each factor (partial η²)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Model Validation in R** — checking ANOVA assumptions with diagnostic plots</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Lab Practice** — running one-way ANOVA by hand in Excel and in R, including post-hoc tests</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanations</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Multiple Comparisons Problem</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>When ANOVA tells us that *at least one* group mean is different, it does **not** tell us *which* groups differ. A natural first instinct is to run separate t-tests for every pair of groups — but this creates a serious problem.</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>Every individual test carries a risk (α, usually 5%) of a **Type I error** (falsely concluding there is a difference). When you run many tests on the same data, those error risks stack up. This inflated overall error rate is called the **Family-Wise Error Rate (FWER)**.</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Example:** Testing 3 soil types (Sand, Clay, Loam) means 3 pairwise comparisons.</span>  </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; With 6 cities (from the New Car Interest Rate dataset), there are **15** pairwise comparisons — the chance of at least one false positive becomes very large.</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="fu">### Post-Hoc Tests</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>Post-hoc (after-the-fact) tests are designed to run all pairwise comparisons while *controlling* the FWER at the chosen α level. They are more **conservative** than plain t-tests.</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Method <span class="pp">|</span> How it works <span class="pp">|</span> When to use <span class="pp">|</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|-------------|-------------|</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Tukey's HSD** (Honest Significant Difference) <span class="pp">|</span> Controls FWER by adjusting critical values <span class="pp">|</span> Most common; good general choice <span class="pp">|</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Bonferroni** <span class="pp">|</span> Divides α by the number of comparisons <span class="pp">|</span> Simple; conservative with many comparisons <span class="pp">|</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Separate t-tests <span class="pp">|</span> No adjustment <span class="pp">|</span> **Avoid** — inflated Type I error <span class="pp">|</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="fu">### Worksheet 4 Results (Soil Yield Data)</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Comparison <span class="pp">|</span> Separate t-tests <span class="pp">|</span> Tukey's HSD <span class="pp">|</span> Bonferroni <span class="pp">|</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------|-----------------|-------------|------------|</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Loam – Clay <span class="pp">|</span> 0.081 <span class="pp">|</span> 0.179 <span class="pp">|</span> 0.234 <span class="pp">|</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Loam – Sand** | **0.006** | **0.020** | **0.023** <span class="pp">|</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Clay – Sand <span class="pp">|</span> 0.351 <span class="pp">|</span> 0.555 <span class="pp">|</span> 0.914 <span class="pp">|</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Key takeaway:** Only the Loam vs. Sand comparison is statistically significant.</span>  </span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Notice how the adjusted p-values (Tukey, Bonferroni) are *larger* than the raw t-test p-values — this is the conservative adjustment at work.</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Two-Way ANOVA</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="fu">### What is it?</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>**One-way ANOVA** tested one independent variable (e.g., soil type) against one continuous dependent variable (yield).</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>**Two-way ANOVA** tests **two** independent (categorical) variables *simultaneously* against one continuous dependent variable. This is powerful because it also reveals whether the two factors **interact**.</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Main Effects vs. Interaction Effect</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Main effect of Factor A** — the overall effect of Factor A on the response, *ignoring* Factor B.</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Main effect of Factor B** — the overall effect of Factor B on the response, *ignoring* Factor A.</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Interaction effect (A × B)** — does the effect of Factor A *depend on which level of Factor B we're at*? This is the most important question in two-way ANOVA.</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Always check the interaction effect first.** If it is significant, the main effects cannot be interpreted in isolation — you must look at them *within each level of the other factor* (called **simple effects**).</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Three Null Hypotheses</span></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>For a two-way ANOVA with factors A and B:</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**H₀ (Factor A):** All population means for Factor A are equal (no main effect of A)</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**H₀ (Factor B):** All population means for Factor B are equal (no main effect of B)</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**H₀ (Interaction):** The effect of Factor A is the same at all levels of Factor B (no interaction)</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Thinking further:** A *three-way* ANOVA has **7** hypotheses — 3 main effects + 3 two-way interactions + 1 three-way interaction.</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Two-Way ANOVA Effects Model</span></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>$$Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}$$</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Symbol <span class="pp">|</span> Meaning <span class="pp">|</span></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|---------|</span></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $Y_{ijk}$ <span class="pp">|</span> Response variable (observation $k$ at level $i$ of A and level $j$ of B) <span class="pp">|</span></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\mu$ <span class="pp">|</span> Overall population mean <span class="pp">|</span></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\alpha_i$ <span class="pp">|</span> Treatment effect of Factor A at level $i$ <span class="pp">|</span></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\beta_j$ <span class="pp">|</span> Treatment effect of Factor B at level $j$ <span class="pp">|</span></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $(\alpha\beta)_{ij}$ <span class="pp">|</span> Interaction effect <span class="pp">|</span></span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\varepsilon_{ijk}$ <span class="pp">|</span> Residual / error term <span class="pp">|</span></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $k$ <span class="pp">|</span> Replicate index <span class="pp">|</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a><span class="fu">## Factorial Design</span></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>To test for an interaction effect, you must use a **factorial (fully crossed) design**:</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"All possible combinations of all treatment levels must be included for every replicate."*</span></span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>If Factor A has **a** levels and Factor B has **b** levels:</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>$$\text{Number of treatment combinations} = a \times b$$</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>With $r$ replicates:</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>$$\text{Total observations} = r \times a \times b$$</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Example (Viscosity study):**</span>  </span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; pH has 2 levels (5.6, 5.9) × Catalyst concentration has 2 levels (2.5, 2.7) = **4 combinations**.</span>  </span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; With 3 replicates → **12 total viscosity measurements**.</span></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interaction Plots</span></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>An **interaction plot** graphs the mean response for each combination of factor levels. It is the clearest way to visually assess whether an interaction exists.</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Plot appearance <span class="pp">|</span> Conclusion <span class="pp">|</span></span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------------|-----------|</span></span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Lines are approximately **parallel** <span class="pp">|</span> No interaction between factors <span class="pp">|</span></span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Lines **cross** or diverge sharply <span class="pp">|</span> Interaction is likely present <span class="pp">|</span></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Tip:** Don't overcomplicate it. Pick one line, trace how the response changes as the other factor changes — then repeat for the other line. If the *direction or magnitude* of change differs between lines, that's an interaction.</span></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a><span class="fu">## Partitioning Variance in Two-Way ANOVA</span></span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>Total variability is split into components:</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>$$SS_{Total} = SS_A + SS_B + SS_{AB} + SS_{Error}$$</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>The **ANOVA table** for two-way:</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Source <span class="pp">|</span> SS <span class="pp">|</span> df <span class="pp">|</span> MS = SS/df <span class="pp">|</span> F = MS / MSₑ <span class="pp">|</span></span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|----|----|-----------|-------------|</span></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factor A <span class="pp">|</span> $SS_A$ <span class="pp">|</span> $a - 1$ <span class="pp">|</span> $MS_A$ <span class="pp">|</span> $F_A$ <span class="pp">|</span></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factor B <span class="pp">|</span> $SS_B$ <span class="pp">|</span> $b - 1$ <span class="pp">|</span> $MS_B$ <span class="pp">|</span> $F_B$ <span class="pp">|</span></span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Interaction A×B <span class="pp">|</span> $SS_{AB}$ <span class="pp">|</span> $(a-1)(b-1)$ <span class="pp">|</span> $MS_{AB}$ <span class="pp">|</span> $F_{AB}$ <span class="pp">|</span></span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Error <span class="pp">|</span> $SS_E$ <span class="pp">|</span> $ab(r-1)$ <span class="pp">|</span> $MS_E$ <span class="pp">|</span> — <span class="pp">|</span></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Total** <span class="pp">|</span> $SS_T$ <span class="pp">|</span> $abr - 1$ <span class="pp">|</span> — <span class="pp">|</span> — <span class="pp">|</span></span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>A **p-value** (or critical F value) is then used to make the decision for each row.</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a><span class="fu">## Significance Stars in R Output</span></span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>R uses shorthand to indicate significance levels:</span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Symbol <span class="pp">|</span> p-value range <span class="pp">|</span> Interpretation <span class="pp">|</span></span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|--------------|----------------|</span></span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> (blank) <span class="pp">|</span> &gt; 0.1 <span class="pp">|</span> Not significant <span class="pp">|</span></span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`.`</span> <span class="pp">|</span> 0.05 – 0.1 <span class="pp">|</span> Marginal / weak <span class="pp">|</span></span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`*`</span> <span class="pp">|</span> 0.01 – 0.05 <span class="pp">|</span> Significant at 5% <span class="pp">|</span></span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`**`</span> <span class="pp">|</span> 0.001 – 0.01 <span class="pp">|</span> Significant at 1% <span class="pp">|</span></span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`***`</span> <span class="pp">|</span> &lt; 0.001 <span class="pp">|</span> Highly significant <span class="pp">|</span></span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simple Effects (Post-Hoc for Two-Way ANOVA)</span></span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>If the interaction is significant, examine **simple effects**: the effect of one factor while **holding the other factor constant** at each level.</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Viscosity Example:** The interaction was significant (p = 0.03).</span>  </span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; - Effect of pH (5.6 vs 5.9) *when catalyst = 2.5*: not significant</span>  </span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; - Effect of pH (5.6 vs 5.9) *when catalyst = 2.7*: **significant** (difference = 15, p = 0.01)</span></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a><span class="fu">## Effect Size — Partial Eta Squared (η²ₚ)</span></span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>To measure *how much* of the variance is explained by each factor:</span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>$$\eta^2_p = \frac{SS_{factor}}{SS_{factor} + SS_{error}}$$</span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>This is analogous to R² in regression. It tells you the proportion of variance in the response explained by a given factor, *after removing variance accounted for by the other variables*.</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Interpretation example:** η²ₚ = 0.33 for pH means *33% of the variation in viscosity* is associated with pH.</span></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a><span class="fu">## ANOVA Assumptions (Checklist)</span></span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>Before trusting ANOVA results, verify:</span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Random sampling** — ensured at data collection stage</span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Equal variances** (homogeneity) — test with Levene's test or Bartlett's test</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Independence of error terms** — observations should not influence each other</span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Normality of residuals** — check with QQ-plot and/or Shapiro-Wilk test</span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; If equal variance assumption is violated → use the non-parametric **Kruskal-Wallis test** (uses ranks/medians instead of means).</span></span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a><span class="co"># --- ONE-WAY ANOVA (recap) ---</span></span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(frame<span class="sc">$</span>yield <span class="sc">~</span> frame<span class="sc">$</span>soil)</span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a><span class="co"># --- POST-HOC TESTS ---</span></span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model)                                          <span class="co"># Tukey's HSD</span></span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(frame<span class="sc">$</span>yield, frame<span class="sc">$</span>soil, <span class="st">"bonferroni"</span>)   <span class="co"># Bonferroni</span></span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a><span class="co"># --- TWO-WAY ANOVA ---</span></span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(viscosity <span class="sc">~</span> pH <span class="sc">*</span> catalyst, <span class="at">data =</span> df)</span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a><span class="co"># --- INTERACTION PLOT ---</span></span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(df<span class="sc">$</span>pH, df<span class="sc">$</span>catalyst, df<span class="sc">$</span>viscosity)</span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a><span class="co"># --- EFFECT SIZE (partial eta squared) ---</span></span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a><span class="co"># SS_factor / (SS_factor + SS_error)</span></span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a><span class="co"># Can use: library(effectsize); eta_squared(model2, partial = TRUE)</span></span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a><span class="co"># --- MODEL VALIDATION PLOTS ---</span></span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)   <span class="co"># Produces 4 diagnostic plots</span></span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a><span class="co"># --- OUTLIER </span><span class="al">TEST</span><span class="co"> ---</span></span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(outliers)</span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a><span class="fu">grubbs.test</span>(clay_data)   <span class="co"># Grubbs test (max normalised residual)</span></span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a><span class="co"># --- VARIANCE TESTS ---</span></span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)</span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)   <span class="co"># library(car)</span></span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a><span class="co"># --- NON-PARAMETRIC ALTERNATIVE ---</span></span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)</span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>**Two-Way ANOVA Effects Model:**</span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>$$Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}$$</span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>**Partial Eta Squared:**</span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a>$$\eta^2_p = \frac{SS_{factor}}{SS_{factor} + SS_{Error}}$$</span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>**Total observations in a factorial design:**</span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a>$$N = r \times a \times b$$</span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Examples</span></span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 1: Soil Yield — One-Way ANOVA + Post-Hoc (Worksheet 4 / Lab)</span></span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a>**Setup:** Crop yields measured for 10 fields on each of 3 soil types (Sand, Clay, Loam).  </span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a>**Group means:** Sand = 9.9, Clay = 11.5, Loam = 14.3  </span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a>**ANOVA p-value:** 0.025 → significant (at least one mean differs)</span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a>**Post-hoc conclusion:** Only **Loam vs. Sand** is significantly different (Tukey p ≈ 0.020, Bonferroni p ≈ 0.023). Clay is not significantly different from either.</span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 2: Viscosity Study — Two-Way ANOVA with Interaction</span></span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>**Factors:**</span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Factor A = pH (2 levels: 5.6, 5.9)</span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Factor B = Catalyst Concentration (2 levels: 2.5, 2.7)</span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>3 replicates → 12 total measurements</span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a>**R Output Interpretation:**</span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Effect <span class="pp">|</span> p-value <span class="pp">|</span> Conclusion <span class="pp">|</span></span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|---------|-----------|</span></span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> pH (main) <span class="pp">|</span> &gt; 0.05 <span class="pp">|</span> Not significant alone <span class="pp">|</span></span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Catalyst (main) <span class="pp">|</span> &gt; 0.05 <span class="pp">|</span> Not significant alone <span class="pp">|</span></span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **pH × Catalyst (interaction)** | **0.03** | **Significant** ✓ <span class="pp">|</span></span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a>**Because the interaction is significant:**  </span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a>→ The main effects are *not meaningful in isolation*  </span>
+<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a>→ Must examine simple effects (e.g., effect of pH when catalyst is held at 2.5 vs. 2.7)  </span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a>→ When catalyst = 2.7, changing pH from 5.6 to 5.9 produces a statistically significant difference (p = 0.01)</span>
+<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 3: New Car Interest Rate (Worksheet 4, Part 2)</span></span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a>**Setup:** 1 factor (city) with **6 levels** → 15 pairwise comparisons  </span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a>**Task:** Run one-way ANOVA, then compare Separate t-tests vs. Tukey vs. Bonferroni across all 15 pairs.</span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Purpose:** To show how the multiple comparisons problem *scales* with more groups — with 15 tests, the chance of a false positive grows substantially if uncorrected p-values are used.</span></span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multiple comparisons tests** (Tukey's HSD, Bonferroni) control the Family-Wise Error Rate; they are more conservative than raw pairwise t-tests — this is intentional and correct.</span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In **two-way ANOVA**, always check the **interaction effect first**. If significant, the main effects cannot be interpreted on their own.</span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>An **interaction** means the effect of one factor *depends* on the level of the other factor. Interaction plots make this visible: **crossing lines = interaction**.</span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A **factorial design** is required to detect interactions — every combination of factor levels must appear in the data.</span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Partial η²** measures effect size for two-way ANOVA; interpreted like R² (proportion of variance explained).</span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Before running ANOVA: check **equal variances** (Levene's test) and **normality of residuals** (QQ-plot / Shapiro-Wilk). If variances are unequal, consider **Kruskal-Wallis**.</span>
+<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In R, the <span class="in">`aov()`</span> function fits ANOVA models; <span class="in">`TukeyHSD()`</span> and <span class="in">`pairwise.t.test(..., "bonferroni")`</span> run post-hoc tests; <span class="in">`plot(model)`</span> produces four validation plots.</span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a><span class="fu"># Annotations &amp; Notes</span></span>
+<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Space below for your own notes, questions, or additional examples --&gt;</span></span>
+<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a>**Questions to revisit:**</span>
+<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Why does Levene's test require normality? When is Fligner-Killeen more appropriate?</span>
+<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> How does the choice of reference (baseline) group in R affect coefficient interpretation?</span>
+<span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Practice calculating SS_A, SS_B, SS_AB, and SS_Error by hand for the viscosity dataset.</span>
+<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> What exactly does the Grubbs test statistic measure? Look up the formula.</span>
+<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Complete Worksheet 4, Part 2 (New Car Interest Rate): fill in the full comparison table.</span>
+<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-327"><a href="#cb2-327" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-329"><a href="#cb2-329" aria-hidden="true" tabindex="-1"></a>*End of Week 7 Study Guide*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

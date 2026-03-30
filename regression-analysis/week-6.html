@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 6 – Two-Way ANOVA – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../regression-analysis/week-7.html" rel="next">
+<link href="../regression-analysis/week-5.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-6.html">Week 6</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-6.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-3.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-4.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-5.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-6.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-7.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-8.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8 - empty</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics" id="toc-key-topics" class="nav-link active" data-scroll-target="#key-topics"><span class="header-section-number">1</span> Key Topics</a></li>
+  <li><a href="#core-explanation" id="toc-core-explanation" class="nav-link" data-scroll-target="#core-explanation"><span class="header-section-number">2</span> Core Explanation</a>
+  <ul class="collapse">
+  <li><a href="#what-is-two-way-anova" id="toc-what-is-two-way-anova" class="nav-link" data-scroll-target="#what-is-two-way-anova"><span class="header-section-number">2.1</span> What is Two-Way ANOVA?</a></li>
+  <li><a href="#main-effects-vs-interaction-effects" id="toc-main-effects-vs-interaction-effects" class="nav-link" data-scroll-target="#main-effects-vs-interaction-effects"><span class="header-section-number">2.2</span> Main Effects vs Interaction Effects</a></li>
+  <li><a href="#the-three-null-hypotheses" id="toc-the-three-null-hypotheses" class="nav-link" data-scroll-target="#the-three-null-hypotheses"><span class="header-section-number">2.3</span> The Three Null Hypotheses</a>
+  <ul class="collapse">
+  <li><a href="#extension-how-many-hypotheses-in-a-three-way-anova" id="toc-extension-how-many-hypotheses-in-a-three-way-anova" class="nav-link" data-scroll-target="#extension-how-many-hypotheses-in-a-three-way-anova"><span class="header-section-number">2.3.1</span> Extension: How Many Hypotheses in a Three-Way ANOVA?</a></li>
+  </ul></li>
+  <li><a href="#factorial-design" id="toc-factorial-design" class="nav-link" data-scroll-target="#factorial-design"><span class="header-section-number">2.4</span> Factorial Design</a>
+  <ul class="collapse">
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">2.4.1</span> Example</a></li>
+  </ul></li>
+  <li><a href="#the-effects-model" id="toc-the-effects-model" class="nav-link" data-scroll-target="#the-effects-model"><span class="header-section-number">2.5</span> The Effects Model</a>
+  <ul class="collapse">
+  <li><a href="#hypotheses-in-effects-model-notation" id="toc-hypotheses-in-effects-model-notation" class="nav-link" data-scroll-target="#hypotheses-in-effects-model-notation"><span class="header-section-number">2.5.1</span> Hypotheses in Effects Model Notation</a></li>
+  </ul></li>
+  <li><a href="#sums-of-squares-and-the-anova-table" id="toc-sums-of-squares-and-the-anova-table" class="nav-link" data-scroll-target="#sums-of-squares-and-the-anova-table"><span class="header-section-number">2.6</span> Sums of Squares and the ANOVA Table</a></li>
+  <li><a href="#interaction-plots" id="toc-interaction-plots" class="nav-link" data-scroll-target="#interaction-plots"><span class="header-section-number">2.7</span> Interaction Plots</a></li>
+  <li><a href="#practical-example-viscosity-ph-and-catalyst-concentration" id="toc-practical-example-viscosity-ph-and-catalyst-concentration" class="nav-link" data-scroll-target="#practical-example-viscosity-ph-and-catalyst-concentration"><span class="header-section-number">2.8</span> Practical Example: Viscosity, pH, and Catalyst Concentration</a>
+  <ul class="collapse">
+  <li><a href="#data-summary" id="toc-data-summary" class="nav-link" data-scroll-target="#data-summary"><span class="header-section-number">2.8.1</span> Data Summary</a></li>
+  <li><a href="#r-output-two-way-anova" id="toc-r-output-two-way-anova" class="nav-link" data-scroll-target="#r-output-two-way-anova"><span class="header-section-number">2.8.2</span> R Output — Two-Way ANOVA</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation"><span class="header-section-number">2.8.3</span> Interpretation</a></li>
+  <li><a href="#estimated-model-parameters" id="toc-estimated-model-parameters" class="nav-link" data-scroll-target="#estimated-model-parameters"><span class="header-section-number">2.8.4</span> Estimated Model Parameters</a></li>
+  </ul></li>
+  <li><a href="#simple-effects" id="toc-simple-effects" class="nav-link" data-scroll-target="#simple-effects"><span class="header-section-number">2.9</span> Simple Effects</a>
+  <ul class="collapse">
+  <li><a href="#key-results-from-tukeys-hsd" id="toc-key-results-from-tukeys-hsd" class="nav-link" data-scroll-target="#key-results-from-tukeys-hsd"><span class="header-section-number">2.9.1</span> Key Results from Tukey’s HSD</a></li>
+  </ul></li>
+  <li><a href="#effect-size-partial-eta-squared" id="toc-effect-size-partial-eta-squared" class="nav-link" data-scroll-target="#effect-size-partial-eta-squared"><span class="header-section-number">2.10</span> Effect Size: Partial Eta Squared</a>
+  <ul class="collapse">
+  <li><a href="#example-effect-of-ph-on-viscosity" id="toc-example-effect-of-ph-on-viscosity" class="nav-link" data-scroll-target="#example-effect-of-ph-on-viscosity"><span class="header-section-number">2.10.1</span> Example — Effect of pH on Viscosity</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">3</span> Key Equations / Formulas</a></li>
+  <li><a href="#r-code-reference" id="toc-r-code-reference" class="nav-link" data-scroll-target="#r-code-reference"><span class="header-section-number">4</span> R Code Reference</a></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">5</span> Summary Points</a></li>
+  <li><a href="#additional-notes-annotations" id="toc-additional-notes-annotations" class="nav-link" data-scroll-target="#additional-notes-annotations"><span class="header-section-number">6</span> Additional Notes / Annotations</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-6.html">Week 6</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 6 – Two-Way ANOVA</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Study Guide &amp; Summary Notes</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>📝 <strong>Note to self:</strong> These notes are a first draft — leave room below each section for your own annotations, worked examples, and exam tips.</p>
+</blockquote>
+<hr>
+<section id="key-topics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics</h1>
+<ul>
+<li>What is Two-Way ANOVA, and how does it differ from One-Way ANOVA?</li>
+<li>Main Effects vs Interaction Effects</li>
+<li>Three Null Hypotheses in Two-Way ANOVA</li>
+<li>Factorial Design and treatment combinations</li>
+<li>The Effects Model and Sums of Squares</li>
+<li>The Two-Way ANOVA Table</li>
+<li>Interaction Plots — how to read them</li>
+<li>Worked Example: pH and Catalyst Concentration on Viscosity</li>
+<li>Post-Hoc Testing: Tukey’s HSD</li>
+<li>Simple Effects (when the interaction is significant)</li>
+<li>Effect Size: Partial Eta Squared (<span class="math inline">\(\eta^2_P\)</span>)</li>
+<li>Implementing Two-Way ANOVA in R</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanation" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanation</h1>
+<section id="what-is-two-way-anova" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-is-two-way-anova"><span class="header-section-number">2.1</span> What is Two-Way ANOVA?</h2>
+<p><strong>ANOVA</strong> stands for Analysis of Variance. It is a statistical test used to compare the means of three or more groups to see if at least one group mean is significantly different from the others.</p>
+<p><strong>One-Way ANOVA</strong> (covered previously) uses a single categorical independent variable to explain differences in a continuous dependent variable.</p>
+<p><strong>Two-Way ANOVA</strong> extends this idea to include <strong>two categorical independent variables</strong> (called <strong>factors</strong>) and one continuous dependent variable. This lets us ask three questions at once:</p>
+<ol type="1">
+<li>Does <strong>Factor A</strong> affect the outcome?</li>
+<li>Does <strong>Factor B</strong> affect the outcome?</li>
+<li>Do <strong>Factors A and B interact</strong> — does the effect of one depend on the level of the other?</li>
+</ol>
+<blockquote class="blockquote">
+<p>💡 <strong>Key insight from class:</strong> Always look at the interaction effect <em>first</em>. If there is a significant interaction, interpreting the main effects in isolation is not meaningful.</p>
+</blockquote>
+<hr>
+</section>
+<section id="main-effects-vs-interaction-effects" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="main-effects-vs-interaction-effects"><span class="header-section-number">2.2</span> Main Effects vs Interaction Effects</h2>
+<p><strong>Main effects</strong> are the individual effects of each factor, considered separately, averaged across all levels of the other factor.</p>
+<p><strong>Interaction effects</strong> describe whether the effect of one factor <em>depends on</em> the level of another factor. This is the most important thing to examine in a two-way ANOVA.</p>
+<p>For example: Does the effect of pH on product viscosity depend on the level of catalyst concentration being used? If yes — there is an interaction.</p>
+<blockquote class="blockquote">
+<p>💡 <strong>Simple rule:</strong> If the interaction is significant, you cannot meaningfully talk about the main effects in isolation. You must instead look at <strong>simple effects</strong> (see Section 2.7).</p>
+</blockquote>
+<hr>
+</section>
+<section id="the-three-null-hypotheses" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="the-three-null-hypotheses"><span class="header-section-number">2.3</span> The Three Null Hypotheses</h2>
+<p>A two-way ANOVA tests <strong>three separate null hypotheses</strong> simultaneously:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Hypothesis</th>
+<th>Null (H₀)</th>
+<th>Alternative (H₁)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factor A (main effect)</td>
+<td>Population means are equal for all levels of Factor A</td>
+<td>At least one group mean differs</td>
+</tr>
+<tr class="even">
+<td>Factor B (main effect)</td>
+<td>Population means are equal for all levels of Factor B</td>
+<td>At least one group mean differs</td>
+</tr>
+<tr class="odd">
+<td>Interaction A×B</td>
+<td>No interaction between Factor A and Factor B</td>
+<td>There is a significant interaction</td>
+</tr>
+</tbody>
+</table>
+<section id="extension-how-many-hypotheses-in-a-three-way-anova" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="extension-how-many-hypotheses-in-a-three-way-anova"><span class="header-section-number">2.3.1</span> Extension: How Many Hypotheses in a Three-Way ANOVA?</h3>
+<p>For a <strong>three-way ANOVA</strong>, the answer is <strong>7</strong>:</p>
+<ul>
+<li>3 hypotheses for the main effects (one per factor)</li>
+<li>3 hypotheses for the two-factor interactions (A×B, A×C, B×C)</li>
+<li>1 hypothesis for the three-factor interaction (A×B×C)</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="factorial-design" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="factorial-design"><span class="header-section-number">2.4</span> Factorial Design</h2>
+<p>To properly test for an interaction effect, the experiment must use a <strong>factorial design</strong>. This means every possible combination of factor levels must appear in the data.</p>
+<ul>
+<li>If Factor A has <strong>a</strong> levels and Factor B has <strong>b</strong> levels, the number of treatment combinations is:</li>
+</ul>
+<p><span class="math display">\[
+\text{Total combinations} = a \times b
+\]</span></p>
+<ul>
+<li>Each complete set of all <span class="math inline">\(ab\)</span> combinations is called a <strong>replicate</strong> (<span class="math inline">\(r\)</span>).</li>
+<li>Total number of observations = <span class="math inline">\(r \times a \times b\)</span></li>
+</ul>
+<section id="example" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="example"><span class="header-section-number">2.4.1</span> Example</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>B₁</th>
+<th>B₂</th>
+<th>B₃</th>
+<th>B₄</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A₁</strong></td>
+<td>A₁B₁</td>
+<td>A₁B₂</td>
+<td>A₁B₃</td>
+<td>A₁B₄</td>
+</tr>
+<tr class="even">
+<td><strong>A₂</strong></td>
+<td>A₂B₁</td>
+<td>A₂B₂</td>
+<td>A₂B₃</td>
+<td>A₂B₄</td>
+</tr>
+<tr class="odd">
+<td><strong>A₃</strong></td>
+<td>A₃B₁</td>
+<td>A₃B₂</td>
+<td>A₃B₃</td>
+<td>A₃B₄</td>
+</tr>
+</tbody>
+</table>
+<p>If Factor A has 3 levels and Factor B has 4 levels: <span class="math inline">\(3 \times 4 = 12\)</span> combinations per replicate.</p>
+<hr>
+</section>
+</section>
+<section id="the-effects-model" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="the-effects-model"><span class="header-section-number">2.5</span> The Effects Model</h2>
+<p>The statistical model for two-way ANOVA is written as:</p>
+<p><span class="math display">\[
+y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + e_{ijk}
+\]</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y_{ijk}\)</span></td>
+<td>The observed value for replicate <span class="math inline">\(k\)</span>, at level <span class="math inline">\(i\)</span> of Factor A and level <span class="math inline">\(j\)</span> of Factor B</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu\)</span></td>
+<td>The overall (grand) mean</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\alpha_i\)</span></td>
+<td>The treatment effect of Factor A at level <span class="math inline">\(i\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta_j\)</span></td>
+<td>The treatment effect of Factor B at level <span class="math inline">\(j\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\((\alpha\beta)_{ij}\)</span></td>
+<td>The interaction effect between Factor A and Factor B</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(e_{ijk}\)</span></td>
+<td>The random error term, assumed <span class="math inline">\(e_{ijk} \sim \text{NID}(0, \sigma^2)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The subscript <span class="math inline">\(k\)</span> is the new addition compared to one-way ANOVA — it represents the <strong>replicates</strong>.</p>
+<section id="hypotheses-in-effects-model-notation" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="hypotheses-in-effects-model-notation"><span class="header-section-number">2.5.1</span> Hypotheses in Effects Model Notation</h3>
+<p><span class="math display">\[
+H_0: \alpha_1 = \alpha_2 = \ldots = \alpha_a = 0 \quad \text{(no effect of Factor A)}
+\]</span> <span class="math display">\[
+H_0: \beta_1 = \beta_2 = \ldots = \beta_b = 0 \quad \text{(no effect of Factor B)}
+\]</span> <span class="math display">\[
+H_0: (\alpha\beta)_{ij} = 0 \text{ for all } i,j \quad \text{(no interaction)}
+\]</span></p>
+<hr>
+</section>
+</section>
+<section id="sums-of-squares-and-the-anova-table" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="sums-of-squares-and-the-anova-table"><span class="header-section-number">2.6</span> Sums of Squares and the ANOVA Table</h2>
+<p>The total variance in the dataset is partitioned into four parts:</p>
+<p><span class="math display">\[
+SS_T = SS_A + SS_B + SS_{AB} + SS_E
+\]</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of Squares</th>
+<th>Degrees of Freedom</th>
+<th>Mean Square</th>
+<th>F-ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factor A</td>
+<td><span class="math inline">\(SS_A\)</span></td>
+<td><span class="math inline">\(a-1\)</span></td>
+<td><span class="math inline">\(MS_A = \frac{SS_A}{a-1}\)</span></td>
+<td><span class="math inline">\(\frac{MS_A}{MS_E}\)</span></td>
+</tr>
+<tr class="even">
+<td>Factor B</td>
+<td><span class="math inline">\(SS_B\)</span></td>
+<td><span class="math inline">\(b-1\)</span></td>
+<td><span class="math inline">\(MS_B = \frac{SS_B}{b-1}\)</span></td>
+<td><span class="math inline">\(\frac{MS_B}{MS_E}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Interaction AB</td>
+<td><span class="math inline">\(SS_{AB}\)</span></td>
+<td><span class="math inline">\((a-1)(b-1)\)</span></td>
+<td><span class="math inline">\(MS_{AB} = \frac{SS_{AB}}{(a-1)(b-1)}\)</span></td>
+<td><span class="math inline">\(\frac{MS_{AB}}{MS_E}\)</span></td>
+</tr>
+<tr class="even">
+<td>Error</td>
+<td><span class="math inline">\(SS_E\)</span></td>
+<td><span class="math inline">\(ab(n-1)\)</span></td>
+<td><span class="math inline">\(MS_E = \frac{SS_E}{ab(n-1)}\)</span></td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><span class="math inline">\(SS_T\)</span></td>
+<td><span class="math inline">\(abn-1\)</span></td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Each F-ratio is compared against a critical value (or produces a p-value) to determine statistical significance.</p>
+<p>The full formulas for each sum of squares are:</p>
+<p><span class="math display">\[
+SS_T = \sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n}(y_{ijk} - \bar{y}_{\cdots})^2
+\]</span> <span class="math display">\[
+SS_A = nb\sum_{i=1}^{a}(\bar{y}_{i\cdot\cdot} - \bar{y}_{\cdots})^2
+\]</span> <span class="math display">\[
+SS_B = na\sum_{j=1}^{b}(\bar{y}_{\cdot j\cdot} - \bar{y}_{\cdots})^2
+\]</span> <span class="math display">\[
+SS_{AB} = n\sum_{j=1}^{b}\sum_{i=1}^{a}(\bar{y}_{ij\cdot} - \bar{y}_{i\cdot\cdot} - \bar{y}_{\cdot j\cdot} + \bar{y}_{\cdots})^2
+\]</span> <span class="math display">\[
+SS_E = \sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n}(y_{ijk} - \bar{y}_{ij\cdot})^2
+\]</span></p>
+<hr>
+</section>
+<section id="interaction-plots" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="interaction-plots"><span class="header-section-number">2.7</span> Interaction Plots</h2>
+<p>Before running the model, it is good practice to <strong>plot the data</strong> to visually check for an interaction. An <strong>interaction plot</strong> shows the mean of the dependent variable for each combination of factor levels, with lines connecting levels of one factor across levels of the other.</p>
+<p><strong>Reading interaction plots:</strong></p>
+<ul>
+<li><strong>Parallel lines → No interaction.</strong> The effect of one factor is the same regardless of the level of the other.</li>
+<li><strong>Non-parallel (crossing or diverging) lines → Interaction present.</strong> The effect of one factor changes depending on the level of the other.</li>
+</ul>
+<blockquote class="blockquote">
+<p>📝 <strong>Annotation space:</strong> <em>Add a sketch or printed example from your own output here.</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="practical-example-viscosity-ph-and-catalyst-concentration" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="practical-example-viscosity-ph-and-catalyst-concentration"><span class="header-section-number">2.8</span> Practical Example: Viscosity, pH, and Catalyst Concentration</h2>
+<p>An experiment was conducted to investigate whether <strong>pH</strong> and <strong>Catalyst Concentration</strong> affect the <strong>Viscosity</strong> of a product. The design used:</p>
+<ul>
+<li>Factor A (pH): 2 levels — 5.6 and 5.9</li>
+<li>Factor B (Catalyst Concentration): 2 levels — 2.5 and 2.7</li>
+<li>3 replicates per treatment combination → <strong>12 total observations</strong></li>
+</ul>
+<section id="data-summary" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="data-summary"><span class="header-section-number">2.8.1</span> Data Summary</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>pH</th>
+<th>Catalyst Conc</th>
+<th>Viscosity Readings</th>
+<th>Treatment Mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>5.6</td>
+<td>2.5</td>
+<td>192, 199, 193</td>
+<td>194.67</td>
+</tr>
+<tr class="even">
+<td>5.6</td>
+<td>2.7</td>
+<td>178, 185, 188</td>
+<td>183.67</td>
+</tr>
+<tr class="odd">
+<td>5.9</td>
+<td>2.5</td>
+<td>185, 193, 190</td>
+<td>189.33</td>
+</tr>
+<tr class="even">
+<td>5.9</td>
+<td>2.7</td>
+<td>197, 196, 204</td>
+<td>199.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Grand mean</strong> <span class="math inline">\(\bar{y}_{\cdots} = 191.67\)</span></p>
+</section>
+<section id="r-output-two-way-anova" class="level3" data-number="2.8.2">
+<h3 data-number="2.8.2" class="anchored" data-anchor-id="r-output-two-way-anova"><span class="header-section-number">2.8.2</span> R Output — Two-Way ANOVA</h3>
+<pre><code>           Df  Sum Sq  Mean Sq  F value  Pr(&gt;F)
+Catalyst    1     1.3      1.3    0.070  0.79778
+pH          1    75.0     75.0    3.947  0.08218 .
+Catalyst:pH 1   320.3    320.3   16.860  0.00341 **
+Residuals   8   152.0     19.0
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</section>
+<section id="interpretation" class="level3" data-number="2.8.3">
+<h3 data-number="2.8.3" class="anchored" data-anchor-id="interpretation"><span class="header-section-number">2.8.3</span> Interpretation</h3>
+<ul>
+<li><strong>Interaction term (Catalyst:pH):</strong> Significant at the 1% level (p = 0.003). We <strong>reject</strong> H₀ for the interaction.</li>
+<li><strong>Main effects (Catalyst, pH):</strong> Neither is statistically significant on its own.</li>
+</ul>
+<blockquote class="blockquote">
+<p>This tells us: the effect that catalyst concentration has on viscosity <strong>depends on</strong> the pH level — and vice versa. The main effects alone are misleading here.</p>
+</blockquote>
+</section>
+<section id="estimated-model-parameters" class="level3" data-number="2.8.4">
+<h3 data-number="2.8.4" class="anchored" data-anchor-id="estimated-model-parameters"><span class="header-section-number">2.8.4</span> Estimated Model Parameters</h3>
+<p>The estimated effect parameters from the ANOVA effects model:</p>
+<ul>
+<li><span class="math inline">\(\hat{\alpha}_1 = 189.1667 - 191.6667 = -2.5\)</span> (pH = 5.6)</li>
+<li><span class="math inline">\(\hat{\alpha}_2 = 194.1667 - 191.6667 = 2.5\)</span> (pH = 5.9)</li>
+<li><span class="math inline">\(\hat{\beta}_1 = 192 - 191.6667 = 0.3333\)</span> (Catalyst = 2.5)</li>
+<li><span class="math inline">\(\hat{\beta}_2 = 191.3333 - 191.6667 = -0.3333\)</span> (Catalyst = 2.7)</li>
+</ul>
+<p>Interaction estimates <span class="math inline">\((\widehat{\alpha\beta})_{ij}\)</span>:</p>
+<ul>
+<li>For pH = 5.6, Catalyst = 2.5: <span class="math inline">\(194.6667 - 189.1667 - 192 + 191.6667 = 5.1667\)</span></li>
+<li>For pH = 5.6, Catalyst = 2.7: <span class="math inline">\(183.6667 - 189.1667 - 191.3333 + 191.6667 = -5.1667\)</span></li>
+<li>For pH = 5.9, Catalyst = 2.5: <span class="math inline">\(189.3333 - 194.1667 - 192 + 191.6667 = -5.1667\)</span></li>
+<li>For pH = 5.9, Catalyst = 2.7: <span class="math inline">\(199 - 194.1667 - 191.3333 + 191.6667 = 5.1667\)</span></li>
+</ul>
+<p>Fitted value for pH = 5.6, Catalyst = 2.5:</p>
+<p><span class="math display">\[
+\hat{y}_{11k} = 191.6667 + (-2.5) + 0.3333 + 5.1667 = 194.6667
+\]</span></p>
+<hr>
+</section>
+</section>
+<section id="simple-effects" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="simple-effects"><span class="header-section-number">2.9</span> Simple Effects</h2>
+<p>Since the interaction is significant, we must examine each factor <strong>while holding the other factor constant</strong>. These are called the <strong>simple effects</strong>.</p>
+<p>We use <strong>Tukey’s HSD</strong> (Honest Significant Difference) post-hoc test to compare all pairwise group means.</p>
+<section id="key-results-from-tukeys-hsd" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="key-results-from-tukeys-hsd"><span class="header-section-number">2.9.1</span> Key Results from Tukey’s HSD</h3>
+<p><strong>Catalyst effect (across all pH levels):</strong><br>
+Difference = −0.667, p = 0.798 → <strong>Not significant</strong></p>
+<p><strong>pH effect (across all catalyst levels):</strong><br>
+Difference = 5.0, p = 0.082 → <strong>Not significant</strong></p>
+<p><strong>Simple effect — pH, holding Catalyst at 2.5:</strong><br>
+pH 5.6 vs 5.9: difference = −5.333, p = 0.481 → <strong>Not significant</strong></p>
+<p><strong>Simple effect — pH, holding Catalyst at 2.7:</strong><br>
+pH 5.6 vs 5.9: difference = 15.333, p = 0.011 → ✅ <strong>Significant!</strong></p>
+<blockquote class="blockquote">
+<p><strong>Conclusion:</strong> At a catalyst concentration of 2.7, there is a statistically significant difference in mean viscosity between pH 5.6 and pH 5.9 (difference = 15.33, p = 0.011). This is the source of the interaction.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>📝 <strong>Annotation space:</strong> <em>Can you sketch the interaction plot and annotate which crossing of lines corresponds to this significant simple effect?</em></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="effect-size-partial-eta-squared" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="effect-size-partial-eta-squared"><span class="header-section-number">2.10</span> Effect Size: Partial Eta Squared</h2>
+<p>To quantify <em>how much</em> of the variance in the outcome is explained by each factor, we use <strong>Partial Eta Squared</strong> (<span class="math inline">\(\eta^2_P\)</span>):</p>
+<p><span class="math display">\[
+\eta^2_P = \frac{SS_F}{SS_F + SS_E}
+\]</span></p>
+<p>Where <span class="math inline">\(SS_F\)</span> is the sum of squares for the factor of interest, and <span class="math inline">\(SS_E\)</span> is the error sum of squares.</p>
+<section id="example-effect-of-ph-on-viscosity" class="level3" data-number="2.10.1">
+<h3 data-number="2.10.1" class="anchored" data-anchor-id="example-effect-of-ph-on-viscosity"><span class="header-section-number">2.10.1</span> Example — Effect of pH on Viscosity</h3>
+<p><span class="math display">\[
+\eta^2_P = \frac{SS_A}{SS_A + SS_E} = \frac{75}{75 + 152} = 0.33 \approx 33\%
+\]</span></p>
+<p>We can say that <strong>33% of the variation in viscosity</strong> is associated with differences in pH level (after accounting for the other factor).</p>
+<blockquote class="blockquote">
+<p>⚠️ <strong>Note:</strong> <span class="math inline">\(\eta^2_P\)</span> can be biased (overestimate effect size) in small samples.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+</section>
+<section id="key-equations-formulas" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Key Equations / Formulas</h1>
+<pre><code># Two-Way ANOVA Effects Model
+y_ijk = μ + α_i + β_j + (αβ)_ij + ε_ijk
+
+# Sums of Squares Partition
+SS_T = SS_A + SS_B + SS_AB + SS_E
+
+# Partial Eta Squared (Effect Size)
+η²_P = SS_F / (SS_F + SS_E)
+
+# Treatment Combinations in Factorial Design
+Total combinations = a × b
+Total observations = r × a × b</code></pre>
+<hr>
+</section>
+<section id="r-code-reference" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> R Code Reference</h1>
+<p>The following R script covers the full two-way ANOVA workflow using the Viscosity dataset:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in data</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>viscosity <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"Viscosity.txt"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert factors</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>viscosity<span class="sc">$</span>pH      <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(viscosity<span class="sc">$</span>pH)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>viscosity<span class="sc">$</span>Catalyst <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(viscosity<span class="sc">$</span>Catalyst)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency table — check n per group</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(viscosity<span class="sc">$</span>Catalyst, viscosity<span class="sc">$</span>pH)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplots for initial exploration</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Viscosity <span class="sc">~</span> Catalyst, <span class="at">data =</span> viscosity, <span class="at">ylab =</span> <span class="st">"Viscosity"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Viscosity <span class="sc">~</span> pH,       <span class="at">data =</span> viscosity, <span class="at">ylab =</span> <span class="st">"Viscosity"</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Viscosity <span class="sc">~</span> Catalyst <span class="sc">*</span> pH, <span class="at">data =</span> viscosity,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"gold"</span>, <span class="st">"darkgreen"</span>),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Viscosity by Catalyst and pH"</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Group means and variance</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>viscosity <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Catalyst) <span class="sc">%&gt;%</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_v =</span> <span class="fu">mean</span>(Viscosity), <span class="at">var_v =</span> <span class="fu">var</span>(Viscosity))</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>viscosity <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(pH) <span class="sc">%&gt;%</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_v =</span> <span class="fu">mean</span>(Viscosity), <span class="at">var_v =</span> <span class="fu">var</span>(Viscosity))</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction plot — check for interaction visually</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(viscosity<span class="sc">$</span>pH, viscosity<span class="sc">$</span>Catalyst, viscosity<span class="sc">$</span>Viscosity)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Check homogeneity of variance</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="fu">fligner.test</span>(Viscosity <span class="sc">~</span> <span class="fu">interaction</span>(pH, Catalyst), <span class="at">data =</span> viscosity)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(Viscosity <span class="sc">~</span> <span class="fu">interaction</span>(pH, Catalyst),   <span class="at">data =</span> viscosity)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the Two-Way ANOVA model (both are equivalent)</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">aov</span>(Viscosity <span class="sc">~</span> Catalyst <span class="sc">*</span> pH, <span class="at">data =</span> viscosity)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(Viscosity <span class="sc">~</span> Catalyst <span class="sc">+</span> pH <span class="sc">+</span> Catalyst<span class="sc">:</span>pH, <span class="at">data =</span> viscosity)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment means</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="fu">model.tables</span>(model1, <span class="at">type =</span> <span class="st">"means"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Post-hoc pairwise comparisons (Tukey's HSD)</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model1)</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Effect size (partial eta squared)</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="fu">eta_squared</span>(model1, <span class="at">partial =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Model diagnostics</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="summary-points" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Summary Points</h1>
+<ul>
+<li><strong>Two-Way ANOVA</strong> tests the effect of two categorical factors and their interaction on one continuous outcome.</li>
+<li>There are <strong>three null hypotheses</strong>: one for each main effect and one for the interaction.</li>
+<li>A <strong>factorial design</strong> is required — all combinations of factor levels must be present in the data.</li>
+<li>Always <strong>check the interaction effect first</strong> before interpreting main effects.</li>
+<li><strong>Parallel lines</strong> on an interaction plot = no interaction. <strong>Crossing or diverging lines</strong> = interaction present.</li>
+<li>If the interaction is <strong>significant</strong>, interpret <strong>simple effects</strong> instead of main effects (i.e., examine each factor at fixed levels of the other).</li>
+<li><strong>Tukey’s HSD</strong> is a common post-hoc test for pairwise comparisons between treatment group means.</li>
+<li><strong>Partial Eta Squared</strong> (<span class="math inline">\(\eta^2_P\)</span>) measures how much of the variance in the outcome is explained by each factor.</li>
+<li>In this week’s example: only the <strong>interaction term</strong> was significant (p = 0.003). Neither pH nor catalyst concentration alone had a significant main effect.</li>
+</ul>
+<hr>
+</section>
+<section id="additional-notes-annotations" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Additional Notes / Annotations</h1>
+<blockquote class="blockquote">
+<p>✏️ <em>Space for your own annotations — worked examples, exam questions, connections to other topics…</em></p>
+</blockquote>
+<ul class="task-list">
+<li><label><input type="checkbox">Practice calculating SS by hand with a small dataset</label></li>
+<li><label><input type="checkbox">Draw a diagram showing parallel vs non-parallel interaction plots</label></li>
+<li><label><input type="checkbox">Check: what happens to the ANOVA table when the interaction is NOT significant? (See light bulb example in R script)</label></li>
+<li><label><input type="checkbox">Try the battery exercise at the end of the R script — 3 temperature levels × 3 material types</label></li>
+</ul>
+<hr>
+<p><em>End of Week 6 Study Guide</em></p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../regression-analysis/week-5.html" class="pagination-link" aria-label="Week 5">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 5</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../regression-analysis/week-7.html" class="pagination-link" aria-label="Week 7">
+        <span class="nav-page-text">Week 7</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 6 – Two-Way ANOVA"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Study Guide &amp; Summary Notes"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Note to self:** These notes are a first draft — leave room below each section for your own annotations, worked examples, and exam tips.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What is Two-Way ANOVA, and how does it differ from One-Way ANOVA?</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Main Effects vs Interaction Effects</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Three Null Hypotheses in Two-Way ANOVA</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Factorial Design and treatment combinations</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The Effects Model and Sums of Squares</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The Two-Way ANOVA Table</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Interaction Plots — how to read them</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Worked Example: pH and Catalyst Concentration on Viscosity</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Post-Hoc Testing: Tukey's HSD</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Simple Effects (when the interaction is significant)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Effect Size: Partial Eta Squared ($\eta^2_P$)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Implementing Two-Way ANOVA in R</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanation</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is Two-Way ANOVA?</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>**ANOVA** stands for Analysis of Variance. It is a statistical test used to compare the means of three or more groups to see if at least one group mean is significantly different from the others.</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>**One-Way ANOVA** (covered previously) uses a single categorical independent variable to explain differences in a continuous dependent variable.</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>**Two-Way ANOVA** extends this idea to include **two categorical independent variables** (called **factors**) and one continuous dependent variable. This lets us ask three questions at once:</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Does **Factor A** affect the outcome?</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Does **Factor B** affect the outcome?</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Do **Factors A and B interact** — does the effect of one depend on the level of the other?</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 **Key insight from class:** Always look at the interaction effect *first*. If there is a significant interaction, interpreting the main effects in isolation is not meaningful.</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Main Effects vs Interaction Effects</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>**Main effects** are the individual effects of each factor, considered separately, averaged across all levels of the other factor.</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>**Interaction effects** describe whether the effect of one factor *depends on* the level of another factor. This is the most important thing to examine in a two-way ANOVA.</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>For example: Does the effect of pH on product viscosity depend on the level of catalyst concentration being used? If yes — there is an interaction.</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 **Simple rule:** If the interaction is significant, you cannot meaningfully talk about the main effects in isolation. You must instead look at **simple effects** (see Section 2.7).</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Three Null Hypotheses</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>A two-way ANOVA tests **three separate null hypotheses** simultaneously:</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Hypothesis <span class="pp">|</span> Null (H₀) <span class="pp">|</span> Alternative (H₁) <span class="pp">|</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|------------------------|------------------------|</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factor A (main effect) <span class="pp">|</span> Population means are equal for all levels of Factor A <span class="pp">|</span> At least one group mean differs <span class="pp">|</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factor B (main effect) <span class="pp">|</span> Population means are equal for all levels of Factor B <span class="pp">|</span> At least one group mean differs <span class="pp">|</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Interaction A×B <span class="pp">|</span> No interaction between Factor A and Factor B <span class="pp">|</span> There is a significant interaction <span class="pp">|</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Extension: How Many Hypotheses in a Three-Way ANOVA?</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>For a **three-way ANOVA**, the answer is **7**:</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>3 hypotheses for the main effects (one per factor)</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>3 hypotheses for the two-factor interactions (A×B, A×C, B×C)</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>1 hypothesis for the three-factor interaction (A×B×C)</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## Factorial Design</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>To properly test for an interaction effect, the experiment must use a **factorial design**. This means every possible combination of factor levels must appear in the data.</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If Factor A has **a** levels and Factor B has **b** levels, the number of treatment combinations is:</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>\text{Total combinations} = a \times b</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Each complete set of all $ab$ combinations is called a **replicate** ($r$).</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Total number of observations = $r \times a \times b$</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>        <span class="pp">|</span> B₁   <span class="pp">|</span> B₂   <span class="pp">|</span> B₃   <span class="pp">|</span> B₄   <span class="pp">|</span></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|------|------|------|------|</span></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **A₁** <span class="pp">|</span> A₁B₁ <span class="pp">|</span> A₁B₂ <span class="pp">|</span> A₁B₃ <span class="pp">|</span> A₁B₄ <span class="pp">|</span></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **A₂** <span class="pp">|</span> A₂B₁ <span class="pp">|</span> A₂B₂ <span class="pp">|</span> A₂B₃ <span class="pp">|</span> A₂B₄ <span class="pp">|</span></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **A₃** <span class="pp">|</span> A₃B₁ <span class="pp">|</span> A₃B₂ <span class="pp">|</span> A₃B₃ <span class="pp">|</span> A₃B₄ <span class="pp">|</span></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>If Factor A has 3 levels and Factor B has 4 levels: $3 \times 4 = 12$ combinations per replicate.</span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Effects Model</span></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>The statistical model for two-way ANOVA is written as:</span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + e_{ijk}</span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Term <span class="pp">|</span> Meaning <span class="pp">|</span></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------------------|------------------------------------|</span></span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $y_{ijk}$ <span class="pp">|</span> The observed value for replicate $k$, at level $i$ of Factor A and level $j$ of Factor B <span class="pp">|</span></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\mu$ <span class="pp">|</span> The overall (grand) mean <span class="pp">|</span></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\alpha_i$ <span class="pp">|</span> The treatment effect of Factor A at level $i$ <span class="pp">|</span></span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\beta_j$ <span class="pp">|</span> The treatment effect of Factor B at level $j$ <span class="pp">|</span></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $(\alpha\beta)_{ij}$ <span class="pp">|</span> The interaction effect between Factor A and Factor B <span class="pp">|</span></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $e_{ijk}$ <span class="pp">|</span> The random error term, assumed $e_{ijk} \sim \text{NID}(0, \sigma^2)$ <span class="pp">|</span></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>The subscript $k$ is the new addition compared to one-way ANOVA — it represents the **replicates**.</span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hypotheses in Effects Model Notation</span></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>H_0: \alpha_1 = \alpha_2 = \ldots = \alpha_a = 0 \quad \text{(no effect of Factor A)}</span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>$$ $$</span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>H_0: \beta_1 = \beta_2 = \ldots = \beta_b = 0 \quad \text{(no effect of Factor B)}</span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>$$ $$</span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>H_0: (\alpha\beta)_{ij} = 0 \text{ for all } i,j \quad \text{(no interaction)}</span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sums of Squares and the ANOVA Table</span></span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>The total variance in the dataset is partitioned into four parts:</span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>SS_T = SS_A + SS_B + SS_{AB} + SS_E</span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Source <span class="pp">|</span> Sum of Squares <span class="pp">|</span> Degrees of Freedom <span class="pp">|</span> Mean Square <span class="pp">|</span> F-ratio <span class="pp">|</span></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------------|---------------|---------------|---------------|---------------|</span></span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factor A <span class="pp">|</span> $SS_A$ <span class="pp">|</span> $a-1$ <span class="pp">|</span> $MS_A = \frac{SS_A}{a-1}$ <span class="pp">|</span> $\frac{MS_A}{MS_E}$ <span class="pp">|</span></span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factor B <span class="pp">|</span> $SS_B$ <span class="pp">|</span> $b-1$ <span class="pp">|</span> $MS_B = \frac{SS_B}{b-1}$ <span class="pp">|</span> $\frac{MS_B}{MS_E}$ <span class="pp">|</span></span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Interaction AB <span class="pp">|</span> $SS_{AB}$ <span class="pp">|</span> $(a-1)(b-1)$ <span class="pp">|</span> $MS_{AB} = \frac{SS_{AB}}{(a-1)(b-1)}$ <span class="pp">|</span> $\frac{MS_{AB}}{MS_E}$ <span class="pp">|</span></span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Error <span class="pp">|</span> $SS_E$ <span class="pp">|</span> $ab(n-1)$ <span class="pp">|</span> $MS_E = \frac{SS_E}{ab(n-1)}$ <span class="pp">|</span> — <span class="pp">|</span></span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Total** <span class="pp">|</span> $SS_T$ <span class="pp">|</span> $abn-1$ <span class="pp">|</span> — <span class="pp">|</span> — <span class="pp">|</span></span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>Each F-ratio is compared against a critical value (or produces a p-value) to determine statistical significance.</span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>The full formulas for each sum of squares are:</span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>SS_T = \sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n}(y_{ijk} - \bar{y}_{\cdots})^2</span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>$$ $$</span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a>SS_A = nb\sum_{i=1}^{a}(\bar{y}_{i\cdot\cdot} - \bar{y}_{\cdots})^2</span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a>$$ $$</span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>SS_B = na\sum_{j=1}^{b}(\bar{y}_{\cdot j\cdot} - \bar{y}_{\cdots})^2</span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>$$ $$</span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>SS_{AB} = n\sum_{j=1}^{b}\sum_{i=1}^{a}(\bar{y}_{ij\cdot} - \bar{y}_{i\cdot\cdot} - \bar{y}_{\cdot j\cdot} + \bar{y}_{\cdots})^2</span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>$$ $$</span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a>SS_E = \sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n}(y_{ijk} - \bar{y}_{ij\cdot})^2</span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interaction Plots</span></span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>Before running the model, it is good practice to **plot the data** to visually check for an interaction. An **interaction plot** shows the mean of the dependent variable for each combination of factor levels, with lines connecting levels of one factor across levels of the other.</span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>**Reading interaction plots:**</span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Parallel lines → No interaction.** The effect of one factor is the same regardless of the level of the other.</span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Non-parallel (crossing or diverging) lines → Interaction present.** The effect of one factor changes depending on the level of the other.</span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Annotation space:** *Add a sketch or printed example from your own output here.*</span></span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a><span class="fu">## Practical Example: Viscosity, pH, and Catalyst Concentration</span></span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>An experiment was conducted to investigate whether **pH** and **Catalyst Concentration** affect the **Viscosity** of a product. The design used:</span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Factor A (pH): 2 levels — 5.6 and 5.9</span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Factor B (Catalyst Concentration): 2 levels — 2.5 and 2.7</span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>3 replicates per treatment combination → **12 total observations**</span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data Summary</span></span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> pH  <span class="pp">|</span> Catalyst Conc <span class="pp">|</span> Viscosity Readings <span class="pp">|</span> Treatment Mean <span class="pp">|</span></span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----|---------------|--------------------|----------------|</span></span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 5.6 <span class="pp">|</span> 2.5           <span class="pp">|</span> 192, 199, 193      <span class="pp">|</span> 194.67         <span class="pp">|</span></span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 5.6 <span class="pp">|</span> 2.7           <span class="pp">|</span> 178, 185, 188      <span class="pp">|</span> 183.67         <span class="pp">|</span></span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 5.9 <span class="pp">|</span> 2.5           <span class="pp">|</span> 185, 193, 190      <span class="pp">|</span> 189.33         <span class="pp">|</span></span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 5.9 <span class="pp">|</span> 2.7           <span class="pp">|</span> 197, 196, 204      <span class="pp">|</span> 199.00         <span class="pp">|</span></span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a>**Grand mean** $\bar{y}_{\cdots} = 191.67$</span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a><span class="fu">### R Output — Two-Way ANOVA</span></span>
+<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a><span class="in">```         </span></span>
+<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a><span class="in">           Df  Sum Sq  Mean Sq  F value  Pr(&gt;F)</span></span>
+<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a><span class="in">Catalyst    1     1.3      1.3    0.070  0.79778</span></span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a><span class="in">pH          1    75.0     75.0    3.947  0.08218 .</span></span>
+<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a><span class="in">Catalyst:pH 1   320.3    320.3   16.860  0.00341 **</span></span>
+<span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a><span class="in">Residuals   8   152.0     19.0</span></span>
+<span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a><span class="in">Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interpretation</span></span>
+<span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Interaction term (Catalyst:pH):** Significant at the 1% level (p = 0.003). We **reject** H₀ for the interaction.</span>
+<span id="cb4-214"><a href="#cb4-214" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Main effects (Catalyst, pH):** Neither is statistically significant on its own.</span>
+<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-216"><a href="#cb4-216" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; This tells us: the effect that catalyst concentration has on viscosity **depends on** the pH level — and vice versa. The main effects alone are misleading here.</span></span>
+<span id="cb4-217"><a href="#cb4-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimated Model Parameters</span></span>
+<span id="cb4-219"><a href="#cb4-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-220"><a href="#cb4-220" aria-hidden="true" tabindex="-1"></a>The estimated effect parameters from the ANOVA effects model:</span>
+<span id="cb4-221"><a href="#cb4-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\hat{\alpha}_1 = 189.1667 - 191.6667 = -2.5$ (pH = 5.6)</span>
+<span id="cb4-223"><a href="#cb4-223" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\hat{\alpha}_2 = 194.1667 - 191.6667 = 2.5$ (pH = 5.9)</span>
+<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\hat{\beta}_1 = 192 - 191.6667 = 0.3333$ (Catalyst = 2.5)</span>
+<span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\hat{\beta}_2 = 191.3333 - 191.6667 = -0.3333$ (Catalyst = 2.7)</span>
+<span id="cb4-226"><a href="#cb4-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-227"><a href="#cb4-227" aria-hidden="true" tabindex="-1"></a>Interaction estimates $(\widehat{\alpha\beta})_{ij}$:</span>
+<span id="cb4-228"><a href="#cb4-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-229"><a href="#cb4-229" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>For pH = 5.6, Catalyst = 2.5: $194.6667 - 189.1667 - 192 + 191.6667 = 5.1667$</span>
+<span id="cb4-230"><a href="#cb4-230" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>For pH = 5.6, Catalyst = 2.7: $183.6667 - 189.1667 - 191.3333 + 191.6667 = -5.1667$</span>
+<span id="cb4-231"><a href="#cb4-231" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>For pH = 5.9, Catalyst = 2.5: $189.3333 - 194.1667 - 192 + 191.6667 = -5.1667$</span>
+<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>For pH = 5.9, Catalyst = 2.7: $199 - 194.1667 - 191.3333 + 191.6667 = 5.1667$</span>
+<span id="cb4-233"><a href="#cb4-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-234"><a href="#cb4-234" aria-hidden="true" tabindex="-1"></a>Fitted value for pH = 5.6, Catalyst = 2.5:</span>
+<span id="cb4-235"><a href="#cb4-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-236"><a href="#cb4-236" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-237"><a href="#cb4-237" aria-hidden="true" tabindex="-1"></a>\hat{y}_{11k} = 191.6667 + (-2.5) + 0.3333 + 5.1667 = 194.6667</span>
+<span id="cb4-238"><a href="#cb4-238" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-239"><a href="#cb4-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-240"><a href="#cb4-240" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-241"><a href="#cb4-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-242"><a href="#cb4-242" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simple Effects</span></span>
+<span id="cb4-243"><a href="#cb4-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-244"><a href="#cb4-244" aria-hidden="true" tabindex="-1"></a>Since the interaction is significant, we must examine each factor **while holding the other factor constant**. These are called the **simple effects**.</span>
+<span id="cb4-245"><a href="#cb4-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-246"><a href="#cb4-246" aria-hidden="true" tabindex="-1"></a>We use **Tukey's HSD** (Honest Significant Difference) post-hoc test to compare all pairwise group means.</span>
+<span id="cb4-247"><a href="#cb4-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-248"><a href="#cb4-248" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Results from Tukey's HSD</span></span>
+<span id="cb4-249"><a href="#cb4-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-250"><a href="#cb4-250" aria-hidden="true" tabindex="-1"></a>**Catalyst effect (across all pH levels):**\</span>
+<span id="cb4-251"><a href="#cb4-251" aria-hidden="true" tabindex="-1"></a>Difference = −0.667, p = 0.798 → **Not significant**</span>
+<span id="cb4-252"><a href="#cb4-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-253"><a href="#cb4-253" aria-hidden="true" tabindex="-1"></a>**pH effect (across all catalyst levels):**\</span>
+<span id="cb4-254"><a href="#cb4-254" aria-hidden="true" tabindex="-1"></a>Difference = 5.0, p = 0.082 → **Not significant**</span>
+<span id="cb4-255"><a href="#cb4-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-256"><a href="#cb4-256" aria-hidden="true" tabindex="-1"></a>**Simple effect — pH, holding Catalyst at 2.5:**\</span>
+<span id="cb4-257"><a href="#cb4-257" aria-hidden="true" tabindex="-1"></a>pH 5.6 vs 5.9: difference = −5.333, p = 0.481 → **Not significant**</span>
+<span id="cb4-258"><a href="#cb4-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-259"><a href="#cb4-259" aria-hidden="true" tabindex="-1"></a>**Simple effect — pH, holding Catalyst at 2.7:**\</span>
+<span id="cb4-260"><a href="#cb4-260" aria-hidden="true" tabindex="-1"></a>pH 5.6 vs 5.9: difference = 15.333, p = 0.011 → ✅ **Significant!**</span>
+<span id="cb4-261"><a href="#cb4-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-262"><a href="#cb4-262" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Conclusion:** At a catalyst concentration of 2.7, there is a statistically significant difference in mean viscosity between pH 5.6 and pH 5.9 (difference = 15.33, p = 0.011). This is the source of the interaction.</span></span>
+<span id="cb4-263"><a href="#cb4-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-264"><a href="#cb4-264" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Annotation space:** *Can you sketch the interaction plot and annotate which crossing of lines corresponds to this significant simple effect?*</span></span>
+<span id="cb4-265"><a href="#cb4-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-266"><a href="#cb4-266" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-267"><a href="#cb4-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-268"><a href="#cb4-268" aria-hidden="true" tabindex="-1"></a><span class="fu">## Effect Size: Partial Eta Squared</span></span>
+<span id="cb4-269"><a href="#cb4-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-270"><a href="#cb4-270" aria-hidden="true" tabindex="-1"></a>To quantify *how much* of the variance in the outcome is explained by each factor, we use **Partial Eta Squared** ($\eta^2_P$):</span>
+<span id="cb4-271"><a href="#cb4-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-272"><a href="#cb4-272" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-273"><a href="#cb4-273" aria-hidden="true" tabindex="-1"></a>\eta^2_P = \frac{SS_F}{SS_F + SS_E}</span>
+<span id="cb4-274"><a href="#cb4-274" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-275"><a href="#cb4-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-276"><a href="#cb4-276" aria-hidden="true" tabindex="-1"></a>Where $SS_F$ is the sum of squares for the factor of interest, and $SS_E$ is the error sum of squares.</span>
+<span id="cb4-277"><a href="#cb4-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-278"><a href="#cb4-278" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example — Effect of pH on Viscosity</span></span>
+<span id="cb4-279"><a href="#cb4-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-280"><a href="#cb4-280" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-281"><a href="#cb4-281" aria-hidden="true" tabindex="-1"></a>\eta^2_P = \frac{SS_A}{SS_A + SS_E} = \frac{75}{75 + 152} = 0.33 \approx 33\%</span>
+<span id="cb4-282"><a href="#cb4-282" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-283"><a href="#cb4-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-284"><a href="#cb4-284" aria-hidden="true" tabindex="-1"></a>We can say that **33% of the variation in viscosity** is associated with differences in pH level (after accounting for the other factor).</span>
+<span id="cb4-285"><a href="#cb4-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-286"><a href="#cb4-286" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ **Note:** $\eta^2_P$ can be biased (overestimate effect size) in small samples.</span></span>
+<span id="cb4-287"><a href="#cb4-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-288"><a href="#cb4-288" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-289"><a href="#cb4-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-290"><a href="#cb4-290" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb4-291"><a href="#cb4-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-292"><a href="#cb4-292" aria-hidden="true" tabindex="-1"></a><span class="in">```         </span></span>
+<span id="cb4-293"><a href="#cb4-293" aria-hidden="true" tabindex="-1"></a><span class="in"># Two-Way ANOVA Effects Model</span></span>
+<span id="cb4-294"><a href="#cb4-294" aria-hidden="true" tabindex="-1"></a><span class="in">y_ijk = μ + α_i + β_j + (αβ)_ij + ε_ijk</span></span>
+<span id="cb4-295"><a href="#cb4-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-296"><a href="#cb4-296" aria-hidden="true" tabindex="-1"></a><span class="in"># Sums of Squares Partition</span></span>
+<span id="cb4-297"><a href="#cb4-297" aria-hidden="true" tabindex="-1"></a><span class="in">SS_T = SS_A + SS_B + SS_AB + SS_E</span></span>
+<span id="cb4-298"><a href="#cb4-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-299"><a href="#cb4-299" aria-hidden="true" tabindex="-1"></a><span class="in"># Partial Eta Squared (Effect Size)</span></span>
+<span id="cb4-300"><a href="#cb4-300" aria-hidden="true" tabindex="-1"></a><span class="in">η²_P = SS_F / (SS_F + SS_E)</span></span>
+<span id="cb4-301"><a href="#cb4-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-302"><a href="#cb4-302" aria-hidden="true" tabindex="-1"></a><span class="in"># Treatment Combinations in Factorial Design</span></span>
+<span id="cb4-303"><a href="#cb4-303" aria-hidden="true" tabindex="-1"></a><span class="in">Total combinations = a × b</span></span>
+<span id="cb4-304"><a href="#cb4-304" aria-hidden="true" tabindex="-1"></a><span class="in">Total observations = r × a × b</span></span>
+<span id="cb4-305"><a href="#cb4-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-306"><a href="#cb4-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-307"><a href="#cb4-307" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-308"><a href="#cb4-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-309"><a href="#cb4-309" aria-hidden="true" tabindex="-1"></a><span class="fu"># R Code Reference</span></span>
+<span id="cb4-310"><a href="#cb4-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-311"><a href="#cb4-311" aria-hidden="true" tabindex="-1"></a>The following R script covers the full two-way ANOVA workflow using the Viscosity dataset:</span>
+<span id="cb4-312"><a href="#cb4-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-313"><a href="#cb4-313" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb4-314"><a href="#cb4-314" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-315"><a href="#cb4-315" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb4-316"><a href="#cb4-316" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb4-317"><a href="#cb4-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-318"><a href="#cb4-318" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in data</span></span>
+<span id="cb4-319"><a href="#cb4-319" aria-hidden="true" tabindex="-1"></a>viscosity <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"Viscosity.txt"</span>)</span>
+<span id="cb4-320"><a href="#cb4-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-321"><a href="#cb4-321" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert factors</span></span>
+<span id="cb4-322"><a href="#cb4-322" aria-hidden="true" tabindex="-1"></a>viscosity<span class="sc">$</span>pH      <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(viscosity<span class="sc">$</span>pH)</span>
+<span id="cb4-323"><a href="#cb4-323" aria-hidden="true" tabindex="-1"></a>viscosity<span class="sc">$</span>Catalyst <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(viscosity<span class="sc">$</span>Catalyst)</span>
+<span id="cb4-324"><a href="#cb4-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-325"><a href="#cb4-325" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency table — check n per group</span></span>
+<span id="cb4-326"><a href="#cb4-326" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(viscosity<span class="sc">$</span>Catalyst, viscosity<span class="sc">$</span>pH)</span>
+<span id="cb4-327"><a href="#cb4-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-328"><a href="#cb4-328" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplots for initial exploration</span></span>
+<span id="cb4-329"><a href="#cb4-329" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Viscosity <span class="sc">~</span> Catalyst, <span class="at">data =</span> viscosity, <span class="at">ylab =</span> <span class="st">"Viscosity"</span>)</span>
+<span id="cb4-330"><a href="#cb4-330" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Viscosity <span class="sc">~</span> pH,       <span class="at">data =</span> viscosity, <span class="at">ylab =</span> <span class="st">"Viscosity"</span>)</span>
+<span id="cb4-331"><a href="#cb4-331" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Viscosity <span class="sc">~</span> Catalyst <span class="sc">*</span> pH, <span class="at">data =</span> viscosity,</span>
+<span id="cb4-332"><a href="#cb4-332" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"gold"</span>, <span class="st">"darkgreen"</span>),</span>
+<span id="cb4-333"><a href="#cb4-333" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Viscosity by Catalyst and pH"</span>)</span>
+<span id="cb4-334"><a href="#cb4-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-335"><a href="#cb4-335" aria-hidden="true" tabindex="-1"></a><span class="co"># Group means and variance</span></span>
+<span id="cb4-336"><a href="#cb4-336" aria-hidden="true" tabindex="-1"></a>viscosity <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Catalyst) <span class="sc">%&gt;%</span></span>
+<span id="cb4-337"><a href="#cb4-337" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_v =</span> <span class="fu">mean</span>(Viscosity), <span class="at">var_v =</span> <span class="fu">var</span>(Viscosity))</span>
+<span id="cb4-338"><a href="#cb4-338" aria-hidden="true" tabindex="-1"></a>viscosity <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(pH) <span class="sc">%&gt;%</span></span>
+<span id="cb4-339"><a href="#cb4-339" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_v =</span> <span class="fu">mean</span>(Viscosity), <span class="at">var_v =</span> <span class="fu">var</span>(Viscosity))</span>
+<span id="cb4-340"><a href="#cb4-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-341"><a href="#cb4-341" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction plot — check for interaction visually</span></span>
+<span id="cb4-342"><a href="#cb4-342" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(viscosity<span class="sc">$</span>pH, viscosity<span class="sc">$</span>Catalyst, viscosity<span class="sc">$</span>Viscosity)</span>
+<span id="cb4-343"><a href="#cb4-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-344"><a href="#cb4-344" aria-hidden="true" tabindex="-1"></a><span class="co"># Check homogeneity of variance</span></span>
+<span id="cb4-345"><a href="#cb4-345" aria-hidden="true" tabindex="-1"></a><span class="fu">fligner.test</span>(Viscosity <span class="sc">~</span> <span class="fu">interaction</span>(pH, Catalyst), <span class="at">data =</span> viscosity)</span>
+<span id="cb4-346"><a href="#cb4-346" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(Viscosity <span class="sc">~</span> <span class="fu">interaction</span>(pH, Catalyst),   <span class="at">data =</span> viscosity)</span>
+<span id="cb4-347"><a href="#cb4-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-348"><a href="#cb4-348" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the Two-Way ANOVA model (both are equivalent)</span></span>
+<span id="cb4-349"><a href="#cb4-349" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">aov</span>(Viscosity <span class="sc">~</span> Catalyst <span class="sc">*</span> pH, <span class="at">data =</span> viscosity)</span>
+<span id="cb4-350"><a href="#cb4-350" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(Viscosity <span class="sc">~</span> Catalyst <span class="sc">+</span> pH <span class="sc">+</span> Catalyst<span class="sc">:</span>pH, <span class="at">data =</span> viscosity)</span>
+<span id="cb4-351"><a href="#cb4-351" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span>
+<span id="cb4-352"><a href="#cb4-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-353"><a href="#cb4-353" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment means</span></span>
+<span id="cb4-354"><a href="#cb4-354" aria-hidden="true" tabindex="-1"></a><span class="fu">model.tables</span>(model1, <span class="at">type =</span> <span class="st">"means"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-355"><a href="#cb4-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-356"><a href="#cb4-356" aria-hidden="true" tabindex="-1"></a><span class="co"># Post-hoc pairwise comparisons (Tukey's HSD)</span></span>
+<span id="cb4-357"><a href="#cb4-357" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model1)</span>
+<span id="cb4-358"><a href="#cb4-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-359"><a href="#cb4-359" aria-hidden="true" tabindex="-1"></a><span class="co"># Effect size (partial eta squared)</span></span>
+<span id="cb4-360"><a href="#cb4-360" aria-hidden="true" tabindex="-1"></a><span class="fu">eta_squared</span>(model1, <span class="at">partial =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-361"><a href="#cb4-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-362"><a href="#cb4-362" aria-hidden="true" tabindex="-1"></a><span class="co"># Model diagnostics</span></span>
+<span id="cb4-363"><a href="#cb4-363" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb4-364"><a href="#cb4-364" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model1)</span>
+<span id="cb4-365"><a href="#cb4-365" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-366"><a href="#cb4-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-367"><a href="#cb4-367" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-368"><a href="#cb4-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-369"><a href="#cb4-369" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb4-370"><a href="#cb4-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-371"><a href="#cb4-371" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Two-Way ANOVA** tests the effect of two categorical factors and their interaction on one continuous outcome.</span>
+<span id="cb4-372"><a href="#cb4-372" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>There are **three null hypotheses**: one for each main effect and one for the interaction.</span>
+<span id="cb4-373"><a href="#cb4-373" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>A **factorial design** is required — all combinations of factor levels must be present in the data.</span>
+<span id="cb4-374"><a href="#cb4-374" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Always **check the interaction effect first** before interpreting main effects.</span>
+<span id="cb4-375"><a href="#cb4-375" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Parallel lines** on an interaction plot = no interaction. **Crossing or diverging lines** = interaction present.</span>
+<span id="cb4-376"><a href="#cb4-376" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If the interaction is **significant**, interpret **simple effects** instead of main effects (i.e., examine each factor at fixed levels of the other).</span>
+<span id="cb4-377"><a href="#cb4-377" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Tukey's HSD** is a common post-hoc test for pairwise comparisons between treatment group means.</span>
+<span id="cb4-378"><a href="#cb4-378" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Partial Eta Squared** ($\eta^2_P$) measures how much of the variance in the outcome is explained by each factor.</span>
+<span id="cb4-379"><a href="#cb4-379" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>In this week's example: only the **interaction term** was significant (p = 0.003). Neither pH nor catalyst concentration alone had a significant main effect.</span>
+<span id="cb4-380"><a href="#cb4-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-381"><a href="#cb4-381" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-382"><a href="#cb4-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-383"><a href="#cb4-383" aria-hidden="true" tabindex="-1"></a><span class="fu"># Additional Notes / Annotations</span></span>
+<span id="cb4-384"><a href="#cb4-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-385"><a href="#cb4-385" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Space for your own annotations — worked examples, exam questions, connections to other topics...*</span></span>
+<span id="cb4-386"><a href="#cb4-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-387"><a href="#cb4-387" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Practice calculating SS by hand with a small dataset</span>
+<span id="cb4-388"><a href="#cb4-388" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Draw a diagram showing parallel vs non-parallel interaction plots</span>
+<span id="cb4-389"><a href="#cb4-389" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Check: what happens to the ANOVA table when the interaction is NOT significant? (See light bulb example in R script)</span>
+<span id="cb4-390"><a href="#cb4-390" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Try the battery exercise at the end of the R script — 3 temperature levels × 3 material types</span>
+<span id="cb4-391"><a href="#cb4-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-392"><a href="#cb4-392" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb4-393"><a href="#cb4-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-394"><a href="#cb4-394" aria-hidden="true" tabindex="-1"></a>*End of Week 6 Study Guide*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

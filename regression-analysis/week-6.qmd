@@ -1,0 +1,400 @@
+---
+title: "Week 6 – Two-Way ANOVA"
+subtitle: "Study Guide & Summary Notes"
+---
+
+> 📝 **Note to self:** These notes are a first draft — leave room below each section for your own annotations, worked examples, and exam tips.
+
+---
+
+# Key Topics
+
+- What is Two-Way ANOVA, and how does it differ from One-Way ANOVA?
+- Main Effects vs Interaction Effects
+- Three Null Hypotheses in Two-Way ANOVA
+- Factorial Design and treatment combinations
+- The Effects Model and Sums of Squares
+- The Two-Way ANOVA Table
+- Interaction Plots — how to read them
+- Worked Example: pH and Catalyst Concentration on Viscosity
+- Post-Hoc Testing: Tukey's HSD
+- Simple Effects (when the interaction is significant)
+- Effect Size: Partial Eta Squared ($\eta^2_P$)
+- Implementing Two-Way ANOVA in R
+
+---
+
+# Core Explanation
+
+## What is Two-Way ANOVA?
+
+**ANOVA** stands for Analysis of Variance. It is a statistical test used to compare the means of three or more groups to see if at least one group mean is significantly different from the others.
+
+**One-Way ANOVA** (covered previously) uses a single categorical independent variable to explain differences in a continuous dependent variable.
+
+**Two-Way ANOVA** extends this idea to include **two categorical independent variables** (called **factors**) and one continuous dependent variable. This lets us ask three questions at once:
+
+1. Does **Factor A** affect the outcome?
+2. Does **Factor B** affect the outcome?
+3. Do **Factors A and B interact** — does the effect of one depend on the level of the other?
+
+> 💡 **Key insight from class:** Always look at the interaction effect *first*. If there is a significant interaction, interpreting the main effects in isolation is not meaningful.
+
+---
+
+## Main Effects vs Interaction Effects
+
+**Main effects** are the individual effects of each factor, considered separately, averaged across all levels of the other factor.
+
+**Interaction effects** describe whether the effect of one factor *depends on* the level of another factor. This is the most important thing to examine in a two-way ANOVA.
+
+For example: Does the effect of pH on product viscosity depend on the level of catalyst concentration being used? If yes — there is an interaction.
+
+> 💡 **Simple rule:** If the interaction is significant, you cannot meaningfully talk about the main effects in isolation. You must instead look at **simple effects** (see Section 2.7).
+
+---
+
+## The Three Null Hypotheses
+
+A two-way ANOVA tests **three separate null hypotheses** simultaneously:
+
+| Hypothesis | Null (H₀) | Alternative (H₁) |
+|---|---|---|
+| Factor A (main effect) | Population means are equal for all levels of Factor A | At least one group mean differs |
+| Factor B (main effect) | Population means are equal for all levels of Factor B | At least one group mean differs |
+| Interaction A×B | No interaction between Factor A and Factor B | There is a significant interaction |
+
+### Extension: How Many Hypotheses in a Three-Way ANOVA?
+
+For a **three-way ANOVA**, the answer is **7**:
+
+- 3 hypotheses for the main effects (one per factor)
+- 3 hypotheses for the two-factor interactions (A×B, A×C, B×C)
+- 1 hypothesis for the three-factor interaction (A×B×C)
+
+---
+
+## Factorial Design
+
+To properly test for an interaction effect, the experiment must use a **factorial design**. This means every possible combination of factor levels must appear in the data.
+
+- If Factor A has **a** levels and Factor B has **b** levels, the number of treatment combinations is:
+
+$$
+\text{Total combinations} = a \times b
+$$
+
+- Each complete set of all $ab$ combinations is called a **replicate** ($r$).
+- Total number of observations = $r \times a \times b$
+
+### Example
+
+| | B₁ | B₂ | B₃ | B₄ |
+|---|---|---|---|---|
+| **A₁** | A₁B₁ | A₁B₂ | A₁B₃ | A₁B₄ |
+| **A₂** | A₂B₁ | A₂B₂ | A₂B₃ | A₂B₄ |
+| **A₃** | A₃B₁ | A₃B₂ | A₃B₃ | A₃B₄ |
+
+If Factor A has 3 levels and Factor B has 4 levels: $3 \times 4 = 12$ combinations per replicate.
+
+---
+
+## The Effects Model
+
+The statistical model for two-way ANOVA is written as:
+
+$$
+y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + e_{ijk}
+$$
+
+| Term | Meaning |
+|---|---|
+| $y_{ijk}$ | The observed value for replicate $k$, at level $i$ of Factor A and level $j$ of Factor B |
+| $\mu$ | The overall (grand) mean |
+| $\alpha_i$ | The treatment effect of Factor A at level $i$ |
+| $\beta_j$ | The treatment effect of Factor B at level $j$ |
+| $(\alpha\beta)_{ij}$ | The interaction effect between Factor A and Factor B |
+| $e_{ijk}$ | The random error term, assumed $e_{ijk} \sim \text{NID}(0, \sigma^2)$ |
+
+The subscript **$k$** is the new addition compared to one-way ANOVA — it represents the **replicates**.
+
+### Hypotheses in Effects Model Notation
+
+$$
+H_0: \alpha_1 = \alpha_2 = \ldots = \alpha_a = 0 \quad \text{(no effect of Factor A)}
+$$
+$$
+H_0: \beta_1 = \beta_2 = \ldots = \beta_b = 0 \quad \text{(no effect of Factor B)}
+$$
+$$
+H_0: (\alpha\beta)_{ij} = 0 \text{ for all } i,j \quad \text{(no interaction)}
+$$
+
+---
+
+## Sums of Squares and the ANOVA Table
+
+The total variance in the dataset is partitioned into four parts:
+
+$$
+SS_T = SS_A + SS_B + SS_{AB} + SS_E
+$$
+
+| Source | Sum of Squares | Degrees of Freedom | Mean Square | F-ratio |
+|---|---|---|---|---|
+| Factor A | $SS_A$ | $a-1$ | $MS_A = \frac{SS_A}{a-1}$ | $\frac{MS_A}{MS_E}$ |
+| Factor B | $SS_B$ | $b-1$ | $MS_B = \frac{SS_B}{b-1}$ | $\frac{MS_B}{MS_E}$ |
+| Interaction AB | $SS_{AB}$ | $(a-1)(b-1)$ | $MS_{AB} = \frac{SS_{AB}}{(a-1)(b-1)}$ | $\frac{MS_{AB}}{MS_E}$ |
+| Error | $SS_E$ | $ab(n-1)$ | $MS_E = \frac{SS_E}{ab(n-1)}$ | — |
+| **Total** | $SS_T$ | $abn-1$ | — | — |
+
+Each F-ratio is compared against a critical value (or produces a p-value) to determine statistical significance.
+
+The full formulas for each sum of squares are:
+
+$$
+SS_T = \sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n}(y_{ijk} - \bar{y}_{\cdots})^2
+$$
+$$
+SS_A = nb\sum_{i=1}^{a}(\bar{y}_{i\cdot\cdot} - \bar{y}_{\cdots})^2
+$$
+$$
+SS_B = na\sum_{j=1}^{b}(\bar{y}_{\cdot j\cdot} - \bar{y}_{\cdots})^2
+$$
+$$
+SS_{AB} = n\sum_{j=1}^{b}\sum_{i=1}^{a}(\bar{y}_{ij\cdot} - \bar{y}_{i\cdot\cdot} - \bar{y}_{\cdot j\cdot} + \bar{y}_{\cdots})^2
+$$
+$$
+SS_E = \sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n}(y_{ijk} - \bar{y}_{ij\cdot})^2
+$$
+
+---
+
+## Interaction Plots
+
+Before running the model, it is good practice to **plot the data** to visually check for an interaction. An **interaction plot** shows the mean of the dependent variable for each combination of factor levels, with lines connecting levels of one factor across levels of the other.
+
+**Reading interaction plots:**
+
+- **Parallel lines → No interaction.** The effect of one factor is the same regardless of the level of the other.
+- **Non-parallel (crossing or diverging) lines → Interaction present.** The effect of one factor changes depending on the level of the other.
+
+> 📝 **Annotation space:** *Add a sketch or printed example from your own output here.*
+
+---
+
+## Practical Example: Viscosity, pH, and Catalyst Concentration
+
+An experiment was conducted to investigate whether **pH** and **Catalyst Concentration** affect the **Viscosity** of a product. The design used:
+
+- Factor A (pH): 2 levels — 5.6 and 5.9
+- Factor B (Catalyst Concentration): 2 levels — 2.5 and 2.7
+- 3 replicates per treatment combination → **12 total observations**
+
+### Data Summary
+
+| pH | Catalyst Conc | Viscosity Readings | Treatment Mean |
+|---|---|---|---|
+| 5.6 | 2.5 | 192, 199, 193 | 194.67 |
+| 5.6 | 2.7 | 178, 185, 188 | 183.67 |
+| 5.9 | 2.5 | 185, 193, 190 | 189.33 |
+| 5.9 | 2.7 | 197, 196, 204 | 199.00 |
+
+**Grand mean** $\bar{y}_{\cdots} = 191.67$
+
+### R Output — Two-Way ANOVA
+
+```
+           Df  Sum Sq  Mean Sq  F value  Pr(>F)
+Catalyst    1     1.3      1.3    0.070  0.79778
+pH          1    75.0     75.0    3.947  0.08218 .
+Catalyst:pH 1   320.3    320.3   16.860  0.00341 **
+Residuals   8   152.0     19.0
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+### Interpretation
+
+- **Interaction term (Catalyst:pH):** Significant at the 1% level (p = 0.003). We **reject** H₀ for the interaction.
+- **Main effects (Catalyst, pH):** Neither is statistically significant on its own.
+
+> This tells us: the effect that catalyst concentration has on viscosity **depends on** the pH level — and vice versa. The main effects alone are misleading here.
+
+### Estimated Model Parameters
+
+The estimated effect parameters from the ANOVA effects model:
+
+- $\hat{\alpha}_1 = 189.1667 - 191.6667 = -2.5$ (pH = 5.6)
+- $\hat{\alpha}_2 = 194.1667 - 191.6667 = 2.5$ (pH = 5.9)
+- $\hat{\beta}_1 = 192 - 191.6667 = 0.3333$ (Catalyst = 2.5)
+- $\hat{\beta}_2 = 191.3333 - 191.6667 = -0.3333$ (Catalyst = 2.7)
+
+Interaction estimates $(\widehat{\alpha\beta})_{ij}$:
+
+- For pH = 5.6, Catalyst = 2.5: $194.6667 - 189.1667 - 192 + 191.6667 = 5.1667$
+- For pH = 5.6, Catalyst = 2.7: $183.6667 - 189.1667 - 191.3333 + 191.6667 = -5.1667$
+- For pH = 5.9, Catalyst = 2.5: $189.3333 - 194.1667 - 192 + 191.6667 = -5.1667$
+- For pH = 5.9, Catalyst = 2.7: $199 - 194.1667 - 191.3333 + 191.6667 = 5.1667$
+
+Fitted value for pH = 5.6, Catalyst = 2.5:
+
+$$
+\hat{y}_{11k} = 191.6667 + (-2.5) + 0.3333 + 5.1667 = 194.6667
+$$
+
+---
+
+## Simple Effects
+
+Since the interaction is significant, we must examine each factor **while holding the other factor constant**. These are called the **simple effects**.
+
+We use **Tukey's HSD** (Honest Significant Difference) post-hoc test to compare all pairwise group means.
+
+### Key Results from Tukey's HSD
+
+**Catalyst effect (across all pH levels):**  
+Difference = −0.667, p = 0.798 → **Not significant**
+
+**pH effect (across all catalyst levels):**  
+Difference = 5.0, p = 0.082 → **Not significant**
+
+**Simple effect — pH, holding Catalyst at 2.5:**  
+pH 5.6 vs 5.9: difference = −5.333, p = 0.481 → **Not significant**
+
+**Simple effect — pH, holding Catalyst at 2.7:**  
+pH 5.6 vs 5.9: difference = 15.333, p = 0.011 → ✅ **Significant!**
+
+> **Conclusion:** At a catalyst concentration of 2.7, there is a statistically significant difference in mean viscosity between pH 5.6 and pH 5.9 (difference = 15.33, p = 0.011). This is the source of the interaction.
+
+> 📝 **Annotation space:** *Can you sketch the interaction plot and annotate which crossing of lines corresponds to this significant simple effect?*
+
+---
+
+## Effect Size: Partial Eta Squared
+
+To quantify *how much* of the variance in the outcome is explained by each factor, we use **Partial Eta Squared** ($\eta^2_P$):
+
+$$
+\eta^2_P = \frac{SS_F}{SS_F + SS_E}
+$$
+
+Where $SS_F$ is the sum of squares for the factor of interest, and $SS_E$ is the error sum of squares.
+
+### Example — Effect of pH on Viscosity
+
+$$
+\eta^2_P = \frac{SS_A}{SS_A + SS_E} = \frac{75}{75 + 152} = 0.33 \approx 33\%
+$$
+
+We can say that **33% of the variation in viscosity** is associated with differences in pH level (after accounting for the other factor).
+
+> ⚠️ **Note:** $\eta^2_P$ can be biased (overestimate effect size) in small samples.
+
+---
+
+# Key Equations / Formulas
+
+```
+# Two-Way ANOVA Effects Model
+y_ijk = μ + α_i + β_j + (αβ)_ij + ε_ijk
+
+# Sums of Squares Partition
+SS_T = SS_A + SS_B + SS_AB + SS_E
+
+# Partial Eta Squared (Effect Size)
+η²_P = SS_F / (SS_F + SS_E)
+
+# Treatment Combinations in Factorial Design
+Total combinations = a × b
+Total observations = r × a × b
+```
+
+---
+
+# R Code Reference
+
+The following R script covers the full two-way ANOVA workflow using the Viscosity dataset:
+
+```r
+library(tidyverse)
+library(effectsize)
+library(car)
+
+# Read in data
+viscosity <- read_tsv("Viscosity.txt")
+
+# Convert factors
+viscosity$pH      <- as.factor(viscosity$pH)
+viscosity$Catalyst <- as.factor(viscosity$Catalyst)
+
+# Frequency table — check n per group
+table(viscosity$Catalyst, viscosity$pH)
+
+# Boxplots for initial exploration
+boxplot(Viscosity ~ Catalyst, data = viscosity, ylab = "Viscosity")
+boxplot(Viscosity ~ pH,       data = viscosity, ylab = "Viscosity")
+boxplot(Viscosity ~ Catalyst * pH, data = viscosity,
+        col = c("gold", "darkgreen"),
+        main = "Viscosity by Catalyst and pH")
+
+# Group means and variance
+viscosity %>% group_by(Catalyst) %>%
+  summarise(mean_v = mean(Viscosity), var_v = var(Viscosity))
+viscosity %>% group_by(pH) %>%
+  summarise(mean_v = mean(Viscosity), var_v = var(Viscosity))
+
+# Interaction plot — check for interaction visually
+interaction.plot(viscosity$pH, viscosity$Catalyst, viscosity$Viscosity)
+
+# Check homogeneity of variance
+fligner.test(Viscosity ~ interaction(pH, Catalyst), data = viscosity)
+leveneTest(Viscosity ~ interaction(pH, Catalyst),   data = viscosity)
+
+# Fit the Two-Way ANOVA model (both are equivalent)
+model1 <- aov(Viscosity ~ Catalyst * pH, data = viscosity)
+model2 <- aov(Viscosity ~ Catalyst + pH + Catalyst:pH, data = viscosity)
+summary(model1)
+
+# Treatment means
+model.tables(model1, type = "means", se = FALSE)
+
+# Post-hoc pairwise comparisons (Tukey's HSD)
+TukeyHSD(model1)
+
+# Effect size (partial eta squared)
+eta_squared(model1, partial = TRUE)
+
+# Model diagnostics
+par(mfrow = c(2, 2))
+plot(model1)
+```
+
+---
+
+# Summary Points
+
+- **Two-Way ANOVA** tests the effect of two categorical factors and their interaction on one continuous outcome.
+- There are **three null hypotheses**: one for each main effect and one for the interaction.
+- A **factorial design** is required — all combinations of factor levels must be present in the data.
+- Always **check the interaction effect first** before interpreting main effects.
+- **Parallel lines** on an interaction plot = no interaction. **Crossing or diverging lines** = interaction present.
+- If the interaction is **significant**, interpret **simple effects** instead of main effects (i.e., examine each factor at fixed levels of the other).
+- **Tukey's HSD** is a common post-hoc test for pairwise comparisons between treatment group means.
+- **Partial Eta Squared** ($\eta^2_P$) measures how much of the variance in the outcome is explained by each factor.
+- In this week's example: only the **interaction term** was significant (p = 0.003). Neither pH nor catalyst concentration alone had a significant main effect.
+
+---
+
+# Additional Notes / Annotations
+
+> ✏️ *Space for your own annotations — worked examples, exam questions, connections to other topics...*
+
+- [ ] Practice calculating SS by hand with a small dataset
+- [ ] Draw a diagram showing parallel vs non-parallel interaction plots
+- [ ] Check: what happens to the ANOVA table when the interaction is NOT significant? (See light bulb example in R script)
+- [ ] Try the battery exercise at the end of the R script — 3 temperature levels × 3 material types
+
+---
+
+*End of Week 6 Study Guide*

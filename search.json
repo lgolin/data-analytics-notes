@@ -1546,6 +1546,150 @@
     ]
   },
   {
+    "objectID": "regression-analysis/week-4.html#what-is-experimental-design-1",
+    "href": "regression-analysis/week-4.html#what-is-experimental-design-1",
+    "title": "Week 4",
+    "section": "7.1 What is Experimental Design?",
+    "text": "7.1 What is Experimental Design?\nExperimental design is the process of planning a study so that you collect the right data, in the right amount, using the right methods. The goal is to produce valid and objective conclusions.\nBefore you run a single test, you need:\n\nA clear research question that can be converted into testable hypotheses (H₀ and Hₐ).\nAn analysis plan — which variables will you measure? Are they categorical or numeric? What statistical test is appropriate?\nA predetermined significance level (usually α = 0.05). Never change this after looking at the data.\nAwareness of p-hacking — do not hunt through variables or analyses until you find a significant result. A null result is still a valid and publishable result.\n\n\n7.1.1 The Three Principles of Efficient Experimental Design\n\n\n\n\n\n\n\nPrinciple\nWhat it means\n\n\n\n\nRandomisation\nEvery experimental unit has an equal chance of being assigned to any treatment group. This eliminates selection bias.\n\n\nBlocking\nGroup similar experimental units together before randomising. This reduces the effect of known sources of variability (similar to stratified random sampling).\n\n\nReplication\nRepeat each experimental condition independently so that variability can be estimated. Large samples reduce random variation and let us detect small differences.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#experimental-studies-vs.-observational-studies-1",
+    "href": "regression-analysis/week-4.html#experimental-studies-vs.-observational-studies-1",
+    "title": "Week 4",
+    "section": "7.2 Experimental Studies vs. Observational Studies",
+    "text": "7.2 Experimental Studies vs. Observational Studies\n\n\n\n\n\n\n\n\nFeature\nExperimental Study\nObservational Study\n\n\n\n\nResearcher role\nIntervenes / manipulates conditions\nOnly observes existing conditions\n\n\nRandomisation\nPossible\nNot possible\n\n\nConfounding\nCan be controlled via design\nMust be controlled statistically\n\n\nExample\nClinical trial (drug vs placebo)\nSurvey on coffee and heart disease\n\n\n\n\n\n\n\n\n\nTipQuick Rule\n\n\n\nIf you are unsure whether a study is experimental or observational, ask: Did the researcher set the conditions under which the data were collected? If yes → experimental. If no → observational.\n\n\n\n7.2.1 Two Sources of Problems in Observational Studies\n\nNon-random selection — If participants are not selected randomly, the sample may not represent the population.\nUncontrolled extraneous variables — Variables you did not account for that affect the outcome.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#association-vs.-causation-1",
+    "href": "regression-analysis/week-4.html#association-vs.-causation-1",
+    "title": "Week 4",
+    "section": "7.3 Association vs. Causation",
+    "text": "7.3 Association vs. Causation\n\n“Association is not causation.”\n\nTwo variables are associated (or correlated) when they move together in a systematic way — as X increases, Y tends to increase (or decrease). However, this does not mean X causes Y.\n\n7.3.1 Types of Association\n\n\n\n\n\n\n\n\nType\nDescription\nExample\n\n\n\n\nStatistical association\nVariables are correlated; no causation implied\nX and Y are correlated\n\n\nCausal association\nOne variable directly causes a change in the other\nSugar consumption → tooth decay\n\n\nNon-causal association\nA third variable explains the relationship between X and Y\nConfounding (see below)\n\n\nChance association (spurious)\nThe relationship is a coincidence\nIce cream sales & drownings — both rise in summer due to weather\n\n\n\n\n\n7.3.2 Common Measures of Association\n\nPearson’s correlation coefficient (r) — parametric, measures linear association\nSpearman’s rank correlation — non-parametric, based on ranked data (uses median)\nChi-square test — for categorical variables\nOdds ratio / Relative risk — used in logistic regression",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#extraneous-and-confounding-variables-1",
+    "href": "regression-analysis/week-4.html#extraneous-and-confounding-variables-1",
+    "title": "Week 4",
+    "section": "7.4 Extraneous and Confounding Variables",
+    "text": "7.4 Extraneous and Confounding Variables\n\n7.4.1 Extraneous Variables\nVariables other than the independent variable that may affect the result. They can be:\n\nControlled — accounted for in the study design\nUncontrolled — not controlled, and potentially problematic\n\n\n\n7.4.2 Confounding Variables\nAn uncontrolled extraneous variable that:\n\nInfluences both the independent and the dependent variable\nMakes it impossible to determine which variable is truly causing the observed effect\n\n\nKey rule: All confounding variables are extraneous variables, but not all extraneous variables are confounding.\n\n\n\n\n\n\n\nNoteExample: Alcohol, Age, and HDL Cholesterol\n\n\n\nA study examines the effect of alcohol consumption on HDL (good) cholesterol in males. The observed association could be confounded by age — because age independently affects cholesterol levels. We cannot separate the effect of alcohol from the effect of age.\nIn a linear model, age would be included and held constant to control for this confounding effect:\n\\[\\text{HDL} = \\alpha + \\beta_1 \\cdot \\text{Alcohol} + \\beta_2 \\cdot \\text{Age} + \\varepsilon\\]\n\n\n\n\n7.4.3 Spurious Correlation\nA spurious correlation is when two variables appear associated but there is no logical or causal link — the association is a coincidence, often caused by a hidden third variable.\n\nClassic example: Ice cream sales and drowning rates are both correlated — but both are driven by hot weather, not by each other.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#key-terms-in-experimental-design-1",
+    "href": "regression-analysis/week-4.html#key-terms-in-experimental-design-1",
+    "title": "Week 4",
+    "section": "7.5 Key Terms in Experimental Design",
+    "text": "7.5 Key Terms in Experimental Design\n\n\n\n\n\n\n\nTerm\nDefinition\n\n\n\n\nExperimental unit\nThe subject/item on which an experiment is performed (e.g., patients, animals, lab samples)\n\n\nFactor\nA controlled explanatory variable whose levels are set by the experimenter\n\n\nLevel\nEach distinct setting of a factor (e.g., “Drug A”, “Drug B”, “Drug C”)\n\n\nTreatment\nA specific combination of factor levels applied to an experimental unit\n\n\nResponse variable\nThe outcome being measured (dependent variable / Y)\n\n\nExplanatory variable\nThe variable(s) used to explain the outcome (independent variable / X)\n\n\n\n\n\n\n\n\n\nNoteExample: Drug + Vitamin C Study\n\n\n\n“Six groups of patients are each treated with one of 3 drugs, either combined with Vitamin C or alone.”\n\nExperimental units: Patients\nFactors: Type of drug (3 levels) and Vitamin C (2 levels: yes/no)\nTreatments: 6 (= 2 × 3 combinations)\nDesign: Factorial design → analysed using two-way ANOVA",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#randomised-designs-and-blind-studies-1",
+    "href": "regression-analysis/week-4.html#randomised-designs-and-blind-studies-1",
+    "title": "Week 4",
+    "section": "7.6 Randomised Designs and Blind Studies",
+    "text": "7.6 Randomised Designs and Blind Studies\n\n7.6.1 Completely Randomised Design (CRD)\nAll experimental units are randomly assigned to treatment groups. Every unit has an equal chance of receiving any treatment. This eliminates selection bias.\n\n\n7.6.2 Randomised Block Design (RBD)\nWhen known differences between units exist (e.g., gender), units are first divided into homogeneous blocks, then randomly assigned to treatment groups within each block. This reduces noise from that known variable.\n\nComplete block: Every block contains every treatment.\nIncomplete block: Not all treatments appear in every block (adjusted statistically).\n\n\n\n7.6.3 Blind Studies (Reducing Bias Further)\n\n\n\n\n\n\n\nDesign\nWho doesn’t know the treatment assignment\n\n\n\n\nSingle blind\nParticipants only\n\n\nDouble blind\nParticipants and researchers administering the treatment\n\n\nTriple blind\nParticipants, researchers, and the data analysts",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#anova-preview-1",
+    "href": "regression-analysis/week-4.html#anova-preview-1",
+    "title": "Week 4",
+    "section": "7.7 ANOVA — Preview",
+    "text": "7.7 ANOVA — Preview\nANOVA (Analysis of Variance) extends the two-sample t-test to compare two or more means simultaneously.\n\n\n\nType\nIndependent Variables\nDependent Variable\n\n\n\n\nOne-way ANOVA\n1\n1\n\n\nTwo-way ANOVA\n2\n1\n\n\n\n\n7.7.1 Hypotheses (e.g., one-way ANOVA with 3 groups)\n\\[H_0: \\mu_1 = \\mu_2 = \\mu_3\\] \\[H_A: \\text{at least one mean is different}\\]\n\n\n\n\n\n\nWarning\n\n\n\nANOVA tells you if a difference exists between groups — not where the difference lies. A post-hoc analysis (e.g., Tukey’s test) is needed to identify which specific groups differ.\n\n\nANOVA partitions total variation into:\n\nExplained variation — variation due to the treatment/design\nUnexplained variation (error) — inherent variation within groups",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#effect-size-sample-size-and-statistical-power-1",
+    "href": "regression-analysis/week-4.html#effect-size-sample-size-and-statistical-power-1",
+    "title": "Week 4",
+    "section": "7.8 Effect Size, Sample Size, and Statistical Power",
+    "text": "7.8 Effect Size, Sample Size, and Statistical Power\nThese three quantities are deeply interconnected. Understanding their relationship is essential for designing studies and interpreting results.\n\n7.8.1 Effect Size (Cohen’s d)\nEffect size measures the practical significance of a difference — how large the difference between two means is relative to the variability in the data.\n\\[d = \\frac{\\mu_A - \\mu_0}{\\sigma}\\]\nWhere:\n\n\\(\\mu_A\\) = mean under the alternative hypothesis\n\\(\\mu_0\\) = mean under the null hypothesis\n\\(\\sigma\\) = population standard deviation\n\nA larger effect size = easier to detect a real difference.\n\n\n7.8.2 Statistical Power (1 − β)\nPower is the probability of correctly rejecting the null hypothesis when it is actually false.\n\\[\\text{Power} = 1 - \\beta = P(\\text{Reject } H_0 \\mid H_0 \\text{ is false})\\]\n\nLow power → high risk of a Type II error (missing a real effect)\nTarget power is typically 80% or 90% in practice\n\n\n\n7.8.3 The Relationship Between Effect Size, Sample Size, and Power\n\n\n\nIf you…\nThen power…\n\n\n\n\nIncrease sample size\nIncreases\n\n\nIncrease effect size\nIncreases\n\n\nDecrease variability (σ)\nIncreases\n\n\nUse a one-tailed instead of two-tailed test\nIncreases\n\n\nDecrease α (e.g., from 0.05 to 0.01)\nDecreases\n\n\n\n\n\n\n\n\n\nTipThe key insight from the simulation exercise\n\n\n\nAs sample size increases, sample means converge to the true population means, and p-values generally decrease — making it easier to detect a true difference. However, with a very small effect size, you may need an enormous sample to achieve significance.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#simulation-exercise-worksheet-2-1",
+    "href": "regression-analysis/week-4.html#simulation-exercise-worksheet-2-1",
+    "title": "Week 4",
+    "section": "9.1 Simulation Exercise (Worksheet 2)",
+    "text": "9.1 Simulation Exercise (Worksheet 2)\nThe worksheet uses simulated data to explore how sample size affects p-values and hypothesis test conclusions.\n\n9.1.1 Setup in R\nset.seed(1)   # ensures reproducibility of \"random\" numbers\nThe rnorm(n, μ, σ) function generates n pseudo-random numbers from a Normal distribution with mean μ and standard deviation σ.\n\n\n9.1.2 Four Cases Compared\n\n\n\n\n\n\n\n\n\n\nCase\nSample A\nSample B\nEffect (difference of means)\nSD\n\n\n\n\n1\nμ=0, σ=4\nμ=1, σ=4\nLarge (1.0)\n4\n\n\n2\nμ=0, σ=4\nμ=0.1, σ=4\nSmall (0.1)\n4\n\n\n3\nμ=0, σ=1\nμ=0.1, σ=1\nSmall (0.1)\n1 (less variability)\n\n\n4\nμ=0, σ=10\nμ=0.2, σ=10\nVery small (0.2)\n10 (more variability)\n\n\n\nKey observation: For a given effect size, you need more observations when variability is higher. For a very small effect size, even thousands of observations may be needed.\n# Example: Case 1 — testing two samples of size 50\nA_50 &lt;- rnorm(50, 0, 4)\nB_50 &lt;- rnorm(50, 1, 4)\nt.test(A_50, B_50)",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#power-analysis-in-r-pwr-package-1",
+    "href": "regression-analysis/week-4.html#power-analysis-in-r-pwr-package-1",
+    "title": "Week 4",
+    "section": "9.2 Power Analysis in R — pwr Package",
+    "text": "9.2 Power Analysis in R — pwr Package\ninstall.packages(\"pwr\")\nlibrary(pwr)\n\n9.2.1 Key pwr Functions\n\n\n\nFunction\nUse case\n\n\n\n\npwr.t.test\nOne sample, two sample, or paired t-test\n\n\npwr.anova.test\nBalanced one-way ANOVA\n\n\npwr.chisq.test\nChi-square test\n\n\npwr.2p.test\nTwo proportions (equal n)\n\n\npwr.r.test\nCorrelation\n\n\npwr.f2.test\nGeneral linear model\n\n\n\nFor each function you provide three of: sample size, effect size, significance level, power — and the fourth is calculated.\n\n\n9.2.2 Worked Example: Chemical Company\nA government inspector tests whether a chemical product contains more than 4.0 ml of caustic material (the safe limit). She takes n = 30 samples; σ = 1.3; the true mean may be as high as 4.35.\nEffect size:\n\\[d = \\frac{4.35 - 4.0}{1.3} = 0.2692\\]\nPower calculation in R:\npwr.t.test(n = 30, d = 0.2692, sig.level = 0.05,\n           type = \"one.sample\", alternative = \"greater\")\nResult: Power = 0.419 → only a 41.9% chance of detecting the effect with this sample size. The sample is underpowered.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#exercise-1-height-study-1",
+    "href": "regression-analysis/week-4.html#exercise-1-height-study-1",
+    "title": "Week 4",
+    "section": "9.3 Exercise 1: Height Study",
+    "text": "9.3 Exercise 1: Height Study\nScenario: Testing whether the mean height of students at CIT exceeds 160 cm.\n\\[H_0: \\mu = 160 \\text{ cm}, \\quad H_A: \\mu &gt; 160 \\text{ cm}\\]\nSample: n = 25, \\(\\bar{x}\\) = 173.4 cm, s = 9\nType I Error: Reject H₀ and conclude that mean height &gt; 160 cm when it is not.\nType II Error: Fail to reject H₀ and conclude mean height ≤ 160 cm when it actually is greater.\nPower (if true μ = 165):\npwr.t.test(n = 25, d = 5/9, sig.level = 0.05,\n           type = \"one.sample\", alternative = \"greater\")\n# Power ≈ 85%\nTwo-tailed version (same μ = 165):\npwr.t.test(n = 25, d = 5/9, sig.level = 0.05,\n           type = \"one.sample\")\n# Power ≈ 76%\n\nConclusion: A one-tailed test is more powerful than a two-tailed test for a given effect size, sample size, and α — because all of the rejection region is on one side.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-4.html#exercise-2-light-bulb-lifespan-1",
+    "href": "regression-analysis/week-4.html#exercise-2-light-bulb-lifespan-1",
+    "title": "Week 4",
+    "section": "9.4 Exercise 2: Light Bulb Lifespan",
+    "text": "9.4 Exercise 2: Light Bulb Lifespan\nScenario: A manufacturer claims bulbs last 850 hours on average (σ = 50). A consumer group believes the true mean is only 810 hours.\n\\[H_0: \\mu = 850, \\quad H_A: \\mu &lt; 850\\]\nRequired sample size for 90% power:\npwr.t.test(d = (810 - 850) / 50, power = 0.9,\n           sig.level = 0.05, type = \"one.sample\",\n           alternative = \"less\")\n# n ≈ 15 (round up)\nSimulation to verify (10,000 tests):\npvalues &lt;- rep(0, 10000)\nfor (i in 1:10000) {\n  sA &lt;- rnorm(15, 810, 50)\n  pvalues[i] &lt;- t.test(sA, y = NULL, \"less\", 850)$p.value\n}\nsum(pvalues &lt; 0.05)   # should be approximately 9,000 (90%)",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 4"
+    ]
+  },
+  {
     "objectID": "regression-analysis/week-5.html",
     "href": "regression-analysis/week-5.html",
     "title": "Week 5 – One-Way ANOVA",
@@ -1598,7 +1742,7 @@
     "href": "regression-analysis/week-5.html#the-anova-table",
     "title": "Week 5 – One-Way ANOVA",
     "section": "2.4 The ANOVA Table",
-    "text": "2.4 The ANOVA Table\nResults are always presented in a standard ANOVA table:\n\n\n\nSource\ndf\nSS\nMS = SS/df\nF\np-value\n\n\n\n\nFactor (Between)\n\\(a - 1\\)\n\\(SS_F\\)\n\\(MS_F\\)\n\\(MS_F / MS_E\\)\n\n\n\nError (Within)\n\\(a(n-1)\\)\n\\(SS_E\\)\n\\(MS_E\\)\n\n\n\n\nTotal\n\\(an - 1\\)\n\\(SS_T\\)\n\n\n\n\n\n\nWhere \\(a\\) = number of treatment levels, \\(n\\) = number of replicas per level.\nFor our soil example (3 soil types × 10 fields):\n\n\n\nSource\ndf\nSS\nMS\nF\np-value\n\n\n\n\nSoil type\n2\n99.2\n49.60\n4.245\n0.025 *\n\n\nResiduals\n27\n315.5\n11.69\n\n\n\n\n\nThe p-value of 0.025 &lt; 0.05 → we reject H₀. At least one soil type produces a significantly different mean yield.",
+    "text": "2.4 The ANOVA Table\nResults are always presented in a standard ANOVA table:\n\n\n\n\n\n\n\n\n\n\n\nSource\ndf\nSS\nMS = SS/df\nF\np-value\n\n\n\n\nFactor (Between)\n\\(a - 1\\)\n\\(SS_F\\)\n\\(MS_F\\)\n\\(MS_F / MS_E\\)\n\n\n\nError (Within)\n\\(a(n-1)\\)\n\\(SS_E\\)\n\\(MS_E\\)\n\n\n\n\nTotal\n\\(an - 1\\)\n\\(SS_T\\)\n\n\n\n\n\n\nWhere \\(a\\) = number of treatment levels, \\(n\\) = number of replicas per level.\nFor our soil example (3 soil types × 10 fields):\n\n\n\nSource\ndf\nSS\nMS\nF\np-value\n\n\n\n\nSoil type\n2\n99.2\n49.60\n4.245\n0.025 *\n\n\nResiduals\n27\n315.5\n11.69\n\n\n\n\n\nThe p-value of 0.025 &lt; 0.05 → we reject H₀. At least one soil type produces a significantly different mean yield.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -2840,7 +2984,7 @@
     "href": "regression-analysis/week-7.html#partitioning-variance-in-two-way-anova",
     "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
     "section": "2.5 Partitioning Variance in Two-Way ANOVA",
-    "text": "2.5 Partitioning Variance in Two-Way ANOVA\nTotal variability is split into components:\n\\[SS_{Total} = SS_A + SS_B + SS_{AB} + SS_{Error}\\]\nThe ANOVA table for two-way:\n\n\n\nSource\nSS\ndf\nMS = SS/df\nF = MS / MSₑ\n\n\n\n\nFactor A\n\\(SS_A\\)\n\\(a - 1\\)\n\\(MS_A\\)\n\\(F_A\\)\n\n\nFactor B\n\\(SS_B\\)\n\\(b - 1\\)\n\\(MS_B\\)\n\\(F_B\\)\n\n\nInteraction A×B\n\\(SS_{AB}\\)\n\\((a-1)(b-1)\\)\n\\(MS_{AB}\\)\n\\(F_{AB}\\)\n\n\nError\n\\(SS_E\\)\n\\(ab(r-1)\\)\n\\(MS_E\\)\n—\n\n\nTotal\n\\(SS_T\\)\n\\(abr - 1\\)\n—\n—\n\n\n\nA p-value (or critical F value) is then used to make the decision for each row.",
+    "text": "2.5 Partitioning Variance in Two-Way ANOVA\nTotal variability is split into components:\n\\[SS_{Total} = SS_A + SS_B + SS_{AB} + SS_{Error}\\]\nThe ANOVA table for two-way:\n\n\n\n\n\n\n\n\n\n\nSource\nSS\ndf\nMS = SS/df\nF = MS / MSₑ\n\n\n\n\nFactor A\n\\(SS_A\\)\n\\(a - 1\\)\n\\(MS_A\\)\n\\(F_A\\)\n\n\nFactor B\n\\(SS_B\\)\n\\(b - 1\\)\n\\(MS_B\\)\n\\(F_B\\)\n\n\nInteraction A×B\n\\(SS_{AB}\\)\n\\((a-1)(b-1)\\)\n\\(MS_{AB}\\)\n\\(F_{AB}\\)\n\n\nError\n\\(SS_E\\)\n\\(ab(r-1)\\)\n\\(MS_E\\)\n—\n\n\nTotal\n\\(SS_T\\)\n\\(abr - 1\\)\n—\n—\n\n\n\nA p-value (or critical F value) is then used to make the decision for each row.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -3358,7 +3502,7 @@
     "href": "regression-analysis/week-8.html#anova-table-for-regression",
     "title": "Week 8 – Simple Linear Regression",
     "section": "2.11 ANOVA Table for Regression",
-    "text": "2.11 ANOVA Table for Regression\nJust like in ANOVA, we build a table to test the significance of the regression:\n\n\n\nSource\ndf\nSS\nMS\nF\n\n\n\n\nRegression\n1\n\\(SS_R\\)\n\\(MS_R = SS_R / 1\\)\n\\(F = MS_R / MS_E\\)\n\n\nResiduals\n\\(n-2\\)\n\\(SS_E\\)\n\\(MS_E = SS_E/(n-2)\\)\n\n\n\nTotal\n\\(n-1\\)\n\\(SS_T\\)\n\n\n\n\n\nThe null hypothesis being tested is:\n\\[H_0: \\beta_1 = 0 \\quad \\text{(no linear relationship)}\\] \\[H_1: \\beta_1 \\neq 0 \\quad \\text{(a linear relationship exists)}\\]\nIf the F-statistic exceeds the critical value (or if p-value &lt; 0.05), we reject \\(H_0\\) and conclude the slope is significantly different from zero.",
+    "text": "2.11 ANOVA Table for Regression\nJust like in ANOVA, we build a table to test the significance of the regression:\n\n\n\n\n\n\n\n\n\n\nSource\ndf\nSS\nMS\nF\n\n\n\n\nRegression\n1\n\\(SS_R\\)\n\\(MS_R = SS_R / 1\\)\n\\(F = MS_R / MS_E\\)\n\n\nResiduals\n\\(n-2\\)\n\\(SS_E\\)\n\\(MS_E = SS_E/(n-2)\\)\n\n\n\nTotal\n\\(n-1\\)\n\\(SS_T\\)\n\n\n\n\n\nThe null hypothesis being tested is:\n\\[H_0: \\beta_1 = 0 \\quad \\text{(no linear relationship)}\\] \\[H_1: \\beta_1 \\neq 0 \\quad \\text{(a linear relationship exists)}\\]\nIf the F-statistic exceeds the critical value (or if p-value &lt; 0.05), we reject \\(H_0\\) and conclude the slope is significantly different from zero.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -3418,7 +3562,7 @@
     "href": "regression-analysis/week-8.html#exam-reminders",
     "title": "Week 8 – Simple Linear Regression",
     "section": "5.3 Exam Reminders",
-    "text": "5.3 Exam Reminders\n\nKey things to remember for exams, from lecturer hints.\n\n\nInterpret the slope clearly: “For every one-unit increase in X, Y increases/decreases by …”\nInterpret \\(R^2\\) as a percentage: “X% of the variation in Y is explained by X.”\nDiagnostic plots: know what each of the four plots is checking.\nThe residual diagnostic plots (Scale–Location, Cook’s Distance, Q-Q plot) will likely appear in the terminal exam.\nLab exam is expected in Week 10–11 and will be conducted remotely.",
+    "text": "5.3 Exam Reminders\n\nKey things to remember for exams, from lecturer hints.\n\n\nInterpret the slope clearly: “For every one-unit increase in X, Y increases/decreases by …”\nInterpret \\(R^2\\) as a percentage: “X% of the variation in Y is explained by X.”\nDiagnostic plots: know what each of the four plots is checking.\nThe residual diagnostic plots (Scale–Location, Cook’s Distance, Q-Q plot) will likely appear in the terminal exam.\nLab exam is expected in Week 10–11 and will be conducted remotely.\n\n\n\n\n\n\n\nImportant🎯 Likely Exam Questions\n\n\n\nBased on Exam 19 (Q1 and Q2) and what Paula emphasised in Week 8, the following are highly likely:\n\nInterpret the slope in context (Exam 19, Q1b.i style): “Write down and interpret the estimate for β₁.” State the numerical value, direction, and units. For MLR, say “holding all other variables constant.” This appeared verbatim on the past paper.\nTest H₀: β₁ = 0 and state implications (Exam 19, Q1b.ii style): State the hypothesis, use the t-statistic and p-value from R output, make a decision, and state the practical implication (e.g., “training is a significant predictor of sales and should be retained in the model”).\nPredict the response for a given X value (Exam 19, Q1b.iii): Substitute into the fitted equation. Straightforward calculation — don’t forget units.\nInterpret diagnostic plots: Identify assumption violations from residuals vs. fitted (non-constant variance) or QQ plot (non-normality). Cook’s Distance for influential points. Paula specifically flagged these for the terminal exam.\nInterpret R² and adjusted R²: State what proportion of variation in the response is explained by the model.\nParallel regression lines (ANCOVA setup, Exam 19 Q2): When a categorical variable is added to a regression model with an interaction term, write out the separate fitted equations for each group (livestock present vs. absent). This directly mirrors Q2 of the past paper.\nTest whether regression lines are parallel or coincide (Exam 19 Q2e): Use the ANOVA comparison of models (with and without the interaction term) to test if the interaction is needed.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",

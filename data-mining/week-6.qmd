@@ -1,0 +1,441 @@
+---
+title: "STAT9013 – Week 6 Study Guide"
+subtitle: "Data Mining & Machine Learning"
+---
+
+::: {.callout-note}
+## About These Notes
+These notes are a beginner-friendly summary of Week 6 content from STAT9013. They cover **Gradient Boosted Machines**, **Data Leakage**, **Sampling & Cross-Validation**, **Imbalanced Datasets**, and an introduction to **R Shiny**. Leave space below each section for your own annotations and questions.
+:::
+
+---
+
+# Key Topics This Week
+
+- **Gradient Boosted Machines (GBMs)** — a powerful family of machine learning algorithms
+- **Data Leakage** — a hidden problem that makes models look better than they really are
+- **Sampling & Cross-Validation** — how to get a reliable estimate of model accuracy
+- **Imbalanced Datasets** — how to handle data where one category is very rare
+- **R Shiny** — creating interactive web applications with R
+
+---
+
+# Core Explanations
+
+## Gradient Boosted Machines (GBMs)
+
+### What are they?
+
+**Gradient Boosted Machines (GBMs)** are a family of machine learning algorithms that are among the most powerful tools available today. Together with **Random Forests**, GBMs tend to outperform most other algorithms on tabular data.
+
+Both Random Forest and GBMs use many **decision trees** internally, but they build them in very different ways:
+
+| | Random Forest | GBM |
+|---|---|---|
+| How trees are built | Independently, all at the same time | **Sequentially** — one after the other |
+| How data is selected | **Bagging** (random sampling with replacement) | Focuses on **errors** from the previous tree |
+| Easy to interpret? | Somewhat (feature importance available) | **No** — very difficult to interpret |
+| Speed | Faster (trees can be built in parallel) | Slower (trees must be built one by one) |
+
+### Bagging (for Random Forest)
+
+**Bagging** is short for *Bootstrap Aggregating*. The idea is to randomly select rows from your dataset **with replacement** (meaning the same row can be picked more than once). If you have 100 rows and you sample 100 rows with replacement, approximately **63% of rows will be unique** — the rest are duplicates. This gives each decision tree a slightly different view of the data.
+
+### How GBMs work (step by step)
+
+1. Train the first decision tree on the full training data
+2. Look at which records the model got **wrong** (the errors, called *residuals*)
+3. Build a second decision tree that **focuses on those errors**
+4. Repeat: each new tree tries to fix the mistakes of the previous tree
+5. Combine all trees to make the final prediction
+
+> 💡 **Analogy:** Imagine a student taking a practice test, then reviewing only the questions they got wrong, then taking another test focused on those weak areas. GBMs do exactly this, but with decision trees.
+
+### Disadvantages of GBMs
+
+- **Hard to interpret** — you cannot easily see which features matter most
+- **Computationally expensive** — trees must be built one by one (cannot be parallelised)
+- **Require numeric input** — all data must be converted to numbers first (using one-hot encoding)
+- Benefit a lot from **hyperparameter tuning** (unlike Random Forests which often work well "out of the box")
+
+### R Code: Fitting a GBM with LightGBM
+
+```r
+library(lightgbm)
+
+# Step 1: One-hot encode the training data (GBMs need all-numeric input)
+dmy <- dummyVars(" ~ .", data = train_data)
+trsf <- data.frame(predict(dmy, newdata = train_data))
+tesf <- data.frame(predict(dmy, newdata = test_data))
+tesf$Survived <- NULL  # Remove the target from test data
+
+# Step 2: Separate the target (label) from the features
+labels <- trsf$Survived
+trsf$Survived <- NULL
+
+# Step 3: Convert to matrix (required by LightGBM)
+m_trsf <- as.matrix(trsf)
+
+# Step 4: Train the GBM model
+gbm_model <- lightgbm(
+  data  = m_trsf,
+  label = labels
+)
+
+# Step 5: Make predictions on the test set
+pr <- predict(gbm_model, newdata = as.matrix(tesf))
+pr <- ifelse(pr > 0.5, 1, 0)   # Convert probabilities to class labels
+pr <- factor(pr, levels = c(1, 0))
+
+# Step 6: Evaluate accuracy
+tab      <- table(pr, actuals)
+accuracy <- 100 * sum(diag(tab) / sum(tab))
+print(accuracy)  # ~76.7% on the Titanic dataset
+```
+
+::: {.callout-tip}
+## Your Notes
+_Add your own observations about GBMs here..._
+:::
+
+---
+
+## Data Leakage
+
+### What is it?
+
+**Data leakage** happens when the data used to train a model contains information about the target variable that would **not actually be available** at the time you make a real prediction in production.
+
+The result: the model looks very accurate during testing, but performs **poorly in the real world**.
+
+### Two types of data leakage
+
+**1. Target leakage** — a predictor variable was created or updated *after* the target event occurred.
+
+> **Example (medical):** You are predicting whether a patient has a disease. One of your features is "prescribed antiviral drug X". But the patient was only prescribed that drug *because* they were already diagnosed. So this variable was set *after* the event you are trying to predict.
+
+> **Example (Titanic):** We created a fake field called `Carpathia` (the ship that rescued survivors). If someone is in the Carpathia list, they survived. This field could only be known *after* the Titanic sank — it cannot be used to predict survival.
+
+**2. Data preparation leakage** — you use information from the test set to prepare features in the training set.
+
+> **Example:** If you calculate the mean age from the *entire* dataset (train + test) and use that to fill in missing ages, the test set has "leaked" into your training preparation. You should always calculate statistics like the mean **only on the training data**, then apply that value to both sets.
+
+### How to spot data leakage
+
+- A single feature produces a suspiciously **high accuracy** by itself
+- The most important feature in your model is something that logically could not be known at prediction time
+- Your model is very simple (e.g. only 2–3 splits) but shows very high accuracy
+
+### R Code: Correct way to impute missing values (no leakage)
+
+```r
+# CORRECT: calculate the mean from training data only
+meanAge <- mean(train_data$Age, na.rm = TRUE)
+
+# Apply that value to BOTH training and test sets
+train_data[is.na(train_data$Age), ]$Age <- meanAge
+test_data[is.na(test_data$Age), ]$Age   <- meanAge
+```
+
+::: {.callout-tip}
+## Your Notes
+_Write examples of data leakage you can think of in real life..._
+:::
+
+---
+
+## Sampling and Cross-Validation
+
+### The problem with a single train/test split
+
+When we split our data 90% train / 10% test and use `set.seed(42)` for reproducibility, the results we get depend on *which* 10% of records end up in the test set. For small datasets, this can cause the reported accuracy to vary a lot depending on the random split.
+
+```r
+# Running the same model with different seeds shows the variability:
+# [1] 80.00  73.33  74.44  77.78  76.67  83.33  81.11  75.56  80.00  71.11  76.67
+```
+
+The accuracy above ranges from **71% to 83%** — a big swing caused only by which records happened to be in the test set!
+
+### Why `set.seed()`?
+
+Using `set.seed(42)` (or any fixed number) at the start of your code ensures that your results are **reproducible** — anyone who runs your code with the same data will get the same results. The number 42 has no special meaning; it is just a popular choice in the data science community (a reference to *The Hitchhiker's Guide to the Galaxy*).
+
+### Cross-Validation
+
+**K-fold cross-validation** is a better way to estimate model accuracy, especially for small datasets. Here is how it works:
+
+1. Split your data into **k equal groups** (called *folds*)
+2. Train k separate models. Each model uses **k−1 folds for training** and **1 fold for testing**
+3. Average the accuracy across all k models
+
+The advantage is that **every record gets used for testing exactly once**, giving a more stable and unbiased estimate of accuracy.
+
+> **Example with k=5 (5-fold cross-validation):**
+> - Model 1 trains on folds 2,3,4,5 — tests on fold 1
+> - Model 2 trains on folds 1,3,4,5 — tests on fold 2
+> - … and so on
+
+### R Code: Cross-Validation with caret
+
+```r
+library(caret)
+
+# Run 5-fold cross-validation using a decision tree (rpart)
+model <- train(
+  as.factor(Survived) ~ .,
+  data      = train_data,
+  method    = "rpart",
+  trControl = trainControl(method = "cv", number = 5)
+)
+
+# Evaluate on the test set
+pr       <- predict(model, newdata = test_data, type = "raw")
+pr       <- factor(pr, levels = c(1, 0))
+tab      <- table(pr, actuals)
+accuracy <- 100 * sum(diag(tab) / sum(tab))
+print(accuracy)  # ~75.6%
+```
+
+::: {.callout-tip}
+## Your Notes
+_Add notes about when you would and would not use cross-validation..._
+:::
+
+---
+
+## Imbalanced Datasets
+
+### What is the problem?
+
+In many real-world classification problems, one class is **much rarer** than the other. Examples:
+
+- **Medical diagnosis**: 99% of people screened do not have the disease
+- **Fraud detection**: less than 0.1% of transactions are fraudulent
+- **Churn analysis**: most customers stay each month
+- **Online advertising**: click-through rates can be less than 0.1%
+
+The problem: most machine learning algorithms assume roughly equal numbers of each class. When the data is imbalanced, the algorithm often just **predicts the majority class every time** — and still gets a high accuracy!
+
+> **Example:** If 92% of records are "did not survive", a model that always predicts "did not survive" achieves 92% accuracy — but it is completely useless at finding survivors.
+
+### Three strategies to handle imbalanced data
+
+#### Strategy 1: Change the probability cut-off threshold
+
+By default, a model predicts class 1 if the probability is ≥ 0.5. You can lower this threshold so that more records are classified as the minority class.
+
+```r
+# Default threshold: 0.5
+# Increase recall by lowering the threshold to 0.1
+pr <- predict(rpart, newdata = test_data)        # Get raw probabilities
+pr <- ifelse(pr[, 1] > 0.9, 0, 1)               # Class 0 if P(class=0) > 0.9
+pr <- factor(pr, levels = c(1, 0))
+```
+
+#### Strategy 2: Assign a higher penalty to minority class errors
+
+Some algorithms allow you to say: "Penalise a **False Negative** more heavily than a False Positive." This forces the model to try harder to detect the rare class.
+
+```r
+# In rpart, use the 'loss' matrix:
+# loss[i,j] = penalty for predicting class j when true class is i
+# Here: False Negatives (predicting 0 when truth is 1) cost 5x more than False Positives
+rpart_model <- rpart(
+  Survived ~ .,
+  data   = train_data,
+  method = "class",
+  parms  = list(loss = matrix(c(0, 1, 5, 0), byrow = TRUE, nrow = 2))
+)
+```
+
+#### Strategy 3: Resampling the training data
+
+The most widely used approach is to change the training data itself so the classes are more balanced:
+
+- **Upsampling** (oversampling): duplicate rows from the minority class until it matches the majority class size
+- **Downsampling** (undersampling): remove rows from the majority class
+
+```r
+# Split training data by class
+train_data0 <- train_data[train_data$Survived == 0, ]  # Majority class (549 rows)
+train_data1 <- train_data[train_data$Survived == 1, ]  # Minority class (40 rows)
+
+nrows <- 300  # Target size for each class
+
+# Downsample the majority class (take 300 from 494)
+sample0     <- sample(nrow(train_data0), nrows)
+train_data0 <- train_data0[sample0, ]
+
+# Upsample the minority class (take 300 from 40, with replacement = duplicates)
+sample1     <- sample(nrow(train_data1), nrows, replace = TRUE)
+train_data1 <- train_data1[sample1, ]
+
+# Combine and shuffle
+train_data <- rbind(train_data0, train_data1)
+train_data <- train_data[sample(nrow(train_data)), ]  # Shuffle rows
+
+table(train_data$Survived)
+# 0   1
+# 300 300  <-- Now balanced!
+```
+
+### The Precision–Recall Trade-Off
+
+When you try to increase **recall** (finding more of the minority class), you will usually decrease **precision** (some of your positive predictions will be wrong). This is a fundamental trade-off.
+
+| Term | Plain English |
+|---|---|
+| **Recall** (Sensitivity) | Of all the actual positives, how many did the model find? |
+| **Precision** | Of all the records the model flagged as positive, how many were actually positive? |
+| **High recall, low precision** | Find most of the sick/fraud cases, but also flag many healthy/legitimate ones |
+| **Low recall, high precision** | Only flag cases you are very sure about, but miss many real positives |
+
+> 💡 A business user may say: *"I need the model to find as many fraud cases as possible. We will then review them manually."* This means they want **high recall**, and they accept that some clean transactions will also be flagged for manual review.
+
+::: {.callout-important}
+## Key Insight: Accuracy Is Not Always the Right Goal
+When data is imbalanced and you care about the rare class, **accuracy** is a misleading metric. Focus on **recall** (and precision) instead.
+:::
+
+::: {.callout-tip}
+## Your Notes
+_Can you think of a business problem where you would want high precision instead of high recall?_
+:::
+
+---
+
+## R Shiny (Introduction)
+
+**R Shiny** is an R framework for building interactive web applications. It allows you to:
+
+- Create web dashboards and visualisations without knowing HTML/CSS/JavaScript
+- Let users interact with the data in real time (sliders, dropdowns, inputs)
+- Share your analysis as a live web link
+
+### How to create your first Shiny app
+
+1. In RStudio: **File → New File → Shiny Web App**
+2. Give your app a name (e.g. `my_shiny_app`)
+3. Select **Multiple File**
+4. Click **Create**
+5. Click **Run App** and then **Open in Browser**
+
+You will see a working histogram app where a slider controls the number of bins — and the graph updates in real time.
+
+### Useful resources
+
+| Resource | Link |
+|---|---|
+| Shiny tutorial | <https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/index.html> |
+| Shiny gallery (examples + code) | <https://shiny.posit.co/r/gallery/> |
+| Mastering Shiny (free book) | <https://mastering-shiny.org/index.html> |
+| Dashboard examples | <https://rstudio.github.io/shinydashboard/examples.html> |
+
+::: {.callout-tip}
+## Your Notes
+_What kind of data would you like to visualise with a Shiny app?_
+:::
+
+---
+
+# Key Equations and Formulas
+
+## Accuracy
+
+$$
+\text{Accuracy} = \frac{\text{Correct predictions}}{\text{Total predictions}} \times 100
+$$
+
+## Precision
+
+$$
+\text{Precision} = \frac{TP}{TP + FP}
+$$
+
+## Recall (Sensitivity)
+
+$$
+\text{Recall} = \frac{TP}{TP + FN}
+$$
+
+Where:
+
+- **TP** = True Positives (correctly predicted positives)
+- **FP** = False Positives (predicted positive, actually negative)
+- **FN** = False Negatives (predicted negative, actually positive)
+
+---
+
+# Practical Examples
+
+## Example 1: GBM on the Titanic Dataset
+
+The `lightgbm` package was used to train a Gradient Boosted Machine on the Titanic survival dataset. After one-hot encoding all categorical variables and converting to a matrix, the model achieved approximately **76.7% accuracy** on the test set.
+
+## Example 2: Data Leakage — the Carpathia Field
+
+A fake field `Carpathia` was added to the Titanic dataset. This field was strongly correlated with survival (survivors boarded the rescue ship Carpathia). Including this field:
+
+- Boosted accuracy from ~76% to **91%**
+- Produced a very simple decision tree using only 3 variables
+- The top split was `Carpathia = yes/no` — a clear warning sign
+
+**Lesson:** Always ask: *Could this variable have been recorded before the event I am predicting?*
+
+## Example 3: Cross-Validation Stability
+
+Running the same decision tree model with 10 different random seeds produced accuracies ranging from **71% to 83%**. Using 5-fold cross-validation with `caret` gave a more stable estimate of **~76%**.
+
+## Example 4: Imbalanced Titanic Data
+
+After artificially reducing the dataset to only 7.5% survivors:
+
+| Approach | Accuracy | Recall (survivors found) |
+|---|---|---|
+| Default decision tree | 93% | 20% (1 of 5) |
+| Lower threshold (0.9) | 75% | 60% (3 of 5) |
+| Loss matrix (FN penalty ×5) | 80% | 40% (2 of 5) |
+| Upsample minority class | 80% | 60% (3 of 5) |
+
+---
+
+# Summary Points
+
+- **GBMs** build trees sequentially, where each tree corrects the errors of the previous one. They are very powerful but slow, hard to interpret, and benefit from hyperparameter tuning.
+
+- **Data leakage** occurs when a model uses information that would not be available at prediction time. Warning signs include: suspiciously high accuracy, a single very dominant feature, or a feature that logically should not exist before the target event.
+
+- Always calculate feature engineering statistics (like mean imputation) **only on the training set**, then apply them to both train and test sets.
+
+- The number `42` in `set.seed(42)` has no special meaning — it just ensures your results are reproducible. Any fixed integer works.
+
+- **Cross-validation** (especially k-fold) gives a more reliable estimate of model accuracy than a single train/test split, particularly for small datasets.
+
+- **Imbalanced data** is the norm in real-world problems (fraud, disease, churn). A model with 99% accuracy on imbalanced data may be completely useless for finding the rare class.
+
+- To improve recall on the rare class: (1) lower the prediction threshold, (2) use a loss/penalty matrix, or (3) upsample/downsample the training data. **SMOTE** is an advanced technique that creates synthetic minority-class samples.
+
+- **R Shiny** lets you build interactive web apps in R with no HTML/CSS/JavaScript knowledge needed. It is useful for exploring data, creating demos, and sharing analyses with non-technical stakeholders.
+
+---
+
+::: {.callout-note}
+## Packages Used This Week
+
+```r
+if (!require("titanic"))
+  devtools::install_github("paulhendricks/titanic")
+
+library(titanic)      # Titanic dataset
+library(rpart)        # Decision trees
+library(rpart.plot)   # Visualise decision trees
+library(caret)        # Cross-validation and one-hot encoding (dummyVars)
+library(tm)           # Text mining (bag-of-words)
+library(lightgbm)     # Gradient Boosted Machines
+```
+:::
+
+---
+
+*End of Week 6 notes — reviewed and ready for annotation.*

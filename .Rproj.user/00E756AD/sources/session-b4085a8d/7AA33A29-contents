@@ -27,6 +27,10 @@ website:
                 file: data-mining/week-4.qmd
               - text: "Week 5"
                 file: data-mining/week-5.qmd
+              - text: "Week 6"
+                file: data-mining/week-6.qmd
+              - text: "Week 7"
+                file: data-mining/week-7.qmd
               - text: "Week 8"
                 file: data-mining/week-8.qmd
 
@@ -45,7 +49,13 @@ website:
                 file: regression-analysis/week-4.qmd
               - text: "Week 5"
                 file: regression-analysis/week-5.qmd
-              - text: "Week 9"
+              - text: "Week 6 - empty"
+                file: regression-analysis/week-6.qmd
+              - text: "Week 7 - empty"
+                file: regression-analysis/week-7.qmd
+              - text: "Week 8 - empty"
+                file: regression-analysis/week-8.qmd
+              - text: "Week 9 - empty"
                 file: regression-analysis/week-9.qmd
 
       - section: "Time Series"
@@ -53,10 +63,22 @@ website:
             file: time-series/index.qmd
             section: "Weekly Notes"
             contents:
-              - text: "Week 1"
+              - text: "Week 1 - empty"
                 file: time-series/week-1.qmd
-              - text: "Week 2"
+              - text: "Week 2 - empty"
                 file: time-series/week-2.qmd
+              - text: "Week 3 - empty"
+                file: time-series/week-3.qmd
+              - text: "Week 4 - empty"
+                file: time-series/week-4.qmd
+              - text: "Week 5 - empty"
+                file: time-series/week-5.qmd
+              - text: "Week 6 - empty"
+                file: time-series/week-6.qmd
+              - text: "Week 7 - empty"
+                file: time-series/week-7.qmd
+              - text: "Week 8 - empty"
+                file: time-series/week-8.qmd
 format:
   html:
     theme: cosmo

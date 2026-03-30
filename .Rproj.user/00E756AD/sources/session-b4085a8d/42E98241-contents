@@ -1,0 +1,118 @@
+---
+title: "STAT9004 – Week 4: Fundamentals of Experimental Design"
+author: ""
+format: html
+---
+
+# Week 4: Fundamentals of Experimental Design
+
+## Key Topics
+
+- Experimental studies vs. observational studies
+- Extraneous and confounding variables
+- Spurious correlation
+- Association vs. causation
+- Types of measures of association (Pearson's, Spearman's, Chi-square, Odds Ratio)
+- Principles of good experimental design: randomisation, blocking, replication
+- Completely randomised design vs. randomised block design
+- Single, double, and triple blind experiments
+- Introduction to ANOVA (one-way and two-way)
+- Factors, levels, treatments, and factorial design
+
+---
+
+## Core Explanation
+
+### Experimental vs. Observational Studies
+
+A key distinction in statistics is between **experimental** and **observational** studies. In an **experimental study**, the researcher actively intervenes — setting up conditions, assigning subjects to groups, and controlling variables. In an **observational study**, the researcher simply observes what already exists without interfering. Most social science studies are observational for ethical reasons.
+
+The critical advantage of experiments is that they allow **randomisation**, which reduces bias and helps establish **causation** rather than just correlation.
+
+### Association Is Not Causation
+
+Just because two variables move together does not mean one causes the other. There are several types of association:
+
+- **Causal association**: One variable directly causes the other (e.g., sugar consumption → tooth decay — but not exclusively).
+- **Non-causal association**: A third variable explains the relationship.
+- **Chance association**: The association arose by random variation.
+
+### Extraneous and Confounding Variables
+
+An **extraneous variable** is any variable, other than the independent variable of interest, that may affect the result. When an extraneous variable is uncontrolled and intertwined with the independent variable, it becomes a **confounding variable**.
+
+**Example**: Studying the effect of alcohol on HDL cholesterol — age is a confounding variable because it independently affects cholesterol and cannot easily be separated from alcohol's effect.
+
+### Spurious Correlation
+
+A **spurious correlation** occurs when two variables appear associated but share no logical causal link. The classic example: ice cream sales and drowning rates both increase in summer — but the real driver is warm weather.
+
+### Key Principles of Experimental Design
+
+Three principles increase the efficiency of an experiment:
+
+1. **Randomisation**: Every subject has an equal chance of being assigned to any treatment group. This eliminates selection bias and averages out extraneous variables.
+2. **Blocking**: Experimental units are first divided into homogeneous groups (blocks) before being randomly assigned. This is analogous to stratified random sampling.
+3. **Replication**: Repeating the experiment under the same conditions allows estimation of experimental error and gives precision to results.
+
+### Blinding
+
+- **Single blind**: Participants don't know their treatment group.
+- **Double blind**: Neither participants nor the researcher knows.
+- **Triple blind**: Participants, researchers, and analysts are all unaware — removing bias throughout the entire process.
+
+### ANOVA Overview
+
+**ANOVA (Analysis of Variance)** extends the t-test to compare **more than two group means**. It tells you *whether* differences exist, but not *where* — a post-hoc test (like Tukey's) is needed for that.
+
+- **One-way ANOVA**: One independent variable (factor), one dependent variable.
+- **Two-way ANOVA**: Two independent variables, one dependent variable. Examines both main effects and their interaction.
+
+Key ANOVA terminology:
+
+| Term | Meaning |
+|---|---|
+| **Factor** | A controlled explanatory (independent) variable |
+| **Level** | The different values a factor can take |
+| **Treatment** | A specific combination of factor levels |
+| **Experimental unit** | The subject receiving the treatment |
+| **Response variable** | The outcome variable being measured |
+
+---
+
+## Key Equations/Formulas
+
+```
+ANOVA Decomposition:
+Total Variation = Explained Variation (between groups) + Unexplained Variation (within groups)
+
+F statistic = Mean Square (Factor) / Mean Square (Error)
+```
+
+---
+
+## Practical Examples
+
+- **Drug trial**: 6 groups of patients given 3 drugs × with/without Vitamin C. Factors = drug type (3 levels) + Vitamin C (2 levels). Total treatments = 6. This is a **factorial design** → use two-way ANOVA.
+- **Osteoporosis experiment**: Giving the drug to men only and placebo to women is flawed — gender is an uncontrolled extraneous variable. Solution: use a randomised block design splitting by gender first.
+
+---
+
+## Summary Points
+
+- Observational studies cannot establish causation — only experimental studies with randomisation can.
+- Confounding variables are extraneous variables that cannot be separated from the independent variable.
+- Spurious correlations arise by coincidence or a hidden third variable.
+- The three pillars of experimental design are: **randomisation**, **blocking**, and **replication**.
+- ANOVA tests whether group means are equal; post-hoc tests reveal where the differences are.
+- A **factorial design** requires all combinations of treatment levels and is needed for two-way ANOVA.
+
+---
+
+## 📝 Annotations & Notes
+
+> *Space for your own notes and additions here.*
+
+---
+
+

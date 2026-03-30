@@ -1,0 +1,172 @@
+---
+title: "STAT9004 – Week 5: Power Analysis & Missing Data"
+author: ""
+format: html
+---
+
+# Week 5: Power Analysis, Sample Size & Missing Data
+
+## Key Topics
+
+- Power of a hypothesis test: definition (1 − β)
+- Type I and Type II errors revisited
+- The four related quantities: sample size, effect size, significance level, power
+- Minimum effect size (practical vs. statistical significance)
+- Calculating the power of a Z-test step by step
+- Rescaling the critical value to the original scale
+- Finding the minimum sample size from the margin of error formula
+- Missing data: visualisation and patterns
+- Handling missing data in R: `na.omit`, `complete.cases`, `na.rm`
+- Imputation using `irmi()` (VIM package) and `mice()` package
+
+---
+
+## Core Explanation
+
+### Statistical Power
+
+The **power** of a hypothesis test is:
+
+$$\text{Power} = 1 - \beta = P(\text{reject } H_0 \mid H_0 \text{ is false})$$
+
+In plain language: **the probability of correctly detecting a real effect**.
+
+A high power means you are unlikely to miss an effect that truly exists.
+
+### The Four Related Quantities
+
+Power, sample size, effect size, and significance level (α) are all interconnected. If you know any three, you can find the fourth:
+
+| Quantity | Symbol | Meaning |
+|---|---|---|
+| Sample size | n | How many observations |
+| Effect size | δ | How big the true difference is |
+| Significance level | α | Probability of Type I error (preset, usually 5%) |
+| Power | 1−β | Probability of correctly rejecting H₀ |
+
+> **Key insight**: In reality, we rarely know the true effect size, so we define a **minimum effect size** — the smallest difference that is practically meaningful — and use that to calculate power or required sample size.
+
+### Calculating Power (Z-test example)
+
+**Step 1**: Find the minimum critical value on the original (X̄) scale:
+
+$$\bar{X}^* = \mu_0 + z_\alpha \cdot \frac{\sigma}{\sqrt{n}}$$
+
+where z_α = 1.645 for a one-tailed test at 5%.
+
+**Step 2**: Under the alternative hypothesis (true mean = μ₁), calculate the Z-score corresponding to X̄*:
+
+$$Z = \frac{\bar{X}^* - \mu_1}{\sigma/\sqrt{n}}$$
+
+**Step 3**: β = P(X̄ < X̄* | μ = μ₁) = Φ(Z). Power = 1 − β.
+
+### Clinical vs. Statistical Significance
+
+A result can be **statistically significant** but **not practically significant** (especially in large samples where even tiny differences become "significant"). A result can also be practically meaningful but not statistically detectable if the sample size is too small.
+
+Paula referenced a paper on Canvas distinguishing these. The minimum effect size is chosen based on **practical or clinical significance**, not statistical thresholds.
+
+### Minimum Sample Size from Margin of Error
+
+For a 95% two-sided confidence interval:
+
+$$ME = z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}}$$
+
+Solving for n:
+
+$$n = \left(\frac{z_{\alpha/2} \cdot \sigma}{ME}\right)^2$$
+
+**Always round up** — you cannot sample a fraction of a person.
+
+When σ is unknown, use a t-distribution and an estimated standard deviation from a previous study.
+
+### One-tailed vs. Two-tailed Tests and Power
+
+For the same effect size, sample size, and α: **a one-tailed test is more powerful than a two-tailed test**. Demonstrated in class: switching from H₁: μ ≠ 160 to H₁: μ > 160 increased power from 76% to 85%.
+
+---
+
+## Missing Data
+
+### Why It Matters
+
+Linear models in R run on **complete cases only** by default. If 20 out of 62 observations have missing values, you effectively lose a large portion of your data — which can bias results or reduce power.
+
+### Visualising Missing Data (VIM package in R)
+
+```r
+library(VIM)
+aggr(data)              # Bar chart of missing values per variable
+barMiss(data[, c("sleep", "exposure")])  # Missing by category
+histMiss(data[, c("sleep", "span")])     # Histogram with missingness
+marginplot(data[, c("sleep", "span")])   # Scatterplot with marginal boxplots
+```
+
+- **Red** in plots = values that are missing.
+- **Blue** = values that are present.
+- The red boxplot shows the distribution of Y when X is missing (and vice versa).
+
+### Handling Missing Data
+
+| Method | When to use |
+|---|---|
+| `na.omit()` / `complete.cases()` | Few missing values, no pattern, data is MCAR |
+| `irmi()` (VIM) | Continuous variables, iterative regression imputation |
+| `mice()` | Multiple imputation using predictive mean matching (PMM); assumes MAR |
+
+**IRMI** (Iterative Robust Model-Based Imputation): Each variable takes a turn as the response; the remaining variables predict its missing values. Repeats until all variables have been imputed.
+
+**MICE** (Multiple Imputation by Chained Equations): Creates **m = 5** (default) imputed datasets, fits the model on each, and **pools** the results. The pooled standard error is always **larger** than for individual datasets because it accounts for imputation uncertainty.
+
+> When to delete vs. impute: If missing data is **Missing Completely At Random (MCAR)** and there are very few missing values, deletion is acceptable. If there is a pattern (MNAR or MAR), imputation is preferred.
+
+---
+
+## Key Equations/Formulas
+
+```
+Power of a Z-test:
+  Step 1:  X̄* = μ₀ + z_α × (σ/√n)
+  Step 2:  Z  = (X̄* − μ₁) / (σ/√n)
+  Step 3:  β  = Φ(Z)
+  Step 4:  Power = 1 − β
+
+Sample size from margin of error:
+  n = (z_{α/2} × σ / ME)²   → always round UP
+
+In R (PWR package):
+  pwr.t.test(n = 30, d = effect_size, sig.level = 0.05, alternative = "greater")
+  # d = (μ₁ − μ₀) / σ
+```
+
+---
+
+## Practical Examples
+
+**Caustic material example** (from class): H₀: μ = 4, H₁: μ > 4, σ = 1.3, n = 30.
+- Minimum detectable difference = 0.35 → power = **43.25%** (too low; large chance of Type II error).
+- With difference = 0.1 → even lower power; need a much larger sample.
+
+**Resistor voltage example**: σ = 22.5, ME = 5, 95% CI. n = (1.96 × 22.5 / 5)² = 77.8 → **round up to 78**.
+
+---
+
+## Summary Points
+
+- Power = P(correctly reject H₀) = 1 − β. Low power means a high risk of missing a real effect.
+- The minimum effect size is chosen based on **practical significance**, not statistics.
+- For given α and effect size: more n → more power; one-tailed > two-tailed in power.
+- Sample size formula comes from rearranging the confidence interval margin of error formula.
+- Always round sample size **up**.
+- Missing data: visualise first, then decide between deletion and imputation based on the pattern and amount of missingness.
+- MICE uses multiple imputation — pooled results have higher standard errors to reflect imputation uncertainty.
+
+---
+
+## 📝 Annotations & Notes
+
+> *Space for your own notes and additions here.*
+
+---
+
+

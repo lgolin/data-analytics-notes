@@ -1,0 +1,126 @@
+---
+title: "STAT9004 – Week 6: Two-Way ANOVA"
+author: ""
+format: html
+---
+
+# Week 6: Two-Way ANOVA
+
+## Key Topics
+
+- Recap of one-way ANOVA and extension to two-way ANOVA
+- Main effects vs. interaction effects
+- Hypotheses for two-way ANOVA (three sets)
+- Factorial design and the effects model
+- Interaction plots — interpretation of parallel vs. crossing lines
+- ANOVA table for two-way: sum of squares, degrees of freedom, mean squares, F-ratio
+- Simple effects and post-hoc analysis (Tukey's test)
+- Pairwise comparisons
+- Effect size: partial eta squared
+- One-way ANOVA in R (review): model fitting, Tukey's test, model validation
+
+---
+
+## Core Explanation
+
+### From One-Way to Two-Way ANOVA
+
+**One-way ANOVA** has a single independent (categorical) variable. **Two-way ANOVA** has two independent categorical variables, allowing us to simultaneously study both their individual effects (**main effects**) and how they affect each other (**interaction effect**).
+
+### Main Effects vs. Interaction Effects
+
+- **Main effect**: The effect of one factor on the response variable, ignoring the other factor.
+- **Interaction effect**: Whether the effect of one factor *depends on the level of another factor*. This is the most important result to look at first.
+
+> **Rule**: Always check the interaction effect first. If it is significant, the main effects cannot be interpreted independently.
+
+If the interaction is significant, you then examine **simple effects** — the effect of one factor at each fixed level of the other.
+
+### Hypotheses in Two-Way ANOVA
+
+Two-way ANOVA tests three null hypotheses:
+
+1. **H₀ (Factor A)**: All population means for factor A are equal.
+2. **H₀ (Factor B)**: All population means for factor B are equal.
+3. **H₀ (Interaction)**: There is no interaction between factors A and B.
+
+For a three-way ANOVA, there are **7 hypotheses** total (3 main effects + 3 pairwise interactions + 1 three-way interaction).
+
+### Factorial Design
+
+A **full factorial design** means every possible combination of factor levels is included in the experiment with at least one replicate. If factor A has *a* levels and factor B has *b* levels, there are *a × b* treatment combinations.
+
+### Interaction Plot
+
+An **interaction plot** shows the group means for all combinations of factor levels. It is the key visual tool for detecting interactions:
+
+- **Parallel lines** → no interaction (the effect of one factor is consistent across levels of the other).
+- **Non-parallel or crossing lines** → interaction present.
+
+### The ANOVA Table (Two-Way)
+
+| Source | SS | df | MS | F |
+|---|---|---|---|---|
+| Factor A | SS_A | a−1 | SS_A / (a−1) | MS_A / MS_E |
+| Factor B | SS_B | b−1 | SS_B / (b−1) | MS_B / MS_E |
+| Interaction A×B | SS_AB | (a−1)(b−1) | SS_AB / df_AB | MS_AB / MS_E |
+| Error | SS_E | ab(r−1) | SS_E / df_E | |
+| Total | SS_T | abr−1 | | |
+
+### Post-Hoc Analysis: Tukey's Test
+
+If any effect is significant, use **Tukey's test** for pairwise comparisons to identify which specific groups differ. A confidence interval that does not include zero indicates a significant pairwise difference.
+
+### Effect Size: Partial Eta Squared
+
+**Partial η²** measures how much of the total variance (excluding variance from other factors) is explained by the factor of interest:
+
+$$\eta^2_{\text{partial}} = \frac{SS_{\text{factor}}}{SS_{\text{factor}} + SS_{\text{error}}}$$
+
+Interpretation is analogous to R² in regression.
+
+---
+
+## Key Equations/Formulas
+
+```
+Effects model (two-way with replication):
+y_ijk = μ + αᵢ + βⱼ + (αβ)ᵢⱼ + ε_ijk
+
+where:
+  μ       = overall population mean
+  αᵢ      = effect of factor A at level i
+  βⱼ      = effect of factor B at level j
+  (αβ)ᵢⱼ  = interaction effect
+  ε_ijk   = residual error (k = replicate index)
+
+Partial eta squared:
+η² = SS_factor / (SS_factor + SS_error)
+```
+
+---
+
+## Practical Examples
+
+**pH and catalyst concentration on viscosity**: Factor A = pH (2 levels: 5.6, 5.9), Factor B = catalyst concentration (2 levels: 2.5, 2.7), 3 replicates → 12 observations. The interaction was significant (p = 0.03), meaning the effect of catalyst concentration on viscosity depends on the pH level. The main effects were not significant individually, but the interaction drove the result — exactly why interaction must be checked first.
+
+---
+
+## Summary Points
+
+- Two-way ANOVA tests main effects and interaction simultaneously.
+- **Always interpret the interaction effect first** — if significant, main effects alone are misleading.
+- Interaction plots visualise whether effects are parallel (no interaction) or crossing (interaction).
+- Tukey's test is used for post-hoc pairwise comparison.
+- Partial η² is the two-way ANOVA equivalent of R².
+- The number of null hypotheses grows quickly: 3-way ANOVA has **7** hypotheses.
+
+---
+
+## 📝 Annotations & Notes
+
+> *Space for your own notes and additions here.*
+
+---
+
+

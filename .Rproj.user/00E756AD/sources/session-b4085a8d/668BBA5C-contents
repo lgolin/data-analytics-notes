@@ -1,0 +1,180 @@
+---
+title: "STAT9004 – Week 9: Multiple Linear Regression, ANCOVA & Influential Observations"
+author: ""
+format: html
+---
+
+# Week 9: Multiple Linear Regression, ANCOVA & Influential Observations
+
+## Key Topics
+
+- Multiple linear regression (MLR): model, assumptions, matrix notation
+- Interpreting MLR coefficients ("holding all other variables constant")
+- Prediction in MLR
+- ANCOVA: combining continuous and categorical predictors
+  - Separate regression lines (with interaction term)
+  - Parallel regression lines (without interaction term)
+  - Testing for parallel vs. coinciding lines
+- Leverage: definition, formula, high leverage rule of thumb
+- Outliers vs. influential observations
+- Standardised residuals
+- Cook's Distance: measuring influence
+- Leverage vs. residuals — both needed for high influence
+- Model generalisation: cross-validation and bootstrapping
+
+---
+
+## Core Explanation
+
+### Multiple Linear Regression
+
+$$y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \beta_k x_{ki} + \varepsilon_i$$
+
+**Key interpretation rule**: Each βⱼ represents the **expected change in Y per one-unit increase in Xⱼ**, while **all other explanatory variables are held constant**. Paula emphasised this is critical to state correctly in an exam.
+
+### ANCOVA: Including a Categorical Variable
+
+When we add a binary dummy variable Z (e.g., livestock present/absent) to a regression model, we can fit:
+
+**Model with interaction** (separate regression lines):
+$$Y = \beta_0 + \beta_1 X + \beta_2 Z + \beta_3 XZ + \varepsilon$$
+
+This gives **different slopes and intercepts** for each group:
+- When Z = 0: $\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$
+- When Z = 1: $\hat{Y} = (\hat{\beta}_0 + \hat{\beta}_2) + (\hat{\beta}_1 + \hat{\beta}_3) X$
+
+**Model without interaction** (parallel regression lines):
+$$Y = \beta_0 + \beta_1 X + \beta_2 Z + \varepsilon$$
+
+This gives **same slope, different intercepts**:
+- When Z = 0: $\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$
+- When Z = 1: $\hat{Y} = (\hat{\beta}_0 + \hat{\beta}_2) + \hat{\beta}_1 X$
+
+### Testing: Parallel vs. Coinciding Lines
+
+Use a **model comparison ANOVA** (`anova(model_interaction, model_parallel)`):
+
+- **H₀**: The interaction term β₃ = 0 (lines are parallel).
+- **H₁**: β₃ ≠ 0 (lines are not parallel — different slopes).
+
+If the interaction is also not needed (β₂ = 0), the lines **coincide** — one model fits both groups.
+
+Second comparison (`anova(model_parallel, model_simple)`):
+- **H₀**: β₂ = 0 (lines coincide — one line for both groups).
+- **H₁**: β₂ ≠ 0 (parallel but distinct lines).
+
+### Leverage
+
+**Leverage** (hᵢᵢ) measures how far an observation's X values are from the mean of X. It reflects the *potential* for an observation to influence the fitted model.
+
+- High leverage: $h_{ii} > 2(k+1)/n$ where k = number of predictors, n = sample size.
+- An observation with high leverage **may or may not actually influence the model** — it depends on its residual.
+
+### Outliers
+
+An **outlier** has an unusually large residual — the observed Y is far from the fitted Ŷ. We use **standardised residuals** to detect them (|standardised residual| > 2 or 3 is suspect).
+
+### Cook's Distance: Measuring Influence
+
+**Influence** combines leverage and outlier status. An observation is **highly influential** if it is *both* a high-leverage point *and* an outlier.
+
+**Cook's Distance** (Dᵢ) measures how much the fitted values change when observation i is deleted:
+
+$$D_i = \frac{\sum_{j=1}^{n} (\hat{y}_j - \hat{y}_{j(i)})^2}{(k+1) \hat{\sigma}^2}$$
+
+Rule of thumb: **Dᵢ > 1** indicates high influence.
+
+Low leverage + small residual → small influence.
+High leverage + large residual → highly influential.
+
+### Cross-Validation
+
+To assess whether a model **generalises** to new data (not just fits the sample):
+
+- Randomly partition data into K folds.
+- Fit model on K−1 folds, validate on the held-out fold.
+- Repeat K times; average the performance metric.
+
+This guards against overfitting.
+
+---
+
+## Key Equations/Formulas
+
+```
+Leverage:
+  h_ii = 1/n + (xᵢ - x̄)² / Σ(xⱼ - x̄)²
+  High leverage if: h_ii > 2(k+1)/n
+
+Standardised residual:
+  rᵢ = eᵢ / (s√(1 - hᵢᵢ))
+  Outlier suspect if: |rᵢ| > 2
+
+Cook's Distance:
+  Dᵢ = rᵢ² × hᵢᵢ / ((k+1)(1 - hᵢᵢ))
+  Influential if: Dᵢ > 1
+```
+
+---
+
+## Practical Examples
+
+From **Exam 19, Q2** (agricultural intensity ~ population + livestock):
+
+**Figure 2 output** (interaction model):
+- `population` β₁ = 0.006552: For each one-unit increase in population, intensity increases by 0.006552, **with livestock absent**.
+- `population:livestock1` = 0.007570: The **additional** slope for livestock present vs. absent.
+
+**Separate regression lines**:
+- Livestock absent (Z=0): $\hat{\text{intensity}} = 2.577 + 0.00655 \times \text{population}$
+- Livestock present (Z=1): $\hat{\text{intensity}} = (2.577 - 0.337) + (0.00655 + 0.00757) \times \text{population}$
+  → $= 2.240 + 0.01412 \times \text{population}$
+
+**Prediction at population = 50, livestock present**:
+$\hat{\text{intensity}} = 2.240 + 0.01412 \times 50 = 2.946$
+
+**Figure 7** (diagnostic plots): Observation 27 has the highest leverage AND a large Cook's Distance, making it the most influential observation.
+
+---
+
+## Summary Points
+
+- In MLR, each coefficient is interpreted while holding all other predictors constant — always state this.
+- ANCOVA includes both continuous and categorical predictors; interaction terms allow different slopes per group.
+- Testing for parallel lines uses an ANOVA model comparison (F-test on the interaction term).
+- Leverage measures potential influence; Cook's Distance measures actual influence.
+- **High influence = high leverage AND large residual** — one alone is not sufficient.
+- Cook's Distance > 1 is the standard threshold for concern.
+- Cross-validation assesses generalisability of the fitted model.
+
+---
+
+::: {.callout-important}
+## 🎯 Likely Exam Questions
+
+This is one of the highest-yield weeks for the exam. Q2 of Exam 19 maps almost perfectly to this material. Expect the following:
+
+1. **Interpret β₁ in an ANCOVA interaction model** (Exam 19, Q2a style): "Write down and interpret the estimate for β₁." Remember to specify *which group* this applies to (e.g., "the slope for livestock absent"). This is subtler than simple regression.
+
+2. **Write separate regression equations for each group** (Exam 19, Q2b): Given R output with `population`, `livestock1`, and `population:livestock1` terms, write the two separate fitted equations. Show your working — substitute the coefficients for each value of Z.
+
+3. **Predict the response for given values** (Exam 19, Q2c): Substitute population and livestock = 1 into the relevant fitted equation.
+
+4. **Write the parallel regression lines model** (Exam 19, Q2d): Given the output from the model *without* the interaction term, write the two parallel lines (same slope, different intercepts).
+
+5. **Test whether lines are parallel or coincide** (Exam 19, Q2e): Use the ANOVA comparison output (Figure 4 and Figure 6 in Exam 19). State H₀ and H₁ clearly, read the F-statistic and p-value, and draw a conclusion about whether the interaction term or the livestock term is needed.
+
+6. **What is high influence? What factors determine it?** (Exam 19, Q2f): Define influence, explain that it requires *both* high leverage and a large residual (outlier). Mention Cook's Distance.
+
+7. **Identify the most influential observation from a diagnostic plot** (Exam 19, Q2g): From a residuals vs. leverage plot, identify the observation with the largest Cook's Distance. Explain why: it sits outside the Cook's Distance contour lines due to high leverage AND large standardised residual.
+:::
+
+---
+
+## 📝 Annotations & Notes
+
+> *Space for your own notes and additions here.*
+
+---
+
+

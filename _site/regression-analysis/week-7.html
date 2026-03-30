@@ -496,9 +496,9 @@ With 6 cities (from the New Car Interest Rate dataset), there are <strong>15</st
 <p>Post-hoc (after-the-fact) tests are designed to run all pairwise comparisons while <em>controlling</em> the FWER at the chosen α level. They are more <strong>conservative</strong> than plain t-tests.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 38%">
-<col style="width: 38%">
+<col style="width: 25%">
+<col style="width: 37%">
+<col style="width: 37%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -665,8 +665,8 @@ With 3 replicates → <strong>12 total viscosity measurements</strong>.</p>
 <p>An <strong>interaction plot</strong> graphs the mean response for each combination of factor levels. It is the clearest way to visually assess whether an interaction exists.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 59%">
-<col style="width: 40%">
+<col style="width: 54%">
+<col style="width: 45%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -696,6 +696,13 @@ With 3 replicates → <strong>12 total viscosity measurements</strong>.</p>
 <p><span class="math display">\[SS_{Total} = SS_A + SS_B + SS_{AB} + SS_{Error}\]</span></p>
 <p>The <strong>ANOVA table</strong> for two-way:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 16%">
+<col style="width: 20%">
+<col style="width: 17%">
+<col style="width: 20%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Source</th>
@@ -945,6 +952,28 @@ With 3 replicates → <strong>12 total viscosity measurements</strong>.</p>
 <li><label><input type="checkbox">Complete Worksheet 4, Part 2 (New Car Interest Rate): fill in the full comparison table.</label></li>
 </ul>
 <hr>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>🎯 Likely Exam Questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Based on lecturer emphasis and the diagnostic plots discussion in Week 7 and the exam paper (Exam 19, Q2), the following are highly likely:</p>
+<ol type="1">
+<li><p><strong>Interpret diagnostic plots</strong>: Given the four standard diagnostic plots (residuals vs.&nbsp;fitted, Q-Q, scale-location, residuals vs.&nbsp;leverage), identify issues and explain what each one is checking. Paula said <em>“they’re likely to come up in the exam”</em> and specifically named Cook’s Distance, scale-location, and QQ plots.</p></li>
+<li><p><strong>Identify and interpret influential observations</strong>: From a residuals vs.&nbsp;leverage or Cook’s Distance plot, identify the most influential observation (e.g., observation 27 in Exam 19 Q2g). Explain what makes it influential: high leverage AND large residual.</p></li>
+<li><p><strong>Interpret the ANOVA coefficients table</strong>: Given R output from <code>summary.lm(aov(...))</code>, explain what the intercept and each coefficient represent, including which is the reference group.</p></li>
+<li><p><strong>Test for homogeneity of variance</strong>: State the hypotheses for Levene’s test, interpret the p-value, and state implications for whether ANOVA can proceed.</p></li>
+<li><p><strong>State and test assumptions of ANOVA</strong>: List all four assumptions and describe how you would check each one (Levene’s test for variance, QQ plot for normality, etc.).</p></li>
+<li><p><strong>Conduct and interpret Tukey’s post-hoc test</strong>: Given output from <code>TukeyHSD()</code>, identify which groups differ significantly based on p-values and confidence intervals.</p></li>
+<li><p><strong>Calculate eta squared by hand</strong>: Given the ANOVA table values, compute η² = SS_factor / SS_total and interpret the result.</p></li>
+</ol>
+</div>
+</div>
 <p><em>End of Week 7 Study Guide</em></p>
 
 
@@ -1421,330 +1450,349 @@ With 3 replicates → <strong>12 total viscosity measurements</strong>.</p>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Research Analysis / Applied Statistics"</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ============================================================</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">     STUDY GUIDE — WEEK 7</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">     Topics: Multiple Comparisons, Two-Way ANOVA, Factorial Design</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">     Source: Lecture transcript + Worksheet 4</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">     ============================================================ --&gt;</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!-- ============================================================</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="in">     STUDY GUIDE — WEEK 7</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="in">     Topics: Multiple Comparisons, Two-Way ANOVA, Factorial Design</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="in">     Source: Lecture transcript + Worksheet 4</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="in">     ============================================================ --&gt;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>This week covered two main areas:</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multiple Comparisons** — how to fairly compare more than two group means after a significant ANOVA result</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Two-Way ANOVA** — extending one-way ANOVA to handle *two* independent variables simultaneously, including their **interaction effect**</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Factorial Design** — the correct experimental design when testing for interactions</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Effect Size** — measuring how much of the variance is explained by each factor (partial η²)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Model Validation in R** — checking ANOVA assumptions with diagnostic plots</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Lab Practice** — running one-way ANOVA by hand in Excel and in R, including post-hoc tests</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>This week covered two main areas:</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Multiple Comparisons** — how to fairly compare more than two group means after a significant ANOVA result</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Two-Way ANOVA** — extending one-way ANOVA to handle *two* independent variables simultaneously, including their **interaction effect**</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Factorial Design** — the correct experimental design when testing for interactions</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Effect Size** — measuring how much of the variance is explained by each factor (partial η²)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Model Validation in R** — checking ANOVA assumptions with diagnostic plots</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Lab Practice** — running one-way ANOVA by hand in Excel and in R, including post-hoc tests</span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanations</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Multiple Comparisons Problem</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanations</span></span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>When ANOVA tells us that *at least one* group mean is different, it does **not** tell us *which* groups differ. A natural first instinct is to run separate t-tests for every pair of groups — but this creates a serious problem.</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Multiple Comparisons Problem</span></span>
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>Every individual test carries a risk (α, usually 5%) of a **Type I error** (falsely concluding there is a difference). When you run many tests on the same data, those error risks stack up. This inflated overall error rate is called the **Family-Wise Error Rate (FWER)**.</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>When ANOVA tells us that *at least one* group mean is different, it does **not** tell us *which* groups differ. A natural first instinct is to run separate t-tests for every pair of groups — but this creates a serious problem.</span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Example:** Testing 3 soil types (Sand, Clay, Loam) means 3 pairwise comparisons.</span>  </span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; With 6 cities (from the New Car Interest Rate dataset), there are **15** pairwise comparisons — the chance of at least one false positive becomes very large.</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="fu">### Post-Hoc Tests</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>Every individual test carries a risk (α, usually 5%) of a **Type I error** (falsely concluding there is a difference). When you run many tests on the same data, those error risks stack up. This inflated overall error rate is called the **Family-Wise Error Rate (FWER)**.</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Example:** Testing 3 soil types (Sand, Clay, Loam) means 3 pairwise comparisons.\</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; With 6 cities (from the New Car Interest Rate dataset), there are **15** pairwise comparisons — the chance of at least one false positive becomes very large.</span></span>
 <span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>Post-hoc (after-the-fact) tests are designed to run all pairwise comparisons while *controlling* the FWER at the chosen α level. They are more **conservative** than plain t-tests.</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="fu">### Post-Hoc Tests</span></span>
 <span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Method <span class="pp">|</span> How it works <span class="pp">|</span> When to use <span class="pp">|</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|-------------|-------------|</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Tukey's HSD** (Honest Significant Difference) <span class="pp">|</span> Controls FWER by adjusting critical values <span class="pp">|</span> Most common; good general choice <span class="pp">|</span></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Bonferroni** <span class="pp">|</span> Divides α by the number of comparisons <span class="pp">|</span> Simple; conservative with many comparisons <span class="pp">|</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Separate t-tests <span class="pp">|</span> No adjustment <span class="pp">|</span> **Avoid** — inflated Type I error <span class="pp">|</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="fu">### Worksheet 4 Results (Soil Yield Data)</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>Post-hoc (after-the-fact) tests are designed to run all pairwise comparisons while *controlling* the FWER at the chosen α level. They are more **conservative** than plain t-tests.</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Method <span class="pp">|</span> How it works <span class="pp">|</span> When to use <span class="pp">|</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------|---------------------------|---------------------------|</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Tukey's HSD** (Honest Significant Difference) <span class="pp">|</span> Controls FWER by adjusting critical values <span class="pp">|</span> Most common; good general choice <span class="pp">|</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Bonferroni** <span class="pp">|</span> Divides α by the number of comparisons <span class="pp">|</span> Simple; conservative with many comparisons <span class="pp">|</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Separate t-tests <span class="pp">|</span> No adjustment <span class="pp">|</span> **Avoid** — inflated Type I error <span class="pp">|</span></span>
 <span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Comparison <span class="pp">|</span> Separate t-tests <span class="pp">|</span> Tukey's HSD <span class="pp">|</span> Bonferroni <span class="pp">|</span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------|-----------------|-------------|------------|</span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Loam – Clay <span class="pp">|</span> 0.081 <span class="pp">|</span> 0.179 <span class="pp">|</span> 0.234 <span class="pp">|</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Loam – Sand** | **0.006** | **0.020** | **0.023** <span class="pp">|</span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Clay – Sand <span class="pp">|</span> 0.351 <span class="pp">|</span> 0.555 <span class="pp">|</span> 0.914 <span class="pp">|</span></span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Key takeaway:** Only the Loam vs. Sand comparison is statistically significant.</span>  </span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Notice how the adjusted p-values (Tukey, Bonferroni) are *larger* than the raw t-test p-values — this is the conservative adjustment at work.</span></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="fu">### Worksheet 4 Results (Soil Yield Data)</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Comparison      <span class="pp">|</span> Separate t-tests <span class="pp">|</span> Tukey's HSD <span class="pp">|</span> Bonferroni <span class="pp">|</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------------|------------------|-------------|------------|</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Loam – Clay     <span class="pp">|</span> 0.081            <span class="pp">|</span> 0.179       <span class="pp">|</span> 0.234      <span class="pp">|</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Loam – Sand** | **0.006**        | **0.020**   | **0.023**  <span class="pp">|</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Clay – Sand     <span class="pp">|</span> 0.351            <span class="pp">|</span> 0.555       <span class="pp">|</span> 0.914      <span class="pp">|</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Key takeaway:** Only the Loam vs. Sand comparison is statistically significant.\</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Notice how the adjusted p-values (Tukey, Bonferroni) are *larger* than the raw t-test p-values — this is the conservative adjustment at work.</span></span>
 <span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Two-Way ANOVA</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="fu">### What is it?</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="fu">## Two-Way ANOVA</span></span>
 <span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>**One-way ANOVA** tested one independent variable (e.g., soil type) against one continuous dependent variable (yield).</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="fu">### What is it?</span></span>
 <span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>**Two-way ANOVA** tests **two** independent (categorical) variables *simultaneously* against one continuous dependent variable. This is powerful because it also reveals whether the two factors **interact**.</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>**One-way ANOVA** tested one independent variable (e.g., soil type) against one continuous dependent variable (yield).</span>
 <span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Main Effects vs. Interaction Effect</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>**Two-way ANOVA** tests **two** independent (categorical) variables *simultaneously* against one continuous dependent variable. This is powerful because it also reveals whether the two factors **interact**.</span>
 <span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Main effect of Factor A** — the overall effect of Factor A on the response, *ignoring* Factor B.</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Main effect of Factor B** — the overall effect of Factor B on the response, *ignoring* Factor A.</span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Interaction effect (A × B)** — does the effect of Factor A *depend on which level of Factor B we're at*? This is the most important question in two-way ANOVA.</span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Always check the interaction effect first.** If it is significant, the main effects cannot be interpreted in isolation — you must look at them *within each level of the other factor* (called **simple effects**).</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="fu">### Main Effects vs. Interaction Effect</span></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Main effect of Factor A** — the overall effect of Factor A on the response, *ignoring* Factor B.</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Main effect of Factor B** — the overall effect of Factor B on the response, *ignoring* Factor A.</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Interaction effect (A × B)** — does the effect of Factor A *depend on which level of Factor B we're at*? This is the most important question in two-way ANOVA.</span>
 <span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Three Null Hypotheses</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Always check the interaction effect first.** If it is significant, the main effects cannot be interpreted in isolation — you must look at them *within each level of the other factor* (called **simple effects**).</span></span>
 <span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>For a two-way ANOVA with factors A and B:</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Three Null Hypotheses</span></span>
 <span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**H₀ (Factor A):** All population means for Factor A are equal (no main effect of A)</span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**H₀ (Factor B):** All population means for Factor B are equal (no main effect of B)</span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**H₀ (Interaction):** The effect of Factor A is the same at all levels of Factor B (no interaction)</span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Thinking further:** A *three-way* ANOVA has **7** hypotheses — 3 main effects + 3 two-way interactions + 1 three-way interaction.</span></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>For a two-way ANOVA with factors A and B:</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**H₀ (Factor A):** All population means for Factor A are equal (no main effect of A)</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**H₀ (Factor B):** All population means for Factor B are equal (no main effect of B)</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**H₀ (Interaction):** The effect of Factor A is the same at all levels of Factor B (no interaction)</span>
 <span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Two-Way ANOVA Effects Model</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Thinking further:** A *three-way* ANOVA has **7** hypotheses — 3 main effects + 3 two-way interactions + 1 three-way interaction.</span></span>
 <span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>$$Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}$$</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Two-Way ANOVA Effects Model</span></span>
 <span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Symbol <span class="pp">|</span> Meaning <span class="pp">|</span></span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|---------|</span></span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $Y_{ijk}$ <span class="pp">|</span> Response variable (observation $k$ at level $i$ of A and level $j$ of B) <span class="pp">|</span></span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\mu$ <span class="pp">|</span> Overall population mean <span class="pp">|</span></span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\alpha_i$ <span class="pp">|</span> Treatment effect of Factor A at level $i$ <span class="pp">|</span></span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\beta_j$ <span class="pp">|</span> Treatment effect of Factor B at level $j$ <span class="pp">|</span></span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $(\alpha\beta)_{ij}$ <span class="pp">|</span> Interaction effect <span class="pp">|</span></span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\varepsilon_{ijk}$ <span class="pp">|</span> Residual / error term <span class="pp">|</span></span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $k$ <span class="pp">|</span> Replicate index <span class="pp">|</span></span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>$$Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}$$</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Symbol <span class="pp">|</span> Meaning <span class="pp">|</span></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------------------------------|--------------------------------------|</span></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $Y_{ijk}$ <span class="pp">|</span> Response variable (observation $k$ at level $i$ of A and level $j$ of B) <span class="pp">|</span></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\mu$ <span class="pp">|</span> Overall population mean <span class="pp">|</span></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\alpha_i$ <span class="pp">|</span> Treatment effect of Factor A at level $i$ <span class="pp">|</span></span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\beta_j$ <span class="pp">|</span> Treatment effect of Factor B at level $j$ <span class="pp">|</span></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $(\alpha\beta)_{ij}$ <span class="pp">|</span> Interaction effect <span class="pp">|</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\varepsilon_{ijk}$ <span class="pp">|</span> Residual / error term <span class="pp">|</span></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $k$ <span class="pp">|</span> Replicate index <span class="pp">|</span></span>
 <span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a><span class="fu">## Factorial Design</span></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>To test for an interaction effect, you must use a **factorial (fully crossed) design**:</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Factorial Design</span></span>
 <span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"All possible combinations of all treatment levels must be included for every replicate."*</span></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>To test for an interaction effect, you must use a **factorial (fully crossed) design**:</span>
 <span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>If Factor A has **a** levels and Factor B has **b** levels:</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"All possible combinations of all treatment levels must be included for every replicate."*</span></span>
 <span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>$$\text{Number of treatment combinations} = a \times b$$</span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>If Factor A has **a** levels and Factor B has **b** levels:</span>
 <span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>With $r$ replicates:</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>$$\text{Number of treatment combinations} = a \times b$$</span>
 <span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>$$\text{Total observations} = r \times a \times b$$</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>With $r$ replicates:</span>
 <span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Example (Viscosity study):**</span>  </span>
-<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; pH has 2 levels (5.6, 5.9) × Catalyst concentration has 2 levels (2.5, 2.7) = **4 combinations**.</span>  </span>
-<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; With 3 replicates → **12 total viscosity measurements**.</span></span>
-<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>$$\text{Total observations} = r \times a \times b$$</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Example (Viscosity study):**\</span></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; pH has 2 levels (5.6, 5.9) × Catalyst concentration has 2 levels (2.5, 2.7) = **4 combinations**.\</span></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; With 3 replicates → **12 total viscosity measurements**.</span></span>
 <span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interaction Plots</span></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>An **interaction plot** graphs the mean response for each combination of factor levels. It is the clearest way to visually assess whether an interaction exists.</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interaction Plots</span></span>
 <span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Plot appearance <span class="pp">|</span> Conclusion <span class="pp">|</span></span>
-<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------------|-----------|</span></span>
-<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Lines are approximately **parallel** <span class="pp">|</span> No interaction between factors <span class="pp">|</span></span>
-<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Lines **cross** or diverge sharply <span class="pp">|</span> Interaction is likely present <span class="pp">|</span></span>
-<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Tip:** Don't overcomplicate it. Pick one line, trace how the response changes as the other factor changes — then repeat for the other line. If the *direction or magnitude* of change differs between lines, that's an interaction.</span></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>An **interaction plot** graphs the mean response for each combination of factor levels. It is the clearest way to visually assess whether an interaction exists.</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Plot appearance                      <span class="pp">|</span> Conclusion                     <span class="pp">|</span></span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------------------------------------|--------------------------------|</span></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Lines are approximately **parallel** <span class="pp">|</span> No interaction between factors <span class="pp">|</span></span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Lines **cross** or diverge sharply   <span class="pp">|</span> Interaction is likely present  <span class="pp">|</span></span>
 <span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Tip:** Don't overcomplicate it. Pick one line, trace how the response changes as the other factor changes — then repeat for the other line. If the *direction or magnitude* of change differs between lines, that's an interaction.</span></span>
 <span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a><span class="fu">## Partitioning Variance in Two-Way ANOVA</span></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>Total variability is split into components:</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a><span class="fu">## Partitioning Variance in Two-Way ANOVA</span></span>
 <span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>$$SS_{Total} = SS_A + SS_B + SS_{AB} + SS_{Error}$$</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>Total variability is split into components:</span>
 <span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>The **ANOVA table** for two-way:</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>$$SS_{Total} = SS_A + SS_B + SS_{AB} + SS_{Error}$$</span>
 <span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Source <span class="pp">|</span> SS <span class="pp">|</span> df <span class="pp">|</span> MS = SS/df <span class="pp">|</span> F = MS / MSₑ <span class="pp">|</span></span>
-<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|----|----|-----------|-------------|</span></span>
-<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factor A <span class="pp">|</span> $SS_A$ <span class="pp">|</span> $a - 1$ <span class="pp">|</span> $MS_A$ <span class="pp">|</span> $F_A$ <span class="pp">|</span></span>
-<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factor B <span class="pp">|</span> $SS_B$ <span class="pp">|</span> $b - 1$ <span class="pp">|</span> $MS_B$ <span class="pp">|</span> $F_B$ <span class="pp">|</span></span>
-<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Interaction A×B <span class="pp">|</span> $SS_{AB}$ <span class="pp">|</span> $(a-1)(b-1)$ <span class="pp">|</span> $MS_{AB}$ <span class="pp">|</span> $F_{AB}$ <span class="pp">|</span></span>
-<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Error <span class="pp">|</span> $SS_E$ <span class="pp">|</span> $ab(r-1)$ <span class="pp">|</span> $MS_E$ <span class="pp">|</span> — <span class="pp">|</span></span>
-<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Total** <span class="pp">|</span> $SS_T$ <span class="pp">|</span> $abr - 1$ <span class="pp">|</span> — <span class="pp">|</span> — <span class="pp">|</span></span>
-<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>A **p-value** (or critical F value) is then used to make the decision for each row.</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>The **ANOVA table** for two-way:</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Source          <span class="pp">|</span> SS        <span class="pp">|</span> df           <span class="pp">|</span> MS = SS/df <span class="pp">|</span> F = MS / MSₑ <span class="pp">|</span></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------------|-----------|--------------|------------|--------------|</span></span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factor A        <span class="pp">|</span> $SS_A$    <span class="pp">|</span> $a - 1$      <span class="pp">|</span> $MS_A$     <span class="pp">|</span> $F_A$        <span class="pp">|</span></span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factor B        <span class="pp">|</span> $SS_B$    <span class="pp">|</span> $b - 1$      <span class="pp">|</span> $MS_B$     <span class="pp">|</span> $F_B$        <span class="pp">|</span></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Interaction A×B <span class="pp">|</span> $SS_{AB}$ <span class="pp">|</span> $(a-1)(b-1)$ <span class="pp">|</span> $MS_{AB}$  <span class="pp">|</span> $F_{AB}$     <span class="pp">|</span></span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Error           <span class="pp">|</span> $SS_E$    <span class="pp">|</span> $ab(r-1)$    <span class="pp">|</span> $MS_E$     <span class="pp">|</span> —            <span class="pp">|</span></span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Total**       <span class="pp">|</span> $SS_T$    <span class="pp">|</span> $abr - 1$    <span class="pp">|</span> —          <span class="pp">|</span> —            <span class="pp">|</span></span>
 <span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>A **p-value** (or critical F value) is then used to make the decision for each row.</span>
 <span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a><span class="fu">## Significance Stars in R Output</span></span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>R uses shorthand to indicate significance levels:</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a><span class="fu">## Significance Stars in R Output</span></span>
 <span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Symbol <span class="pp">|</span> p-value range <span class="pp">|</span> Interpretation <span class="pp">|</span></span>
-<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|--------------|----------------|</span></span>
-<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> (blank) <span class="pp">|</span> &gt; 0.1 <span class="pp">|</span> Not significant <span class="pp">|</span></span>
-<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`.`</span> <span class="pp">|</span> 0.05 – 0.1 <span class="pp">|</span> Marginal / weak <span class="pp">|</span></span>
-<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`*`</span> <span class="pp">|</span> 0.01 – 0.05 <span class="pp">|</span> Significant at 5% <span class="pp">|</span></span>
-<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`**`</span> <span class="pp">|</span> 0.001 – 0.01 <span class="pp">|</span> Significant at 1% <span class="pp">|</span></span>
-<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`***`</span> <span class="pp">|</span> &lt; 0.001 <span class="pp">|</span> Highly significant <span class="pp">|</span></span>
-<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>R uses shorthand to indicate significance levels:</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Symbol  <span class="pp">|</span> p-value range <span class="pp">|</span> Interpretation     <span class="pp">|</span></span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|---------------|--------------------|</span></span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> (blank) <span class="pp">|</span> <span class="sc">\&gt;</span> 0.1        <span class="pp">|</span> Not significant    <span class="pp">|</span></span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`.`</span>     <span class="pp">|</span> 0.05 – 0.1    <span class="pp">|</span> Marginal / weak    <span class="pp">|</span></span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`*`</span>     <span class="pp">|</span> 0.01 – 0.05   <span class="pp">|</span> Significant at 5%  <span class="pp">|</span></span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`**`</span>    <span class="pp">|</span> 0.001 – 0.01  <span class="pp">|</span> Significant at 1%  <span class="pp">|</span></span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`***`</span>   <span class="pp">|</span> <span class="sc">\&lt;</span> 0.001      <span class="pp">|</span> Highly significant <span class="pp">|</span></span>
 <span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simple Effects (Post-Hoc for Two-Way ANOVA)</span></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>If the interaction is significant, examine **simple effects**: the effect of one factor while **holding the other factor constant** at each level.</span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simple Effects (Post-Hoc for Two-Way ANOVA)</span></span>
 <span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Viscosity Example:** The interaction was significant (p = 0.03).</span>  </span>
-<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; - Effect of pH (5.6 vs 5.9) *when catalyst = 2.5*: not significant</span>  </span>
-<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; - Effect of pH (5.6 vs 5.9) *when catalyst = 2.7*: **significant** (difference = 15, p = 0.01)</span></span>
-<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>If the interaction is significant, examine **simple effects**: the effect of one factor while **holding the other factor constant** at each level.</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Viscosity Example:** The interaction was significant (p = 0.03).\</span></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; - Effect of pH (5.6 vs 5.9) *when catalyst = 2.5*: not significant\</span></span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; - Effect of pH (5.6 vs 5.9) *when catalyst = 2.7*: **significant** (difference = 15, p = 0.01)</span></span>
 <span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a><span class="fu">## Effect Size — Partial Eta Squared (η²ₚ)</span></span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>To measure *how much* of the variance is explained by each factor:</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a><span class="fu">## Effect Size — Partial Eta Squared (η²ₚ)</span></span>
 <span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>$$\eta^2_p = \frac{SS_{factor}}{SS_{factor} + SS_{error}}$$</span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>To measure *how much* of the variance is explained by each factor:</span>
 <span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>This is analogous to R² in regression. It tells you the proportion of variance in the response explained by a given factor, *after removing variance accounted for by the other variables*.</span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>$$\eta^2_p = \frac{SS_{factor}}{SS_{factor} + SS_{error}}$$</span>
 <span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Interpretation example:** η²ₚ = 0.33 for pH means *33% of the variation in viscosity* is associated with pH.</span></span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a>This is analogous to R² in regression. It tells you the proportion of variance in the response explained by a given factor, *after removing variance accounted for by the other variables*.</span>
 <span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Interpretation example:** η²ₚ = 0.33 for pH means *33% of the variation in viscosity* is associated with pH.</span></span>
 <span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a><span class="fu">## ANOVA Assumptions (Checklist)</span></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>Before trusting ANOVA results, verify:</span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a><span class="fu">## ANOVA Assumptions (Checklist)</span></span>
 <span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Random sampling** — ensured at data collection stage</span>
-<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Equal variances** (homogeneity) — test with Levene's test or Bartlett's test</span>
-<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Independence of error terms** — observations should not influence each other</span>
-<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Normality of residuals** — check with QQ-plot and/or Shapiro-Wilk test</span>
-<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; If equal variance assumption is violated → use the non-parametric **Kruskal-Wallis test** (uses ranks/medians instead of means).</span></span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a>Before trusting ANOVA results, verify:</span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Random sampling** — ensured at data collection stage</span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Equal variances** (homogeneity) — test with Levene's test or Bartlett's test</span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Independence of error terms** — observations should not influence each other</span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Normality of residuals** — check with QQ-plot and/or Shapiro-Wilk test</span>
 <span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; If equal variance assumption is violated → use the non-parametric **Kruskal-Wallis test** (uses ranks/medians instead of means).</span></span>
 <span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a><span class="co"># --- ONE-WAY ANOVA (recap) ---</span></span>
-<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(frame<span class="sc">$</span>yield <span class="sc">~</span> frame<span class="sc">$</span>soil)</span>
-<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span>
-<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a><span class="co"># --- POST-HOC TESTS ---</span></span>
-<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model)                                          <span class="co"># Tukey's HSD</span></span>
-<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(frame<span class="sc">$</span>yield, frame<span class="sc">$</span>soil, <span class="st">"bonferroni"</span>)   <span class="co"># Bonferroni</span></span>
-<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a><span class="co"># --- TWO-WAY ANOVA ---</span></span>
-<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(viscosity <span class="sc">~</span> pH <span class="sc">*</span> catalyst, <span class="at">data =</span> df)</span>
-<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span>
-<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a><span class="co"># --- INTERACTION PLOT ---</span></span>
-<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(df<span class="sc">$</span>pH, df<span class="sc">$</span>catalyst, df<span class="sc">$</span>viscosity)</span>
-<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a><span class="co"># --- EFFECT SIZE (partial eta squared) ---</span></span>
-<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a><span class="co"># SS_factor / (SS_factor + SS_error)</span></span>
-<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a><span class="co"># Can use: library(effectsize); eta_squared(model2, partial = TRUE)</span></span>
-<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a><span class="co"># --- MODEL VALIDATION PLOTS ---</span></span>
-<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)   <span class="co"># Produces 4 diagnostic plots</span></span>
-<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a><span class="co"># --- OUTLIER </span><span class="al">TEST</span><span class="co"> ---</span></span>
-<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(outliers)</span>
-<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a><span class="fu">grubbs.test</span>(clay_data)   <span class="co"># Grubbs test (max normalised residual)</span></span>
-<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a><span class="co"># --- VARIANCE TESTS ---</span></span>
-<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)</span>
-<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)   <span class="co"># library(car)</span></span>
-<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a><span class="co"># --- NON-PARAMETRIC ALTERNATIVE ---</span></span>
-<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)</span>
-<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>**Two-Way ANOVA Effects Model:**</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a><span class="co"># --- ONE-WAY ANOVA (recap) ---</span></span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(frame<span class="sc">$</span>yield <span class="sc">~</span> frame<span class="sc">$</span>soil)</span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a><span class="co"># --- POST-HOC TESTS ---</span></span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model)                                          <span class="co"># Tukey's HSD</span></span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(frame<span class="sc">$</span>yield, frame<span class="sc">$</span>soil, <span class="st">"bonferroni"</span>)   <span class="co"># Bonferroni</span></span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a><span class="co"># --- TWO-WAY ANOVA ---</span></span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(viscosity <span class="sc">~</span> pH <span class="sc">*</span> catalyst, <span class="at">data =</span> df)</span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a><span class="co"># --- INTERACTION PLOT ---</span></span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(df<span class="sc">$</span>pH, df<span class="sc">$</span>catalyst, df<span class="sc">$</span>viscosity)</span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a><span class="co"># --- EFFECT SIZE (partial eta squared) ---</span></span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a><span class="co"># SS_factor / (SS_factor + SS_error)</span></span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a><span class="co"># Can use: library(effectsize); eta_squared(model2, partial = TRUE)</span></span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a><span class="co"># --- MODEL VALIDATION PLOTS ---</span></span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)   <span class="co"># Produces 4 diagnostic plots</span></span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a><span class="co"># --- OUTLIER </span><span class="al">TEST</span><span class="co"> ---</span></span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(outliers)</span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a><span class="fu">grubbs.test</span>(clay_data)   <span class="co"># Grubbs test (max normalised residual)</span></span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a><span class="co"># --- VARIANCE TESTS ---</span></span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)</span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)   <span class="co"># library(car)</span></span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a><span class="co"># --- NON-PARAMETRIC ALTERNATIVE ---</span></span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> frame)</span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>$$Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}$$</span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>**Two-Way ANOVA Effects Model:**</span>
 <span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>**Partial Eta Squared:**</span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>$$Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}$$</span>
 <span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a>$$\eta^2_p = \frac{SS_{factor}}{SS_{factor} + SS_{Error}}$$</span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a>**Partial Eta Squared:**</span>
 <span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>**Total observations in a factorial design:**</span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>$$\eta^2_p = \frac{SS_{factor}}{SS_{factor} + SS_{Error}}$$</span>
 <span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a>$$N = r \times a \times b$$</span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a>**Total observations in a factorial design:**</span>
 <span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>$$N = r \times a \times b$$</span>
 <span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Examples</span></span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 1: Soil Yield — One-Way ANOVA + Post-Hoc (Worksheet 4 / Lab)</span></span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Examples</span></span>
 <span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a>**Setup:** Crop yields measured for 10 fields on each of 3 soil types (Sand, Clay, Loam).  </span>
-<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a>**Group means:** Sand = 9.9, Clay = 11.5, Loam = 14.3  </span>
-<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a>**ANOVA p-value:** 0.025 → significant (at least one mean differs)</span>
-<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a>**Post-hoc conclusion:** Only **Loam vs. Sand** is significantly different (Tukey p ≈ 0.020, Bonferroni p ≈ 0.023). Clay is not significantly different from either.</span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 1: Soil Yield — One-Way ANOVA + Post-Hoc (Worksheet 4 / Lab)</span></span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a>**Setup:** Crop yields measured for 10 fields on each of 3 soil types (Sand, Clay, Loam).\</span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a>**Group means:** Sand = 9.9, Clay = 11.5, Loam = 14.3\</span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a>**ANOVA p-value:** 0.025 → significant (at least one mean differs)</span>
 <span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a>**Post-hoc conclusion:** Only **Loam vs. Sand** is significantly different (Tukey p ≈ 0.020, Bonferroni p ≈ 0.023). Clay is not significantly different from either.</span>
 <span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 2: Viscosity Study — Two-Way ANOVA with Interaction</span></span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>**Factors:**</span>
-<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Factor A = pH (2 levels: 5.6, 5.9)</span>
-<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Factor B = Catalyst Concentration (2 levels: 2.5, 2.7)</span>
-<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>3 replicates → 12 total measurements</span>
-<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a>**R Output Interpretation:**</span>
-<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Effect <span class="pp">|</span> p-value <span class="pp">|</span> Conclusion <span class="pp">|</span></span>
-<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|---------|-----------|</span></span>
-<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> pH (main) <span class="pp">|</span> &gt; 0.05 <span class="pp">|</span> Not significant alone <span class="pp">|</span></span>
-<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Catalyst (main) <span class="pp">|</span> &gt; 0.05 <span class="pp">|</span> Not significant alone <span class="pp">|</span></span>
-<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **pH × Catalyst (interaction)** | **0.03** | **Significant** ✓ <span class="pp">|</span></span>
-<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a>**Because the interaction is significant:**  </span>
-<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a>→ The main effects are *not meaningful in isolation*  </span>
-<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a>→ Must examine simple effects (e.g., effect of pH when catalyst is held at 2.5 vs. 2.7)  </span>
-<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a>→ When catalyst = 2.7, changing pH from 5.6 to 5.9 produces a statistically significant difference (p = 0.01)</span>
-<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 3: New Car Interest Rate (Worksheet 4, Part 2)</span></span>
-<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a>**Setup:** 1 factor (city) with **6 levels** → 15 pairwise comparisons  </span>
-<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a>**Task:** Run one-way ANOVA, then compare Separate t-tests vs. Tukey vs. Bonferroni across all 15 pairs.</span>
-<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Purpose:** To show how the multiple comparisons problem *scales* with more groups — with 15 tests, the chance of a false positive grows substantially if uncorrected p-values are used.</span></span>
-<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
-<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multiple comparisons tests** (Tukey's HSD, Bonferroni) control the Family-Wise Error Rate; they are more conservative than raw pairwise t-tests — this is intentional and correct.</span>
-<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In **two-way ANOVA**, always check the **interaction effect first**. If significant, the main effects cannot be interpreted on their own.</span>
-<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>An **interaction** means the effect of one factor *depends* on the level of the other factor. Interaction plots make this visible: **crossing lines = interaction**.</span>
-<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A **factorial design** is required to detect interactions — every combination of factor levels must appear in the data.</span>
-<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Partial η²** measures effect size for two-way ANOVA; interpreted like R² (proportion of variance explained).</span>
-<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Before running ANOVA: check **equal variances** (Levene's test) and **normality of residuals** (QQ-plot / Shapiro-Wilk). If variances are unequal, consider **Kruskal-Wallis**.</span>
-<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In R, the <span class="in">`aov()`</span> function fits ANOVA models; <span class="in">`TukeyHSD()`</span> and <span class="in">`pairwise.t.test(..., "bonferroni")`</span> run post-hoc tests; <span class="in">`plot(model)`</span> produces four validation plots.</span>
-<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a><span class="fu"># Annotations &amp; Notes</span></span>
-<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Space below for your own notes, questions, or additional examples --&gt;</span></span>
-<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a>**Questions to revisit:**</span>
-<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Why does Levene's test require normality? When is Fligner-Killeen more appropriate?</span>
-<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> How does the choice of reference (baseline) group in R affect coefficient interpretation?</span>
-<span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Practice calculating SS_A, SS_B, SS_AB, and SS_Error by hand for the viscosity dataset.</span>
-<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> What exactly does the Grubbs test statistic measure? Look up the formula.</span>
-<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Complete Worksheet 4, Part 2 (New Car Interest Rate): fill in the full comparison table.</span>
-<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-327"><a href="#cb2-327" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-329"><a href="#cb2-329" aria-hidden="true" tabindex="-1"></a>*End of Week 7 Study Guide*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 2: Viscosity Study — Two-Way ANOVA with Interaction</span></span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a>**Factors:** - Factor A = pH (2 levels: 5.6, 5.9) - Factor B = Catalyst Concentration (2 levels: 2.5, 2.7) - 3 replicates → 12 total measurements</span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a>**R Output Interpretation:**</span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Effect                          <span class="pp">|</span> p-value  <span class="pp">|</span> Conclusion            <span class="pp">|</span></span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------------------------------|----------|-----------------------|</span></span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> pH (main)                       <span class="pp">|</span> <span class="sc">\&gt;</span> 0.05  <span class="pp">|</span> Not significant alone <span class="pp">|</span></span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Catalyst (main)                 <span class="pp">|</span> <span class="sc">\&gt;</span> 0.05  <span class="pp">|</span> Not significant alone <span class="pp">|</span></span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **pH × Catalyst (interaction)** | **0.03** | **Significant** ✓     <span class="pp">|</span></span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a>**Because the interaction is significant:**\</span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a>→ The main effects are *not meaningful in isolation*\</span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a>→ Must examine simple effects (e.g., effect of pH when catalyst is held at 2.5 vs. 2.7)\</span>
+<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a>→ When catalyst = 2.7, changing pH from 5.6 to 5.9 produces a statistically significant difference (p = 0.01)</span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 3: New Car Interest Rate (Worksheet 4, Part 2)</span></span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a>**Setup:** 1 factor (city) with **6 levels** → 15 pairwise comparisons\</span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a>**Task:** Run one-way ANOVA, then compare Separate t-tests vs. Tukey vs. Bonferroni across all 15 pairs.</span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Purpose:** To show how the multiple comparisons problem *scales* with more groups — with 15 tests, the chance of a false positive grows substantially if uncorrected p-values are used.</span></span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Multiple comparisons tests** (Tukey's HSD, Bonferroni) control the Family-Wise Error Rate; they are more conservative than raw pairwise t-tests — this is intentional and correct.</span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>In **two-way ANOVA**, always check the **interaction effect first**. If significant, the main effects cannot be interpreted on their own.</span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>An **interaction** means the effect of one factor *depends* on the level of the other factor. Interaction plots make this visible: **crossing lines = interaction**.</span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>A **factorial design** is required to detect interactions — every combination of factor levels must appear in the data.</span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Partial η²** measures effect size for two-way ANOVA; interpreted like R² (proportion of variance explained).</span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Before running ANOVA: check **equal variances** (Levene's test) and **normality of residuals** (QQ-plot / Shapiro-Wilk). If variances are unequal, consider **Kruskal-Wallis**.</span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>In R, the <span class="in">`aov()`</span> function fits ANOVA models; <span class="in">`TukeyHSD()`</span> and <span class="in">`pairwise.t.test(..., "bonferroni")`</span> run post-hoc tests; <span class="in">`plot(model)`</span> produces four validation plots.</span>
+<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a><span class="fu"># Annotations &amp; Notes</span></span>
+<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Space below for your own notes, questions, or additional examples --&gt;</span></span>
+<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a>**Questions to revisit:**</span>
+<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Why does Levene's test require normality? When is Fligner-Killeen more appropriate?</span>
+<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> How does the choice of reference (baseline) group in R affect coefficient interpretation?</span>
+<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Practice calculating SS_A, SS_B, SS_AB, and SS_Error by hand for the viscosity dataset.</span>
+<span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> What exactly does the Grubbs test statistic measure? Look up the formula.</span>
+<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="va">[ ]</span> Complete Worksheet 4, Part 2 (New Car Interest Rate): fill in the full comparison table.</span>
+<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-327"><a href="#cb2-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb2-329"><a href="#cb2-329" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🎯 Likely Exam Questions</span></span>
+<span id="cb2-330"><a href="#cb2-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-331"><a href="#cb2-331" aria-hidden="true" tabindex="-1"></a>Based on lecturer emphasis and the diagnostic plots discussion in Week 7 and the exam paper (Exam 19, Q2), the following are highly likely:</span>
+<span id="cb2-332"><a href="#cb2-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-333"><a href="#cb2-333" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Interpret diagnostic plots**: Given the four standard diagnostic plots (residuals vs. fitted, Q-Q, scale-location, residuals vs. leverage), identify issues and explain what each one is checking. Paula said *"they're likely to come up in the exam"* and specifically named Cook's Distance, scale-location, and QQ plots.</span>
+<span id="cb2-334"><a href="#cb2-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-335"><a href="#cb2-335" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Identify and interpret influential observations**: From a residuals vs. leverage or Cook's Distance plot, identify the most influential observation (e.g., observation 27 in Exam 19 Q2g). Explain what makes it influential: high leverage AND large residual.</span>
+<span id="cb2-336"><a href="#cb2-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-337"><a href="#cb2-337" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Interpret the ANOVA coefficients table**: Given R output from <span class="in">`summary.lm(aov(...))`</span>, explain what the intercept and each coefficient represent, including which is the reference group.</span>
+<span id="cb2-338"><a href="#cb2-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-339"><a href="#cb2-339" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Test for homogeneity of variance**: State the hypotheses for Levene's test, interpret the p-value, and state implications for whether ANOVA can proceed.</span>
+<span id="cb2-340"><a href="#cb2-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-341"><a href="#cb2-341" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**State and test assumptions of ANOVA**: List all four assumptions and describe how you would check each one (Levene's test for variance, QQ plot for normality, etc.).</span>
+<span id="cb2-342"><a href="#cb2-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-343"><a href="#cb2-343" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Conduct and interpret Tukey's post-hoc test**: Given output from <span class="in">`TukeyHSD()`</span>, identify which groups differ significantly based on p-values and confidence intervals.</span>
+<span id="cb2-344"><a href="#cb2-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-345"><a href="#cb2-345" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>**Calculate eta squared by hand**: Given the ANOVA table values, compute η² = SS_factor / SS_total and interpret the result.</span>
+<span id="cb2-346"><a href="#cb2-346" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-347"><a href="#cb2-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-348"><a href="#cb2-348" aria-hidden="true" tabindex="-1"></a>*End of Week 7 Study Guide*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

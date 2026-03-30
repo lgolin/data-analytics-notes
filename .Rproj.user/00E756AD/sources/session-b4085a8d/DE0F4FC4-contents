@@ -1,0 +1,147 @@
+---
+title: "STAT9004 – Week 7: Two-Way ANOVA (continued) & One-Way ANOVA in R"
+author: ""
+format: html
+---
+
+# Week 7: Two-Way ANOVA (continued) & One-Way ANOVA in R
+
+## Key Topics
+
+- Continuation of two-way ANOVA theory (Week 6 content repeated in full with more students)
+- One-way ANOVA in R: full practical walkthrough
+  - Data import, pivoting, factor conversion
+  - Boxplots and outlier detection (Grubbs test)
+  - Levene's test for equal variance
+  - Fitting the ANOVA model (`aov()`)
+  - Interpreting coefficients and dummy variables
+  - Changing the reference group
+  - Sum contrasts vs. treatment contrasts
+  - Tukey's pairwise comparisons
+  - Model validation plots (residuals vs. fitted, QQ plot, scale-location, leverage)
+- Effect size: eta squared (η²)
+
+---
+
+## Core Explanation
+
+### Assumptions of One-Way ANOVA
+
+Before running ANOVA, you must verify:
+
+1. **Random sampling** — established in data collection.
+2. **Homogeneity of variance** — population variances are equal across groups. Test with **Levene's test** (robust, works even if data isn't perfectly normal) or Bartlett's test (assumes normality). H₀: variances are equal. Reject H₀ if p < 0.05 → use non-parametric alternative.
+3. **Normality** — error terms are normally distributed with mean 0. Check with QQ plot or formal test.
+4. **Independence** — observations are independent of each other.
+
+If homogeneity of variance fails, use the **Kruskal-Wallis test** (non-parametric equivalent, based on ranks/medians).
+
+### Fitting ANOVA in R
+
+The workflow in R is:
+
+```r
+# Step 1: Load data, convert factor
+soil$soil <- as.factor(soil$soil)
+
+# Step 2: Summary statistics
+group_by(soil, soil) |> summarise(mean_yield = mean(yield), sd_yield = sd(yield))
+
+# Step 3: Test for outliers (Grubbs test)
+grubbs.test(soil$yield[soil$soil == "clay"])
+
+# Step 4: Test for equal variances
+bartlett.test(yield ~ soil, data = soil)
+leveneTest(yield ~ soil, data = soil)   # more robust
+
+# Step 5: Fit the model
+model <- aov(yield ~ soil, data = soil)
+summary(model)          # ANOVA table
+summary.lm(model)       # Coefficients table (with dummy variables)
+
+# Step 6: Post-hoc test
+TukeyHSD(model)
+
+# Step 7: Diagnostic plots
+plot(model)
+```
+
+### Interpreting Coefficients and Dummy Variables
+
+The reference group (default: alphabetically first) becomes the **intercept** in the coefficients table. Other groups are expressed as differences from the reference:
+
+- **Intercept** = group mean of reference (e.g., clay = 11.5)
+- **β_loom** = mean(loom) − mean(clay) = 2.8 (positive = higher than clay)
+- **β_sand** = mean(sand) − mean(clay) = −1.6 (negative = lower than clay)
+
+To change the reference group: `soil$soil <- relevel(soil$soil, ref = "sand")`
+
+### Sum Contrasts
+
+Sum contrasts compare each group mean to the **overall mean** (rather than to the reference group). This gives a different perspective on the ANOVA model and is useful for interpretability when no natural reference exists.
+
+### Model Validation Plots
+
+| Plot | What to look for |
+|---|---|
+| **Residuals vs. Fitted** | No pattern, mean ≈ 0, constant spread (homoscedasticity) |
+| **Normal Q-Q** | Points follow the diagonal line (normality of residuals) |
+| **Scale-Location** | Flat line = constant variance |
+| **Residuals vs. Leverage** | Identifies influential points using Cook's Distance |
+
+Paula specifically said these plots **will come up in the exam**.
+
+### Effect Size: Eta Squared
+
+$$\eta^2 = \frac{SS_{\text{factor}}}{SS_{\text{total}}}$$
+
+This is analogous to R² and tells you what proportion of variance in the response is explained by the factor.
+
+---
+
+## Key Equations/Formulas
+
+```
+One-Way ANOVA Table:
+  Source     | SS     | df     | MS           | F
+  Factor     | SS_A   | a-1    | SS_A/(a-1)   | MS_A / MS_E
+  Error      | SS_E   | N-a    | SS_E/(N-a)   |
+  Total      | SS_T   | N-1    |              |
+
+Eta squared:
+  η² = SS_factor / SS_total
+
+Grubbs test: tests the most extreme value for being a significant outlier
+  H₀: no outlier in the data
+  H₁: the most extreme value is an outlier
+```
+
+---
+
+## Practical Example
+
+**Soil type and crop yield**: Three soil types (clay, loam, sand) with 10 fields each. One-way ANOVA found a significant difference in mean yield (p ≈ 0.025). Tukey's test showed that **loam vs. sand** was the only significantly different pair. When sand was set as the reference group, loom was significantly higher than sand (as expected).
+
+Group means: clay = 11.5, loam = 14.3, sand = 9.9. Overall mean = 11.9.
+
+---
+
+## Summary Points
+
+- Always check ANOVA assumptions before fitting: random sampling, equal variance, normality, independence.
+- Levene's test is preferred over Bartlett's when normality is uncertain.
+- The reference group is the alphabetically first factor level in R by default — change with `relevel()`.
+- Tukey's test is the go-to post-hoc method for pairwise comparisons.
+- Diagnostic plots are essential and likely to appear in the exam — know what each one checks.
+- η² measures effect size for one-way ANOVA (partial η² for two-way).
+
+---
+
+## 📝 Annotations & Notes
+
+> *Space for your own notes and additions here.*
+
+---
+
+
+

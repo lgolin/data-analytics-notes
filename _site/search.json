@@ -2,9 +2,9 @@
   {
     "objectID": "data-mining/week-8.html",
     "href": "data-mining/week-8.html",
-    "title": "Week 8",
+    "title": "STAT9013 – Week 8 Study Guide",
     "section": "",
-    "text": "This week focuses on recommendation systems, including:\n\nAssociation rules (apriori)\nCustomer segmentation\nCollaborative filtering\nEthical considerations\nHyperparameters and optimisation\nGraph Analytics",
+    "text": "Recommendation Engines II – Collaborative Filtering (user-based and item-based)\nDimensionality Reduction – Principal Component Analysis (PCA) and the MNIST dataset\nOutlier Analysis / Anomaly Detection – Using PCA reconstruction error and one-class SVM\nGraph Analytics – Nodes, edges, graph properties, algorithms, and PageRank\nPCA as a Pre-processing Step – Using dimensionality reduction before classification modelling\n\n\n\n\nlibrary(arules)\nlibrary(arulesViz)\nlibrary(recommenderlab)\nlibrary(igraph)\nlibrary(e1071)\n\nNote: If you see errors like could not find function \"xxxxx\", a package is either not loaded or not installed. Run the block above first.",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -447,7 +447,7 @@
     "href": "data-mining/week-1.html#setting-up-the-data",
     "title": "STAT9013 - Data Mining: Week 1 Notes",
     "section": "6.2 Setting Up the Data",
-    "text": "6.2 Setting Up the Data\n\nset.seed(42) # Ensures reproducibility — same \"random\" numbers every time\nm &lt;- 1.4      # True slope\nb &lt;- -1.2     # True intercept\nx &lt;- 0:9      # X values: 0, 1, 2, ..., 9\n\ny &lt;- m * x + b              # The TRUE relationship (green line)\npy &lt;- y + rnorm(10)          # Observed values = true + random noise\n\nWhat’s happening here:\n\nWe define a “true” linear relationship: y = 1.4x - 1.2\ny represents the perfect, noise-free values (the green line in the plot)\npy adds random noise using rnorm(10) — this simulates real-world data, which is never perfectly on the line\nset.seed(42) makes the random numbers reproducible — anyone running this code gets the same results",
+    "text": "6.2 Setting Up the Data\n\n\nCode\nset.seed(42) # Ensures reproducibility — same \"random\" numbers every time\nm &lt;- 1.4      # True slope\nb &lt;- -1.2     # True intercept\nx &lt;- 0:9      # X values: 0, 1, 2, ..., 9\n\ny &lt;- m * x + b              # The TRUE relationship (green line)\npy &lt;- y + rnorm(10)          # Observed values = true + random noise\n\n\nWhat’s happening here:\n\nWe define a “true” linear relationship: y = 1.4x - 1.2\ny represents the perfect, noise-free values (the green line in the plot)\npy adds random noise using rnorm(10) — this simulates real-world data, which is never perfectly on the line\nset.seed(42) makes the random numbers reproducible — anyone running this code gets the same results",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -459,7 +459,7 @@
     "href": "data-mining/week-1.html#building-and-plotting-the-model",
     "title": "STAT9013 - Data Mining: Week 1 Notes",
     "section": "6.3 Building and Plotting the Model",
-    "text": "6.3 Building and Plotting the Model\n\n# Plot the true line (green) and observed data points (X marks)\nplot(x, y, type = \"l\", col = \"green\",\n     main = paste(\"y = \", m, \"x \", b, sep = \"\"))\npoints(x, py, pch = 4)\n\n# Fit a linear regression model\nmodel1 &lt;- lm(py ~ x)\n\n# Add the predicted line (blue dashed)\nlines(x, model1$coefficients[2] * x + model1$coefficients[1],\n      lty = 2, col = \"blue\")\n\nUnderstanding lm(py ~ x):\n\nlm stands for “linear model” — it’s R’s function for linear regression\npy ~ x is a formula: it means “model py as a function of x”\nThe function returns a model object with properties like coefficients\n\nThe plot shows three things:\n\nGreen line: The true underlying relationship (which in real life we wouldn’t know)\nX marks: The observed/measured data points (noisy)\nBlue dashed line: The model’s best estimate of the relationship",
+    "text": "6.3 Building and Plotting the Model\n\n\nCode\n# Plot the true line (green) and observed data points (X marks)\nplot(x, y, type = \"l\", col = \"green\",\n     main = paste(\"y = \", m, \"x \", b, sep = \"\"))\npoints(x, py, pch = 4)\n\n# Fit a linear regression model\nmodel1 &lt;- lm(py ~ x)\n\n# Add the predicted line (blue dashed)\nlines(x, model1$coefficients[2] * x + model1$coefficients[1],\n      lty = 2, col = \"blue\")\n\n\nUnderstanding lm(py ~ x):\n\nlm stands for “linear model” — it’s R’s function for linear regression\npy ~ x is a formula: it means “model py as a function of x”\nThe function returns a model object with properties like coefficients\n\nThe plot shows three things:\n\nGreen line: The true underlying relationship (which in real life we wouldn’t know)\nX marks: The observed/measured data points (noisy)\nBlue dashed line: The model’s best estimate of the relationship",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -471,7 +471,7 @@
     "href": "data-mining/week-1.html#interpreting-the-model-output",
     "title": "STAT9013 - Data Mining: Week 1 Notes",
     "section": "6.4 Interpreting the Model Output",
-    "text": "6.4 Interpreting the Model Output\n\nmodel1\n## Coefficients:\n## (Intercept)         x\n##    -0.7895    1.4304\n\nThe model estimated:\n\nIntercept = -0.7895 (true value was -1.2)\nSlope = 1.4304 (true value was 1.4)\n\nThese are close but not exact, because the model is working from noisy data. This is a fundamental concept: models are approximations of reality.",
+    "text": "6.4 Interpreting the Model Output\n\n\nCode\nmodel1\n## Coefficients:\n## (Intercept)         x\n##    -0.7895    1.4304\n\n\nThe model estimated:\n\nIntercept = -0.7895 (true value was -1.2)\nSlope = 1.4304 (true value was 1.4)\n\nThese are close but not exact, because the model is working from noisy data. This is a fundamental concept: models are approximations of reality.",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -483,7 +483,7 @@
     "href": "data-mining/week-1.html#the-model-summary",
     "title": "STAT9013 - Data Mining: Week 1 Notes",
     "section": "6.5 The Model Summary",
-    "text": "6.5 The Model Summary\n\nsummary(model1)\n\nThe summary() function gives detailed statistical information, including:\n\nCoefficients table: Shows the estimate, standard error, t-value, and p-value for each coefficient\nSignificance codes: Stars (***) indicate statistically significant variables\nR-squared: A measure of how well the model fits the data\n\nImportant lecture insight on coefficients: Even if a variable is statistically significant (has stars), you should also look at the magnitude of its coefficient. If the coefficient is tiny (e.g. 0.000001), multiplying it by the X values won’t meaningfully affect predictions — so it may not be practically important, even if it’s statistically significant. Always consider both the statistical significance AND the scale/magnitude.",
+    "text": "6.5 The Model Summary\n\n\nCode\nsummary(model1)\n\n\nThe summary() function gives detailed statistical information, including:\n\nCoefficients table: Shows the estimate, standard error, t-value, and p-value for each coefficient\nSignificance codes: Stars (***) indicate statistically significant variables\nR-squared: A measure of how well the model fits the data\n\nImportant lecture insight on coefficients: Even if a variable is statistically significant (has stars), you should also look at the magnitude of its coefficient. If the coefficient is tiny (e.g. 0.000001), multiplying it by the X values won’t meaningfully affect predictions — so it may not be practically important, even if it’s statistically significant. Always consider both the statistical significance AND the scale/magnitude.",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -495,7 +495,7 @@
     "href": "data-mining/week-1.html#understanding-r-squared",
     "title": "STAT9013 - Data Mining: Week 1 Notes",
     "section": "6.6 Understanding R-squared",
-    "text": "6.6 Understanding R-squared\n\nr_squared1 &lt;- cor(x, py) ^ 2\nr_squared1\n## [1] 0.9645404\n\nWhat is R-squared?\n\nIt measures the goodness of fit of a regression model\nIt ranges from 0 to 1, where 1 means a perfect fit\nIt can be calculated as the square of the correlation between X and Y\nAn R-squared of 0.9645 means approximately 96.45% of the variance in the data is explained by the model\n\nWhat is correlation?\n\nCorrelation measures the strength and direction of the linear relationship between two variables\nIt ranges from -1 to +1\n+1: Perfect positive relationship (as one increases, the other increases proportionally)\n-1: Perfect negative relationship (as one increases, the other decreases proportionally)\n0: No linear relationship\nGenerally, correlations above 0.7 (or below -0.7) indicate a strong relationship\n\nCritical practical advice from the lecturer: If you ever see an R-squared above ~0.85–0.90 on real-world tabular data, be suspicious. It might indicate data leakage (a concept covered in Week 5) or that the problem is so simple it doesn’t need ML. In reality, real-world datasets are messy and an R-squared this high is unusual.",
+    "text": "6.6 Understanding R-squared\n\n\nCode\nr_squared1 &lt;- cor(x, py) ^ 2\nr_squared1\n## [1] 0.9645404\n\n\nWhat is R-squared?\n\nIt measures the goodness of fit of a regression model\nIt ranges from 0 to 1, where 1 means a perfect fit\nIt can be calculated as the square of the correlation between X and Y\nAn R-squared of 0.9645 means approximately 96.45% of the variance in the data is explained by the model\n\nWhat is correlation?\n\nCorrelation measures the strength and direction of the linear relationship between two variables\nIt ranges from -1 to +1\n+1: Perfect positive relationship (as one increases, the other increases proportionally)\n-1: Perfect negative relationship (as one increases, the other decreases proportionally)\n0: No linear relationship\nGenerally, correlations above 0.7 (or below -0.7) indicate a strong relationship\n\nCritical practical advice from the lecturer: If you ever see an R-squared above ~0.85–0.90 on real-world tabular data, be suspicious. It might indicate data leakage (a concept covered in Week 5) or that the problem is so simple it doesn’t need ML. In reality, real-world datasets are messy and an R-squared this high is unusual.",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -507,7 +507,7 @@
     "href": "data-mining/week-1.html#the-effect-of-more-noise",
     "title": "STAT9013 - Data Mining: Week 1 Notes",
     "section": "6.7 The Effect of More Noise",
-    "text": "6.7 The Effect of More Noise\nThe lecture then re-runs the same analysis with more randomness added to the data:\n\npy &lt;- y + rnorm(10)  # New random noise (different from before since set.seed not called again)\n\nmodel2 &lt;- lm(py ~ x)\nr_squared2 &lt;- cor(x, py) ^ 2\nr_squared2\n## [1] 0.8524506\n\nKey takeaway: With more noise (randomness) in the data:\n\nThe R-squared dropped from 0.9645 to 0.8525\nThe blue line (model prediction) diverges more from the green line (true relationship)\nThis demonstrates that noisier data leads to less accurate models — the model struggles more when the signal-to-noise ratio is lower\n\nThis is a fundamental concept you’ll see throughout the course: the quality and cleanliness of your data directly impacts how well any model can perform.",
+    "text": "6.7 The Effect of More Noise\nThe lecture then re-runs the same analysis with more randomness added to the data:\n\n\nCode\npy &lt;- y + rnorm(10)  # New random noise (different from before since set.seed not called again)\n\nmodel2 &lt;- lm(py ~ x)\nr_squared2 &lt;- cor(x, py) ^ 2\nr_squared2\n## [1] 0.8524506\n\n\nKey takeaway: With more noise (randomness) in the data:\n\nThe R-squared dropped from 0.9645 to 0.8525\nThe blue line (model prediction) diverges more from the green line (true relationship)\nThis demonstrates that noisier data leads to less accurate models — the model struggles more when the signal-to-noise ratio is lower\n\nThis is a fundamental concept you’ll see throughout the course: the quality and cleanliness of your data directly impacts how well any model can perform.",
     "crumbs": [
       "Data Mining",
       "Weekly Notes",
@@ -1154,26 +1154,6 @@
     "title": "Home",
     "section": "",
     "text": "Data Analytics — Semester Notes\n  A living reference for lecture content, lab work, and exam prep. Browse by module in the sidebar, or follow the guide below to run this site locally or push updates to GitHub Pages.\n\n\n\n\n  \n    ⛏️\n    Data Mining\n    Weeks 1–8\n  \n  \n    📈\n    Regression Analysis\n    Weeks 1–9\n  \n  \n    🕒\n    Time Series\n    Weeks 1–2\n  \n\n\nWhat you'll find here:\n\n  Weekly lecture notes\n  Lab practice & R examples\n  Revision summaries\n  Exam preparation notes\n\n\n\n\n\n\n  Running this site locally\n  Ideal when you want to preview changes before publishing — works offline too.\n\n  \n    1\n    \n      Open your terminal and navigate to the project folder. If you cloned the repo, it'll be wherever you saved it.\n      cd data-analytics-notes\n    \n  \n\n  \n    2\n    \n      Start the Quarto preview server. This builds the site and opens it in your browser automatically.\n      quarto preview\n      The site will live-reload whenever you save a .qmd file — no need to restart.\n    \n  \n\n  \n    3\n    \n      Open your browser and go to the address shown in the terminal — usually:\n      http://localhost:4321\n    \n  \n\n  \n    ✓ Tip: Press Ctrl + C in the terminal when you're done to stop the preview server.\n  \n\n\n\n\n\n\n  Publishing to GitHub Pages\n  Quarto has a built-in command for this — no manual file copying needed.\n\n  \n    1\n    \n      Make sure GitHub Pages is set up. In your repo on GitHub, go to Settings → Pages and set the source to the gh-pages branch. You only need to do this once.\n    \n  \n\n  \n    2\n    \n      Commit your changes to the main branch as normal. Quarto publishes separately from your source files.\n      git add .\n      git commit -m \"Update week 3 notes\"\n      git push\n    \n  \n\n  \n    3\n    \n      Publish with Quarto. This builds the site and pushes the rendered output to your gh-pages branch in one go.\n      quarto publish gh-pages\n      The first time you run this, Quarto may ask you to confirm the publishing destination — just hit Enter.\n    \n  \n\n  \n    4\n    \n      Wait ~30–60 seconds, then visit your site. GitHub Pages takes a moment to deploy the new build.\n      https://lgolin.github.io/data-analytics-notes/\n    \n  \n\n  \n    ⚠ Note: Don't edit the gh-pages branch directly — it's managed by Quarto. Always make edits in your source files and re-run quarto publish gh-pages.",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#modules",
-    "href": "index.html#modules",
-    "title": "Home",
-    "section": "",
-    "text": "Data Mining\nRegression Analysis\nTime Series",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#how-ill-use-this-site",
-    "href": "index.html#how-ill-use-this-site",
-    "title": "Home",
-    "section": "",
-    "text": "Weekly lecture notes\nLab practice and R examples\nRevision summaries\nExam preparation notes",
     "crumbs": [
       "Home"
     ]
@@ -2269,6 +2249,234 @@
       "Data Mining",
       "Weekly Notes",
       "Week 2"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#key-topics-covered-this-week",
+    "href": "data-mining/week-8.html#key-topics-covered-this-week",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "",
+    "text": "Recommendation Engines II – Collaborative Filtering (user-based and item-based)\nDimensionality Reduction – Principal Component Analysis (PCA) and the MNIST dataset\nOutlier Analysis / Anomaly Detection – Using PCA reconstruction error and one-class SVM\nGraph Analytics – Nodes, edges, graph properties, algorithms, and PageRank\nPCA as a Pre-processing Step – Using dimensionality reduction before classification modelling",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#required-r-packages",
+    "href": "data-mining/week-8.html#required-r-packages",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "",
+    "text": "library(arules)\nlibrary(arulesViz)\nlibrary(recommenderlab)\nlibrary(igraph)\nlibrary(e1071)\n\nNote: If you see errors like could not find function \"xxxxx\", a package is either not loaded or not installed. Run the block above first.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#core-explanation",
+    "href": "data-mining/week-8.html#core-explanation",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "2.1 Core Explanation",
+    "text": "2.1 Core Explanation\nCollaborative filtering is a type of recommender system. Instead of looking at the content of items (like genre or description), it looks at the behaviour and preferences of users. The core idea is:\n\n“If two people have rated many things similarly, they probably have similar taste – and we can use one person’s ratings to predict the other’s.”\n\nThere are two main flavours:\n\nUser-based collaborative filtering (UBCF): Find users who are similar to the target user. Use their ratings to predict what the target user would rate unseen items. Think of it as “people like you also liked…”\nItem-based collaborative filtering (IBCF): Find items that tend to be rated similarly by many users. If two movies consistently receive similar ratings, seeing a rating for one lets you predict the other.\n\n\n2.1.1 Example\n\n\n\nUser\nToy Story\nGoldenEye\nFour Rooms\nGet Shorty\nCopycat\n\n\n\n\n1\n5\n3\n4\n??\n3\n\n\n2\n–\n4\n–\n4\n4\n\n\n3\n3\n–\n3\n–\n–\n\n\n4\n–\n5\n–\n4\n???\n\n\n5\n4\n–\n–\n–\n–\n\n\n6\n–\n3\n–\n–\n–\n\n\n\nUsers 2 and 4 rate GoldenEye and Get Shorty similarly → we can infer User 4’s rating for Copycat is likely between 4 and 5.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#walkthrough-in-r-movielense-dataset",
+    "href": "data-mining/week-8.html#walkthrough-in-r-movielense-dataset",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "2.2 Walkthrough in R (MovieLense Dataset)",
+    "text": "2.2 Walkthrough in R (MovieLense Dataset)\n\n2.2.1 Load and Explore\nlibrary(recommenderlab)\nset.seed(42)\ndata(MovieLense)\n# 943 users, 1664 movies\n# rating = 0 means no rating was given\n\n\n2.2.2 Filter the Data\nOnly keep users who rated ≥ 20 movies, and movies rated by ≥ 50 users. This removes sparse entries that would make predictions unreliable.\nratings = MovieLense[rowCounts(MovieLense) &gt;= 20,\n                     colCounts(MovieLense) &gt;= 50]\ndim(ratings)  # [1] 929 601\n\n\n2.2.3 Normalise Ratings\nDifferent users have different rating tendencies — some always rate things highly, others always rate things low. Normalisation centres each user’s ratings around zero so that these personal biases don’t distort comparisons.\nnorm_ratings = recommenderlab::normalize(ratings)\n\n\n2.2.4 Split into Train / Test\nThe evaluationScheme() function splits data so the model can be trained and then evaluated. Key parameters:\n\ngiven = 10: Each test user provides 10 known ratings for the model to use.\ngoodRating = 3: Ratings ≥ 3 count as a “good” recommendation.\nk = 3: Run the evaluation 3 times (cross-validation).\n\nevalScheme = evaluationScheme(data = ratings,\n                              method = \"split\",\n                              train = 0.9,\n                              given = 10,\n                              goodRating = 3,\n                              k = 3)\n\n\n2.2.5 Train and Evaluate Models\nUser-based (UBCF):\nrecommender = Recommender(data = getData(evalScheme, \"train\"),\n                          method = \"UBCF\")\npredictions = predict(object = recommender,\n                      newdata = getData(evalScheme, \"known\"),\n                      n = 12, type = \"ratings\")\n\naccuracy1 = calcPredictionAccuracy(x = predictions,\n                                   data = getData(evalScheme, \"unknown\"),\n                                   byUser = FALSE)\n# RMSE: 1.24  |  MAE: 0.98\nItem-based (IBCF):\nrecommender = Recommender(data = getData(evalScheme, \"train\"),\n                          method = \"IBCF\")\n# RMSE: 1.24  |  MAE: 0.91  ← slightly better\n\n\n2.2.6 Key Accuracy Metrics\n\n\n\n\n\n\n\nMetric\nMeaning\n\n\n\n\nMAE (Mean Absolute Error)\nAverage prediction error in rating units. MAE ≈ 0.98 means predictions are off by ~1 star on average.\n\n\nRMSE (Root Mean Squared Error)\nSimilar to MAE but penalises large errors more heavily.\n\n\nMSE\nMean Squared Error – RMSE²",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#core-explanation-1",
+    "href": "data-mining/week-8.html#core-explanation-1",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "3.1 Core Explanation",
+    "text": "3.1 Core Explanation\nImagine a spreadsheet with 784 columns (one per pixel in an image). Most of those columns carry redundant information — neighbouring pixels tend to have similar values. Dimensionality reduction compresses this data into fewer columns while trying to preserve as much of the meaningful variation as possible.\n\nKey insight: “Dimensions” = columns = features. Fewer dimensions → faster models, less memory, less noise.\n\n\n3.1.1 Principal Component Analysis (PCA)\nPCA is the most widely used dimensionality reduction technique. Here’s how it works, step by step:\n\nImagine your data as a cloud of points in multi-dimensional space.\nFind the line (direction) through that cloud that captures the most spread — this is the first principal component (PC1).\nFind the next direction that is perpendicular (orthogonal) to PC1 and captures the second-most spread → PC2.\nRepeat. Each component captures less and less variance.\nYou can then keep only the top N components that together explain a sufficient percentage of variance (e.g., 80%).\n\nPCA is related to linear regression in its use of least-squares fitting — both minimise the squared distance from points to a line.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#mnist-dataset",
+    "href": "data-mining/week-8.html#mnist-dataset",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "3.2 MNIST Dataset",
+    "text": "3.2 MNIST Dataset\nThe MNIST database is a classic benchmark dataset: 70,000 greyscale images (28×28 pixels = 784 pixel columns) of handwritten digits 0–9. It is commonly used to test image classification and dimensionality reduction methods.\ndigits &lt;- read.csv(\"data/train.csv\")\ndim(digits)  # 42000 rows × 785 columns (1 label + 784 pixels)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#applying-pca-to-mnist",
+    "href": "data-mining/week-8.html#applying-pca-to-mnist",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "3.3 Applying PCA to MNIST",
+    "text": "3.3 Applying PCA to MNIST\n\n3.3.1 Step 1: Filter to One Digit Class\ndigits_5 &lt;- digits[digits$label == 5, ]\ndigits_5$label &lt;- NULL\n\n# Remove pixels with zero variance (always black — no information)\ndigits_5b &lt;- digits_5[, apply(digits_5, 2, var, na.rm = TRUE) != 0]\n\n\n3.3.2 Step 2: Run PCA\npca &lt;- prcomp(digits_5b, center = TRUE, scale. = TRUE)\ns &lt;- summary(pca)\ncumprop &lt;- s$importance[3, ]  # Cumulative proportion of variance explained\nplot(cumprop, type = \"l\", main = \"Cumulative sum\", xlab = \"PCA component\")\nThe cumulative variance plot rises steeply at first (the first few components explain a lot) and then flattens (adding more components gives diminishing returns).\n\n\n3.3.3 Step 3: Choose How Many Components\n# How many components are needed to explain 80% of variance?\nnum_cols &lt;- min(which(cumprop &gt; 0.8))\nnum_cols   # 82 — only 82 components needed instead of 600+!\n\n82 components explain 80% of the variance in ~600 original pixel columns. That is an enormous reduction in data size.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#key-formula",
+    "href": "data-mining/week-8.html#key-formula",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "3.4 Key Formula",
+    "text": "3.4 Key Formula\n\\[\\text{Cumulative Variance Explained} = \\sum_{i=1}^{k} \\frac{\\lambda_i}{\\sum_{j} \\lambda_j}\\]\nWhere \\(\\lambda_i\\) is the eigenvalue (variance) of the \\(i\\)-th principal component.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#core-explanation-2",
+    "href": "data-mining/week-8.html#core-explanation-2",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "4.1 Core Explanation",
+    "text": "4.1 Core Explanation\nOutlier analysis (also called anomaly detection) finds data points that look very different from the rest. In a dataset of handwritten 5s, an outlier might be a particularly unusual or messy version of the digit — or even a mislabelled image.\nUses in practice: - Detecting fraudulent financial transactions - Identifying failing machinery - Flagging data entry errors\nOutliers can sometimes be removed to improve model performance, or they can be the signal you care about (fraud detection).",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#method-1-pca-reconstruction-error",
+    "href": "data-mining/week-8.html#method-1-pca-reconstruction-error",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "4.2 Method 1: PCA Reconstruction Error",
+    "text": "4.2 Method 1: PCA Reconstruction Error\nThe idea: apply PCA to compress the data, then reconstruct it back to the original dimensions. If a data point reconstructs accurately → it looks like typical data. If reconstruction error is high → it is unusual.\npreds &lt;- predict(pca, digits_5b)\n\n# Calculate MAE for each data point\nerror &lt;- vector()\nfor (n in 1:1000) {\n  actual_row &lt;- digits_5b[n, ]\n  pred_row   &lt;- preds[n, ]\n  error &lt;- c(error, sum(abs(actual_row - pred_row)) / length(actual_row))\n}\n\ndfError &lt;- data.frame(id = seq(1:length(error)), mae = error)\n\nLow MAE → looks like a typical “5” (clean, standard handwriting).\nHigh MAE → atypical “5” (very stylised, rotated, or possibly mislabelled as a 6).",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#method-2-one-class-svm",
+    "href": "data-mining/week-8.html#method-2-one-class-svm",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "4.3 Method 2: One-Class SVM",
+    "text": "4.3 Method 2: One-Class SVM\nSupport Vector Machines (SVM) are usually used for classification between two classes. A one-class SVM learns only from normal data and then flags any point that doesn’t fit the learned boundary as an outlier.\nlibrary(e1071)\nsvm.model &lt;- svm(digits_5b, y = NULL,\n                 type = 'one-classification',\n                 nu = 0.10,       # ~10% of points expected to be outliers\n                 scale = TRUE,\n                 kernel = \"radial\")\n\nsvm.predtrain &lt;- predict(svm.model, digits_5b)\ntable(svm.predtrain)\n# FALSE: 383 outliers detected\n# TRUE:  3412 normal points\nThe nu parameter controls how many outliers you expect (0.10 = allow up to 10%).",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#core-explanation-3",
+    "href": "data-mining/week-8.html#core-explanation-3",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "5.1 Core Explanation",
+    "text": "5.1 Core Explanation\nGraph analytics (network analysis) studies structures made up of:\n\nNodes (also called vertices): The entities — e.g., people, web pages, towns.\nEdges (also called links or relationships): The connections between entities — e.g., friendships, hyperlinks, roads.\n\nBoth nodes and edges can carry additional data (attributes), such as a user’s age (node attribute) or the distance between two towns (edge attribute/weight).",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#graph-properties",
+    "href": "data-mining/week-8.html#graph-properties",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "5.2 Graph Properties",
+    "text": "5.2 Graph Properties\n\n\n\n\n\n\n\n\nProperty\nDescription\nExample\n\n\n\n\nConnected vs Disconnected\nIs there a path between every pair of nodes?\nA social network is usually connected\n\n\nWeighted vs Unweighted\nDo edges have a numerical value?\nRoad distances between cities (weighted)\n\n\nDirected vs Undirected\nDo relationships have a direction (A→B ≠ B→A)?\nTwitter follows (directed) vs Facebook friends (undirected)\n\n\nCyclic vs Acyclic\nCan a path start and end at the same node?\nA route map with loops is cyclic",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#creating-a-simple-graph-in-r",
+    "href": "data-mining/week-8.html#creating-a-simple-graph-in-r",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "5.3 Creating a Simple Graph in R",
+    "text": "5.3 Creating a Simple Graph in R\nlibrary(igraph)\ng1 &lt;- make_graph(edges = c(1,2, 2,3, 3,4, 4,1), directed = FALSE)\nplot(g1, vertex.size = 40, edge.width = 2, edge.color = \"blue\")",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#types-of-graph-algorithms",
+    "href": "data-mining/week-8.html#types-of-graph-algorithms",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "5.4 Types of Graph Algorithms",
+    "text": "5.4 Types of Graph Algorithms\n\nPathfinding: Find the shortest route through nodes. Classic example: the Travelling Salesman Problem.\nCentrality: Identify the most important nodes in a network (e.g., most influential person in a social network).\nCommunity Detection: Find clusters/groups within the network — similar to clustering but on relational data.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#real-world-applications",
+    "href": "data-mining/week-8.html#real-world-applications",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "5.5 Real-World Applications",
+    "text": "5.5 Real-World Applications\n\nMarketing attribution: Tracing the sequence of adverts a user sees before a purchase.\nCustomer purchase modelling: Predicting what a customer will buy next based on purchase sequences.\nFraud network detection: Finding suspicious clusters of transactions.\nDisease spread modelling: Mapping how an infection moves through a population.\nInternet search engines: PageRank (see below).",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#pagerank",
+    "href": "data-mining/week-8.html#pagerank",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "5.6 PageRank",
+    "text": "5.6 PageRank\nPageRank was the algorithm that powered Google’s original search engine. It estimates the importance of a web page by:\n\nCounting how many other pages link to it.\nWeighing those links by the importance of the linking page (a link from bbc.com is worth far more than a link from an obscure site).\nIterating thousands of times until the scores stabilise.\n\nThis means a page with fewer but higher-quality inbound links can rank higher than a page with many low-quality links.\n# PageRank can be computed in igraph\npage_rank(g1)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#why-do-this",
+    "href": "data-mining/week-8.html#why-do-this",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "6.1 Why Do This?",
+    "text": "6.1 Why Do This?\nRunning a classifier on 784 raw pixel columns is slow and can suffer from the curse of dimensionality (too many features, not enough signal per feature). By applying PCA first, you:\n\nReduce the number of input features dramatically.\nRemove noise (low-variance components).\nSpeed up training significantly.\nOften improve accuracy.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-8.html#full-workflow",
+    "href": "data-mining/week-8.html#full-workflow",
+    "title": "STAT9013 – Week 8 Study Guide",
+    "section": "6.2 Full Workflow",
+    "text": "6.2 Full Workflow\n\n6.2.1 1. Load and Filter Data\ndigits &lt;- read.csv(\"data/train.csv\")\n\n# Keep only digits 5 and 6\ndata &lt;- digits[digits$label %in% c(5, 6), ]\ndata$label &lt;- as.factor(data$label)\n# 3795 fives, 4137 sixes → 7932 total\n\n\n6.2.2 2. Train/Test Split\n\nCritical rule: Always split before applying PCA. If you apply PCA to the full dataset and then split, the test set influences the PCA — this is called data leakage and will give you falsely optimistic results.\n\nset.seed(42)\ninput  &lt;- setdiff(names(data), \"label\")\nnobs   &lt;- nrow(data)\ntrain  &lt;- sample(nobs, 0.9 * nobs)\ntest   &lt;- setdiff(seq_len(nobs), train)\n\ntrain_data &lt;- data[train, ]\ntest_data  &lt;- data[test,  ]\n\n\n6.2.3 3. Apply PCA to Training Data Only\n# Remove zero-variance pixels\ntrain_data &lt;- train_data[, apply(train_data, 2, var, na.rm = TRUE) != 0]\ninput &lt;- setdiff(names(train_data), \"label\")\n\npca     &lt;- prcomp(train_data[, input], center = TRUE, scale. = TRUE)\ns       &lt;- summary(pca)\ncumprop &lt;- s$importance[3, ]\n\n# Find number of components for 80% variance\nnum_cols &lt;- min(which(cumprop &gt; 0.8))\n# num_cols = 96  →  96 components explain 80% of variance\n\n\n6.2.4 4. Project Both Sets onto PCA Space\n# Training set: take first 96 principal components\ntrain_pca &lt;- as.data.frame(pca$x[, 1:num_cols])\ntrain_pca$label &lt;- train_data$label\n\n# Test set: project using the SAME PCA transformation from train\ntest_pca &lt;- as.data.frame(predict(pca, test_data[, input]))\ntest_pca$label &lt;- test_data$label\ntest_pca &lt;- test_pca[, names(train_pca)]  # keep same columns\n\n\n6.2.5 5. Train a Logistic Regression Model\nlogistic_model &lt;- glm(formula = label ~ .,\n                      family = binomial(link = \"logit\"),\n                      data = train_pca)\n\n\n6.2.6 6. Evaluate\npr &lt;- predict(logistic_model, newdata = test_pca, type = \"response\")\npr &lt;- ifelse(pr &lt; 0.5, 5, 6)\npr &lt;- factor(pr)\n\ntab &lt;- table(pr, test_pca$label)\naccuracy &lt;- 100 * sum(diag(tab)) / sum(tab)\nprint(tab)\n# Accuracy ≈ 97.4%\nConfusion matrix result:\n\n\n\n\nActual 5\nActual 6\n\n\n\n\nPredicted 5\n379\n10\n\n\nPredicted 6\n11\n394\n\n\n\nOnly 21 misclassifications out of 794 test samples — excellent performance with greatly reduced data.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 8"
     ]
   }
 ]

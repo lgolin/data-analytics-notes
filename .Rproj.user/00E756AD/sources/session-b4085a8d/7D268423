@@ -1,14 +1,14 @@
 {
-    "id": "C81F9064",
-    "path": "~/Documents/MTU - 2025/Notes/Notes/index.qmd",
-    "project_path": "index.qmd",
+    "id": "7D268423",
+    "path": "~/Documents/MTU - 2025/Notes/Notes/data-mining/week-8.qmd",
+    "project_path": "data-mining/week-8.qmd",
     "type": "quarto_markdown",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1774688128217.0,
+    "created": 1774857044339.0,
     "source_on_save": false,
-    "relative_order": 3,
+    "relative_order": 4,
     "properties": {
         "rmdVisualMode": "false",
         "rmdVisualWrapConfigured": "true",
@@ -16,16 +16,16 @@
         "Source": "Source",
         "docOutlineVisible": "0",
         "rmdVisualCollapsedChunks": "",
-        "rmdVisualModeLocation": "2:0",
-        "cursorPosition": "17,21",
-        "scrollLine": "39"
+        "cursorPosition": "443,148",
+        "scrollLine": "434",
+        "rmdVisualModeLocation": "2:0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1774688317,
+    "lastKnownWriteTime": 1774857052,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1774688317680,
+    "last_content_update": 1774857052537,
     "read_only": false,
     "read_only_alternatives": []
 }

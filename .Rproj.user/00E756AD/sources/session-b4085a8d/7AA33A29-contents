@@ -49,13 +49,13 @@ website:
                 file: regression-analysis/week-4.qmd
               - text: "Week 5"
                 file: regression-analysis/week-5.qmd
-              - text: "Week 6 - empty"
+              - text: "Week 6"
                 file: regression-analysis/week-6.qmd
-              - text: "Week 7 - empty"
+              - text: "Week 7"
                 file: regression-analysis/week-7.qmd
-              - text: "Week 8 - empty"
+              - text: "Week 8"
                 file: regression-analysis/week-8.qmd
-              - text: "Week 9 - empty"
+              - text: "Week 9"
                 file: regression-analysis/week-9.qmd
 
       - section: "Time Series"

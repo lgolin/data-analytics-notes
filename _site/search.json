@@ -839,6 +839,162 @@
     ]
   },
   {
+    "objectID": "data-mining/week-6.html",
+    "href": "data-mining/week-6.html",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "",
+    "text": "NoteAbout These Notes\n\n\n\nThese notes are a beginner-friendly summary of Week 6 content from STAT9013. They cover Gradient Boosted Machines, Data Leakage, Sampling & Cross-Validation, Imbalanced Datasets, and an introduction to R Shiny. Leave space below each section for your own annotations and questions.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#gradient-boosted-machines-gbms",
+    "href": "data-mining/week-6.html#gradient-boosted-machines-gbms",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "2.1 Gradient Boosted Machines (GBMs)",
+    "text": "2.1 Gradient Boosted Machines (GBMs)\n\n2.1.1 What are they?\nGradient Boosted Machines (GBMs) are a family of machine learning algorithms that are among the most powerful tools available today. Together with Random Forests, GBMs tend to outperform most other algorithms on tabular data.\nBoth Random Forest and GBMs use many decision trees internally, but they build them in very different ways:\n\n\n\n\n\n\n\n\n\nRandom Forest\nGBM\n\n\n\n\nHow trees are built\nIndependently, all at the same time\nSequentially — one after the other\n\n\nHow data is selected\nBagging (random sampling with replacement)\nFocuses on errors from the previous tree\n\n\nEasy to interpret?\nSomewhat (feature importance available)\nNo — very difficult to interpret\n\n\nSpeed\nFaster (trees can be built in parallel)\nSlower (trees must be built one by one)\n\n\n\n\n\n2.1.2 Bagging (for Random Forest)\nBagging is short for Bootstrap Aggregating. The idea is to randomly select rows from your dataset with replacement (meaning the same row can be picked more than once). If you have 100 rows and you sample 100 rows with replacement, approximately 63% of rows will be unique — the rest are duplicates. This gives each decision tree a slightly different view of the data.\n\n\n2.1.3 How GBMs work (step by step)\n\nTrain the first decision tree on the full training data\nLook at which records the model got wrong (the errors, called residuals)\nBuild a second decision tree that focuses on those errors\nRepeat: each new tree tries to fix the mistakes of the previous tree\nCombine all trees to make the final prediction\n\n\n💡 Analogy: Imagine a student taking a practice test, then reviewing only the questions they got wrong, then taking another test focused on those weak areas. GBMs do exactly this, but with decision trees.\n\n\n\n2.1.4 Disadvantages of GBMs\n\nHard to interpret — you cannot easily see which features matter most\nComputationally expensive — trees must be built one by one (cannot be parallelised)\nRequire numeric input — all data must be converted to numbers first (using one-hot encoding)\nBenefit a lot from hyperparameter tuning (unlike Random Forests which often work well “out of the box”)\n\n\n\n2.1.5 R Code: Fitting a GBM with LightGBM\nlibrary(lightgbm)\n\n# Step 1: One-hot encode the training data (GBMs need all-numeric input)\ndmy &lt;- dummyVars(\" ~ .\", data = train_data)\ntrsf &lt;- data.frame(predict(dmy, newdata = train_data))\ntesf &lt;- data.frame(predict(dmy, newdata = test_data))\ntesf$Survived &lt;- NULL  # Remove the target from test data\n\n# Step 2: Separate the target (label) from the features\nlabels &lt;- trsf$Survived\ntrsf$Survived &lt;- NULL\n\n# Step 3: Convert to matrix (required by LightGBM)\nm_trsf &lt;- as.matrix(trsf)\n\n# Step 4: Train the GBM model\ngbm_model &lt;- lightgbm(\n  data  = m_trsf,\n  label = labels\n)\n\n# Step 5: Make predictions on the test set\npr &lt;- predict(gbm_model, newdata = as.matrix(tesf))\npr &lt;- ifelse(pr &gt; 0.5, 1, 0)   # Convert probabilities to class labels\npr &lt;- factor(pr, levels = c(1, 0))\n\n# Step 6: Evaluate accuracy\ntab      &lt;- table(pr, actuals)\naccuracy &lt;- 100 * sum(diag(tab) / sum(tab))\nprint(accuracy)  # ~76.7% on the Titanic dataset\n\n\n\n\n\n\nTipYour Notes\n\n\n\nAdd your own observations about GBMs here…",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#data-leakage",
+    "href": "data-mining/week-6.html#data-leakage",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "2.2 Data Leakage",
+    "text": "2.2 Data Leakage\n\n2.2.1 What is it?\nData leakage happens when the data used to train a model contains information about the target variable that would not actually be available at the time you make a real prediction in production.\nThe result: the model looks very accurate during testing, but performs poorly in the real world.\n\n\n2.2.2 Two types of data leakage\n1. Target leakage — a predictor variable was created or updated after the target event occurred.\n\nExample (medical): You are predicting whether a patient has a disease. One of your features is “prescribed antiviral drug X”. But the patient was only prescribed that drug because they were already diagnosed. So this variable was set after the event you are trying to predict.\n\n\nExample (Titanic): We created a fake field called Carpathia (the ship that rescued survivors). If someone is in the Carpathia list, they survived. This field could only be known after the Titanic sank — it cannot be used to predict survival.\n\n2. Data preparation leakage — you use information from the test set to prepare features in the training set.\n\nExample: If you calculate the mean age from the entire dataset (train + test) and use that to fill in missing ages, the test set has “leaked” into your training preparation. You should always calculate statistics like the mean only on the training data, then apply that value to both sets.\n\n\n\n2.2.3 How to spot data leakage\n\nA single feature produces a suspiciously high accuracy by itself\nThe most important feature in your model is something that logically could not be known at prediction time\nYour model is very simple (e.g. only 2–3 splits) but shows very high accuracy\n\n\n\n2.2.4 R Code: Correct way to impute missing values (no leakage)\n# CORRECT: calculate the mean from training data only\nmeanAge &lt;- mean(train_data$Age, na.rm = TRUE)\n\n# Apply that value to BOTH training and test sets\ntrain_data[is.na(train_data$Age), ]$Age &lt;- meanAge\ntest_data[is.na(test_data$Age), ]$Age   &lt;- meanAge\n\n\n\n\n\n\nTipYour Notes\n\n\n\nWrite examples of data leakage you can think of in real life…",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#sampling-and-cross-validation",
+    "href": "data-mining/week-6.html#sampling-and-cross-validation",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "2.3 Sampling and Cross-Validation",
+    "text": "2.3 Sampling and Cross-Validation\n\n2.3.1 The problem with a single train/test split\nWhen we split our data 90% train / 10% test and use set.seed(42) for reproducibility, the results we get depend on which 10% of records end up in the test set. For small datasets, this can cause the reported accuracy to vary a lot depending on the random split.\n# Running the same model with different seeds shows the variability:\n# [1] 80.00  73.33  74.44  77.78  76.67  83.33  81.11  75.56  80.00  71.11  76.67\nThe accuracy above ranges from 71% to 83% — a big swing caused only by which records happened to be in the test set!\n\n\n2.3.2 Why set.seed()?\nUsing set.seed(42) (or any fixed number) at the start of your code ensures that your results are reproducible — anyone who runs your code with the same data will get the same results. The number 42 has no special meaning; it is just a popular choice in the data science community (a reference to The Hitchhiker’s Guide to the Galaxy).\n\n\n2.3.3 Cross-Validation\nK-fold cross-validation is a better way to estimate model accuracy, especially for small datasets. Here is how it works:\n\nSplit your data into k equal groups (called folds)\nTrain k separate models. Each model uses k−1 folds for training and 1 fold for testing\nAverage the accuracy across all k models\n\nThe advantage is that every record gets used for testing exactly once, giving a more stable and unbiased estimate of accuracy.\n\nExample with k=5 (5-fold cross-validation): - Model 1 trains on folds 2,3,4,5 — tests on fold 1 - Model 2 trains on folds 1,3,4,5 — tests on fold 2 - … and so on\n\n\n\n2.3.4 R Code: Cross-Validation with caret\nlibrary(caret)\n\n# Run 5-fold cross-validation using a decision tree (rpart)\nmodel &lt;- train(\n  as.factor(Survived) ~ .,\n  data      = train_data,\n  method    = \"rpart\",\n  trControl = trainControl(method = \"cv\", number = 5)\n)\n\n# Evaluate on the test set\npr       &lt;- predict(model, newdata = test_data, type = \"raw\")\npr       &lt;- factor(pr, levels = c(1, 0))\ntab      &lt;- table(pr, actuals)\naccuracy &lt;- 100 * sum(diag(tab) / sum(tab))\nprint(accuracy)  # ~75.6%\n\n\n\n\n\n\nTipYour Notes\n\n\n\nAdd notes about when you would and would not use cross-validation…",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#imbalanced-datasets",
+    "href": "data-mining/week-6.html#imbalanced-datasets",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "2.4 Imbalanced Datasets",
+    "text": "2.4 Imbalanced Datasets\n\n2.4.1 What is the problem?\nIn many real-world classification problems, one class is much rarer than the other. Examples:\n\nMedical diagnosis: 99% of people screened do not have the disease\nFraud detection: less than 0.1% of transactions are fraudulent\nChurn analysis: most customers stay each month\nOnline advertising: click-through rates can be less than 0.1%\n\nThe problem: most machine learning algorithms assume roughly equal numbers of each class. When the data is imbalanced, the algorithm often just predicts the majority class every time — and still gets a high accuracy!\n\nExample: If 92% of records are “did not survive”, a model that always predicts “did not survive” achieves 92% accuracy — but it is completely useless at finding survivors.\n\n\n\n2.4.2 Three strategies to handle imbalanced data\n\n2.4.2.1 Strategy 1: Change the probability cut-off threshold\nBy default, a model predicts class 1 if the probability is ≥ 0.5. You can lower this threshold so that more records are classified as the minority class.\n# Default threshold: 0.5\n# Increase recall by lowering the threshold to 0.1\npr &lt;- predict(rpart, newdata = test_data)        # Get raw probabilities\npr &lt;- ifelse(pr[, 1] &gt; 0.9, 0, 1)               # Class 0 if P(class=0) &gt; 0.9\npr &lt;- factor(pr, levels = c(1, 0))\n\n\n2.4.2.2 Strategy 2: Assign a higher penalty to minority class errors\nSome algorithms allow you to say: “Penalise a False Negative more heavily than a False Positive.” This forces the model to try harder to detect the rare class.\n# In rpart, use the 'loss' matrix:\n# loss[i,j] = penalty for predicting class j when true class is i\n# Here: False Negatives (predicting 0 when truth is 1) cost 5x more than False Positives\nrpart_model &lt;- rpart(\n  Survived ~ .,\n  data   = train_data,\n  method = \"class\",\n  parms  = list(loss = matrix(c(0, 1, 5, 0), byrow = TRUE, nrow = 2))\n)\n\n\n2.4.2.3 Strategy 3: Resampling the training data\nThe most widely used approach is to change the training data itself so the classes are more balanced:\n\nUpsampling (oversampling): duplicate rows from the minority class until it matches the majority class size\nDownsampling (undersampling): remove rows from the majority class\n\n# Split training data by class\ntrain_data0 &lt;- train_data[train_data$Survived == 0, ]  # Majority class (549 rows)\ntrain_data1 &lt;- train_data[train_data$Survived == 1, ]  # Minority class (40 rows)\n\nnrows &lt;- 300  # Target size for each class\n\n# Downsample the majority class (take 300 from 494)\nsample0     &lt;- sample(nrow(train_data0), nrows)\ntrain_data0 &lt;- train_data0[sample0, ]\n\n# Upsample the minority class (take 300 from 40, with replacement = duplicates)\nsample1     &lt;- sample(nrow(train_data1), nrows, replace = TRUE)\ntrain_data1 &lt;- train_data1[sample1, ]\n\n# Combine and shuffle\ntrain_data &lt;- rbind(train_data0, train_data1)\ntrain_data &lt;- train_data[sample(nrow(train_data)), ]  # Shuffle rows\n\ntable(train_data$Survived)\n# 0   1\n# 300 300  &lt;-- Now balanced!\n\n\n\n2.4.3 The Precision–Recall Trade-Off\nWhen you try to increase recall (finding more of the minority class), you will usually decrease precision (some of your positive predictions will be wrong). This is a fundamental trade-off.\n\n\n\n\n\n\n\nTerm\nPlain English\n\n\n\n\nRecall (Sensitivity)\nOf all the actual positives, how many did the model find?\n\n\nPrecision\nOf all the records the model flagged as positive, how many were actually positive?\n\n\nHigh recall, low precision\nFind most of the sick/fraud cases, but also flag many healthy/legitimate ones\n\n\nLow recall, high precision\nOnly flag cases you are very sure about, but miss many real positives\n\n\n\n\n💡 A business user may say: “I need the model to find as many fraud cases as possible. We will then review them manually.” This means they want high recall, and they accept that some clean transactions will also be flagged for manual review.\n\n\n\n\n\n\n\nImportantKey Insight: Accuracy Is Not Always the Right Goal\n\n\n\nWhen data is imbalanced and you care about the rare class, accuracy is a misleading metric. Focus on recall (and precision) instead.\n\n\n\n\n\n\n\n\nTipYour Notes\n\n\n\nCan you think of a business problem where you would want high precision instead of high recall?",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#r-shiny-introduction",
+    "href": "data-mining/week-6.html#r-shiny-introduction",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "2.5 R Shiny (Introduction)",
+    "text": "2.5 R Shiny (Introduction)\nR Shiny is an R framework for building interactive web applications. It allows you to:\n\nCreate web dashboards and visualisations without knowing HTML/CSS/JavaScript\nLet users interact with the data in real time (sliders, dropdowns, inputs)\nShare your analysis as a live web link\n\n\n2.5.1 How to create your first Shiny app\n\nIn RStudio: File → New File → Shiny Web App\nGive your app a name (e.g. my_shiny_app)\nSelect Multiple File\nClick Create\nClick Run App and then Open in Browser\n\nYou will see a working histogram app where a slider controls the number of bins — and the graph updates in real time.\n\n\n2.5.2 Useful resources\n\n\n\nResource\nLink\n\n\n\n\nShiny tutorial\nhttps://shiny.posit.co/r/getstarted/shiny-basics/lesson1/index.html\n\n\nShiny gallery (examples + code)\nhttps://shiny.posit.co/r/gallery/\n\n\nMastering Shiny (free book)\nhttps://mastering-shiny.org/index.html\n\n\nDashboard examples\nhttps://rstudio.github.io/shinydashboard/examples.html\n\n\n\n\n\n\n\n\n\nTipYour Notes\n\n\n\nWhat kind of data would you like to visualise with a Shiny app?",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#accuracy",
+    "href": "data-mining/week-6.html#accuracy",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "3.1 Accuracy",
+    "text": "3.1 Accuracy\n\\[\n\\text{Accuracy} = \\frac{\\text{Correct predictions}}{\\text{Total predictions}} \\times 100\n\\]",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#precision",
+    "href": "data-mining/week-6.html#precision",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "3.2 Precision",
+    "text": "3.2 Precision\n\\[\n\\text{Precision} = \\frac{TP}{TP + FP}\n\\]",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#recall-sensitivity",
+    "href": "data-mining/week-6.html#recall-sensitivity",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "3.3 Recall (Sensitivity)",
+    "text": "3.3 Recall (Sensitivity)\n\\[\n\\text{Recall} = \\frac{TP}{TP + FN}\n\\]\nWhere:\n\nTP = True Positives (correctly predicted positives)\nFP = False Positives (predicted positive, actually negative)\nFN = False Negatives (predicted negative, actually positive)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#example-1-gbm-on-the-titanic-dataset",
+    "href": "data-mining/week-6.html#example-1-gbm-on-the-titanic-dataset",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "4.1 Example 1: GBM on the Titanic Dataset",
+    "text": "4.1 Example 1: GBM on the Titanic Dataset\nThe lightgbm package was used to train a Gradient Boosted Machine on the Titanic survival dataset. After one-hot encoding all categorical variables and converting to a matrix, the model achieved approximately 76.7% accuracy on the test set.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#example-2-data-leakage-the-carpathia-field",
+    "href": "data-mining/week-6.html#example-2-data-leakage-the-carpathia-field",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "4.2 Example 2: Data Leakage — the Carpathia Field",
+    "text": "4.2 Example 2: Data Leakage — the Carpathia Field\nA fake field Carpathia was added to the Titanic dataset. This field was strongly correlated with survival (survivors boarded the rescue ship Carpathia). Including this field:\n\nBoosted accuracy from ~76% to 91%\nProduced a very simple decision tree using only 3 variables\nThe top split was Carpathia = yes/no — a clear warning sign\n\nLesson: Always ask: Could this variable have been recorded before the event I am predicting?",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#example-3-cross-validation-stability",
+    "href": "data-mining/week-6.html#example-3-cross-validation-stability",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "4.3 Example 3: Cross-Validation Stability",
+    "text": "4.3 Example 3: Cross-Validation Stability\nRunning the same decision tree model with 10 different random seeds produced accuracies ranging from 71% to 83%. Using 5-fold cross-validation with caret gave a more stable estimate of ~76%.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-6.html#example-4-imbalanced-titanic-data",
+    "href": "data-mining/week-6.html#example-4-imbalanced-titanic-data",
+    "title": "STAT9013 – Week 6 Study Guide",
+    "section": "4.4 Example 4: Imbalanced Titanic Data",
+    "text": "4.4 Example 4: Imbalanced Titanic Data\nAfter artificially reducing the dataset to only 7.5% survivors:\n\n\n\nApproach\nAccuracy\nRecall (survivors found)\n\n\n\n\nDefault decision tree\n93%\n20% (1 of 5)\n\n\nLower threshold (0.9)\n75%\n60% (3 of 5)\n\n\nLoss matrix (FN penalty ×5)\n80%\n40% (2 of 5)\n\n\nUpsample minority class\n80%\n60% (3 of 5)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 6"
+    ]
+  },
+  {
     "objectID": "regression-analysis/week-2.html",
     "href": "regression-analysis/week-2.html",
     "title": "Week 2: Statistical Inference",
@@ -1144,7 +1300,7 @@
     "crumbs": [
       "Time Series",
       "Weekly Notes",
-      "Week 2"
+      "Week 2 - empty"
     ]
   },
   {
@@ -1156,7 +1312,7 @@
     "crumbs": [
       "Time Series",
       "Weekly Notes",
-      "Week 1"
+      "Week 1 - empty"
     ]
   },
   {
@@ -1796,13 +1952,229 @@
   {
     "objectID": "regression-analysis/week-9.html",
     "href": "regression-analysis/week-9.html",
-    "title": "Week 9",
+    "title": "Week 9 Study Guide: Multiple Linear Regression",
     "section": "",
-    "text": "The main takeaway from this class is that we just need to make sure that I understand what it is that you need to look at when you’re looking at each one because we will need to be able to interpret them.",
+    "text": "📝 Note to self: These notes are a summary of the live lecture transcript. Review alongside the slides posted on campus and the lab exercises. Paula mentioned she will upload exercises after the break — revisit and annotate those sections once available.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
-      "Week 9 - empty"
+      "Week 9"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html",
+    "href": "data-mining/week-7.html",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "",
+    "text": "📝 Note for review: This document is a summary of the Week 7 lecture. You can add your own annotations, extra examples, or questions in the spaces marked with &lt;!-- ADD NOTES HERE --&gt;.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#why-communication-matters",
+    "href": "data-mining/week-7.html#why-communication-matters",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "3.1 Why Communication Matters",
+    "text": "3.1 Why Communication Matters\nOne of the most important skills for a data scientist is the ability to communicate results clearly to people who are not data scientists. The best model in the world has no value if nobody understands it or acts on it.\nKey guidelines:\n\nFocus on business value, not the machine learning technique. Nobody in business wants to hear about logistic regression – they want to know how many customers you will keep or how much money will be saved.\nKnow your audience. A process engineer understands box plots and statistics. A marketing analyst may not.\nMany data science projects do not need machine learning. Creating good dashboards and visualisations is often more valuable.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#three-ways-to-describe-the-same-model",
+    "href": "data-mining/week-7.html#three-ways-to-describe-the-same-model",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "3.2 Three Ways to Describe the Same Model",
+    "text": "3.2 Three Ways to Describe the Same Model\nHere is an example of three ways to explain the same churn prediction model:\n\n\n\n\n\n\n\n\nSummary\nAudience\nQuality\n\n\n\n\n“Logistic regression with regularisation, recall 80%, precision 66%”\nData scientist peers\nToo technical for business\n\n\n“Identifies 80% of customers who will not return in 30 days; wrong 33% of the time”\nMarketing team\nMuch better – explains the outcome\n\n\n“Campaign will break even at 10% coupon redemption; at 20% redemption, incremental spend = €11,648, 1,500 extra customers retained”\nBusiness decision makers\nBest – connects model to money\n\n\n\nKey idea: The third summary uses a mathematical model in Excel (not a machine learning model) to combine the data scientist’s metrics (recall, precision) with the marketing team’s assumptions (coupon cost, redemption rate). This allows both sides to be held accountable for their assumptions.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#what-is-clustering",
+    "href": "data-mining/week-7.html#what-is-clustering",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "4.1 What Is Clustering?",
+    "text": "4.1 What Is Clustering?\nClustering (also called segmentation) is an unsupervised machine learning task. This means there is no target variable – we are not trying to predict anything. Instead, we are trying to find groups of data that are similar to each other.\nPractical example: A supermarket might cluster its customers into groups like “young families”, “students”, and “pensioners”, each of which has different shopping habits. This allows the business to target each group differently.\n\n⚠️ Important: Clusters will almost never be the same size. Expect one large cluster (the “average” customer) and several smaller, more interesting ones.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#why-we-need-to-standardise-data",
+    "href": "data-mining/week-7.html#why-we-need-to-standardise-data",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "4.2 Why We Need to Standardise Data",
+    "text": "4.2 Why We Need to Standardise Data\nBefore clustering, we must standardise all numeric columns so they are on the same scale (0 to 1). Without this, columns with larger numbers (like square metres) will dominate over columns with smaller numbers (like number of bedrooms), even if the smaller column is more meaningful.\n\n4.2.1 Standardisation Formula\n\\[x_{standardised} = \\frac{x - \\min(x)}{\\max(x) - \\min(x)}\\]\nThis converts any numeric value to a number between 0 and 1.\nIn R:\nstandardise &lt;- function(x) {\n  (x - min(x)) / (max(x) - min(x))\n}\n\niris$Sepal.Length &lt;- standardise(iris$Sepal.Length)\niris$Sepal.Width  &lt;- standardise(iris$Sepal.Width)\niris$Petal.Length &lt;- standardise(iris$Petal.Length)\niris$Petal.Width  &lt;- standardise(iris$Petal.Width)\nAfter standardisation, the minimum of every column will be 0 and the maximum will be 1.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#k-means-clustering",
+    "href": "data-mining/week-7.html#k-means-clustering",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "4.3 K-Means Clustering",
+    "text": "4.3 K-Means Clustering\n\n4.3.1 How It Works\n\nYou choose k (the number of clusters) before running the algorithm.\nThe algorithm randomly places k centre points (called centroids).\nEach data point is assigned to the nearest centroid.\nEach centroid is moved to the average position of all points assigned to it.\nSteps 3 and 4 repeat until the assignments stop changing.\n\nThe algorithm is not guaranteed to find the perfect solution, so it is usually run multiple times (e.g. nstart = 10) and the best result is kept.\nK-means tries to minimise the within-cluster variation – it wants the points inside each cluster to be as close together as possible.\n\n\n4.3.2 R Code: K-Means on the Iris Dataset\n# Run k-means with 3 clusters, 10 random starts\nk_clusters &lt;- kmeans(iris[, 1:4], centers = 3, nstart = 10)\n\n# View results\nk_clusters\nThe output shows: - The cluster means (centre of each cluster for each variable) - Which cluster each data point belongs to - The within-cluster sum of squares (lower = tighter clusters)\n\n\n4.3.3 How to Choose k: The Elbow Method\nIf you do not know the number of clusters in advance, use the elbow method:\n\nRun k-means for k = 1, 2, 3, …, 10.\nPlot the total within-cluster sum of squares for each k.\nFind the point where the line “bends” like an elbow – that is your best k.\n\ntot.withinss &lt;- c()\n\nfor (k in 1:10) {\n  k_clusters &lt;- kmeans(iris[, 1:4], k, nstart = 10)\n  tot.withinss &lt;- c(tot.withinss, k_clusters$tot.withinss)\n}\n\nplot(main = \"Selecting k: Elbow Method\", tot.withinss, type = \"l\")\n\nThe curve drops steeply at first, then flattens out. The “elbow” (where the flattening begins) indicates the best number of clusters. For the iris dataset, the elbow is at k = 3.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#hierarchical-clustering",
+    "href": "data-mining/week-7.html#hierarchical-clustering",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "4.4 Hierarchical Clustering",
+    "text": "4.4 Hierarchical Clustering\n\n4.4.1 How It Works\nHierarchical clustering is a bottom-up approach:\n\nEvery data point starts as its own cluster (150 points = 150 clusters).\nThe two closest clusters are merged into one.\nStep 2 repeats until all points are in a single cluster.\n\nThe result is shown as a dendrogram (a tree diagram). You can then “cut” the tree at any height to get the number of clusters you want.\nAdvantage over k-means: You do not need to choose k in advance.\n\n\n4.4.2 Reading a Dendrogram\n\nDraw a horizontal line across the tree at any height.\nCount how many vertical lines it crosses – that is the number of clusters.\nThe vertical distance between merges tells you how different the clusters are. Larger gaps = more distinct clusters.\n\n\n\n4.4.3 R Code: Hierarchical Clustering on the Iris Dataset\n# Calculate distances between points, then cluster\nh_clusters &lt;- hclust(dist(iris[, 1:4]))\n\n# Cut the tree to get 3 clusters\nclusterId &lt;- cutree(h_clusters, 3)\n\n# Add the cluster ID back to the data\niris$clusterId &lt;- as.factor(clusterId)\n\n# Plot the dendrogram\nplot(h_clusters)",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#interpreting-clusters",
+    "href": "data-mining/week-7.html#interpreting-clusters",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "4.5 Interpreting Clusters",
+    "text": "4.5 Interpreting Clusters\nAfter clustering, a common question is: what do the clusters mean?\nThe answer is to use the same exploratory data analysis techniques from earlier weeks – but instead of colouring plots by a target variable, colour them by cluster ID.\nlibrary(ggplot2)\n\n# Scatter plots coloured by cluster\np1 &lt;- qplot(Sepal.Width, Sepal.Length, data = iris,\n            colour = clusterId, main = \"Sepal.Width vs Sepal.Length\")\n\np2 &lt;- qplot(Petal.Length, Petal.Width, data = iris,\n            colour = clusterId, main = \"Petal.Length vs Petal.Width\")\n\ngridExtra::grid.arrange(p1, p2)\nLook for patterns in the plots: - Do certain clusters have higher values on certain variables? - Can you give a meaningful name to each cluster? (e.g. “Large flowers”, “Small flowers”)\n\n4.5.1 Comparing Clusters to a Known Variable\nEven though clustering does not use the Species column, we can check how well the clusters match it afterwards:\ntable(iris$clusterId, iris$Species)\nA good match between clusters and the known species confirms the clustering is working well.\n\n🔑 Key reminder: Clustering does not aim to create equal-sized groups. In real retail data, you might find 80% of customers in one large “average” cluster, and small but very interesting clusters of students, pensioners, or high-spending customers.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#what-are-they",
+    "href": "data-mining/week-7.html#what-are-they",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "5.1 What Are They?",
+    "text": "5.1 What Are They?\nRecommendation engines are systems that suggest products to customers based on what other customers bought. Examples:\n\n“People who bought this also bought…”\n“These items are commonly purchased together”\n\nThe most common algorithm for this is the Apriori algorithm, which finds patterns of items bought together in transactions (called market basket analysis).",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#three-key-metrics",
+    "href": "data-mining/week-7.html#three-key-metrics",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "5.2 Three Key Metrics",
+    "text": "5.2 Three Key Metrics\n\n5.2.1 1. Support\nHow common is this item or item set?\n\\[\\text{Support}(X) = \\frac{\\text{Number of transactions containing } X}{\\text{Total number of transactions}}\\]\nSupport is used to filter out rare items. If an item only appears in 0.01% of transactions, any rule involving it will not be useful in practice.\n\n\n5.2.2 2. Confidence\nIf a customer buys X, how likely are they to also buy Y?\n\\[\\text{Confidence}(X \\Rightarrow Y) = \\frac{\\text{Support}(X \\text{ and } Y)}{\\text{Support}(X)}\\]\nThis measures the strength of the rule “if X then Y”.\n\n\n5.2.3 3. Lift\nIs the relationship between X and Y stronger than what we would expect by chance?\n\\[\\text{Lift}(X \\Rightarrow Y) = \\frac{\\text{Support}(X \\text{ and } Y)}{\\text{Support}(X) \\times \\text{Support}(Y)}\\]\n\n\n\nLift value\nMeaning\n\n\n\n\n&gt; 1\nBuying X makes buying Y more likely than normal\n\n\n= 1\nX and Y are bought independently of each other\n\n\n&lt; 1\nBuying X makes buying Y less likely than normal\n\n\n\n\n🔑 Lift is the most important metric. Select rules with the highest lift. A lift of 3.0 means a customer is 3× more likely to buy Y when they have X in their basket.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#r-code-apriori-on-the-groceries-dataset",
+    "href": "data-mining/week-7.html#r-code-apriori-on-the-groceries-dataset",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "5.3 R Code: Apriori on the Groceries Dataset",
+    "text": "5.3 R Code: Apriori on the Groceries Dataset\nlibrary(arules)\nlibrary(arulesViz)\n\n# Load the built-in grocery dataset\ndata(\"Groceries\")\nsummary(Groceries)\n\n# Look at the first 3 transactions\ninspect(head(Groceries, 3))\n\n# See the most frequently bought items\nfreq &lt;- itemFrequency(Groceries, type = \"absolute\")\nfreq &lt;- sort(freq, decreasing = TRUE)\nhead(freq)\n\n# Plot item frequencies for top 20 items\nitemFrequencyPlot(Groceries, topN = 20)\n\n5.3.1 Running the Apriori Algorithm\n# Items must appear in at least 1% of transactions\n# Rules must have at least 30% confidence\nsupport    &lt;- 0.01\nconfidence &lt;- 0.30\nparameters &lt;- list(support = support, confidence = confidence, target = \"rules\")\n\nrules &lt;- apriori(Groceries, parameter = parameters)\n\n# View rules as a data frame\ndfRules &lt;- data.frame(item_set = labels(rules), quality = rules@quality)\nhead(dfRules)\n\n\n5.3.2 Plotting the Rules\n# Scatter plot of all rules\nplot(rules)\n\n# Network graph of only the strongest rules (lift &gt;= 3)\nrulesLift &lt;- subset(rules, lift &gt;= 3.0)\nplot(rulesLift, method = \"graph\")",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#verifying-calculations-manually",
+    "href": "data-mining/week-7.html#verifying-calculations-manually",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "5.4 Verifying Calculations Manually",
+    "text": "5.4 Verifying Calculations Manually\nYou can verify what the algorithm is doing by calculating the metrics by hand:\n# Convert sparse matrix to full data frame\ndfTrans &lt;- data.frame(as(Groceries, \"matrix\"))\n\n# Calculate support, confidence, and lift for beef =&gt; root vegetables\nsupport    &lt;- sum(dfTrans$beef & dfTrans$root.vegetables) / nrow(dfTrans)\nconfidence &lt;- sum(dfTrans$beef & dfTrans$root.vegetables) / sum(dfTrans$beef)\nlift       &lt;- support / ((sum(dfTrans$beef) / nrow(dfTrans)) *\n                         (sum(dfTrans$root.vegetables) / nrow(dfTrans)))",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#applying-recommendation-rules-in-practice",
+    "href": "data-mining/week-7.html#applying-recommendation-rules-in-practice",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "5.5 Applying Recommendation Rules in Practice",
+    "text": "5.5 Applying Recommendation Rules in Practice\nThings to consider when using recommendations in a real business:\n\nTransactional vs. member-based: You can group items by transaction ID (what is in one basket right now) or by member ID (what a person has bought over their whole history). Member-based rules can capture purchases that happen months apart (e.g. a cyclist buys a bike, then later a helmet, then cycling shoes).\nUse segmentation + recommendations together: Run the recommendation engine separately on each customer segment. This gives much more targeted and relevant suggestions.\nSubstitute vs. complement products:\n\nA substitute is a similar product (e.g. a different brand of TV). Goal: upsell (buy a better version).\nA complement is a product bought alongside the main product (e.g. a TV cable). Goal: cross-sell (buy something extra).\n\nAvoid bombarding customers. If someone just bought a TV, showing them more TV ads for 6 months is annoying and ineffective.\nEthics matter. A famous example: Target (US supermarket) identified pregnant women from their shopping habits and sent them baby product offers. One teenager’s father received the offers before he knew about the pregnancy. Always consider how customers will feel about personalised targeting.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#what-is-a-hyperparameter",
+    "href": "data-mining/week-7.html#what-is-a-hyperparameter",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "6.1 What Is a Hyperparameter?",
+    "text": "6.1 What Is a Hyperparameter?\nIn statistics, a parameter usually means a variable in your data (e.g. age, income).\nIn machine learning, a hyperparameter is a setting of the algorithm itself – something you choose before training, not learned from the data.\nExamples:\n\n\n\n\n\n\n\nAlgorithm\nHyperparameter examples\n\n\n\n\nDecision Tree\nSplitting criterion (Gini, entropy)\n\n\nSupport Vector Machine\nKernel function (linear, RBF)\n\n\nNeural Network\nNumber of layers, nodes per layer, learning rate\n\n\nRandom Forest\nNumber of trees (ntree), features per tree (mtry)\n\n\n\nThe process of finding the best set of hyperparameters is called hyperparameter optimisation.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#methods-for-hyperparameter-optimisation",
+    "href": "data-mining/week-7.html#methods-for-hyperparameter-optimisation",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "6.2 Methods for Hyperparameter Optimisation",
+    "text": "6.2 Methods for Hyperparameter Optimisation\n\n6.2.1 Grid Search\nTry every possible combination of hyperparameters. If you have 4 hyperparameters with 2, 5, 3, and 2 possible values each:\n\\[2 \\times 5 \\times 3 \\times 2 = 60 \\text{ experiments}\\]\nGrid search is exhaustive but very slow for large numbers of hyperparameters.\n\n\n6.2.2 Random Search\nSelect combinations at random. Useful when you cannot afford to run all combinations. Less thorough than grid search, but much faster.\n\n\n6.2.3 Bayesian Search\nStarts like random search, then focuses on the most promising area based on the results seen so far. Think of it like the hot/cold game – it “gets warmer” and homes in on the best region.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#r-code-manual-hyperparameter-search-random-forest",
+    "href": "data-mining/week-7.html#r-code-manual-hyperparameter-search-random-forest",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "6.3 R Code: Manual Hyperparameter Search (Random Forest)",
+    "text": "6.3 R Code: Manual Hyperparameter Search (Random Forest)\nlibrary(randomForest)\n\n# Define hyperparameter values to try\ntrees &lt;- c(50, 200, 500)\nmtrys &lt;- c(4, 6)\n\nbest_accuracy &lt;- 0\n\nfor (v1 in trees) {\n  for (v2 in mtrys) {\n    rf_model &lt;- randomForest(as.factor(Survived) ~ .,\n                             data  = train_data,\n                             ntree = v1,\n                             mtry  = v2)\n\n    pr  &lt;- predict(rf_model, newdata = test_data, type = \"class\")\n    pr  &lt;- factor(pr, levels = c(1, 0))\n    tab &lt;- table(pr, actuals)\n    accuracy &lt;- 100 * sum(diag(tab)) / sum(tab)\n\n    if (accuracy &gt; best_accuracy) {\n      best_tree     &lt;- v1\n      best_mtry     &lt;- v2\n      best_accuracy &lt;- accuracy\n    }\n  }\n}\n\nprint(paste0(\"Best accuracy = \", round(best_accuracy, 2),\n             \", ntree = \", best_tree,\n             \", mtry = \", best_mtry))\n\nThis runs 6 experiments (3 tree values × 2 mtry values). In practice, use the caret or tidymodels packages to do this automatically and more rigorously.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#important-warnings",
+    "href": "data-mining/week-7.html#important-warnings",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "6.4 Important Warnings",
+    "text": "6.4 Important Warnings\n\n6.4.1 You Need THREE Data Splits for Hyperparameter Optimisation\nWhen optimising hyperparameters, do not keep evaluating on the same test set – you are effectively peeking at the answers. Use:\n\nTraining set – train the model\nValidation set – compare hyperparameter combinations\nTest set – used only once at the very end to report final accuracy\n\nA typical split might be 70% / 15% / 15%.\n\n\n6.4.2 Hyperparameter Optimisation Is NOT the First Step\n\n⚠️ Feature engineering and data quality matter much more than hyperparameter tuning. Most algorithms give reasonable results with default settings. Only optimise hyperparameters once your data preparation is solid.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
+    ]
+  },
+  {
+    "objectID": "data-mining/week-7.html#automl",
+    "href": "data-mining/week-7.html#automl",
+    "title": "STAT9013 – Week 7 Study Guide",
+    "section": "6.5 AutoML",
+    "text": "6.5 AutoML\nSome tools (e.g. h2o.ai, AWS SageMaker) automate the whole process: selecting the algorithm AND tuning the hyperparameters. This is called AutoML.\n\nUseful for extracting the last small improvement in performance.\nCan run for days on large datasets using multiple cloud machines.\nThe improvement is usually small (often less than 1% accuracy difference between models).\nShould be the last step in your workflow, not the first.",
+    "crumbs": [
+      "Data Mining",
+      "Weekly Notes",
+      "Week 7"
     ]
   },
   {
@@ -2288,375 +2660,615 @@
     ]
   },
   {
-    "objectID": "data-mining/week-6.html",
-    "href": "data-mining/week-6.html",
-    "title": "STAT9013 – Week 6 Study Guide",
+    "objectID": "regression-analysis/week-6.html",
+    "href": "regression-analysis/week-6.html",
+    "title": "Week 6 – Two-Way ANOVA",
     "section": "",
-    "text": "NoteAbout These Notes\n\n\n\nThese notes are a beginner-friendly summary of Week 6 content from STAT9013. They cover Gradient Boosted Machines, Data Leakage, Sampling & Cross-Validation, Imbalanced Datasets, and an introduction to R Shiny. Leave space below each section for your own annotations and questions.",
+    "text": "📝 Note to self: These notes are a first draft — leave room below each section for your own annotations, worked examples, and exam tips.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 6"
     ]
   },
   {
-    "objectID": "data-mining/week-6.html#gradient-boosted-machines-gbms",
-    "href": "data-mining/week-6.html#gradient-boosted-machines-gbms",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "2.1 Gradient Boosted Machines (GBMs)",
-    "text": "2.1 Gradient Boosted Machines (GBMs)\n\n2.1.1 What are they?\nGradient Boosted Machines (GBMs) are a family of machine learning algorithms that are among the most powerful tools available today. Together with Random Forests, GBMs tend to outperform most other algorithms on tabular data.\nBoth Random Forest and GBMs use many decision trees internally, but they build them in very different ways:\n\n\n\n\n\n\n\n\n\nRandom Forest\nGBM\n\n\n\n\nHow trees are built\nIndependently, all at the same time\nSequentially — one after the other\n\n\nHow data is selected\nBagging (random sampling with replacement)\nFocuses on errors from the previous tree\n\n\nEasy to interpret?\nSomewhat (feature importance available)\nNo — very difficult to interpret\n\n\nSpeed\nFaster (trees can be built in parallel)\nSlower (trees must be built one by one)\n\n\n\n\n\n2.1.2 Bagging (for Random Forest)\nBagging is short for Bootstrap Aggregating. The idea is to randomly select rows from your dataset with replacement (meaning the same row can be picked more than once). If you have 100 rows and you sample 100 rows with replacement, approximately 63% of rows will be unique — the rest are duplicates. This gives each decision tree a slightly different view of the data.\n\n\n2.1.3 How GBMs work (step by step)\n\nTrain the first decision tree on the full training data\nLook at which records the model got wrong (the errors, called residuals)\nBuild a second decision tree that focuses on those errors\nRepeat: each new tree tries to fix the mistakes of the previous tree\nCombine all trees to make the final prediction\n\n\n💡 Analogy: Imagine a student taking a practice test, then reviewing only the questions they got wrong, then taking another test focused on those weak areas. GBMs do exactly this, but with decision trees.\n\n\n\n2.1.4 Disadvantages of GBMs\n\nHard to interpret — you cannot easily see which features matter most\nComputationally expensive — trees must be built one by one (cannot be parallelised)\nRequire numeric input — all data must be converted to numbers first (using one-hot encoding)\nBenefit a lot from hyperparameter tuning (unlike Random Forests which often work well “out of the box”)\n\n\n\n2.1.5 R Code: Fitting a GBM with LightGBM\nlibrary(lightgbm)\n\n# Step 1: One-hot encode the training data (GBMs need all-numeric input)\ndmy &lt;- dummyVars(\" ~ .\", data = train_data)\ntrsf &lt;- data.frame(predict(dmy, newdata = train_data))\ntesf &lt;- data.frame(predict(dmy, newdata = test_data))\ntesf$Survived &lt;- NULL  # Remove the target from test data\n\n# Step 2: Separate the target (label) from the features\nlabels &lt;- trsf$Survived\ntrsf$Survived &lt;- NULL\n\n# Step 3: Convert to matrix (required by LightGBM)\nm_trsf &lt;- as.matrix(trsf)\n\n# Step 4: Train the GBM model\ngbm_model &lt;- lightgbm(\n  data  = m_trsf,\n  label = labels\n)\n\n# Step 5: Make predictions on the test set\npr &lt;- predict(gbm_model, newdata = as.matrix(tesf))\npr &lt;- ifelse(pr &gt; 0.5, 1, 0)   # Convert probabilities to class labels\npr &lt;- factor(pr, levels = c(1, 0))\n\n# Step 6: Evaluate accuracy\ntab      &lt;- table(pr, actuals)\naccuracy &lt;- 100 * sum(diag(tab) / sum(tab))\nprint(accuracy)  # ~76.7% on the Titanic dataset\n\n\n\n\n\n\nTipYour Notes\n\n\n\nAdd your own observations about GBMs here…",
+    "objectID": "regression-analysis/week-6.html#what-is-two-way-anova",
+    "href": "regression-analysis/week-6.html#what-is-two-way-anova",
+    "title": "Week 6 – Two-Way ANOVA",
+    "section": "2.1 What is Two-Way ANOVA?",
+    "text": "2.1 What is Two-Way ANOVA?\nANOVA stands for Analysis of Variance. It is a statistical test used to compare the means of three or more groups to see if at least one group mean is significantly different from the others.\nOne-Way ANOVA (covered previously) uses a single categorical independent variable to explain differences in a continuous dependent variable.\nTwo-Way ANOVA extends this idea to include two categorical independent variables (called factors) and one continuous dependent variable. This lets us ask three questions at once:\n\nDoes Factor A affect the outcome?\nDoes Factor B affect the outcome?\nDo Factors A and B interact — does the effect of one depend on the level of the other?\n\n\n💡 Key insight from class: Always look at the interaction effect first. If there is a significant interaction, interpreting the main effects in isolation is not meaningful.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 6"
     ]
   },
   {
-    "objectID": "data-mining/week-6.html#data-leakage",
-    "href": "data-mining/week-6.html#data-leakage",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "2.2 Data Leakage",
-    "text": "2.2 Data Leakage\n\n2.2.1 What is it?\nData leakage happens when the data used to train a model contains information about the target variable that would not actually be available at the time you make a real prediction in production.\nThe result: the model looks very accurate during testing, but performs poorly in the real world.\n\n\n2.2.2 Two types of data leakage\n1. Target leakage — a predictor variable was created or updated after the target event occurred.\n\nExample (medical): You are predicting whether a patient has a disease. One of your features is “prescribed antiviral drug X”. But the patient was only prescribed that drug because they were already diagnosed. So this variable was set after the event you are trying to predict.\n\n\nExample (Titanic): We created a fake field called Carpathia (the ship that rescued survivors). If someone is in the Carpathia list, they survived. This field could only be known after the Titanic sank — it cannot be used to predict survival.\n\n2. Data preparation leakage — you use information from the test set to prepare features in the training set.\n\nExample: If you calculate the mean age from the entire dataset (train + test) and use that to fill in missing ages, the test set has “leaked” into your training preparation. You should always calculate statistics like the mean only on the training data, then apply that value to both sets.\n\n\n\n2.2.3 How to spot data leakage\n\nA single feature produces a suspiciously high accuracy by itself\nThe most important feature in your model is something that logically could not be known at prediction time\nYour model is very simple (e.g. only 2–3 splits) but shows very high accuracy\n\n\n\n2.2.4 R Code: Correct way to impute missing values (no leakage)\n# CORRECT: calculate the mean from training data only\nmeanAge &lt;- mean(train_data$Age, na.rm = TRUE)\n\n# Apply that value to BOTH training and test sets\ntrain_data[is.na(train_data$Age), ]$Age &lt;- meanAge\ntest_data[is.na(test_data$Age), ]$Age   &lt;- meanAge\n\n\n\n\n\n\nTipYour Notes\n\n\n\nWrite examples of data leakage you can think of in real life…",
+    "objectID": "regression-analysis/week-6.html#main-effects-vs-interaction-effects",
+    "href": "regression-analysis/week-6.html#main-effects-vs-interaction-effects",
+    "title": "Week 6 – Two-Way ANOVA",
+    "section": "2.2 Main Effects vs Interaction Effects",
+    "text": "2.2 Main Effects vs Interaction Effects\nMain effects are the individual effects of each factor, considered separately, averaged across all levels of the other factor.\nInteraction effects describe whether the effect of one factor depends on the level of another factor. This is the most important thing to examine in a two-way ANOVA.\nFor example: Does the effect of pH on product viscosity depend on the level of catalyst concentration being used? If yes — there is an interaction.\n\n💡 Simple rule: If the interaction is significant, you cannot meaningfully talk about the main effects in isolation. You must instead look at simple effects (see Section 2.7).",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 6"
     ]
   },
   {
-    "objectID": "data-mining/week-6.html#sampling-and-cross-validation",
-    "href": "data-mining/week-6.html#sampling-and-cross-validation",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "2.3 Sampling and Cross-Validation",
-    "text": "2.3 Sampling and Cross-Validation\n\n2.3.1 The problem with a single train/test split\nWhen we split our data 90% train / 10% test and use set.seed(42) for reproducibility, the results we get depend on which 10% of records end up in the test set. For small datasets, this can cause the reported accuracy to vary a lot depending on the random split.\n# Running the same model with different seeds shows the variability:\n# [1] 80.00  73.33  74.44  77.78  76.67  83.33  81.11  75.56  80.00  71.11  76.67\nThe accuracy above ranges from 71% to 83% — a big swing caused only by which records happened to be in the test set!\n\n\n2.3.2 Why set.seed()?\nUsing set.seed(42) (or any fixed number) at the start of your code ensures that your results are reproducible — anyone who runs your code with the same data will get the same results. The number 42 has no special meaning; it is just a popular choice in the data science community (a reference to The Hitchhiker’s Guide to the Galaxy).\n\n\n2.3.3 Cross-Validation\nK-fold cross-validation is a better way to estimate model accuracy, especially for small datasets. Here is how it works:\n\nSplit your data into k equal groups (called folds)\nTrain k separate models. Each model uses k−1 folds for training and 1 fold for testing\nAverage the accuracy across all k models\n\nThe advantage is that every record gets used for testing exactly once, giving a more stable and unbiased estimate of accuracy.\n\nExample with k=5 (5-fold cross-validation): - Model 1 trains on folds 2,3,4,5 — tests on fold 1 - Model 2 trains on folds 1,3,4,5 — tests on fold 2 - … and so on\n\n\n\n2.3.4 R Code: Cross-Validation with caret\nlibrary(caret)\n\n# Run 5-fold cross-validation using a decision tree (rpart)\nmodel &lt;- train(\n  as.factor(Survived) ~ .,\n  data      = train_data,\n  method    = \"rpart\",\n  trControl = trainControl(method = \"cv\", number = 5)\n)\n\n# Evaluate on the test set\npr       &lt;- predict(model, newdata = test_data, type = \"raw\")\npr       &lt;- factor(pr, levels = c(1, 0))\ntab      &lt;- table(pr, actuals)\naccuracy &lt;- 100 * sum(diag(tab) / sum(tab))\nprint(accuracy)  # ~75.6%\n\n\n\n\n\n\nTipYour Notes\n\n\n\nAdd notes about when you would and would not use cross-validation…",
+    "objectID": "regression-analysis/week-6.html#the-three-null-hypotheses",
+    "href": "regression-analysis/week-6.html#the-three-null-hypotheses",
+    "title": "Week 6 – Two-Way ANOVA",
+    "section": "2.3 The Three Null Hypotheses",
+    "text": "2.3 The Three Null Hypotheses\nA two-way ANOVA tests three separate null hypotheses simultaneously:\n\n\n\n\n\n\n\n\nHypothesis\nNull (H₀)\nAlternative (H₁)\n\n\n\n\nFactor A (main effect)\nPopulation means are equal for all levels of Factor A\nAt least one group mean differs\n\n\nFactor B (main effect)\nPopulation means are equal for all levels of Factor B\nAt least one group mean differs\n\n\nInteraction A×B\nNo interaction between Factor A and Factor B\nThere is a significant interaction\n\n\n\n\n2.3.1 Extension: How Many Hypotheses in a Three-Way ANOVA?\nFor a three-way ANOVA, the answer is 7:\n\n3 hypotheses for the main effects (one per factor)\n3 hypotheses for the two-factor interactions (A×B, A×C, B×C)\n1 hypothesis for the three-factor interaction (A×B×C)",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 6"
     ]
   },
   {
-    "objectID": "data-mining/week-6.html#imbalanced-datasets",
-    "href": "data-mining/week-6.html#imbalanced-datasets",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "2.4 Imbalanced Datasets",
-    "text": "2.4 Imbalanced Datasets\n\n2.4.1 What is the problem?\nIn many real-world classification problems, one class is much rarer than the other. Examples:\n\nMedical diagnosis: 99% of people screened do not have the disease\nFraud detection: less than 0.1% of transactions are fraudulent\nChurn analysis: most customers stay each month\nOnline advertising: click-through rates can be less than 0.1%\n\nThe problem: most machine learning algorithms assume roughly equal numbers of each class. When the data is imbalanced, the algorithm often just predicts the majority class every time — and still gets a high accuracy!\n\nExample: If 92% of records are “did not survive”, a model that always predicts “did not survive” achieves 92% accuracy — but it is completely useless at finding survivors.\n\n\n\n2.4.2 Three strategies to handle imbalanced data\n\n2.4.2.1 Strategy 1: Change the probability cut-off threshold\nBy default, a model predicts class 1 if the probability is ≥ 0.5. You can lower this threshold so that more records are classified as the minority class.\n# Default threshold: 0.5\n# Increase recall by lowering the threshold to 0.1\npr &lt;- predict(rpart, newdata = test_data)        # Get raw probabilities\npr &lt;- ifelse(pr[, 1] &gt; 0.9, 0, 1)               # Class 0 if P(class=0) &gt; 0.9\npr &lt;- factor(pr, levels = c(1, 0))\n\n\n2.4.2.2 Strategy 2: Assign a higher penalty to minority class errors\nSome algorithms allow you to say: “Penalise a False Negative more heavily than a False Positive.” This forces the model to try harder to detect the rare class.\n# In rpart, use the 'loss' matrix:\n# loss[i,j] = penalty for predicting class j when true class is i\n# Here: False Negatives (predicting 0 when truth is 1) cost 5x more than False Positives\nrpart_model &lt;- rpart(\n  Survived ~ .,\n  data   = train_data,\n  method = \"class\",\n  parms  = list(loss = matrix(c(0, 1, 5, 0), byrow = TRUE, nrow = 2))\n)\n\n\n2.4.2.3 Strategy 3: Resampling the training data\nThe most widely used approach is to change the training data itself so the classes are more balanced:\n\nUpsampling (oversampling): duplicate rows from the minority class until it matches the majority class size\nDownsampling (undersampling): remove rows from the majority class\n\n# Split training data by class\ntrain_data0 &lt;- train_data[train_data$Survived == 0, ]  # Majority class (549 rows)\ntrain_data1 &lt;- train_data[train_data$Survived == 1, ]  # Minority class (40 rows)\n\nnrows &lt;- 300  # Target size for each class\n\n# Downsample the majority class (take 300 from 494)\nsample0     &lt;- sample(nrow(train_data0), nrows)\ntrain_data0 &lt;- train_data0[sample0, ]\n\n# Upsample the minority class (take 300 from 40, with replacement = duplicates)\nsample1     &lt;- sample(nrow(train_data1), nrows, replace = TRUE)\ntrain_data1 &lt;- train_data1[sample1, ]\n\n# Combine and shuffle\ntrain_data &lt;- rbind(train_data0, train_data1)\ntrain_data &lt;- train_data[sample(nrow(train_data)), ]  # Shuffle rows\n\ntable(train_data$Survived)\n# 0   1\n# 300 300  &lt;-- Now balanced!\n\n\n\n2.4.3 The Precision–Recall Trade-Off\nWhen you try to increase recall (finding more of the minority class), you will usually decrease precision (some of your positive predictions will be wrong). This is a fundamental trade-off.\n\n\n\n\n\n\n\nTerm\nPlain English\n\n\n\n\nRecall (Sensitivity)\nOf all the actual positives, how many did the model find?\n\n\nPrecision\nOf all the records the model flagged as positive, how many were actually positive?\n\n\nHigh recall, low precision\nFind most of the sick/fraud cases, but also flag many healthy/legitimate ones\n\n\nLow recall, high precision\nOnly flag cases you are very sure about, but miss many real positives\n\n\n\n\n💡 A business user may say: “I need the model to find as many fraud cases as possible. We will then review them manually.” This means they want high recall, and they accept that some clean transactions will also be flagged for manual review.\n\n\n\n\n\n\n\nImportantKey Insight: Accuracy Is Not Always the Right Goal\n\n\n\nWhen data is imbalanced and you care about the rare class, accuracy is a misleading metric. Focus on recall (and precision) instead.\n\n\n\n\n\n\n\n\nTipYour Notes\n\n\n\nCan you think of a business problem where you would want high precision instead of high recall?",
+    "objectID": "regression-analysis/week-6.html#factorial-design",
+    "href": "regression-analysis/week-6.html#factorial-design",
+    "title": "Week 6 – Two-Way ANOVA",
+    "section": "2.4 Factorial Design",
+    "text": "2.4 Factorial Design\nTo properly test for an interaction effect, the experiment must use a factorial design. This means every possible combination of factor levels must appear in the data.\n\nIf Factor A has a levels and Factor B has b levels, the number of treatment combinations is:\n\n\\[\n\\text{Total combinations} = a \\times b\n\\]\n\nEach complete set of all \\(ab\\) combinations is called a replicate (\\(r\\)).\nTotal number of observations = \\(r \\times a \\times b\\)\n\n\n2.4.1 Example\n\n\n\n\nB₁\nB₂\nB₃\nB₄\n\n\n\n\nA₁\nA₁B₁\nA₁B₂\nA₁B₃\nA₁B₄\n\n\nA₂\nA₂B₁\nA₂B₂\nA₂B₃\nA₂B₄\n\n\nA₃\nA₃B₁\nA₃B₂\nA₃B₃\nA₃B₄\n\n\n\nIf Factor A has 3 levels and Factor B has 4 levels: \\(3 \\times 4 = 12\\) combinations per replicate.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 6"
     ]
   },
   {
-    "objectID": "data-mining/week-6.html#r-shiny-introduction",
-    "href": "data-mining/week-6.html#r-shiny-introduction",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "2.5 R Shiny (Introduction)",
-    "text": "2.5 R Shiny (Introduction)\nR Shiny is an R framework for building interactive web applications. It allows you to:\n\nCreate web dashboards and visualisations without knowing HTML/CSS/JavaScript\nLet users interact with the data in real time (sliders, dropdowns, inputs)\nShare your analysis as a live web link\n\n\n2.5.1 How to create your first Shiny app\n\nIn RStudio: File → New File → Shiny Web App\nGive your app a name (e.g. my_shiny_app)\nSelect Multiple File\nClick Create\nClick Run App and then Open in Browser\n\nYou will see a working histogram app where a slider controls the number of bins — and the graph updates in real time.\n\n\n2.5.2 Useful resources\n\n\n\nResource\nLink\n\n\n\n\nShiny tutorial\nhttps://shiny.posit.co/r/getstarted/shiny-basics/lesson1/index.html\n\n\nShiny gallery (examples + code)\nhttps://shiny.posit.co/r/gallery/\n\n\nMastering Shiny (free book)\nhttps://mastering-shiny.org/index.html\n\n\nDashboard examples\nhttps://rstudio.github.io/shinydashboard/examples.html\n\n\n\n\n\n\n\n\n\nTipYour Notes\n\n\n\nWhat kind of data would you like to visualise with a Shiny app?",
+    "objectID": "regression-analysis/week-6.html#the-effects-model",
+    "href": "regression-analysis/week-6.html#the-effects-model",
+    "title": "Week 6 – Two-Way ANOVA",
+    "section": "2.5 The Effects Model",
+    "text": "2.5 The Effects Model\nThe statistical model for two-way ANOVA is written as:\n\\[\ny_{ijk} = \\mu + \\alpha_i + \\beta_j + (\\alpha\\beta)_{ij} + e_{ijk}\n\\]\n\n\n\n\n\n\n\nTerm\nMeaning\n\n\n\n\n\\(y_{ijk}\\)\nThe observed value for replicate \\(k\\), at level \\(i\\) of Factor A and level \\(j\\) of Factor B\n\n\n\\(\\mu\\)\nThe overall (grand) mean\n\n\n\\(\\alpha_i\\)\nThe treatment effect of Factor A at level \\(i\\)\n\n\n\\(\\beta_j\\)\nThe treatment effect of Factor B at level \\(j\\)\n\n\n\\((\\alpha\\beta)_{ij}\\)\nThe interaction effect between Factor A and Factor B\n\n\n\\(e_{ijk}\\)\nThe random error term, assumed \\(e_{ijk} \\sim \\text{NID}(0, \\sigma^2)\\)\n\n\n\nThe subscript \\(k\\) is the new addition compared to one-way ANOVA — it represents the replicates.\n\n2.5.1 Hypotheses in Effects Model Notation\n\\[\nH_0: \\alpha_1 = \\alpha_2 = \\ldots = \\alpha_a = 0 \\quad \\text{(no effect of Factor A)}\n\\] \\[\nH_0: \\beta_1 = \\beta_2 = \\ldots = \\beta_b = 0 \\quad \\text{(no effect of Factor B)}\n\\] \\[\nH_0: (\\alpha\\beta)_{ij} = 0 \\text{ for all } i,j \\quad \\text{(no interaction)}\n\\]",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 6"
     ]
   },
   {
-    "objectID": "data-mining/week-6.html#accuracy",
-    "href": "data-mining/week-6.html#accuracy",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "3.1 Accuracy",
-    "text": "3.1 Accuracy\n\\[\n\\text{Accuracy} = \\frac{\\text{Correct predictions}}{\\text{Total predictions}} \\times 100\n\\]",
+    "objectID": "regression-analysis/week-6.html#sums-of-squares-and-the-anova-table",
+    "href": "regression-analysis/week-6.html#sums-of-squares-and-the-anova-table",
+    "title": "Week 6 – Two-Way ANOVA",
+    "section": "2.6 Sums of Squares and the ANOVA Table",
+    "text": "2.6 Sums of Squares and the ANOVA Table\nThe total variance in the dataset is partitioned into four parts:\n\\[\nSS_T = SS_A + SS_B + SS_{AB} + SS_E\n\\]\n\n\n\n\n\n\n\n\n\n\nSource\nSum of Squares\nDegrees of Freedom\nMean Square\nF-ratio\n\n\n\n\nFactor A\n\\(SS_A\\)\n\\(a-1\\)\n\\(MS_A = \\frac{SS_A}{a-1}\\)\n\\(\\frac{MS_A}{MS_E}\\)\n\n\nFactor B\n\\(SS_B\\)\n\\(b-1\\)\n\\(MS_B = \\frac{SS_B}{b-1}\\)\n\\(\\frac{MS_B}{MS_E}\\)\n\n\nInteraction AB\n\\(SS_{AB}\\)\n\\((a-1)(b-1)\\)\n\\(MS_{AB} = \\frac{SS_{AB}}{(a-1)(b-1)}\\)\n\\(\\frac{MS_{AB}}{MS_E}\\)\n\n\nError\n\\(SS_E\\)\n\\(ab(n-1)\\)\n\\(MS_E = \\frac{SS_E}{ab(n-1)}\\)\n—\n\n\nTotal\n\\(SS_T\\)\n\\(abn-1\\)\n—\n—\n\n\n\nEach F-ratio is compared against a critical value (or produces a p-value) to determine statistical significance.\nThe full formulas for each sum of squares are:\n\\[\nSS_T = \\sum_{i=1}^{a}\\sum_{j=1}^{b}\\sum_{k=1}^{n}(y_{ijk} - \\bar{y}_{\\cdots})^2\n\\] \\[\nSS_A = nb\\sum_{i=1}^{a}(\\bar{y}_{i\\cdot\\cdot} - \\bar{y}_{\\cdots})^2\n\\] \\[\nSS_B = na\\sum_{j=1}^{b}(\\bar{y}_{\\cdot j\\cdot} - \\bar{y}_{\\cdots})^2\n\\] \\[\nSS_{AB} = n\\sum_{j=1}^{b}\\sum_{i=1}^{a}(\\bar{y}_{ij\\cdot} - \\bar{y}_{i\\cdot\\cdot} - \\bar{y}_{\\cdot j\\cdot} + \\bar{y}_{\\cdots})^2\n\\] \\[\nSS_E = \\sum_{i=1}^{a}\\sum_{j=1}^{b}\\sum_{k=1}^{n}(y_{ijk} - \\bar{y}_{ij\\cdot})^2\n\\]",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 6"
     ]
   },
   {
-    "objectID": "data-mining/week-6.html#precision",
-    "href": "data-mining/week-6.html#precision",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "3.2 Precision",
-    "text": "3.2 Precision\n\\[\n\\text{Precision} = \\frac{TP}{TP + FP}\n\\]",
+    "objectID": "regression-analysis/week-6.html#interaction-plots",
+    "href": "regression-analysis/week-6.html#interaction-plots",
+    "title": "Week 6 – Two-Way ANOVA",
+    "section": "2.7 Interaction Plots",
+    "text": "2.7 Interaction Plots\nBefore running the model, it is good practice to plot the data to visually check for an interaction. An interaction plot shows the mean of the dependent variable for each combination of factor levels, with lines connecting levels of one factor across levels of the other.\nReading interaction plots:\n\nParallel lines → No interaction. The effect of one factor is the same regardless of the level of the other.\nNon-parallel (crossing or diverging) lines → Interaction present. The effect of one factor changes depending on the level of the other.\n\n\n📝 Annotation space: Add a sketch or printed example from your own output here.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 6"
     ]
   },
   {
-    "objectID": "data-mining/week-6.html#recall-sensitivity",
-    "href": "data-mining/week-6.html#recall-sensitivity",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "3.3 Recall (Sensitivity)",
-    "text": "3.3 Recall (Sensitivity)\n\\[\n\\text{Recall} = \\frac{TP}{TP + FN}\n\\]\nWhere:\n\nTP = True Positives (correctly predicted positives)\nFP = False Positives (predicted positive, actually negative)\nFN = False Negatives (predicted negative, actually positive)",
+    "objectID": "regression-analysis/week-6.html#practical-example-viscosity-ph-and-catalyst-concentration",
+    "href": "regression-analysis/week-6.html#practical-example-viscosity-ph-and-catalyst-concentration",
+    "title": "Week 6 – Two-Way ANOVA",
+    "section": "2.8 Practical Example: Viscosity, pH, and Catalyst Concentration",
+    "text": "2.8 Practical Example: Viscosity, pH, and Catalyst Concentration\nAn experiment was conducted to investigate whether pH and Catalyst Concentration affect the Viscosity of a product. The design used:\n\nFactor A (pH): 2 levels — 5.6 and 5.9\nFactor B (Catalyst Concentration): 2 levels — 2.5 and 2.7\n3 replicates per treatment combination → 12 total observations\n\n\n2.8.1 Data Summary\n\n\n\npH\nCatalyst Conc\nViscosity Readings\nTreatment Mean\n\n\n\n\n5.6\n2.5\n192, 199, 193\n194.67\n\n\n5.6\n2.7\n178, 185, 188\n183.67\n\n\n5.9\n2.5\n185, 193, 190\n189.33\n\n\n5.9\n2.7\n197, 196, 204\n199.00\n\n\n\nGrand mean \\(\\bar{y}_{\\cdots} = 191.67\\)\n\n\n2.8.2 R Output — Two-Way ANOVA\n           Df  Sum Sq  Mean Sq  F value  Pr(&gt;F)\nCatalyst    1     1.3      1.3    0.070  0.79778\npH          1    75.0     75.0    3.947  0.08218 .\nCatalyst:pH 1   320.3    320.3   16.860  0.00341 **\nResiduals   8   152.0     19.0\n\nSignif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n2.8.3 Interpretation\n\nInteraction term (Catalyst:pH): Significant at the 1% level (p = 0.003). We reject H₀ for the interaction.\nMain effects (Catalyst, pH): Neither is statistically significant on its own.\n\n\nThis tells us: the effect that catalyst concentration has on viscosity depends on the pH level — and vice versa. The main effects alone are misleading here.\n\n\n\n2.8.4 Estimated Model Parameters\nThe estimated effect parameters from the ANOVA effects model:\n\n\\(\\hat{\\alpha}_1 = 189.1667 - 191.6667 = -2.5\\) (pH = 5.6)\n\\(\\hat{\\alpha}_2 = 194.1667 - 191.6667 = 2.5\\) (pH = 5.9)\n\\(\\hat{\\beta}_1 = 192 - 191.6667 = 0.3333\\) (Catalyst = 2.5)\n\\(\\hat{\\beta}_2 = 191.3333 - 191.6667 = -0.3333\\) (Catalyst = 2.7)\n\nInteraction estimates \\((\\widehat{\\alpha\\beta})_{ij}\\):\n\nFor pH = 5.6, Catalyst = 2.5: \\(194.6667 - 189.1667 - 192 + 191.6667 = 5.1667\\)\nFor pH = 5.6, Catalyst = 2.7: \\(183.6667 - 189.1667 - 191.3333 + 191.6667 = -5.1667\\)\nFor pH = 5.9, Catalyst = 2.5: \\(189.3333 - 194.1667 - 192 + 191.6667 = -5.1667\\)\nFor pH = 5.9, Catalyst = 2.7: \\(199 - 194.1667 - 191.3333 + 191.6667 = 5.1667\\)\n\nFitted value for pH = 5.6, Catalyst = 2.5:\n\\[\n\\hat{y}_{11k} = 191.6667 + (-2.5) + 0.3333 + 5.1667 = 194.6667\n\\]",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 6"
     ]
   },
   {
-    "objectID": "data-mining/week-6.html#example-1-gbm-on-the-titanic-dataset",
-    "href": "data-mining/week-6.html#example-1-gbm-on-the-titanic-dataset",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "4.1 Example 1: GBM on the Titanic Dataset",
-    "text": "4.1 Example 1: GBM on the Titanic Dataset\nThe lightgbm package was used to train a Gradient Boosted Machine on the Titanic survival dataset. After one-hot encoding all categorical variables and converting to a matrix, the model achieved approximately 76.7% accuracy on the test set.",
+    "objectID": "regression-analysis/week-6.html#simple-effects",
+    "href": "regression-analysis/week-6.html#simple-effects",
+    "title": "Week 6 – Two-Way ANOVA",
+    "section": "2.9 Simple Effects",
+    "text": "2.9 Simple Effects\nSince the interaction is significant, we must examine each factor while holding the other factor constant. These are called the simple effects.\nWe use Tukey’s HSD (Honest Significant Difference) post-hoc test to compare all pairwise group means.\n\n2.9.1 Key Results from Tukey’s HSD\nCatalyst effect (across all pH levels):\nDifference = −0.667, p = 0.798 → Not significant\npH effect (across all catalyst levels):\nDifference = 5.0, p = 0.082 → Not significant\nSimple effect — pH, holding Catalyst at 2.5:\npH 5.6 vs 5.9: difference = −5.333, p = 0.481 → Not significant\nSimple effect — pH, holding Catalyst at 2.7:\npH 5.6 vs 5.9: difference = 15.333, p = 0.011 → ✅ Significant!\n\nConclusion: At a catalyst concentration of 2.7, there is a statistically significant difference in mean viscosity between pH 5.6 and pH 5.9 (difference = 15.33, p = 0.011). This is the source of the interaction.\n\n\n📝 Annotation space: Can you sketch the interaction plot and annotate which crossing of lines corresponds to this significant simple effect?",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 6"
     ]
   },
   {
-    "objectID": "data-mining/week-6.html#example-2-data-leakage-the-carpathia-field",
-    "href": "data-mining/week-6.html#example-2-data-leakage-the-carpathia-field",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "4.2 Example 2: Data Leakage — the Carpathia Field",
-    "text": "4.2 Example 2: Data Leakage — the Carpathia Field\nA fake field Carpathia was added to the Titanic dataset. This field was strongly correlated with survival (survivors boarded the rescue ship Carpathia). Including this field:\n\nBoosted accuracy from ~76% to 91%\nProduced a very simple decision tree using only 3 variables\nThe top split was Carpathia = yes/no — a clear warning sign\n\nLesson: Always ask: Could this variable have been recorded before the event I am predicting?",
+    "objectID": "regression-analysis/week-6.html#effect-size-partial-eta-squared",
+    "href": "regression-analysis/week-6.html#effect-size-partial-eta-squared",
+    "title": "Week 6 – Two-Way ANOVA",
+    "section": "2.10 Effect Size: Partial Eta Squared",
+    "text": "2.10 Effect Size: Partial Eta Squared\nTo quantify how much of the variance in the outcome is explained by each factor, we use Partial Eta Squared (\\(\\eta^2_P\\)):\n\\[\n\\eta^2_P = \\frac{SS_F}{SS_F + SS_E}\n\\]\nWhere \\(SS_F\\) is the sum of squares for the factor of interest, and \\(SS_E\\) is the error sum of squares.\n\n2.10.1 Example — Effect of pH on Viscosity\n\\[\n\\eta^2_P = \\frac{SS_A}{SS_A + SS_E} = \\frac{75}{75 + 152} = 0.33 \\approx 33\\%\n\\]\nWe can say that 33% of the variation in viscosity is associated with differences in pH level (after accounting for the other factor).\n\n⚠️ Note: \\(\\eta^2_P\\) can be biased (overestimate effect size) in small samples.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 6"
     ]
   },
   {
-    "objectID": "data-mining/week-6.html#example-3-cross-validation-stability",
-    "href": "data-mining/week-6.html#example-3-cross-validation-stability",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "4.3 Example 3: Cross-Validation Stability",
-    "text": "4.3 Example 3: Cross-Validation Stability\nRunning the same decision tree model with 10 different random seeds produced accuracies ranging from 71% to 83%. Using 5-fold cross-validation with caret gave a more stable estimate of ~76%.",
-    "crumbs": [
-      "Data Mining",
-      "Weekly Notes",
-      "Week 6"
-    ]
-  },
-  {
-    "objectID": "data-mining/week-6.html#example-4-imbalanced-titanic-data",
-    "href": "data-mining/week-6.html#example-4-imbalanced-titanic-data",
-    "title": "STAT9013 – Week 6 Study Guide",
-    "section": "4.4 Example 4: Imbalanced Titanic Data",
-    "text": "4.4 Example 4: Imbalanced Titanic Data\nAfter artificially reducing the dataset to only 7.5% survivors:\n\n\n\nApproach\nAccuracy\nRecall (survivors found)\n\n\n\n\nDefault decision tree\n93%\n20% (1 of 5)\n\n\nLower threshold (0.9)\n75%\n60% (3 of 5)\n\n\nLoss matrix (FN penalty ×5)\n80%\n40% (2 of 5)\n\n\nUpsample minority class\n80%\n60% (3 of 5)",
-    "crumbs": [
-      "Data Mining",
-      "Weekly Notes",
-      "Week 6"
-    ]
-  },
-  {
-    "objectID": "data-mining/week-7.html",
-    "href": "data-mining/week-7.html",
-    "title": "STAT9013 – Week 7 Study Guide",
+    "objectID": "regression-analysis/week-7.html",
+    "href": "regression-analysis/week-7.html",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
     "section": "",
-    "text": "📝 Note for review: This document is a summary of the Week 7 lecture. You can add your own annotations, extra examples, or questions in the spaces marked with &lt;!-- ADD NOTES HERE --&gt;.",
+    "text": "This week covered two main areas:\n\nMultiple Comparisons — how to fairly compare more than two group means after a significant ANOVA result\nTwo-Way ANOVA — extending one-way ANOVA to handle two independent variables simultaneously, including their interaction effect\nFactorial Design — the correct experimental design when testing for interactions\nEffect Size — measuring how much of the variance is explained by each factor (partial η²)\nModel Validation in R — checking ANOVA assumptions with diagnostic plots\nLab Practice — running one-way ANOVA by hand in Excel and in R, including post-hoc tests",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#why-communication-matters",
-    "href": "data-mining/week-7.html#why-communication-matters",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "3.1 Why Communication Matters",
-    "text": "3.1 Why Communication Matters\nOne of the most important skills for a data scientist is the ability to communicate results clearly to people who are not data scientists. The best model in the world has no value if nobody understands it or acts on it.\nKey guidelines:\n\nFocus on business value, not the machine learning technique. Nobody in business wants to hear about logistic regression – they want to know how many customers you will keep or how much money will be saved.\nKnow your audience. A process engineer understands box plots and statistics. A marketing analyst may not.\nMany data science projects do not need machine learning. Creating good dashboards and visualisations is often more valuable.",
+    "objectID": "regression-analysis/week-7.html#the-multiple-comparisons-problem",
+    "href": "regression-analysis/week-7.html#the-multiple-comparisons-problem",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "2.1 The Multiple Comparisons Problem",
+    "text": "2.1 The Multiple Comparisons Problem\nWhen ANOVA tells us that at least one group mean is different, it does not tell us which groups differ. A natural first instinct is to run separate t-tests for every pair of groups — but this creates a serious problem.\nEvery individual test carries a risk (α, usually 5%) of a Type I error (falsely concluding there is a difference). When you run many tests on the same data, those error risks stack up. This inflated overall error rate is called the Family-Wise Error Rate (FWER).\n\nExample: Testing 3 soil types (Sand, Clay, Loam) means 3 pairwise comparisons.\nWith 6 cities (from the New Car Interest Rate dataset), there are 15 pairwise comparisons — the chance of at least one false positive becomes very large.\n\n\n2.1.1 Post-Hoc Tests\nPost-hoc (after-the-fact) tests are designed to run all pairwise comparisons while controlling the FWER at the chosen α level. They are more conservative than plain t-tests.\n\n\n\n\n\n\n\n\nMethod\nHow it works\nWhen to use\n\n\n\n\nTukey’s HSD (Honest Significant Difference)\nControls FWER by adjusting critical values\nMost common; good general choice\n\n\nBonferroni\nDivides α by the number of comparisons\nSimple; conservative with many comparisons\n\n\nSeparate t-tests\nNo adjustment\nAvoid — inflated Type I error\n\n\n\n\n\n2.1.2 Worksheet 4 Results (Soil Yield Data)\n\n\n\nComparison\nSeparate t-tests\nTukey’s HSD\nBonferroni\n\n\n\n\nLoam – Clay\n0.081\n0.179\n0.234\n\n\nLoam – Sand\n0.006\n0.020\n0.023\n\n\nClay – Sand\n0.351\n0.555\n0.914\n\n\n\n\nKey takeaway: Only the Loam vs. Sand comparison is statistically significant.\nNotice how the adjusted p-values (Tukey, Bonferroni) are larger than the raw t-test p-values — this is the conservative adjustment at work.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#three-ways-to-describe-the-same-model",
-    "href": "data-mining/week-7.html#three-ways-to-describe-the-same-model",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "3.2 Three Ways to Describe the Same Model",
-    "text": "3.2 Three Ways to Describe the Same Model\nHere is an example of three ways to explain the same churn prediction model:\n\n\n\n\n\n\n\n\nSummary\nAudience\nQuality\n\n\n\n\n“Logistic regression with regularisation, recall 80%, precision 66%”\nData scientist peers\nToo technical for business\n\n\n“Identifies 80% of customers who will not return in 30 days; wrong 33% of the time”\nMarketing team\nMuch better – explains the outcome\n\n\n“Campaign will break even at 10% coupon redemption; at 20% redemption, incremental spend = €11,648, 1,500 extra customers retained”\nBusiness decision makers\nBest – connects model to money\n\n\n\nKey idea: The third summary uses a mathematical model in Excel (not a machine learning model) to combine the data scientist’s metrics (recall, precision) with the marketing team’s assumptions (coupon cost, redemption rate). This allows both sides to be held accountable for their assumptions.",
+    "objectID": "regression-analysis/week-7.html#two-way-anova",
+    "href": "regression-analysis/week-7.html#two-way-anova",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "2.2 Two-Way ANOVA",
+    "text": "2.2 Two-Way ANOVA\n\n2.2.1 What is it?\nOne-way ANOVA tested one independent variable (e.g., soil type) against one continuous dependent variable (yield).\nTwo-way ANOVA tests two independent (categorical) variables simultaneously against one continuous dependent variable. This is powerful because it also reveals whether the two factors interact.\n\n\n2.2.2 Main Effects vs. Interaction Effect\n\nMain effect of Factor A — the overall effect of Factor A on the response, ignoring Factor B.\nMain effect of Factor B — the overall effect of Factor B on the response, ignoring Factor A.\nInteraction effect (A × B) — does the effect of Factor A depend on which level of Factor B we’re at? This is the most important question in two-way ANOVA.\n\n\nAlways check the interaction effect first. If it is significant, the main effects cannot be interpreted in isolation — you must look at them within each level of the other factor (called simple effects).\n\n\n\n2.2.3 The Three Null Hypotheses\nFor a two-way ANOVA with factors A and B:\n\nH₀ (Factor A): All population means for Factor A are equal (no main effect of A)\nH₀ (Factor B): All population means for Factor B are equal (no main effect of B)\nH₀ (Interaction): The effect of Factor A is the same at all levels of Factor B (no interaction)\n\n\nThinking further: A three-way ANOVA has 7 hypotheses — 3 main effects + 3 two-way interactions + 1 three-way interaction.\n\n\n\n2.2.4 The Two-Way ANOVA Effects Model\n\\[Y_{ijk} = \\mu + \\alpha_i + \\beta_j + (\\alpha\\beta)_{ij} + \\varepsilon_{ijk}\\]\n\n\n\n\n\n\n\nSymbol\nMeaning\n\n\n\n\n\\(Y_{ijk}\\)\nResponse variable (observation \\(k\\) at level \\(i\\) of A and level \\(j\\) of B)\n\n\n\\(\\mu\\)\nOverall population mean\n\n\n\\(\\alpha_i\\)\nTreatment effect of Factor A at level \\(i\\)\n\n\n\\(\\beta_j\\)\nTreatment effect of Factor B at level \\(j\\)\n\n\n\\((\\alpha\\beta)_{ij}\\)\nInteraction effect\n\n\n\\(\\varepsilon_{ijk}\\)\nResidual / error term\n\n\n\\(k\\)\nReplicate index",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#what-is-clustering",
-    "href": "data-mining/week-7.html#what-is-clustering",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "4.1 What Is Clustering?",
-    "text": "4.1 What Is Clustering?\nClustering (also called segmentation) is an unsupervised machine learning task. This means there is no target variable – we are not trying to predict anything. Instead, we are trying to find groups of data that are similar to each other.\nPractical example: A supermarket might cluster its customers into groups like “young families”, “students”, and “pensioners”, each of which has different shopping habits. This allows the business to target each group differently.\n\n⚠️ Important: Clusters will almost never be the same size. Expect one large cluster (the “average” customer) and several smaller, more interesting ones.",
+    "objectID": "regression-analysis/week-7.html#factorial-design",
+    "href": "regression-analysis/week-7.html#factorial-design",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "2.3 Factorial Design",
+    "text": "2.3 Factorial Design\nTo test for an interaction effect, you must use a factorial (fully crossed) design:\n\n“All possible combinations of all treatment levels must be included for every replicate.”\n\nIf Factor A has a levels and Factor B has b levels:\n\\[\\text{Number of treatment combinations} = a \\times b\\]\nWith \\(r\\) replicates:\n\\[\\text{Total observations} = r \\times a \\times b\\]\n\nExample (Viscosity study):\npH has 2 levels (5.6, 5.9) × Catalyst concentration has 2 levels (2.5, 2.7) = 4 combinations.\nWith 3 replicates → 12 total viscosity measurements.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#why-we-need-to-standardise-data",
-    "href": "data-mining/week-7.html#why-we-need-to-standardise-data",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "4.2 Why We Need to Standardise Data",
-    "text": "4.2 Why We Need to Standardise Data\nBefore clustering, we must standardise all numeric columns so they are on the same scale (0 to 1). Without this, columns with larger numbers (like square metres) will dominate over columns with smaller numbers (like number of bedrooms), even if the smaller column is more meaningful.\n\n4.2.1 Standardisation Formula\n\\[x_{standardised} = \\frac{x - \\min(x)}{\\max(x) - \\min(x)}\\]\nThis converts any numeric value to a number between 0 and 1.\nIn R:\nstandardise &lt;- function(x) {\n  (x - min(x)) / (max(x) - min(x))\n}\n\niris$Sepal.Length &lt;- standardise(iris$Sepal.Length)\niris$Sepal.Width  &lt;- standardise(iris$Sepal.Width)\niris$Petal.Length &lt;- standardise(iris$Petal.Length)\niris$Petal.Width  &lt;- standardise(iris$Petal.Width)\nAfter standardisation, the minimum of every column will be 0 and the maximum will be 1.",
+    "objectID": "regression-analysis/week-7.html#interaction-plots",
+    "href": "regression-analysis/week-7.html#interaction-plots",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "2.4 Interaction Plots",
+    "text": "2.4 Interaction Plots\nAn interaction plot graphs the mean response for each combination of factor levels. It is the clearest way to visually assess whether an interaction exists.\n\n\n\n\n\n\n\nPlot appearance\nConclusion\n\n\n\n\nLines are approximately parallel\nNo interaction between factors\n\n\nLines cross or diverge sharply\nInteraction is likely present\n\n\n\n\nTip: Don’t overcomplicate it. Pick one line, trace how the response changes as the other factor changes — then repeat for the other line. If the direction or magnitude of change differs between lines, that’s an interaction.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#k-means-clustering",
-    "href": "data-mining/week-7.html#k-means-clustering",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "4.3 K-Means Clustering",
-    "text": "4.3 K-Means Clustering\n\n4.3.1 How It Works\n\nYou choose k (the number of clusters) before running the algorithm.\nThe algorithm randomly places k centre points (called centroids).\nEach data point is assigned to the nearest centroid.\nEach centroid is moved to the average position of all points assigned to it.\nSteps 3 and 4 repeat until the assignments stop changing.\n\nThe algorithm is not guaranteed to find the perfect solution, so it is usually run multiple times (e.g. nstart = 10) and the best result is kept.\nK-means tries to minimise the within-cluster variation – it wants the points inside each cluster to be as close together as possible.\n\n\n4.3.2 R Code: K-Means on the Iris Dataset\n# Run k-means with 3 clusters, 10 random starts\nk_clusters &lt;- kmeans(iris[, 1:4], centers = 3, nstart = 10)\n\n# View results\nk_clusters\nThe output shows: - The cluster means (centre of each cluster for each variable) - Which cluster each data point belongs to - The within-cluster sum of squares (lower = tighter clusters)\n\n\n4.3.3 How to Choose k: The Elbow Method\nIf you do not know the number of clusters in advance, use the elbow method:\n\nRun k-means for k = 1, 2, 3, …, 10.\nPlot the total within-cluster sum of squares for each k.\nFind the point where the line “bends” like an elbow – that is your best k.\n\ntot.withinss &lt;- c()\n\nfor (k in 1:10) {\n  k_clusters &lt;- kmeans(iris[, 1:4], k, nstart = 10)\n  tot.withinss &lt;- c(tot.withinss, k_clusters$tot.withinss)\n}\n\nplot(main = \"Selecting k: Elbow Method\", tot.withinss, type = \"l\")\n\nThe curve drops steeply at first, then flattens out. The “elbow” (where the flattening begins) indicates the best number of clusters. For the iris dataset, the elbow is at k = 3.",
+    "objectID": "regression-analysis/week-7.html#partitioning-variance-in-two-way-anova",
+    "href": "regression-analysis/week-7.html#partitioning-variance-in-two-way-anova",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "2.5 Partitioning Variance in Two-Way ANOVA",
+    "text": "2.5 Partitioning Variance in Two-Way ANOVA\nTotal variability is split into components:\n\\[SS_{Total} = SS_A + SS_B + SS_{AB} + SS_{Error}\\]\nThe ANOVA table for two-way:\n\n\n\nSource\nSS\ndf\nMS = SS/df\nF = MS / MSₑ\n\n\n\n\nFactor A\n\\(SS_A\\)\n\\(a - 1\\)\n\\(MS_A\\)\n\\(F_A\\)\n\n\nFactor B\n\\(SS_B\\)\n\\(b - 1\\)\n\\(MS_B\\)\n\\(F_B\\)\n\n\nInteraction A×B\n\\(SS_{AB}\\)\n\\((a-1)(b-1)\\)\n\\(MS_{AB}\\)\n\\(F_{AB}\\)\n\n\nError\n\\(SS_E\\)\n\\(ab(r-1)\\)\n\\(MS_E\\)\n—\n\n\nTotal\n\\(SS_T\\)\n\\(abr - 1\\)\n—\n—\n\n\n\nA p-value (or critical F value) is then used to make the decision for each row.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#hierarchical-clustering",
-    "href": "data-mining/week-7.html#hierarchical-clustering",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "4.4 Hierarchical Clustering",
-    "text": "4.4 Hierarchical Clustering\n\n4.4.1 How It Works\nHierarchical clustering is a bottom-up approach:\n\nEvery data point starts as its own cluster (150 points = 150 clusters).\nThe two closest clusters are merged into one.\nStep 2 repeats until all points are in a single cluster.\n\nThe result is shown as a dendrogram (a tree diagram). You can then “cut” the tree at any height to get the number of clusters you want.\nAdvantage over k-means: You do not need to choose k in advance.\n\n\n4.4.2 Reading a Dendrogram\n\nDraw a horizontal line across the tree at any height.\nCount how many vertical lines it crosses – that is the number of clusters.\nThe vertical distance between merges tells you how different the clusters are. Larger gaps = more distinct clusters.\n\n\n\n4.4.3 R Code: Hierarchical Clustering on the Iris Dataset\n# Calculate distances between points, then cluster\nh_clusters &lt;- hclust(dist(iris[, 1:4]))\n\n# Cut the tree to get 3 clusters\nclusterId &lt;- cutree(h_clusters, 3)\n\n# Add the cluster ID back to the data\niris$clusterId &lt;- as.factor(clusterId)\n\n# Plot the dendrogram\nplot(h_clusters)",
+    "objectID": "regression-analysis/week-7.html#significance-stars-in-r-output",
+    "href": "regression-analysis/week-7.html#significance-stars-in-r-output",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "2.6 Significance Stars in R Output",
+    "text": "2.6 Significance Stars in R Output\nR uses shorthand to indicate significance levels:\n\n\n\nSymbol\np-value range\nInterpretation\n\n\n\n\n(blank)\n&gt; 0.1\nNot significant\n\n\n.\n0.05 – 0.1\nMarginal / weak\n\n\n*\n0.01 – 0.05\nSignificant at 5%\n\n\n**\n0.001 – 0.01\nSignificant at 1%\n\n\n***\n&lt; 0.001\nHighly significant",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#interpreting-clusters",
-    "href": "data-mining/week-7.html#interpreting-clusters",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "4.5 Interpreting Clusters",
-    "text": "4.5 Interpreting Clusters\nAfter clustering, a common question is: what do the clusters mean?\nThe answer is to use the same exploratory data analysis techniques from earlier weeks – but instead of colouring plots by a target variable, colour them by cluster ID.\nlibrary(ggplot2)\n\n# Scatter plots coloured by cluster\np1 &lt;- qplot(Sepal.Width, Sepal.Length, data = iris,\n            colour = clusterId, main = \"Sepal.Width vs Sepal.Length\")\n\np2 &lt;- qplot(Petal.Length, Petal.Width, data = iris,\n            colour = clusterId, main = \"Petal.Length vs Petal.Width\")\n\ngridExtra::grid.arrange(p1, p2)\nLook for patterns in the plots: - Do certain clusters have higher values on certain variables? - Can you give a meaningful name to each cluster? (e.g. “Large flowers”, “Small flowers”)\n\n4.5.1 Comparing Clusters to a Known Variable\nEven though clustering does not use the Species column, we can check how well the clusters match it afterwards:\ntable(iris$clusterId, iris$Species)\nA good match between clusters and the known species confirms the clustering is working well.\n\n🔑 Key reminder: Clustering does not aim to create equal-sized groups. In real retail data, you might find 80% of customers in one large “average” cluster, and small but very interesting clusters of students, pensioners, or high-spending customers.",
+    "objectID": "regression-analysis/week-7.html#simple-effects-post-hoc-for-two-way-anova",
+    "href": "regression-analysis/week-7.html#simple-effects-post-hoc-for-two-way-anova",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "2.7 Simple Effects (Post-Hoc for Two-Way ANOVA)",
+    "text": "2.7 Simple Effects (Post-Hoc for Two-Way ANOVA)\nIf the interaction is significant, examine simple effects: the effect of one factor while holding the other factor constant at each level.\n\nViscosity Example: The interaction was significant (p = 0.03).\n- Effect of pH (5.6 vs 5.9) when catalyst = 2.5: not significant\n- Effect of pH (5.6 vs 5.9) when catalyst = 2.7: significant (difference = 15, p = 0.01)",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#what-are-they",
-    "href": "data-mining/week-7.html#what-are-they",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "5.1 What Are They?",
-    "text": "5.1 What Are They?\nRecommendation engines are systems that suggest products to customers based on what other customers bought. Examples:\n\n“People who bought this also bought…”\n“These items are commonly purchased together”\n\nThe most common algorithm for this is the Apriori algorithm, which finds patterns of items bought together in transactions (called market basket analysis).",
+    "objectID": "regression-analysis/week-7.html#effect-size-partial-eta-squared-η²ₚ",
+    "href": "regression-analysis/week-7.html#effect-size-partial-eta-squared-η²ₚ",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "2.8 Effect Size — Partial Eta Squared (η²ₚ)",
+    "text": "2.8 Effect Size — Partial Eta Squared (η²ₚ)\nTo measure how much of the variance is explained by each factor:\n\\[\\eta^2_p = \\frac{SS_{factor}}{SS_{factor} + SS_{error}}\\]\nThis is analogous to R² in regression. It tells you the proportion of variance in the response explained by a given factor, after removing variance accounted for by the other variables.\n\nInterpretation example: η²ₚ = 0.33 for pH means 33% of the variation in viscosity is associated with pH.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#three-key-metrics",
-    "href": "data-mining/week-7.html#three-key-metrics",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "5.2 Three Key Metrics",
-    "text": "5.2 Three Key Metrics\n\n5.2.1 1. Support\nHow common is this item or item set?\n\\[\\text{Support}(X) = \\frac{\\text{Number of transactions containing } X}{\\text{Total number of transactions}}\\]\nSupport is used to filter out rare items. If an item only appears in 0.01% of transactions, any rule involving it will not be useful in practice.\n\n\n5.2.2 2. Confidence\nIf a customer buys X, how likely are they to also buy Y?\n\\[\\text{Confidence}(X \\Rightarrow Y) = \\frac{\\text{Support}(X \\text{ and } Y)}{\\text{Support}(X)}\\]\nThis measures the strength of the rule “if X then Y”.\n\n\n5.2.3 3. Lift\nIs the relationship between X and Y stronger than what we would expect by chance?\n\\[\\text{Lift}(X \\Rightarrow Y) = \\frac{\\text{Support}(X \\text{ and } Y)}{\\text{Support}(X) \\times \\text{Support}(Y)}\\]\n\n\n\nLift value\nMeaning\n\n\n\n\n&gt; 1\nBuying X makes buying Y more likely than normal\n\n\n= 1\nX and Y are bought independently of each other\n\n\n&lt; 1\nBuying X makes buying Y less likely than normal\n\n\n\n\n🔑 Lift is the most important metric. Select rules with the highest lift. A lift of 3.0 means a customer is 3× more likely to buy Y when they have X in their basket.",
+    "objectID": "regression-analysis/week-7.html#anova-assumptions-checklist",
+    "href": "regression-analysis/week-7.html#anova-assumptions-checklist",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "2.9 ANOVA Assumptions (Checklist)",
+    "text": "2.9 ANOVA Assumptions (Checklist)\nBefore trusting ANOVA results, verify:\n\nRandom sampling — ensured at data collection stage\nEqual variances (homogeneity) — test with Levene’s test or Bartlett’s test\nIndependence of error terms — observations should not influence each other\nNormality of residuals — check with QQ-plot and/or Shapiro-Wilk test\n\n\nIf equal variance assumption is violated → use the non-parametric Kruskal-Wallis test (uses ranks/medians instead of means).",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#r-code-apriori-on-the-groceries-dataset",
-    "href": "data-mining/week-7.html#r-code-apriori-on-the-groceries-dataset",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "5.3 R Code: Apriori on the Groceries Dataset",
-    "text": "5.3 R Code: Apriori on the Groceries Dataset\nlibrary(arules)\nlibrary(arulesViz)\n\n# Load the built-in grocery dataset\ndata(\"Groceries\")\nsummary(Groceries)\n\n# Look at the first 3 transactions\ninspect(head(Groceries, 3))\n\n# See the most frequently bought items\nfreq &lt;- itemFrequency(Groceries, type = \"absolute\")\nfreq &lt;- sort(freq, decreasing = TRUE)\nhead(freq)\n\n# Plot item frequencies for top 20 items\nitemFrequencyPlot(Groceries, topN = 20)\n\n5.3.1 Running the Apriori Algorithm\n# Items must appear in at least 1% of transactions\n# Rules must have at least 30% confidence\nsupport    &lt;- 0.01\nconfidence &lt;- 0.30\nparameters &lt;- list(support = support, confidence = confidence, target = \"rules\")\n\nrules &lt;- apriori(Groceries, parameter = parameters)\n\n# View rules as a data frame\ndfRules &lt;- data.frame(item_set = labels(rules), quality = rules@quality)\nhead(dfRules)\n\n\n5.3.2 Plotting the Rules\n# Scatter plot of all rules\nplot(rules)\n\n# Network graph of only the strongest rules (lift &gt;= 3)\nrulesLift &lt;- subset(rules, lift &gt;= 3.0)\nplot(rulesLift, method = \"graph\")",
+    "objectID": "regression-analysis/week-7.html#example-1-soil-yield-one-way-anova-post-hoc-worksheet-4-lab",
+    "href": "regression-analysis/week-7.html#example-1-soil-yield-one-way-anova-post-hoc-worksheet-4-lab",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "4.1 Example 1: Soil Yield — One-Way ANOVA + Post-Hoc (Worksheet 4 / Lab)",
+    "text": "4.1 Example 1: Soil Yield — One-Way ANOVA + Post-Hoc (Worksheet 4 / Lab)\nSetup: Crop yields measured for 10 fields on each of 3 soil types (Sand, Clay, Loam).\nGroup means: Sand = 9.9, Clay = 11.5, Loam = 14.3\nANOVA p-value: 0.025 → significant (at least one mean differs)\nPost-hoc conclusion: Only Loam vs. Sand is significantly different (Tukey p ≈ 0.020, Bonferroni p ≈ 0.023). Clay is not significantly different from either.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#verifying-calculations-manually",
-    "href": "data-mining/week-7.html#verifying-calculations-manually",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "5.4 Verifying Calculations Manually",
-    "text": "5.4 Verifying Calculations Manually\nYou can verify what the algorithm is doing by calculating the metrics by hand:\n# Convert sparse matrix to full data frame\ndfTrans &lt;- data.frame(as(Groceries, \"matrix\"))\n\n# Calculate support, confidence, and lift for beef =&gt; root vegetables\nsupport    &lt;- sum(dfTrans$beef & dfTrans$root.vegetables) / nrow(dfTrans)\nconfidence &lt;- sum(dfTrans$beef & dfTrans$root.vegetables) / sum(dfTrans$beef)\nlift       &lt;- support / ((sum(dfTrans$beef) / nrow(dfTrans)) *\n                         (sum(dfTrans$root.vegetables) / nrow(dfTrans)))",
+    "objectID": "regression-analysis/week-7.html#example-2-viscosity-study-two-way-anova-with-interaction",
+    "href": "regression-analysis/week-7.html#example-2-viscosity-study-two-way-anova-with-interaction",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "4.2 Example 2: Viscosity Study — Two-Way ANOVA with Interaction",
+    "text": "4.2 Example 2: Viscosity Study — Two-Way ANOVA with Interaction\nFactors: - Factor A = pH (2 levels: 5.6, 5.9) - Factor B = Catalyst Concentration (2 levels: 2.5, 2.7) - 3 replicates → 12 total measurements\nR Output Interpretation:\n\n\n\nEffect\np-value\nConclusion\n\n\n\n\npH (main)\n&gt; 0.05\nNot significant alone\n\n\nCatalyst (main)\n&gt; 0.05\nNot significant alone\n\n\npH × Catalyst (interaction)\n0.03\nSignificant ✓\n\n\n\nBecause the interaction is significant:\n→ The main effects are not meaningful in isolation\n→ Must examine simple effects (e.g., effect of pH when catalyst is held at 2.5 vs. 2.7)\n→ When catalyst = 2.7, changing pH from 5.6 to 5.9 produces a statistically significant difference (p = 0.01)",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#applying-recommendation-rules-in-practice",
-    "href": "data-mining/week-7.html#applying-recommendation-rules-in-practice",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "5.5 Applying Recommendation Rules in Practice",
-    "text": "5.5 Applying Recommendation Rules in Practice\nThings to consider when using recommendations in a real business:\n\nTransactional vs. member-based: You can group items by transaction ID (what is in one basket right now) or by member ID (what a person has bought over their whole history). Member-based rules can capture purchases that happen months apart (e.g. a cyclist buys a bike, then later a helmet, then cycling shoes).\nUse segmentation + recommendations together: Run the recommendation engine separately on each customer segment. This gives much more targeted and relevant suggestions.\nSubstitute vs. complement products:\n\nA substitute is a similar product (e.g. a different brand of TV). Goal: upsell (buy a better version).\nA complement is a product bought alongside the main product (e.g. a TV cable). Goal: cross-sell (buy something extra).\n\nAvoid bombarding customers. If someone just bought a TV, showing them more TV ads for 6 months is annoying and ineffective.\nEthics matter. A famous example: Target (US supermarket) identified pregnant women from their shopping habits and sent them baby product offers. One teenager’s father received the offers before he knew about the pregnancy. Always consider how customers will feel about personalised targeting.",
+    "objectID": "regression-analysis/week-7.html#example-3-new-car-interest-rate-worksheet-4-part-2",
+    "href": "regression-analysis/week-7.html#example-3-new-car-interest-rate-worksheet-4-part-2",
+    "title": "Week 7 Study Guide: Multiple Comparisons & Two-Way ANOVA",
+    "section": "4.3 Example 3: New Car Interest Rate (Worksheet 4, Part 2)",
+    "text": "4.3 Example 3: New Car Interest Rate (Worksheet 4, Part 2)\nSetup: 1 factor (city) with 6 levels → 15 pairwise comparisons\nTask: Run one-way ANOVA, then compare Separate t-tests vs. Tukey vs. Bonferroni across all 15 pairs.\n\nPurpose: To show how the multiple comparisons problem scales with more groups — with 15 tests, the chance of a false positive grows substantially if uncorrected p-values are used.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
       "Week 7"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#what-is-a-hyperparameter",
-    "href": "data-mining/week-7.html#what-is-a-hyperparameter",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "6.1 What Is a Hyperparameter?",
-    "text": "6.1 What Is a Hyperparameter?\nIn statistics, a parameter usually means a variable in your data (e.g. age, income).\nIn machine learning, a hyperparameter is a setting of the algorithm itself – something you choose before training, not learned from the data.\nExamples:\n\n\n\n\n\n\n\nAlgorithm\nHyperparameter examples\n\n\n\n\nDecision Tree\nSplitting criterion (Gini, entropy)\n\n\nSupport Vector Machine\nKernel function (linear, RBF)\n\n\nNeural Network\nNumber of layers, nodes per layer, learning rate\n\n\nRandom Forest\nNumber of trees (ntree), features per tree (mtry)\n\n\n\nThe process of finding the best set of hyperparameters is called hyperparameter optimisation.",
+    "objectID": "regression-analysis/week-8.html",
+    "href": "regression-analysis/week-8.html",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "",
+    "text": "Correlation analysis vs. regression analysis\nPearson’s correlation coefficient (linear) vs. Spearman’s rank (non-linear)\nInterpreting the correlation coefficient: direction and strength\nSimple linear regression model and its equation\nIndependent (predictor/explanatory) vs. dependent (response) variables\nScatter plots and the importance of visualisation\nThe line of best fit and the method of least squares\nResiduals and model assumptions\nSum of squares: total, regression, and error\nCoefficient of determination (\\(R^2\\))\nANOVA table for regression\nSignificance testing of the slope (\\(\\beta_1\\))\nDiagnostic plots (residuals vs. fitted, QQ plot, Scale–Location, Cook’s Distance)\nLog transformation for non-linear data (Example 2 – Decay dataset)",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
-      "Week 7"
+      "Week 8"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#methods-for-hyperparameter-optimisation",
-    "href": "data-mining/week-7.html#methods-for-hyperparameter-optimisation",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "6.2 Methods for Hyperparameter Optimisation",
-    "text": "6.2 Methods for Hyperparameter Optimisation\n\n6.2.1 Grid Search\nTry every possible combination of hyperparameters. If you have 4 hyperparameters with 2, 5, 3, and 2 possible values each:\n\\[2 \\times 5 \\times 3 \\times 2 = 60 \\text{ experiments}\\]\nGrid search is exhaustive but very slow for large numbers of hyperparameters.\n\n\n6.2.2 Random Search\nSelect combinations at random. Useful when you cannot afford to run all combinations. Less thorough than grid search, but much faster.\n\n\n6.2.3 Bayesian Search\nStarts like random search, then focuses on the most promising area based on the results seen so far. Think of it like the hot/cold game – it “gets warmer” and homes in on the best region.",
+    "objectID": "regression-analysis/week-8.html#what-is-regression-analysis",
+    "href": "regression-analysis/week-8.html#what-is-regression-analysis",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "2.1 What Is Regression Analysis?",
+    "text": "2.1 What Is Regression Analysis?\nRegression analysis is a statistical method used to determine and describe the relationship between two or more numeric variables. The key requirement is that the variables must be numeric (quantitative). For example, investigating whether the yield of a chemical process is related to the operating temperature — both are numbers, so regression is appropriate.\nThere are two closely related concepts introduced this week:\n\nCorrelation analysis asks: does a relationship exist between the two variables, and how strong is it?\nRegression analysis goes further: what is the nature/equation of that relationship, and can we use it to make predictions?\n\nIn practice, correlation is usually examined first as a preliminary step to regression.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
-      "Week 7"
+      "Week 8"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#r-code-manual-hyperparameter-search-random-forest",
-    "href": "data-mining/week-7.html#r-code-manual-hyperparameter-search-random-forest",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "6.3 R Code: Manual Hyperparameter Search (Random Forest)",
-    "text": "6.3 R Code: Manual Hyperparameter Search (Random Forest)\nlibrary(randomForest)\n\n# Define hyperparameter values to try\ntrees &lt;- c(50, 200, 500)\nmtrys &lt;- c(4, 6)\n\nbest_accuracy &lt;- 0\n\nfor (v1 in trees) {\n  for (v2 in mtrys) {\n    rf_model &lt;- randomForest(as.factor(Survived) ~ .,\n                             data  = train_data,\n                             ntree = v1,\n                             mtry  = v2)\n\n    pr  &lt;- predict(rf_model, newdata = test_data, type = \"class\")\n    pr  &lt;- factor(pr, levels = c(1, 0))\n    tab &lt;- table(pr, actuals)\n    accuracy &lt;- 100 * sum(diag(tab)) / sum(tab)\n\n    if (accuracy &gt; best_accuracy) {\n      best_tree     &lt;- v1\n      best_mtry     &lt;- v2\n      best_accuracy &lt;- accuracy\n    }\n  }\n}\n\nprint(paste0(\"Best accuracy = \", round(best_accuracy, 2),\n             \", ntree = \", best_tree,\n             \", mtry = \", best_mtry))\n\nThis runs 6 experiments (3 tree values × 2 mtry values). In practice, use the caret or tidymodels packages to do this automatically and more rigorously.",
+    "objectID": "regression-analysis/week-8.html#correlation-pearsons-vs.-spearmans",
+    "href": "regression-analysis/week-8.html#correlation-pearsons-vs.-spearmans",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "2.2 Correlation: Pearson’s vs. Spearman’s",
+    "text": "2.2 Correlation: Pearson’s vs. Spearman’s\nCorrelation measures the extent to which two variables are related. Relationships can take many mathematical forms (linear, curved, etc.), but in this course we focus exclusively on linear relationships.\n\n\n\n\n\n\n\n\nCoefficient\nUsed for\nSymbol\n\n\n\n\nPearson’s r\nLinear correlation\n\\(r\\) (sample), \\(\\rho\\) (population)\n\n\nSpearman’s rank\nNon-linear (monotonic) correlation\n\\(r_s\\)\n\n\n\n\nImportant: You cannot determine whether a relationship is linear just by looking at the correlation coefficient number alone. You must also produce a scatter plot to visually confirm linearity. Three datasets can have the same \\(r\\) value but look completely different when plotted (e.g., one linear, one curved, one with an outlier).\n\nThe Pearson correlation coefficient \\(r\\):\n\nRanges from −1 to +1\n+1 = perfect positive linear relationship\n−1 = perfect negative linear relationship\n0 = no linear relationship\n\nFrom the value of \\(r\\), you can determine two things:\n\nDirection — positive (both variables increase together) or negative (one increases as the other decreases)\nStrength — the closer the value is to ±1, the stronger the relationship",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
-      "Week 7"
+      "Week 8"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#important-warnings",
-    "href": "data-mining/week-7.html#important-warnings",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "6.4 Important Warnings",
-    "text": "6.4 Important Warnings\n\n6.4.1 You Need THREE Data Splits for Hyperparameter Optimisation\nWhen optimising hyperparameters, do not keep evaluating on the same test set – you are effectively peeking at the answers. Use:\n\nTraining set – train the model\nValidation set – compare hyperparameter combinations\nTest set – used only once at the very end to report final accuracy\n\nA typical split might be 70% / 15% / 15%.\n\n\n6.4.2 Hyperparameter Optimisation Is NOT the First Step\n\n⚠️ Feature engineering and data quality matter much more than hyperparameter tuning. Most algorithms give reasonable results with default settings. Only optimise hyperparameters once your data preparation is solid.",
+    "objectID": "regression-analysis/week-8.html#the-straight-line-equation",
+    "href": "regression-analysis/week-8.html#the-straight-line-equation",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "2.3 The Straight Line Equation",
+    "text": "2.3 The Straight Line Equation\nA straight line in mathematics is described by:\n\\[y = mx + c\\]\nwhere \\(m\\) is the slope (gradient) and \\(c\\) is the y-intercept.\nIn statistics, the same concept uses different notation:\n\\[Y = \\beta_0 + \\beta_1 X + \\varepsilon\\]\n\n\n\n\n\n\n\nSymbol\nMeaning\n\n\n\n\n\\(Y\\)\nResponse (dependent) variable\n\n\n\\(X\\)\nExplanatory (independent) variable\n\n\n\\(\\beta_0\\)\nIntercept (equivalent to \\(c\\)) — where the line crosses the y-axis when \\(X = 0\\)\n\n\n\\(\\beta_1\\)\nSlope (equivalent to \\(m\\)) — the change in \\(Y\\) for every one-unit increase in \\(X\\)\n\n\n\\(\\varepsilon\\)\nError term (random noise)\n\n\n\n\nNote from class: The intercept is not usually meaningful on its own. The slope is the key parameter to interpret.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
-      "Week 7"
+      "Week 8"
     ]
   },
   {
-    "objectID": "data-mining/week-7.html#automl",
-    "href": "data-mining/week-7.html#automl",
-    "title": "STAT9013 – Week 7 Study Guide",
-    "section": "6.5 AutoML",
-    "text": "6.5 AutoML\nSome tools (e.g. h2o.ai, AWS SageMaker) automate the whole process: selecting the algorithm AND tuning the hyperparameters. This is called AutoML.\n\nUseful for extracting the last small improvement in performance.\nCan run for days on large datasets using multiple cloud machines.\nThe improvement is usually small (often less than 1% accuracy difference between models).\nShould be the last step in your workflow, not the first.",
+    "objectID": "regression-analysis/week-8.html#independent-vs.-dependent-variables",
+    "href": "regression-analysis/week-8.html#independent-vs.-dependent-variables",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "2.4 Independent vs. Dependent Variables",
+    "text": "2.4 Independent vs. Dependent Variables\n\nThe independent variable (also called the predictor or explanatory variable) goes on the x-axis. It is the variable we use to predict or explain the other.\nThe dependent variable (also called the response variable) goes on the y-axis. It responds to changes in the independent variable.\n\nTip from class: To figure out which is which, put it into a sentence: “Does Y depend on X, or does X depend on Y?” The variable that depends on the other is the dependent variable.\nExample (plant data):\nDoes height depend on age? → Yes → Height = Y (y-axis), Age = X (x-axis)\nWhen there is one independent variable and one dependent variable, this is called simple linear regression.",
     "crumbs": [
-      "Data Mining",
+      "Regression Analysis",
       "Weekly Notes",
-      "Week 7"
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#scatter-plots",
+    "href": "regression-analysis/week-8.html#scatter-plots",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "2.5 Scatter Plots",
+    "text": "2.5 Scatter Plots\nBefore doing any analysis, always plot your data. A scatter plot is a graph of all the \\((X, Y)\\) pairs. It helps you to:\n\nCheck whether the relationship looks linear (if not, linear regression is not appropriate)\nEstimate the direction (positive or negative slope)\nGet a rough idea of strength (how tightly clustered the points are around an imaginary line)\n\nWhen interpreting a scatter plot, state three things in this order: 1. Linear (or not) 2. Positive / Negative 3. Strength: weak / moderate / strong",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#the-line-of-best-fit-least-squares",
+    "href": "regression-analysis/week-8.html#the-line-of-best-fit-least-squares",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "2.6 The Line of Best Fit & Least Squares",
+    "text": "2.6 The Line of Best Fit & Least Squares\nBecause real data points do not all fall perfectly on a straight line, there are many possible lines we could draw. We need a principled way to choose the best one.\nThe method used is called the method of least squares. It selects the line that minimises the sum of the squared vertical distances (called residuals or errors) between each observed data point and the line.\nWhy square the distances? Because some points lie above the line (positive residual) and some below (negative residual). If we just added them up, positives and negatives would cancel out and mislead us. Squaring makes everything positive.\n\\[\\text{Minimise: } \\sum_{i=1}^{n} e_i^2 = \\sum_{i=1}^{n}(y_i - \\hat{y}_i)^2\\]\nwhere \\(e_i = y_i - \\hat{y}_i\\) is the residual for observation \\(i\\).\nThe estimated regression equation is then written:\n\\[\\hat{y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 x\\]\nwhere hats (^) denote estimated values.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#interpreting-the-slope",
+    "href": "regression-analysis/week-8.html#interpreting-the-slope",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "2.7 Interpreting the Slope",
+    "text": "2.7 Interpreting the Slope\nThe slope \\(\\hat{\\beta}_1\\) tells you:\n\nFor every one-unit increase in X, Y increases (or decreases) by \\(\\hat{\\beta}_1\\) units.\n\nPlant data example:\nFitted model: \\(\\hat{y} = -1.03 + 3.047x\\)\n→ For every one additional week of age, plant height increases by 3.047 cm.\nThe sign of the slope matches the direction of the correlation: positive slope ↔︎ positive correlation.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#residuals-and-model-assumptions",
+    "href": "regression-analysis/week-8.html#residuals-and-model-assumptions",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "2.8 Residuals and Model Assumptions",
+    "text": "2.8 Residuals and Model Assumptions\nA residual is the difference between what was observed and what was predicted by the model:\n\\[e_i = y_i - \\hat{y}_i\\]\nFor the regression model to be valid, the residuals (errors) must satisfy these assumptions:\n\nLinearity — the relationship between X and Y is linear\nIndependence — the errors are independent of each other\nNormality — the errors follow a normal distribution (mean = 0)\nConstant variance (homoscedasticity) — the spread of residuals is roughly the same across all fitted values\n\nThese are checked using diagnostic plots in R.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#diagnostic-plots-in-r",
+    "href": "regression-analysis/week-8.html#diagnostic-plots-in-r",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "2.9 Diagnostic Plots in R",
+    "text": "2.9 Diagnostic Plots in R\nRunning plot(your_model) produces four plots:\n\n\n\n\n\n\n\nPlot\nWhat it checks\n\n\n\n\nResiduals vs. Fitted\nConstant variance — should show no pattern\n\n\nNormal Q-Q Plot\nNormality of residuals — points should fall on the diagonal line\n\n\nScale–Location\nAnother view of constant variance\n\n\nCook’s Distance\nInfluential observations — values &gt; 1 are concerning\n\n\n\nYou can also use qqPlot(your_model) from the car package for a Q-Q plot with confidence bands.\n\nExam tip (from lecturer): These diagnostic plots are likely to appear in the terminal exam. Make sure you can interpret each one.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#variation-and-r2-coefficient-of-determination",
+    "href": "regression-analysis/week-8.html#variation-and-r2-coefficient-of-determination",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "2.10 Variation and \\(R^2\\) (Coefficient of Determination)",
+    "text": "2.10 Variation and \\(R^2\\) (Coefficient of Determination)\nThe total variation in Y can be split into two parts:\n\\[SS_T = SS_R + SS_E\\]\n\n\n\n\n\n\n\n\nComponent\nName\nMeaning\n\n\n\n\n\\(SS_T\\)\nTotal Sum of Squares\nTotal variation in Y\n\n\n\\(SS_R\\)\nRegression Sum of Squares\nVariation explained by the model\n\n\n\\(SS_E\\)\nError Sum of Squares\nVariation unexplained (due to random error)\n\n\n\nThe coefficient of determination \\(R^2\\) is:\n\\[R^2 = \\frac{SS_R}{SS_T} = r^2\\]\nIt represents the percentage of variation in Y explained by X.\nPlant data example: \\(r = 0.99\\) → \\(R^2 = 0.99^2 \\approx 0.98\\) → 98% of the variation in Height is explained by Age.\nIf \\(R^2\\) is very small (e.g. 17%), it means the model explains very little variation — there are likely other important variables missing from the model.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#anova-table-for-regression",
+    "href": "regression-analysis/week-8.html#anova-table-for-regression",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "2.11 ANOVA Table for Regression",
+    "text": "2.11 ANOVA Table for Regression\nJust like in ANOVA, we build a table to test the significance of the regression:\n\n\n\nSource\ndf\nSS\nMS\nF\n\n\n\n\nRegression\n1\n\\(SS_R\\)\n\\(MS_R = SS_R / 1\\)\n\\(F = MS_R / MS_E\\)\n\n\nResiduals\n\\(n-2\\)\n\\(SS_E\\)\n\\(MS_E = SS_E/(n-2)\\)\n\n\n\nTotal\n\\(n-1\\)\n\\(SS_T\\)\n\n\n\n\n\nThe null hypothesis being tested is:\n\\[H_0: \\beta_1 = 0 \\quad \\text{(no linear relationship)}\\] \\[H_1: \\beta_1 \\neq 0 \\quad \\text{(a linear relationship exists)}\\]\nIf the F-statistic exceeds the critical value (or if p-value &lt; 0.05), we reject \\(H_0\\) and conclude the slope is significantly different from zero.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#example-1-plant-growth-data",
+    "href": "regression-analysis/week-8.html#example-1-plant-growth-data",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "4.1 Example 1 — Plant Growth Data",
+    "text": "4.1 Example 1 — Plant Growth Data\nVariables: Age (weeks) = X, Height (cm) = Y\nData: 10 observations\nAge    &lt;- c(2, 2, 3, 4, 4, 5, 6, 7, 8, 8)\nHeight &lt;- c(4, 5, 9, 11, 12, 14, 17, 21, 22, 24)\nplant  &lt;- tibble(Age, Height)\n\n# Scatter plot and correlation\nplot(Height ~ Age, data = plant)\ncor(plant$Height, plant$Age)\n\n# Fit model\nplant_model &lt;- lm(Height ~ Age, data = plant)\nsummary(plant_model)\nsummary.aov(plant_model)\n\n# Plot regression line\nplot(Height ~ Age)\nabline(plant_model)\n\n# Diagnostic plots\npar(mfrow = c(2, 2))\nplot(plant_model)\nqqPlot(plant_model)  # from library(car)\nFitted model result: \\[\\hat{y} = -1.0299 + 3.0469 \\, x\\]\nInterpretation of slope: For every additional week of age, height increases by 3.047 cm.\nR² = 0.9875 → 98.75% of variation in Height is explained by Age.\np-value &lt; 0.001 → Age is a statistically significant predictor of Height.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#example-2-decay-data-transformation-required",
+    "href": "regression-analysis/week-8.html#example-2-decay-data-transformation-required",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "4.2 Example 2 — Decay Data (Transformation Required)",
+    "text": "4.2 Example 2 — Decay Data (Transformation Required)\nVariables: Time = X, Amount of organic material = Y\nDataset: Decay.txt\nThis dataset does not satisfy the linearity assumption — the relationship between amount and time is non-linear (exponential decay). A log transformation is applied to linearise it.\nDecay &lt;- read_tsv(\"Decay.txt\")\n\n# Check distribution and relationship\nhist(Decay$amount)\nplot(Decay$amount ~ Decay$time)\n\n# Fit linear model to original data (model 1 — likely a poor fit)\nmodel1 &lt;- lm(amount ~ time, data = Decay)\nsummary(model1)\nplot(model1)\n\n# Try log transformation\nplot(log(amount) ~ time, data = Decay)  # should look more linear\n\n# Fit linear model to log-transformed data (model 2)\nmodel2 &lt;- lm(log(amount) ~ time, data = Decay)\nsummary(model2)\n\n# Back-transform the equation:\n# log(amount) = 4.547386 - 0.068528 * time\n# =&gt; amount = exp(4.547386) * exp(-0.068528 * time)\n# =&gt; amount = 94.385 * exp(-0.068528 * time)\n\n# Prediction at time = 15:\n# amount = 94.385 * exp(-0.068528 * 15) ≈ 33.77\n\n# Optional: fit non-linear model directly (model 3)\nmodel3 &lt;- nls(amount ~ a * exp(b * time), data = Decay,\n              start = list(a = 1, b = -0.1))\nsummary(model3)\nKey concept: When the raw data violates linearity, try a log (or other) transformation. After transforming and fitting, back-transform the equation to interpret it in terms of the original variable.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#personal-notes-annotations",
+    "href": "regression-analysis/week-8.html#personal-notes-annotations",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "5.1 Personal Notes & Annotations",
+    "text": "5.1 Personal Notes & Annotations\n\nUse this space to add your own notes after reviewing the material.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#questions-to-follow-up",
+    "href": "regression-analysis/week-8.html#questions-to-follow-up",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "5.2 Questions to Follow Up",
+    "text": "5.2 Questions to Follow Up\n\nNote any concepts that need clarification here.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-8.html#exam-reminders",
+    "href": "regression-analysis/week-8.html#exam-reminders",
+    "title": "Week 8 – Simple Linear Regression",
+    "section": "5.3 Exam Reminders",
+    "text": "5.3 Exam Reminders\n\nKey things to remember for exams, from lecturer hints.\n\n\nInterpret the slope clearly: “For every one-unit increase in X, Y increases/decreases by …”\nInterpret \\(R^2\\) as a percentage: “X% of the variation in Y is explained by X.”\nDiagnostic plots: know what each of the four plots is checking.\nThe residual diagnostic plots (Scale–Location, Cook’s Distance, Q-Q plot) will likely appear in the terminal exam.\nLab exam is expected in Week 10–11 and will be conducted remotely.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 8"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-9.html#multiple-linear-regression",
+    "href": "regression-analysis/week-9.html#multiple-linear-regression",
+    "title": "Week 9 Study Guide: Multiple Linear Regression",
+    "section": "2.1 Multiple Linear Regression",
+    "text": "2.1 Multiple Linear Regression\nMultiple linear regression is an extension of simple linear regression. Instead of one explanatory (independent) variable \\(X\\), you now have multiple explanatory variables \\(X_1, X_2, \\ldots, X_k\\).\nThe model looks like this:\n\\[\nY = \\beta_0 + \\beta_1 X_1 + \\beta_2 X_2 + \\cdots + \\beta_k X_k + \\varepsilon\n\\]\nThe word “linear” here does not mean the relationship between \\(X\\) and \\(Y\\) is a straight line — it means that the response variable \\(Y\\) is a linear function of the coefficients (\\(\\beta\\) values). This is an important distinction.\n\n2.1.1 Interpreting the Coefficients\nEach coefficient \\(\\beta_j\\) represents the expected change in the response \\(Y\\) for a one-unit increase in \\(X_j\\), while all other explanatory variables are held constant.\n\n⚠️ Exam tip (Paula’s emphasis): When interpreting a coefficient in a multiple regression model, you must state that the other variables are held constant. This is key to getting full marks.\n\nExample from class (savings dataset):\n\nFor a one-unit increase in population under 15, the savings rate decreases by 0.216, holding all other variables constant.\nFor a one-unit increase in percentage rate of change of disposable income (DDPI), the savings rate increases by 0.443, holding all other variables constant.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 9"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-9.html#matrix-notation",
+    "href": "regression-analysis/week-9.html#matrix-notation",
+    "title": "Week 9 Study Guide: Multiple Linear Regression",
+    "section": "2.2 Matrix Notation",
+    "text": "2.2 Matrix Notation\nThe entire regression model can be written compactly using matrix notation:\n\\[\n\\mathbf{Y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}\n\\]\nWhere:\n\n\n\n\n\n\n\n\nSymbol\nMeaning\nDimensions\n\n\n\n\n\\(\\mathbf{Y}\\)\nVector of response values\n\\(n \\times 1\\)\n\n\n\\(\\mathbf{X}\\)\nDesign matrix (includes a column of 1s for the intercept)\n\\(n \\times (k+1)\\)\n\n\n\\(\\boldsymbol{\\beta}\\)\nVector of coefficients (intercept + slopes)\n\\((k+1) \\times 1\\)\n\n\n\\(\\boldsymbol{\\varepsilon}\\)\nVector of error terms\n\\(n \\times 1\\)\n\n\n\nThe first column of \\(\\mathbf{X}\\) is a column of 1s — this is a placeholder for the intercept \\(\\beta_0\\).",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 9"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-9.html#least-squares-estimation",
+    "href": "regression-analysis/week-9.html#least-squares-estimation",
+    "title": "Week 9 Study Guide: Multiple Linear Regression",
+    "section": "2.3 Least Squares Estimation",
+    "text": "2.3 Least Squares Estimation\nThe least squares method finds the \\(\\hat{\\boldsymbol{\\beta}}\\) that minimises the error sum of squares (SSE) — i.e., it minimises the total squared distance between the observed values and the fitted (predicted) values.\n\\[\nSSE = \\sum_{i=1}^{n}(y_i - \\hat{y}_i)^2 = (\\mathbf{Y} - \\mathbf{X}\\hat{\\boldsymbol{\\beta}})^T(\\mathbf{Y} - \\mathbf{X}\\hat{\\boldsymbol{\\beta}})\n\\]\nThe solution (in matrix form) is:\n\\[\n\\hat{\\boldsymbol{\\beta}} = (\\mathbf{X}^T\\mathbf{X})^{-1}\\mathbf{X}^T\\mathbf{Y}\n\\]\nThe fitted values are then:\n\\[\n\\hat{\\mathbf{Y}} = \\mathbf{X}\\hat{\\boldsymbol{\\beta}} = \\mathbf{H}\\mathbf{Y}\n\\]\nWhere \\(\\mathbf{H} = \\mathbf{X}(\\mathbf{X}^T\\mathbf{X})^{-1}\\mathbf{X}^T\\) is known as the Hat Matrix (because it “puts the hat” on \\(Y\\)).\nThe residuals are:\n\\[\n\\hat{\\boldsymbol{\\varepsilon}} = \\mathbf{Y} - \\hat{\\mathbf{Y}} = (\\mathbf{I} - \\mathbf{H})\\mathbf{Y}\n\\]\nThe estimate of the error variance (\\(\\sigma^2\\)) is:\n\\[\n\\hat{\\sigma}^2 = \\frac{SSE}{n - k - 1}\n\\]\nWhere \\(n\\) = number of observations and \\(k\\) = number of explanatory variables.\n\n📌 Paula’s note: You don’t need to compute this by hand — just understand the theory behind it.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 9"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-9.html#assumptions-of-multiple-linear-regression",
+    "href": "regression-analysis/week-9.html#assumptions-of-multiple-linear-regression",
+    "title": "Week 9 Study Guide: Multiple Linear Regression",
+    "section": "2.4 Assumptions of Multiple Linear Regression",
+    "text": "2.4 Assumptions of Multiple Linear Regression\nThe assumptions are the same as in simple linear regression:\n\nLinearity — \\(Y\\) is a linear function of the coefficients.\nIndependence — Error terms are independent of each other.\nNormality — Errors are normally distributed: \\(\\varepsilon \\sim N(0, \\sigma^2)\\).\nConstant variance (homoscedasticity) — The variance of the errors is constant across all values of \\(X\\).\nExplanatory variables are measured without error — No distributional assumptions are placed on the \\(X\\) variables themselves.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 9"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-9.html#r²-and-adjusted-r²",
+    "href": "regression-analysis/week-9.html#r²-and-adjusted-r²",
+    "title": "Week 9 Study Guide: Multiple Linear Regression",
+    "section": "2.5 R² and Adjusted R²",
+    "text": "2.5 R² and Adjusted R²\nR² (R-squared / Coefficient of Determination): The proportion of variation in \\(Y\\) that is explained by the model. Always expressed as a percentage.\n\\[\nR^2 = 1 - \\frac{SSE}{SST}\n\\]\n\n\\(R^2 = 0.2075\\) means 20.75% of the variation in Y is explained by X.\nWhatever is not explained is due to other unknown variables or random error.\n\nProblem with R²: It always increases (or stays the same) when you add more variables to the model, even if those variables are useless. This can make a model look better than it is.\nAdjusted R² penalises the model for adding extra variables that don’t genuinely improve fit:\n\\[\n\\bar{R}^2 = 1 - \\frac{SSE/(n-k-1)}{SST/(n-1)}\n\\]\n\n⚠️ The Adjusted R² will always be lower than R² in a multiple regression model. This is expected and not a problem.\n\n\n📌 Also note: R² for the model with both explanatory variables (28.75%) is less than the sum of the two individual model R² values (20.75% + 9.29% = 30.04%). This is because the two variables share some overlapping explanatory power.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 9"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-9.html#the-global-f-test",
+    "href": "regression-analysis/week-9.html#the-global-f-test",
+    "title": "Week 9 Study Guide: Multiple Linear Regression",
+    "section": "2.6 The Global F-Test",
+    "text": "2.6 The Global F-Test\nBefore looking at individual coefficients, the first step when interpreting a regression output is to check the overall model significance using the global F-test.\nHypotheses: \\[H_0: \\beta_1 = \\beta_2 = \\cdots = \\beta_k = 0\\] \\[H_1: \\text{At least one } \\beta_j \\neq 0\\]\n\nIf the p-value is significant → at least one explanatory variable is associated with the response.\nThis test is called the global F-test (also: comparing the full model to the null model).\n\n\n⚠️ Exam tip: Always check the overall model p-value first, before interpreting individual coefficients.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 9"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-9.html#comparing-nested-models",
+    "href": "regression-analysis/week-9.html#comparing-nested-models",
+    "title": "Week 9 Study Guide: Multiple Linear Regression",
+    "section": "2.7 Comparing Nested Models",
+    "text": "2.7 Comparing Nested Models\nSometimes you want to compare a full model (all variables) with a reduced model (fewer variables).\nThis is done using an ANOVA F-test:\n\\[\nF = \\frac{(SSE_{\\text{reduced}} - SSE_{\\text{full}}) / (p - q)}{SSE_{\\text{full}} / (n - p)}\n\\]\nWhere: - \\(p\\) = number of parameters in the full model - \\(q\\) = number of parameters in the reduced model - \\(n\\) = number of observations\n\n⚠️ Important: The summary output in R tests only one variable at a time. If you want to drop more than one variable, you must use ANOVA to compare models directly.\n\nExample from class:\nTesting whether population over 75 and DPI could both be dropped: F-statistic = 1.723, p-value = 0.19 → fail to reject H₀ → the larger model does not fit significantly better, so those two variables can potentially be dropped.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 9"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-9.html#collinearity-multicollinearity",
+    "href": "regression-analysis/week-9.html#collinearity-multicollinearity",
+    "title": "Week 9 Study Guide: Multiple Linear Regression",
+    "section": "2.8 Collinearity (Multicollinearity)",
+    "text": "2.8 Collinearity (Multicollinearity)\nCollinearity occurs when two or more explanatory variables are highly correlated with each other.\nIn the savings dataset example, population under 15 and population over 75 both measure age-related demographics and were negatively correlated with each other. Including both made one or both appear insignificant — even though each was significant on its own.\nEffects of collinearity: - Imprecise (unstable) estimates of \\(\\hat{\\beta}\\) with large standard errors - F-tests and t-tests may fail to reveal significance - The sign or magnitude of a coefficient can flip when variables are added or removed\nDetection — Variance Inflation Factor (VIF):\n\\[\nVIF_j = \\frac{1}{1 - R^2_j}\n\\]\nwhere \\(R^2_j\\) is the R² from regressing \\(X_j\\) on all other explanatory variables.\n\n📌 Rule of thumb: If VIF &gt; 5, there is evidence of serious collinearity.\n\nSolutions: - Remove one of the correlated variables - Use Principal Component Analysis (PCA) followed by regression — this creates a new, uncorrelated set of variables - Use shrinkage methods (e.g., Ridge regression, LASSO)",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 9"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-9.html#model-diagnostics",
+    "href": "regression-analysis/week-9.html#model-diagnostics",
+    "title": "Week 9 Study Guide: Multiple Linear Regression",
+    "section": "2.9 Model Diagnostics",
+    "text": "2.9 Model Diagnostics\nAfter fitting a regression model, you must check the assumptions using diagnostic plots. Paula emphasised that these will appear in the labs.\n\n2.9.1 1. Residuals vs Fitted Values\n\nPlots the residuals (\\(y_i - \\hat{y}_i\\)) on the y-axis against the fitted values (\\(\\hat{y}_i\\)) on the x-axis.\nWhat you want: A random, constant scatter of points with no pattern.\nWhat’s bad: A curved or funnel-shaped pattern — this suggests the relationship is non-linear or the variance is non-constant (heteroscedasticity).\n\n\n💡 If a curved pattern appears, you may need to add a quadratic term (e.g., \\(X^2\\)) to the model.\n\n\n\n2.9.2 2. QQ Plot (Quantile-Quantile Plot)\n\nCompares the quantiles of your residuals to the quantiles of a theoretical normal distribution.\nWhat you want: Residuals that fall close to the diagonal line.\nWhat’s bad: Strong deviations from the diagonal suggest non-normality.\n\n\n📌 QQ plots are preferred over histograms (especially for small samples), because histograms are sensitive to bin width choice. You can use both together.\n\n\n\n2.9.3 3. Leverage\nLeverage measures how much an observation’s value on the explanatory variable(s) differs from the mean of those variables.\n\\[\nh_{ii} = \\text{diagonal entry of Hat Matrix } \\mathbf{H}\n\\]\n\nAn observation with \\(X\\) equal to the mean has zero leverage.\nHigh leverage → the observation is far from the mean of \\(X\\) → it has the potential to influence the regression slope greatly.\n\n\n📌 Rule of thumb: Flag observations where leverage \\(&gt; 2(k+1)/n\\).\n\n\n\n2.9.4 4. Studentised Residuals\nStandardised version of the residuals used to identify outliers.\n\n📌 Rule of thumb: An observation may be an outlier if \\(|r_i| &gt; 2\\).\n\n\nNote: Standardised and studentised residuals are sometimes defined differently — double-check how R computes them.\n\n\n\n2.9.5 5. Cook’s Distance\nCook’s Distance measures the overall influence of a single observation on all the fitted values. It is proportional to the sum of squared differences between predictions made with and without that observation.\n\nIf the predictions are the same with or without the observation → no influence.\nIf the predictions differ → influential observation.\n\n\n📌 Rule of thumb: Flag observations with Cook’s Distance \\(&gt; 1\\).\n\n\n\n2.9.6 Combined interpretation\n\n\n\nStandardised Residuals\nLeverage\nInfluence\n\n\n\n\nLow\nLow\nSmall\n\n\nHigh\nHigh\nHighly influential",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 9"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-9.html#cross-validation",
+    "href": "regression-analysis/week-9.html#cross-validation",
+    "title": "Week 9 Study Guide: Multiple Linear Regression",
+    "section": "2.10 Cross-Validation",
+    "text": "2.10 Cross-Validation\nA model may fit the sample data well but fail to generalise to the broader population. Cross-validation tests this.\nK-fold cross-validation process:\n\nRandomly partition the dataset into \\(K\\) equal-sized subsamples.\nFit the model on \\(K - 1\\) of the subsamples.\nValidate (test) the model on the one subsample left out.\nRepeat \\(K\\) times so every subsample is used as a validation set exactly once.\nAverage the performance metrics across all \\(K\\) runs to get a single estimate.\n\n\n📌 Bootstrapping is another method for assessing generalisation — Paula mentioned it briefly.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 9"
     ]
   }
 ]

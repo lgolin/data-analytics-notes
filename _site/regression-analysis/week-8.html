@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 8 – Simple Linear Regression – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../regression-analysis/week-9.html" rel="next">
+<link href="../regression-analysis/week-7.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-8.html">Week 8</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-8.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9 - empty</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-3.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-4.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-5.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-6.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-7.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-8.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8 - empty</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics" id="toc-key-topics" class="nav-link active" data-scroll-target="#key-topics"><span class="header-section-number">1</span> Key Topics</a></li>
+  <li><a href="#core-explanation" id="toc-core-explanation" class="nav-link" data-scroll-target="#core-explanation"><span class="header-section-number">2</span> Core Explanation</a>
+  <ul class="collapse">
+  <li><a href="#what-is-regression-analysis" id="toc-what-is-regression-analysis" class="nav-link" data-scroll-target="#what-is-regression-analysis"><span class="header-section-number">2.1</span> What Is Regression Analysis?</a></li>
+  <li><a href="#correlation-pearsons-vs.-spearmans" id="toc-correlation-pearsons-vs.-spearmans" class="nav-link" data-scroll-target="#correlation-pearsons-vs.-spearmans"><span class="header-section-number">2.2</span> Correlation: Pearson’s vs.&nbsp;Spearman’s</a></li>
+  <li><a href="#the-straight-line-equation" id="toc-the-straight-line-equation" class="nav-link" data-scroll-target="#the-straight-line-equation"><span class="header-section-number">2.3</span> The Straight Line Equation</a></li>
+  <li><a href="#independent-vs.-dependent-variables" id="toc-independent-vs.-dependent-variables" class="nav-link" data-scroll-target="#independent-vs.-dependent-variables"><span class="header-section-number">2.4</span> Independent vs.&nbsp;Dependent Variables</a></li>
+  <li><a href="#scatter-plots" id="toc-scatter-plots" class="nav-link" data-scroll-target="#scatter-plots"><span class="header-section-number">2.5</span> Scatter Plots</a></li>
+  <li><a href="#the-line-of-best-fit-least-squares" id="toc-the-line-of-best-fit-least-squares" class="nav-link" data-scroll-target="#the-line-of-best-fit-least-squares"><span class="header-section-number">2.6</span> The Line of Best Fit &amp; Least Squares</a></li>
+  <li><a href="#interpreting-the-slope" id="toc-interpreting-the-slope" class="nav-link" data-scroll-target="#interpreting-the-slope"><span class="header-section-number">2.7</span> Interpreting the Slope</a></li>
+  <li><a href="#residuals-and-model-assumptions" id="toc-residuals-and-model-assumptions" class="nav-link" data-scroll-target="#residuals-and-model-assumptions"><span class="header-section-number">2.8</span> Residuals and Model Assumptions</a></li>
+  <li><a href="#diagnostic-plots-in-r" id="toc-diagnostic-plots-in-r" class="nav-link" data-scroll-target="#diagnostic-plots-in-r"><span class="header-section-number">2.9</span> Diagnostic Plots in R</a></li>
+  <li><a href="#variation-and-r2-coefficient-of-determination" id="toc-variation-and-r2-coefficient-of-determination" class="nav-link" data-scroll-target="#variation-and-r2-coefficient-of-determination"><span class="header-section-number">2.10</span> Variation and <span class="math inline">\(R^2\)</span> (Coefficient of Determination)</a></li>
+  <li><a href="#anova-table-for-regression" id="toc-anova-table-for-regression" class="nav-link" data-scroll-target="#anova-table-for-regression"><span class="header-section-number">2.11</span> ANOVA Table for Regression</a></li>
+  </ul></li>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">3</span> Key Equations / Formulas</a></li>
+  <li><a href="#practical-examples" id="toc-practical-examples" class="nav-link" data-scroll-target="#practical-examples"><span class="header-section-number">4</span> Practical Examples</a>
+  <ul class="collapse">
+  <li><a href="#example-1-plant-growth-data" id="toc-example-1-plant-growth-data" class="nav-link" data-scroll-target="#example-1-plant-growth-data"><span class="header-section-number">4.1</span> Example 1 — Plant Growth Data</a></li>
+  <li><a href="#example-2-decay-data-transformation-required" id="toc-example-2-decay-data-transformation-required" class="nav-link" data-scroll-target="#example-2-decay-data-transformation-required"><span class="header-section-number">4.2</span> Example 2 — Decay Data (Transformation Required)</a></li>
+  </ul></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">5</span> Summary Points</a>
+  <ul class="collapse">
+  <li><a href="#personal-notes-annotations" id="toc-personal-notes-annotations" class="nav-link" data-scroll-target="#personal-notes-annotations"><span class="header-section-number">5.1</span> Personal Notes &amp; Annotations</a></li>
+  <li><a href="#questions-to-follow-up" id="toc-questions-to-follow-up" class="nav-link" data-scroll-target="#questions-to-follow-up"><span class="header-section-number">5.2</span> Questions to Follow Up</a></li>
+  <li><a href="#exam-reminders" id="toc-exam-reminders" class="nav-link" data-scroll-target="#exam-reminders"><span class="header-section-number">5.3</span> Exam Reminders</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-8.html">Week 8</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 8 – Simple Linear Regression</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- ============================================================
+     STUDY GUIDE — Week 8: Simple Linear Regression
+     Lecturer: Paula Harrison
+     Materials used in class:
+       - Lecture slides on Simple Linear Regression (loaded in class)
+       - Worksheet 6: Simple Linear Regression (Canvas)
+       - R Script: WS6_Simple_Linear_regression_Script.R (Canvas)
+       - Dataset: Decay.txt (Canvas)
+     Notes status: Draft — leave space below each section for 
+     additional annotations.
+     ============================================================ -->
+<section id="key-topics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics</h1>
+<ul>
+<li>Correlation analysis vs.&nbsp;regression analysis</li>
+<li>Pearson’s correlation coefficient (linear) vs.&nbsp;Spearman’s rank (non-linear)</li>
+<li>Interpreting the correlation coefficient: direction and strength</li>
+<li>Simple linear regression model and its equation</li>
+<li>Independent (predictor/explanatory) vs.&nbsp;dependent (response) variables</li>
+<li>Scatter plots and the importance of visualisation</li>
+<li>The line of best fit and the method of least squares</li>
+<li>Residuals and model assumptions</li>
+<li>Sum of squares: total, regression, and error</li>
+<li>Coefficient of determination (<span class="math inline">\(R^2\)</span>)</li>
+<li>ANOVA table for regression</li>
+<li>Significance testing of the slope (<span class="math inline">\(\beta_1\)</span>)</li>
+<li>Diagnostic plots (residuals vs.&nbsp;fitted, QQ plot, Scale–Location, Cook’s Distance)</li>
+<li>Log transformation for non-linear data (Example 2 – Decay dataset)</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanation" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanation</h1>
+<section id="what-is-regression-analysis" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-is-regression-analysis"><span class="header-section-number">2.1</span> What Is Regression Analysis?</h2>
+<p><strong>Regression analysis</strong> is a statistical method used to determine and describe the relationship between <strong>two or more numeric variables</strong>. The key requirement is that the variables must be <strong>numeric</strong> (quantitative). For example, investigating whether the <em>yield</em> of a chemical process is related to the <em>operating temperature</em> — both are numbers, so regression is appropriate.</p>
+<p>There are two closely related concepts introduced this week:</p>
+<ul>
+<li><strong>Correlation analysis</strong> asks: <em>does a relationship exist between the two variables, and how strong is it?</em></li>
+<li><strong>Regression analysis</strong> goes further: <em>what is the nature/equation of that relationship, and can we use it to make predictions?</em></li>
+</ul>
+<p>In practice, correlation is usually examined first as a preliminary step to regression.</p>
+<hr>
+</section>
+<section id="correlation-pearsons-vs.-spearmans" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="correlation-pearsons-vs.-spearmans"><span class="header-section-number">2.2</span> Correlation: Pearson’s vs.&nbsp;Spearman’s</h2>
+<p><strong>Correlation</strong> measures the extent to which two variables are related. Relationships can take many mathematical forms (linear, curved, etc.), but in this course we focus exclusively on <strong>linear</strong> relationships.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Coefficient</th>
+<th>Used for</th>
+<th>Symbol</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Pearson’s</strong> <em>r</em></td>
+<td>Linear correlation</td>
+<td><span class="math inline">\(r\)</span> (sample), <span class="math inline">\(\rho\)</span> (population)</td>
+</tr>
+<tr class="even">
+<td><strong>Spearman’s rank</strong></td>
+<td>Non-linear (monotonic) correlation</td>
+<td><span class="math inline">\(r_s\)</span></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Important:</strong> You cannot determine whether a relationship is linear just by looking at the correlation coefficient number alone. You <strong>must</strong> also produce a <strong>scatter plot</strong> to visually confirm linearity. Three datasets can have the same <span class="math inline">\(r\)</span> value but look completely different when plotted (e.g., one linear, one curved, one with an outlier).</p>
+</blockquote>
+<p>The <strong>Pearson correlation coefficient</strong> <span class="math inline">\(r\)</span>:</p>
+<ul>
+<li>Ranges from <strong>−1 to +1</strong></li>
+<li><strong>+1</strong> = perfect positive linear relationship</li>
+<li><strong>−1</strong> = perfect negative linear relationship</li>
+<li><strong>0</strong> = no linear relationship</li>
+</ul>
+<p>From the value of <span class="math inline">\(r\)</span>, you can determine two things:</p>
+<ol type="1">
+<li><strong>Direction</strong> — positive (both variables increase together) or negative (one increases as the other decreases)</li>
+<li><strong>Strength</strong> — the closer the value is to ±1, the stronger the relationship</li>
+</ol>
+<hr>
+</section>
+<section id="the-straight-line-equation" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="the-straight-line-equation"><span class="header-section-number">2.3</span> The Straight Line Equation</h2>
+<p>A straight line in mathematics is described by:</p>
+<p><span class="math display">\[y = mx + c\]</span></p>
+<p>where <span class="math inline">\(m\)</span> is the <strong>slope</strong> (gradient) and <span class="math inline">\(c\)</span> is the <strong>y-intercept</strong>.</p>
+<p>In statistics, the same concept uses different notation:</p>
+<p><span class="math display">\[Y = \beta_0 + \beta_1 X + \varepsilon\]</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(Y\)</span></td>
+<td>Response (dependent) variable</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(X\)</span></td>
+<td>Explanatory (independent) variable</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\beta_0\)</span></td>
+<td>Intercept (equivalent to <span class="math inline">\(c\)</span>) — where the line crosses the y-axis when <span class="math inline">\(X = 0\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta_1\)</span></td>
+<td>Slope (equivalent to <span class="math inline">\(m\)</span>) — the change in <span class="math inline">\(Y\)</span> for every one-unit increase in <span class="math inline">\(X\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\varepsilon\)</span></td>
+<td>Error term (random noise)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Note from class:</strong> The intercept is not usually meaningful on its own. The <strong>slope</strong> is the key parameter to interpret.</p>
+</blockquote>
+<hr>
+</section>
+<section id="independent-vs.-dependent-variables" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="independent-vs.-dependent-variables"><span class="header-section-number">2.4</span> Independent vs.&nbsp;Dependent Variables</h2>
+<ul>
+<li>The <strong>independent variable</strong> (also called the <em>predictor</em> or <em>explanatory</em> variable) goes on the <strong>x-axis</strong>. It is the variable we use to predict or explain the other.</li>
+<li>The <strong>dependent variable</strong> (also called the <em>response</em> variable) goes on the <strong>y-axis</strong>. It responds to changes in the independent variable.</li>
+</ul>
+<p><strong>Tip from class:</strong> To figure out which is which, put it into a sentence: <em>“Does Y depend on X, or does X depend on Y?”</em> The variable that depends on the other is the <strong>dependent</strong> variable.</p>
+<p><strong>Example (plant data):</strong><br>
+<em>Does height depend on age?</em> → Yes → <strong>Height = Y (y-axis)</strong>, <strong>Age = X (x-axis)</strong></p>
+<p>When there is <strong>one</strong> independent variable and <strong>one</strong> dependent variable, this is called <strong>simple linear regression</strong>.</p>
+<hr>
+</section>
+<section id="scatter-plots" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="scatter-plots"><span class="header-section-number">2.5</span> Scatter Plots</h2>
+<p>Before doing any analysis, always <strong>plot your data</strong>. A scatter plot is a graph of all the <span class="math inline">\((X, Y)\)</span> pairs. It helps you to:</p>
+<ol type="1">
+<li>Check whether the relationship <strong>looks linear</strong> (if not, linear regression is not appropriate)</li>
+<li>Estimate the <strong>direction</strong> (positive or negative slope)</li>
+<li>Get a rough idea of <strong>strength</strong> (how tightly clustered the points are around an imaginary line)</li>
+</ol>
+<p>When interpreting a scatter plot, state three things in this order: 1. <strong>Linear</strong> (or not) 2. <strong>Positive / Negative</strong> 3. <strong>Strength</strong>: weak / moderate / strong</p>
+<hr>
+</section>
+<section id="the-line-of-best-fit-least-squares" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="the-line-of-best-fit-least-squares"><span class="header-section-number">2.6</span> The Line of Best Fit &amp; Least Squares</h2>
+<p>Because real data points do not all fall perfectly on a straight line, there are many possible lines we could draw. We need a principled way to choose the <strong>best</strong> one.</p>
+<p>The method used is called the <strong>method of least squares</strong>. It selects the line that <strong>minimises the sum of the squared vertical distances</strong> (called <em>residuals</em> or <em>errors</em>) between each observed data point and the line.</p>
+<p>Why square the distances? Because some points lie <em>above</em> the line (positive residual) and some <em>below</em> (negative residual). If we just added them up, positives and negatives would cancel out and mislead us. Squaring makes everything positive.</p>
+<p><span class="math display">\[\text{Minimise: } \sum_{i=1}^{n} e_i^2 = \sum_{i=1}^{n}(y_i - \hat{y}_i)^2\]</span></p>
+<p>where <span class="math inline">\(e_i = y_i - \hat{y}_i\)</span> is the residual for observation <span class="math inline">\(i\)</span>.</p>
+<p>The estimated regression equation is then written:</p>
+<p><span class="math display">\[\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x\]</span></p>
+<p>where hats (^) denote estimated values.</p>
+<hr>
+</section>
+<section id="interpreting-the-slope" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="interpreting-the-slope"><span class="header-section-number">2.7</span> Interpreting the Slope</h2>
+<p>The slope <span class="math inline">\(\hat{\beta}_1\)</span> tells you:</p>
+<blockquote class="blockquote">
+<p><em>For every one-unit increase in X, Y increases (or decreases) by <span class="math inline">\(\hat{\beta}_1\)</span> units.</em></p>
+</blockquote>
+<p><strong>Plant data example:</strong><br>
+Fitted model: <span class="math inline">\(\hat{y} = -1.03 + 3.047x\)</span><br>
+→ For every <strong>one additional week</strong> of age, plant height increases by <strong>3.047 cm</strong>.</p>
+<p>The sign of the slope matches the direction of the correlation: positive slope ↔︎ positive correlation.</p>
+<hr>
+</section>
+<section id="residuals-and-model-assumptions" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="residuals-and-model-assumptions"><span class="header-section-number">2.8</span> Residuals and Model Assumptions</h2>
+<p>A <strong>residual</strong> is the difference between what was <strong>observed</strong> and what was <strong>predicted</strong> by the model:</p>
+<p><span class="math display">\[e_i = y_i - \hat{y}_i\]</span></p>
+<p>For the regression model to be valid, the residuals (errors) must satisfy these assumptions:</p>
+<ol type="1">
+<li><strong>Linearity</strong> — the relationship between X and Y is linear</li>
+<li><strong>Independence</strong> — the errors are independent of each other</li>
+<li><strong>Normality</strong> — the errors follow a normal distribution (mean = 0)</li>
+<li><strong>Constant variance (homoscedasticity)</strong> — the spread of residuals is roughly the same across all fitted values</li>
+</ol>
+<p>These are checked using <strong>diagnostic plots</strong> in R.</p>
+<hr>
+</section>
+<section id="diagnostic-plots-in-r" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="diagnostic-plots-in-r"><span class="header-section-number">2.9</span> Diagnostic Plots in R</h2>
+<p>Running <code>plot(your_model)</code> produces four plots:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Plot</th>
+<th>What it checks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Residuals vs.&nbsp;Fitted</strong></td>
+<td>Constant variance — should show no pattern</td>
+</tr>
+<tr class="even">
+<td><strong>Normal Q-Q Plot</strong></td>
+<td>Normality of residuals — points should fall on the diagonal line</td>
+</tr>
+<tr class="odd">
+<td><strong>Scale–Location</strong></td>
+<td>Another view of constant variance</td>
+</tr>
+<tr class="even">
+<td><strong>Cook’s Distance</strong></td>
+<td>Influential observations — values &gt; 1 are concerning</td>
+</tr>
+</tbody>
+</table>
+<p>You can also use <code>qqPlot(your_model)</code> from the <code>car</code> package for a Q-Q plot with confidence bands.</p>
+<blockquote class="blockquote">
+<p><strong>Exam tip (from lecturer):</strong> These diagnostic plots are likely to appear in the terminal exam. Make sure you can interpret each one.</p>
+</blockquote>
+<hr>
+</section>
+<section id="variation-and-r2-coefficient-of-determination" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="variation-and-r2-coefficient-of-determination"><span class="header-section-number">2.10</span> Variation and <span class="math inline">\(R^2\)</span> (Coefficient of Determination)</h2>
+<p>The total variation in Y can be split into two parts:</p>
+<p><span class="math display">\[SS_T = SS_R + SS_E\]</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Name</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(SS_T\)</span></td>
+<td>Total Sum of Squares</td>
+<td>Total variation in Y</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(SS_R\)</span></td>
+<td>Regression Sum of Squares</td>
+<td>Variation <em>explained</em> by the model</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(SS_E\)</span></td>
+<td>Error Sum of Squares</td>
+<td>Variation <em>unexplained</em> (due to random error)</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>coefficient of determination</strong> <span class="math inline">\(R^2\)</span> is:</p>
+<p><span class="math display">\[R^2 = \frac{SS_R}{SS_T} = r^2\]</span></p>
+<p>It represents the <strong>percentage of variation in Y explained by X</strong>.</p>
+<p><strong>Plant data example:</strong> <span class="math inline">\(r = 0.99\)</span> → <span class="math inline">\(R^2 = 0.99^2 \approx 0.98\)</span> → <strong>98% of the variation in Height is explained by Age.</strong></p>
+<p>If <span class="math inline">\(R^2\)</span> is very small (e.g.&nbsp;17%), it means the model explains very little variation — there are likely other important variables missing from the model.</p>
+<hr>
+</section>
+<section id="anova-table-for-regression" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="anova-table-for-regression"><span class="header-section-number">2.11</span> ANOVA Table for Regression</h2>
+<p>Just like in ANOVA, we build a table to test the significance of the regression:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>df</th>
+<th>SS</th>
+<th>MS</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Regression</td>
+<td>1</td>
+<td><span class="math inline">\(SS_R\)</span></td>
+<td><span class="math inline">\(MS_R = SS_R / 1\)</span></td>
+<td><span class="math inline">\(F = MS_R / MS_E\)</span></td>
+</tr>
+<tr class="even">
+<td>Residuals</td>
+<td><span class="math inline">\(n-2\)</span></td>
+<td><span class="math inline">\(SS_E\)</span></td>
+<td><span class="math inline">\(MS_E = SS_E/(n-2)\)</span></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><span class="math inline">\(n-1\)</span></td>
+<td><span class="math inline">\(SS_T\)</span></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>null hypothesis</strong> being tested is:</p>
+<p><span class="math display">\[H_0: \beta_1 = 0 \quad \text{(no linear relationship)}\]</span> <span class="math display">\[H_1: \beta_1 \neq 0 \quad \text{(a linear relationship exists)}\]</span></p>
+<p>If the F-statistic exceeds the critical value (or if p-value &lt; 0.05), we <strong>reject</strong> <span class="math inline">\(H_0\)</span> and conclude the slope is significantly different from zero.</p>
+<hr>
+</section>
+</section>
+<section id="key-equations-formulas" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Key Equations / Formulas</h1>
+<p><strong>Simple linear regression model:</strong> <span class="math display">\[Y = \beta_0 + \beta_1 X + \varepsilon\]</span></p>
+<p><strong>Fitted (estimated) regression line:</strong> <span class="math display">\[\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x\]</span></p>
+<p><strong>Residual:</strong> <span class="math display">\[e_i = y_i - \hat{y}_i\]</span></p>
+<p><strong>Least squares criterion (minimise):</strong> <span class="math display">\[\sum_{i=1}^{n}(y_i - \hat{y}_i)^2\]</span></p>
+<p><strong>Slope estimate (by hand):</strong> <span class="math display">\[\hat{\beta}_1 = \frac{S_{XY}}{S_{XX}} = \frac{\sum x_i y_i - \frac{(\sum x_i)(\sum y_i)}{n}}{\sum x_i^2 - \frac{(\sum x_i)^2}{n}}\]</span></p>
+<p><strong>Intercept estimate:</strong> <span class="math display">\[\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}\]</span></p>
+<p><strong>Coefficient of determination:</strong> <span class="math display">\[R^2 = r^2 = \frac{SS_R}{SS_T}\]</span></p>
+<p><strong>Error variance estimate:</strong> <span class="math display">\[\hat{\sigma}^2 = \frac{SS_E}{n-2}\]</span></p>
+<hr>
+</section>
+<section id="practical-examples" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Practical Examples</h1>
+<section id="example-1-plant-growth-data" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="example-1-plant-growth-data"><span class="header-section-number">4.1</span> Example 1 — Plant Growth Data</h2>
+<p><strong>Variables:</strong> Age (weeks) = X, Height (cm) = Y<br>
+<strong>Data:</strong> 10 observations</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Age    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">8</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Height <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">24</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plant  <span class="ot">&lt;-</span> <span class="fu">tibble</span>(Age, Height)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot and correlation</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Height <span class="sc">~</span> Age, <span class="at">data =</span> plant)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(plant<span class="sc">$</span>Height, plant<span class="sc">$</span>Age)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plant_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Height <span class="sc">~</span> Age, <span class="at">data =</span> plant)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(plant_model)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(plant_model)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot regression line</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Height <span class="sc">~</span> Age)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(plant_model)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic plots</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(plant_model)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">qqPlot</span>(plant_model)  <span class="co"># from library(car)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Fitted model result:</strong> <span class="math display">\[\hat{y} = -1.0299 + 3.0469 \, x\]</span></p>
+<p><strong>Interpretation of slope:</strong> For every additional week of age, height increases by 3.047 cm.<br>
+<strong>R² = 0.9875</strong> → 98.75% of variation in Height is explained by Age.<br>
+<strong>p-value &lt; 0.001</strong> → Age is a statistically significant predictor of Height.</p>
+<hr>
+</section>
+<section id="example-2-decay-data-transformation-required" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="example-2-decay-data-transformation-required"><span class="header-section-number">4.2</span> Example 2 — Decay Data (Transformation Required)</h2>
+<p><strong>Variables:</strong> Time = X, Amount of organic material = Y<br>
+<strong>Dataset:</strong> <code>Decay.txt</code></p>
+<p>This dataset does <strong>not</strong> satisfy the linearity assumption — the relationship between <code>amount</code> and <code>time</code> is non-linear (exponential decay). A <strong>log transformation</strong> is applied to linearise it.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Decay <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"Decay.txt"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Check distribution and relationship</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(Decay<span class="sc">$</span>amount)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Decay<span class="sc">$</span>amount <span class="sc">~</span> Decay<span class="sc">$</span>time)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit linear model to original data (model 1 — likely a poor fit)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(amount <span class="sc">~</span> time, <span class="at">data =</span> Decay)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model1)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Try log transformation</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(amount) <span class="sc">~</span> time, <span class="at">data =</span> Decay)  <span class="co"># should look more linear</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit linear model to log-transformed data (model 2)</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(amount) <span class="sc">~</span> time, <span class="at">data =</span> Decay)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Back-transform the equation:</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># log(amount) = 4.547386 - 0.068528 * time</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># =&gt; amount = exp(4.547386) * exp(-0.068528 * time)</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># =&gt; amount = 94.385 * exp(-0.068528 * time)</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Prediction at time = 15:</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># amount = 94.385 * exp(-0.068528 * 15) ≈ 33.77</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: fit non-linear model directly (model 3)</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">nls</span>(amount <span class="sc">~</span> a <span class="sc">*</span> <span class="fu">exp</span>(b <span class="sc">*</span> time), <span class="at">data =</span> Decay,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>              <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="sc">-</span><span class="fl">0.1</span>))</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Key concept:</strong> When the raw data violates linearity, try a log (or other) transformation. After transforming and fitting, <strong>back-transform</strong> the equation to interpret it in terms of the original variable.</p>
+<hr>
+</section>
+</section>
+<section id="summary-points" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Summary Points</h1>
+<ul>
+<li><strong>Regression analysis</strong> models the relationship between numeric variables and can be used to make predictions and optimise processes.</li>
+<li>Always <strong>start with a scatter plot</strong> to check for linearity — never rely on a correlation number alone.</li>
+<li><strong>Pearson’s r</strong> measures linear correlation (−1 to +1); <strong>Spearman’s rank</strong> is used for non-linear/monotonic relationships.</li>
+<li>In simple linear regression, the <strong>independent variable</strong> (X) goes on the x-axis and the <strong>dependent variable</strong> (Y) goes on the y-axis.</li>
+<li>The <strong>slope</strong> (<span class="math inline">\(\hat{\beta}_1\)</span>) is the most important coefficient: it tells you how much Y changes for every one-unit increase in X.</li>
+<li>The <strong>line of best fit</strong> is found by minimising the <strong>sum of squared residuals</strong> (method of least squares).</li>
+<li><strong>Residuals</strong> must be independent, normally distributed, have mean 0, and constant variance — checked via diagnostic plots.</li>
+<li><strong><span class="math inline">\(R^2\)</span></strong> (coefficient of determination) = proportion of variation in Y explained by X. Expressed as a percentage.</li>
+<li>The significance of the model is tested using an <strong>ANOVA F-test</strong>: <span class="math inline">\(H_0: \beta_1 = 0\)</span>.</li>
+<li>If the data is non-linear, consider a <strong>transformation</strong> (e.g.&nbsp;log) before fitting a linear model.</li>
+<li>Next week: <strong>multiple regression</strong> (more than one X variable) and <strong>confidence intervals for predictions</strong>.</li>
+</ul>
+<hr>
+<!-- ============================================================
+     SPACE FOR ANNOTATIONS
+     Add your own notes, worked examples, and exam tips below.
+     ============================================================ -->
+<section id="personal-notes-annotations" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="personal-notes-annotations"><span class="header-section-number">5.1</span> Personal Notes &amp; Annotations</h2>
+<blockquote class="blockquote">
+<p><em>Use this space to add your own notes after reviewing the material.</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="questions-to-follow-up" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="questions-to-follow-up"><span class="header-section-number">5.2</span> Questions to Follow Up</h2>
+<blockquote class="blockquote">
+<p><em>Note any concepts that need clarification here.</em></p>
+</blockquote>
+<ol type="1">
+<li></li>
+<li></li>
+<li></li>
+</ol>
+<hr>
+</section>
+<section id="exam-reminders" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="exam-reminders"><span class="header-section-number">5.3</span> Exam Reminders</h2>
+<blockquote class="blockquote">
+<p><em>Key things to remember for exams, from lecturer hints.</em></p>
+</blockquote>
+<ul>
+<li>Interpret the <strong>slope</strong> clearly: “For every one-unit increase in X, Y increases/decreases by …”</li>
+<li>Interpret <strong><span class="math inline">\(R^2\)</span></strong> as a percentage: “X% of the variation in Y is explained by X.”</li>
+<li>Diagnostic plots: know what each of the four plots is checking.</li>
+<li>The residual diagnostic plots (Scale–Location, Cook’s Distance, Q-Q plot) will likely appear in the <strong>terminal exam</strong>.</li>
+<li>Lab exam is expected in <strong>Week 10–11</strong> and will be conducted <strong>remotely</strong>.</li>
+</ul>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../regression-analysis/week-7.html" class="pagination-link" aria-label="Week 7">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 7</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../regression-analysis/week-9.html" class="pagination-link" aria-label="Week 9 - empty">
+        <span class="nav-page-text">Week 9 - empty</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 8 – Simple Linear Regression"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">subject:</span><span class="co"> "Regression Analysis"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ============================================================</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">     STUDY GUIDE — Week 8: Simple Linear Regression</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">     Lecturer: Paula Harrison</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">     Materials used in class:</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">       - Lecture slides on Simple Linear Regression (loaded in class)</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">       - Worksheet 6: Simple Linear Regression (Canvas)</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">       - R Script: WS6_Simple_Linear_regression_Script.R (Canvas)</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">       - Dataset: Decay.txt (Canvas)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">     Notes status: Draft — leave space below each section for </span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">     additional annotations.</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">     ============================================================ --&gt;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Correlation analysis vs. regression analysis</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Pearson's correlation coefficient (linear) vs. Spearman's rank (non-linear)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Interpreting the correlation coefficient: direction and strength</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Simple linear regression model and its equation</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Independent (predictor/explanatory) vs. dependent (response) variables</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Scatter plots and the importance of visualisation</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The line of best fit and the method of least squares</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Residuals and model assumptions</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sum of squares: total, regression, and error</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Coefficient of determination ($R^2$)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ANOVA table for regression</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Significance testing of the slope ($\beta_1$)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Diagnostic plots (residuals vs. fitted, QQ plot, Scale–Location, Cook's Distance)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Log transformation for non-linear data (Example 2 – Decay dataset)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanation</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## What Is Regression Analysis?</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>**Regression analysis** is a statistical method used to determine and describe the relationship between **two or more numeric variables**. The key requirement is that the variables must be **numeric** (quantitative). For example, investigating whether the *yield* of a chemical process is related to the *operating temperature* — both are numbers, so regression is appropriate.</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>There are two closely related concepts introduced this week:</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Correlation analysis** asks: *does a relationship exist between the two variables, and how strong is it?*</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Regression analysis** goes further: *what is the nature/equation of that relationship, and can we use it to make predictions?*</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>In practice, correlation is usually examined first as a preliminary step to regression.</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="fu">## Correlation: Pearson's vs. Spearman's</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>**Correlation** measures the extent to which two variables are related. Relationships can take many mathematical forms (linear, curved, etc.), but in this course we focus exclusively on **linear** relationships.</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Coefficient <span class="pp">|</span> Used for <span class="pp">|</span> Symbol <span class="pp">|</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Pearson's** *r* <span class="pp">|</span> Linear correlation <span class="pp">|</span> $r$ (sample), $\rho$ (population) <span class="pp">|</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Spearman's rank** <span class="pp">|</span> Non-linear (monotonic) correlation <span class="pp">|</span> $r_s$ <span class="pp">|</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Important:** You cannot determine whether a relationship is linear just by looking at the correlation coefficient number alone. You **must** also produce a **scatter plot** to visually confirm linearity. Three datasets can have the same $r$ value but look completely different when plotted (e.g., one linear, one curved, one with an outlier).</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>The **Pearson correlation coefficient** $r$:</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Ranges from **−1 to +1**</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**+1** = perfect positive linear relationship</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**−1** = perfect negative linear relationship</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**0** = no linear relationship</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>From the value of $r$, you can determine two things:</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Direction** — positive (both variables increase together) or negative (one increases as the other decreases)</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Strength** — the closer the value is to ±1, the stronger the relationship</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Straight Line Equation</span></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>A straight line in mathematics is described by:</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>$$y = mx + c$$</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>where $m$ is the **slope** (gradient) and $c$ is the **y-intercept**.</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>In statistics, the same concept uses different notation:</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>$$Y = \beta_0 + \beta_1 X + \varepsilon$$</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Symbol <span class="pp">|</span> Meaning <span class="pp">|</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $Y$ <span class="pp">|</span> Response (dependent) variable <span class="pp">|</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $X$ <span class="pp">|</span> Explanatory (independent) variable <span class="pp">|</span></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\beta_0$ <span class="pp">|</span> Intercept (equivalent to $c$) — where the line crosses the y-axis when $X = 0$ <span class="pp">|</span></span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\beta_1$ <span class="pp">|</span> Slope (equivalent to $m$) — the change in $Y$ for every one-unit increase in $X$ <span class="pp">|</span></span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\varepsilon$ <span class="pp">|</span> Error term (random noise) <span class="pp">|</span></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note from class:** The intercept is not usually meaningful on its own. The **slope** is the key parameter to interpret.</span></span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a><span class="fu">## Independent vs. Dependent Variables</span></span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **independent variable** (also called the *predictor* or *explanatory* variable) goes on the **x-axis**. It is the variable we use to predict or explain the other.</span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **dependent variable** (also called the *response* variable) goes on the **y-axis**. It responds to changes in the independent variable.</span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>**Tip from class:** To figure out which is which, put it into a sentence: *"Does Y depend on X, or does X depend on Y?"* The variable that depends on the other is the **dependent** variable.</span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>**Example (plant data):**  </span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>*Does height depend on age?* → Yes → **Height = Y (y-axis)**, **Age = X (x-axis)**</span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>When there is **one** independent variable and **one** dependent variable, this is called **simple linear regression**.</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a><span class="fu">## Scatter Plots</span></span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>Before doing any analysis, always **plot your data**. A scatter plot is a graph of all the $(X, Y)$ pairs. It helps you to:</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Check whether the relationship **looks linear** (if not, linear regression is not appropriate)</span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Estimate the **direction** (positive or negative slope)</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Get a rough idea of **strength** (how tightly clustered the points are around an imaginary line)</span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>When interpreting a scatter plot, state three things in this order:</span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Linear** (or not)</span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Positive / Negative**</span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Strength**: weak / moderate / strong</span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Line of Best Fit &amp; Least Squares</span></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>Because real data points do not all fall perfectly on a straight line, there are many possible lines we could draw. We need a principled way to choose the **best** one.</span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>The method used is called the **method of least squares**. It selects the line that **minimises the sum of the squared vertical distances** (called *residuals* or *errors*) between each observed data point and the line.</span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>Why square the distances? Because some points lie *above* the line (positive residual) and some *below* (negative residual). If we just added them up, positives and negatives would cancel out and mislead us. Squaring makes everything positive.</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>$$\text{Minimise: } \sum_{i=1}^{n} e_i^2 = \sum_{i=1}^{n}(y_i - \hat{y}_i)^2$$</span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>where $e_i = y_i - \hat{y}_i$ is the residual for observation $i$.</span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a>The estimated regression equation is then written:</span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a>$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x$$</span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a>where hats (^) denote estimated values.</span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interpreting the Slope</span></span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>The slope $\hat{\beta}_1$ tells you:</span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *For every one-unit increase in X, Y increases (or decreases) by $\hat{\beta}_1$ units.*</span></span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a>**Plant data example:**  </span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>Fitted model: $\hat{y} = -1.03 + 3.047x$  </span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>→ For every **one additional week** of age, plant height increases by **3.047 cm**.</span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>The sign of the slope matches the direction of the correlation: positive slope ↔ positive correlation.</span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a><span class="fu">## Residuals and Model Assumptions</span></span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>A **residual** is the difference between what was **observed** and what was **predicted** by the model:</span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>$$e_i = y_i - \hat{y}_i$$</span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>For the regression model to be valid, the residuals (errors) must satisfy these assumptions:</span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Linearity** — the relationship between X and Y is linear</span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Independence** — the errors are independent of each other</span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Normality** — the errors follow a normal distribution (mean = 0)</span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Constant variance (homoscedasticity)** — the spread of residuals is roughly the same across all fitted values</span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a>These are checked using **diagnostic plots** in R.</span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a><span class="fu">## Diagnostic Plots in R</span></span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a>Running <span class="in">`plot(your_model)`</span> produces four plots:</span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Plot <span class="pp">|</span> What it checks <span class="pp">|</span></span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Residuals vs. Fitted** <span class="pp">|</span> Constant variance — should show no pattern <span class="pp">|</span></span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Normal Q-Q Plot** <span class="pp">|</span> Normality of residuals — points should fall on the diagonal line <span class="pp">|</span></span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Scale–Location** <span class="pp">|</span> Another view of constant variance <span class="pp">|</span></span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Cook's Distance** <span class="pp">|</span> Influential observations — values &gt; 1 are concerning <span class="pp">|</span></span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a>You can also use <span class="in">`qqPlot(your_model)`</span> from the <span class="in">`car`</span> package for a Q-Q plot with confidence bands.</span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Exam tip (from lecturer):** These diagnostic plots are likely to appear in the terminal exam. Make sure you can interpret each one.</span></span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a><span class="fu">## Variation and $R^2$ (Coefficient of Determination)</span></span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a>The total variation in Y can be split into two parts:</span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a>$$SS_T = SS_R + SS_E$$</span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Component <span class="pp">|</span> Name <span class="pp">|</span> Meaning <span class="pp">|</span></span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $SS_T$ <span class="pp">|</span> Total Sum of Squares <span class="pp">|</span> Total variation in Y <span class="pp">|</span></span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $SS_R$ <span class="pp">|</span> Regression Sum of Squares <span class="pp">|</span> Variation *explained* by the model <span class="pp">|</span></span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $SS_E$ <span class="pp">|</span> Error Sum of Squares <span class="pp">|</span> Variation *unexplained* (due to random error) <span class="pp">|</span></span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a>The **coefficient of determination** $R^2$ is:</span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a>$$R^2 = \frac{SS_R}{SS_T} = r^2$$</span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a>It represents the **percentage of variation in Y explained by X**.</span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a>**Plant data example:** $r = 0.99$ → $R^2 = 0.99^2 \approx 0.98$ → **98% of the variation in Height is explained by Age.**</span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a>If $R^2$ is very small (e.g. 17%), it means the model explains very little variation — there are likely other important variables missing from the model.</span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a><span class="fu">## ANOVA Table for Regression</span></span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a>Just like in ANOVA, we build a table to test the significance of the regression:</span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Source <span class="pp">|</span> df <span class="pp">|</span> SS <span class="pp">|</span> MS <span class="pp">|</span> F <span class="pp">|</span></span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|---|</span></span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Regression <span class="pp">|</span> 1 <span class="pp">|</span> $SS_R$ <span class="pp">|</span> $MS_R = SS_R / 1$ <span class="pp">|</span> $F = MS_R / MS_E$ <span class="pp">|</span></span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Residuals <span class="pp">|</span> $n-2$ <span class="pp">|</span> $SS_E$ <span class="pp">|</span> $MS_E = SS_E/(n-2)$ <span class="pp">|</span> <span class="pp">|</span></span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Total** <span class="pp">|</span> $n-1$ <span class="pp">|</span> $SS_T$ <span class="pp">|</span> <span class="pp">|</span> <span class="pp">|</span></span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a>The **null hypothesis** being tested is:</span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a>$$H_0: \beta_1 = 0 \quad \text{(no linear relationship)}$$</span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a>$$H_1: \beta_1 \neq 0 \quad \text{(a linear relationship exists)}$$</span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a>If the F-statistic exceeds the critical value (or if p-value &lt; 0.05), we **reject** $H_0$ and conclude the slope is significantly different from zero.</span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a>**Simple linear regression model:**</span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a>$$Y = \beta_0 + \beta_1 X + \varepsilon$$</span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a>**Fitted (estimated) regression line:**</span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a>$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x$$</span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a>**Residual:**</span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a>$$e_i = y_i - \hat{y}_i$$</span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a>**Least squares criterion (minimise):**</span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a>$$\sum_{i=1}^{n}(y_i - \hat{y}_i)^2$$</span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a>**Slope estimate (by hand):**</span>
+<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a>$$\hat{\beta}_1 = \frac{S_{XY}}{S_{XX}} = \frac{\sum x_i y_i - \frac{(\sum x_i)(\sum y_i)}{n}}{\sum x_i^2 - \frac{(\sum x_i)^2}{n}}$$</span>
+<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a>**Intercept estimate:**</span>
+<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a>$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}$$</span>
+<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a>**Coefficient of determination:**</span>
+<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a>$$R^2 = r^2 = \frac{SS_R}{SS_T}$$</span>
+<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a>**Error variance estimate:**</span>
+<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a>$$\hat{\sigma}^2 = \frac{SS_E}{n-2}$$</span>
+<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Examples</span></span>
+<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 1 — Plant Growth Data</span></span>
+<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a>**Variables:** Age (weeks) = X, Height (cm) = Y  </span>
+<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a>**Data:** 10 observations</span>
+<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a>Age    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">8</span>)</span>
+<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a>Height <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">24</span>)</span>
+<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a>plant  <span class="ot">&lt;-</span> <span class="fu">tibble</span>(Age, Height)</span>
+<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot and correlation</span></span>
+<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Height <span class="sc">~</span> Age, <span class="at">data =</span> plant)</span>
+<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(plant<span class="sc">$</span>Height, plant<span class="sc">$</span>Age)</span>
+<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
+<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a>plant_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Height <span class="sc">~</span> Age, <span class="at">data =</span> plant)</span>
+<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(plant_model)</span>
+<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(plant_model)</span>
+<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot regression line</span></span>
+<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Height <span class="sc">~</span> Age)</span>
+<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(plant_model)</span>
+<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic plots</span></span>
+<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(plant_model)</span>
+<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a><span class="fu">qqPlot</span>(plant_model)  <span class="co"># from library(car)</span></span>
+<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a>**Fitted model result:**</span>
+<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a>$$\hat{y} = -1.0299 + 3.0469 \, x$$</span>
+<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a>**Interpretation of slope:** For every additional week of age, height increases by 3.047 cm.  </span>
+<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a>**R² = 0.9875** → 98.75% of variation in Height is explained by Age.  </span>
+<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a>**p-value &lt; 0.001** → Age is a statistically significant predictor of Height.</span>
+<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 2 — Decay Data (Transformation Required)</span></span>
+<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a>**Variables:** Time = X, Amount of organic material = Y  </span>
+<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a>**Dataset:** <span class="in">`Decay.txt`</span></span>
+<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a>This dataset does **not** satisfy the linearity assumption — the relationship between `amount` and `time` is non-linear (exponential decay). A **log transformation** is applied to linearise it.</span>
+<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a>Decay <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"Decay.txt"</span>)</span>
+<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a><span class="co"># Check distribution and relationship</span></span>
+<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(Decay<span class="sc">$</span>amount)</span>
+<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Decay<span class="sc">$</span>amount <span class="sc">~</span> Decay<span class="sc">$</span>time)</span>
+<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit linear model to original data (model 1 — likely a poor fit)</span></span>
+<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(amount <span class="sc">~</span> time, <span class="at">data =</span> Decay)</span>
+<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span>
+<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model1)</span>
+<span id="cb3-327"><a href="#cb3-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-328"><a href="#cb3-328" aria-hidden="true" tabindex="-1"></a><span class="co"># Try log transformation</span></span>
+<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(amount) <span class="sc">~</span> time, <span class="at">data =</span> Decay)  <span class="co"># should look more linear</span></span>
+<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit linear model to log-transformed data (model 2)</span></span>
+<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(amount) <span class="sc">~</span> time, <span class="at">data =</span> Decay)</span>
+<span id="cb3-333"><a href="#cb3-333" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span>
+<span id="cb3-334"><a href="#cb3-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a><span class="co"># Back-transform the equation:</span></span>
+<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a><span class="co"># log(amount) = 4.547386 - 0.068528 * time</span></span>
+<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a><span class="co"># =&gt; amount = exp(4.547386) * exp(-0.068528 * time)</span></span>
+<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a><span class="co"># =&gt; amount = 94.385 * exp(-0.068528 * time)</span></span>
+<span id="cb3-339"><a href="#cb3-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a><span class="co"># Prediction at time = 15:</span></span>
+<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a><span class="co"># amount = 94.385 * exp(-0.068528 * 15) ≈ 33.77</span></span>
+<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-343"><a href="#cb3-343" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: fit non-linear model directly (model 3)</span></span>
+<span id="cb3-344"><a href="#cb3-344" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">nls</span>(amount <span class="sc">~</span> a <span class="sc">*</span> <span class="fu">exp</span>(b <span class="sc">*</span> time), <span class="at">data =</span> Decay,</span>
+<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a>              <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="sc">-</span><span class="fl">0.1</span>))</span>
+<span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3)</span>
+<span id="cb3-347"><a href="#cb3-347" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-348"><a href="#cb3-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a>**Key concept:** When the raw data violates linearity, try a log (or other) transformation. After transforming and fitting, **back-transform** the equation to interpret it in terms of the original variable.</span>
+<span id="cb3-350"><a href="#cb3-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-351"><a href="#cb3-351" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-352"><a href="#cb3-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-353"><a href="#cb3-353" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb3-354"><a href="#cb3-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-355"><a href="#cb3-355" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Regression analysis** models the relationship between numeric variables and can be used to make predictions and optimise processes.</span>
+<span id="cb3-356"><a href="#cb3-356" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always **start with a scatter plot** to check for linearity — never rely on a correlation number alone.</span>
+<span id="cb3-357"><a href="#cb3-357" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Pearson's r** measures linear correlation (−1 to +1); **Spearman's rank** is used for non-linear/monotonic relationships.</span>
+<span id="cb3-358"><a href="#cb3-358" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In simple linear regression, the **independent variable** (X) goes on the x-axis and the **dependent variable** (Y) goes on the y-axis.</span>
+<span id="cb3-359"><a href="#cb3-359" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **slope** ($\hat{\beta}_1$) is the most important coefficient: it tells you how much Y changes for every one-unit increase in X.</span>
+<span id="cb3-360"><a href="#cb3-360" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **line of best fit** is found by minimising the **sum of squared residuals** (method of least squares).</span>
+<span id="cb3-361"><a href="#cb3-361" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Residuals** must be independent, normally distributed, have mean 0, and constant variance — checked via diagnostic plots.</span>
+<span id="cb3-362"><a href="#cb3-362" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**$R^2$** (coefficient of determination) = proportion of variation in Y explained by X. Expressed as a percentage.</span>
+<span id="cb3-363"><a href="#cb3-363" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The significance of the model is tested using an **ANOVA F-test**: $H_0: \beta_1 = 0$.</span>
+<span id="cb3-364"><a href="#cb3-364" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If the data is non-linear, consider a **transformation** (e.g. log) before fitting a linear model.</span>
+<span id="cb3-365"><a href="#cb3-365" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Next week: **multiple regression** (more than one X variable) and **confidence intervals for predictions**.</span>
+<span id="cb3-366"><a href="#cb3-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-367"><a href="#cb3-367" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-368"><a href="#cb3-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-369"><a href="#cb3-369" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ============================================================</span></span>
+<span id="cb3-370"><a href="#cb3-370" aria-hidden="true" tabindex="-1"></a><span class="co">     SPACE FOR ANNOTATIONS</span></span>
+<span id="cb3-371"><a href="#cb3-371" aria-hidden="true" tabindex="-1"></a><span class="co">     Add your own notes, worked examples, and exam tips below.</span></span>
+<span id="cb3-372"><a href="#cb3-372" aria-hidden="true" tabindex="-1"></a><span class="co">     ============================================================ --&gt;</span></span>
+<span id="cb3-373"><a href="#cb3-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-374"><a href="#cb3-374" aria-hidden="true" tabindex="-1"></a><span class="fu">## Personal Notes &amp; Annotations</span></span>
+<span id="cb3-375"><a href="#cb3-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-376"><a href="#cb3-376" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *Use this space to add your own notes after reviewing the material.*</span></span>
+<span id="cb3-377"><a href="#cb3-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-378"><a href="#cb3-378" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-379"><a href="#cb3-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-380"><a href="#cb3-380" aria-hidden="true" tabindex="-1"></a><span class="fu">## Questions to Follow Up</span></span>
+<span id="cb3-381"><a href="#cb3-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-382"><a href="#cb3-382" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *Note any concepts that need clarification here.*</span></span>
+<span id="cb3-383"><a href="#cb3-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-384"><a href="#cb3-384" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span></span>
+<span id="cb3-385"><a href="#cb3-385" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span></span>
+<span id="cb3-386"><a href="#cb3-386" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span></span>
+<span id="cb3-387"><a href="#cb3-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-388"><a href="#cb3-388" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-389"><a href="#cb3-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-390"><a href="#cb3-390" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exam Reminders</span></span>
+<span id="cb3-391"><a href="#cb3-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-392"><a href="#cb3-392" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *Key things to remember for exams, from lecturer hints.*</span></span>
+<span id="cb3-393"><a href="#cb3-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-394"><a href="#cb3-394" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Interpret the **slope** clearly: "For every one-unit increase in X, Y increases/decreases by ..."</span>
+<span id="cb3-395"><a href="#cb3-395" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Interpret **$R^2$** as a percentage: "X% of the variation in Y is explained by X."</span>
+<span id="cb3-396"><a href="#cb3-396" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Diagnostic plots: know what each of the four plots is checking.</span>
+<span id="cb3-397"><a href="#cb3-397" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The residual diagnostic plots (Scale–Location, Cook's Distance, Q-Q plot) will likely appear in the **terminal exam**.</span>
+<span id="cb3-398"><a href="#cb3-398" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Lab exam is expected in **Week 10–11** and will be conducted **remotely**.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

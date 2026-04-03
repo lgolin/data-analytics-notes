@@ -1,0 +1,1088 @@
+---
+title: "STAT9004 Regression Analysis — Complete Study Guide"
+subtitle: "All Weeks | Beginner-Friendly with R Code"
+author: "Your Name"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "Table of Contents"
+    theme: cosmo
+    code-fold: true
+    number-sections: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+> **How to use this guide:** Read each section slowly. Every concept is explained simply.
+> The R code blocks show exactly what to type in the lab exam.
+> The `<!-- ANNOTATION -->` comments are spaces for your own notes!
+
+---
+
+# Week 1 - Data Analysis Protocol and Missing Data
+
+## Key Topics
+
+- What is a Data Analysis Protocol?
+- What is missing data and why does it matter?
+- The 4 steps to handle missing data
+- R: how to detect and handle missing values
+
+## What is a Data Analysis Protocol?
+
+Imagine you are a detective. Before solving a crime, you need a **plan**: first look at the
+evidence, then form a theory, then test it. In statistics, this plan is called a
+**Data Analysis Protocol**.
+
+There are three main steps:
+
+1. **Exploratory Data Analysis (EDA):** Look at your data using graphs and numbers.
+   Find any weird values (outliers) or missing data. Check if the data looks normal.
+   Sometimes transform the data.
+2. **Model Fitting:** Build a mathematical equation (model) that describes the relationship.
+3. **Model Diagnostics:** Check if your model is valid - did you break any rules?
+
+<!-- ANNOTATION: Add your own example here -->
+
+## What is Missing Data?
+
+**Missing data** means some values in your dataset are blank - like a survey where someone
+left a question empty. Problems include: software cannot analyse blank rows, it reduces
+your sample size, and it can bias your results.
+
+### The 4 Steps to Handle Missing Data
+
+**Step 1 - What TYPE is it?**
+
+| Type | Simple Explanation | Action |
+|---|---|---|
+| Ignorable | Expected gaps in the research design | Do nothing |
+| MCAR (Missing Completely At Random) | No pattern - totally random | Safe to delete |
+| MAR (Missing At Random) | Depends on other measured variables | Impute |
+| MNAR (Missing Not At Random) | Depends on the missing value itself | Complex |
+
+**Step 2 - How MUCH is missing?**
+If more than 5-10% is missing, you must act.
+
+**Step 3 - Is the missingness RANDOM?**
+Use graphs and tests to check if there is a pattern.
+
+**Step 4 - IMPUTE (fill in) the missing values.**
+
+- Mean/Median imputation: Replace blank with the average value
+- Multiple Imputation: Use a model to predict the value (more advanced)
+
+## R Code - Week 1
+
+```r
+# Install packages (run once only)
+install.packages("tidyverse")
+install.packages("VIM")    # Visualising missing data
+install.packages("mice")   # Multiple imputation
+
+library(tidyverse)
+library(VIM)
+library(mice)
+
+# Load example data
+data("sleep", package = "VIM")
+
+# How many NAs in each column?
+colSums(is.na(sleep))
+
+# What percentage is missing?
+colMeans(is.na(sleep)) * 100
+
+# Visualise missing data
+barMiss(sleep)    # bar chart - missing shown in red
+histMiss(sleep)   # histogram with missing highlighted
+
+# Simple mean imputation (quick fix)
+sleep_imputed <- sleep
+sleep_imputed$Sleep[is.na(sleep_imputed$Sleep)] <-
+  mean(sleep_imputed$Sleep, na.rm = TRUE)
+
+# Multiple Imputation (better method)
+imputed_data <- mice(sleep, m = 5, method = "pmm", seed = 123)
+# m = 5: create 5 complete datasets
+# method = "pmm": predictive mean matching
+
+# Get one complete dataset
+complete_data <- complete(imputed_data, 1)
+```
+
+## Summary Points - Week 1
+
+- Always explore your data FIRST before modelling
+- Missing data must be dealt with - never just ignore it
+- MCAR = delete is OK; MAR = impute; MNAR = very complex
+- Use `colSums(is.na(data))` to find missing values
+- Use the `mice` package for multiple imputation
+
+<!-- ANNOTATION: -->
+
+---
+
+# Week 2 - Statistical Inference and Hypothesis Testing
+
+## Key Topics
+
+- What is statistical inference?
+- Null and alternative hypotheses
+- p-values explained simply
+- Type I and Type II errors
+- Confidence intervals
+- t-tests in R
+
+## Statistical Inference - The Big Idea
+
+You want to know the average height of ALL people in Ireland. You cannot measure everyone!
+Instead, you measure a sample of 100 people and use that to make a guess (inference) about
+the whole population. **Statistical inference** is using sample data to draw conclusions
+about a larger population.
+
+## Hypothesis Testing - Step by Step
+
+Think of hypothesis testing like a court of law:
+
+- **Null hypothesis (H0)** = "innocent until proven guilty" - we assume nothing is happening
+- **Alternative hypothesis (Ha)** = what you want to prove - "something IS happening"
+
+### The 5 Steps
+
+1. State H0 and Ha using mu (the population mean)
+2. Choose significance level - usually alpha = 0.05 (5%)
+3. Calculate the test statistic from your data
+4. Find the p-value
+5. Decision: if p-value < alpha, REJECT H0. Otherwise, fail to reject H0.
+
+### What is a p-value?
+
+> "If the null hypothesis were true, how likely would I be to get data this extreme?"
+
+A p-value of 0.03 means: if H0 were true, there is only a 3% chance of seeing data as
+extreme as mine. That is unlikely - so we reject H0.
+
+**Common mistake:** the p-value is NOT the probability that H0 is true!
+
+## Type I and Type II Errors
+
+|  | H0 is TRUE | H0 is FALSE |
+|---|---|---|
+| You REJECT H0 | Type I Error (false alarm), prob = alpha | Correct! Power = 1-beta |
+| You FAIL TO REJECT H0 | Correct, prob = 1-alpha | Type II Error (missed), prob = beta |
+
+- **Type I Error** = False positive (fire alarm goes off but no fire)
+- **Type II Error** = False negative (fire is real but alarm does not go off)
+- **Power** = 1 - beta = probability of detecting a real effect
+
+## Confidence Intervals
+
+A **95% confidence interval** is a range of values. If we repeated the experiment 100 times,
+about 95 of the intervals would contain the true population mean.
+
+Formula: x-bar plus-or-minus t * (s / sqrt(n))
+
+## R Code - Week 2
+
+```r
+# One-sample t-test: Is the mean waiting time different from 6 hours?
+waiting_times <- c(5.1, 5.8, 6.2, 4.9, 5.5, 6.1, 5.0, 4.8, 6.3, 5.2)
+
+t.test(waiting_times,
+       mu = 6,                    # null hypothesis value
+       alternative = "two.sided", # two-tailed test
+       conf.level = 0.95)
+
+# Two-sample t-test: Is the mean of group A different from group B?
+groupA <- c(6.5, 7.1, 5.9, 6.8, 7.0)
+groupB <- c(5.0, 5.5, 4.8, 5.2, 5.7)
+
+t.test(groupA, groupB,
+       var.equal = TRUE,   # pooled t-test when variances are equal
+       alternative = "two.sided")
+
+# Paired t-test: same subjects measured twice (before/after)
+before <- c(120, 130, 125, 140, 135)
+after  <- c(115, 122, 120, 132, 128)
+
+t.test(before, after, paired = TRUE)
+
+# Reading the output:
+# t = test statistic
+# df = degrees of freedom
+# p-value: if < 0.05 then reject H0
+# 95 percent CI: confidence interval
+```
+
+## Summary Points - Week 2
+
+- H0 is assumed true; Ha is what you want to show
+- p-value < 0.05 means reject H0 (evidence of a difference)
+- Type I = false alarm (probability = alpha)
+- Type II = missed detection (probability = beta)
+- Use `t.test()` in R for one-sample, two-sample, or paired tests
+
+<!-- ANNOTATION: -->
+
+---
+
+# Week 3 - Power Analysis and Sample Size
+
+## Key Topics
+
+- What is statistical power?
+- What affects power?
+- How to calculate sample size using the pwr package
+
+## What is Power?
+
+**Statistical power** = the ability of a test to detect a real effect when it exists.
+Like a microscope: a more powerful microscope sees smaller things.
+
+Power = 1 - beta = P(Reject H0 | H0 is false)
+
+- 80% power means: if there IS an effect, there is an 80% chance the test will find it.
+- Most studies aim for 80% or 90% power.
+
+## What Affects Power?
+
+| Factor | Effect on Power |
+|---|---|
+| Larger sample size n | Power increases |
+| Larger effect size (bigger difference) | Power increases |
+| Smaller standard deviation (less noise) | Power increases |
+| Larger alpha (e.g. 0.10 instead of 0.05) | Power increases |
+
+**Effect size (Cohen's d)** = |mu1 - mu2| / sigma
+
+## R Code - Week 3
+
+```r
+install.packages("pwr")
+library(pwr)
+
+# Calculate POWER for a given sample size
+pwr.t.test(n = 30,           # sample size per group
+           d = 0.5,           # effect size (Cohen's d)
+           sig.level = 0.05,  # alpha
+           type = "two.sample",
+           alternative = "two.sided")
+
+# Calculate SAMPLE SIZE for desired power
+pwr.t.test(d = 0.5,
+           sig.level = 0.05,
+           power = 0.80,
+           type = "two.sample",
+           alternative = "two.sided")
+
+# Effect size example: mu0=4.0, muA=4.35, sigma=1.3
+effect_size <- (4.35 - 4.0) / 1.3
+pwr.t.test(n = 30,
+           d = effect_size,
+           sig.level = 0.05,
+           type = "one.sample",
+           alternative = "two.sided")
+
+# Simulation: effect of sample size on p-values
+set.seed(42)
+A_10   <- rnorm(10,   0,   1)
+B_10   <- rnorm(10,   0.1, 1)
+A_1000 <- rnorm(1000, 0,   1)
+B_1000 <- rnorm(1000, 0.1, 1)
+
+t.test(A_10,   B_10)$p.value    # likely NOT significant
+t.test(A_1000, B_1000)$p.value  # very likely significant
+# Lesson: with large enough n, tiny differences become "significant"!
+```
+
+## Summary Points - Week 3
+
+- Power = probability of detecting a real effect (1 - beta)
+- You need effect size to calculate power, and power to calculate sample size
+- `pwr.t.test()` calculates both in R
+- Bigger sample = more power
+- Small effects need much bigger samples to detect
+
+<!-- ANNOTATION: -->
+
+---
+
+# Week 4 - Experimental Design
+
+## Key Topics
+
+- Observational vs experimental data
+- Why randomisation matters
+- Causation vs correlation
+
+## Observational vs Experimental Data
+
+**Observational study:** You just watch and record. You do NOT control anything.
+
+- Example: "Coffee drinkers have higher mortality rates."
+- Problem: Maybe coffee drinkers also smoke more! You cannot separate the effects.
+
+**Experimental study:** You randomly assign treatments to subjects.
+
+- Example: "We randomly gave half the group coffee, half no coffee, for 10 years."
+- Advantage: Random assignment allows you to claim CAUSATION (A causes B).
+
+### Causation vs Correlation
+
+> "Storks are correlated with baby births in Denmark!"
+
+Both storks and babies are more common in rural areas - storks do not bring babies!
+This is called a **confounding variable**. Correlation does NOT equal causation,
+unless you have a randomised experiment.
+
+## Key Principles of Experimental Design
+
+| Principle | Meaning |
+|---|---|
+| Randomisation | Assign treatments randomly - removes bias |
+| Replication | Repeat measurements - reduces random error |
+| Blocking | Group similar subjects - reduces variability |
+
+## Summary Points - Week 4
+
+- Experimental data allows causal claims; observational data does not
+- Always randomise treatment assignment
+- Correlation does not imply causation
+- The design of your experiment determines what conclusions you can draw
+
+<!-- ANNOTATION: -->
+
+---
+
+# Week 5 - One-Way ANOVA
+
+## Key Topics
+
+- What is ANOVA and when to use it
+- The ANOVA model and F-statistic
+- Checking assumptions
+- Post-hoc tests (Tukey HSD)
+- Effect size eta-squared
+
+## What is ANOVA?
+
+**ANOVA = Analysis of Variance**
+
+Testing 3 fertilisers (A, B, C) on plant growth? Running 3 separate t-tests inflates
+your false positive rate! ANOVA tests ALL groups at once.
+
+- H0: all group means are equal (mu1 = mu2 = mu3)
+- Ha: at least one group mean is different
+
+Rule: Use one-way ANOVA when you have 1 categorical factor with 3+ levels
+and 1 continuous response variable.
+
+## The ANOVA Model
+
+y_ij = mu + tau_i + e_ij
+
+Where:
+
+- y_ij = the j-th observation in group i (the measurement)
+- mu = the overall grand mean
+- tau_i = the effect of treatment i (how different is group i from average?)
+- e_ij = random error (assumed Normal with mean 0)
+
+## The ANOVA Table
+
+| Source | SS | df | Mean Square | F-ratio |
+|---|---|---|---|---|
+| Treatment | SS_Treat | a-1 | SS_Treat/(a-1) | MS_Treat/MS_Error |
+| Error | SS_Error | N-a | SS_Error/(N-a) | |
+| Total | SS_Total | N-1 | | |
+
+F = variation BETWEEN groups / variation WITHIN groups.
+If p-value < 0.05, reject H0 (at least one group differs).
+
+## ANOVA Assumptions
+
+1. **Independence** - observations are independent (by design)
+2. **Normality** - residuals follow a Normal distribution (check QQ plot)
+3. **Homogeneity of Variance** - equal variances across groups (Fligner-Killeen test)
+4. **No outliers** - extreme values distort results
+
+## Effect Size eta-squared
+
+eta-squared = SS_Treatment / SS_Total
+
+- 0.01 = small; 0.06 = medium; 0.14 = large
+
+## Post-Hoc Tests
+
+ANOVA only tells you "at least one group differs" - not WHICH ones.
+**Tukey's HSD** compares all pairs while controlling the error rate.
+Groups sharing a letter in their superscript are NOT significantly different.
+
+## R Code - Week 5
+
+```r
+library(tidyverse)
+library(car)
+
+# Load data
+soil <- read.table("soil_data.txt", header = TRUE)
+
+# Exploratory Data Analysis
+soil %>%
+  group_by(soil_type) %>%
+  summarise(mean = mean(yield), sd = sd(yield), n = n())
+
+boxplot(yield ~ soil_type, data = soil,
+        main = "Yield by Soil Type",
+        xlab = "Soil Type", ylab = "Yield")
+
+# Check equality of variances
+fligner.test(yield ~ soil_type, data = soil)
+# H0: variances are equal. If p > 0.05, assumption is satisfied.
+
+# Fit the ANOVA model
+model <- aov(yield ~ soil_type, data = soil)
+
+# View ANOVA table
+summary(model)
+# Look at: F value and Pr(>F)
+# If Pr(>F) < 0.05 --> at least one group mean is different
+
+# Effect size eta-squared
+anova_table <- summary(model)[[1]]
+SS_treat <- anova_table["soil_type", "Sum Sq"]
+SS_total <- sum(anova_table[, "Sum Sq"])
+eta_sq   <- SS_treat / SS_total
+cat("eta-squared =", round(eta_sq, 3))
+
+# Post-hoc: Tukey's HSD
+TukeyHSD(model)
+plot(TukeyHSD(model))
+
+# Model Diagnostics
+par(mfrow = c(2,2))
+plot(model)
+# Plot 1: Residuals vs Fitted - should be random scatter
+# Plot 2: Normal Q-Q - points should follow the diagonal line
+# Plot 3: Scale-Location - flat red line = equal variance
+# Plot 4: Cooks Distance - no points should be > 0.5
+
+# Non-parametric alternative (when normality is violated)
+kruskal.test(yield ~ soil_type, data = soil)
+```
+
+## Summary Points - Week 5
+
+- ANOVA tests if 3+ group means are equal (one factor)
+- F = between-group variance / within-group variance
+- p-value < 0.05 means reject H0 (groups differ)
+- Check: normality (QQ plot), equal variance (Fligner test), no outliers
+- Use Tukey HSD to find WHICH pairs differ
+- eta-squared measures the effect size
+
+<!-- ANNOTATION: -->
+
+---
+
+# Week 6 - Two-Way ANOVA
+
+## Key Topics
+
+- Two factors tested simultaneously
+- Main effects and interactions
+- Interaction plots
+- The two-way ANOVA table
+
+## What is Two-Way ANOVA?
+
+Two-way ANOVA tests TWO factors at the same time.
+
+**Example:** Battery life (response) tested across:
+
+- Factor A: Material type (3 levels: 1, 2, 3)
+- Factor B: Temperature (3 levels: 15C, 70C, 125C)
+
+Benefits: study both factors together, AND detect interactions between them.
+
+## What is an Interaction?
+
+An **interaction** means: the effect of Factor A DEPENDS on the level of Factor B.
+
+Without interaction: Material 1 is always best at all temperatures.
+
+With interaction: Material 1 is best at low temperature, but Material 3 is best
+at high temperature. The best material depends on temperature!
+
+If there is a significant interaction, you CANNOT interpret main effects alone.
+
+## Two-Way ANOVA Table
+
+| Source | df | F-ratio |
+|---|---|---|
+| Factor A | a-1 | MS_A / MS_Error |
+| Factor B | b-1 | MS_B / MS_Error |
+| Interaction AxB | (a-1)(b-1) | MS_AB / MS_Error |
+| Error | ab(n-1) | |
+| Total | abn-1 | |
+
+## R Code - Week 6
+
+```r
+library(tidyverse)
+
+battery <- read.csv("battery.csv", header = TRUE)
+
+# IMPORTANT: make factors categorical, not numeric
+battery$Material <- factor(battery$Material)
+battery$Temp     <- factor(battery$Temp)
+
+# Summary statistics by group combination
+battery %>%
+  group_by(Material, Temp) %>%
+  summarise(mean = mean(Life), sd = sd(Life), n = n())
+
+# Interaction plot - VERY IMPORTANT
+# Parallel lines --> no interaction
+# Crossing lines --> interaction exists!
+interaction.plot(x.factor    = battery$Temp,
+                 trace.factor = battery$Material,
+                 response     = battery$Life,
+                 main         = "Interaction Plot: Battery Life",
+                 xlab         = "Temperature",
+                 ylab         = "Mean Battery Life",
+                 col          = c("blue", "red", "green"),
+                 trace.label  = "Material")
+
+# Fit two-way ANOVA WITH interaction (the * includes interaction)
+model2way <- aov(Life ~ Material * Temp, data = battery)
+summary(model2way)
+
+# If interaction is NOT significant, fit without it (use +)
+model_additive <- aov(Life ~ Material + Temp, data = battery)
+summary(model_additive)
+
+# Post-hoc tests
+TukeyHSD(model2way)
+
+# Model diagnostics
+par(mfrow = c(2,2))
+plot(model2way)
+```
+
+## Summary Points - Week 6
+
+- Two-way ANOVA tests two factors AND their interaction
+- Interaction = the effect of one factor depends on the other
+- Always make the interaction plot - crossing lines = interaction
+- If interaction is significant, do not interpret main effects alone
+- Use `aov(Y ~ A * B, data)` for the interaction model
+
+<!-- ANNOTATION: -->
+
+---
+
+# Week 7 - Multiple Comparisons and Non-Parametric Tests
+
+## Key Topics
+
+- Why multiple comparisons inflate error
+- Bonferroni correction
+- Non-parametric alternatives to ANOVA
+
+## The Multiple Comparisons Problem
+
+If you do ONE test at alpha = 0.05, you have a 5% chance of a false positive.
+If you do 20 tests, you expect about 1 false positive just by chance.
+The family-wise error rate (FWER) inflates rapidly.
+
+## Solutions
+
+| Method | How | When |
+|---|---|---|
+| Bonferroni | Use alpha* = alpha/k for each test | Simple, conservative |
+| Tukey HSD | Adjusts for all pairwise comparisons | Default after ANOVA |
+| Holm | Less conservative than Bonferroni | General use |
+
+## Non-Parametric Alternatives
+
+When ANOVA assumptions are violated (especially normality), use rank-based tests:
+
+| Parametric | Non-Parametric equivalent |
+|---|---|
+| One-sample t-test | Wilcoxon signed-rank test |
+| Two-sample t-test | Wilcoxon rank-sum (Mann-Whitney) |
+| One-way ANOVA | Kruskal-Wallis test |
+
+## R Code - Week 7
+
+```r
+# Bonferroni p-value adjustment
+p_values <- c(0.01, 0.04, 0.03, 0.001, 0.20)
+p.adjust(p_values, method = "bonferroni")
+p.adjust(p_values, method = "holm")   # less conservative
+
+# Kruskal-Wallis test (non-parametric one-way ANOVA)
+kruskal.test(yield ~ soil_type, data = soil)
+
+# Pairwise Wilcoxon post-hoc after Kruskal-Wallis
+pairwise.wilcox.test(soil$yield, soil$soil_type,
+                     p.adjust.method = "bonferroni")
+
+# Wilcoxon rank-sum test for two groups
+wilcox.test(groupA, groupB, alternative = "two.sided")
+```
+
+## Summary Points - Week 7
+
+- Multiple comparisons inflate Type I error - always correct for this!
+- Tukey HSD is the standard for ANOVA pairwise comparisons
+- Bonferroni: alpha* = alpha/k (number of tests)
+- If ANOVA assumptions fail, use Kruskal-Wallis (non-parametric)
+- Non-parametric tests use RANKS instead of raw values
+
+<!-- ANNOTATION: -->
+
+---
+
+# Week 8 - Simple Linear Regression
+
+## Key Topics
+
+- What is regression and when to use it
+- The regression equation
+- Estimating slope and intercept (least squares)
+- Testing the slope
+- R-squared
+- Confidence vs prediction intervals
+- Model diagnostics
+
+## What is Regression?
+
+Regression answers: "Can I predict Y from X?"
+
+Unlike ANOVA where X is categorical, in regression X is continuous.
+Example: predict plant height (Y) from plant age (X).
+
+## The Simple Linear Regression Model
+
+y_i = beta0 + beta1 * x_i + e_i
+
+- y_i = response variable (what you measure)
+- x_i = explanatory variable (what you use to predict)
+- beta0 = intercept: value of y when x = 0
+- beta1 = slope: for every 1 unit increase in x, y changes by beta1
+- e_i = error term (Normal with mean 0)
+
+This is the same as y = mx + c from school! beta1 = slope (m) and beta0 = intercept (c).
+
+## Estimating the Line - Least Squares
+
+We find the line that minimises the sum of squared errors (distances from line to points).
+
+beta1-hat = SS_xy / SS_xx
+
+beta0-hat = y-bar - beta1-hat * x-bar
+
+Where:
+
+- SS_xy = sum(xi*yi) - n * x-bar * y-bar
+- SS_xx = sum(xi^2) - n * (x-bar)^2
+
+### Plant Height Example
+
+Fitted model: y-hat = -1.03 + 3.047 * x
+
+Slope interpretation: For every 1 week increase in age, plant height
+increases by 3.047 cm on average.
+
+## R-squared (Coefficient of Determination)
+
+R-squared = SS_Reg / SS_Total
+
+- R-squared = 0.9875 means 98.75% of the variability in height is explained by age.
+- Range: 0 to 1. Higher = better fit.
+
+## Testing the Slope
+
+- H0: beta1 = 0 (no linear relationship between X and Y)
+- Ha: beta1 ≠ 0
+
+If p-value < 0.05, X is a useful predictor of Y.
+
+## Confidence vs Prediction Intervals
+
+- **Confidence Interval for mean response:** Where is the average Y for a given X? (narrower)
+- **Prediction Interval for individual:** Where might a new single Y value fall? (wider - includes individual variation)
+
+Prediction intervals are ALWAYS wider than confidence intervals.
+
+## R Code - Week 8
+
+```r
+library(tidyverse)
+
+# Plant data
+Age    <- c(2, 2, 3, 4, 4, 5, 6, 7, 8, 8)
+Height <- c(4, 5, 9, 11, 12, 14, 17, 21, 22, 24)
+plant  <- tibble(Age, Height)
+
+# Scatter plot
+plot(Height ~ Age, data = plant,
+     main = "Plant Height vs Age",
+     xlab = "Age (weeks)", ylab = "Height (cm)",
+     pch = 16, col = "blue")
+
+# Pearson correlation (-1 to +1; close to +1 = strong positive)
+cor(plant$Height, plant$Age)
+
+# Fit linear model
+plant_model <- lm(Height ~ Age, data = plant)
+
+# Summary - READ THIS CAREFULLY IN THE EXAM
+summary(plant_model)
+# Coefficients: beta0 (Intercept) and beta1 (Age)
+# Pr(>|t|): p-value - if < 0.05, coefficient is significant
+# Multiple R-squared: proportion of variance explained
+# Residual standard error: estimate of sigma (standard deviation of errors)
+
+# ANOVA table for the regression
+summary.aov(plant_model)
+
+# Add regression line to scatter plot
+plot(Height ~ Age, data = plant)
+abline(plant_model, col = "red", lwd = 2)
+
+# Confidence Interval for MEAN height at Age = 3.5
+new_data <- data.frame(Age = 3.5)
+predict(plant_model, newdata = new_data,
+        interval = "confidence", level = 0.95)
+
+# Prediction Interval for an INDIVIDUAL plant at Age = 3.5
+predict(plant_model, newdata = new_data,
+        interval = "prediction", level = 0.95)
+# The prediction interval will always be WIDER
+
+# Model Diagnostics - the 4 important plots
+par(mfrow = c(2,2))
+plot(plant_model)
+# Plot 1: Residuals vs Fitted: random scatter = good; funnel = bad
+# Plot 2: Normal Q-Q: points on diagonal = good; curves away = bad
+# Plot 3: Scale-Location: flat red line = good; slope = bad
+# Plot 4: Cooks Distance: all below 0.5 = good; labelled points = check
+```
+
+## Summary Points - Week 8
+
+- Regression predicts continuous Y from continuous X
+- Fit with `lm(Y ~ X, data)` in R
+- Slope = change in Y for 1 unit increase in X
+- R-squared = proportion of variance explained (higher = better)
+- Test H0: beta1 = 0 - if rejected, X is a useful predictor
+- Prediction intervals are WIDER than confidence intervals
+- Check the 4 diagnostic plots - residuals should look random
+
+<!-- ANNOTATION: -->
+
+---
+
+# Week 9 - Multiple Linear Regression
+
+## Key Topics
+
+- Multiple regression with many predictors
+- Interpreting coefficients "holding other variables constant"
+- Adjusted R-squared
+- Multicollinearity and VIF
+- Model selection with AIC
+
+## What is Multiple Linear Regression?
+
+Simple regression (1 predictor): y = beta0 + beta1*x + e
+
+Multiple regression (many predictors): y = beta0 + beta1*x1 + beta2*x2 + ... + betak*xk + e
+
+Example: predict savings rate (y) from population structure and income growth.
+
+## Interpreting Coefficients
+
+KEY IDEA: Each coefficient is interpreted **holding all other variables constant**.
+
+"For every 1 unit increase in pop15, the savings rate changes by beta1, ASSUMING all
+other variables remain unchanged."
+
+This is very different from simple regression!
+
+## Adjusted R-squared
+
+Adding more variables ALWAYS increases R-squared - even useless variables!
+**Adjusted R-squared** penalises for adding variables that do not improve the model.
+Always use this when comparing models with different numbers of predictors.
+
+## Multicollinearity
+
+When two or more predictors are highly correlated, it becomes hard to separate their
+individual effects. Use **Variance Inflation Factor (VIF)** to detect this.
+
+- VIF > 5 = moderate concern
+- VIF > 10 = serious multicollinearity
+
+## Model Selection
+
+| Method | Idea |
+|---|---|
+| AIC | Lower AIC = better model |
+| Backward stepwise | Start with all variables, remove one by one |
+
+## R Code - Week 9
+
+```r
+library(tidyverse)
+library(car)
+
+data(LifeCycleSavings)
+head(LifeCycleSavings)
+
+# Scatter plot matrix
+pairs(LifeCycleSavings)
+
+# Simple models first (one predictor at a time)
+model_pop15 <- lm(sr ~ pop15, data = LifeCycleSavings)
+summary(model_pop15)
+
+# Two predictors
+model2 <- lm(sr ~ ddpi + pop15, data = LifeCycleSavings)
+summary(model2)
+# Use Adjusted R-squared, not Multiple R-squared
+
+# Full model with all predictors
+model_full <- lm(sr ~ pop15 + pop75 + dpi + ddpi,
+                 data = LifeCycleSavings)
+summary(model_full)
+
+# Check multicollinearity
+vif(model_full)
+# VIF > 5: moderate; VIF > 10: serious
+
+# Model selection - backward AIC
+model_step <- step(model_full, direction = "backward")
+summary(model_step)
+
+# Compare models by AIC (lower = better)
+AIC(model2, model_full, model_step)
+
+# Confidence intervals for coefficients
+confint(model_full, level = 0.95)
+
+# Model diagnostics
+par(mfrow = c(2,2))
+plot(model_full)
+
+# Predictions
+new_obs <- data.frame(pop15 = 35, pop75 = 2.5, dpi = 1000, ddpi = 3.0)
+predict(model_full, newdata = new_obs,
+        interval = "prediction", level = 0.95)
+```
+
+## Summary Points - Week 9
+
+- Multiple regression: each coefficient = effect holding others fixed
+- Use Adjusted R-squared when comparing models
+- Check multicollinearity with VIF (> 10 is bad)
+- Use AIC for model selection (lower = better)
+- Same 4 diagnostic plots apply as in simple regression
+
+<!-- ANNOTATION: -->
+
+---
+
+# Week 10 - Data Transformations
+
+## Key Topics
+
+- Why transform data?
+- Common transformations
+- The Box-Cox transformation
+- Checking if transformation worked
+
+## Why Transform?
+
+Sometimes data violates assumptions (non-normality, unequal variance, non-linear
+relationship). A transformation changes the scale to fix these problems.
+
+Like converting Fahrenheit to Celsius - the information is the same, different scale.
+
+## Common Transformations
+
+| Problem | Transformation |
+|---|---|
+| Right-skewed data | Log: `log(y)` |
+| Count data | Square root: `sqrt(y)` |
+| Proportions (0 to 1) | Arcsine: `asin(sqrt(y))` |
+| Left-skewed | Square: `y^2` |
+
+## The Box-Cox Transformation
+
+Finds the BEST power transformation automatically by trying different lambda values:
+
+- lambda = 1: no transformation needed
+- lambda = 0: log transformation
+- lambda = 0.5: square root
+- lambda = -1: reciprocal (1/y)
+
+## R Code - Week 10
+
+```r
+library(MASS)   # for boxcox()
+
+# Log transformation
+model_log <- lm(log(y) ~ x, data = mydata)
+summary(model_log)
+
+# Square root transformation
+model_sqrt <- lm(sqrt(y) ~ x, data = mydata)
+
+# Box-Cox: find the best lambda
+model_orig <- lm(y ~ x, data = mydata)
+boxcox(model_orig, lambda = seq(-2, 2, by = 0.1))
+# The PEAK of the curve = best lambda
+# If 95% CI includes 0: use log
+# If 95% CI includes 0.5: use square root
+
+# After transformation, re-check diagnostics
+par(mfrow = c(2,2))
+plot(model_log)
+
+# Test normality of residuals
+shapiro.test(residuals(model_log))
+# H0: residuals are normal. p > 0.05 means normality is satisfied.
+```
+
+## Summary Points - Week 10
+
+- Transform when ANOVA/regression assumptions are violated
+- Log transformation is most common - fixes right skew
+- Box-Cox finds the optimal transformation automatically
+- After transforming, always re-check diagnostic plots
+- Always interpret results back in the original scale
+
+<!-- ANNOTATION: -->
+
+---
+
+# Exam Tips and Quick Reference
+
+## Common Exam Templates
+
+### Type I / Type II Error
+
+> A Type I error would occur if we conclude that [treatment has an effect]
+> when in fact [it does not have one].
+> A Type II error would occur if we fail to detect [the effect]
+> when it does in fact exist.
+
+### Reading R Output from summary(lm(...))
+
+| Output | What it means |
+|---|---|
+| Estimate | The coefficient value (slope or intercept) |
+| Pr(>|t|) | p-value: is this coefficient significantly different from 0? |
+| *** | Very significant (p < 0.001) |
+| Multiple R-squared | R-squared: proportion of variance explained |
+| Adjusted R-squared | Use this for multiple regression |
+| F-statistic and p-value | Overall model significance test |
+
+### ANOVA Write-Up Template
+
+> A one-way ANOVA indicated that [factor] had a significant effect on [response],
+> F([df1], [df2]) = [F value], p < 0.05, eta-squared = [value].
+> Tukey HSD indicated that [group A] and [group B] differed significantly (p < 0.05).
+
+### Regression Write-Up Template
+
+> A simple linear regression model was fitted to predict [Y] from [X].
+> The slope was beta1 = [value] (p < 0.001), indicating that for each 1 unit
+> increase in [X], [Y] increases by [beta1] on average.
+> The model explained R-squared = [value]% of the variance in [Y].
+
+## R Functions Quick Reference
+
+| Task | R Function |
+|---|---|
+| Load CSV | `read.csv("file.csv", header = TRUE)` |
+| Load text file | `read.table("file.txt", header = TRUE)` |
+| Load Excel | `readxl::read_excel("file.xlsx")` |
+| Summary stats | `summary(data)` |
+| Group summaries | `data %>% group_by(x) %>% summarise(mean = mean(y))` |
+| Boxplot | `boxplot(y ~ group, data = data)` |
+| Scatter plot | `plot(y ~ x, data = data)` |
+| Correlation | `cor(x, y)` |
+| t-test | `t.test(y ~ group, data = data)` |
+| One-way ANOVA | `aov(y ~ factor, data = data)` |
+| Two-way ANOVA | `aov(y ~ A * B, data = data)` |
+| Linear model | `lm(y ~ x, data = data)` |
+| Model summary | `summary(model)` |
+| ANOVA table | `summary.aov(model)` |
+| Tukey HSD | `TukeyHSD(model)` |
+| Model diagnostics | `plot(model)` |
+| Confidence interval | `predict(model, newdata, interval = "confidence")` |
+| Prediction interval | `predict(model, newdata, interval = "prediction")` |
+| Normality test | `shapiro.test(residuals(model))` |
+| Equal variance | `fligner.test(y ~ group, data = data)` |
+| Kruskal-Wallis | `kruskal.test(y ~ group, data = data)` |
+| VIF | `car::vif(model)` |
+| AIC | `AIC(model1, model2)` |
+| Power analysis | `pwr::pwr.t.test(...)` |
+| Missing values | `colSums(is.na(data))` |
+| Multiple imputation | `mice::mice(data, m = 5)` |
+| Box-Cox | `MASS::boxcox(model)` |
+
+## Diagnostic Plots - What to Look For
+
+| Plot | Good | Bad |
+|---|---|---|
+| Residuals vs Fitted | Random scatter around 0 | Funnel shape or curve |
+| Normal Q-Q | Points follow the diagonal line | Points curve off the line |
+| Scale-Location | Flat red line | Red line slopes up or down |
+| Cook's Distance | All points below 0.5 | Labelled points above 0.5 |
+
+---
+
+# Glossary
+
+| Term | Simple Explanation |
+|---|---|
+| Response variable (Y) | What you measure or want to predict |
+| Explanatory variable (X) | What you think causes Y |
+| Null hypothesis (H0) | "Nothing is happening" - assumed true |
+| Alternative hypothesis (Ha) | What you want to prove |
+| p-value | Probability of your data if H0 were true |
+| Significance level (alpha) | Threshold for rejecting H0 (usually 0.05) |
+| Type I Error | False positive - rejected H0 when it was true |
+| Type II Error | False negative - failed to reject H0 when false |
+| Power | Ability to detect a real effect (1 - beta) |
+| Confidence Interval | Range likely to contain the true parameter |
+| ANOVA | Analysis of Variance - compares 3+ group means |
+| F-statistic | Ratio of between-group to within-group variance |
+| Residual | Difference between observed and predicted value |
+| R-squared | Proportion of variance in Y explained by X |
+| Slope (beta1) | Change in Y for 1 unit increase in X |
+| Intercept (beta0) | Value of Y when X = 0 |
+| Interaction | Effect of one variable depends on another |
+| Multicollinearity | Predictors are highly correlated |
+| VIF | Variance Inflation Factor - detects multicollinearity |
+| AIC | Model comparison - lower AIC = better model |
+| Imputation | Filling in missing values |
+| Transformation | Changing data scale (e.g. log, square root) |
+| Box-Cox | Method to find the best power transformation |
+| eta-squared | Effect size for ANOVA (proportion of variance explained) |
+| Cohen's d | Effect size for t-tests (difference / standard deviation) |
+
+---
+
+*Good luck on your exams! Remember: the worksheets from class use the exact same data
+and examples as the lecture notes - practise those R scripts!*

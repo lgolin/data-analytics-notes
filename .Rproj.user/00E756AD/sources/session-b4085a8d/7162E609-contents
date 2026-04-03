@@ -1,0 +1,336 @@
+---
+title: "Lab 3: Decision Trees in R"
+subtitle: "Classification with `rpart` — Iris & Titanic Datasets"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+    highlight-style: github
+---
+
+# Overview
+
+This lab introduces **Decision Trees**, a popular machine learning method for
+**classification** — that is, predicting which *category* something belongs to.
+
+We work through two real datasets:
+
+- **Part 1 — Iris**: Predict the species of a flower based on its measurements.
+- **Part 2 — Titanic**: Predict whether a passenger survived the Titanic disaster.
+
+---
+
+# Key Topics
+
+- What a decision tree is and how it works
+- Splitting data into **training** and **test** sets
+- Building a tree with `rpart`
+- Evaluating a model with a **confusion matrix** and **accuracy**
+- Dealing with **missing values** through **imputation**
+- Why some columns must be *excluded* from the model
+
+---
+
+# Part 1 — Decision Trees on the Iris Dataset
+
+## Loading packages and data
+
+```r
+library(rpart)       # builds decision trees
+library(rpart.plot)  # plots decision trees nicely
+library(GGally)      # for ggpairs() — a pairs plot
+library(titanic)     # contains the Titanic dataset
+library(datasets)    # contains built-in R datasets like Iris
+
+data(iris)
+head(iris)
+```
+
+::: {.callout-note}
+**What is the Iris dataset?**  
+It contains measurements (in cm) of 150 flowers from 3 species:
+*setosa*, *versicolor*, and *virginica*.  
+The 4 measurements are: `Sepal.Length`, `Sepal.Width`, `Petal.Length`,
+`Petal.Width`.  
+Our goal: can we predict the **species** just from these numbers?
+:::
+
+## Exploring the data
+
+```r
+ggpairs(iris, columns = c(1, 2, 3, 4),
+        mapping = aes(colour = Species, alpha = 0.5))
+str(iris)
+summary(iris)
+```
+
+`ggpairs()` creates a **pairs plot** — every column plotted against every
+other column, coloured by species. This helps us *see* whether the groups
+separate visually before we build a model.
+
+## Splitting into training and test sets
+
+```r
+set.seed(1987)            # makes random results repeatable
+nobs  <- nrow(iris)       # total number of rows (150)
+train <- sample(nobs, 0.9 * nobs)          # 90% → training rows
+test  <- setdiff(seq_len(nobs), train)     # remaining 10% → test rows
+```
+
+::: {.callout-important}
+**Why split the data?**
+
+| Set | Purpose |
+|---|---|
+| **Training set (90%)** | The model *learns* patterns from this data |
+| **Test set (10%)** | We check how well the model works on *new, unseen* data |
+
+If we tested on the same data we trained on, the model would look
+artificially perfect — like memorising exam answers instead of
+understanding the subject.
+:::
+
+## Defining target and input columns
+
+```r
+target <- "Species"                        # what we want to predict
+input  <- setdiff(names(iris), target)     # everything else → predictors
+```
+
+`setdiff()` returns everything in `names(iris)` that is *not* in `target`.
+So `input` will be the four measurement columns.
+
+## Building the decision tree
+
+```r
+rpart <- rpart(Species ~ .,
+               data   = iris[train, c(input, target)],
+               method = "class")
+
+print(rpart)
+rpart.plot(rpart, main = "Decision Tree iris $ Species")
+```
+
+**Reading the formula `Species ~ .`**:  
+"Predict `Species` using (`.`) all other columns in the data."
+
+`method = "class"` tells `rpart` this is a **classification** problem
+(predicting a category), not a regression problem (predicting a number).
+
+## Making predictions and checking accuracy
+
+```r
+pr <- predict(rpart,
+              newdata = iris[test, c(input, target)],
+              type    = "class")
+
+# Confusion matrix
+tab <- table(pr, iris[test,]$Species, dnn = c("Predicted", "Actual"))
+tab
+
+accuracy <- 100 * sum(diag(tab) / sum(tab))
+accuracy
+```
+
+::: {.callout-note}
+**What is a confusion matrix?**  
+A table that compares what the model *predicted* vs what was *actually* true.
+
+|  | **Actual: A** | **Actual: B** |
+|---|---|---|
+| **Predicted: A** | ✅ Correct | ❌ Wrong |
+| **Predicted: B** | ❌ Wrong | ✅ Correct |
+
+The diagonal (top-left to bottom-right) = correct predictions.
+:::
+
+**Accuracy formula:**
+
+$$
+\text{Accuracy} = \frac{\text{Number of correct predictions}}{\text{Total predictions}} \times 100
+$$
+
+In R: `100 * sum(diag(tab)) / sum(tab)`
+
+---
+
+# Part 2 — Decision Trees on the Titanic Dataset
+
+## Loading the data
+
+```r
+data(titanic_train)
+head(titanic_train)
+```
+
+The dataset contains passenger information: name, age, sex, ticket class,
+fare paid, and whether they **survived** (1) or not (0).
+
+## Splitting data (same process as Part 1)
+
+```r
+set.seed(42)
+nobs  <- nrow(titanic_train)
+train <- sample(nobs, 0.9 * nobs)
+test  <- setdiff(seq_len(nobs), train)
+```
+
+## Why we must exclude some columns
+
+```r
+# WRONG — includes all columns naively
+target      <- "Survived"
+colsToIgnore <- c("Name")
+input        <- setdiff(names(titanic_train), c(target, colsToIgnore))
+```
+
+::: {.callout-warning}
+**The problem with unique columns**
+
+Columns like `PassengerId`, `Name`, `Ticket`, and `Cabin` are *unique per
+person* — no two passengers share the same name or ID. If you include
+these, the tree will "memorise" each individual passenger instead of
+learning general patterns. It will look perfect on training data but fail
+completely on new data. This is called **overfitting**.
+
+**Fix — exclude all unique identifier columns:**
+
+```r
+colsToIgnore <- c("PassengerId", "Name", "Ticket", "Cabin")
+input <- setdiff(names(titanic_train), c(target, colsToIgnore))
+```
+:::
+
+## Building and evaluating the Titanic tree
+
+```r
+rpart <- rpart(Survived ~ .,
+               data   = titanic_train[train, c(input, target)],
+               method = "class")
+
+rpart.plot(rpart, main = "Decision Tree titanic_train $ Survived")
+print(rpart)
+
+test_data <- titanic_train[test, c(input, target)]
+pr        <- predict(rpart, newdata = test_data, type = "class")
+
+tab <- table(pr, test_data$Survived, dnn = c("Predicted", "Actual"))
+tab
+
+accuracy <- 100 * sum(diag(tab) / sum(tab))
+accuracy
+```
+
+## Understanding the confusion matrix in detail
+
+```r
+TN <- sum(testData$Survived == 0 & testData$pr == 0)  # correctly predicted NOT survived
+FP <- sum(testData$Survived == 0 & testData$pr == 1)  # predicted survived, but actually did NOT
+TP <- sum(testData$Survived == 1 & testData$pr == 1)  # correctly predicted survived
+FN <- sum(testData$Survived == 1 & testData$pr == 0)  # predicted NOT survived, but actually DID
+```
+
+::: {.callout-note}
+**The four outcomes explained:**
+
+| Term | Meaning | Example |
+|---|---|---|
+| **True Negative (TN)** | Predicted "did not survive" — correct ✅ | Passenger died; model said died |
+| **True Positive (TP)** | Predicted "survived" — correct ✅ | Passenger survived; model said survived |
+| **False Positive (FP)** | Predicted "survived" — wrong ❌ | Passenger died; model said survived |
+| **False Negative (FN)** | Predicted "did not survive" — wrong ❌ | Passenger survived; model said died |
+:::
+
+## Handling missing values — Imputation
+
+The `Age` column has many missing values (`NA`). Missing values cause
+problems for decision trees. We handle this by **imputation**: replacing
+missing values with a sensible estimate.
+
+```r
+# Calculate the mean age from TRAINING data only
+meanAge <- mean(titanic_train[train,]$Age, na.rm = TRUE)
+
+# Replace all NAs in the full dataset with that mean
+titanic_train[is.na(titanic_train$Age),]$Age <- meanAge
+```
+
+::: {.callout-important}
+**Why use only the training set to calculate the mean?**
+
+If you calculated the mean using the test set too, information from the
+test set would "leak" into your training process. This would make your
+model seem better than it really is. Always compute statistics (mean,
+standard deviation, etc.) from the **training data only**.
+:::
+
+After imputation, rebuild and re-evaluate the tree:
+
+```r
+rpart <- rpart(Survived ~ .,
+               data   = titanic_train[train, c(input, target)],
+               method = "class")
+
+rpart.plot(rpart, main = "Decision Tree titanic_train $ Survived (with imputed Age)")
+
+pr  <- predict(rpart, newdata = titanic_train[test, c(input, target)], type = "class")
+tab <- table(pr, test_data$Survived, dnn = c("Predicted", "Actual"))
+tab
+
+accuracy <- 100 * sum(diag(tab) / sum(tab))
+accuracy
+```
+
+---
+
+# Key Equations & Formulas
+
+**Accuracy:**
+$$
+\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN} \times 100
+$$
+
+**In R:**
+```r
+accuracy <- 100 * sum(diag(tab)) / sum(tab)
+```
+
+---
+
+# Summary Points
+
+- A **decision tree** splits data into groups by asking a series of
+  yes/no questions about the input columns.
+- Always split your data into **training** (learning) and **test**
+  (evaluation) sets before building a model.
+- Use `set.seed()` to make your random split **reproducible**.
+- Use `method = "class"` in `rpart()` for classification problems.
+- A **confusion matrix** shows correct and incorrect predictions in a table.
+- **Accuracy** = percentage of predictions that were correct.
+- **Exclude unique identifier columns** (like ID, Name) — they cause
+  overfitting.
+- **Impute missing values** using the *training set mean* only — never
+  use the test set for this.
+- Adding imputation for `Age` typically **improves model accuracy** because
+  more rows can be used.
+
+---
+
+# Annotations & Personal Notes
+
+> ✏️ *Use this space to add your own notes as you review this lab.*
+
+**Things I found confusing:**
+
+-
+
+**Things I want to explore further:**
+
+-
+
+**Questions to ask:**
+
+-

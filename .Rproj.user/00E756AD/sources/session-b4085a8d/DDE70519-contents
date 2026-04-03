@@ -1,0 +1,510 @@
+---
+title: "Study Guide – Week 2: Data Exploration & Statistics in R"
+subtitle: "STAT9013 / Data Mining"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+    highlight-style: github
+---
+
+<!-- ============================================================
+     PERSONAL ANNOTATIONS SPACE
+     Use this area to write your own notes as you study!
+     ============================================================ -->
+
+> 📝 **My Notes for This Week:**
+> *(Write your personal notes here — questions, examples, things to remember)*
+
+---
+
+# Key Topics This Week
+
+- **Basic Statistics** — mean, median, quartiles, interquartile range
+- **Why the median is often better than the mean** for skewed data
+- **Univariate plots** — histograms, density plots, and boxplots (one column at a time)
+- **Multivariate plots** — scatter plots and correlation (two or more columns)
+- **Normal distribution** — what it is and why it matters for machine learning
+- **Skewed data** — what it is, how to spot it, and how to fix it
+- **Log transformation** — a tool to fix skewed data
+- **Bimodal distribution** — a red flag in your data
+- **Data exploration on the Iris dataset**
+- **First look at the Titanic dataset**
+- **R code** for all of the above
+
+---
+
+# Core Explanations
+
+## Summary Statistics — The Basics
+
+Before you build any machine learning model, you must first **understand your data**.
+This is called **Exploratory Data Analysis (EDA)**.
+
+The first step is looking at **summary statistics** for each column.
+
+In R, a single command gives you everything:
+```r
+summary(iris[, -5])  # -5 means "exclude column 5" (which is the Species label)
+```
+
+This gives you for each column:
+- **Min** — the smallest value
+- **1st Quartile (Q1)** — 25% of data is below this
+- **Median** — the middle value (50% below, 50% above)
+- **Mean** — the mathematical average
+- **3rd Quartile (Q3)** — 75% of data is below this
+- **Max** — the largest value
+
+---
+
+## Mean vs Median — Which One to Use?
+
+This is one of the most important concepts in Week 2.
+
+**Mean** = Add all values together, divide by how many there are.
+
+**Median** = Sort all values from smallest to largest, pick the one in the middle.
+
+> 💡 **Salary Example:**
+> Imagine a room of 10 people earning between €25,000 and €60,000.
+> Their average salary (mean) = €38,000. Makes sense!
+>
+> Now a billionaire walks in. His salary is €500,000,000.
+> The new mean = about €50,000,000. This is completely misleading — nobody in the room earns close to that!
+> The **median** barely changes — it still reflects the "typical" person in the room.
+
+**Key rule:**
+
+| Situation | Use This |
+|-----------|----------|
+| Data is fairly symmetric (bell-shaped) | **Mean** is fine |
+| Data has outliers or is skewed | **Median** is better |
+
+> 💡 **Real example from class:** The COVID-19 death statistics.
+> If median age of COVID death = 60, it means 50% of deaths were people under 60, and 50% over 60.
+> That is much more informative than reporting an average that is distorted by extreme ages.
+
+---
+
+## Quartiles and the Interquartile Range (IQR)
+
+Imagine you have 100 people sorted by height from shortest to tallest.
+You split them into **4 equal groups of 25**. Each group is called a **quartile**.
+
+```
+|---Q1---|---Q2---|---Q3---|---Q4---|
+  25%       25%      25%      25%
+  ↑                           ↑
+1st Quartile              3rd Quartile
+(25th percentile)         (75th percentile)
+```
+
+- **Q1 (1st quartile)** = value where 25% of data is below
+- **Q2 (2nd quartile)** = the median (50% below)
+- **Q3 (3rd quartile)** = value where 75% of data is below
+- **IQR (Interquartile Range)** = Q3 − Q1 = the range of the **middle 50%** of your data
+
+> 💡 **Why is IQR useful?**
+> It tells you how spread out the "typical" values are — ignoring extreme outliers.
+
+---
+
+## The Three Univariate Plots
+
+**Univariate** means looking at **one column at a time**.
+These three plots all show the same information but in different ways:
+
+### Histogram
+
+A bar chart that shows **how many values** fall in each range.
+
+- The x-axis is the value (e.g., age, salary, petal length)
+- The y-axis is the count (how many rows have that value)
+- Useful for seeing the **shape** of the distribution
+
+> 💡 **What to look for:** Is there one peak, two peaks, or a long tail on one side?
+
+### Density Plot
+
+Like a histogram, but drawn as a **smooth curve** instead of bars.
+
+- Easier to see the shape of the distribution
+- Same information as a histogram, just a smoother version
+
+### Boxplot
+
+The most **information-rich** of the three — but the hardest for non-statisticians to read.
+
+```
+          |                      |
+   -------|==========|===========|----------  ●  (outlier)
+          |    Q1    | Median |  Q3   |
+          |          |        |       |
+          ↑                           ↑
+        Q1 - 1.5*IQR              Q3 + 1.5*IQR
+        (lower "whisker")         (upper "whisker")
+```
+
+A boxplot shows:
+- The **box** = the interquartile range (Q1 to Q3) — the middle 50% of data
+- The **line inside the box** = the median
+- The **dot inside the box** (in some plots) = the mean
+- The **whiskers** = data extending to Q1 − 1.5×IQR and Q3 + 1.5×IQR
+- The **dots outside the whiskers** = outliers
+
+> ⚠️ **Professor's advice:**
+> Boxplots are very useful for YOU as a data scientist to understand the data.
+> But **do not show them to business users** — they do not understand them!
+> Use simpler charts (bar charts, line charts) for presentations to non-technical people.
+
+---
+
+## The Normal Distribution (Bell Curve)
+
+The **normal distribution** is the most common distribution in nature.
+
+- Most values are **near the average** (the middle)
+- Fewer values are at the extremes (the tails)
+- It looks like a bell — highest in the middle, tapering off on both sides
+
+```
+        *
+       ***
+      *****
+     *******
+    *********
+   ***********
+  *************
+```
+
+**Why does this matter for machine learning?**
+
+Many ML algorithms make a **hidden assumption** that your data follows a normal distribution.
+If your data is skewed, these algorithms may not work as well — or give wrong results.
+
+> 💡 **When mean ≈ median:** the data is approximately normal.
+> **When mean ≠ median by a lot:** the data is likely skewed.
+
+---
+
+## Skewed Data
+
+**Skewed data** is data that does NOT follow the normal distribution.
+The curve is shifted or stretched to one side.
+
+### Right-Skewed (Positive Skew)
+
+The long tail is on the **right** side. Most values are small, but a few are very large.
+
+```
+    **
+   ****
+  ******
+ **********_________
+```
+
+- **Mean > Median** (the mean is pulled up by the large values)
+- Examples: income, house prices, average spend per customer, animal body weights
+
+### Left-Skewed (Negative Skew)
+
+The long tail is on the **left** side. Most values are large, but a few are very small.
+
+- **Mean < Median**
+
+> 💡 **How to spot skew:**
+> In a histogram or density plot, look at which side has the longer tail.
+> In a boxplot, if the median line is not centred in the box, the data is skewed.
+> If the mean (blue line) and median (green line) are far apart → skewed!
+
+---
+
+## How to Fix Skewed Data — Log Transformation
+
+Many machine learning algorithms work better when data is approximately normally distributed.
+A simple fix for right-skewed data is the **log transformation**.
+
+```r
+mammals$log_body_wt  <- log(mammals$body_wt)   # transform body weight
+mammals$log_brain_wt <- log(mammals$brain_wt)  # transform brain weight
+```
+
+**Before log transform:** Data is very skewed (a few huge mammals like elephants distort everything)
+
+**After log transform:** Data looks much more like a bell curve — and the model performs much better!
+
+> 💡 **Mammals Example from class:**
+> The professor showed the `mammals` dataset which has `body_wt` and `brain_wt`.
+> Most mammals are small (mice, rabbits), but elephants are enormous outliers.
+>
+> Without log transform: R² = 0.87 (decent but not great)
+> With log transform: R² = 0.92 (much better — 35% improvement!)
+>
+> This shows the power of a simple transformation.
+
+> ⚠️ **Important rule on outliers:**
+> Don't just delete outliers because they look strange!
+> Ask yourself: *"Is this a real value that could appear in my future data?"*
+> The elephants are real large mammals. If you delete them and your model later sees a hippo,
+> it will fail. Keep them — and transform the data instead.
+
+---
+
+## Bimodal Distribution — A Red Flag
+
+A **bimodal distribution** has **two peaks** in the histogram or density plot.
+
+```
+  *          *
+ ***        ***
+*****      *****
+```
+
+This is a **warning signal**. It usually means one of two things:
+
+1. **Two different groups** are mixed in your data (e.g., heights of men and women combined into one column)
+2. **Data was recorded incorrectly** or there is something unusual happening
+
+> 💡 **Iris Dataset Example:**
+> When you plot `Petal.Length` for the Iris dataset, you see two peaks.
+> Why? Because **Setosa flowers** have very small petals (peak on the left),
+> while **Versicolor and Virginica** have much larger petals (peak on the right).
+>
+> This tells you: *"These species are very different — the model should find it easy to separate them!"*
+> It also means: you should consider treating them as different sub-groups.
+
+---
+
+## Multivariate Analysis — Looking at Two or More Columns
+
+**Multivariate** means looking at the **relationship between two or more columns**.
+
+### Scatter Plot
+
+A scatter plot puts two columns on the x and y axes and places a dot for each row.
+
+- Tells you: *"Is there a relationship between these two things?"*
+- If the dots form a diagonal line → strong relationship
+- If the dots are scattered randomly → weak or no relationship
+
+```r
+# Scatter plot coloured by species
+qplot(Petal.Length, Petal.Width, data = iris, colour = Species,
+      main = "Petal.Length v Petal.Width")
+```
+
+### GGally / ggpairs — The All-in-One Exploration Chart
+
+`ggpairs()` is a powerful function that creates a **matrix of plots** — showing histograms, scatter plots, and correlations all at once for multiple columns.
+
+```r
+library(GGally)
+ggpairs(iris, columns = c(1, 2, 3, 4),
+        mapping = aes(colour = Species, alpha = 0.5))
+```
+
+This is one of the **most useful data exploration tools** in R.
+
+### Correlation
+
+**Correlation** measures how strongly two columns are related.
+
+- Ranges from **-1 to +1**
+- **+1** = perfect positive relationship (both go up together)
+- **-1** = perfect negative relationship (one goes up, the other goes down)
+- **0** = no relationship
+
+```r
+library(corrplot)
+corrplot(cor(iris[, -5]))  # correlation matrix of the first 4 columns
+```
+
+---
+
+# Key Formulas
+
+## IQR Formula
+```
+IQR = Q3 - Q1
+```
+
+## Outlier Boundaries (used in boxplots)
+```
+Lower boundary = Q1 - 1.5 × IQR
+Upper boundary = Q3 + 1.5 × IQR
+
+Any point outside these boundaries is shown as an outlier (dot) in the boxplot.
+```
+
+## Log Transformation
+```r
+log_x <- log(x)   # natural log (base e) — most common
+```
+
+---
+
+# Key Code (R)
+
+## Install Packages for Week 2
+```r
+install.packages(c("ggplot2", "gridExtra", "datasets",
+                   "corrplot", "titanic", "psych", "openintro"))
+```
+
+## Helper Function: Draw All Three Plots at Once
+```r
+library(ggplot2)
+library(gridExtra)
+
+drawPlots <- function(data, title) {
+  # Histogram with mean (blue) and median (green) lines
+  p01 <- qplot(data, geom = "histogram", bins = 100) +
+    geom_vline(xintercept = mean(data),   size = 2, color = "blue") +
+    geom_vline(xintercept = median(data), size = 2, color = "green")
+
+  # Density plot with mean (blue) and median (green) lines
+  p02 <- qplot(data, geom = "density") +
+    geom_vline(xintercept = mean(data),   size = 2, color = "blue") +
+    geom_vline(xintercept = median(data), size = 2, color = "green")
+
+  # Boxplot with mean shown as blue dot
+  p03 <- qplot(data, geom = "boxplot") +
+    coord_flip() +
+    geom_point(aes(x = mean(data), y = 0), size = 3, color = "blue")
+
+  gridExtra::grid.arrange(p01, p02, p03, nrow = 1, top = title)
+}
+
+# Try it on different distributions:
+drawPlots(rnorm(10000, mean = 0, sd = 1),   "Normal distribution")
+drawPlots(rbeta(10000, 5, 1),               "Left skewed")
+drawPlots(rbeta(10000, 1, 5),               "Right skewed")
+```
+
+> 💡 **Blue line = mean. Green line = median.**
+> When they are far apart → skewed data!
+
+## Summary Stats on Iris
+```r
+data(iris)
+dim(iris)        # How many rows and columns?
+names(iris)      # What are the column names?
+str(iris)        # What type is each column?
+summary(iris[, -5])  # Summary stats for numeric columns only
+```
+
+## Histograms on Iris
+```r
+p01 <- qplot(iris$Sepal.Length, geom = "histogram", bins = 10,
+             main = "Sepal.Length", xlab = "Sepal.Length")
+p02 <- qplot(iris$Sepal.Width,  geom = "histogram", bins = 10,
+             main = "Sepal.Width",  xlab = "Sepal.Width")
+p03 <- qplot(iris$Petal.Length, geom = "histogram", bins = 10,
+             main = "Petal.Length", xlab = "Petal.Length")
+p04 <- qplot(iris$Petal.Width,  geom = "histogram", bins = 10,
+             main = "Petal.Width",  xlab = "Petal.Width")
+gridExtra::grid.arrange(p01, p02, p03, p04)
+```
+
+## Boxplots by Species (Multivariate)
+```r
+p01 <- qplot(Species, Sepal.Length, data = iris, geom = "boxplot")
+p02 <- qplot(Species, Sepal.Width,  data = iris, geom = "boxplot")
+p03 <- qplot(Species, Petal.Length, data = iris, geom = "boxplot")
+p04 <- qplot(Species, Petal.Width,  data = iris, geom = "boxplot")
+gridExtra::grid.arrange(p01, p02, p03, p04)
+```
+
+## Log Transformation on Mammals Dataset
+```r
+library(openintro)
+
+# Plot BEFORE transformation — very skewed!
+p01 <- qplot(mammals$body_wt,  geom = "density", main = "Body weight (original)")
+p02 <- qplot(mammals$brain_wt, geom = "density", main = "Brain weight (original)")
+gridExtra::grid.arrange(p01, p02, nrow = 1)
+
+# Apply the log transformation
+mammals$log_body_wt  <- log(mammals$body_wt)
+mammals$log_brain_wt <- log(mammals$brain_wt)
+
+# Plot AFTER transformation — much more normal!
+p03 <- qplot(mammals$log_body_wt,  geom = "density", main = "Body weight (log)")
+p04 <- qplot(mammals$log_brain_wt, geom = "density", main = "Brain weight (log)")
+gridExtra::grid.arrange(p03, p04, nrow = 1)
+
+# Build linear regression model on ORIGINAL data
+model1 <- lm(body_wt ~ brain_wt, data = mammals)
+r_sq1  <- cor(model1$fitted.values, mammals$body_wt) ^ 2
+cat("R-squared (original):", round(r_sq1, 3), "\n")
+
+# Build linear regression model on LOG-TRANSFORMED data
+model2 <- lm(log_body_wt ~ log_brain_wt, data = mammals)
+r_sq2  <- cor(model2$fitted.values, mammals$log_body_wt) ^ 2
+cat("R-squared (log transformed):", round(r_sq2, 3), "\n")
+# Result: R² improves from ~0.87 to ~0.92 — a 35% improvement!
+```
+
+---
+
+# Practical Examples
+
+## Example 1: The Iris Dataset
+
+The Iris dataset is built into R. It has measurements of 150 flowers from 3 species.
+
+| Column | What it is |
+|--------|-----------|
+| `Sepal.Length` | Length of the sepal (the outer green leaf of the flower) |
+| `Sepal.Width` | Width of the sepal |
+| `Petal.Length` | Length of the petal (the coloured part) |
+| `Petal.Width` | Width of the petal |
+| `Species` | Setosa, Versicolor, or Virginica |
+
+**What data exploration tells us:**
+- `Petal.Length` shows a **bimodal distribution** → Setosa is very different from the other two species
+- The boxplots by species show **Setosa is clearly separated** from the rest
+- This is good news for classification — the model should find it easy!
+
+## Example 2: The Mammals Dataset
+
+This dataset has body weight and brain weight for 62 mammal species.
+
+**Problem:** Body weight is very skewed (elephants weigh 6,654 kg; mice weigh 0.023 kg).
+
+**Solution:** Apply log transformation to both columns.
+
+**Result:** The linear regression model's R² improves from 0.87 to 0.92.
+
+**Lesson:** Always plot your data first! You might find that a simple transformation dramatically improves your model.
+
+---
+
+# Summary Points
+
+- **Mean** is the average. **Median** is the middle value. Use **median** when data is skewed or has outliers.
+- **Quartiles** divide sorted data into 4 equal groups. **IQR** = Q3 − Q1 (the range of the middle 50%).
+- **Histogram** = bar chart of frequencies. **Density plot** = smooth version of histogram. **Boxplot** = shows IQR, median, mean, and outliers.
+- A **boxplot** is useful for data scientists but **confusing for business users** — avoid in presentations.
+- The **normal distribution** (bell curve) is the ideal shape for most ML algorithms. Many algorithms assume your data is normally distributed.
+- **Skewed data** has a long tail on one side. The mean and median will be far apart.
+- Use the **log transformation** to convert right-skewed data into a more normal shape.
+- A **bimodal distribution** (two peaks) is a red flag — it means two different groups may be mixed in your data.
+- **Scatter plots** show the relationship between two columns. Look for diagonal patterns.
+- **Correlation** ranges from -1 to +1. Near ±1 = strong relationship. Near 0 = weak/none.
+- **`ggpairs()`** from the GGally library is your best friend for data exploration — it shows everything at once.
+- **Always plot your data BEFORE modelling.** Exploratory analysis helps you find problems and opportunities.
+- Do not delete outliers just because they look unusual. Ask: *"Is this a real value that could happen in future?"*
+
+---
+
+> 📝 **Space for More Notes:**
+> *(Add your questions or things to follow up on here)*
+
+---
+
+*Study guide created from: STAT9013 Week 2 slides (embedded in STAT9013 Week 1 PDF), Data Mining Week 3 Part 1 transcript (recap of Week 2), week2_code.R lab code, and the meeting transcript.*

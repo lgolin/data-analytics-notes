@@ -1,0 +1,592 @@
+---
+title: "STAT9005 — Practical R Test Preparation"
+subtitle: "Lab-based exam template | Follow the 5-step pipeline every time"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "Sections"
+    number-sections: true
+    theme: flatly
+    code-fold: false
+    highlight-style: tango
+execute:
+  echo: true
+  eval: false
+  warning: false
+---
+
+> 🎯 **What to expect in the practical test:** You get a dataset. You have ~1 hour. You must: (1) identify components, (2) decompose, (3) fit 2–3 models, (4) compare models, (5) choose the best and forecast. This file is your complete template — memorise the pipeline, then practice with real datasets.
+
+---
+
+# The 5-Step Exam Pipeline
+
+Every practical question follows this exact sequence. Learn it by heart.
+
+```
+STEP 1 → LOOK   : Plot the data. What do you see?
+STEP 2 → DECOMPOSE : Break it into components. Additive or multiplicative?
+STEP 3 → FIT    : Try 2-3 candidate models
+STEP 4 → COMPARE : Use AIC, RMSE, MAE to decide the best model
+STEP 5 → FORECAST : Generate predictions with confidence intervals
+         + DIAGNOSE residuals after every model
+```
+
+---
+
+# STEP 1 — Load Data & Plot
+
+## The setup — always start with this block
+
+```r
+# ============================================================
+# SETUP — run this at the start of EVERY practical
+# ============================================================
+library(forecast)
+library(tseries)   # for adf.test()
+library(TTR)       # for moving averages
+
+# --- Load a built-in R dataset ---
+# Built-in datasets you may see in the exam:
+# wineind       — Australian wine sales (monthly)
+# AirPassengers — airline passengers (monthly, classic!)
+# USAccDeaths   — US accidental deaths (monthly)
+# airmiles      — US airline miles (annual)
+# nottem        — Nottingham temperatures (monthly)
+
+data(wineind)   # example
+my_ts <- wineind
+
+# --- If the data comes as a plain vector (e.g., from a CSV) ---
+# raw_data <- read.csv("data.csv")
+# my_ts <- ts(raw_data$value, start = c(1980, 1), frequency = 12)
+# frequency: 12 = monthly, 4 = quarterly, 1 = annual
+```
+
+## Plotting and first inspection
+
+```r
+# ============================================================
+# STEP 1A — Plot the raw time series
+# ============================================================
+plot(my_ts, 
+     main = "Time Series Plot",
+     xlab = "Time", 
+     ylab = "Value")
+
+# What to look for and write in your answer:
+# ✅ Is there a TREND? (upward / downward / flat / changing?)
+# ✅ Is there SEASONALITY? (regular repeating waves?)
+# ✅ Is the variance CONSTANT or INCREASING?
+#    → Constant variance = additive model likely
+#    → Increasing variance = multiplicative model likely
+# ✅ Are there OUTLIERS? (unusual spikes?)
+# ✅ What is the FREQUENCY? (monthly = 12 peaks per year)
+```
+
+## Moving average (sometimes asked as Q1)
+
+```r
+# ============================================================
+# STEP 1B — Moving average (trend extraction)
+# ============================================================
+# For monthly data (frequency = 12), use order = 12
+ma_smooth <- ma(my_ts, order = 12)
+
+plot(my_ts, main = "Time Series with Moving Average")
+lines(ma_smooth, col = "red", lwd = 2)
+
+# Note: moving average loses 6 values at each end for order=12
+# This is NORMAL — not a coding error
+```
+
+---
+
+# STEP 2 — Decompose the Series
+
+## Basic decomposition
+
+```r
+# ============================================================
+# STEP 2A — Classical decomposition (decompose)
+# ============================================================
+
+# Try BOTH — then decide which is better
+decomp_add  <- decompose(my_ts, type = "additive")
+decomp_mult <- decompose(my_ts, type = "multiplicative")
+
+# Plot both and compare
+par(mfrow = c(1,1))
+plot(decomp_add,  main = "Additive Decomposition")
+plot(decomp_mult, main = "Multiplicative Decomposition")
+
+# How to decide which is better:
+# Look at the REMAINDER (random) component
+# ✅ Good: random-looking scatter with no obvious pattern
+# ❌ Bad: still has visible waves or trend in the remainder
+```
+
+## STL decomposition (preferred method)
+
+```r
+# ============================================================
+# STEP 2B — STL decomposition (better — no missing values)
+# ============================================================
+stl_result <- stl(my_ts, s.window = "periodic")
+autoplot(stl_result)
+
+# Advantages of STL over decompose():
+# ✅ No missing values at start/end
+# ✅ More robust to outliers
+# ✅ Can control seasonal window flexibility
+
+# If data is MULTIPLICATIVE, take logs first:
+# stl_result <- stl(log(my_ts), s.window = "periodic")
+```
+
+## Seasonally adjusted series
+
+```r
+# ============================================================
+# STEP 2C — Remove seasonal component (seasonal adjustment)
+# ============================================================
+# This is sometimes asked as a separate question
+seasonally_adjusted <- my_ts - decomp_add$seasonal
+
+plot(my_ts, main = "Original vs Seasonally Adjusted")
+lines(seasonally_adjusted, col = "blue", lwd = 2)
+legend("topleft", c("Original", "Seasonally Adjusted"), 
+       col = c("black", "blue"), lty = 1)
+```
+
+---
+
+# STEP 3 — Fit Models
+
+## How to choose which models to try
+
+```
+Look at your data description from Step 1:
+├── No trend, no seasonality    → try SES + Holt (to compare)
+├── Trend only                  → try Holt linear + Holt damped
+├── Trend + stable seasonality  → try HW Additive + HW Additive Damped
+└── Trend + growing seasonality → try HW Multiplicative + HW Mult. Damped
+```
+
+## Fitting all three ETS methods
+
+```r
+# ============================================================
+# STEP 3 — Fit 2-3 candidate models
+# ============================================================
+
+# --- MODEL 1: Simple Exponential Smoothing (no trend, no season) ---
+m1 <- ets(my_ts, model = "ANN")           # ETS(A,N,N)
+summary(m1)
+
+# --- MODEL 2: Holt's method (trend, no season) ---
+m2 <- holt(my_ts, h = 12)                 # linear trend
+m2d <- holt(my_ts, damped = TRUE, h = 12) # damped trend
+
+# --- MODEL 3: Holt-Winters (trend + seasonality) ---
+m3a <- hw(my_ts, seasonal = "additive",       h = 12)
+m3m <- hw(my_ts, seasonal = "multiplicative", h = 12)
+
+# --- MODEL 4: Let R choose automatically ---
+m_auto <- ets(my_ts)    # R finds best ETS model
+summary(m_auto)
+# The ETS code shown tells you what R selected
+# e.g., "ETS(M,Ad,M)" = multiplicative error, damped additive trend, multiplicative season
+
+# --- For ARIMA ---
+# Check stationarity first (see STEP 3B below)
+arima_auto <- auto.arima(my_ts, seasonal = TRUE)
+summary(arima_auto)
+```
+
+## ARIMA-specific steps
+
+```r
+# ============================================================
+# STEP 3B — ARIMA preparation (stationarity check)
+# ============================================================
+
+# 1. Plot the series (already done in Step 1)
+# 2. Plot ACF of original data
+acf(my_ts,  lag.max = 40, main = "ACF of original series")
+pacf(my_ts, lag.max = 40, main = "PACF of original series")
+
+# ACF decays very slowly → series is NOT stationary → need differencing
+
+# 3. Formal stationarity test
+adf.test(my_ts)
+# p < 0.05 → stationary ✅
+# p > 0.05 → NOT stationary, must difference ❌
+
+# 4. If not stationary: difference
+my_ts_diff <- diff(my_ts)          # first difference (removes trend)
+my_ts_diff2 <- diff(my_ts, differences = 2)  # second difference (rare)
+
+# Re-check after differencing
+adf.test(my_ts_diff)
+plot(my_ts_diff, main = "Differenced Series")
+acf(my_ts_diff,  lag.max = 40)
+pacf(my_ts_diff, lag.max = 40)
+
+# 5. Use ACF/PACF of stationary series to choose p and q
+# Remember:
+# PACF cuts off at lag p → AR(p)
+# ACF cuts off at lag q  → MA(q)
+# Both decay slowly      → ARMA(p,q)
+
+# 6. Fit ARIMA
+arima_model <- arima(my_ts, order = c(1, 1, 1))  # example
+# or let R choose:
+arima_auto <- auto.arima(my_ts, seasonal = TRUE)
+summary(arima_auto)
+```
+
+---
+
+# STEP 4 — Compare Models
+
+## Read the accuracy() output
+
+```r
+# ============================================================
+# STEP 4 — Compare models using error metrics
+# ============================================================
+
+# Option A: accuracy on training data
+accuracy(m3a)
+accuracy(m3m)
+accuracy(arima_auto)
+
+# Option B: proper train/test split (more rigorous)
+n <- length(my_ts)
+train <- window(my_ts, end = time(my_ts)[round(n * 0.8)])
+test  <- window(my_ts, start = time(my_ts)[round(n * 0.8) + 1])
+
+m_train <- ets(train)
+acc <- accuracy(forecast(m_train, h = length(test)), test)
+print(acc)
+```
+
+## Interpreting the accuracy() output
+
+```
+The output looks like this:
+                  ME      RMSE      MAE      MPE     MAPE    MASE
+Training set  0.625   13.996    7.743  0.0868   2.200   0.859
+Test set      2.807   14.733   13.302  0.4968   3.072   1.475
+
+KEY NUMBERS TO FOCUS ON:
+→ Test set RMSE: how far off forecasts are on unseen data (lower = better)
+→ Test set MAE:  average absolute error (lower = better)
+→ Test set MAPE: % error (lower = better, good for cross-dataset comparison)
+→ ACF1: autocorrelation in residuals (should be close to 0)
+```
+
+## Comparing AIC between models
+
+```r
+# Get AIC from ETS models
+m3a$aic
+m3m$aic
+m_auto$aic
+
+# Get AIC from ARIMA models
+arima_auto$aic    # or summary(arima_auto) shows AIC
+
+# RULE: Lower AIC = better model (when comparing same dataset)
+# But also look at RMSE — they don't always agree!
+
+# Example interpretation (write this in your exam):
+# "Model 3m (HW Multiplicative) has AIC = 3646 vs Model 3a (AIC = 3649).
+#  RMSE is also lower for Model 3m (21.47 vs 21.75).
+#  Both metrics favour Model 3m — this is selected as the preferred model."
+```
+
+---
+
+# STEP 5 — Diagnose Residuals & Forecast
+
+## Residual diagnostics (CRITICAL — always do this)
+
+```r
+# ============================================================
+# STEP 5A — Residual diagnostics
+# ============================================================
+
+# Get residuals from your chosen model
+ee <- residuals(m3m)         # for ETS/HW models
+# ee <- residuals(arima_auto)  # for ARIMA models
+
+# --- Standardise for easier reading ---
+es <- (ee - mean(ee, na.rm = TRUE)) / sd(ee, na.rm = TRUE)
+summary(es)
+
+# --- Four diagnostic plots ---
+par(mfrow = c(2, 2))
+
+hist(es, main = "Histogram of Std. Residuals", 
+     xlab = "Standardised Residual", col = "lightblue")
+
+boxplot(es, main = "Boxplot of Std. Residuals", 
+        ylab = "Standardised Residual", col = "lightblue")
+
+qqnorm(es, pch = 16, main = "Normal Q-Q Plot")
+qqline(es, col = "red", lwd = 2)
+
+plot(es, type = "p", pch = 16, main = "Residuals over Time",
+     ylab = "Standardised Residual")
+abline(h = c(-3, -2, 0, 2, 3), 
+       col = c("green", "blue", "red", "blue", "green"), 
+       lwd = 2, lty = c(2, 2, 1, 2, 2))
+
+par(mfrow = c(1, 1))  # reset plot window
+
+# --- Ljung-Box test for autocorrelation in residuals ---
+Box.test(ee, lag = 20, type = "Ljung-Box")
+# p > 0.05 → residuals are white noise → MODEL IS GOOD ✅
+# p < 0.05 → residuals have structure  → needs improvement ❌
+
+# --- Quick all-in-one check (for ARIMA) ---
+checkresiduals(arima_auto)
+```
+
+## How to write your residual interpretation
+
+::: {.callout-note title="Template for residual interpretation in the exam"}
+*"The histogram of standardised residuals shows an approximately symmetric, bell-shaped distribution. The Q-Q plot shows points following the diagonal line closely, with minor departure in the tails. The residuals over time show a random scatter with most values between ±2. The Ljung-Box test gives p = 0.23 > 0.05, confirming the residuals are white noise. We conclude the model is appropriate."*
+:::
+
+::: {.callout-warning title="Template when residuals are NOT perfect"}
+*"The Q-Q plot shows some departure from normality in the upper tail. The Ljung-Box test gives p = 0.04 < 0.05, suggesting some remaining autocorrelation in the residuals. This indicates the model may not fully capture all structure in the data. Despite this, the model is retained as the best available option, but results should be interpreted with caution."*
+:::
+
+## Generate the forecast
+
+```r
+# ============================================================
+# STEP 5B — Generate and plot the forecast
+# ============================================================
+
+# Forecast 12 periods ahead (typical exam request)
+fc <- forecast(m3m, h = 12)
+
+# Plot forecast with confidence intervals
+autoplot(fc) +
+  ggtitle("Forecast — Holt-Winters Multiplicative") +
+  xlab("Time") + ylab("Value")
+
+# Print forecast values
+print(fc)
+# Output shows:
+# Point forecast + 80% CI (Lo 80, Hi 80) + 95% CI (Lo 95, Hi 95)
+
+# For ARIMA:
+fc_arima <- forecast(arima_auto, h = 12)
+autoplot(fc_arima)
+```
+
+---
+
+# Full Exam Template — Copy & Run
+
+This is the complete pipeline in one block. In the exam, copy this, swap in your dataset, and work through it.
+
+```r
+# ============================================================
+# STAT9005 PRACTICAL EXAM — COMPLETE TEMPLATE
+# Replace: my_ts, h (forecast horizon), model choices
+# ============================================================
+
+library(forecast)
+library(tseries)
+library(TTR)
+
+# ---- 0. LOAD DATA ----
+my_ts <- wineind   # <-- CHANGE THIS to your dataset
+
+# ---- 1. LOOK ----
+plot(my_ts, main = "Raw Time Series", xlab = "Time", ylab = "Value")
+# Write observations: trend? seasonality? additive/multiplicative?
+
+ma_line <- ma(my_ts, order = frequency(my_ts))
+lines(ma_line, col = "red", lwd = 2)
+
+# ---- 2. DECOMPOSE ----
+decomp_add  <- decompose(my_ts, type = "additive")
+decomp_mult <- decompose(my_ts, type = "multiplicative")
+plot(decomp_add)
+plot(decomp_mult)
+
+stl_res <- stl(my_ts, s.window = "periodic")
+autoplot(stl_res)
+
+# ---- 3. FIT MODELS (ETS) ----
+m1 <- ets(my_ts, model = "ANN")    # SES
+m2 <- ets(my_ts, model = "AAN")    # Holt
+m3 <- ets(my_ts, model = "AAA")    # HW Additive
+m4 <- ets(my_ts, model = "AAM")    # HW Multiplicative (may need damped)
+m5 <- ets(my_ts)                   # Auto
+
+# ---- 3B. FIT MODELS (ARIMA) ----
+adf.test(my_ts)                    # stationarity check
+acf(my_ts,  lag.max = 40)
+pacf(my_ts, lag.max = 40)
+
+arima_mod <- auto.arima(my_ts, seasonal = TRUE)
+summary(arima_mod)
+
+# ---- 4. COMPARE ----
+cat("=== Model Comparison ===\n")
+cat("SES    AIC:", m1$aic, " RMSE:", accuracy(m1)[,"RMSE"], "\n")
+cat("Holt   AIC:", m2$aic, " RMSE:", accuracy(m2)[,"RMSE"], "\n")
+cat("HW Add AIC:", m3$aic, " RMSE:", accuracy(m3)[,"RMSE"], "\n")
+cat("HW Mul AIC:", m4$aic, " RMSE:", accuracy(m4)[,"RMSE"], "\n")
+cat("ARIMA  AIC:", arima_mod$aic, "\n")
+
+# ---- 5A. RESIDUALS (for chosen model — change best_model) ----
+best_model <- m4   # <-- change to your best model
+
+ee <- residuals(best_model)
+es <- (ee - mean(ee, na.rm = TRUE)) / sd(ee, na.rm = TRUE)
+
+par(mfrow = c(2, 2))
+hist(es, main = "Histogram", col = "lightblue")
+boxplot(es, main = "Boxplot", col = "lightblue")
+qqnorm(es, pch = 16); qqline(es, col = "red", lwd = 2)
+plot(es, type = "p", pch = 16, main = "Residuals over Time")
+abline(h = c(-3,-2,0,2,3), col = c("green","blue","red","blue","green"),
+       lwd = 2, lty = c(2,2,1,2,2))
+par(mfrow = c(1,1))
+
+Box.test(ee, lag = 20, type = "Ljung-Box")
+
+# ---- 5B. FORECAST ----
+fc <- forecast(best_model, h = 12)   # h = periods to forecast
+autoplot(fc) + ggtitle("Forecast")
+print(fc)
+```
+
+---
+
+# Practice Datasets — Run These Before the Exam
+
+Work through each dataset using the full template above. These are the exact datasets mentioned in lectures.
+
+## Dataset 1: wineind (Wine Industry — monthly)
+
+```r
+library(forecast)
+my_ts <- wineind
+# Expected findings:
+# - Monthly data, frequency = 12
+# - Clear trend and seasonality
+# - Additive model likely appropriate (relatively stable variance)
+# - Best model likely: HW Additive or HW Additive Damped
+```
+
+## Dataset 2: AirPassengers (Airline passengers — monthly, classic!)
+
+```r
+my_ts <- AirPassengers
+# Expected findings:
+# - Monthly data 1949–1960, frequency = 12
+# - Strong upward trend + seasonal peaks in summer
+# - INCREASING variance → multiplicative model
+# - Log transform before ARIMA
+# - Best classical model: HW Multiplicative
+# - Best ARIMA: auto.arima will suggest ARIMA with d=1 and D=1
+```
+
+## Dataset 3: USAccDeaths (Monthly, no strong trend)
+
+```r
+my_ts <- USAccDeaths
+# Expected findings:
+# - Monthly data, frequency = 12
+# - Clear seasonality (summer peaks), relatively flat trend
+# - Additive model
+```
+
+## Dataset 4: airmiles (Annual — no seasonality)
+
+```r
+my_ts <- ts(airmiles)
+# Expected findings:
+# - Annual data (frequency = 1)
+# - Clear trend, NO seasonality
+# - Best classical model: Holt or SES
+```
+
+---
+
+# Reading R Output — What to Say in the Exam
+
+## Reading `summary(ets_model)` output
+
+```
+ETS(M,Ad,M)        ← Model type: Multiplicative error, Additive Damped trend, Multiplicative season
+  Smoothing parameters:
+    alpha = 0.4106  ← level parameter (moderate memory)
+    beta  = 0.0001  ← trend parameter (very slow trend updates)
+    gamma = 0.0001  ← season parameter (very stable seasonality)
+    phi   = 0.9800  ← damping parameter (close to 1 = slight damping)
+
+  AIC = 2840.88    ← use to compare models (lower = better)
+  AICc = 2843.12
+  BIC = 2891.44
+```
+
+**What to write:** *"R selected ETS(M,Ad,M) — multiplicative error, damped additive trend, and multiplicative seasonality. Alpha = 0.41 indicates moderate memory. AIC = 2840.88."*
+
+## Reading `accuracy()` output
+
+```
+                  ME     RMSE      MAE    MPE    MAPE    MASE   ACF1
+Training set  0.625   13.996    7.743  0.087   2.200   0.859  0.001
+Test set      2.807   14.733   13.302  0.497   3.072   1.475  0.120
+```
+
+**What to write:** *"On the test set, the model has RMSE = 14.73 and MAE = 13.30. MAPE = 3.07%, indicating the average forecast error is about 3% of the actual value. ACF1 = 0.12, close to zero, suggesting minimal autocorrelation in residuals."*
+
+## Reading `auto.arima()` output
+
+```
+Series: my_ts
+ARIMA(1,1,1)(1,1,1)[12]    ← chosen model
+
+Coefficients:
+      ar1     ma1    sar1    sma1
+    0.189  -0.578   0.012  -0.559
+
+AIC=1159.84   AICc=1160.31   BIC=1178.67
+```
+
+**What to write:** *"auto.arima selected SARIMA(1,1,1)(1,1,1)₁₂ — one non-seasonal AR and MA term, with one seasonal AR and MA term. The data required one regular difference (d=1) and one seasonal difference (D=1) to achieve stationarity. AIC = 1159.84."*
+
+---
+
+# Exam Time Management
+
+| Task | Suggested time |
+|---|---|
+| Load data + plot + describe | 5 min |
+| Decomposition (both types) + comment | 8 min |
+| Fit 2–3 models | 5 min |
+| Compare with accuracy() + AIC | 5 min |
+| Residual diagnostics + Ljung-Box | 8 min |
+| Forecast + plot | 5 min |
+| Write interpretations | 14 min |
+| **Total** | **~50 min** |
+
+> 💡 **Pro tip:** Write your interpretation as you go — one or two sentences after each output. Don't leave all writing to the end. Your professor said: *"I'm interested that you are able to interpret the results in R."* — interpretation matters as much as the code.
+
+---
+
+*Practical Prep Complete. Run through the AirPassengers and wineind datasets at least twice using the full template before your exam.*

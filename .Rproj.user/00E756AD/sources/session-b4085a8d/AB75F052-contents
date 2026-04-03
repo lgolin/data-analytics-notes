@@ -1,0 +1,145 @@
+options(scipen=999)
+
+# create data
+set.seed(1)
+x1 <- seq(-2,2,0.5)
+jitter<-0.3
+y1 <- (x1^2)-6
+x1 <- x1+rnorm(length(x1))*jitter
+plot(x1,y1,xlim=c(-8,10),ylim=c(-8,10),pch=1)
+
+x <- x1
+y <- y1
+jitter<-0.8
+x2 <- seq(-7,-5,0.4)
+y2 <- -x2
+x2 <- x2+rnorm(length(x2))*jitter
+points(x2,y2,pch=2)
+x <- c(x,x2)
+y <- c(y,y2)
+jitter<-1.2
+x3 <- seq(5,9,0.5)
+y3 <- 0.4 *rnorm(length(x3))*jitter
+points(x3,y3,pch=3)
+x <- c(x,x3)
+y <- c(y,y3)
+
+# plot x against y
+plot(x,y)
+
+# build models
+# setup data
+#par(mfrow=c(1,3))
+all_vars <- c("all_vars",setdiff(ls(),c("x","y")))
+rm(list=all_vars)
+# scenario 1
+xMin <- -8
+xMax <- 12
+yMin <- -8
+yMax <- 12
+
+# scenario 2
+xMin <- -10
+xMax <- 15
+yMin <- -50
+yMax <- 50
+df <- data.frame(cbind(x,y))
+
+printMetrics <- function (pr,actuals)
+{
+  errors <- pr - actuals
+  MAE <-mean(abs(errors))
+  MSE <-mean(errors^2)
+  RMSE <-sqrt(MSE)
+  R_Square <- cor(pr,actuals) ^2
+  print(sprintf("Mean Absolute Error (MAE)=%.2f", round(MAE,4)))
+  print(sprintf("Mean Squared Error (MSE)=%.2f", round(MSE,4)))
+  print(sprintf("Root Mean Squared Error (RMSE)=%.2f", round(RMSE,4)))
+  print(sprintf("R_Square=%.2f", round(R_Square,4)))
+}
+
+# model 1: simple linear regression
+head(df)
+model1 <- lm(y~.,data=df)
+pr <- predict(model1,df)
+printMetrics(pr,df$y)
+plot(df$x,df$y,xlim=c(xMin,xMax),ylim=c(yMin,yMax),pch=4,main="High bias model (underfit)")
+abline(coef(model1),lty=2,col="red")
+
+# model 2: polynomial linear regression, degree 3
+# create extra columns to use as predictor variables
+max_degree<-3
+for (i in 2:max_degree)
+{
+  col<-paste("x",i,sep="")
+  df[,col] <- df$x^i
+}
+head(df)
+model2 <- lm(y~.,data=df)
+pr <- predict(model2,df)
+printMetrics(pr,df$y)
+xplot2 <- seq(xMin,xMax,0.1)
+yplot2 <- (xplot2^0)*model2$coefficients[1]
+for (i in 1:max_degree)
+  yplot2 <- yplot2 +(xplot2^i)*model2$coefficients[i+1]
+plot(x,y,xlim=c(xMin,xMax),ylim=c(yMin,yMax),pch=4,main="Good fit")
+points(xplot2,yplot2,col="blue", cex=0.5)
+
+# model 2: polynomial linear regression, degree 6
+# create extra columns to use as predictor variables
+max_degree<-6
+for (i in 2:max_degree)
+{
+  col<-paste("x",i,sep="")
+  df[,col] <- df$x^i
+}
+head(df)
+summary(df$y)
+
+model3 <- lm(y~.,data=df)
+pr <- predict(model3,df)
+printMetrics(pr,df$y)
+xplot3 <- seq(xMin,xMax,0.1)
+yplot3 <- (xplot3^0)*model3$coefficients[1]
+for (i in 1:max_degree)
+  yplot3 <- yplot3 +(xplot3^i)*model3$coefficients[i+1]
+plot(x,y,xlim=c(xMin,xMax),ylim=c(yMin,yMax),pch=4,main="High variance model (overfit)")
+points(xplot3,yplot3,col="green", cex=0.5,pch=2)
+
+
+
+
+
+# plot showing all three models
+plot(x,y,xlim=c(xMin,xMax),ylim=c(yMin,yMax),pch=4,main="Three regression models")
+abline(coef(model1),lty=2,col="red")
+points(xplot2,yplot2,col="blue", cex=0.5)
+points(xplot3,yplot3,col="green", cex=0.5,pch=2)
+
+### lets investigate further
+summary(model1)
+summary(model2)
+summary(model3)
+
+summary(model2)
+
+
+MSE2 <- c(crossprod(model2$residuals)) / length(model2$residuals)
+
+model2a <- lm(y~x+x2+x3,data=df)
+MSE2a <- c(crossprod(model2a$residuals)) / length(model2a$residuals)
+print(MSE2)
+print(MSE2a)
+
+model2a <- lm(y~x2+x3,data=df)
+summary(model2a)
+MSE2a <- c(crossprod(model2a$residuals)) / length(model2a$residuals)
+print(MSE2)
+print(MSE2a)
+
+model2a <- lm(y~x2,data=df)
+MSE2a <- c(crossprod(model2a$residuals)) / length(model2a$residuals)
+print(MSE2)
+print(MSE2a)
+
+

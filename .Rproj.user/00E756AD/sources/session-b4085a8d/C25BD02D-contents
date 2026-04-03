@@ -1,0 +1,376 @@
+# week4_stat9013.Rmd
+
+
+
+# Code block 1
+library(tidyverse)
+library(tidymodels)
+if (!require("titanic"))
+  devtools::install_github("paulhendricks/titanic")
+library("titanic")
+
+
+
+
+
+# Code block 2
+library(rpart)
+library(rpart.plot)
+library(titanic)
+
+data(titanic_train)
+set.seed(42)
+
+# split data into two sets, 90% used for training, 10% for evaluation
+nobs <- nrow(titanic_train)
+train <- sample(nobs, 0.9*nobs)
+test <- setdiff(seq_len(nobs),train)
+
+# select columns to use to train and predict for
+target <- "Survived"
+colsToIgnore <- c("PassengerId","Name","Cabin","Ticket")
+input <- setdiff(names(titanic_train),c(target,colsToIgnore))
+
+
+
+
+
+
+# Code block 3
+# fix problem with 2 rows with empty data for Embarked
+titanic_train[titanic_train$Embarked=="",]$Embarked = "S"
+
+train_data <- titanic_train[train, c(input, target)]
+test_data <- titanic_train[test, c(input, target)]
+
+# fill in missing ages ,note how we get the mean of the training data
+meanAge <- mean(train_data$Age,na.rm=TRUE)
+train_data[is.na(train_data$Age),]$Age <- meanAge
+test_data[is.na(test_data$Age),]$Age <- meanAge
+
+
+
+
+
+# Code block 4
+# we are predicting on the 'Survived' field,
+#  using the rows in train and the columns in the input array
+rpart <- rpart(Survived ~ .,data=train_data,method="class")
+
+# get predicted values for the TEST set
+pr <- predict(rpart, newdata=test_data,type="class")
+# generate the confusion matrix
+tab <- table(pr,test_data$Survived)
+# columns are ACTUALS, ROWS are PREDICTED
+accuracy <- 100 * sum(diag(tab) / sum(tab))
+
+print(tab)
+print(accuracy)
+
+
+
+
+
+# Code block 5
+print (tab)
+
+
+
+
+
+# Code block 6
+actuals <- factor(titanic_train[test,]$Survived,levels=c(1,0))
+pr <- factor(pr,levels=c(1,0))
+tab <- table(pr,actuals)
+print (tab)
+
+
+
+
+
+# Code block 7
+print(tab)
+TP <- tab[1,1];FP <- tab[1,2];FN <- tab[2,1];TN <- tab[2,2]
+lines <- sprintf("True Positive=%i, i.e. those who did survive AND model agreed ", TP)
+lines <- c(lines,sprintf("False Positive=%i, i.e. those who did NOT survive BUT the model predicted they did survive: ", FP))
+lines <- c(lines,sprintf("False Negative=%i, i.e. those who did survive BUT the model thought they did not survive: ", FN))
+lines <- c(lines,sprintf("True Negative=%i, i.e. those who did NOT survive AND model agreed: ", TN))
+cat(paste(lines, collapse='\n'))
+
+
+
+
+
+# Code block 8
+precision <- TP / (TP+FP)
+recall <- TP / (TP+FN)
+F1 <- 2 * (precision * recall) / (precision + recall)
+lines <- sprintf("Precision=%i / (%i+%i) = %.2f ", TP,TP,FP,precision)
+lines <- c(lines,sprintf("Recall=%i / (%i+%i) = %.2f ", TP,TP,FN,recall))
+lines <- c(lines,sprintf("F1 = %.2f ", F1))
+cat(paste(lines, collapse='\n'))
+
+
+
+
+
+# Code block 9
+pr <- predict(rpart, newdata=titanic_train[test, c(input, target)],type="class")
+pr[1:3]
+pr <- predict(rpart, newdata=titanic_train[test, c(input, target)])
+head(pr,3)
+
+
+
+
+
+# Code block 10
+library(tidymodels)
+test_data$predicted <- pr[,2]
+test_data$Survived <- factor(test_data$Survived,levels=c(1,0))
+autoplot(roc_curve(test_data,Survived,predicted))
+
+
+
+
+
+# Code block 11
+auc <- roc_auc(test_data,Survived,predicted)
+print(auc)
+
+
+
+
+
+# Code block 12
+pr <- predict(rpart, newdata=titanic_train[test, c(input, target)],type="class")
+pr[1:3]
+pr <- predict(rpart, newdata=titanic_train[test, c(input, target)])
+head(pr,3)
+
+
+
+
+
+# Code block 13
+autoplot(pr_curve(test_data,Survived,predicted))
+
+
+
+
+
+# Code block 14
+# create a prior belief
+prior <- table(train_data$Survived) / nrow(train_data)
+sprintf("Our prior belief is the overall probability someone survived = %.2f", prior[2])
+
+#now lets calculate the probability that a woman in first class survived
+tab <- table(train_data$Sex,train_data$Survived)
+likelihood <- tab[1,] / sum(tab[1,])
+sprintf("The probability that a woman survived = %.2f", likelihood[2])
+posterior <- prior * likelihood / sum(prior * likelihood)
+sprintf("Posterior probability (person was a woman) is  = %.2f", posterior[2])
+
+
+
+
+
+# Code block 15
+# our old posterior becomes our new prior
+prior <- posterior
+tab <- table(train_data$Pclass,train_data$Survived)
+likelihood <- tab[1,] / sum(tab[1,])
+sprintf("The probability that a first class passenger survived = %.2f", likelihood[2])
+posterior <- prior * likelihood / sum(prior * likelihood)
+sprintf("Posterior probability (person was a woman AND in 1st class) is  = %.2f", posterior[2])
+# See http://psych.fullerton.edu/mbirnbaum/bayes/BayesCalc.htm
+
+
+
+
+
+# Code block 16
+library(e1071)
+nb_model <- naiveBayes(Survived ~ .,data = train_data)
+nb_model
+
+
+
+
+
+# Code block 17
+# get predicted values for the TEST set
+pr <- predict(nb_model, newdata=test_data,type ="raw")
+pr <- ifelse(pr[,1] < 0.5,1,0)
+
+# generate the confusion matrix, columns are ACTUALS, ROWS are PREDICTED
+pr <- factor(pr,levels=c(1,0))
+tab <- table(pr,actuals)
+accuracy <- 100 * sum(diag(tab) / sum(tab))
+print(tab)
+print(accuracy)
+
+
+
+
+
+# Code block 18
+library(kernlab)
+svm_model <- ksvm(Survived ~ .,data = train_data,
+                  kernel="rbfdot",prob.model=TRUE)
+svm_model
+
+
+
+
+
+# Code block 19
+# get predicted values for the TEST set
+pr <- predict(svm_model, newdata=test_data,type="response")
+pr <- ifelse(pr > 0.5,1,0)
+
+# generate the confusion matrix, columns are ACTUALS, ROWS are PREDICTED
+pr <- factor(pr,levels=c(1,0))
+tab <- table(pr,actuals)
+accuracy <- 100 * sum(diag(tab) / sum(tab))
+print(tab)
+print(accuracy)
+
+
+
+
+
+# Code block 20
+# sampling without Replacement
+# select 90 values from 1 to 100
+tmp <- sample(100, 90)
+length(unique(tmp)) # there are 90 unique values
+
+
+
+
+
+# Code block 21
+# sampling with Replacement
+# select 90 values from 1 to 100
+tmp <- sample(90, 90, replace = TRUE)
+length(unique(tmp)) # approx 55 unique items (.63*90)
+# how many times each element was selected.
+#  some will be missing, others will be selected more than once
+table(tmp)
+
+
+
+
+
+# Code block 22
+library(randomForest)
+rf_model <- randomForest(as.factor(Survived) ~ .,data = train_data)
+rf_model
+
+
+
+
+
+# Code block 23
+# get predicted values for the TEST set
+pr <- predict(rf_model, newdata=test_data,type="class")
+
+# generate the confusion matrix, columns are ACTUALS, ROWS are PREDICTED
+pr <- factor(pr,levels=c(1,0))
+tab <- table(pr,actuals)
+accuracy <- 100 * sum(diag(tab) / sum(tab))
+print(tab)
+print(accuracy)
+
+
+
+
+
+# Code block 24
+plot(rf_model,main="Error Rates Random Forest titanic_train")
+legend("topright", c("OOB", "0", "1"), text.col=1:6, lty=1:3, col=1:3)
+
+
+
+
+
+# Code block 25
+varImpPlot(rf_model,type=2)
+
+
+
+
+
+# Code block 26
+library(neuralnet)
+library(caret)
+
+dmy <- dummyVars(" ~ .", data = train_data)
+trsf <- data.frame(predict(dmy, newdata = train_data))
+
+range01 <- function(x){(x-min(x))/(max(x)-min(x))}
+trsf$Age <- range01(trsf$Age)
+trsf$Fare <- range01(trsf$Fare)
+trsf$SibSp <- range01(trsf$SibSp)
+trsf$Parch <- range01(trsf$Parch)
+head(trsf)
+
+
+
+
+
+# Code block 27
+nn_model2 <- neuralnet(as.factor(Survived) ~ .,data = trsf,
+                 hidden=c(2,2),linear.output = FALSE,stepmax = 1e6)
+#plot(nn_model2)
+
+
+
+
+
+# Code block 28
+trsfTest <- data.frame(predict(dmy, newdata = test_data))
+trsfTest$Age <- range01(trsfTest$Age)
+trsfTest$Fare <- range01(trsfTest$Fare)
+trsfTest$SibSp <- range01(trsfTest$SibSp)
+trsfTest$Parch <- range01(trsfTest$Parch)
+
+
+
+
+
+# Code block 29
+# get predicted values for the TEST set
+pr <- predict(nn_model2, newdata=trsfTest)
+pr <- ifelse(pr[,1] < 0.5,1,0)
+
+# generate the confusion matrix, columns are ACTUALS, ROWS are PREDICTED
+pr <- factor(pr,levels=c(1,0))
+tab <- table(pr,actuals)
+accuracy <- 100 * sum(diag(tab) / sum(tab))
+print(tab)
+print(accuracy)
+
+
+
+
+
+# Code block 30
+library(nnet)
+nn_model1 <- nnet(as.factor(Survived) ~ .,data = train_data,size=10)
+
+
+
+
+
+# Code block 31
+# get predicted values for the TEST set
+pr <- predict(nn_model1, newdata=test_data,type="class")
+
+# generate the confusion matrix, columns are ACTUALS, ROWS are PREDICTED
+pr <- factor(pr,levels=c(1,0))
+tab <- table(pr,actuals)
+accuracy <- 100 * sum(diag(tab) / sum(tab))
+print(tab)
+print(accuracy)

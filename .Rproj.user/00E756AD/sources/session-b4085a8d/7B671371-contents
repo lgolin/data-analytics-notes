@@ -1,0 +1,692 @@
+---
+title: "Week 1 – Data Analysis Protocol"
+subtitle: "Predictive Analytics / Regression Analysis"
+author: "Study Guide"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "Contents"
+    code-fold: false
+    theme: cosmo
+    highlight-style: github
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+> 📝 **Note to self:** These notes are a living document. Add your own annotations, extra examples, and corrections as you go through the course.
+
+---
+
+# Key Topics — Week 1
+
+- The 5-step Data Analysis Protocol
+- What makes a good research hypothesis (simple, specific, stated in advance)
+- Study design basics (variables, sampling, replication)
+- Measurement scales, precision, and accuracy
+- Initial Data Analysis (IDA) and Exploratory Data Analysis (EDA)
+- Data visualisation and Anscombe's Quartet
+- Missing data: types, patterns, and imputation methods
+- Outliers: what they are and why they matter
+- Model assumptions for linear models
+- Data transformation
+- Interpreting plots and correlation coefficients (**the exam skill**)
+
+---
+
+# Part 1 – The 5-Step Data Analysis Protocol
+
+Think of a data analysis project like cooking a meal. You wouldn't just throw ingredients in a pot — you follow steps. In data analysis, those steps are:
+
+1. **Define the research problem and collect the data**
+2. **Initial data analysis (IDA / EDA)**
+3. **Model Fitting**
+4. **Model Interpretation**
+5. **Model Validation**
+
+> 💬 *From the lecture:* "The first chapter covers the more important initial steps to a data analysis project — EDA, graphical and numerical methods, outlier detection, missing values, testing assumptions, and transforming variables."
+
+We focus on **Steps 1 and 2** this week.
+
+---
+
+# Part 2 – Defining the Research Problem
+
+## 2.1 What Is a Research Hypothesis?
+
+Before collecting a single data point, you need to know **what question you are trying to answer**. This is your **research hypothesis**.
+
+> A hypothesis is just a question that you want to answer, framed clearly enough that you can actually test it with data.
+
+The lecturer's golden rule: **"Statistics means what it says. When you interpret your plots and findings, just say what you see."**
+
+### A Good Hypothesis Is:
+
+| Property | Meaning | Example |
+|---|---|---|
+| **Simple** | One predictor, one outcome | Does smoking affect lung capacity? |
+| **Specific** | No ambiguity about subjects or variables | Does cigarette smoking (yes/no) reduce FEV1 (litres) in adults aged 18–65? |
+| **Stated in advance** | Written *before* you look at the data | Prevents fishing for results |
+
+### Simple vs. Complex Hypotheses
+
+A **simple hypothesis** has:
+- **1 predictor variable** (the thing you think causes an effect), AND
+- **1 outcome variable** (the thing you are measuring)
+
+A **complex hypothesis** has more than one of either. The trick: **break complex hypotheses into multiple simple ones**.
+
+**Example — Combining predictors:** Instead of separating vaping, cigarettes, cigars, and pipes, you might combine them into one variable: *smoker vs. non-smoker*. That is a combined predictor.
+
+### Specific Hypothesis Rules
+
+- Leave **no ambiguity** about who is being studied or what is being measured
+- Define variables clearly: are they **continuous** (e.g., age in years) or **categorical** (e.g., yes/no)?
+- State how statistical significance will be tested
+- Being specific prevents "moving the goalposts" after you see the data
+
+---
+
+# Part 3 – Study Design
+
+## 3.1 Planning the Study
+
+Before you collect data, you must decide:
+
+- **Who** and **what** you are studying (the target population)
+- **How many** subjects to include (sample size)
+- **How** you will sample them (probability vs. non-probability sampling)
+
+### Key Design Concepts
+
+| Term | Plain English Explanation |
+|---|---|
+| **Response variable** | The outcome you are measuring (also called the dependent variable) |
+| **Factor / Level** | A variable you are manipulating; each category is a "level" (e.g., Low / Medium / High dose) |
+| **Treatment** | The specific condition applied to a subject |
+| **Replication** | Repeating the experiment to ensure results are consistent |
+| **Randomisation** | Assigning subjects to groups by chance, to avoid bias |
+| **Blocking** | Grouping similar subjects together to reduce noise |
+| **Factorial design** | Testing multiple factors at the same time |
+| **Main effects** | The individual effect of each factor |
+| **Interaction effects** | When the effect of one factor depends on another |
+
+---
+
+# Part 4 – Measurement Scales
+
+## 4.1 Types of Variables
+
+Variables can be measured at different scales, which affects what statistics you can use:
+
+| Type | Description | Example | Appropriate Stats |
+|---|---|---|---|
+| **Nominal** | Categories with no order | Blood type (A, B, O) | Frequencies, mode |
+| **Ordinal** | Categories with order, but unequal gaps | Pain scale (mild/moderate/severe) | Median, percentiles |
+| **Interval** | Ordered, equal gaps, no true zero | Temperature (°C) | Mean, SD |
+| **Ratio** | Ordered, equal gaps, true zero | Weight, Height | Mean, SD, ratios |
+| **Continuous** | Can take any value (usually ratio/interval) | Cholesterol (mmol/L) | All statistics |
+| **Categorical** | Discrete groups | Gender, Smoking status | Frequencies, proportions |
+
+> 💡 **Key rule:** Collect data as **continuous** wherever possible — it contains more information, gives more statistical power, and allows a smaller sample size. You can always convert it to categorical later.
+
+---
+
+# Part 5 – Precision and Accuracy
+
+This is one of those topics where the words *really do mean what they say*.
+
+## 5.1 Precision
+
+**Precision** = getting the *same result* every time you measure something.
+
+Think of precision like a dart player who always hits the same spot — even if it's not the bullseye. The measurements are **consistent** and **reproducible**.
+
+- Precision is affected by **random error** (chance)
+- The more precise a measurement, the greater the **statistical power** of your study
+
+### Sources of Random Error (that reduce precision):
+
+1. **Observer variability** — different people measure slightly differently
+2. **Instrument variability** — equipment changes due to temperature, wear, etc.
+3. **Subject variability** — the subject themselves changes between measurements (e.g., blood pressure fluctuates)
+
+## 5.2 Accuracy
+
+**Accuracy** = measuring the *correct thing* in the *correct way*.
+
+Think of accuracy like a dart player who hits the bullseye — even if their shots are scattered around it. The measurements are **valid** and represent what they are supposed to represent.
+
+- Accuracy is affected by **systematic error** (consistent bias in one direction)
+- Accuracy is essential for the **validity** of your study conclusions
+
+## 5.3 They Are NOT the Same Thing!
+
+| | Accurate | Inaccurate |
+|---|---|---|
+| **Precise** | ✅ Best case: consistent AND correct | ❌ Consistently wrong (biased) |
+| **Imprecise** | ❌ Correct on average but noisy | ❌ Worst case: all over the place |
+
+### Quick Quiz Answers (from Exercise Slide):
+
+1. ➡️ **Accuracy** — "the degree to which a variable represents what it's supposed to represent"
+2. ➡️ **Precision** — "almost the same value when measured repeatedly"
+3. ➡️ **Accuracy** — increases validity of conclusions
+4. ➡️ **Accuracy** — threatened by systematic error
+5. ➡️ **Precision** — threatened by random error
+6. ➡️ **Precision** — assessed using repeated measures
+
+---
+
+# Part 6 – Initial Data Analysis (IDA / EDA)
+
+Before fitting any model, you must **understand your data**. This step is called Initial Data Analysis or Exploratory Data Analysis (EDA).
+
+## 6.1 What Does IDA Include?
+
+- **Summarising data** (numerical statistics)
+- **Visualising data** (graphs)
+- **Univariate profiling** — looking at each variable on its own
+- **Bivariate profiling** — looking at relationships between pairs of variables
+- **Identifying missing data**
+- **Identifying outliers**
+- **Checking model assumptions**
+- **Variable transformation** (if needed)
+
+## 6.2 Summarising Data
+
+When you get a continuous variable, the workflow is:
+
+```
+Raw data → Frequency table → Histogram → Describe key features
+```
+
+Key features to describe (your **summary statistics**):
+
+- **Centre:** mean, median, mode
+- **Spread:** standard deviation, variance, range, interquartile range (IQR)
+- **Shape:** skewness, number of peaks
+
+For **categorical variables**, use frequency tables and bar charts.
+
+---
+
+# Part 7 – Data Visualisation
+
+## 7.1 Why Visualise?
+
+> *"Don't underestimate the power of a graph. It is a really good cognitive tool."* — Lecturer
+
+The goal of data visualisation is to **communicate information clearly and effectively** through graphical representation. Statistics alone can be deeply misleading — which brings us to:
+
+## 7.2 Anscombe's Quartet — The Most Important Example in EDA
+
+**Anscombe's Quartet** is a set of four datasets (I, II, III, IV) designed to show why you must **always plot your data before analysing it**.
+
+Here is the key point: all four datasets have **almost identical summary statistics**:
+
+| Statistic | Dataset I | Dataset II | Dataset III | Dataset IV |
+|---|---|---|---|---|
+| Mean of X | 9.00 | 9.00 | 9.00 | 9.00 |
+| Mean of Y | 7.50 | 7.50 | 7.50 | 7.50 |
+| SD of X | 3.16 | 3.16 | 3.16 | 3.16 |
+| SD of Y | 1.94 | 1.94 | 1.94 | 1.94 |
+| Correlation (r) | 0.82 | 0.82 | 0.82 | 0.82 |
+
+Yet if you **plot** them as scatterplots, they look completely different:
+
+- **Dataset I:** A proper linear relationship — the only one where a straight line fits
+- **Dataset II:** A curved (curvilinear) relationship — a line is wrong here
+- **Dataset III:** Mostly linear but with **one massive outlier** pulling the line
+- **Dataset IV:** Vertical cluster of points with one extreme outlier — very weird
+
+### The lesson:
+
+> **You cannot determine the shape of a relationship from the correlation coefficient alone. You MUST look at a graph.**
+
+This is a likely exam point.
+
+## 7.3 How to Interpret a Correlation Coefficient (Exam Skill!)
+
+> *From the lecture:* "When you are asked to interpret the correlation coefficient, there are only **two things** you can say about it."
+
+The **correlation coefficient (r)** ranges from -1 to +1.
+
+### The Two Things You Can Say:
+
+1. **Direction** — Is it positive or negative?
+   - **Positive:** As X increases, Y increases
+   - **Negative:** As X increases, Y decreases
+
+2. **Strength** — How close is it to 1 (or -1)?
+   - |r| = 0.8–1.0 → **Strong** relationship
+   - |r| = 0.5–0.8 → **Moderate** relationship
+   - |r| = 0–0.5 → **Weak** relationship
+
+### ❌ What You CANNOT Say:
+
+> "The relationship is **linear**."
+
+You **cannot** tell if a relationship is linear just from r. Anscombe's Quartet proves this — all four datasets have r = 0.82, but only one is actually linear. **You need a scatterplot to judge linearity.**
+
+### Example Interpretation Template:
+
+*"The correlation coefficient is r = 0.82, indicating a **strong, positive** relationship between X and Y. However, to determine whether the relationship is linear, a scatterplot should be examined."*
+
+---
+
+# Part 8 – Missing Data
+
+Missing data is one of the most common real-world data problems. Here is everything you need to know.
+
+## 8.1 Why Does Missing Data Happen?
+
+- Errors during **data collection** (e.g., instrument failure)
+- **Data entry errors**
+- Respondents **refusing to answer** certain questions
+- **Study dropout** (participants leaving before the end)
+- **Experimental failure** (e.g., a plant dying before measurement)
+
+## 8.2 Why Is It a Problem?
+
+- Statistical analysis **cannot be performed** on incomplete data (by default)
+- Reduces your **effective sample size**
+- Can **bias** your results if the missingness is not random
+
+## 8.3 The Four Types of Missing Data
+
+This is a key exam topic. Think about **why** the data is missing:
+
+### Type 1 — Ignorable Missing Data
+
+The data is missing **by design** — it was expected and planned for.
+
+**Example:** A questionnaire about children's health has a section only for parents. Adults without children simply don't fill it in. This is expected. **No action needed.**
+
+---
+
+### Type 2 — MCAR (Missing Completely At Random)
+
+The probability of being missing is **the same for everyone**, completely by chance. The missing data has nothing to do with the data itself.
+
+**Example:** A participant flips a coin to decide whether to answer a question.
+
+🔑 Causes: **unrelated** to the data.  
+✅ Easiest to deal with — can delete safely with minimal bias.
+
+---
+
+### Type 3 — MAR (Missing At Random)
+
+The data is missing, but the reason for it being missing **can be explained by other variables you have measured**. Once you account for those variables, the missingness is random.
+
+**Example:** Older people are less likely to report income. If you know someone's age, you can predict whether income is likely to be missing — but *within* each age group, the missingness is random.
+
+🔑 The missingness is related to **observed** data, not the missing value itself.  
+⚠️ More complex — deletion can bias results; imputation is better.
+
+---
+
+### Type 4 — MNAR (Not Missing At Random)
+
+The most dangerous type. The data is missing **because of its own value** — the very value that is missing is the reason it's missing.
+
+**Example:** People with very high incomes deliberately choose not to report their income. The chance of income being missing depends on the income itself.
+
+🔑 The missingness depends on **unobserved** or **missing** data.  
+❌ Most difficult — standard methods can be biased. Requires specialist methods.
+
+---
+
+## 8.4 Practical Examples (Exercise 4 Answers)
+
+| Scenario | Type | Explanation |
+|---|---|---|
+| (a) Census section for parents — households without children skip it | **Ignorable** | By design; no children = no data needed |
+| (b) Half of survey respondents randomly selected for extra questionnaire | **MCAR** | Selection is truly random |
+| (c) Plants receiving highest pesticide dose die — concentration not recorded | **MNAR** | Whether the measurement exists depends on its own value (extreme concentration killed the plant) |
+| (d) Weighing scales max 5kg — heavier items show error | **MNAR** | Missingness depends directly on the value (weight > 5kg) — also called **censoring** |
+| (e) Fitbit battery dies at random times | **MCAR** | Completely random — no relationship with activity levels |
+| (f) Fitbit battery dies *some evenings* (when activity is lower) | **MAR** | Time of day (observed) predicts missingness; activity level predicts time of day |
+| (g) Person is unwell and takes off fitbit | **MNAR** | Low activity causes the missingness — the very variable being measured |
+
+---
+
+## 8.5 The 4 Steps for Dealing With Missing Data
+
+### Step 1: Determine the Type
+Is it ignorable? If yes, stop — no action needed.
+
+### Step 2: Determine the Extent
+- How many values are missing overall?
+- Which variables have the most missing data?
+- Should a heavily-missing variable be dropped entirely?
+
+> Rule of thumb: If more than ~20–30% of a variable's values are missing, consider dropping it.
+
+### Step 3: Diagnose the Randomness
+Is it MCAR, MAR, or MNAR? (This determines what you can do about it.)
+
+### Step 4: Select an Imputation Method
+
+**Imputation** = filling in the missing values using an educated estimate.
+
+| Method | Description | Notes |
+|---|---|---|
+| **Listwise deletion** | Remove any row with a missing value | Simple but loses data |
+| **Pairwise deletion** | Use all available data per analysis | More efficient but inconsistent |
+| **Mean imputation** | Replace missing values with the variable mean | Easy but distorts distribution |
+| **Regression imputation** | Predict missing value using other variables | More sophisticated |
+| **Stochastic regression** | Adds random error to regression predictions | Preserves variance |
+| **LOCF** (Last Observation Carried Forward) | For time series: use previous value | Used in clinical trials |
+| **k-Nearest Neighbours (kNN)** | Use similar observations to estimate | Machine learning approach |
+
+---
+
+## 8.6 Missing Data in R
+
+```r
+# Check if a value is missing
+is.na(x)
+
+# Calculate mean, ignoring NAs
+mean(x, na.rm = TRUE)
+
+# Find complete rows (no NAs anywhere)
+complete.cases(df)
+
+# Remove all rows with any missing values
+na.omit(df)
+```
+
+---
+
+# Part 9 – Outliers
+
+## 9.1 What Is an Outlier?
+
+An **outlier** is an observation that is **unusually different** from the rest of the data. It stands out because:
+- It has an unusually high or low value on one variable, OR
+- It has a unique combination of values across several variables
+
+## 9.2 Why Do Outliers Occur?
+
+| Source | Description | What to do |
+|---|---|---|
+| **Procedural error** | Data entry mistake, measurement error | Fix or remove |
+| **Extraordinary event** | A genuine but unusual occurrence | Investigate, note, possibly remove |
+| **Extraordinary observation** | A genuinely extreme but valid data point | Keep — it's real data |
+
+> ⚠️ **Key point:** Always consider outliers **in context**. An outlier might be an error — or it might be the most interesting data point in your study.
+
+---
+
+# Part 10 – Model Assumptions
+
+Before fitting a linear model, you need to check that your data meets certain conditions. If it doesn't, the model results may be invalid.
+
+## 10.1 The Four Assumptions for Linear Models
+
+```
+LINE
+```
+
+| Letter | Assumption | What It Means |
+|---|---|---|
+| **L** | Linearity | The relationship between X and Y is a straight line |
+| **I** | Independence | Observations do not affect each other |
+| **N** | Normality | The errors (residuals) follow a normal distribution |
+| **E** | Equal variance (Homoscedasticity) | The spread of errors is constant across all values of X |
+
+## 10.2 What If Assumptions Are Violated?
+
+Apply a **data transformation** to make the data better behaved.
+
+| Transformation | When to Use |
+|---|---|
+| **Log transformation** | Right-skewed data, multiplicative relationships |
+| **Square root** | Count data, mild skewness |
+| **Squaring** | Left-skewed data |
+| **Standardising** | When variables have different scales |
+
+---
+
+# Part 11 – Exercise Sheet 1 Walkthrough
+
+## Exercise 1 – Census Missing Data (Age and Income)
+
+A census collected age and income data. Figures 1–3 show missing data patterns.
+
+### Part (a): Comment on the extent of missing data
+
+**How to interpret these plots:**
+- The blue bars represent **observed** data
+- The red bars represent **missing** data
+- The grey bar on the right shows overall missingness
+
+**Income variable (Figure 1):**
+- Missing income values (red) appear scattered across the income distribution
+- There appear to be around 5–8 missing values concentrated around the middle income range (€30,000–50,000)
+- The overall extent of missingness appears **moderate** (~5–10% of the sample)
+
+**Age variable (Figure 2):**
+- Missing age values (red) appear concentrated among **older individuals** (ages 40–60)
+- This pattern suggests the missingness is **not random** — older people are more likely to have missing ages
+- The extent is smaller than for income but potentially more problematic
+
+### Part (b): Is there a missing data pattern?
+
+**Income:** The red bars (missing) appear across multiple income levels without a clear pattern → could be **MCAR** or **MAR**
+
+**Age:** The red bars cluster at higher age values → suggests **MAR** at minimum, possibly **MNAR**
+
+> 📌 **Interpretation tip:** When red bars are evenly spread across the x-axis, think MCAR. When they cluster at one end, think MAR or MNAR. When the variable being plotted itself seems to predict its own missingness, think MNAR.
+
+---
+
+## Exercise 2 – Cholesterol Dataset EDA
+
+### Setting Up in R
+
+```r
+# Load required packages
+library(tidyverse)
+library(VIM)       # For missing data visualisation
+library(GGally)    # For scatterplot matrix
+
+# Load the data - must be a data.frame (not tibble) for VIM
+cholesterol <- read.csv("cholesterol.csv")  # read.csv gives a data.frame automatically
+
+# If you loaded with read_csv() (tibble), convert like this:
+# cholesterol <- as.data.frame(cholesterol)
+
+# Check the structure
+str(cholesterol)
+head(cholesterol)
+```
+
+### Part (a): Summary Table
+
+```r
+# Base R summary
+summary(cholesterol)
+
+# Or a nicer table
+library(skimr)
+skim(cholesterol)
+```
+
+**How to interpret summary output:**
+- For continuous variables: check the **min, max, mean, median** — if mean ≠ median, the data may be skewed
+- For categorical variables: check the **frequency counts**
+- Look for `NA` counts — these are your missing values
+
+**Example interpretation:**
+*"The dataset contains [n] observations and 7 variables. The mean age is [X] years (SD = [Y]). Cholesterol ranges from [min] to [max] mmol/L. There are [n] missing values in total."*
+
+### Part (b): Variable Distributions
+
+```r
+# Histograms for continuous variables
+par(mfrow = c(2, 2))  # 2x2 grid of plots
+hist(cholesterol$Age, main = "Age", xlab = "Age (years)", col = "steelblue")
+hist(cholesterol$Cholesterol, main = "Cholesterol", xlab = "Cholesterol (mg/dL)", col = "steelblue")
+hist(cholesterol$SystolicBP, main = "Systolic BP", xlab = "mmHg", col = "steelblue")
+hist(cholesterol$BMI, main = "BMI", xlab = "kg/m²", col = "steelblue")
+
+# Boxplots are great too - they show outliers AND summary stats in one plot
+par(mfrow = c(1, 4))
+boxplot(cholesterol$Age, main = "Age")
+boxplot(cholesterol$Cholesterol, main = "Cholesterol")
+boxplot(cholesterol$SystolicBP, main = "Systolic BP")
+boxplot(cholesterol$BMI, main = "BMI")
+
+# Bar charts for categorical variables
+barplot(table(cholesterol$Gender), main = "Gender", col = c("salmon", "steelblue"))
+barplot(table(cholesterol$Smoking), main = "Smoking Status", col = c("grey", "tomato"))
+barplot(table(cholesterol$Education), main = "Education", col = "lightgreen")
+```
+
+**How to interpret a histogram:**
+- **Shape:** Is it symmetric (bell-shaped), right-skewed (tail to the right), or left-skewed (tail to the left)?
+- **Centre:** Where is the peak?
+- **Spread:** How wide is it?
+- **Unusual features:** Any gaps? More than one peak (bimodal)?
+
+**How to interpret a boxplot:**
+- The **box** spans from Q1 (25th percentile) to Q3 (75th percentile) — this is the IQR
+- The **line inside the box** is the median
+- The **whiskers** extend to the most extreme non-outlier values
+- **Dots beyond the whiskers** = potential outliers
+
+### Part (c): Scatterplots
+
+```r
+# Pairwise scatterplot matrix for continuous variables
+continuous_vars <- cholesterol[, c("Age", "Cholesterol", "SystolicBP", "BMI")]
+pairs(continuous_vars, pch = 19, col = "steelblue")
+
+# Or a prettier version with correlations
+library(GGally)
+ggpairs(continuous_vars)
+```
+
+### Part (d): Interpreting Relationships Between Continuous Variables
+
+**How to describe a scatterplot — use this template:**
+
+*"There appears to be a [positive/negative/no] [strong/moderate/weak] relationship between [X] and [Y]. The relationship appears [linear/curved/unclear]."*
+
+Remember:
+- You can only say **direction** and **strength** from the correlation coefficient
+- You need the **scatterplot** to judge linearity
+
+**Possible findings (to fill in with actual results):**
+- Age and Systolic BP often show a positive relationship (BP tends to rise with age)
+- BMI and Cholesterol may show a weak positive association
+- Check the actual correlation matrix and scatterplots for the specific values
+
+```r
+# Calculate correlation matrix (only for complete cases)
+cor(continuous_vars, use = "complete.obs")
+```
+
+### Part (e): Missing Data Analysis
+
+```r
+# Quick check of missing values
+colSums(is.na(cholesterol))
+
+# Proportion missing per variable
+colMeans(is.na(cholesterol)) * 100
+
+# Visualise with VIM package
+aggr(cholesterol, col = c("skyblue", "red"),
+     numbers = TRUE, sortVars = TRUE,
+     labels = names(cholesterol), cex.axis = 0.7,
+     gap = 3, ylab = c("Missing Data", "Pattern"))
+```
+
+**How to interpret the VIM `aggr` plot:**
+- The **left plot** shows the proportion missing for each variable (red = missing)
+- The **right plot** shows the missing data **patterns** — each row is a pattern, each column is a variable
+- A blue cell means observed, red means missing
+- Look for rows where **multiple variables are missing together** — that suggests a pattern
+
+**Template interpretation:**
+*"The variable [X] has the highest proportion of missing data at [%]. [Variable Y] and [Variable Z] tend to be missing together, suggesting a systematic pattern. The missingness in [Variable A] does not appear to be related to the observed values of other variables, which is consistent with MCAR."*
+
+### Part (f): Outlier Detection
+
+```r
+# Boxplot method - the dots beyond whiskers are potential outliers
+par(mfrow = c(1, 4))
+boxplot(cholesterol$Age, main = "Age", col = "skyblue")
+boxplot(cholesterol$Cholesterol, main = "Cholesterol", col = "skyblue")
+boxplot(cholesterol$SystolicBP, main = "Systolic BP", col = "skyblue")
+boxplot(cholesterol$BMI, main = "BMI", col = "skyblue")
+
+# Identify the values
+boxplot.stats(cholesterol$Cholesterol)$out  # Shows the actual outlier values
+```
+
+**How to report outliers:**
+*"The boxplot for Cholesterol reveals [n] potential outliers with values above [X] mg/dL. These should be investigated further to determine whether they are data entry errors, extraordinary observations, or legitimate extreme values."*
+
+---
+
+# Part 12 – Key Formulas
+
+## Correlation Coefficient (Pearson's r)
+
+$$r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2 \cdot \sum_{i=1}^{n}(y_i - \bar{y})^2}}$$
+
+Where:
+- $x_i$, $y_i$ = individual observations
+- $\bar{x}$, $\bar{y}$ = means of X and Y
+- $n$ = number of observations
+
+**Range:** $-1 \leq r \leq +1$
+
+## Mean Imputation
+
+$$\hat{x}_{missing} = \bar{x}_{observed} = \frac{\sum_{i=1}^{n} x_i}{n}$$
+
+---
+
+# Summary Points — What to Remember
+
+- ✅ A good hypothesis is **simple, specific, and stated in advance**
+- ✅ Collect variables as **continuous** where possible — more information, more power
+- ✅ **Precision** = reproducibility (random error); **Accuracy** = validity (systematic error)
+- ✅ **Always plot your data before analysing it** (Anscombe's Quartet!)
+- ✅ When interpreting a correlation coefficient, say **only two things**: direction and strength — NEVER say "linear" without seeing the graph
+- ✅ The four missing data types: **Ignorable, MCAR, MAR, MNAR** — memorise the fitbit examples
+- ✅ Outliers can be errors, extraordinary events, or real extreme values — **always investigate in context**
+- ✅ Linear model assumptions = **LINE** (Linearity, Independence, Normality, Equal variance)
+- ✅ If assumptions are violated → apply a **data transformation**
+
+---
+
+# Annotations Space
+
+> ✏️ *Use this section for your own notes, questions, and things to follow up on.*
+
+**Questions I still have:**
+
+- 
+
+**Things the lecturer emphasised:**
+
+- 
+
+**Connections to other modules:**
+
+- 
+
+---
+
+*End of Week 1 Study Guide — Data Analysis Protocol*

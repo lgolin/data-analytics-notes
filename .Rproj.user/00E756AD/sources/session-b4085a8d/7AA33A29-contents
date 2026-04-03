@@ -14,8 +14,8 @@ website:
 
       - section: "Data Mining"
         contents:
-            file: data-mining/index.qmd
-            section: "Weekly Notes"
+          - file: data-mining/index.qmd        # ← needs a dash
+          - section: "Weekly Notes"            # ← needs a dash
             contents:
               - text: "Week 1"
                 file: data-mining/week-1.qmd
@@ -33,11 +33,13 @@ website:
                 file: data-mining/week-7.qmd
               - text: "Week 8"
                 file: data-mining/week-8.qmd
+          - section: "Labs"                    # ← auto section
+            contents: data-mining/labs/
 
       - section: "Regression Analysis"
         contents:
-            file: regression-analysis/index.qmd
-            section: "Weekly Notes"
+          - file: regression-analysis/index.qmd
+          - section: "Weekly Notes"
             contents:
               - text: "Week 1"
                 file: regression-analysis/week-1.qmd
@@ -57,11 +59,13 @@ website:
                 file: regression-analysis/week-8.qmd
               - text: "Week 9"
                 file: regression-analysis/week-9.qmd
+          - section: "Labs"
+            contents: regression-analysis/labs/
 
       - section: "Time Series"
         contents:
-            file: time-series/index.qmd
-            section: "Weekly Notes"
+          - file: time-series/index.qmd
+          - section: "Weekly Notes"
             contents:
               - text: "Week 1"
                 file: time-series/week-1.qmd
@@ -79,6 +83,9 @@ website:
                 file: time-series/week-7.qmd
               - text: "Week 8 - empty"
                 file: time-series/week-8.qmd
+          - section: "Labs"
+            contents: time-series/labs/
+
 format:
   html:
     theme: cosmo

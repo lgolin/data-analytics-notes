@@ -106,5 +106,44 @@
   },
   "data-mining/week-8.qmd": {
     "week-8.html": "d2036d8e"
+  },
+  "time-series/labs/index.qmd": {
+    "index.html": "a4699826"
+  },
+  "regression-analysis/labs/index.qmd": {
+    "index.html": "d25e20d2"
+  },
+  "data-mining/labs/index.qmd": {
+    "index.html": "c20329aa"
+  },
+  "data-mining/labs/lab-3.qmd": {
+    "lab-3.html": "bb665e5b"
+  },
+  "data-mining/labs/lab-4a.qmd": {
+    "lab-4a.html": "2a39ffab"
+  },
+  "time-series/labs/lab-1.qmd": {
+    "lab-1.html": "ace10563"
+  },
+  "time-series/labs/lab-2.qmd": {
+    "lab-2.html": "66d7b0ec"
+  },
+  "time-series/labs/lab-3.qmd": {
+    "lab-3.html": "4a73bb69"
+  },
+  "regression-analysis/labs/lab-2.qmd": {
+    "lab-2.html": "6dcf91e7"
+  },
+  "regression-analysis/labs/lab-3.qmd": {
+    "lab-3.html": "13019f7b"
+  },
+  "regression-analysis/labs/lab-1.qmd": {
+    "lab-1.html": "77274e21"
+  },
+  "time-series/exam/quiz.qmd": {
+    "quiz.html": "03a93e24"
+  },
+  "time-series/exam/Practical_R.qmd": {
+    "Practical_R.html": "1f2e4fdd"
   }
 }

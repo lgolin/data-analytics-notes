@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>STAT9005 – Time Series Analysis – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../time-series/labs/lab-2.html" rel="next">
+<link href="../../time-series/week-8.html" rel="prev">
+<link href="../../favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../time-series/index.html">Time Series</a></li><li class="breadcrumb-item">Labs</li><li class="breadcrumb-item"><a href="../../time-series/labs/lab-1.html">Labs</a></li><li class="breadcrumb-item"><a href="../../time-series/labs/lab-1.html">STAT9005 – Time Series Analysis</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Module Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-mining/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-mining/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-mining/labs/lab-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 3: Decision Trees in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-mining/labs/lab-4a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 4a: Logistic Regression in R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Module Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/labs/lab-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1 – Data Analysis Protocol</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/labs/lab-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAT9004 – Week 2 Study Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../regression-analysis/labs/lab-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercise Sheet 3 — One-Way ANOVA</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Module Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7 - empty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8 - empty</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth3 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/labs/lab-1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">STAT9005 – Time Series Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/labs/lab-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 2 – Seasonality, Decomposition &amp; Moving Averages</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/labs/lab-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Time Series: Classical Models Lab</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">Exam Prep</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text">Exam</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/exam/Practical_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Practical R Test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../time-series/exam/quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quiz Preparation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-a-time-series-big-picture" id="toc-what-is-a-time-series-big-picture" class="nav-link active" data-scroll-target="#what-is-a-time-series-big-picture"><span class="header-section-number">1</span> What Is a Time Series? (Big Picture)</a></li>
+  <li><a href="#part-1-loading-data-into-r" id="toc-part-1-loading-data-into-r" class="nav-link" data-scroll-target="#part-1-loading-data-into-r"><span class="header-section-number">2</span> Part 1 – Loading Data into R</a>
+  <ul class="collapse">
+  <li><a href="#what-is-scan" id="toc-what-is-scan" class="nav-link" data-scroll-target="#what-is-scan"><span class="header-section-number">2.1</span> What is <code>scan()</code>?</a>
+  <ul class="collapse">
+  <li><a href="#the-kings-dataset" id="toc-the-kings-dataset" class="nav-link" data-scroll-target="#the-kings-dataset"><span class="header-section-number">2.1.1</span> The Kings Dataset</a></li>
+  </ul></li>
+  <li><a href="#turning-raw-numbers-into-a-time-series-ts" id="toc-turning-raw-numbers-into-a-time-series-ts" class="nav-link" data-scroll-target="#turning-raw-numbers-into-a-time-series-ts"><span class="header-section-number">2.2</span> Turning Raw Numbers into a Time Series: <code>ts()</code></a></li>
+  <li><a href="#the-births-dataset-with-extra-options" id="toc-the-births-dataset-with-extra-options" class="nav-link" data-scroll-target="#the-births-dataset-with-extra-options"><span class="header-section-number">2.3</span> The Births Dataset (with extra options)</a></li>
+  <li><a href="#the-souvenir-dataset" id="toc-the-souvenir-dataset" class="nav-link" data-scroll-target="#the-souvenir-dataset"><span class="header-section-number">2.4</span> The Souvenir Dataset</a></li>
+  </ul></li>
+  <li><a href="#part-2-plotting-the-time-series" id="toc-part-2-plotting-the-time-series" class="nav-link" data-scroll-target="#part-2-plotting-the-time-series"><span class="header-section-number">3</span> Part 2 – Plotting the Time Series</a>
+  <ul class="collapse">
+  <li><a href="#opening-a-plot-window-and-plotting" id="toc-opening-a-plot-window-and-plotting" class="nav-link" data-scroll-target="#opening-a-plot-window-and-plotting"><span class="header-section-number">3.1</span> Opening a Plot Window and Plotting</a></li>
+  </ul></li>
+  <li><a href="#part-3-decomposition" id="toc-part-3-decomposition" class="nav-link" data-scroll-target="#part-3-decomposition"><span class="header-section-number">4</span> Part 3 – Decomposition</a>
+  <ul class="collapse">
+  <li><a href="#the-big-idea" id="toc-the-big-idea" class="nav-link" data-scroll-target="#the-big-idea"><span class="header-section-number">4.1</span> The Big Idea</a></li>
+  <li><a href="#installing-and-loading-the-ttr-package" id="toc-installing-and-loading-the-ttr-package" class="nav-link" data-scroll-target="#installing-and-loading-the-ttr-package"><span class="header-section-number">4.2</span> Installing and Loading the TTR Package</a></li>
+  <li><a href="#running-the-decomposition" id="toc-running-the-decomposition" class="nav-link" data-scroll-target="#running-the-decomposition"><span class="header-section-number">4.3</span> Running the Decomposition</a></li>
+  <li><a href="#multiplicative-decomposition-from-the-solution-file" id="toc-multiplicative-decomposition-from-the-solution-file" class="nav-link" data-scroll-target="#multiplicative-decomposition-from-the-solution-file"><span class="header-section-number">4.4</span> Multiplicative Decomposition (from the solution file)</a></li>
+  <li><a href="#removing-components-seasonal-adjustment" id="toc-removing-components-seasonal-adjustment" class="nav-link" data-scroll-target="#removing-components-seasonal-adjustment"><span class="header-section-number">4.5</span> Removing Components (Seasonal Adjustment)</a>
+  <ul class="collapse">
+  <li><a href="#remove-the-seasonal-component" id="toc-remove-the-seasonal-component" class="nav-link" data-scroll-target="#remove-the-seasonal-component"><span class="header-section-number">4.5.1</span> Remove the Seasonal Component</a></li>
+  <li><a href="#remove-the-trend-component" id="toc-remove-the-trend-component" class="nav-link" data-scroll-target="#remove-the-trend-component"><span class="header-section-number">4.5.2</span> Remove the Trend Component</a></li>
+  <li><a href="#remove-the-random-noise-component" id="toc-remove-the-random-noise-component" class="nav-link" data-scroll-target="#remove-the-random-noise-component"><span class="header-section-number">4.5.3</span> Remove the Random (Noise) Component</a></li>
+  </ul></li>
+  <li><a href="#differencing-bonus-from-the-solution-file" id="toc-differencing-bonus-from-the-solution-file" class="nav-link" data-scroll-target="#differencing-bonus-from-the-solution-file"><span class="header-section-number">4.6</span> Differencing (Bonus — from the solution file)</a></li>
+  </ul></li>
+  <li><a href="#key-equations-formulas" id="toc-key-equations-formulas" class="nav-link" data-scroll-target="#key-equations-formulas"><span class="header-section-number">5</span> Key Equations / Formulas</a></li>
+  <li><a href="#summary-key-functions-cheat-sheet" id="toc-summary-key-functions-cheat-sheet" class="nav-link" data-scroll-target="#summary-key-functions-cheat-sheet"><span class="header-section-number">6</span> Summary: Key Functions Cheat Sheet</a></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">7</span> Summary Points</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../time-series/index.html">Time Series</a></li><li class="breadcrumb-item">Labs</li><li class="breadcrumb-item"><a href="../../time-series/labs/lab-1.html">Labs</a></li><li class="breadcrumb-item"><a href="../../time-series/labs/lab-1.html">STAT9005 – Time Series Analysis</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">STAT9005 – Time Series Analysis</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Lab 1 Study Guide: Getting Started with Time Series in R</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>📝 <strong>How to use this guide:</strong> Read each section carefully before trying the code in RStudio. Every code block is explained line-by-line in plain English. Add your own annotations in the spaces marked <strong>“Your notes:”</strong>.</p>
+</blockquote>
+<hr>
+<section id="what-is-a-time-series-big-picture" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> What Is a Time Series? (Big Picture)</h1>
+<p>Before writing a single line of code, let’s understand what we’re actually working with.</p>
+<p>A <strong>time series</strong> is simply a collection of measurements taken at regular intervals over time. Think of it like a diary where every entry is a number:</p>
+<ul>
+<li>The temperature recorded every hour</li>
+<li>The number of babies born each month</li>
+<li>The age at which kings died (one per king, across history)</li>
+</ul>
+<p>The whole point of <strong>time series analysis</strong> is to look at that sequence of numbers and answer questions like:</p>
+<ul>
+<li>Is there a general upward or downward <strong>trend</strong>?</li>
+<li>Does something repeat at the same time every year (<strong>seasonality</strong>)?</li>
+<li>How much random <strong>noise</strong> is there?</li>
+<li>Can we <strong>forecast</strong> what comes next?</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Your notes:</strong></p>
+</blockquote>
+<hr>
+</section>
+<section id="part-1-loading-data-into-r" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Part 1 – Loading Data into R</h1>
+<section id="what-is-scan" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-is-scan"><span class="header-section-number">2.1</span> What is <code>scan()</code>?</h2>
+<p>The <code>scan()</code> function is R’s way of reading raw numbers from a file — either on your computer or directly from the internet. Think of it as R saying <em>“go grab those numbers and bring them back to me.”</em></p>
+<section id="the-kings-dataset" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="the-kings-dataset"><span class="header-section-number">2.1.1</span> The Kings Dataset</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>kings <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/misc/kings.dat"</span>, <span class="at">skip=</span><span class="dv">3</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>kings</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>What’s happening here, step by step:</strong></p>
+<ul>
+<li><code>scan("http://...")</code> → Go to that web address and read the numbers in the file.</li>
+<li><code>skip=3</code> → The file has 3 lines of text at the top (like a title/header) that aren’t data. We skip them so we only get the actual numbers.</li>
+<li><code>kings &lt;-</code> → Store the result in a variable called <code>kings</code>. The <code>&lt;-</code> is just R’s way of saying “save this as”.</li>
+<li>The second line <code>kings</code> → Print what we just saved so we can see it.</li>
+</ul>
+<p>The <code>kings</code> dataset contains the <strong>age at death of successive kings of England</strong>. Each number = one king.</p>
+<blockquote class="blockquote">
+<p>⚠️ At this point, <code>kings</code> is just a plain list of numbers. R does <strong>not</strong> yet know these are time-ordered. It’s like having a list of exam scores — it’s just numbers, nothing more.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Your notes:</strong></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="turning-raw-numbers-into-a-time-series-ts" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="turning-raw-numbers-into-a-time-series-ts"><span class="header-section-number">2.2</span> Turning Raw Numbers into a Time Series: <code>ts()</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>kingstimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(kings)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>kingstimeseries</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>What’s happening here:</strong></p>
+<ul>
+<li><code>ts(kings)</code> → Takes the plain list of numbers and wraps it in a special R object that says <em>“these numbers are ordered in time.”</em></li>
+<li>R now knows this is a sequence, not just a bag of numbers.</li>
+</ul>
+<p><strong>Why does this matter?</strong></p>
+<p>Once something is a <code>ts</code> object, R can:</p>
+<ul>
+<li>Plot it on a proper time axis</li>
+<li>Decompose it into trend/seasonal/noise</li>
+<li>Apply forecasting models to it</li>
+</ul>
+<p>Think of it like the difference between a pile of photos and a photo album. The photos are the same — but the album gives them order and context.</p>
+<blockquote class="blockquote">
+<p>🔑 <strong>Key concept:</strong> <code>ts()</code> = transform raw data into a time-aware object.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Your notes:</strong></p>
+</blockquote>
+<hr>
+</section>
+<section id="the-births-dataset-with-extra-options" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="the-births-dataset-with-extra-options"><span class="header-section-number">2.3</span> The Births Dataset (with extra options)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>births <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/data/nybirths.dat"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>birthstimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(births, <span class="at">frequency=</span><span class="dv">12</span>, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">1946</span>,<span class="dv">1</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>birthstimeseries</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>What’s happening here:</strong></p>
+<ul>
+<li><code>births</code> → Load the raw data (monthly birth counts in New York).</li>
+<li><code>ts(births, frequency=12, start=c(1946,1))</code> → Convert to time series, but now with extra information:
+<ul>
+<li><code>frequency=12</code> → There are <strong>12 observations per year</strong> (one per month). This tells R the data is monthly.</li>
+<li><code>start=c(1946,1)</code> → The data starts in <strong>January 1946</strong> (year=1946, month=1).</li>
+</ul></li>
+</ul>
+<p><strong>Why frequency matters:</strong></p>
+<p>If you set <code>frequency=12</code>, R knows that observation 1 and observation 13 are both “January” — just a year apart. This is crucial for detecting <strong>seasonality</strong> (patterns that repeat yearly).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><code>frequency</code> value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>12</td>
+<td>Monthly data</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Quarterly data</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Daily data (weekly cycle)</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Annual data (no sub-year pattern)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Your notes:</strong></p>
+</blockquote>
+<hr>
+</section>
+<section id="the-souvenir-dataset" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="the-souvenir-dataset"><span class="header-section-number">2.4</span> The Souvenir Dataset</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>souvenir <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/data/fancy.dat"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>souvenirtimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(souvenir, <span class="at">frequency=</span><span class="dv">12</span>, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">1987</span>,<span class="dv">1</span>))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>souvenirtimeseries</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>What’s happening here:</strong></p>
+<ul>
+<li>Same pattern as births — monthly souvenir shop sales data, starting January 1987.</li>
+<li><code>frequency=12</code> again, because the data is monthly.</li>
+</ul>
+<p><strong>Bonus exercise in the lab:</strong> The lab asks you to recreate the <code>ts()</code> output using <code>matrix()</code> instead. Here’s what that looks like from the solution file:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nrow <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1987</span>, <span class="dv">1993</span>)   <span class="co"># years as row labels</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ncol <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"J"</span>,<span class="st">"F"</span>,<span class="st">"M"</span>,<span class="st">"A"</span>,<span class="st">"My"</span>,<span class="st">"Jn"</span>,<span class="st">"Jl"</span>,<span class="st">"Au"</span>,<span class="st">"S"</span>,<span class="st">"O"</span>,<span class="st">"N"</span>,<span class="st">"D"</span>)  <span class="co"># month labels</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>souvenir.mat <span class="ot">=</span> <span class="fu">matrix</span>(souvenir, <span class="at">ncol=</span><span class="dv">12</span>, <span class="at">byrow=</span><span class="cn">FALSE</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">dimnames =</span> <span class="fu">list</span>(nrow, ncol))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>What this does:</strong> Arranges the souvenir numbers into a grid (matrix) with years as rows and months as columns. This is what <code>ts()</code> is doing internally — organising data by time. <code>byrow=FALSE</code> means R fills the matrix column by column (January first for all years, then February, etc.).</p>
+<blockquote class="blockquote">
+<p><strong>Your notes:</strong></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="part-2-plotting-the-time-series" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Part 2 – Plotting the Time Series</h1>
+<section id="opening-a-plot-window-and-plotting" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="opening-a-plot-window-and-plotting"><span class="header-section-number">3.1</span> Opening a Plot Window and Plotting</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">x11</span>()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(kingstimeseries)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(birthstimeseries)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(souvenirtimeseries)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Line by line:</strong></p>
+<ul>
+<li><code>x11()</code> → Opens a new graphics window (so your plot doesn’t overwrite something else). Think of it as opening a fresh sheet of paper.</li>
+<li><code>par(mfrow=c(1,3))</code> → Set up the plotting area to show <strong>1 row and 3 columns</strong> of plots side by side. <code>mfrow</code> = “multi-frame, row-wise”.</li>
+<li><code>plot.ts(...)</code> → Plot a time series object. This is smarter than plain <code>plot()</code> — it automatically puts time on the x-axis.</li>
+</ul>
+<p><strong>What to look for in the plots:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>What you’d typically see</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Kings</td>
+<td>Irregular, no obvious pattern — random variation</td>
+</tr>
+<tr class="even">
+<td>Births</td>
+<td>Clear repeating seasonal pattern + possible trend</td>
+</tr>
+<tr class="odd">
+<td>Souvenir</td>
+<td>Strong upward trend + increasing seasonal spikes</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>🔑 <strong>Exam tip:</strong> Looking at a plot and identifying trend vs seasonality vs noise is a core skill. Practice describing what you see in words.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Your notes:</strong></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="part-3-decomposition" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Part 3 – Decomposition</h1>
+<section id="the-big-idea" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="the-big-idea"><span class="header-section-number">4.1</span> The Big Idea</h2>
+<p>Every time series can be thought of as a <strong>mix of three ingredients</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>What it means</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Trend (T)</strong></td>
+<td>The overall long-run direction</td>
+<td>Sales gradually increasing over years</td>
+</tr>
+<tr class="even">
+<td><strong>Seasonal (S)</strong></td>
+<td>Regular repeating pattern</td>
+<td>Ice cream sales spike every summer</td>
+</tr>
+<tr class="odd">
+<td><strong>Random/Noise (R)</strong></td>
+<td>Everything else — unpredictable</td>
+<td>A one-off spike due to a news event</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Two ways to combine them:</strong></p>
+<ul>
+<li><strong>Additive model:</strong> <span class="math inline">\(Y_t = T + S + R\)</span>
+<ul>
+<li>Use when the seasonal swings stay roughly the <em>same size</em> over time.</li>
+</ul></li>
+<li><strong>Multiplicative model:</strong> <span class="math inline">\(Y_t = T \times S \times R\)</span>
+<ul>
+<li>Use when the seasonal swings <em>grow bigger</em> as the trend increases.</li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<p>💡 Look at the souvenir plot — the peaks get bigger over time. That suggests <strong>multiplicative</strong>. The births plot has roughly equal-sized seasonal swings — that suggests <strong>additive</strong>.</p>
+</blockquote>
+<hr>
+</section>
+<section id="installing-and-loading-the-ttr-package" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="installing-and-loading-the-ttr-package"><span class="header-section-number">4.2</span> Installing and Loading the TTR Package</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"TTR"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"TTR"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>install.packages("TTR")</code> → Download and install the package (only needed once).</li>
+<li><code>library("TTR")</code> → Load the package into your current R session (needed every time you start R).</li>
+</ul>
+<p><strong>TTR</strong> stands for <em>Technical Trading Rules</em> — it’s a finance package, but it provides useful tools for time series smoothing.</p>
+<blockquote class="blockquote">
+<p><strong>Your notes:</strong></p>
+</blockquote>
+<hr>
+</section>
+<section id="running-the-decomposition" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="running-the-decomposition"><span class="header-section-number">4.3</span> Running the Decomposition</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>births.ts <span class="ot">=</span> birthstimeseries</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>births.ts.comp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(births.ts)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.comp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Line by line:</strong></p>
+<ul>
+<li><code>births.ts = birthstimeseries</code> → Just creating a shorter name to work with. Same data, easier to type.</li>
+<li><code>decompose(births.ts)</code> → R’s built-in function that splits the time series into its three components (Trend, Seasonal, Random) using <strong>moving averages</strong>.</li>
+<li><code>plot(births.ts.comp)</code> → Plots all four panels: original data, trend, seasonal, and random. This is very useful for visual inspection.</li>
+</ul>
+<p><strong>What <code>decompose()</code> gives you:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>seasonal   <span class="co"># the seasonal component</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>trend      <span class="co"># the trend component</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>random     <span class="co"># the residual/noise component</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You can access each piece using the <code>$</code> operator (think of it like opening a specific drawer in a filing cabinet).</p>
+<blockquote class="blockquote">
+<p><strong>Your notes:</strong></p>
+</blockquote>
+<hr>
+</section>
+<section id="multiplicative-decomposition-from-the-solution-file" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="multiplicative-decomposition-from-the-solution-file"><span class="header-section-number">4.4</span> Multiplicative Decomposition (from the solution file)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>births.ts.comp.m <span class="ot">&lt;-</span> <span class="fu">decompose</span>(births.ts, <span class="at">type =</span> <span class="st">"multiplicative"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.comp.m)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Adding <code>type = "multiplicative"</code> switches the model from additive to multiplicative.</li>
+<li>The solution file applies this to the souvenir data specifically, since its seasonal variation grows with the trend.</li>
+</ul>
+<hr>
+</section>
+<section id="removing-components-seasonal-adjustment" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="removing-components-seasonal-adjustment"><span class="header-section-number">4.5</span> Removing Components (Seasonal Adjustment)</h2>
+<section id="remove-the-seasonal-component" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="remove-the-seasonal-component"><span class="header-section-number">4.5.1</span> Remove the Seasonal Component</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>births.ts.comp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(births.ts)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>births.ts.sadj <span class="ot">&lt;-</span> births.ts <span class="sc">-</span> births.ts.comp<span class="sc">$</span>seasonal</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.sadj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>What’s happening:</strong></p>
+<ul>
+<li>We subtract the seasonal part from the full series.</li>
+<li>What’s left is the trend + noise — the “seasonally adjusted” series.</li>
+<li><strong>Why do this?</strong> Economists and analysts often do this to see the <em>true underlying trend</em> without seasonal noise (e.g., unemployment figures are often reported “seasonally adjusted”).</li>
+</ul>
+</section>
+<section id="remove-the-trend-component" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="remove-the-trend-component"><span class="header-section-number">4.5.2</span> Remove the Trend Component</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>births.ts.tadj <span class="ot">&lt;-</span> births.ts <span class="sc">-</span> births.ts.comp<span class="sc">$</span>trend</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.tadj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Subtract the trend → you’re left with seasonal + noise.</li>
+<li>Useful for studying the seasonal pattern in isolation.</li>
+</ul>
+</section>
+<section id="remove-the-random-noise-component" class="level3" data-number="4.5.3">
+<h3 data-number="4.5.3" class="anchored" data-anchor-id="remove-the-random-noise-component"><span class="header-section-number">4.5.3</span> Remove the Random (Noise) Component</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>births.ts.nadj <span class="ot">&lt;-</span> births.ts <span class="sc">-</span> births.ts.comp<span class="sc">$</span>random</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.nadj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Subtract the noise → you’re left with trend + seasonal.</li>
+<li>This “smooths” the series — like a cleaned-up version.</li>
+</ul>
+<blockquote class="blockquote">
+<p>🔑 <strong>The key equation to remember:</strong></p>
+<p><span class="math display">\[Y_t = T_t + S_t + R_t \quad \text{(Additive)}\]</span></p>
+<p>Rearranging: <span class="math inline">\(S_t = Y_t - T_t\)</span> and <span class="math inline">\(R_t = Y_t - T_t - S_t\)</span></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="differencing-bonus-from-the-solution-file" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="differencing-bonus-from-the-solution-file"><span class="header-section-number">4.6</span> Differencing (Bonus — from the solution file)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">diff</span>(births.ts))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>diff()</code> computes the <strong>difference between consecutive values</strong> — i.e., how much the series changed from one period to the next.</li>
+<li>This is used later in the course to make a series <strong>stationary</strong> (constant mean and variance), which is required for ARIMA models.</li>
+<li>For now, just know it exists and what it looks like.</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Your notes:</strong></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="key-equations-formulas" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Key Equations / Formulas</h1>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Formula</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(Y_t = T_t + S_t + R_t\)</span></td>
+<td>Additive decomposition</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Y_t = T_t \times S_t \times R_t\)</span></td>
+<td>Multiplicative decomposition</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(S_t = Y_t - T_t\)</span></td>
+<td>Seasonal component (additive)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(S_t = Y_t / T_t\)</span></td>
+<td>Seasonal component (multiplicative)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="summary-key-functions-cheat-sheet" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Summary: Key Functions Cheat Sheet</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>R Function</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>scan("url", skip=n)</code></td>
+<td>Load data from a file/URL, skip n header lines</td>
+</tr>
+<tr class="even">
+<td><code>ts(data, frequency=, start=)</code></td>
+<td>Convert data to a time series object</td>
+</tr>
+<tr class="odd">
+<td><code>plot.ts(x)</code></td>
+<td>Plot a time series</td>
+</tr>
+<tr class="even">
+<td><code>par(mfrow=c(r,c))</code></td>
+<td>Arrange multiple plots in r rows and c columns</td>
+</tr>
+<tr class="odd">
+<td><code>x11()</code></td>
+<td>Open a new graphics window</td>
+</tr>
+<tr class="even">
+<td><code>decompose(x)</code></td>
+<td>Split a time series into Trend + Seasonal + Random</td>
+</tr>
+<tr class="odd">
+<td><code>decompose(x, type="multiplicative")</code></td>
+<td>Same but using multiplicative model</td>
+</tr>
+<tr class="even">
+<td><code>diff(x)</code></td>
+<td>Compute differences between consecutive values</td>
+</tr>
+<tr class="odd">
+<td><code>births.ts.comp$seasonal</code></td>
+<td>Extract the seasonal component</td>
+</tr>
+<tr class="even">
+<td><code>births.ts.comp$trend</code></td>
+<td>Extract the trend component</td>
+</tr>
+<tr class="odd">
+<td><code>births.ts.comp$random</code></td>
+<td>Extract the noise/residual component</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="summary-points" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Summary Points</h1>
+<ul>
+<li>A <strong>time series</strong> is data collected at regular time intervals. The <code>ts()</code> function tells R that your data has a time dimension.</li>
+<li><code>frequency</code> tells R how many observations make up one full cycle (12 = monthly, 4 = quarterly).</li>
+<li><code>start=c(year, period)</code> tells R when the series begins.</li>
+<li>Every time series is made up of <strong>Trend</strong>, <strong>Seasonal</strong>, and <strong>Random</strong> components.</li>
+<li>Use <strong>additive</strong> decomposition when seasonal variation is constant; use <strong>multiplicative</strong> when it grows with the trend.</li>
+<li><code>decompose()</code> automatically separates these components using moving averages.</li>
+<li>You can <strong>subtract</strong> any component from the series to study the rest in isolation — this is called <strong>adjustment</strong>.</li>
+<li><code>diff()</code> computes changes between time periods — important for stationarity (covered in later labs).</li>
+</ul>
+<hr>
+<blockquote class="blockquote">
+<p>📌 <strong>Space for your own notes and annotations:</strong></p>
+<p><em>(Add anything your lecturer emphasized in class, exam tips, or things that confused you here)</em></p>
+</blockquote>
+<hr>
+<p><em>STAT9005 Time Series Analysis — Lab 1</em></p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../time-series/week-8.html" class="pagination-link" aria-label="Week 8 - empty">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 8 - empty</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../time-series/labs/lab-2.html" class="pagination-link" aria-label="Lab 2 – Seasonality, Decomposition &amp; Moving Averages">
+        <span class="nav-page-text">Lab 2 – Seasonality, Decomposition &amp; Moving Averages</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "STAT9005 – Time Series Analysis"</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Lab 1 Study Guide: Getting Started with Time Series in R"</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **How to use this guide:** Read each section carefully before trying the code in RStudio. Every code block is explained line-by-line in plain English. Add your own annotations in the spaces marked **"Your notes:"**.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu"># What Is a Time Series? (Big Picture)</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>Before writing a single line of code, let's understand what we're actually working with.</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>A **time series** is simply a collection of measurements taken at regular intervals over time. Think of it like a diary where every entry is a number:</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The temperature recorded every hour</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The number of babies born each month</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The age at which kings died (one per king, across history)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>The whole point of **time series analysis** is to look at that sequence of numbers and answer questions like:</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Is there a general upward or downward **trend**?</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Does something repeat at the same time every year (**seasonality**)?</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>How much random **noise** is there?</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Can we **forecast** what comes next?</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Your notes:**</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part 1 – Loading Data into R</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is `scan()`?</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>The <span class="in">`scan()`</span> function is R's way of reading raw numbers from a file — either on your computer or directly from the internet. Think of it as R saying *"go grab those numbers and bring them back to me."*</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Kings Dataset</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>kings <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/misc/kings.dat"</span>, <span class="at">skip=</span><span class="dv">3</span>)</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>kings</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>**What's happening here, step by step:**</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`scan("http://...")`</span> → Go to that web address and read the numbers in the file.</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`skip=3`</span> → The file has 3 lines of text at the top (like a title/header) that aren't data. We skip them so we only get the actual numbers.</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`kings &lt;-`</span> → Store the result in a variable called <span class="in">`kings`</span>. The <span class="in">`&lt;-`</span> is just R's way of saying "save this as".</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The second line <span class="in">`kings`</span> → Print what we just saved so we can see it.</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>The <span class="in">`kings`</span> dataset contains the **age at death of successive kings of England**. Each number = one king.</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ At this point, </span><span class="in">`kings`</span><span class="at"> is just a plain list of numbers. R does **not** yet know these are time-ordered. It's like having a list of exam scores — it's just numbers, nothing more.</span></span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Your notes:**</span></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Turning Raw Numbers into a Time Series: `ts()`</span></span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>kingstimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(kings)</span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>kingstimeseries</span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>**What's happening here:**</span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`ts(kings)`</span> → Takes the plain list of numbers and wraps it in a special R object that says *"these numbers are ordered in time."*</span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>R now knows this is a sequence, not just a bag of numbers.</span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>**Why does this matter?**</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>Once something is a <span class="in">`ts`</span> object, R can:</span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Plot it on a proper time axis</span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Decompose it into trend/seasonal/noise</span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Apply forecasting models to it</span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>Think of it like the difference between a pile of photos and a photo album. The photos are the same — but the album gives them order and context.</span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 🔑 **Key concept:** </span><span class="in">`ts()`</span><span class="at"> = transform raw data into a time-aware object.</span></span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Your notes:**</span></span>
+<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Births Dataset (with extra options)</span></span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a>births <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/data/nybirths.dat"</span>)</span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a>birthstimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(births, <span class="at">frequency=</span><span class="dv">12</span>, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">1946</span>,<span class="dv">1</span>))</span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a>birthstimeseries</span>
+<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a>**What's happening here:**</span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`births`</span> → Load the raw data (monthly birth counts in New York).</span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`ts(births, frequency=12, start=c(1946,1))`</span> → Convert to time series, but now with extra information:</span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`frequency=12`</span> → There are **12 observations per year** (one per month). This tells R the data is monthly.</span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`start=c(1946,1)`</span> → The data starts in **January 1946** (year=1946, month=1).</span>
+<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a>**Why frequency matters:**</span>
+<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a>If you set <span class="in">`frequency=12`</span>, R knows that observation 1 and observation 13 are both "January" — just a year apart. This is crucial for detecting **seasonality** (patterns that repeat yearly).</span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`frequency`</span> value <span class="pp">|</span> Meaning <span class="pp">|</span></span>
+<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 12 <span class="pp">|</span> Monthly data <span class="pp">|</span></span>
+<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 4 <span class="pp">|</span> Quarterly data <span class="pp">|</span></span>
+<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 7 <span class="pp">|</span> Daily data (weekly cycle) <span class="pp">|</span></span>
+<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 1 <span class="pp">|</span> Annual data (no sub-year pattern) <span class="pp">|</span></span>
+<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Your notes:**</span></span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Souvenir Dataset</span></span>
+<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a>souvenir <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"http://robjhyndman.com/tsdldata/data/fancy.dat"</span>)</span>
+<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a>souvenirtimeseries <span class="ot">&lt;-</span> <span class="fu">ts</span>(souvenir, <span class="at">frequency=</span><span class="dv">12</span>, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">1987</span>,<span class="dv">1</span>))</span>
+<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a>souvenirtimeseries</span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a>**What's happening here:**</span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Same pattern as births — monthly souvenir shop sales data, starting January 1987.</span>
+<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`frequency=12`</span> again, because the data is monthly.</span>
+<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a>**Bonus exercise in the lab:** The lab asks you to recreate the <span class="in">`ts()`</span> output using <span class="in">`matrix()`</span> instead. Here's what that looks like from the solution file:</span>
+<span id="cb15-131"><a href="#cb15-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-132"><a href="#cb15-132" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a>nrow <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1987</span>, <span class="dv">1993</span>)   <span class="co"># years as row labels</span></span>
+<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a>ncol <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"J"</span>,<span class="st">"F"</span>,<span class="st">"M"</span>,<span class="st">"A"</span>,<span class="st">"My"</span>,<span class="st">"Jn"</span>,<span class="st">"Jl"</span>,<span class="st">"Au"</span>,<span class="st">"S"</span>,<span class="st">"O"</span>,<span class="st">"N"</span>,<span class="st">"D"</span>)  <span class="co"># month labels</span></span>
+<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a>souvenir.mat <span class="ot">=</span> <span class="fu">matrix</span>(souvenir, <span class="at">ncol=</span><span class="dv">12</span>, <span class="at">byrow=</span><span class="cn">FALSE</span>,</span>
+<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a>                      <span class="at">dimnames =</span> <span class="fu">list</span>(nrow, ncol))</span>
+<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a>**What this does:** Arranges the souvenir numbers into a grid (matrix) with years as rows and months as columns. This is what <span class="in">`ts()`</span> is doing internally — organising data by time. <span class="in">`byrow=FALSE`</span> means R fills the matrix column by column (January first for all years, then February, etc.).</span>
+<span id="cb15-141"><a href="#cb15-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Your notes:**</span></span>
+<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part 2 – Plotting the Time Series</span></span>
+<span id="cb15-147"><a href="#cb15-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-148"><a href="#cb15-148" aria-hidden="true" tabindex="-1"></a><span class="fu">## Opening a Plot Window and Plotting</span></span>
+<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-150"><a href="#cb15-150" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-151"><a href="#cb15-151" aria-hidden="true" tabindex="-1"></a><span class="fu">x11</span>()</span>
+<span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb15-153"><a href="#cb15-153" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(kingstimeseries)</span>
+<span id="cb15-154"><a href="#cb15-154" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(birthstimeseries)</span>
+<span id="cb15-155"><a href="#cb15-155" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(souvenirtimeseries)</span>
+<span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a>**Line by line:**</span>
+<span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`x11()`</span> → Opens a new graphics window (so your plot doesn't overwrite something else). Think of it as opening a fresh sheet of paper.</span>
+<span id="cb15-161"><a href="#cb15-161" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`par(mfrow=c(1,3))`</span> → Set up the plotting area to show **1 row and 3 columns** of plots side by side. <span class="in">`mfrow`</span> = "multi-frame, row-wise".</span>
+<span id="cb15-162"><a href="#cb15-162" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`plot.ts(...)`</span> → Plot a time series object. This is smarter than plain <span class="in">`plot()`</span> — it automatically puts time on the x-axis.</span>
+<span id="cb15-163"><a href="#cb15-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-164"><a href="#cb15-164" aria-hidden="true" tabindex="-1"></a>**What to look for in the plots:**</span>
+<span id="cb15-165"><a href="#cb15-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-166"><a href="#cb15-166" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Dataset <span class="pp">|</span> What you'd typically see <span class="pp">|</span></span>
+<span id="cb15-167"><a href="#cb15-167" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb15-168"><a href="#cb15-168" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Kings <span class="pp">|</span> Irregular, no obvious pattern — random variation <span class="pp">|</span></span>
+<span id="cb15-169"><a href="#cb15-169" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Births <span class="pp">|</span> Clear repeating seasonal pattern + possible trend <span class="pp">|</span></span>
+<span id="cb15-170"><a href="#cb15-170" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Souvenir <span class="pp">|</span> Strong upward trend + increasing seasonal spikes <span class="pp">|</span></span>
+<span id="cb15-171"><a href="#cb15-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-172"><a href="#cb15-172" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 🔑 **Exam tip:** Looking at a plot and identifying trend vs seasonality vs noise is a core skill. Practice describing what you see in words.</span></span>
+<span id="cb15-173"><a href="#cb15-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-174"><a href="#cb15-174" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Your notes:**</span></span>
+<span id="cb15-175"><a href="#cb15-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-176"><a href="#cb15-176" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-177"><a href="#cb15-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-178"><a href="#cb15-178" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part 3 – Decomposition</span></span>
+<span id="cb15-179"><a href="#cb15-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-180"><a href="#cb15-180" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Big Idea</span></span>
+<span id="cb15-181"><a href="#cb15-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-182"><a href="#cb15-182" aria-hidden="true" tabindex="-1"></a>Every time series can be thought of as a **mix of three ingredients**:</span>
+<span id="cb15-183"><a href="#cb15-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-184"><a href="#cb15-184" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Component <span class="pp">|</span> What it means <span class="pp">|</span> Example <span class="pp">|</span></span>
+<span id="cb15-185"><a href="#cb15-185" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb15-186"><a href="#cb15-186" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Trend (T)** <span class="pp">|</span> The overall long-run direction <span class="pp">|</span> Sales gradually increasing over years <span class="pp">|</span></span>
+<span id="cb15-187"><a href="#cb15-187" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Seasonal (S)** <span class="pp">|</span> Regular repeating pattern <span class="pp">|</span> Ice cream sales spike every summer <span class="pp">|</span></span>
+<span id="cb15-188"><a href="#cb15-188" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Random/Noise (R)** <span class="pp">|</span> Everything else — unpredictable <span class="pp">|</span> A one-off spike due to a news event <span class="pp">|</span></span>
+<span id="cb15-189"><a href="#cb15-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-190"><a href="#cb15-190" aria-hidden="true" tabindex="-1"></a>**Two ways to combine them:**</span>
+<span id="cb15-191"><a href="#cb15-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-192"><a href="#cb15-192" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Additive model:** $Y_t = T + S + R$</span>
+<span id="cb15-193"><a href="#cb15-193" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Use when the seasonal swings stay roughly the *same size* over time.</span>
+<span id="cb15-194"><a href="#cb15-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multiplicative model:** $Y_t = T \times S \times R$</span>
+<span id="cb15-195"><a href="#cb15-195" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Use when the seasonal swings *grow bigger* as the trend increases.</span>
+<span id="cb15-196"><a href="#cb15-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-197"><a href="#cb15-197" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 Look at the souvenir plot — the peaks get bigger over time. That suggests **multiplicative**. The births plot has roughly equal-sized seasonal swings — that suggests **additive**.</span></span>
+<span id="cb15-198"><a href="#cb15-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-199"><a href="#cb15-199" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-200"><a href="#cb15-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-201"><a href="#cb15-201" aria-hidden="true" tabindex="-1"></a><span class="fu">## Installing and Loading the TTR Package</span></span>
+<span id="cb15-202"><a href="#cb15-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-203"><a href="#cb15-203" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-204"><a href="#cb15-204" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"TTR"</span>)</span>
+<span id="cb15-205"><a href="#cb15-205" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"TTR"</span>)</span>
+<span id="cb15-206"><a href="#cb15-206" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-207"><a href="#cb15-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-208"><a href="#cb15-208" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`install.packages("TTR")`</span> → Download and install the package (only needed once).</span>
+<span id="cb15-209"><a href="#cb15-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`library("TTR")`</span> → Load the package into your current R session (needed every time you start R).</span>
+<span id="cb15-210"><a href="#cb15-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a>**TTR** stands for *Technical Trading Rules* — it's a finance package, but it provides useful tools for time series smoothing.</span>
+<span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-213"><a href="#cb15-213" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Your notes:**</span></span>
+<span id="cb15-214"><a href="#cb15-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-215"><a href="#cb15-215" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-216"><a href="#cb15-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-217"><a href="#cb15-217" aria-hidden="true" tabindex="-1"></a><span class="fu">## Running the Decomposition</span></span>
+<span id="cb15-218"><a href="#cb15-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-219"><a href="#cb15-219" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-220"><a href="#cb15-220" aria-hidden="true" tabindex="-1"></a>births.ts <span class="ot">=</span> birthstimeseries</span>
+<span id="cb15-221"><a href="#cb15-221" aria-hidden="true" tabindex="-1"></a>births.ts.comp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(births.ts)</span>
+<span id="cb15-222"><a href="#cb15-222" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.comp)</span>
+<span id="cb15-223"><a href="#cb15-223" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-224"><a href="#cb15-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-225"><a href="#cb15-225" aria-hidden="true" tabindex="-1"></a>**Line by line:**</span>
+<span id="cb15-226"><a href="#cb15-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-227"><a href="#cb15-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`births.ts = birthstimeseries`</span> → Just creating a shorter name to work with. Same data, easier to type.</span>
+<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`decompose(births.ts)`</span> → R's built-in function that splits the time series into its three components (Trend, Seasonal, Random) using **moving averages**.</span>
+<span id="cb15-229"><a href="#cb15-229" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`plot(births.ts.comp)`</span> → Plots all four panels: original data, trend, seasonal, and random. This is very useful for visual inspection.</span>
+<span id="cb15-230"><a href="#cb15-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-231"><a href="#cb15-231" aria-hidden="true" tabindex="-1"></a>**What `decompose()` gives you:**</span>
+<span id="cb15-232"><a href="#cb15-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-233"><a href="#cb15-233" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-234"><a href="#cb15-234" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>seasonal   <span class="co"># the seasonal component</span></span>
+<span id="cb15-235"><a href="#cb15-235" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>trend      <span class="co"># the trend component</span></span>
+<span id="cb15-236"><a href="#cb15-236" aria-hidden="true" tabindex="-1"></a>births.ts.comp<span class="sc">$</span>random     <span class="co"># the residual/noise component</span></span>
+<span id="cb15-237"><a href="#cb15-237" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-238"><a href="#cb15-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-239"><a href="#cb15-239" aria-hidden="true" tabindex="-1"></a>You can access each piece using the <span class="in">`$`</span> operator (think of it like opening a specific drawer in a filing cabinet).</span>
+<span id="cb15-240"><a href="#cb15-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-241"><a href="#cb15-241" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Your notes:**</span></span>
+<span id="cb15-242"><a href="#cb15-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-243"><a href="#cb15-243" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-244"><a href="#cb15-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-245"><a href="#cb15-245" aria-hidden="true" tabindex="-1"></a><span class="fu">## Multiplicative Decomposition (from the solution file)</span></span>
+<span id="cb15-246"><a href="#cb15-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-247"><a href="#cb15-247" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-248"><a href="#cb15-248" aria-hidden="true" tabindex="-1"></a>births.ts.comp.m <span class="ot">&lt;-</span> <span class="fu">decompose</span>(births.ts, <span class="at">type =</span> <span class="st">"multiplicative"</span>)</span>
+<span id="cb15-249"><a href="#cb15-249" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.comp.m)</span>
+<span id="cb15-250"><a href="#cb15-250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-251"><a href="#cb15-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-252"><a href="#cb15-252" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Adding <span class="in">`type = "multiplicative"`</span> switches the model from additive to multiplicative.</span>
+<span id="cb15-253"><a href="#cb15-253" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The solution file applies this to the souvenir data specifically, since its seasonal variation grows with the trend.</span>
+<span id="cb15-254"><a href="#cb15-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-255"><a href="#cb15-255" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-256"><a href="#cb15-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-257"><a href="#cb15-257" aria-hidden="true" tabindex="-1"></a><span class="fu">## Removing Components (Seasonal Adjustment)</span></span>
+<span id="cb15-258"><a href="#cb15-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-259"><a href="#cb15-259" aria-hidden="true" tabindex="-1"></a><span class="fu">### Remove the Seasonal Component</span></span>
+<span id="cb15-260"><a href="#cb15-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-261"><a href="#cb15-261" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-262"><a href="#cb15-262" aria-hidden="true" tabindex="-1"></a>births.ts.comp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(births.ts)</span>
+<span id="cb15-263"><a href="#cb15-263" aria-hidden="true" tabindex="-1"></a>births.ts.sadj <span class="ot">&lt;-</span> births.ts <span class="sc">-</span> births.ts.comp<span class="sc">$</span>seasonal</span>
+<span id="cb15-264"><a href="#cb15-264" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.sadj)</span>
+<span id="cb15-265"><a href="#cb15-265" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-266"><a href="#cb15-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-267"><a href="#cb15-267" aria-hidden="true" tabindex="-1"></a>**What's happening:**</span>
+<span id="cb15-268"><a href="#cb15-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-269"><a href="#cb15-269" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We subtract the seasonal part from the full series.</span>
+<span id="cb15-270"><a href="#cb15-270" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What's left is the trend + noise — the "seasonally adjusted" series.</span>
+<span id="cb15-271"><a href="#cb15-271" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Why do this?** Economists and analysts often do this to see the *true underlying trend* without seasonal noise (e.g., unemployment figures are often reported "seasonally adjusted").</span>
+<span id="cb15-272"><a href="#cb15-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-273"><a href="#cb15-273" aria-hidden="true" tabindex="-1"></a><span class="fu">### Remove the Trend Component</span></span>
+<span id="cb15-274"><a href="#cb15-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-275"><a href="#cb15-275" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-276"><a href="#cb15-276" aria-hidden="true" tabindex="-1"></a>births.ts.tadj <span class="ot">&lt;-</span> births.ts <span class="sc">-</span> births.ts.comp<span class="sc">$</span>trend</span>
+<span id="cb15-277"><a href="#cb15-277" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.tadj)</span>
+<span id="cb15-278"><a href="#cb15-278" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-279"><a href="#cb15-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-280"><a href="#cb15-280" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Subtract the trend → you're left with seasonal + noise.</span>
+<span id="cb15-281"><a href="#cb15-281" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Useful for studying the seasonal pattern in isolation.</span>
+<span id="cb15-282"><a href="#cb15-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-283"><a href="#cb15-283" aria-hidden="true" tabindex="-1"></a><span class="fu">### Remove the Random (Noise) Component</span></span>
+<span id="cb15-284"><a href="#cb15-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-285"><a href="#cb15-285" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-286"><a href="#cb15-286" aria-hidden="true" tabindex="-1"></a>births.ts.nadj <span class="ot">&lt;-</span> births.ts <span class="sc">-</span> births.ts.comp<span class="sc">$</span>random</span>
+<span id="cb15-287"><a href="#cb15-287" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(births.ts.nadj)</span>
+<span id="cb15-288"><a href="#cb15-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-289"><a href="#cb15-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-290"><a href="#cb15-290" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Subtract the noise → you're left with trend + seasonal.</span>
+<span id="cb15-291"><a href="#cb15-291" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This "smooths" the series — like a cleaned-up version.</span>
+<span id="cb15-292"><a href="#cb15-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-293"><a href="#cb15-293" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 🔑 **The key equation to remember:**</span></span>
+<span id="cb15-294"><a href="#cb15-294" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb15-295"><a href="#cb15-295" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; $$Y_t = T_t + S_t + R_t \quad \text{(Additive)}$$</span></span>
+<span id="cb15-296"><a href="#cb15-296" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb15-297"><a href="#cb15-297" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Rearranging: $S_t = Y_t - T_t$ and $R_t = Y_t - T_t - S_t$</span></span>
+<span id="cb15-298"><a href="#cb15-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-299"><a href="#cb15-299" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-300"><a href="#cb15-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-301"><a href="#cb15-301" aria-hidden="true" tabindex="-1"></a><span class="fu">## Differencing (Bonus — from the solution file)</span></span>
+<span id="cb15-302"><a href="#cb15-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-303"><a href="#cb15-303" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb15-304"><a href="#cb15-304" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">diff</span>(births.ts))</span>
+<span id="cb15-305"><a href="#cb15-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-306"><a href="#cb15-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-307"><a href="#cb15-307" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`diff()`</span> computes the **difference between consecutive values** — i.e., how much the series changed from one period to the next.</span>
+<span id="cb15-308"><a href="#cb15-308" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This is used later in the course to make a series **stationary** (constant mean and variance), which is required for ARIMA models.</span>
+<span id="cb15-309"><a href="#cb15-309" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>For now, just know it exists and what it looks like.</span>
+<span id="cb15-310"><a href="#cb15-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-311"><a href="#cb15-311" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Your notes:**</span></span>
+<span id="cb15-312"><a href="#cb15-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-313"><a href="#cb15-313" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-314"><a href="#cb15-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-315"><a href="#cb15-315" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations / Formulas</span></span>
+<span id="cb15-316"><a href="#cb15-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-317"><a href="#cb15-317" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Formula <span class="pp">|</span> Meaning <span class="pp">|</span></span>
+<span id="cb15-318"><a href="#cb15-318" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb15-319"><a href="#cb15-319" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $Y_t = T_t + S_t + R_t$ <span class="pp">|</span> Additive decomposition <span class="pp">|</span></span>
+<span id="cb15-320"><a href="#cb15-320" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $Y_t = T_t \times S_t \times R_t$ <span class="pp">|</span> Multiplicative decomposition <span class="pp">|</span></span>
+<span id="cb15-321"><a href="#cb15-321" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $S_t = Y_t - T_t$ <span class="pp">|</span> Seasonal component (additive) <span class="pp">|</span></span>
+<span id="cb15-322"><a href="#cb15-322" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $S_t = Y_t / T_t$ <span class="pp">|</span> Seasonal component (multiplicative) <span class="pp">|</span></span>
+<span id="cb15-323"><a href="#cb15-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-324"><a href="#cb15-324" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-325"><a href="#cb15-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-326"><a href="#cb15-326" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary: Key Functions Cheat Sheet</span></span>
+<span id="cb15-327"><a href="#cb15-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-328"><a href="#cb15-328" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> R Function <span class="pp">|</span> What it does <span class="pp">|</span></span>
+<span id="cb15-329"><a href="#cb15-329" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb15-330"><a href="#cb15-330" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`scan("url", skip=n)`</span> <span class="pp">|</span> Load data from a file/URL, skip n header lines <span class="pp">|</span></span>
+<span id="cb15-331"><a href="#cb15-331" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ts(data, frequency=, start=)`</span> <span class="pp">|</span> Convert data to a time series object <span class="pp">|</span></span>
+<span id="cb15-332"><a href="#cb15-332" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`plot.ts(x)`</span> <span class="pp">|</span> Plot a time series <span class="pp">|</span></span>
+<span id="cb15-333"><a href="#cb15-333" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`par(mfrow=c(r,c))`</span> <span class="pp">|</span> Arrange multiple plots in r rows and c columns <span class="pp">|</span></span>
+<span id="cb15-334"><a href="#cb15-334" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`x11()`</span> <span class="pp">|</span> Open a new graphics window <span class="pp">|</span></span>
+<span id="cb15-335"><a href="#cb15-335" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`decompose(x)`</span> <span class="pp">|</span> Split a time series into Trend + Seasonal + Random <span class="pp">|</span></span>
+<span id="cb15-336"><a href="#cb15-336" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`decompose(x, type="multiplicative")`</span> <span class="pp">|</span> Same but using multiplicative model <span class="pp">|</span></span>
+<span id="cb15-337"><a href="#cb15-337" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`diff(x)`</span> <span class="pp">|</span> Compute differences between consecutive values <span class="pp">|</span></span>
+<span id="cb15-338"><a href="#cb15-338" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`births.ts.comp$seasonal`</span> <span class="pp">|</span> Extract the seasonal component <span class="pp">|</span></span>
+<span id="cb15-339"><a href="#cb15-339" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`births.ts.comp$trend`</span> <span class="pp">|</span> Extract the trend component <span class="pp">|</span></span>
+<span id="cb15-340"><a href="#cb15-340" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`births.ts.comp$random`</span> <span class="pp">|</span> Extract the noise/residual component <span class="pp">|</span></span>
+<span id="cb15-341"><a href="#cb15-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-342"><a href="#cb15-342" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-343"><a href="#cb15-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-344"><a href="#cb15-344" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb15-345"><a href="#cb15-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-346"><a href="#cb15-346" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A **time series** is data collected at regular time intervals. The <span class="in">`ts()`</span> function tells R that your data has a time dimension.</span>
+<span id="cb15-347"><a href="#cb15-347" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`frequency`</span> tells R how many observations make up one full cycle (12 = monthly, 4 = quarterly).</span>
+<span id="cb15-348"><a href="#cb15-348" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`start=c(year, period)`</span> tells R when the series begins.</span>
+<span id="cb15-349"><a href="#cb15-349" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Every time series is made up of **Trend**, **Seasonal**, and **Random** components.</span>
+<span id="cb15-350"><a href="#cb15-350" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use **additive** decomposition when seasonal variation is constant; use **multiplicative** when it grows with the trend.</span>
+<span id="cb15-351"><a href="#cb15-351" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`decompose()`</span> automatically separates these components using moving averages.</span>
+<span id="cb15-352"><a href="#cb15-352" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You can **subtract** any component from the series to study the rest in isolation — this is called **adjustment**.</span>
+<span id="cb15-353"><a href="#cb15-353" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`diff()`</span> computes changes between time periods — important for stationarity (covered in later labs).</span>
+<span id="cb15-354"><a href="#cb15-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-355"><a href="#cb15-355" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-356"><a href="#cb15-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-357"><a href="#cb15-357" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 **Space for your own notes and annotations:**</span></span>
+<span id="cb15-358"><a href="#cb15-358" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb15-359"><a href="#cb15-359" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *(Add anything your lecturer emphasized in class, exam tips, or things that confused you here)*</span></span>
+<span id="cb15-360"><a href="#cb15-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-361"><a href="#cb15-361" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb15-362"><a href="#cb15-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-363"><a href="#cb15-363" aria-hidden="true" tabindex="-1"></a>*STAT9005 Time Series Analysis — Lab 1*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,867 @@
+---
+title: "STAT9004 — Master Study Guide"
+subtitle: "Your Plain-English Guide to Surviving Both Exams 🎓"
+author: "My Notes"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "Jump To..."
+    number-sections: true
+    theme: flatly
+    highlight-style: github
+    code-fold: false
+    smooth-scroll: true
+execute:
+  echo: true
+  eval: false
+  warning: false
+---
+
+> 🧠 **How to use this guide:**
+> Each week has **4 blocks**: (1) plain-English explanation, (2) key ideas cheat-sheet,
+> (3) R code you can copy-paste, and (4) practice questions.
+> Read the plain English first — then the R code will make sense.
+
+---
+
+# 📅 Week 1 — Data Analysis Protocol & Missing Data
+
+## 🗣️ Explain It Like I'm 5
+
+Imagine you're a scientist and you've collected data from 100 people.
+But wait — 8 of them forgot to answer one of the questions.
+What do you do with those 8 people?
+
+**That's the whole point of this week.** There's a 5-step recipe for analysing data properly, and step one is figuring out what to do with the holes in your data.
+
+**The 5-step recipe for data analysis:**
+
+1. **Define the problem** — What question are you actually trying to answer?
+2. **Initial data analysis** — Look at the data first! Make graphs. Check for weird values. Find missing data.
+3. **Fit a model** — Choose the right statistical test and run it.
+4. **Interpret the model** — What does the output actually mean?
+5. **Validate the model** — Was the test even appropriate? Check the assumptions.
+
+> 💡 Think of it like cooking. You don't just throw ingredients in a pan (Step 3). You check what you have first (Step 2), decide what you're making (Step 1), and taste it at the end (Step 5).
+
+---
+
+**Now, about missing data...**
+
+There are 3 types of missing data, and it matters *why* data is missing:
+
+| Type | What it means | Real example | Action |
+|------|---------------|--------------|--------|
+| **MCAR** — Missing Completely At Random | Missing by pure chance | Survey form accidentally skipped | Safe to delete those rows |
+| **MAR** — Missing At Random | Missing depends on *other* variables in your data | Older people skip income questions | Use imputation |
+| **MNAR** — Missing Not At Random | Missing because of the value itself | Very sick people don't show up for follow-up | Big problem — results will be biased |
+
+**What can you do about missing data?**
+
+- **Delete it** (complete case approach) — Only safe if data is MCAR and you still have enough rows left
+- **Impute it** — Replace the missing value with an estimate:
+  - *Mean substitution* — replace with the average of that column
+  - *Regression imputation* — use other columns to predict what the value should be
+  - *Hot deck* — borrow the value from a similar person in the dataset
+
+---
+
+## 📌 Key Ideas Cheat Sheet
+
+- Always follow the **5-step data analysis protocol**
+- **MCAR** = safe to delete | **MAR** = impute | **MNAR** = danger zone
+- Missing data can **bias your results** if not handled correctly
+- R uses the **complete case approach by default** (drops rows with any NA)
+- Always check *how much* data is missing before deciding what to do
+
+---
+
+## 💻 R Code
+
+```r
+# Load data
+data <- read.csv("mydata.csv")
+
+# Check for missing values
+sum(is.na(data))           # total number of NAs
+colSums(is.na(data))       # NAs per column
+
+# Remove rows with any missing value (complete case approach)
+data_clean <- na.omit(data)
+
+# Replace NAs with column mean (mean substitution)
+data$age[is.na(data$age)] <- mean(data$age, na.rm = TRUE)
+
+# Explore the data
+summary(data)
+str(data)
+hist(data$variable)
+boxplot(data$variable)
+```
+
+---
+
+## ❓ Practice Questions
+
+**Q1.** A researcher collects health data from 200 patients. 15 patients did not complete the pain score question because they were feeling too ill. What type of missing data is this, and what should the researcher do?
+
+> 💬 *Answer hint: The missing data is related to the value itself (pain level) → MNAR. The researcher should not simply delete these rows as this would bias the results toward healthier patients.*
+
+**Q2.** Name the 5 steps of the data analysis protocol in order.
+
+**Q3.** What is the difference between mean substitution and regression imputation?
+
+---
+
+---
+
+# 📅 Week 2 — Statistical Inference
+
+## 🗣️ Explain It Like I'm 5
+
+Imagine you want to know the average height of ALL students in Ireland.
+You can't measure everyone — that would take years. So you measure 50 students and use that to make a guess about everyone.
+
+**That's statistical inference** — using a small sample to say something about the big population.
+
+There are two main tools:
+
+### Tool 1: Hypothesis Testing
+
+You start with a **boring, "nothing is going on" statement** — this is the **null hypothesis (H₀)**.
+Then you check if your data gives you enough evidence to prove it wrong.
+
+> 🎲 Think of it like a trial. The null hypothesis is "innocent until proven guilty."
+> The data is your evidence. The p-value tells you how strong that evidence is.
+
+**The 5 steps of a hypothesis test:**
+
+1. State H₀ (null) and Hₐ (alternative)
+2. Choose your significance level α (usually 0.05)
+3. Calculate the test statistic
+4. Find the p-value
+5. Make a decision: if p < α → reject H₀
+
+**What does the p-value actually mean?**
+
+> The p-value is the probability of seeing results *at least as extreme as yours*, IF the null hypothesis were true.
+
+- **p < 0.05** → Strong enough evidence → **Reject H₀** ✅
+- **p ≥ 0.05** → Not enough evidence → **Fail to reject H₀** ❌
+
+> ⚠️ "Fail to reject" does NOT mean H₀ is true. It just means you don't have enough evidence against it.
+
+**Type I and Type II Errors:**
+
+| | H₀ is actually TRUE | H₀ is actually FALSE |
+|---|---|---|
+| **You reject H₀** | ❌ Type I Error (false alarm) — probability = α | ✅ Correct! |
+| **You fail to reject H₀** | ✅ Correct! | ❌ Type II Error (missed it) — probability = β |
+
+---
+
+### Tool 2: Confidence Intervals
+
+A **95% confidence interval** gives you a range where you're 95% confident the true population value lies.
+
+> Imagine you're trying to guess someone's weight from a blurry photo.
+> You don't say "they weigh exactly 70kg." You say "they probably weigh between 65 and 75kg."
+> That range is your confidence interval.
+
+**Key facts:**
+- Wider interval = less precision (but more confidence)
+- Bigger sample size = narrower interval
+- A confidence interval tells you the *size* of an effect — a p-value alone doesn't!
+
+---
+
+## 📌 Key Ideas Cheat Sheet
+
+- **H₀** = null hypothesis (no effect, no difference)
+- **Hₐ** = alternative hypothesis (there IS an effect)
+- **p < 0.05** → reject H₀ (statistically significant)
+- **Type I error** = false positive (α) | **Type II error** = false negative (β)
+- **Confidence interval** = range of plausible values for the true parameter
+- Always report the **p-value AND the confidence interval** together
+
+---
+
+## 💻 R Code
+
+```r
+# One-sample t-test
+# "Is the mean different from 4?"
+t.test(data$variable, mu = 4)
+
+# One-sample t-test, one-sided (is the mean GREATER than 4?)
+t.test(data$variable, mu = 4, alternative = "greater")
+
+# Two-sample t-test (are two group means different?)
+t.test(groupA, groupB)
+
+# 95% confidence interval is included in the t.test output automatically
+# Look for: "95 percent confidence interval"
+```
+
+---
+
+## ❓ Practice Questions
+
+**Q1.** A factory claims their bolts have a mean diameter of 10mm. You test 40 bolts and get a mean of 10.3mm (SD = 0.8). State the null and alternative hypotheses.
+
+> 💬 *H₀: μ = 10, Hₐ: μ ≠ 10 (two-sided)*
+
+**Q2.** A test gives p = 0.03. What do you conclude at the 5% significance level?
+
+**Q3.** What is a Type II error? Give a real-world example.
+
+**Q4.** A 95% CI for a mean is [12.1, 14.7]. Can you conclude the mean is different from 10? What about different from 13?
+
+---
+
+---
+
+# 📅 Week 3 — Power Analysis & Sample Size
+
+## 🗣️ Explain It Like I'm 5
+
+Imagine you're looking for a tiny needle in a haystack.
+
+- If the needle is **big** (large effect size), you'll find it with a small amount of searching (small sample size).
+- If the needle is **tiny** (small effect size), you need to search much more carefully (large sample size).
+
+**Statistical power** is basically: *"How good is my test at finding the needle if it's really there?"*
+
+Power = probability of finding a real effect when one exists = **1 − β**
+
+> 💡 A power of 0.80 means: if the effect is real, you have an 80% chance of detecting it.
+> Most studies aim for 80% power.
+
+**The 4 things that are all connected:**
+
+| Thing | What happens if you increase it |
+|-------|--------------------------------|
+| **Sample size (n)** | Power goes UP ↑ |
+| **Effect size (d)** | Power goes UP ↑ (bigger difference = easier to detect) |
+| **Significance level (α)** | Power goes UP ↑ (but more false positives) |
+| **Power (1-β)** | Need a bigger sample size |
+
+> You only need to know 3 of the 4 — R calculates the 4th automatically.
+
+**Cohen's d (effect size for t-tests):**
+
+$$d = \frac{\mu_A - \mu_0}{\sigma}$$
+
+This is just: how many standard deviations apart are the two means?
+
+---
+
+## 📌 Key Ideas Cheat Sheet
+
+- **Power** = probability of correctly rejecting a false H₀
+- Power = 1 − β (want this to be ≥ 0.80)
+- **Cohen's d** = effect size for t-tests = (difference in means) / SD
+- Use the **`pwr` package** in R
+- Know 3 of {n, d, α, power} → calculate the 4th
+- Small effect size + large variation = need BIG sample size
+
+---
+
+## 💻 R Code
+
+```r
+install.packages("pwr")
+library(pwr)
+
+# Calculate POWER given sample size
+# Example: n=30, effect size d=0.27, alpha=0.05, one-sample, one-tailed
+pwr.t.test(n = 30, 
+           d = 0.2692, 
+           sig.level = 0.05, 
+           type = "one.sample", 
+           alternative = "greater")
+
+# Calculate SAMPLE SIZE needed for 80% power
+pwr.t.test(d = 0.2692, 
+           sig.level = 0.05, 
+           power = 0.80, 
+           type = "one.sample", 
+           alternative = "greater")
+
+# For two independent samples:
+pwr.t.test(n = NULL,         # what we want to find
+           d = 0.5,          # effect size (Cohen's d)
+           sig.level = 0.05, 
+           power = 0.80, 
+           type = "two.sample")
+
+# For one-way ANOVA power:
+pwr.anova.test(k = 3,        # number of groups
+               f = 0.25,     # effect size (Cohen's f)
+               sig.level = 0.05, 
+               power = 0.80)
+```
+
+---
+
+## ❓ Practice Questions
+
+**Q1.** What does a power of 0.42 mean in plain English?
+
+> 💬 *If the effect is real, you only have a 42% chance of detecting it. That's not great — you'd flip tails with a coin more reliably!*
+
+**Q2.** A study has n=25, d=0.56, α=0.05, one-sample one-tailed. Use R to find the power.
+
+**Q3.** If you want 90% power with d=0.5 and α=0.05 (two-sample), what sample size do you need per group?
+
+**Q4.** What is a Type II error? How does increasing sample size help?
+
+---
+
+---
+
+# 📅 Week 4 — Experimental Design
+
+## 🗣️ Explain It Like I'm 5
+
+Before you collect ANY data, you need to plan your experiment properly.
+A bad experiment design = bad data = wrong conclusions. No amount of fancy statistics can fix that.
+
+**The key ideas:**
+
+**Randomisation** — randomly assign subjects to treatment groups.
+> Why? To make sure the groups are fair. If you always put the healthiest people in the treatment group, your results will be biased.
+
+**Replication** — repeat the experiment multiple times.
+> Why? One measurement is unreliable. The more you measure, the closer you get to the truth.
+
+**Blocking** — group similar subjects together, then randomise within blocks.
+> Example: If you're testing a drug, you might block by gender first — then randomly assign men to treatments and women to treatments separately. This removes the effect of gender from your error.
+
+**Completely Randomised Design (CRD)** — the simplest design. Just randomly assign subjects to groups. All treatments are equally likely for all subjects.
+
+**Factorial Design** — test multiple factors at the same time.
+> Example: Testing 3 drugs (factor A) × with/without vitamin C (factor B) = 6 treatment combinations. This is efficient AND lets you see if the factors *interact* with each other.
+
+> 💡 ANOVA (coming up in Weeks 5-7) is the statistical test used for these designs.
+
+---
+
+## 📌 Key Ideas Cheat Sheet
+
+- **Randomisation** = removes bias
+- **Replication** = reduces variability, increases reliability
+- **Blocking** = controls for a known nuisance variable
+- **CRD** = simplest: randomly assign to groups
+- **Factorial design** = test all combinations of 2+ factors
+- One-way ANOVA → **one** factor | Two-way ANOVA → **two** factors
+
+---
+
+## ❓ Practice Questions
+
+**Q1.** A researcher tests three types of fertiliser on plants, but all the plants in sunny spots get Fertiliser A and all plants in shady spots get Fertiliser C. What's wrong with this design?
+
+> 💬 *The effect of fertiliser is confounded with the effect of sunlight. The results can't be trusted.*
+
+**Q2.** What is the difference between a completely randomised design and a factorial design?
+
+**Q3.** Why is replication important?
+
+---
+
+---
+
+# 📅 Week 5 — One-Way ANOVA
+
+## 🗣️ Explain It Like I'm 5
+
+Remember the t-test? You used it to compare **2 group means**.
+
+But what if you have **3 or more groups**? You can't just do multiple t-tests — that inflates your chance of getting a false positive.
+
+**ANOVA (Analysis of Variance)** solves this. It tests: *"Are ANY of these group means different?"*
+
+> 🍕 Imagine 4 pizza restaurants. You taste 5 pizzas from each. ANOVA tells you: "Are any of these restaurants significantly different from the others?" It doesn't tell you *which* ones — that's the post hoc test's job.
+
+**How does ANOVA work?**
+
+It compares two sources of variation:
+
+$$F = \frac{\text{Variance BETWEEN groups}}{\text{Variance WITHIN groups}}$$
+
+- If the groups are all similar → F ≈ 1 (fail to reject H₀)
+- If at least one group is very different → F is large → reject H₀
+
+**The hypotheses:**
+- H₀: μ₁ = μ₂ = μ₃ = ... (all group means are equal)
+- Hₐ: At least one group mean is different
+
+> ⚠️ Rejecting H₀ tells you *something* is different — not *what* is different. You need a **post hoc test** for that.
+
+**Post Hoc Test: Tukey's HSD**
+
+After ANOVA says "yes, something's different," Tukey's test compares every pair of groups and tells you *which* pairs are significantly different.
+
+**Effect Size: η² (Eta Squared)**
+
+$$\eta^2 = \frac{SS_{treatment}}{SS_{total}}$$
+
+This tells you how *much* of the variation in your outcome is explained by the grouping factor.
+
+- η² = 0.06 → small effect
+- η² = 0.14 → medium effect
+- η² > 0.14 → large effect
+
+**ANOVA Assumptions (check these!):**
+1. Groups are independent (random sampling)
+2. Equal variances across groups (**homogeneity of variance**) → test with Fligner-Killeen or Levene's test
+3. Residuals are normally distributed → check with Q-Q plot
+
+---
+
+## 📌 Key Ideas Cheat Sheet
+
+- ANOVA compares **3+ group means** using the **F statistic**
+- H₀: all means are equal | Hₐ: at least one differs
+- Large F → small p → reject H₀
+- ANOVA tells you *if* there's a difference; **Tukey's HSD** tells you *where*
+- **η²** = effect size (proportion of variance explained)
+- Check assumptions: equal variance (Fligner test) + normality (Q-Q plot)
+
+---
+
+## 💻 R Code
+
+```r
+library(tidyverse)
+library(car)
+
+# Read data
+data <- read.table("soil_data.txt", header = TRUE)
+
+# ── Step 1: Exploratory plots ──────────────────────────────────
+boxplot(Yield ~ Soil, data = data, 
+        main = "Yield by Soil Type",
+        xlab = "Soil", ylab = "Yield")
+
+# ── Step 2: Check equal variances ─────────────────────────────
+# Fligner-Killeen test (robust to non-normality)
+fligner.test(Yield ~ Soil, data = data)
+# p > 0.05 → variances are equal → OK to proceed with ANOVA
+
+# ── Step 3: Fit the ANOVA model ────────────────────────────────
+model <- aov(Yield ~ Soil, data = data)
+summary(model)
+
+# ── Step 4: Post hoc test (Tukey's HSD) ───────────────────────
+TukeyHSD(model)
+
+# ── Step 5: Effect size η² ─────────────────────────────────────
+# η² = SS_treatment / SS_total
+# Read SS values from summary(model) and calculate manually:
+# η² = 99.2 / 414.7 = 0.239
+
+# ── Step 6: Diagnostic plots ───────────────────────────────────
+par(mfrow = c(2, 2))
+plot(model)
+```
+
+---
+
+## ❓ Practice Questions
+
+**Q1.** An ANOVA gives F(3, 16) = 19.56, p < 0.001. What do you conclude?
+
+> 💬 *At least one group mean is significantly different. We reject H₀.*
+
+**Q2.** After running ANOVA, why do you need Tukey's HSD?
+
+**Q3.** From the ANOVA table below, calculate η²:
+
+| Source | SS | df |
+|--------|----|----|
+| Treatment | 18.78 | 2 |
+| Residuals | 3.15 | 12 |
+
+> 💬 *η² = 18.78 / (18.78 + 3.15) = 0.856 → huge effect!*
+
+**Q4.** The Fligner-Killeen test gives p = 0.03. What does this tell you about the ANOVA assumptions?
+
+---
+
+---
+
+# 📅 Week 6 & 7 — Two-Way ANOVA
+
+## 🗣️ Explain It Like I'm 5
+
+One-way ANOVA: one factor (e.g., type of drug).
+Two-way ANOVA: **two** factors at the same time (e.g., type of drug AND whether they took vitamin C).
+
+The magic of two-way ANOVA is that it also checks for **interaction effects** — does the effect of Drug depend on whether you also took Vitamin C?
+
+> 🎮 Think of it like this: coffee makes you more alert (+5 energy). Exercise also makes you more alert (+5 energy). But coffee AND exercise together? Maybe +15 energy — more than you'd expect from adding them! That's an interaction.
+
+**The 3 hypotheses in two-way ANOVA:**
+
+1. H₀: No effect of Factor A (main effect A)
+2. H₀: No effect of Factor B (main effect B)
+3. H₀: No interaction between A and B ← **look at this FIRST**
+
+**The golden rule:** Always check the interaction effect first!
+
+- If interaction is **significant** → report the interaction, then examine "simple effects" (the effect of one factor at each level of the other)
+- If interaction is **not significant** → look at the main effects separately
+
+**Interaction plots:** Lines that are parallel = no interaction. Lines that cross or diverge = interaction!
+
+**Effect size for two-way ANOVA:** Use **partial η²** (ηp²)
+
+$$\eta_p^2 = \frac{SS_F}{SS_F + SS_E}$$
+
+---
+
+## 📌 Key Ideas Cheat Sheet
+
+- Two-way ANOVA has **2 factors + their interaction**
+- Check **interaction first** — it takes priority
+- Parallel lines on an interaction plot = no interaction
+- Crossing/diverging lines = interaction present
+- Use **ηp²** (partial eta squared) for effect size in two-way ANOVA
+- Assumptions are the same as one-way ANOVA
+
+---
+
+## 💻 R Code
+
+```r
+library(tidyverse)
+
+# Load data
+viscosity <- read.table("viscosity.txt", header = TRUE)
+
+# Make factors
+viscosity$Catalyst <- as.factor(viscosity$Catalyst)
+viscosity$pH       <- as.factor(viscosity$pH)
+
+# ── Step 1: Interaction plot ────────────────────────────────────
+interaction.plot(viscosity$pH, 
+                 viscosity$Catalyst, 
+                 viscosity$Viscosity,
+                 xlab = "pH", 
+                 ylab = "Mean Viscosity",
+                 trace.label = "Catalyst")
+# Parallel lines → no interaction
+# Crossing/diverging → interaction present
+
+# ── Step 2: Fit two-way ANOVA with interaction ─────────────────
+# Use * to include both main effects AND interaction
+model1 <- aov(Viscosity ~ Catalyst * pH, data = viscosity)
+summary(model1)
+
+# ── Step 3: If interaction is significant → Tukey simple effects
+TukeyHSD(model1)
+
+# ── Step 4: Diagnostic plots ────────────────────────────────────
+par(mfrow = c(2, 2))
+plot(model1)
+
+# ── Partial η² by hand ──────────────────────────────────────────
+# From the ANOVA table:
+# SS_pH = 75, SS_Error = 152
+# ηp² for pH = 75 / (75 + 152) = 0.33
+```
+
+---
+
+## ❓ Practice Questions
+
+**Q1.** A two-way ANOVA gives: interaction p = 0.003, main effect A p = 0.798, main effect B p = 0.082. What do you conclude?
+
+> 💬 *The interaction is significant (p < 0.05). Report the interaction — main effects are misleading when interaction is present.*
+
+**Q2.** Draw two interaction plots: one showing an interaction, one showing no interaction.
+
+**Q3.** Why is checking the interaction effect more important than the main effects in two-way ANOVA?
+
+**Q4.** Calculate ηp² for Factor A if SS_A = 320, SS_Error = 152.
+
+> 💬 *ηp² = 320 / (320 + 152) = 0.678 → 67.8% of variance in outcome explained by Factor A*
+
+---
+
+---
+
+# 📅 Week 8 — Simple Linear Regression
+
+## 🗣️ Explain It Like I'm 5
+
+You want to predict a plant's height from its age. The older the plant, the taller it is. Can you draw a straight line through the data to make predictions?
+
+**Yes — that's linear regression!**
+
+The line has the equation:
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x$$
+
+- **ŷ** = your prediction (fitted value)
+- **β̂₀** = intercept = the value of y when x = 0
+- **β̂₁** = slope = "for every 1 unit increase in x, y changes by this much"
+
+**Residuals** = how far each data point is from your line:
+
+$$\text{Residual} = \text{observed} - \text{predicted} = y_i - \hat{y}_i$$
+
+> 💡 The "least squares" method finds the line that minimises the total of all residuals squared. Think of it as the line that's as close as possible to all the dots at once.
+
+**After fitting the line, you need to check:**
+
+1. Is the slope significantly different from zero? (F-test from ANOVA table)
+   - H₀: β₁ = 0 (x is useless for predicting y)
+   - Hₐ: β₁ ≠ 0 (x is useful!)
+
+2. How well does the line fit? → **R²** (coefficient of determination)
+   - R² = 0.987 means the model explains **98.7%** of the variation in y
+   - R² = 0.05 means the model is basically useless
+
+**Two types of intervals:**
+
+| | What it estimates | Width |
+|---|---|---|
+| **Confidence interval** | Mean response for ALL people with that x | Narrower |
+| **Prediction interval** | Response for ONE NEW person with that x | Wider |
+
+**Diagnostic plots** — after fitting, always check:
+- **Residuals vs Fitted**: should look like random scatter (no pattern)
+- **Q-Q plot**: points should follow the diagonal line (normality)
+- **Scale-Location**: should be flat (constant variance)
+- **Residuals vs Leverage**: identifies influential outliers (Cook's distance)
+
+---
+
+## 📌 Key Ideas Cheat Sheet
+
+- `lm(y ~ x)` fits the model in R
+- **Slope** β̂₁ = change in y per 1 unit increase in x
+- **Intercept** β̂₀ = value of y when x = 0
+- **Residual** = observed − predicted
+- **R²** = % of variation explained (closer to 1 = better)
+- Test slope significance: F-test (ANOVA table) or t-test on coefficient
+- **Confidence interval** = for the mean | **Prediction interval** = for one individual
+- Always check the **4 diagnostic plots**
+
+---
+
+## 💻 R Code
+
+```r
+# ── Load and plot data ──────────────────────────────────────────
+Age    <- c(2, 2, 3, 4, 4, 5, 6, 7, 8, 8)
+Height <- c(4, 5, 9, 11, 12, 14, 17, 21, 22, 24)
+plant  <- data.frame(Age, Height)
+
+plot(Height ~ Age, data = plant, 
+     xlab = "Age (weeks)", ylab = "Height (cm)")
+
+# Check correlation first
+cor(plant$Height, plant$Age)
+
+# ── Fit the model ───────────────────────────────────────────────
+plant_model <- lm(Height ~ Age, data = plant)
+
+# Full summary: coefficients, R², p-values
+summary(plant_model)
+
+# ANOVA table (F-test for slope)
+summary.aov(plant_model)
+
+# ── Add regression line to plot ─────────────────────────────────
+plot(Height ~ Age, data = plant)
+abline(plant_model)
+
+# ── Confidence interval (for the MEAN at Age = 3.5) ────────────
+new <- data.frame(Age = 3.5)
+predict(plant_model, new, interval = "confidence")
+
+# ── Prediction interval (for ONE INDIVIDUAL at Age = 3.5) ──────
+predict(plant_model, new, interval = "prediction")
+
+# ── Diagnostic plots ────────────────────────────────────────────
+par(mfrow = c(2, 2))
+plot(plant_model)
+# Plot 1 (top left):  residuals vs fitted → want random scatter
+# Plot 2 (top right): Q-Q plot → want straight line
+# Plot 3 (bottom left): scale-location → want flat line
+# Plot 4 (bottom right): Cook's distance → flag big outliers
+```
+
+---
+
+## ❓ Practice Questions
+
+**Q1.** A regression gives: Intercept = −1.03, Slope = 3.05. Interpret the slope in plain English.
+
+> 💬 *For each additional week of age, height increases by 3.05 cm.*
+
+**Q2.** R² = 0.9875. What does this mean?
+
+> 💬 *The model explains 98.75% of the variation in plant height. Excellent fit.*
+
+**Q3.** The ANOVA table shows F = 633.7, p < 0.001. What do you conclude about the slope?
+
+> 💬 *Reject H₀. The slope is significantly different from zero — Age is a useful predictor of Height.*
+
+**Q4.** Why is a prediction interval always wider than a confidence interval?
+
+**Q5.** The Q-Q plot shows points curving away from the diagonal line at the ends. What does this suggest?
+
+---
+
+---
+
+# 📅 Week 9 — Multiple Linear Regression
+
+## 🗣️ Explain It Like I'm 5
+
+Simple regression uses **one** predictor (x). Multiple regression uses **many** predictors (x₁, x₂, x₃...).
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2 + \hat{\beta}_3 x_3 + ...$$
+
+> 🏠 Imagine predicting house price. Simple regression might use just area. Multiple regression uses area, number of bedrooms, distance from city centre, and age of house — all at once! Better predictions.
+
+**Interpreting coefficients:**
+Each β tells you: "Holding everything else constant, what's the effect of increasing this variable by 1 unit?"
+
+**The danger: Collinearity**
+
+Collinearity happens when two of your predictor variables are very highly correlated with each other.
+
+> 🤔 Imagine predicting a person's weight using both their height in cm AND their height in inches. These two variables carry the same information! The model gets confused.
+
+Signs of collinearity:
+- A variable you *expect* to be significant isn't
+- Coefficients change wildly when you add/remove a variable
+- Large standard errors on coefficients
+
+**How to detect collinearity:**
+- Correlation matrix between predictors
+- **VIF (Variance Inflation Factor)** — if VIF > 5 (or 10), you have a problem
+
+**Model Selection — Comparing Models:**
+
+Use `anova()` to compare a big model vs a smaller model:
+- H₀: the smaller model fits just as well
+- Hₐ: the bigger model fits significantly better
+- p < 0.05 → keep the bigger model
+
+Use **Adjusted R²** (not regular R²) when comparing models with different numbers of predictors. Adding useless variables will increase R² but decrease Adjusted R².
+
+---
+
+## 📌 Key Ideas Cheat Sheet
+
+- Multiple regression: multiple x variables predicting one y
+- Each coefficient = effect of that variable, **holding all others constant**
+- **Collinearity** = predictors too correlated with each other → misleading results
+- **VIF > 5** → collinearity problem
+- Use **Adjusted R²** to compare models (penalises for extra variables)
+- Use `anova(model1, model2)` to formally test if a bigger model is better
+- Model selection: start with all variables, remove least significant one at a time
+
+---
+
+## 💻 R Code
+
+```r
+library(car)  # for vif()
+
+# ── Fit a multiple regression model ────────────────────────────
+model_full <- lm(sr ~ pop15 + pop75 + dpi + ddpi, data = savings)
+summary(model_full)
+
+# How to read the summary:
+# - Estimate = the coefficient (slope for that variable)
+# - Std. Error = uncertainty in that estimate
+# - t value = Estimate / Std. Error
+# - Pr(>|t|) = p-value for that variable
+# - Multiple R-squared = fit of the model
+# - Adjusted R-squared = fit penalised for number of variables (use this!)
+# - F-statistic p-value = is the overall model significant?
+
+# ── Check for collinearity ──────────────────────────────────────
+vif(model_full)
+# VIF > 5 → problem | VIF > 10 → serious problem
+
+# ── Correlation matrix of predictors ───────────────────────────
+cor(savings[, c("pop15", "pop75", "dpi", "ddpi")])
+
+# ── Compare two models (is the bigger model worth it?) ─────────
+model_small <- lm(sr ~ pop15 + ddpi, data = savings)
+anova(model_small, model_full)
+# p > 0.05 → stick with smaller model
+
+# ── Confidence intervals for coefficients ──────────────────────
+confint(model_full)
+
+# ── Diagnostic plots ────────────────────────────────────────────
+par(mfrow = c(2, 2))
+plot(model_full)
+```
+
+---
+
+## ❓ Practice Questions
+
+**Q1.** A multiple regression model for house price includes area (β₁ = 4.75) and bedrooms (β₂ = 12.3). Interpret β₁.
+
+> 💬 *Holding number of bedrooms constant, each additional m² of area increases the predicted price by 4.75 (units).*
+
+**Q2.** You fit a model with 5 predictors. The VIF for predictor X3 is 8.2. What does this mean?
+
+> 💬 *VIF > 5 suggests collinearity — X3 is highly correlated with one or more other predictors. This inflates the standard error of its coefficient.*
+
+**Q3.** Model A has R² = 0.42, Adjusted R² = 0.38. Model B has R² = 0.44, Adjusted R² = 0.35. Which model would you prefer?
+
+> 💬 *Model A — it has a higher Adjusted R², meaning it achieves similar explanatory power with less overfitting.*
+
+**Q4.** `anova(small_model, big_model)` gives p = 0.19. What do you conclude?
+
+> 💬 *Fail to reject H₀. The larger model does not fit significantly better. Stick with the smaller model.*
+
+---
+
+---
+
+# 🗂️ Quick Reference: The Whole Module in One Table
+
+| Week | Topic | Key Test | Key R Function |
+|------|-------|----------|----------------|
+| 1 | Missing Data + Data Protocol | — | `na.omit()`, `is.na()` |
+| 2 | Hypothesis Testing | t-test, z-test | `t.test()` |
+| 3 | Power Analysis | — | `pwr.t.test()` |
+| 4 | Experimental Design | — | — |
+| 5 | One-Way ANOVA | F-test | `aov()`, `TukeyHSD()` |
+| 6–7 | Two-Way ANOVA | F-test + interaction | `aov(y ~ A * B)` |
+| 8 | Simple Linear Regression | F-test, t-test on slope | `lm()`, `predict()` |
+| 9 | Multiple Regression | F-test, t-tests | `lm()`, `vif()`, `anova()` |
+
+---
+
+# 🚨 Exam Cheat Sheet — Things That Come Up Every Year
+
+1. **State H₀ and Hₐ** in the context of the question — always in words, not just symbols
+2. **Describe Type I and Type II errors** in the specific context of the question
+3. **Interpret the slope** of a regression — say "for every 1 unit increase in X, Y increases/decreases by β̂₁"
+4. **Interpret R²** — "the model explains X% of the variation in Y"
+5. **Read Tukey HSD output** — pairs with p < 0.05 are significantly different
+6. **Check interaction before main effects** in two-way ANOVA
+7. **Describe diagnostic plots** — what patterns would concern you in each plot
+8. **Difference between confidence and prediction intervals** — know which is wider and why
+
+---
+
+*End of STAT9004 Master Study Guide*
+*Good luck! You've got this 💪*

@@ -135,7 +135,8 @@
     "lab-2.html": "6dcf91e7"
   },
   "regression-analysis/labs/lab-3.qmd": {
-    "lab-3.html": "13019f7b"
+    "lab-3.html": "13019f7b",
+    "lab-3.tex": "1babf111"
   },
   "regression-analysis/labs/lab-1.qmd": {
     "lab-1.html": "77274e21"
@@ -145,5 +146,8 @@
   },
   "time-series/exam/Practical_R.qmd": {
     "Practical_R.html": "1f2e4fdd"
+  },
+  "time-series/exam/Practical-Exam-Solutions.qmd": {
+    "Practical-Exam-Solutions.html": "13afb371"
   }
 }

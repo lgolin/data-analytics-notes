@@ -301,7 +301,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">index.html</span></a>
+ <span class="menu-text">Module Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -537,7 +537,7 @@ window.Quarto = {
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
- <span class="menu-text">Labs</span></a>
+ <span class="menu-text">Exam</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -545,20 +545,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/labs/lab-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">STAT9005 – Time Series Analysis</span></a>
+  <a href="../time-series/exam/Practical_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Practical R Test</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/labs/lab-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 2 – Seasonality, Decomposition &amp; Moving Averages</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/labs/lab-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Time Series: Classical Models Lab</span></a>
+  <a href="../time-series/exam/quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quiz Preparation</span></a>
   </div>
 </li>
       </ul>
@@ -1778,7 +1772,7 @@ Step 7: FORECAST
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

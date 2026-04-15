@@ -1,0 +1,2132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 10 – ANCOVA (Analysis of Covariance) – Semester Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../regression-analysis/labs/lab-1.html" rel="next">
+<link href="../regression-analysis/week-9.html" rel="prev">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-10.html">Week 10</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Mining</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Module Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/labs/lab-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 3: Decision Trees in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/labs/lab-4a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 4a: Logistic Regression in R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regression Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Module Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-10.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 10</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/labs/lab-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1 – Data Analysis Protocol</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/labs/lab-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAT9004 – Week 2 Study Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/labs/lab-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercise Sheet 3 — One-Way ANOVA</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Time Series</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Module Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Weekly Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8 - empty</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/labs/lab-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAT9005 – Time Series Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/labs/lab-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 2 – Seasonality, Decomposition &amp; Moving Averages</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/labs/lab-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Time Series: Classical Models Lab</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">Exam Prep</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text">Exam</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/exam/Practical_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Practical R Test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/exam/Practical-Exam-Solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAT9005 — Time Series &amp; PCA: Practical Exam Solutions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/exam/quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quiz Preparation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics-covered-this-week" id="toc-key-topics-covered-this-week" class="nav-link active" data-scroll-target="#key-topics-covered-this-week"><span class="header-section-number">1</span> Key Topics Covered This Week</a></li>
+  <li><a href="#what-is-ancova" id="toc-what-is-ancova" class="nav-link" data-scroll-target="#what-is-ancova"><span class="header-section-number">2</span> What is ANCOVA?</a>
+  <ul class="collapse">
+  <li><a href="#the-big-picture" id="toc-the-big-picture" class="nav-link" data-scroll-target="#the-big-picture"><span class="header-section-number">2.1</span> The Big Picture</a></li>
+  <li><a href="#what-is-a-covariate" id="toc-what-is-a-covariate" class="nav-link" data-scroll-target="#what-is-a-covariate"><span class="header-section-number">2.2</span> What is a Covariate?</a></li>
+  </ul></li>
+  <li><a href="#the-fruit-grazing-example" id="toc-the-fruit-grazing-example" class="nav-link" data-scroll-target="#the-fruit-grazing-example"><span class="header-section-number">3</span> The Fruit &amp; Grazing Example</a>
+  <ul class="collapse">
+  <li><a href="#the-experiment" id="toc-the-experiment" class="nav-link" data-scroll-target="#the-experiment"><span class="header-section-number">3.1</span> The Experiment</a></li>
+  <li><a href="#why-not-just-do-a-t-test" id="toc-why-not-just-do-a-t-test" class="nav-link" data-scroll-target="#why-not-just-do-a-t-test"><span class="header-section-number">3.2</span> Why Not Just Do a t-test?</a></li>
+  <li><a href="#the-counter-intuitive-result" id="toc-the-counter-intuitive-result" class="nav-link" data-scroll-target="#the-counter-intuitive-result"><span class="header-section-number">3.3</span> The Counter-Intuitive Result</a></li>
+  </ul></li>
+  <li><a href="#the-experimental-design" id="toc-the-experimental-design" class="nav-link" data-scroll-target="#the-experimental-design"><span class="header-section-number">4</span> The Experimental Design</a>
+  <ul class="collapse">
+  <li><a href="#key-design-terminology" id="toc-key-design-terminology" class="nav-link" data-scroll-target="#key-design-terminology"><span class="header-section-number">4.1</span> Key Design Terminology</a></li>
+  <li><a href="#design-classification" id="toc-design-classification" class="nav-link" data-scroll-target="#design-classification"><span class="header-section-number">4.2</span> Design Classification</a></li>
+  <li><a href="#what-would-make-this-a-factorial-design" id="toc-what-would-make-this-a-factorial-design" class="nav-link" data-scroll-target="#what-would-make-this-a-factorial-design"><span class="header-section-number">4.3</span> What Would Make This a Factorial Design?</a></li>
+  </ul></li>
+  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions"><span class="header-section-number">5</span> Assumptions</a>
+  <ul class="collapse">
+  <li><a href="#independence" id="toc-independence" class="nav-link" data-scroll-target="#independence"><span class="header-section-number">5.1</span> 1. Independence</a></li>
+  <li><a href="#normality" id="toc-normality" class="nav-link" data-scroll-target="#normality"><span class="header-section-number">5.2</span> 2. Normality</a></li>
+  <li><a href="#homogeneity-of-variance-equal-variance" id="toc-homogeneity-of-variance-equal-variance" class="nav-link" data-scroll-target="#homogeneity-of-variance-equal-variance"><span class="header-section-number">5.3</span> 3. Homogeneity of Variance (Equal Variance)</a></li>
+  </ul></li>
+  <li><a href="#the-ancova-model" id="toc-the-ancova-model" class="nav-link" data-scroll-target="#the-ancova-model"><span class="header-section-number">6</span> The ANCOVA Model</a>
+  <ul class="collapse">
+  <li><a href="#full-model-with-interaction" id="toc-full-model-with-interaction" class="nav-link" data-scroll-target="#full-model-with-interaction"><span class="header-section-number">6.1</span> Full Model (with Interaction)</a></li>
+  <li><a href="#interpreting-each-coefficient" id="toc-interpreting-each-coefficient" class="nav-link" data-scroll-target="#interpreting-each-coefficient"><span class="header-section-number">6.2</span> Interpreting Each Coefficient</a></li>
+  <li><a href="#what-the-model-looks-like-for-each-group" id="toc-what-the-model-looks-like-for-each-group" class="nav-link" data-scroll-target="#what-the-model-looks-like-for-each-group"><span class="header-section-number">6.3</span> What the Model Looks Like for Each Group</a></li>
+  </ul></li>
+  <li><a href="#reading-the-r-output" id="toc-reading-the-r-output" class="nav-link" data-scroll-target="#reading-the-r-output"><span class="header-section-number">7</span> Reading the R Output</a>
+  <ul class="collapse">
+  <li><a href="#full-model-with-interaction-1" id="toc-full-model-with-interaction-1" class="nav-link" data-scroll-target="#full-model-with-interaction-1"><span class="header-section-number">7.1</span> Full Model (with Interaction)</a>
+  <ul class="collapse">
+  <li><a href="#step-by-step-interpretation" id="toc-step-by-step-interpretation" class="nav-link" data-scroll-target="#step-by-step-interpretation"><span class="header-section-number">7.1.1</span> Step-by-Step Interpretation</a></li>
+  </ul></li>
+  <li><a href="#the-fitted-equations" id="toc-the-fitted-equations" class="nav-link" data-scroll-target="#the-fitted-equations"><span class="header-section-number">7.2</span> The Fitted Equations</a></li>
+  </ul></li>
+  <li><a href="#hypothesis-tests" id="toc-hypothesis-tests" class="nav-link" data-scroll-target="#hypothesis-tests"><span class="header-section-number">8</span> Hypothesis Tests</a>
+  <ul class="collapse">
+  <li><a href="#hypotheses-you-need-to-know" id="toc-hypotheses-you-need-to-know" class="nav-link" data-scroll-target="#hypotheses-you-need-to-know"><span class="header-section-number">8.1</span> Hypotheses You Need to Know</a>
+  <ul class="collapse">
+  <li><a href="#overall-model" id="toc-overall-model" class="nav-link" data-scroll-target="#overall-model"><span class="header-section-number">8.1.1</span> 1. Overall Model</a></li>
+  <li><a href="#interaction-term-test-for-parallel-slopes" id="toc-interaction-term-test-for-parallel-slopes" class="nav-link" data-scroll-target="#interaction-term-test-for-parallel-slopes"><span class="header-section-number">8.1.2</span> 2. Interaction Term (Test for parallel slopes)</a></li>
+  <li><a href="#root-covariate" id="toc-root-covariate" class="nav-link" data-scroll-target="#root-covariate"><span class="header-section-number">8.1.3</span> 3. Root (Covariate)</a></li>
+  <li><a href="#grazing-factor" id="toc-grazing-factor" class="nav-link" data-scroll-target="#grazing-factor"><span class="header-section-number">8.1.4</span> 4. Grazing (Factor)</a></li>
+  <li><a href="#do-the-two-regression-lines-coincide-same-slope-and-intercept" id="toc-do-the-two-regression-lines-coincide-same-slope-and-intercept" class="nav-link" data-scroll-target="#do-the-two-regression-lines-coincide-same-slope-and-intercept"><span class="header-section-number">8.1.5</span> 5. Do the two regression lines coincide? (same slope AND intercept)</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#the-parsimony-principle" id="toc-the-parsimony-principle" class="nav-link" data-scroll-target="#the-parsimony-principle"><span class="header-section-number">9</span> The Parsimony Principle</a>
+  <ul class="collapse">
+  <li><a href="#what-it-means" id="toc-what-it-means" class="nav-link" data-scroll-target="#what-it-means"><span class="header-section-number">9.1</span> What It Means</a></li>
+  <li><a href="#when-to-drop-a-term" id="toc-when-to-drop-a-term" class="nav-link" data-scroll-target="#when-to-drop-a-term"><span class="header-section-number">9.2</span> When to Drop a Term</a></li>
+  <li><a href="#comparing-r²-and-adjusted-r²" id="toc-comparing-r²-and-adjusted-r²" class="nav-link" data-scroll-target="#comparing-r²-and-adjusted-r²"><span class="header-section-number">9.3</span> Comparing R² and Adjusted R²</a></li>
+  <li><a href="#the-simpler-final-model" id="toc-the-simpler-final-model" class="nav-link" data-scroll-target="#the-simpler-final-model"><span class="header-section-number">9.4</span> The Simpler (Final) Model</a></li>
+  </ul></li>
+  <li><a href="#professors-exam-tips-from-the-lecture-transcript" id="toc-professors-exam-tips-from-the-lecture-transcript" class="nav-link" data-scroll-target="#professors-exam-tips-from-the-lecture-transcript"><span class="header-section-number">10</span> Professor’s Exam Tips (From the Lecture Transcript)</a></li>
+  <li><a href="#practical-r-code-summary" id="toc-practical-r-code-summary" class="nav-link" data-scroll-target="#practical-r-code-summary"><span class="header-section-number">11</span> Practical R Code Summary</a></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">12</span> Summary Points</a></li>
+  <li><a href="#annotations-space" id="toc-annotations-space" class="nav-link" data-scroll-target="#annotations-space"><span class="header-section-number">13</span> Annotations Space</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../regression-analysis/index.html">Regression Analysis</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../regression-analysis/week-10.html">Week 10</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 10 – ANCOVA (Analysis of Covariance)</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">STAT9004: Regression Analysis</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>📝 <strong>Study Guide Notes</strong> — These notes are designed to be beginner-friendly. Leave space below each section to add your own annotations and examples as you review.</p>
+</blockquote>
+<hr>
+<section id="key-topics-covered-this-week" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics Covered This Week</h1>
+<ul>
+<li>What ANCOVA is and why we use it</li>
+<li>The difference between a <strong>covariate</strong> and a <strong>factor</strong></li>
+<li>The ANCOVA model formula (with and without interaction)</li>
+<li>How to identify the <strong>experimental design</strong> in a question</li>
+<li>Model <strong>assumptions</strong> (independence, normality, equal variance)</li>
+<li>How to <strong>interpret R output</strong> from an ANCOVA model</li>
+<li>Hypothesis testing for each term in the model</li>
+<li>The <strong>Parsimony Principle</strong> — dropping non-significant terms</li>
+<li>Comparing <strong>R²</strong> vs <strong>Adjusted R²</strong></li>
+</ul>
+<hr>
+</section>
+<section id="what-is-ancova" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> What is ANCOVA?</h1>
+<section id="the-big-picture" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="the-big-picture"><span class="header-section-number">2.1</span> The Big Picture</h2>
+<p><strong>ANCOVA</strong> stands for <strong>Analysis of Covariance</strong>. The Professor put it very simply in class:</p>
+<blockquote class="blockquote">
+<p><em>“It’s ANOVA with a C — and the C stands for Covariance.”</em></p>
+</blockquote>
+<p>Think of it this way:</p>
+<ul>
+<li><strong>ANOVA</strong> = you have a <strong>categorical</strong> explanatory variable (like treatment groups)</li>
+<li><strong>Linear Regression</strong> = you have a <strong>continuous</strong> (quantitative) explanatory variable</li>
+<li><strong>ANCOVA</strong> = you have <strong>both at the same time</strong></li>
+</ul>
+<p>ANCOVA is the right tool when:</p>
+<ul>
+<li>You have <strong>one main categorical variable</strong> you care about most (e.g., grazed vs ungrazed)</li>
+<li>You also have a <strong>continuous variable</strong> that influences the outcome but isn’t your main focus — this is called the <strong>covariate</strong></li>
+</ul>
+</section>
+<section id="what-is-a-covariate" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="what-is-a-covariate"><span class="header-section-number">2.2</span> What is a Covariate?</h2>
+<p>A <strong>covariate</strong> is a continuous (quantitative) variable that:</p>
+<ul>
+<li>You’re <strong>not primarily interested in</strong>, but</li>
+<li>You <strong>include in the model</strong> to <strong>control for its effect</strong> on the response variable</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Why include it if we don’t care about it?</strong><br>
+Because ignoring it would give you misleading results. The covariate “adjusts” the comparison between your groups, making it fairer.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="the-fruit-grazing-example" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> The Fruit &amp; Grazing Example</h1>
+<section id="the-experiment" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-experiment"><span class="header-section-number">3.1</span> The Experiment</h2>
+<p>This is the main example used throughout the lecture. Make sure you understand it well — the Professor said exam questions will give you R output like this and ask you to interpret it.</p>
+<p><strong>Setup:</strong></p>
+<ul>
+<li>40 plants were split into two groups:
+<ul>
+<li><strong>Grazed</strong> — exposed to rabbits for the first two weeks of growth</li>
+<li><strong>Ungrazed</strong> — left alone</li>
+</ul></li>
+<li>At the end of the season, <strong>fruit production</strong> (dry weight in mg) was recorded</li>
+</ul>
+<p><strong>The Variables:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 27%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Type</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Fruit</code></td>
+<td>Continuous</td>
+<td><strong>Response variable</strong> (what we’re measuring)</td>
+</tr>
+<tr class="even">
+<td><code>Grazing</code></td>
+<td>Categorical (2 levels: Grazed / Ungrazed)</td>
+<td><strong>Main explanatory variable</strong></td>
+</tr>
+<tr class="odd">
+<td><code>Root</code></td>
+<td>Continuous</td>
+<td><strong>Covariate</strong> (initial plant size — diameter of rootstock)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="why-not-just-do-a-t-test" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="why-not-just-do-a-t-test"><span class="header-section-number">3.2</span> Why Not Just Do a t-test?</h2>
+<p>Your first instinct might be: <em>“Just compare grazed vs ungrazed fruit production with a t-test.”</em></p>
+<p><strong>This is wrong</strong> — and the Professor emphasized this.</p>
+<p>The problem is: <strong>the initial plant size (Root) also affects fruit production</strong>. Ignoring this means your comparison between grazed and ungrazed is not fair — larger plants will produce more fruit regardless of grazing.</p>
+<blockquote class="blockquote">
+<p>⚠️ <strong>Exam tip:</strong> If asked “why not use a t-test here?” — your answer is that the amount of fruit produced may also depend on the initial plant size, so we must control for it.</p>
+</blockquote>
+</section>
+<section id="the-counter-intuitive-result" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="the-counter-intuitive-result"><span class="header-section-number">3.3</span> The Counter-Intuitive Result</h2>
+<p>Without ANCOVA, a simple t-test suggests that <strong>grazed plants produce MORE fruit</strong> than ungrazed. This seems wrong! Rabbits eating the plants shouldn’t increase fruit production.</p>
+<p>This misleading result happens because the <strong>grazed plants happened to be larger</strong> to begin with. ANCOVA corrects for this by accounting for initial size.</p>
+<hr>
+</section>
+</section>
+<section id="the-experimental-design" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> The Experimental Design</h1>
+<p>The Professor asked students to identify the experimental design — this is an <strong>exam-style question</strong>.</p>
+<section id="key-design-terminology" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="key-design-terminology"><span class="header-section-number">4.1</span> Key Design Terminology</h2>
+<p><strong>Experimental units</strong> = the individual plants (40 of them)</p>
+<p><strong>Factor</strong> = Grazing (the independent variable)</p>
+<p><strong>Levels of the factor</strong> = Grazed and Ungrazed (2 levels = 2 treatments)</p>
+<p><strong>Covariate</strong> = Initial plant size (Root) — this is continuous</p>
+<p><strong>Response variable</strong> = Fruit production (continuous)</p>
+</section>
+<section id="design-classification" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="design-classification"><span class="header-section-number">4.2</span> Design Classification</h2>
+<p>This experiment is:</p>
+<ul>
+<li>A <strong>Single-Factor Design</strong> — only one factor (Grazing)</li>
+<li>A <strong>Completely Randomized Design (CRD)</strong> — each plant has an equal chance of being assigned to either treatment</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>What is Completely Randomized?</strong> It means each experimental unit (plant) has the same chance of receiving any treatment. The treatment is assigned at random — no pattern or structure.</p>
+</blockquote>
+</section>
+<section id="what-would-make-this-a-factorial-design" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="what-would-make-this-a-factorial-design"><span class="header-section-number">4.3</span> What Would Make This a Factorial Design?</h2>
+<p>The Professor discussed this as a comparison point:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Design</th>
+<th>What it requires</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Single-factor</td>
+<td>1 factor with 2+ levels</td>
+</tr>
+<tr class="even">
+<td>Factorial</td>
+<td>2+ factors, each with 2+ levels</td>
+</tr>
+<tr class="odd">
+<td>Full Factorial</td>
+<td>Tests <strong>all possible combinations</strong> of factor levels (all main effects + all interaction effects)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>⚠️ <strong>Exam tip:</strong> Be able to identify what type of design is being used, and what would need to change to make it a different type.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="assumptions" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Assumptions</h1>
+<p>These assumptions apply to ANCOVA (same as other linear models). The Professor said:</p>
+<blockquote class="blockquote">
+<p><em>“Ensuring these assumptions are valid is an extremely important part of the design of the experiment.”</em></p>
+</blockquote>
+<section id="independence" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="independence"><span class="header-section-number">5.1</span> 1. Independence</h2>
+<ul>
+<li>Errors (residuals) must be independent of each other</li>
+<li><strong>How to check:</strong> Plot residuals in time order — positive correlation = violation</li>
+<li><strong>How to ensure:</strong> Proper <strong>randomisation</strong> at the start of the experiment</li>
+</ul>
+</section>
+<section id="normality" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="normality"><span class="header-section-number">5.2</span> 2. Normality</h2>
+<ul>
+<li>The errors should follow a normal distribution</li>
+<li><strong>How to check:</strong>
+<ul>
+<li><strong>QQ plot</strong> (quantile-quantile plot) — should show a straight line</li>
+<li><strong>Histogram</strong> of residuals — should show a bell-shaped curve</li>
+<li><strong>Statistical tests:</strong> Kolmogorov-Smirnov or Shapiro-Wilk tests</li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<p>💡 The histogram is better for large datasets. The QQ plot is commonly used and you should be able to interpret it.</p>
+</blockquote>
+</section>
+<section id="homogeneity-of-variance-equal-variance" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="homogeneity-of-variance-equal-variance"><span class="header-section-number">5.3</span> 3. Homogeneity of Variance (Equal Variance)</h2>
+<ul>
+<li>The variance of residuals should be equal across groups</li>
+<li><strong>How to check:</strong>
+<ul>
+<li><strong>Levene’s test</strong> (statistical test)</li>
+<li><strong>Residuals vs Fitted values plot</strong> — should show no pattern, centred around zero</li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<p>⚠️ <strong>Exam tip:</strong> The Professor said <em>“make sure you’re able to interpret diagnostic plots from R.”</em> Specifically: QQ plots, residuals vs fitted, and histograms.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="the-ancova-model" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> The ANCOVA Model</h1>
+<section id="full-model-with-interaction" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="full-model-with-interaction"><span class="header-section-number">6.1</span> Full Model (with Interaction)</h2>
+<p><span class="math display">\[Y = \beta_0 + \beta_1 X + \beta_2 Z + \beta_3 XZ + e\]</span></p>
+<p>Where:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(Y\)</span></td>
+<td>Response variable (Fruit production)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(X\)</span></td>
+<td><strong>Continuous</strong> explanatory variable (Root size)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(Z\)</span></td>
+<td><strong>Dummy variable</strong> for the categorical factor (0 = Grazed, 1 = Ungrazed)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(XZ\)</span></td>
+<td><strong>Interaction term</strong> between Root and Grazing</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(e\)</span></td>
+<td>Error term</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="interpreting-each-coefficient" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="interpreting-each-coefficient"><span class="header-section-number">6.2</span> Interpreting Each Coefficient</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 59%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Coefficient</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\beta_0\)</span></td>
+<td>Intercept for the <strong>reference group</strong> (Grazed plants, since Z=0)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta_1\)</span></td>
+<td>Effect of a 1-unit increase in Root on Fruit, <strong>for Grazed plants</strong></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\beta_2\)</span></td>
+<td>Change in intercept when switching from <strong>Grazed → Ungrazed</strong></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta_3\)</span></td>
+<td>Change in <strong>slope</strong> when switching from Grazed → Ungrazed (the interaction effect)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="what-the-model-looks-like-for-each-group" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="what-the-model-looks-like-for-each-group"><span class="header-section-number">6.3</span> What the Model Looks Like for Each Group</h2>
+<p><strong>For Grazed plants</strong> (Z = 0):</p>
+<p><span class="math display">\[\text{Fruit} = \beta_0 + \beta_1 \cdot \text{Root} + e\]</span></p>
+<p><strong>For Ungrazed plants</strong> (Z = 1):</p>
+<p><span class="math display">\[\text{Fruit} = (\beta_0 + \beta_2) + (\beta_1 + \beta_3) \cdot \text{Root} + e\]</span></p>
+<blockquote class="blockquote">
+<p>💡 <strong>Plain English:</strong> Grazed is the reference group. For ungrazed plants, both the intercept and the slope are adjusted by adding <span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span> respectively.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="reading-the-r-output" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Reading the R Output</h1>
+<section id="full-model-with-interaction-1" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="full-model-with-interaction-1"><span class="header-section-number">7.1</span> Full Model (with Interaction)</h2>
+<p>Here is the R output from running <code>lm(Fruit ~ Root * Grazing, data = fruit)</code>:</p>
+<pre><code>Coefficients:
+                    Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)         -125.173    12.811   -9.771  1.15e-11 ***
+Root                  23.240     1.531   15.182  &lt; 2e-16 ***
+GrazingUngrazed       30.806    16.842    1.829   0.0757 .
+Root:GrazingUngrazed   0.756     2.354    0.321   0.7500
+
+Residual standard error: 6.831 on 36 degrees of freedom
+Multiple R-squared:  0.9293,    Adjusted R-squared:  0.9234
+F-statistic: 157.6 on 3 and 36 DF,  p-value: &lt; 2.2e-16</code></pre>
+<section id="step-by-step-interpretation" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="step-by-step-interpretation"><span class="header-section-number">7.1.1</span> Step-by-Step Interpretation</h3>
+<blockquote class="blockquote">
+<p>⚠️ <strong>The Professor’s key advice on how to read output — this is exam-critical:</strong></p>
+</blockquote>
+<p><strong>Step 1 — Overall model (F-statistic at the bottom):</strong> The p-value is &lt; 2.2e-16, which is much less than 0.05. The <strong>overall model is statistically significant</strong>. This means at least one predictor has an effect.</p>
+<p><strong>Step 2 — Interaction term first:</strong> Look at <code>Root:GrazingUngrazed</code>. The p-value is 0.75 — <strong>not significant</strong> (&gt; 0.05). This means the slopes for grazed and ungrazed plants are <strong>not different</strong> from each other (the lines are parallel).</p>
+<blockquote class="blockquote">
+<p>💡 The interaction term tells us: <em>does the effect of Root on Fruit CHANGE depending on whether the plant is grazed or not?</em> If not significant → it doesn’t change → the lines are parallel.</p>
+</blockquote>
+<p><strong>Step 3 — Main effects:</strong> - <code>Root</code>: p &lt; 2e-16 → <strong>highly significant</strong> ✅ - <code>GrazingUngrazed</code>: p = 0.0757 → <strong>not significant</strong> at the 5% level ❌ (close, but over 0.05)</p>
+</section>
+</section>
+<section id="the-fitted-equations" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="the-fitted-equations"><span class="header-section-number">7.2</span> The Fitted Equations</h2>
+<p><strong>Overall model:</strong> <span class="math display">\[\hat{\text{Fruit}} = -125.173 + 23.24 \cdot \text{Root} + 30.806 \cdot Z + 0.756 \cdot Z \cdot \text{Root}\]</span></p>
+<p><strong>Grazed plants</strong> (Z = 0): <span class="math display">\[\hat{\text{Fruit}} = -125.173 + 23.24 \cdot \text{Root}\]</span></p>
+<p><strong>Ungrazed plants</strong> (Z = 1): <span class="math display">\[\hat{\text{Fruit}} = -94.367 + 23.996 \cdot \text{Root}\]</span></p>
+<p><em>(The intercept becomes −125.173 + 30.806 = −94.367, and the slope becomes 23.24 + 0.756 = 23.996)</em></p>
+<hr>
+</section>
+</section>
+<section id="hypothesis-tests" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Hypothesis Tests</h1>
+<p>The Professor emphasised this: <em>“In a lot of exam questions, they will ask you to state the model and state the hypotheses.”</em></p>
+<section id="hypotheses-you-need-to-know" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="hypotheses-you-need-to-know"><span class="header-section-number">8.1</span> Hypotheses You Need to Know</h2>
+<section id="overall-model" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="overall-model"><span class="header-section-number">8.1.1</span> 1. Overall Model</h3>
+<p><span class="math display">\[H_0: \beta_1 = \beta_2 = \beta_3 = 0 \quad \text{(no predictor has an effect)}\]</span> <span class="math display">\[H_A: \text{at least one coefficient} \neq 0\]</span></p>
+</section>
+<section id="interaction-term-test-for-parallel-slopes" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="interaction-term-test-for-parallel-slopes"><span class="header-section-number">8.1.2</span> 2. Interaction Term (Test for parallel slopes)</h3>
+<p><span class="math display">\[H_0: \beta_3 = 0 \quad \text{(slopes are the same — lines are parallel)}\]</span> <span class="math display">\[H_A: \beta_3 \neq 0 \quad \text{(slopes differ)}\]</span></p>
+</section>
+<section id="root-covariate" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="root-covariate"><span class="header-section-number">8.1.3</span> 3. Root (Covariate)</h3>
+<p><span class="math display">\[H_0: \beta_{\text{Root}} = 0 \quad \text{(Root has no effect)}\]</span> <span class="math display">\[H_A: \beta_{\text{Root}} \neq 0\]</span></p>
+</section>
+<section id="grazing-factor" class="level3" data-number="8.1.4">
+<h3 data-number="8.1.4" class="anchored" data-anchor-id="grazing-factor"><span class="header-section-number">8.1.4</span> 4. Grazing (Factor)</h3>
+<p><span class="math display">\[H_0: \beta_{\text{Grazing}} = 0 \quad \text{(Grazing has no effect on the intercept)}\]</span> <span class="math display">\[H_A: \beta_{\text{Grazing}} \neq 0\]</span></p>
+</section>
+<section id="do-the-two-regression-lines-coincide-same-slope-and-intercept" class="level3" data-number="8.1.5">
+<h3 data-number="8.1.5" class="anchored" data-anchor-id="do-the-two-regression-lines-coincide-same-slope-and-intercept"><span class="header-section-number">8.1.5</span> 5. Do the two regression lines coincide? (same slope AND intercept)</h3>
+<p><span class="math display">\[H_0: \beta_2 = \beta_3 = 0\]</span> <span class="math display">\[H_A: \beta_2 \neq 0 \text{ or } \beta_3 \neq 0\]</span></p>
+<blockquote class="blockquote">
+<p>💡 <strong>Plain English on the interaction test:</strong> Testing <span class="math inline">\(H_0: \beta_3 = 0\)</span> is the same as asking <em>“Are the two regression lines parallel?”</em> If we fail to reject <span class="math inline">\(H_0\)</span>, it means we cannot say the slopes are different — they are effectively parallel.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+</section>
+<section id="the-parsimony-principle" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> The Parsimony Principle</h1>
+<section id="what-it-means" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="what-it-means"><span class="header-section-number">9.1</span> What It Means</h2>
+<blockquote class="blockquote">
+<p><em>“If we have two or more possible models, each of which fit the data adequately, the one with the fewest explanatory variables is preferred.”</em> — Prof.&nbsp;Harrison</p>
+</blockquote>
+<p>In simple terms: <strong>simpler is better</strong>, as long as the simpler model fits the data just as well.</p>
+</section>
+<section id="when-to-drop-a-term" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="when-to-drop-a-term"><span class="header-section-number">9.2</span> When to Drop a Term</h2>
+<ul>
+<li>When a term is <strong>not statistically significant</strong>, it may not be contributing to the model</li>
+<li>Drop terms starting with the one with the <strong>highest p-value</strong> (most insignificant)</li>
+<li>After dropping, rerun the model and reassess</li>
+</ul>
+<blockquote class="blockquote">
+<p>⚠️ <strong>Important nuance the Professor highlighted:</strong> This isn’t a hard rule. If you have a scientific reason to keep a term, you can keep it even if it’s not significant. It depends on the context.</p>
+</blockquote>
+</section>
+<section id="comparing-r²-and-adjusted-r²" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="comparing-r²-and-adjusted-r²"><span class="header-section-number">9.3</span> Comparing R² and Adjusted R²</h2>
+<p>After removing the interaction term, compare the two models:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>With Interaction</th>
+<th>Without Interaction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>R²</td>
+<td>0.9293</td>
+<td>0.9291</td>
+</tr>
+<tr class="even">
+<td>Adjusted R²</td>
+<td>0.9234</td>
+<td><strong>0.9252</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insight:</strong></p>
+<ul>
+<li><strong>R²</strong> always decreases when you drop a term — even if the term was useless</li>
+<li><strong>Adjusted R²</strong> accounts for the number of predictors — it goes <strong>up</strong> when you drop an unhelpful term</li>
+<li>A small <em>increase</em> in Adjusted R² after dropping confirms the term wasn’t contributing</li>
+</ul>
+<blockquote class="blockquote">
+<p>💡 The Professor said: <em>“The adjusted R-squared is more appropriate here as it takes into account the number of terms in the model.”</em></p>
+<p>⚠️ <strong>Exam tip:</strong> Be able to explain why Adjusted R² is preferred when comparing models with different numbers of predictors.</p>
+</blockquote>
+</section>
+<section id="the-simpler-final-model" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="the-simpler-final-model"><span class="header-section-number">9.4</span> The Simpler (Final) Model</h2>
+<p>After dropping the interaction term (<code>Root:GrazingUngrazed</code>), we run <code>lm(Fruit ~ Root + Grazing, data = fruit)</code>:</p>
+<pre><code>Coefficients:
+                 Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)      -127.829      9.664  -13.23  1.35e-15 ***
+Root               23.560      1.149   20.51  &lt; 2e-16 ***
+GrazingUngrazed    36.103      3.357   10.75  6.11e-13 ***
+
+Residual standard error: 6.747 on 37 degrees of freedom
+Multiple R-squared:  0.9291,    Adjusted R-squared:  0.9252
+F-statistic: 242.3 on 2 and 37 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>All terms are now significant. The final model equations become:</p>
+<p><strong>Grazed plants</strong> (Z = 0): <span class="math display">\[\hat{\text{Fruit}} = -127.829 + 23.56 \cdot \text{Root}\]</span></p>
+<p><strong>Ungrazed plants</strong> (Z = 1): <span class="math display">\[\hat{\text{Fruit}} = -91.726 + 23.56 \cdot \text{Root}\]</span></p>
+<p><em>(Intercept for ungrazed = −127.829 + 36.103 = −91.726. The <strong>slope is the same</strong> for both groups!)</em></p>
+<blockquote class="blockquote">
+<p>💡 In the final model, both lines have the <strong>same slope (23.56)</strong> but different intercepts. Ungrazed plants have a higher intercept, meaning they produce more fruit at any given root size, when holding grazing constant.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="professors-exam-tips-from-the-lecture-transcript" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Professor’s Exam Tips (From the Lecture Transcript)</h1>
+<p>The Professor explicitly mentioned what types of questions appear in exams. Here is a summary:</p>
+<blockquote class="blockquote">
+<p>🎯 <strong>From the transcript (direct exam guidance):</strong></p>
+</blockquote>
+<ol type="1">
+<li><p><strong>State the model</strong> — Given a scenario or R output, write down the ANCOVA model equation using correct notation (<span class="math inline">\(\beta_0 + \beta_1 X + ...\)</span>)</p></li>
+<li><p><strong>Interpret coefficients</strong> — For each coefficient: is it significant? Is it positive or negative? What does that mean in plain language (e.g., “for every one unit increase in Root, Fruit increases by 23.56 units, for grazed plants”)?</p></li>
+<li><p><strong>State the hypotheses</strong> — Write out <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_A\)</span> for: the overall model, the interaction term, each main effect</p></li>
+<li><p><strong>Know when to test the interaction first</strong> — <em>“The first term you need to look at is the interaction term. Then, if it’s not significant, you can interpret the main effects.”</em></p></li>
+<li><p><strong>Remove the interaction term and rerun</strong> — Know how to compare models using Adjusted R²</p></li>
+<li><p><strong>Identify the experimental design</strong> — Given an experiment description, identify: experimental units, factors, levels, treatments, covariate, response variable, and design type (CRD, single-factor, factorial, etc.)</p></li>
+<li><p><strong>Interpret diagnostic plots</strong> — Understand QQ plots, residuals vs fitted plots, and histograms of residuals</p></li>
+<li><p><strong>Know R² vs Adjusted R²</strong> — R² always decreases when you drop a term; Adjusted R² is what to look at when comparing models</p></li>
+</ol>
+<blockquote class="blockquote">
+<p>💬 The Professor also said: <em>“If you look back at the past papers, you generally get the R output that you have looked at in R, and you have to put together the model or interpret the outputs.”</em></p>
+<p><strong>Action: Review the 2019 past exam paper (<code>STAT9004_Exam_19.pdf</code>) on Canvas.</strong></p>
+</blockquote>
+<hr>
+</section>
+<section id="practical-r-code-summary" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Practical R Code Summary</h1>
+<p>Here is the key R code used in this analysis, which you’ll replicate in the lab worksheet:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fruit <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"fruit.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exploratory scatter plot</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fruit, <span class="fu">aes</span>(<span class="at">x =</span> Root, <span class="at">y =</span> Fruit, <span class="at">colour =</span> <span class="fu">factor</span>(Grazing))) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Full ANCOVA model (with interaction)</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Fruit <span class="sc">~</span> Root <span class="sc">*</span> Grazing, <span class="at">data =</span> fruit)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Simpler model (without interaction)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Fruit <span class="sc">~</span> Root <span class="sc">+</span> Grazing, <span class="at">data =</span> fruit)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic plots</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Check model assumptions</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(Fruit <span class="sc">~</span> Grazing, <span class="at">data =</span> fruit)  <span class="co"># homogeneity of variance</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(model2))             <span class="co"># normality of residuals</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p>⚠️ In the lab worksheet, you also work with the <strong>Birds dataset</strong> which requires <strong>log transformations</strong> (<code>log(AREA)</code>, <code>log(DIST)</code>). The Professor noted: <em>“With this exercise, you’ll have to do some data transformations.”</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="summary-points" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Summary Points</h1>
+<ul>
+<li><strong>ANCOVA = ANOVA + a continuous covariate.</strong> It handles models with both categorical and continuous predictors.</li>
+<li>The <strong>categorical variable is the main interest</strong>; the covariate is included to <strong>control for</strong> its effect on the response.</li>
+<li>The ANCOVA model is: <span class="math inline">\(Y = \beta_0 + \beta_1 X + \beta_2 Z + \beta_3 XZ + e\)</span>, where X is continuous, Z is the dummy variable, and XZ is their interaction.</li>
+<li><strong>Always look at the interaction term first.</strong> If it’s not significant (p &gt; 0.05), the slopes are parallel — consider removing it.</li>
+<li>The <strong>Parsimony Principle</strong> says simpler models are preferred when they fit equally well. Drop terms starting with the highest p-value.</li>
+<li><strong>R² always decreases when you drop a term</strong> — use <strong>Adjusted R²</strong> to fairly compare models with different numbers of predictors.</li>
+<li>An <em>increase</em> in Adjusted R² after dropping a term is evidence that the term wasn’t contributing.</li>
+<li>Assumptions are: <strong>independence of errors, normality of errors, and equal variance.</strong></li>
+<li>In the exam: be ready to <strong>state the model, interpret coefficients, write hypotheses, and compare models</strong> from R output.</li>
+</ul>
+<hr>
+</section>
+<section id="annotations-space" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Annotations Space</h1>
+<p><em>Use this section to add your own notes, questions, and examples as you study.</em></p>
+<hr>
+<p><strong>My questions / things to clarify:</strong></p>
+<hr>
+<p><strong>Additional examples I found helpful:</strong></p>
+<hr>
+<p><strong>Things I need to review from earlier weeks (linked concepts):</strong></p>
+<ul>
+<li>One-Way ANOVA (Week 5)</li>
+<li>Two-Way ANOVA with interaction (Week 6/7)</li>
+<li>Simple Linear Regression (Week 8)</li>
+<li>Multiple Regression (Week 9)</li>
+</ul>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../regression-analysis/week-9.html" class="pagination-link" aria-label="Week 9">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 9</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../regression-analysis/labs/lab-1.html" class="pagination-link" aria-label="Week 1 – Data Analysis Protocol">
+        <span class="nav-page-text">Week 1 – Data Analysis Protocol</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 10 – ANCOVA (Analysis of Covariance)"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "STAT9004: Regression Analysis"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Study Guide Notes** — These notes are designed to be beginner-friendly.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Leave space below each section to add your own annotations and examples as you review.</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics Covered This Week</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What ANCOVA is and why we use it</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The difference between a **covariate** and a **factor**</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The ANCOVA model formula (with and without interaction)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>How to identify the **experimental design** in a question</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Model **assumptions** (independence, normality, equal variance)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>How to **interpret R output** from an ANCOVA model</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hypothesis testing for each term in the model</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **Parsimony Principle** — dropping non-significant terms</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Comparing **R²** vs **Adjusted R²**</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="fu"># What is ANCOVA?</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Big Picture</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>**ANCOVA** stands for **Analysis of Covariance**. The Professor put it very simply in class:</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"It's ANOVA with a C — and the C stands for Covariance."*</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>Think of it this way:</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**ANOVA** = you have a **categorical** explanatory variable (like treatment groups)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Linear Regression** = you have a **continuous** (quantitative) explanatory variable</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**ANCOVA** = you have **both at the same time**</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>ANCOVA is the right tool when:</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You have **one main categorical variable** you care about most (e.g., grazed vs ungrazed)</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You also have a **continuous variable** that influences the outcome but isn't your main focus — this is called the **covariate**</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is a Covariate?</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>A **covariate** is a continuous (quantitative) variable that:</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You're **not primarily interested in**, but</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You **include in the model** to **control for its effect** on the response variable</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Why include it if we don't care about it?**</span>  </span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Because ignoring it would give you misleading results. The covariate "adjusts" the comparison between your groups, making it fairer.</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="fu"># The Fruit &amp; Grazing Example</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Experiment</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>This is the main example used throughout the lecture. Make sure you understand it well — the Professor said exam questions will give you R output like this and ask you to interpret it.</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>**Setup:**</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>40 plants were split into two groups:</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Grazed** — exposed to rabbits for the first two weeks of growth</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Ungrazed** — left alone</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>At the end of the season, **fruit production** (dry weight in mg) was recorded</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>**The Variables:**</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Type <span class="pp">|</span> Role <span class="pp">|</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|------|------|</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Fruit`</span> <span class="pp">|</span> Continuous <span class="pp">|</span> **Response variable** (what we're measuring) <span class="pp">|</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Grazing`</span> <span class="pp">|</span> Categorical (2 levels: Grazed / Ungrazed) <span class="pp">|</span> **Main explanatory variable** <span class="pp">|</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Root`</span> <span class="pp">|</span> Continuous <span class="pp">|</span> **Covariate** (initial plant size — diameter of rootstock) <span class="pp">|</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why Not Just Do a t-test?</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>Your first instinct might be: *"Just compare grazed vs ungrazed fruit production with a t-test."*</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>**This is wrong** — and the Professor emphasized this.</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>The problem is: **the initial plant size (Root) also affects fruit production**. Ignoring this means your comparison between grazed and ungrazed is not fair — larger plants will produce more fruit regardless of grazing.</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ **Exam tip:** If asked "why not use a t-test here?" — your answer is that the amount of fruit produced may also depend on the initial plant size, so we must control for it.</span></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Counter-Intuitive Result</span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>Without ANCOVA, a simple t-test suggests that **grazed plants produce MORE fruit** than ungrazed. This seems wrong! Rabbits eating the plants shouldn't increase fruit production.</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>This misleading result happens because the **grazed plants happened to be larger** to begin with. ANCOVA corrects for this by accounting for initial size.</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a><span class="fu"># The Experimental Design</span></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>The Professor asked students to identify the experimental design — this is an **exam-style question**.</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Design Terminology</span></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>**Experimental units** = the individual plants (40 of them)</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>**Factor** = Grazing (the independent variable)</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>**Levels of the factor** = Grazed and Ungrazed (2 levels = 2 treatments)</span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>**Covariate** = Initial plant size (Root) — this is continuous</span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>**Response variable** = Fruit production (continuous)</span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Design Classification</span></span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>This experiment is:</span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A **Single-Factor Design** — only one factor (Grazing)</span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A **Completely Randomized Design (CRD)** — each plant has an equal chance of being assigned to either treatment</span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **What is Completely Randomized?** It means each experimental unit (plant) has the same chance of receiving any treatment. The treatment is assigned at random — no pattern or structure.</span></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## What Would Make This a Factorial Design?</span></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a>The Professor discussed this as a comparison point:</span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Design <span class="pp">|</span> What it requires <span class="pp">|</span></span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|-----------------|</span></span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Single-factor <span class="pp">|</span> 1 factor with 2+ levels <span class="pp">|</span></span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Factorial <span class="pp">|</span> 2+ factors, each with 2+ levels <span class="pp">|</span></span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Full Factorial <span class="pp">|</span> Tests **all possible combinations** of factor levels (all main effects + all interaction effects) <span class="pp">|</span></span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ **Exam tip:** Be able to identify what type of design is being used, and what would need to change to make it a different type.</span></span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a><span class="fu"># Assumptions</span></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>These assumptions apply to ANCOVA (same as other linear models). The Professor said:</span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"Ensuring these assumptions are valid is an extremely important part of the design of the experiment."*</span></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. Independence</span></span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Errors (residuals) must be independent of each other</span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**How to check:** Plot residuals in time order — positive correlation = violation</span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**How to ensure:** Proper **randomisation** at the start of the experiment</span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. Normality</span></span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The errors should follow a normal distribution</span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**How to check:**</span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**QQ plot** (quantile-quantile plot) — should show a straight line</span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Histogram** of residuals — should show a bell-shaped curve</span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Statistical tests:** Kolmogorov-Smirnov or Shapiro-Wilk tests</span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 The histogram is better for large datasets. The QQ plot is commonly used and you should be able to interpret it.</span></span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3. Homogeneity of Variance (Equal Variance)</span></span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The variance of residuals should be equal across groups</span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**How to check:**</span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Levene's test** (statistical test)</span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Residuals vs Fitted values plot** — should show no pattern, centred around zero</span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ **Exam tip:** The Professor said *"make sure you're able to interpret diagnostic plots from R."* Specifically: QQ plots, residuals vs fitted, and histograms.</span></span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a><span class="fu"># The ANCOVA Model</span></span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a><span class="fu">## Full Model (with Interaction)</span></span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>$$Y = \beta_0 + \beta_1 X + \beta_2 Z + \beta_3 XZ + e$$</span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a>Where:</span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Symbol <span class="pp">|</span> Meaning <span class="pp">|</span></span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|---------|</span></span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $Y$ <span class="pp">|</span> Response variable (Fruit production) <span class="pp">|</span></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $X$ <span class="pp">|</span> **Continuous** explanatory variable (Root size) <span class="pp">|</span></span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $Z$ <span class="pp">|</span> **Dummy variable** for the categorical factor (0 = Grazed, 1 = Ungrazed) <span class="pp">|</span></span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $XZ$ <span class="pp">|</span> **Interaction term** between Root and Grazing <span class="pp">|</span></span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $e$ <span class="pp">|</span> Error term <span class="pp">|</span></span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interpreting Each Coefficient</span></span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Coefficient <span class="pp">|</span> Meaning <span class="pp">|</span></span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------------|---------|</span></span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\beta_0$ <span class="pp">|</span> Intercept for the **reference group** (Grazed plants, since Z=0) <span class="pp">|</span></span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\beta_1$ <span class="pp">|</span> Effect of a 1-unit increase in Root on Fruit, **for Grazed plants** <span class="pp">|</span></span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\beta_2$ <span class="pp">|</span> Change in intercept when switching from **Grazed → Ungrazed** <span class="pp">|</span></span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\beta_3$ <span class="pp">|</span> Change in **slope** when switching from Grazed → Ungrazed (the interaction effect) <span class="pp">|</span></span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a><span class="fu">## What the Model Looks Like for Each Group</span></span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a>**For Grazed plants** (Z = 0):</span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a>$$\text{Fruit} = \beta_0 + \beta_1 \cdot \text{Root} + e$$</span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a>**For Ungrazed plants** (Z = 1):</span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a>$$\text{Fruit} = (\beta_0 + \beta_2) + (\beta_1 + \beta_3) \cdot \text{Root} + e$$</span>
+<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 **Plain English:** Grazed is the reference group. For ungrazed plants, both the intercept and the slope are adjusted by adding $\beta_2$ and $\beta_3$ respectively.</span></span>
+<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a><span class="fu"># Reading the R Output</span></span>
+<span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a><span class="fu">## Full Model (with Interaction)</span></span>
+<span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a>Here is the R output from running <span class="in">`lm(Fruit ~ Root * Grazing, data = fruit)`</span>:</span>
+<span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a><span class="in">Coefficients:</span></span>
+<span id="cb4-214"><a href="#cb4-214" aria-hidden="true" tabindex="-1"></a><span class="in">                    Estimate Std. Error t value Pr(&gt;|t|)</span></span>
+<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a><span class="in">(Intercept)         -125.173    12.811   -9.771  1.15e-11 ***</span></span>
+<span id="cb4-216"><a href="#cb4-216" aria-hidden="true" tabindex="-1"></a><span class="in">Root                  23.240     1.531   15.182  &lt; 2e-16 ***</span></span>
+<span id="cb4-217"><a href="#cb4-217" aria-hidden="true" tabindex="-1"></a><span class="in">GrazingUngrazed       30.806    16.842    1.829   0.0757 .</span></span>
+<span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a><span class="in">Root:GrazingUngrazed   0.756     2.354    0.321   0.7500</span></span>
+<span id="cb4-219"><a href="#cb4-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-220"><a href="#cb4-220" aria-hidden="true" tabindex="-1"></a><span class="in">Residual standard error: 6.831 on 36 degrees of freedom</span></span>
+<span id="cb4-221"><a href="#cb4-221" aria-hidden="true" tabindex="-1"></a><span class="in">Multiple R-squared:  0.9293,    Adjusted R-squared:  0.9234</span></span>
+<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a><span class="in">F-statistic: 157.6 on 3 and 36 DF,  p-value: &lt; 2.2e-16</span></span>
+<span id="cb4-223"><a href="#cb4-223" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step-by-Step Interpretation</span></span>
+<span id="cb4-226"><a href="#cb4-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-227"><a href="#cb4-227" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ **The Professor's key advice on how to read output — this is exam-critical:**</span></span>
+<span id="cb4-228"><a href="#cb4-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-229"><a href="#cb4-229" aria-hidden="true" tabindex="-1"></a>**Step 1 — Overall model (F-statistic at the bottom):**</span>
+<span id="cb4-230"><a href="#cb4-230" aria-hidden="true" tabindex="-1"></a>The p-value is &lt; 2.2e-16, which is much less than 0.05. The **overall model is statistically significant**. This means at least one predictor has an effect.</span>
+<span id="cb4-231"><a href="#cb4-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a>**Step 2 — Interaction term first:**</span>
+<span id="cb4-233"><a href="#cb4-233" aria-hidden="true" tabindex="-1"></a>Look at <span class="in">`Root:GrazingUngrazed`</span>. The p-value is 0.75 — **not significant** (&gt; 0.05). This means the slopes for grazed and ungrazed plants are **not different** from each other (the lines are parallel).</span>
+<span id="cb4-234"><a href="#cb4-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-235"><a href="#cb4-235" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 The interaction term tells us: *does the effect of Root on Fruit CHANGE depending on whether the plant is grazed or not?* If not significant → it doesn't change → the lines are parallel.</span></span>
+<span id="cb4-236"><a href="#cb4-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-237"><a href="#cb4-237" aria-hidden="true" tabindex="-1"></a>**Step 3 — Main effects:**</span>
+<span id="cb4-238"><a href="#cb4-238" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`Root`</span>: p &lt; 2e-16 → **highly significant** ✅</span>
+<span id="cb4-239"><a href="#cb4-239" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`GrazingUngrazed`</span>: p = 0.0757 → **not significant** at the 5% level ❌ (close, but over 0.05)</span>
+<span id="cb4-240"><a href="#cb4-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-241"><a href="#cb4-241" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Fitted Equations</span></span>
+<span id="cb4-242"><a href="#cb4-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-243"><a href="#cb4-243" aria-hidden="true" tabindex="-1"></a>**Overall model:**</span>
+<span id="cb4-244"><a href="#cb4-244" aria-hidden="true" tabindex="-1"></a>$$\hat{\text{Fruit}} = -125.173 + 23.24 \cdot \text{Root} + 30.806 \cdot Z + 0.756 \cdot Z \cdot \text{Root}$$</span>
+<span id="cb4-245"><a href="#cb4-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-246"><a href="#cb4-246" aria-hidden="true" tabindex="-1"></a>**Grazed plants** (Z = 0):</span>
+<span id="cb4-247"><a href="#cb4-247" aria-hidden="true" tabindex="-1"></a>$$\hat{\text{Fruit}} = -125.173 + 23.24 \cdot \text{Root}$$</span>
+<span id="cb4-248"><a href="#cb4-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-249"><a href="#cb4-249" aria-hidden="true" tabindex="-1"></a>**Ungrazed plants** (Z = 1):</span>
+<span id="cb4-250"><a href="#cb4-250" aria-hidden="true" tabindex="-1"></a>$$\hat{\text{Fruit}} = -94.367 + 23.996 \cdot \text{Root}$$</span>
+<span id="cb4-251"><a href="#cb4-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-252"><a href="#cb4-252" aria-hidden="true" tabindex="-1"></a>*(The intercept becomes −125.173 + 30.806 = −94.367, and the slope becomes 23.24 + 0.756 = 23.996)*</span>
+<span id="cb4-253"><a href="#cb4-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-254"><a href="#cb4-254" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-255"><a href="#cb4-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-256"><a href="#cb4-256" aria-hidden="true" tabindex="-1"></a><span class="fu"># Hypothesis Tests</span></span>
+<span id="cb4-257"><a href="#cb4-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-258"><a href="#cb4-258" aria-hidden="true" tabindex="-1"></a>The Professor emphasised this: *"In a lot of exam questions, they will ask you to state the model and state the hypotheses."*</span>
+<span id="cb4-259"><a href="#cb4-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-260"><a href="#cb4-260" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hypotheses You Need to Know</span></span>
+<span id="cb4-261"><a href="#cb4-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-262"><a href="#cb4-262" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. Overall Model</span></span>
+<span id="cb4-263"><a href="#cb4-263" aria-hidden="true" tabindex="-1"></a>$$H_0: \beta_1 = \beta_2 = \beta_3 = 0 \quad \text{(no predictor has an effect)}$$</span>
+<span id="cb4-264"><a href="#cb4-264" aria-hidden="true" tabindex="-1"></a>$$H_A: \text{at least one coefficient} \neq 0$$</span>
+<span id="cb4-265"><a href="#cb4-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-266"><a href="#cb4-266" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. Interaction Term (Test for parallel slopes)</span></span>
+<span id="cb4-267"><a href="#cb4-267" aria-hidden="true" tabindex="-1"></a>$$H_0: \beta_3 = 0 \quad \text{(slopes are the same — lines are parallel)}$$</span>
+<span id="cb4-268"><a href="#cb4-268" aria-hidden="true" tabindex="-1"></a>$$H_A: \beta_3 \neq 0 \quad \text{(slopes differ)}$$</span>
+<span id="cb4-269"><a href="#cb4-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-270"><a href="#cb4-270" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3. Root (Covariate)</span></span>
+<span id="cb4-271"><a href="#cb4-271" aria-hidden="true" tabindex="-1"></a>$$H_0: \beta_{\text{Root}} = 0 \quad \text{(Root has no effect)}$$</span>
+<span id="cb4-272"><a href="#cb4-272" aria-hidden="true" tabindex="-1"></a>$$H_A: \beta_{\text{Root}} \neq 0$$</span>
+<span id="cb4-273"><a href="#cb4-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-274"><a href="#cb4-274" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4. Grazing (Factor)</span></span>
+<span id="cb4-275"><a href="#cb4-275" aria-hidden="true" tabindex="-1"></a>$$H_0: \beta_{\text{Grazing}} = 0 \quad \text{(Grazing has no effect on the intercept)}$$</span>
+<span id="cb4-276"><a href="#cb4-276" aria-hidden="true" tabindex="-1"></a>$$H_A: \beta_{\text{Grazing}} \neq 0$$</span>
+<span id="cb4-277"><a href="#cb4-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-278"><a href="#cb4-278" aria-hidden="true" tabindex="-1"></a><span class="fu">### 5. Do the two regression lines coincide? (same slope AND intercept)</span></span>
+<span id="cb4-279"><a href="#cb4-279" aria-hidden="true" tabindex="-1"></a>$$H_0: \beta_2 = \beta_3 = 0$$</span>
+<span id="cb4-280"><a href="#cb4-280" aria-hidden="true" tabindex="-1"></a>$$H_A: \beta_2 \neq 0 \text{ or } \beta_3 \neq 0$$</span>
+<span id="cb4-281"><a href="#cb4-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-282"><a href="#cb4-282" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 **Plain English on the interaction test:** Testing $H_0: \beta_3 = 0$ is the same as asking *"Are the two regression lines parallel?"* If we fail to reject $H_0$, it means we cannot say the slopes are different — they are effectively parallel.</span></span>
+<span id="cb4-283"><a href="#cb4-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-284"><a href="#cb4-284" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-285"><a href="#cb4-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-286"><a href="#cb4-286" aria-hidden="true" tabindex="-1"></a><span class="fu"># The Parsimony Principle</span></span>
+<span id="cb4-287"><a href="#cb4-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-288"><a href="#cb4-288" aria-hidden="true" tabindex="-1"></a><span class="fu">## What It Means</span></span>
+<span id="cb4-289"><a href="#cb4-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-290"><a href="#cb4-290" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"If we have two or more possible models, each of which fit the data adequately, the one with the fewest explanatory variables is preferred."* — Prof. Harrison</span></span>
+<span id="cb4-291"><a href="#cb4-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-292"><a href="#cb4-292" aria-hidden="true" tabindex="-1"></a>In simple terms: **simpler is better**, as long as the simpler model fits the data just as well.</span>
+<span id="cb4-293"><a href="#cb4-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-294"><a href="#cb4-294" aria-hidden="true" tabindex="-1"></a><span class="fu">## When to Drop a Term</span></span>
+<span id="cb4-295"><a href="#cb4-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-296"><a href="#cb4-296" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>When a term is **not statistically significant**, it may not be contributing to the model</span>
+<span id="cb4-297"><a href="#cb4-297" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Drop terms starting with the one with the **highest p-value** (most insignificant)</span>
+<span id="cb4-298"><a href="#cb4-298" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>After dropping, rerun the model and reassess</span>
+<span id="cb4-299"><a href="#cb4-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-300"><a href="#cb4-300" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ **Important nuance the Professor highlighted:** This isn't a hard rule. If you have a scientific reason to keep a term, you can keep it even if it's not significant. It depends on the context.</span></span>
+<span id="cb4-301"><a href="#cb4-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-302"><a href="#cb4-302" aria-hidden="true" tabindex="-1"></a><span class="fu">## Comparing R² and Adjusted R²</span></span>
+<span id="cb4-303"><a href="#cb4-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-304"><a href="#cb4-304" aria-hidden="true" tabindex="-1"></a>After removing the interaction term, compare the two models:</span>
+<span id="cb4-305"><a href="#cb4-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-306"><a href="#cb4-306" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Metric <span class="pp">|</span> With Interaction <span class="pp">|</span> Without Interaction <span class="pp">|</span></span>
+<span id="cb4-307"><a href="#cb4-307" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|-----------------|---------------------|</span></span>
+<span id="cb4-308"><a href="#cb4-308" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> R² <span class="pp">|</span> 0.9293 <span class="pp">|</span> 0.9291 <span class="pp">|</span></span>
+<span id="cb4-309"><a href="#cb4-309" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Adjusted R² <span class="pp">|</span> 0.9234 <span class="pp">|</span> **0.9252** <span class="pp">|</span></span>
+<span id="cb4-310"><a href="#cb4-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-311"><a href="#cb4-311" aria-hidden="true" tabindex="-1"></a>**Key insight:**</span>
+<span id="cb4-312"><a href="#cb4-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-313"><a href="#cb4-313" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**R²** always decreases when you drop a term — even if the term was useless</span>
+<span id="cb4-314"><a href="#cb4-314" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Adjusted R²** accounts for the number of predictors — it goes **up** when you drop an unhelpful term</span>
+<span id="cb4-315"><a href="#cb4-315" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A small *increase* in Adjusted R² after dropping confirms the term wasn't contributing</span>
+<span id="cb4-316"><a href="#cb4-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-317"><a href="#cb4-317" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 The Professor said: *"The adjusted R-squared is more appropriate here as it takes into account the number of terms in the model."*</span></span>
+<span id="cb4-318"><a href="#cb4-318" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
+<span id="cb4-319"><a href="#cb4-319" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ **Exam tip:** Be able to explain why Adjusted R² is preferred when comparing models with different numbers of predictors.</span></span>
+<span id="cb4-320"><a href="#cb4-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-321"><a href="#cb4-321" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Simpler (Final) Model</span></span>
+<span id="cb4-322"><a href="#cb4-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-323"><a href="#cb4-323" aria-hidden="true" tabindex="-1"></a>After dropping the interaction term (<span class="in">`Root:GrazingUngrazed`</span>), we run <span class="in">`lm(Fruit ~ Root + Grazing, data = fruit)`</span>:</span>
+<span id="cb4-324"><a href="#cb4-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-325"><a href="#cb4-325" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-326"><a href="#cb4-326" aria-hidden="true" tabindex="-1"></a><span class="in">Coefficients:</span></span>
+<span id="cb4-327"><a href="#cb4-327" aria-hidden="true" tabindex="-1"></a><span class="in">                 Estimate Std. Error t value Pr(&gt;|t|)</span></span>
+<span id="cb4-328"><a href="#cb4-328" aria-hidden="true" tabindex="-1"></a><span class="in">(Intercept)      -127.829      9.664  -13.23  1.35e-15 ***</span></span>
+<span id="cb4-329"><a href="#cb4-329" aria-hidden="true" tabindex="-1"></a><span class="in">Root               23.560      1.149   20.51  &lt; 2e-16 ***</span></span>
+<span id="cb4-330"><a href="#cb4-330" aria-hidden="true" tabindex="-1"></a><span class="in">GrazingUngrazed    36.103      3.357   10.75  6.11e-13 ***</span></span>
+<span id="cb4-331"><a href="#cb4-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-332"><a href="#cb4-332" aria-hidden="true" tabindex="-1"></a><span class="in">Residual standard error: 6.747 on 37 degrees of freedom</span></span>
+<span id="cb4-333"><a href="#cb4-333" aria-hidden="true" tabindex="-1"></a><span class="in">Multiple R-squared:  0.9291,    Adjusted R-squared:  0.9252</span></span>
+<span id="cb4-334"><a href="#cb4-334" aria-hidden="true" tabindex="-1"></a><span class="in">F-statistic: 242.3 on 2 and 37 DF,  p-value: &lt; 2.2e-16</span></span>
+<span id="cb4-335"><a href="#cb4-335" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-336"><a href="#cb4-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-337"><a href="#cb4-337" aria-hidden="true" tabindex="-1"></a>All terms are now significant. The final model equations become:</span>
+<span id="cb4-338"><a href="#cb4-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-339"><a href="#cb4-339" aria-hidden="true" tabindex="-1"></a>**Grazed plants** (Z = 0):</span>
+<span id="cb4-340"><a href="#cb4-340" aria-hidden="true" tabindex="-1"></a>$$\hat{\text{Fruit}} = -127.829 + 23.56 \cdot \text{Root}$$</span>
+<span id="cb4-341"><a href="#cb4-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-342"><a href="#cb4-342" aria-hidden="true" tabindex="-1"></a>**Ungrazed plants** (Z = 1):</span>
+<span id="cb4-343"><a href="#cb4-343" aria-hidden="true" tabindex="-1"></a>$$\hat{\text{Fruit}} = -91.726 + 23.56 \cdot \text{Root}$$</span>
+<span id="cb4-344"><a href="#cb4-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-345"><a href="#cb4-345" aria-hidden="true" tabindex="-1"></a>*(Intercept for ungrazed = −127.829 + 36.103 = −91.726. The **slope is the same** for both groups!)*</span>
+<span id="cb4-346"><a href="#cb4-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-347"><a href="#cb4-347" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💡 In the final model, both lines have the **same slope (23.56)** but different intercepts. Ungrazed plants have a higher intercept, meaning they produce more fruit at any given root size, when holding grazing constant.</span></span>
+<span id="cb4-348"><a href="#cb4-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-349"><a href="#cb4-349" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-350"><a href="#cb4-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-351"><a href="#cb4-351" aria-hidden="true" tabindex="-1"></a><span class="fu"># Professor's Exam Tips (From the Lecture Transcript)</span></span>
+<span id="cb4-352"><a href="#cb4-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-353"><a href="#cb4-353" aria-hidden="true" tabindex="-1"></a>The Professor explicitly mentioned what types of questions appear in exams. Here is a summary:</span>
+<span id="cb4-354"><a href="#cb4-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-355"><a href="#cb4-355" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 🎯 **From the transcript (direct exam guidance):**</span></span>
+<span id="cb4-356"><a href="#cb4-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-357"><a href="#cb4-357" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the model** — Given a scenario or R output, write down the ANCOVA model equation using correct notation ($\beta_0 + \beta_1 X + ...$)</span>
+<span id="cb4-358"><a href="#cb4-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-359"><a href="#cb4-359" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Interpret coefficients** — For each coefficient: is it significant? Is it positive or negative? What does that mean in plain language (e.g., "for every one unit increase in Root, Fruit increases by 23.56 units, for grazed plants")?</span>
+<span id="cb4-360"><a href="#cb4-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-361"><a href="#cb4-361" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**State the hypotheses** — Write out $H_0$ and $H_A$ for: the overall model, the interaction term, each main effect</span>
+<span id="cb4-362"><a href="#cb4-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-363"><a href="#cb4-363" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Know when to test the interaction first** — *"The first term you need to look at is the interaction term. Then, if it's not significant, you can interpret the main effects."*</span>
+<span id="cb4-364"><a href="#cb4-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-365"><a href="#cb4-365" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Remove the interaction term and rerun** — Know how to compare models using Adjusted R²</span>
+<span id="cb4-366"><a href="#cb4-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-367"><a href="#cb4-367" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Identify the experimental design** — Given an experiment description, identify: experimental units, factors, levels, treatments, covariate, response variable, and design type (CRD, single-factor, factorial, etc.)</span>
+<span id="cb4-368"><a href="#cb4-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-369"><a href="#cb4-369" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>**Interpret diagnostic plots** — Understand QQ plots, residuals vs fitted plots, and histograms of residuals</span>
+<span id="cb4-370"><a href="#cb4-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-371"><a href="#cb4-371" aria-hidden="true" tabindex="-1"></a><span class="ss">8. </span>**Know R² vs Adjusted R²** — R² always decreases when you drop a term; Adjusted R² is what to look at when comparing models</span>
+<span id="cb4-372"><a href="#cb4-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-373"><a href="#cb4-373" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 💬 The Professor also said: *"If you look back at the past papers, you generally get the R output that you have looked at in R, and you have to put together the model or interpret the outputs."*</span></span>
+<span id="cb4-374"><a href="#cb4-374" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb4-375"><a href="#cb4-375" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Action: Review the 2019 past exam paper (`STAT9004_Exam_19.pdf`) on Canvas.**</span></span>
+<span id="cb4-376"><a href="#cb4-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-377"><a href="#cb4-377" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-378"><a href="#cb4-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-379"><a href="#cb4-379" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical R Code Summary</span></span>
+<span id="cb4-380"><a href="#cb4-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-381"><a href="#cb4-381" aria-hidden="true" tabindex="-1"></a>Here is the key R code used in this analysis, which you'll replicate in the lab worksheet:</span>
+<span id="cb4-382"><a href="#cb4-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-383"><a href="#cb4-383" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb4-384"><a href="#cb4-384" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb4-385"><a href="#cb4-385" aria-hidden="true" tabindex="-1"></a>fruit <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"fruit.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-386"><a href="#cb4-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-387"><a href="#cb4-387" aria-hidden="true" tabindex="-1"></a><span class="co"># Exploratory scatter plot</span></span>
+<span id="cb4-388"><a href="#cb4-388" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-389"><a href="#cb4-389" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fruit, <span class="fu">aes</span>(<span class="at">x =</span> Root, <span class="at">y =</span> Fruit, <span class="at">colour =</span> <span class="fu">factor</span>(Grazing))) <span class="sc">+</span></span>
+<span id="cb4-390"><a href="#cb4-390" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb4-391"><a href="#cb4-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-392"><a href="#cb4-392" aria-hidden="true" tabindex="-1"></a><span class="co"># Full ANCOVA model (with interaction)</span></span>
+<span id="cb4-393"><a href="#cb4-393" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Fruit <span class="sc">~</span> Root <span class="sc">*</span> Grazing, <span class="at">data =</span> fruit)</span>
+<span id="cb4-394"><a href="#cb4-394" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span>
+<span id="cb4-395"><a href="#cb4-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-396"><a href="#cb4-396" aria-hidden="true" tabindex="-1"></a><span class="co"># Simpler model (without interaction)</span></span>
+<span id="cb4-397"><a href="#cb4-397" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Fruit <span class="sc">~</span> Root <span class="sc">+</span> Grazing, <span class="at">data =</span> fruit)</span>
+<span id="cb4-398"><a href="#cb4-398" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span>
+<span id="cb4-399"><a href="#cb4-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-400"><a href="#cb4-400" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic plots</span></span>
+<span id="cb4-401"><a href="#cb4-401" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2)</span>
+<span id="cb4-402"><a href="#cb4-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-403"><a href="#cb4-403" aria-hidden="true" tabindex="-1"></a><span class="co"># Check model assumptions</span></span>
+<span id="cb4-404"><a href="#cb4-404" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb4-405"><a href="#cb4-405" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(Fruit <span class="sc">~</span> Grazing, <span class="at">data =</span> fruit)  <span class="co"># homogeneity of variance</span></span>
+<span id="cb4-406"><a href="#cb4-406" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(model2))             <span class="co"># normality of residuals</span></span>
+<span id="cb4-407"><a href="#cb4-407" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-408"><a href="#cb4-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-409"><a href="#cb4-409" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ⚠️ In the lab worksheet, you also work with the **Birds dataset** which requires **log transformations** (</span><span class="in">`log(AREA)`</span><span class="at">, </span><span class="in">`log(DIST)`</span><span class="at">). The Professor noted: *"With this exercise, you'll have to do some data transformations."*</span></span>
+<span id="cb4-410"><a href="#cb4-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-411"><a href="#cb4-411" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-412"><a href="#cb4-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-413"><a href="#cb4-413" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb4-414"><a href="#cb4-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-415"><a href="#cb4-415" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**ANCOVA = ANOVA + a continuous covariate.** It handles models with both categorical and continuous predictors.</span>
+<span id="cb4-416"><a href="#cb4-416" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **categorical variable is the main interest**; the covariate is included to **control for** its effect on the response.</span>
+<span id="cb4-417"><a href="#cb4-417" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The ANCOVA model is: $Y = \beta_0 + \beta_1 X + \beta_2 Z + \beta_3 XZ + e$, where X is continuous, Z is the dummy variable, and XZ is their interaction.</span>
+<span id="cb4-418"><a href="#cb4-418" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Always look at the interaction term first.** If it's not significant (p &gt; 0.05), the slopes are parallel — consider removing it.</span>
+<span id="cb4-419"><a href="#cb4-419" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **Parsimony Principle** says simpler models are preferred when they fit equally well. Drop terms starting with the highest p-value.</span>
+<span id="cb4-420"><a href="#cb4-420" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**R² always decreases when you drop a term** — use **Adjusted R²** to fairly compare models with different numbers of predictors.</span>
+<span id="cb4-421"><a href="#cb4-421" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>An *increase* in Adjusted R² after dropping a term is evidence that the term wasn't contributing.</span>
+<span id="cb4-422"><a href="#cb4-422" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Assumptions are: **independence of errors, normality of errors, and equal variance.**</span>
+<span id="cb4-423"><a href="#cb4-423" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In the exam: be ready to **state the model, interpret coefficients, write hypotheses, and compare models** from R output.</span>
+<span id="cb4-424"><a href="#cb4-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-425"><a href="#cb4-425" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-426"><a href="#cb4-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-427"><a href="#cb4-427" aria-hidden="true" tabindex="-1"></a><span class="fu"># Annotations Space</span></span>
+<span id="cb4-428"><a href="#cb4-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-429"><a href="#cb4-429" aria-hidden="true" tabindex="-1"></a>*Use this section to add your own notes, questions, and examples as you study.*</span>
+<span id="cb4-430"><a href="#cb4-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-431"><a href="#cb4-431" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-432"><a href="#cb4-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-433"><a href="#cb4-433" aria-hidden="true" tabindex="-1"></a>**My questions / things to clarify:**</span>
+<span id="cb4-434"><a href="#cb4-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-435"><a href="#cb4-435" aria-hidden="true" tabindex="-1"></a>\vspace{3cm}</span>
+<span id="cb4-436"><a href="#cb4-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-437"><a href="#cb4-437" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-438"><a href="#cb4-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-439"><a href="#cb4-439" aria-hidden="true" tabindex="-1"></a>**Additional examples I found helpful:**</span>
+<span id="cb4-440"><a href="#cb4-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-441"><a href="#cb4-441" aria-hidden="true" tabindex="-1"></a>\vspace{3cm}</span>
+<span id="cb4-442"><a href="#cb4-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-443"><a href="#cb4-443" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-444"><a href="#cb4-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-445"><a href="#cb4-445" aria-hidden="true" tabindex="-1"></a>**Things I need to review from earlier weeks (linked concepts):**</span>
+<span id="cb4-446"><a href="#cb4-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-447"><a href="#cb4-447" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>One-Way ANOVA (Week 5)</span>
+<span id="cb4-448"><a href="#cb4-448" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Two-Way ANOVA with interaction (Week 6/7)</span>
+<span id="cb4-449"><a href="#cb4-449" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Simple Linear Regression (Week 8)</span>
+<span id="cb4-450"><a href="#cb4-450" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Multiple Regression (Week 9)</span>
+<span id="cb4-451"><a href="#cb4-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-452"><a href="#cb4-452" aria-hidden="true" tabindex="-1"></a>\vspace{2cm}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

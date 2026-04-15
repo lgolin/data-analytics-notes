@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>week-6 – Semester Notes</title>
+<title>STAT9005 – Time Series Analysis – Semester Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,6 +107,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -120,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-6.html">Week 6 - empty</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-6.html">Week 6</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -338,6 +367,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Week 9</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 10</span></a>
+  </div>
+</li>
       </ul>
   </li>
           <li class="sidebar-item sidebar-item-section">
@@ -439,13 +474,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-6.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Week 6 - empty</span></a>
+ <span class="menu-text">Week 6</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 7 - empty</span></a>
+ <span class="menu-text">Week 7</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -522,6 +557,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../time-series/exam/Practical-Exam-Solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAT9005 — Time Series &amp; PCA: Practical Exam Solutions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../time-series/exam/quiz.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quiz Preparation</span></a>
   </div>
@@ -537,19 +578,576 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics" id="toc-key-topics" class="nav-link active" data-scroll-target="#key-topics"><span class="header-section-number">1</span> Key Topics</a></li>
+  <li><a href="#core-explanation" id="toc-core-explanation" class="nav-link" data-scroll-target="#core-explanation"><span class="header-section-number">2</span> Core Explanation</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-stochastic-process" id="toc-what-is-a-stochastic-process" class="nav-link" data-scroll-target="#what-is-a-stochastic-process"><span class="header-section-number">2.1</span> What is a Stochastic Process?</a></li>
+  <li><a href="#stationarity" id="toc-stationarity" class="nav-link" data-scroll-target="#stationarity"><span class="header-section-number">2.2</span> Stationarity</a>
+  <ul class="collapse">
+  <li><a href="#three-conditions-for-stationarity" id="toc-three-conditions-for-stationarity" class="nav-link" data-scroll-target="#three-conditions-for-stationarity"><span class="header-section-number">2.2.1</span> Three conditions for stationarity</a></li>
+  <li><a href="#why-stationarity-is-important" id="toc-why-stationarity-is-important" class="nav-link" data-scroll-target="#why-stationarity-is-important"><span class="header-section-number">2.2.2</span> Why stationarity is important</a></li>
+  </ul></li>
+  <li><a href="#transformations-to-achieve-stationarity" id="toc-transformations-to-achieve-stationarity" class="nav-link" data-scroll-target="#transformations-to-achieve-stationarity"><span class="header-section-number">2.3</span> Transformations to Achieve Stationarity</a>
+  <ul class="collapse">
+  <li><a href="#problem-1-non-constant-mean-trend" id="toc-problem-1-non-constant-mean-trend" class="nav-link" data-scroll-target="#problem-1-non-constant-mean-trend"><span class="header-section-number">2.3.1</span> Problem 1: Non-constant mean (trend)</a></li>
+  <li><a href="#problem-2-non-constant-variance" id="toc-problem-2-non-constant-variance" class="nav-link" data-scroll-target="#problem-2-non-constant-variance"><span class="header-section-number">2.3.2</span> Problem 2: Non-constant variance</a></li>
+  </ul></li>
+  <li><a href="#white-noise" id="toc-white-noise" class="nav-link" data-scroll-target="#white-noise"><span class="header-section-number">2.4</span> White Noise</a></li>
+  <li><a href="#random-walk" id="toc-random-walk" class="nav-link" data-scroll-target="#random-walk"><span class="header-section-number">2.5</span> Random Walk</a>
+  <ul class="collapse">
+  <li><a href="#key-property-of-a-random-walk" id="toc-key-property-of-a-random-walk" class="nav-link" data-scroll-target="#key-property-of-a-random-walk"><span class="header-section-number">2.5.1</span> Key property of a random walk</a></li>
+  </ul></li>
+  <li><a href="#introduction-to-arima" id="toc-introduction-to-arima" class="nav-link" data-scroll-target="#introduction-to-arima"><span class="header-section-number">2.6</span> Introduction to ARIMA</a>
+  <ul class="collapse">
+  <li><a href="#the-ar-part-autoregressive" id="toc-the-ar-part-autoregressive" class="nav-link" data-scroll-target="#the-ar-part-autoregressive"><span class="header-section-number">2.6.1</span> The AR part — Autoregressive</a></li>
+  <li><a href="#the-i-part-integrated-differencing" id="toc-the-i-part-integrated-differencing" class="nav-link" data-scroll-target="#the-i-part-integrated-differencing"><span class="header-section-number">2.6.2</span> The I part — Integrated (Differencing)</a></li>
+  <li><a href="#the-ma-part-moving-average" id="toc-the-ma-part-moving-average" class="nav-link" data-scroll-target="#the-ma-part-moving-average"><span class="header-section-number">2.6.3</span> The MA part — Moving Average</a></li>
+  <li><a href="#sarima-seasonal-arima" id="toc-sarima-seasonal-arima" class="nav-link" data-scroll-target="#sarima-seasonal-arima"><span class="header-section-number">2.6.4</span> SARIMA — Seasonal ARIMA</a></li>
+  </ul></li>
+  <li><a href="#acf-and-pacf-reading-the-correlograms" id="toc-acf-and-pacf-reading-the-correlograms" class="nav-link" data-scroll-target="#acf-and-pacf-reading-the-correlograms"><span class="header-section-number">2.7</span> ACF and PACF — Reading the Correlograms</a>
+  <ul class="collapse">
+  <li><a href="#acf-autocorrelation-function" id="toc-acf-autocorrelation-function" class="nav-link" data-scroll-target="#acf-autocorrelation-function"><span class="header-section-number">2.7.1</span> ACF — Autocorrelation Function</a></li>
+  <li><a href="#pacf-partial-autocorrelation-function" id="toc-pacf-partial-autocorrelation-function" class="nav-link" data-scroll-target="#pacf-partial-autocorrelation-function"><span class="header-section-number">2.7.2</span> PACF — Partial Autocorrelation Function</a></li>
+  <li><a href="#the-significance-lines-dashed-blue-lines" id="toc-the-significance-lines-dashed-blue-lines" class="nav-link" data-scroll-target="#the-significance-lines-dashed-blue-lines"><span class="header-section-number">2.7.3</span> The significance lines (dashed blue lines)</a></li>
+  <li><a href="#how-to-use-acf-and-pacf-to-identify-the-model" id="toc-how-to-use-acf-and-pacf-to-identify-the-model" class="nav-link" data-scroll-target="#how-to-use-acf-and-pacf-to-identify-the-model"><span class="header-section-number">2.7.4</span> How to use ACF and PACF to identify the model</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#key-equations-and-formulas" id="toc-key-equations-and-formulas" class="nav-link" data-scroll-target="#key-equations-and-formulas"><span class="header-section-number">3</span> Key Equations and Formulas</a>
+  <ul class="collapse">
+  <li><a href="#stationarity-check-three-conditions" id="toc-stationarity-check-three-conditions" class="nav-link" data-scroll-target="#stationarity-check-three-conditions"><span class="header-section-number">3.0.1</span> Stationarity check: three conditions</a></li>
+  <li><a href="#first-difference-to-remove-trend" id="toc-first-difference-to-remove-trend" class="nav-link" data-scroll-target="#first-difference-to-remove-trend"><span class="header-section-number">3.0.2</span> First difference (to remove trend)</a></li>
+  <li><a href="#log-transformation-to-stabilise-variance" id="toc-log-transformation-to-stabilise-variance" class="nav-link" data-scroll-target="#log-transformation-to-stabilise-variance"><span class="header-section-number">3.0.3</span> Log transformation (to stabilise variance)</a></li>
+  <li><a href="#random-walk-equation" id="toc-random-walk-equation" class="nav-link" data-scroll-target="#random-walk-equation"><span class="header-section-number">3.0.4</span> Random walk equation</a></li>
+  <li><a href="#arp-model" id="toc-arp-model" class="nav-link" data-scroll-target="#arp-model"><span class="header-section-number">3.0.5</span> AR(p) model</a></li>
+  <li><a href="#maq-model" id="toc-maq-model" class="nav-link" data-scroll-target="#maq-model"><span class="header-section-number">3.0.6</span> MA(q) model</a></li>
+  <li><a href="#significance-bounds-on-acfpacf-plots" id="toc-significance-bounds-on-acfpacf-plots" class="nav-link" data-scroll-target="#significance-bounds-on-acfpacf-plots"><span class="header-section-number">3.0.7</span> Significance bounds on ACF/PACF plots</a></li>
+  </ul></li>
+  <li><a href="#practical-examples-in-r" id="toc-practical-examples-in-r" class="nav-link" data-scroll-target="#practical-examples-in-r"><span class="header-section-number">4</span> Practical Examples in R</a>
+  <ul class="collapse">
+  <li><a href="#what-to-look-for-in-the-output" id="toc-what-to-look-for-in-the-output" class="nav-link" data-scroll-target="#what-to-look-for-in-the-output"><span class="header-section-number">4.0.1</span> What to look for in the output:</a></li>
+  </ul></li>
+  <li><a href="#practical-example-interpreting-acfpacf" id="toc-practical-example-interpreting-acfpacf" class="nav-link" data-scroll-target="#practical-example-interpreting-acfpacf"><span class="header-section-number">5</span> Practical Example: Interpreting ACF/PACF</a></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">6</span> Summary Points</a></li>
+  <li><a href="#space-for-your-own-notes" id="toc-space-for-your-own-notes" class="nav-link" data-scroll-target="#space-for-your-own-notes"><span class="header-section-number">7</span> Space for Your Own Notes</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-6.html">Week 6 - empty</a></li></ol></nav><h1 class="title display-7"></h1></header><div class="quarto-title-block"><div class="quarto-title-tools-only"><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-6.html">Week 6</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">STAT9005 – Time Series Analysis</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Week 6: Introduction to Stochastic Processes</p>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>📝 <strong>Note for the student:</strong> These notes are a summary of the Week 6 lecture. Leave space below each section for your own annotations and extra examples. Words in <strong>bold</strong> are important terms to remember.</p>
+</blockquote>
+<hr>
+<section id="key-topics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics</h1>
+<ul>
+<li>What is a <strong>stochastic process</strong>?</li>
+<li><strong>Stationarity</strong> — what it means and why it matters</li>
+<li><strong>White noise</strong> — the “goal” of our transformations</li>
+<li><strong>Random walk</strong> — a very common non-stationary process</li>
+<li>Introduction to <strong>ARIMA</strong> — what each letter means</li>
+<li><strong>ACF</strong> and <strong>PACF</strong> — tools to read the hidden patterns in data</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanation" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanation</h1>
+<section id="what-is-a-stochastic-process" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-is-a-stochastic-process"><span class="header-section-number">2.1</span> What is a Stochastic Process?</h2>
+<p>A <strong>stochastic process</strong> is simply a series of data values that change over time in a way that has some <strong>randomness</strong> (some part we cannot predict perfectly). Time series data — like monthly sales, stock prices, or rainfall — are all examples of stochastic processes.</p>
+<p>The big idea is that the current value of the data depends (in some way) on <strong>past values</strong> of the same data. For example:</p>
+<blockquote class="blockquote">
+<p><em>“Umbrella sales in 2026 depend on umbrella sales in 2025, which depend on 2024, and so on.”</em></p>
+</blockquote>
+<p>This relationship with the past is what we want to find and model.</p>
+<hr>
+</section>
+<section id="stationarity" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="stationarity"><span class="header-section-number">2.2</span> Stationarity</h2>
+<p><strong>Stationarity</strong> describes how a time series “behaves” over time. A time series is called <strong>stationary</strong> if its statistical properties do <strong>not change</strong> over time — it looks the same whether you look at the beginning, the middle, or the end.</p>
+<section id="three-conditions-for-stationarity" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="three-conditions-for-stationarity"><span class="header-section-number">2.2.1</span> Three conditions for stationarity</h3>
+<p>For a time series to be stationary, it must have:</p>
+<ol type="1">
+<li><strong>Constant mean</strong> — The average of the data does not go up or down over time (no trend).</li>
+<li><strong>Constant variance</strong> — The “spread” of the data (how far values go from the average) stays the same over time.</li>
+<li><strong>Constant covariance</strong> — The relationship between two observations that are <em>k</em> periods apart is always the same, no matter where in the series you look.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Easy way to remember:</strong> Imagine a quiet, flat river. It does not get higher or lower over time, and the width stays the same. That is a stationary series. A river that is sometimes a flood and sometimes a trickle is <em>not</em> stationary.</p>
+</div>
+</div>
+</section>
+<section id="why-stationarity-is-important" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="why-stationarity-is-important"><span class="header-section-number">2.2.2</span> Why stationarity is important</h3>
+<p>ARIMA models — the main models we use — <strong>require</strong> the data to be stationary. If the data is not stationary, we must <strong>transform</strong> it first.</p>
+<hr>
+</section>
+</section>
+<section id="transformations-to-achieve-stationarity" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="transformations-to-achieve-stationarity"><span class="header-section-number">2.3</span> Transformations to Achieve Stationarity</h2>
+<p>When the data is NOT stationary, we use transformations to fix the problems:</p>
+<section id="problem-1-non-constant-mean-trend" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="problem-1-non-constant-mean-trend"><span class="header-section-number">2.3.1</span> Problem 1: Non-constant mean (trend)</h3>
+<p>If the data has a <strong>trend</strong> (going up or down), we remove it by taking <strong>differences</strong>.</p>
+<ul>
+<li><strong>First difference:</strong> Subtract the previous value from the current value.</li>
+</ul>
+<p><span class="math display">\[\Delta Y_t = Y_t - Y_{t-1}\]</span></p>
+<ul>
+<li>If a linear trend, <strong>one difference</strong> is usually enough.</li>
+<li>If the trend is curved (exponential), you may need <strong>two differences</strong>.</li>
+</ul>
+</section>
+<section id="problem-2-non-constant-variance" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="problem-2-non-constant-variance"><span class="header-section-number">2.3.2</span> Problem 2: Non-constant variance</h3>
+<p>If the “spread” of the data <strong>increases over time</strong> (called <em>multiplicative seasonality</em>), we apply a <strong>logarithm transformation</strong>:</p>
+<p><span class="math display">\[\log(Y_t)\]</span></p>
+<p>Taking the log “compresses” the big values and makes the variance more constant. After this, the additive model can be used.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Additive vs Multiplicative — quick reminder:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 43%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>When to use</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Additive</td>
+<td>Seasonality is constant</td>
+<td><span class="math inline">\(Y_t = S_t + T_t + R_t\)</span></td>
+</tr>
+<tr class="even">
+<td>Multiplicative</td>
+<td>Seasonality grows over time</td>
+<td><span class="math inline">\(Y_t = S_t \times T_t \times R_t\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Taking the log converts a multiplicative model into an additive one.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="white-noise" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="white-noise"><span class="header-section-number">2.4</span> White Noise</h2>
+<p><strong>White noise</strong> is the simplest possible time series. It is completely <strong>random</strong> — there is no pattern, no trend, no seasonality.</p>
+<p>Properties of white noise:</p>
+<ul>
+<li>Mean = 0 (constant)</li>
+<li>Variance is constant</li>
+<li>No correlation between any two observations — they are <strong>independent</strong></li>
+</ul>
+<p>White noise is important because it is our <strong>target</strong>. When we build an ARIMA model:</p>
+<blockquote class="blockquote">
+<p><em>“We want the leftover errors (residuals) of the model to look like white noise — because that means we have captured all the useful information.”</em></p>
+</blockquote>
+<p>If the residuals still show patterns, the model is not complete.</p>
+<hr>
+</section>
+<section id="random-walk" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="random-walk"><span class="header-section-number">2.5</span> Random Walk</h2>
+<p>A <strong>random walk</strong> is a very common type of non-stationary time series. The equation is:</p>
+<p><span class="math display">\[Y_t = Y_{t-1} + \varepsilon_t\]</span></p>
+<p>where <span class="math inline">\(\varepsilon_t\)</span> is white noise (a random error).</p>
+<p>This means: <strong>“My value today equals my value yesterday, plus a random shock.”</strong></p>
+<p>Think of it like a person walking randomly — each step is in a random direction, but their position depends on where they were before.</p>
+<p><strong>Visual shape of a random walk:</strong> You will see “trends” and “jumps” — sudden rises and falls that look like a trend but are actually random.</p>
+<section id="key-property-of-a-random-walk" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="key-property-of-a-random-walk"><span class="header-section-number">2.5.1</span> Key property of a random walk</h3>
+<p>If you take the <strong>first difference</strong> of a random walk, you get white noise:</p>
+<p><span class="math display">\[Y_t - Y_{t-1} = \varepsilon_t \quad \text{(white noise)}\]</span></p>
+<p>This tells us: to “fix” a random walk, take one difference.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Random walk vs Autoregressive (AR) process:</strong> These two look very similar on a plot! Both show trends and jumps. The difference is that in an AR process, the relationship with the past has a <em>weight</em> (a parameter <span class="math inline">\(\phi\)</span>) that is less than 1. In a random walk, that weight equals exactly 1.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="introduction-to-arima" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="introduction-to-arima"><span class="header-section-number">2.6</span> Introduction to ARIMA</h2>
+<p><strong>ARIMA</strong> stands for:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 26%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Letter</th>
+<th>Name</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>AR</strong></td>
+<td>Autoregressive</td>
+<td>How <span class="math inline">\(Y_t\)</span> relates to its <em>past values</em></td>
+</tr>
+<tr class="even">
+<td><strong>I</strong></td>
+<td>Integrated</td>
+<td>The <em>differencing</em> needed to make data stationary</td>
+</tr>
+<tr class="odd">
+<td><strong>MA</strong></td>
+<td>Moving Average</td>
+<td>How <span class="math inline">\(Y_t\)</span> relates to <em>past errors</em> (residuals)</td>
+</tr>
+</tbody>
+</table>
+<p>The model is written as <strong>ARIMA(p, d, q)</strong> where:</p>
+<ul>
+<li><strong>p</strong> = number of past values used (AR order)</li>
+<li><strong>d</strong> = number of differences taken (to remove trend)</li>
+<li><strong>q</strong> = number of past errors used (MA order)</li>
+</ul>
+<section id="the-ar-part-autoregressive" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="the-ar-part-autoregressive"><span class="header-section-number">2.6.1</span> The AR part — Autoregressive</h3>
+<p>In an <strong>AR(p)</strong> model, the current value depends on the <strong>p most recent past values</strong>:</p>
+<p><span class="math display">\[Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \cdots + \phi_p Y_{t-p} + \varepsilon_t\]</span></p>
+<ul>
+<li><span class="math inline">\(\phi\)</span> (phi) = the weight given to each past value</li>
+<li><span class="math inline">\(\varepsilon_t\)</span> = white noise error</li>
+</ul>
+<p><strong>Example:</strong> In AR(1), today’s sales depend only on yesterday’s sales.</p>
+</section>
+<section id="the-i-part-integrated-differencing" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="the-i-part-integrated-differencing"><span class="header-section-number">2.6.2</span> The I part — Integrated (Differencing)</h3>
+<p>The <strong>“I”</strong> part records how many times we needed to <strong>difference</strong> the data to make it stationary.</p>
+<ul>
+<li>If <span class="math inline">\(d = 1\)</span>: we took one difference (removed a linear trend)</li>
+<li>If <span class="math inline">\(d = 2\)</span>: we took two differences (removed a curved trend)</li>
+</ul>
+</section>
+<section id="the-ma-part-moving-average" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="the-ma-part-moving-average"><span class="header-section-number">2.6.3</span> The MA part — Moving Average</h3>
+<p>In an <strong>MA(q)</strong> model, the current value depends on <strong>past errors</strong> (residuals):</p>
+<p><span class="math display">\[Y_t = \varepsilon_t + \theta_1 \varepsilon_{t-1} + \theta_2 \varepsilon_{t-2} + \cdots + \theta_q \varepsilon_{t-q}\]</span></p>
+<ul>
+<li><span class="math inline">\(\theta\)</span> (theta) = weight for each past error</li>
+<li>This is <strong>different</strong> from the “Moving Average” method used earlier for smoothing trends — do not confuse them!</li>
+</ul>
+</section>
+<section id="sarima-seasonal-arima" class="level3" data-number="2.6.4">
+<h3 data-number="2.6.4" class="anchored" data-anchor-id="sarima-seasonal-arima"><span class="header-section-number">2.6.4</span> SARIMA — Seasonal ARIMA</h3>
+<p>When the data also has <strong>seasonality</strong>, we extend the model to <strong>SARIMA(p, d, q)(P, D, Q)s</strong>:</p>
+<ul>
+<li><strong>Lowercase (p, d, q):</strong> Non-seasonal part</li>
+<li><strong>Uppercase (P, D, Q):</strong> Seasonal part</li>
+<li><strong>s:</strong> The seasonal period (e.g., 12 for monthly data)</li>
+</ul>
+<p><strong>Example:</strong> If we take one seasonal difference with period 12: <span class="math inline">\(D = 1\)</span>, <span class="math inline">\(s = 12\)</span>.</p>
+<hr>
+</section>
+</section>
+<section id="acf-and-pacf-reading-the-correlograms" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="acf-and-pacf-reading-the-correlograms"><span class="header-section-number">2.7</span> ACF and PACF — Reading the Correlograms</h2>
+<p>To identify which ARIMA model is best (what values of p and q to use), we use two important tools:</p>
+<section id="acf-autocorrelation-function" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="acf-autocorrelation-function"><span class="header-section-number">2.7.1</span> ACF — Autocorrelation Function</h3>
+<p>The <strong>ACF</strong> shows the correlation between <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_{t-k}\)</span> for different values of <span class="math inline">\(k\)</span> (called <em>lags</em>).</p>
+<ul>
+<li>Lag 1 = correlation with yesterday’s value</li>
+<li>Lag 12 = correlation with the value 12 periods ago</li>
+</ul>
+</section>
+<section id="pacf-partial-autocorrelation-function" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="pacf-partial-autocorrelation-function"><span class="header-section-number">2.7.2</span> PACF — Partial Autocorrelation Function</h3>
+<p>The <strong>PACF</strong> shows the “direct” correlation between <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_{t-k}\)</span>, <strong>after removing the effect of everything in between</strong>.</p>
+</section>
+<section id="the-significance-lines-dashed-blue-lines" class="level3" data-number="2.7.3">
+<h3 data-number="2.7.3" class="anchored" data-anchor-id="the-significance-lines-dashed-blue-lines"><span class="header-section-number">2.7.3</span> The significance lines (dashed blue lines)</h3>
+<p>On a correlogram plot, you will see <strong>dashed blue lines</strong> at approximately:</p>
+<p><span class="math display">\[\pm \frac{1.96}{\sqrt{n}}\]</span></p>
+<p>where <span class="math inline">\(n\)</span> is the number of observations.</p>
+<ul>
+<li>Values <strong>inside</strong> the lines: not significant (can be due to chance)</li>
+<li>Values <strong>outside</strong> the lines: significant — there is a real pattern</li>
+</ul>
+</section>
+<section id="how-to-use-acf-and-pacf-to-identify-the-model" class="level3" data-number="2.7.4">
+<h3 data-number="2.7.4" class="anchored" data-anchor-id="how-to-use-acf-and-pacf-to-identify-the-model"><span class="header-section-number">2.7.4</span> How to use ACF and PACF to identify the model</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pattern you see</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ACF: <strong>slow decay</strong>, PACF: drops after lag 1</td>
+<td>Autoregressive process AR(1)</td>
+</tr>
+<tr class="even">
+<td>ACF: drops after lag q, PACF: slow decay</td>
+<td>Moving Average process MA(q)</td>
+</tr>
+<tr class="odd">
+<td>Both decay slowly</td>
+<td>Mixed ARMA(p, q) model</td>
+</tr>
+<tr class="even">
+<td>ACF and PACF: all values inside lines</td>
+<td>White noise — no model needed</td>
+</tr>
+<tr class="odd">
+<td>Seasonal spikes at lag 12, 24…</td>
+<td>Seasonal pattern present</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Think of it this way:</strong> The ACF and PACF are like “X-ray glasses” — they let you see the hidden structure (patterns and correlations) inside your data that you cannot see just by looking at the raw plot.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="key-equations-and-formulas" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Key Equations and Formulas</h1>
+<section id="stationarity-check-three-conditions" class="level3" data-number="3.0.1">
+<h3 data-number="3.0.1" class="anchored" data-anchor-id="stationarity-check-three-conditions"><span class="header-section-number">3.0.1</span> Stationarity check: three conditions</h3>
+<p><span class="math display">\[E[Y_t] = \mu \quad \text{(constant mean)}\]</span></p>
+<p><span class="math display">\[\text{Var}(Y_t) = \sigma^2 \quad \text{(constant variance)}\]</span></p>
+<p><span class="math display">\[\text{Cov}(Y_t, Y_{t-k}) = \gamma_k \quad \text{(depends only on lag } k\text{, not on } t\text{)}\]</span></p>
+</section>
+<section id="first-difference-to-remove-trend" class="level3" data-number="3.0.2">
+<h3 data-number="3.0.2" class="anchored" data-anchor-id="first-difference-to-remove-trend"><span class="header-section-number">3.0.2</span> First difference (to remove trend)</h3>
+<p><span class="math display">\[\Delta Y_t = Y_t - Y_{t-1}\]</span></p>
+</section>
+<section id="log-transformation-to-stabilise-variance" class="level3" data-number="3.0.3">
+<h3 data-number="3.0.3" class="anchored" data-anchor-id="log-transformation-to-stabilise-variance"><span class="header-section-number">3.0.3</span> Log transformation (to stabilise variance)</h3>
+<p><span class="math display">\[\log(Y_t)\]</span></p>
+</section>
+<section id="random-walk-equation" class="level3" data-number="3.0.4">
+<h3 data-number="3.0.4" class="anchored" data-anchor-id="random-walk-equation"><span class="header-section-number">3.0.4</span> Random walk equation</h3>
+<p><span class="math display">\[Y_t = Y_{t-1} + \varepsilon_t\]</span></p>
+</section>
+<section id="arp-model" class="level3" data-number="3.0.5">
+<h3 data-number="3.0.5" class="anchored" data-anchor-id="arp-model"><span class="header-section-number">3.0.5</span> AR(p) model</h3>
+<p><span class="math display">\[Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \cdots + \phi_p Y_{t-p} + \varepsilon_t\]</span></p>
+</section>
+<section id="maq-model" class="level3" data-number="3.0.6">
+<h3 data-number="3.0.6" class="anchored" data-anchor-id="maq-model"><span class="header-section-number">3.0.6</span> MA(q) model</h3>
+<p><span class="math display">\[Y_t = \varepsilon_t + \theta_1 \varepsilon_{t-1} + \theta_2 \varepsilon_{t-2} + \cdots + \theta_q \varepsilon_{t-q}\]</span></p>
+</section>
+<section id="significance-bounds-on-acfpacf-plots" class="level3" data-number="3.0.7">
+<h3 data-number="3.0.7" class="anchored" data-anchor-id="significance-bounds-on-acfpacf-plots"><span class="header-section-number">3.0.7</span> Significance bounds on ACF/PACF plots</h3>
+<p><span class="math display">\[\pm \frac{1.96}{\sqrt{n}}\]</span></p>
+<hr>
+</section>
+</section>
+<section id="practical-examples-in-r" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Practical Examples in R</h1>
+<p>The following R code shows how to explore stationarity and plot correlograms:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a dataset (wine industry example used in class)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wineind)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the original series</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wineind, <span class="at">main =</span> <span class="st">"Wine Industry Data"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 1: Check stationarity ---</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Take the first difference to remove trend</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>diff_wine <span class="ot">&lt;-</span> <span class="fu">diff</span>(wineind)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(diff_wine, <span class="at">main =</span> <span class="st">"First Difference of Wine Data"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Take log to stabilise variance (if needed)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>log_wine <span class="ot">&lt;-</span> <span class="fu">log</span>(wineind)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(log_wine, <span class="at">main =</span> <span class="st">"Log Transformation of Wine Data"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 2: Plot ACF and PACF ---</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># These help identify the p and q parameters</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(diff_wine, <span class="at">main =</span> <span class="st">"ACF - Differenced Wine Data"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(diff_wine, <span class="at">main =</span> <span class="st">"PACF - Differenced Wine Data"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 3: Fit an ARIMA model ---</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># auto.arima() finds the best model automatically</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(wineind)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 4: Check residuals (should look like white noise) ---</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">checkresiduals</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="what-to-look-for-in-the-output" class="level3" data-number="4.0.1">
+<h3 data-number="4.0.1" class="anchored" data-anchor-id="what-to-look-for-in-the-output"><span class="header-section-number">4.0.1</span> What to look for in the output:</h3>
+<ul>
+<li>In the <strong>ACF of residuals</strong>: bars should be mostly inside the blue dashed lines</li>
+<li>In the <strong>PACF of residuals</strong>: same — no pattern should remain</li>
+<li>If there is still a pattern → the model is not complete</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="practical-example-interpreting-acfpacf" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Practical Example: Interpreting ACF/PACF</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 26%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>ACF behaviour</th>
+<th>PACF behaviour</th>
+<th>Suggested model</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>White noise</td>
+<td>All bars inside lines</td>
+<td>All bars inside lines</td>
+<td>No model needed</td>
+</tr>
+<tr class="even">
+<td>AR(1)</td>
+<td>Slow, gradual decay</td>
+<td>Only lag 1 is significant</td>
+<td>AR(1)</td>
+</tr>
+<tr class="odd">
+<td>MA(1)</td>
+<td>Only lag 1 is significant</td>
+<td>Slow, gradual decay</td>
+<td>MA(1)</td>
+</tr>
+<tr class="even">
+<td>Random walk</td>
+<td>Very slow decay, all bars large</td>
+<td>Only lag 1 is significant (≈1)</td>
+<td>Take difference first</td>
+</tr>
+<tr class="odd">
+<td>Seasonal (s=12)</td>
+<td>Spikes at lags 12, 24, 36…</td>
+<td>Spike at lag 12</td>
+<td>SARIMA with D=1, s=12</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="summary-points" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Summary Points</h1>
+<ul>
+<li><strong>Stationarity</strong> is the most important condition for ARIMA models. The data must have constant mean, constant variance, and constant covariance.</li>
+<li>If the data has a <strong>trend</strong>, take the <strong>first difference</strong> (or more differences if needed).</li>
+<li>If the data has <strong>increasing variance</strong>, apply a <strong>log transformation</strong>.</li>
+<li><strong>White noise</strong> = fully random, no pattern — this is what we <em>want</em> our residuals to look like.</li>
+<li><strong>Random walk</strong> = common non-stationary process; taking one difference turns it into white noise.</li>
+<li><strong>ARIMA(p, d, q)</strong>: p = AR order, d = number of differences, q = MA order.</li>
+<li><strong>ACF</strong> shows correlation with past values; <strong>PACF</strong> shows direct correlation after removing intermediate effects.</li>
+<li>The <strong>blue dashed lines</strong> on ACF/PACF plots mark the 95% significance boundary (<span class="math inline">\(\pm 1.96/\sqrt{n}\)</span>).</li>
+<li>To identify the model: look for slow decay in ACF → AR; slow decay in PACF → MA; both slow → ARMA.</li>
+</ul>
+<hr>
+</section>
+<section id="space-for-your-own-notes" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Space for Your Own Notes</h1>
+<blockquote class="blockquote">
+<p>✏️ <em>Add your own examples, questions, or extra explanations below:</em></p>
+</blockquote>
+<hr>
+<blockquote class="blockquote">
+<p>✏️ <em>What parts of this topic are still unclear to you?</em></p>
+</blockquote>
+<hr>
+<blockquote class="blockquote">
+<p>✏️ <em>Write one real-world example where you would expect a non-stationary time series:</em></p>
+</blockquote>
+<hr>
+<p><em>End of Week 6 Study Notes — STAT9005 Time Series Analysis</em></p>
 
 
 <!-- -->
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1010,12 +1608,374 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../time-series/week-7.html" class="pagination-link" aria-label="Week 7 - empty">
-        <span class="nav-page-text">Week 7 - empty</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../time-series/week-7.html" class="pagination-link" aria-label="Week 7">
+        <span class="nav-page-text">Week 7</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "STAT9005 – Time Series Analysis"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Week 6: Introduction to Stochastic Processes"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Note for the student:** These notes are a summary of the Week 6 lecture. Leave space below each section for your own annotations and extra examples. Words in **bold** are important terms to remember.</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What is a **stochastic process**?</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Stationarity** — what it means and why it matters</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**White noise** — the "goal" of our transformations</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Random walk** — a very common non-stationary process</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Introduction to **ARIMA** — what each letter means</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**ACF** and **PACF** — tools to read the hidden patterns in data</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanation</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is a Stochastic Process?</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>A **stochastic process** is simply a series of data values that change over time in a way that has some **randomness** (some part we cannot predict perfectly). Time series data — like monthly sales, stock prices, or rainfall — are all examples of stochastic processes.</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>The big idea is that the current value of the data depends (in some way) on **past values** of the same data. For example:</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"Umbrella sales in 2026 depend on umbrella sales in 2025, which depend on 2024, and so on."*</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>This relationship with the past is what we want to find and model.</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Stationarity</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>**Stationarity** describes how a time series "behaves" over time. A time series is called **stationary** if its statistical properties do **not change** over time — it looks the same whether you look at the beginning, the middle, or the end.</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="fu">### Three conditions for stationarity</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>For a time series to be stationary, it must have:</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Constant mean** — The average of the data does not go up or down over time (no trend).</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Constant variance** — The "spread" of the data (how far values go from the average) stays the same over time.</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Constant covariance** — The relationship between two observations that are *k* periods apart is always the same, no matter where in the series you look.</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>::: callout-tip</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>**Easy way to remember:** Imagine a quiet, flat river. It does not get higher or lower over time, and the width stays the same. That is a stationary series. A river that is sometimes a flood and sometimes a trickle is *not* stationary.</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why stationarity is important</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>ARIMA models — the main models we use — **require** the data to be stationary. If the data is not stationary, we must **transform** it first.</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## Transformations to Achieve Stationarity</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>When the data is NOT stationary, we use transformations to fix the problems:</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="fu">### Problem 1: Non-constant mean (trend)</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>If the data has a **trend** (going up or down), we remove it by taking **differences**.</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**First difference:** Subtract the previous value from the current value.</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>$$\Delta Y_t = Y_t - Y_{t-1}$$</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If a linear trend, **one difference** is usually enough.</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If the trend is curved (exponential), you may need **two differences**.</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### Problem 2: Non-constant variance</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>If the "spread" of the data **increases over time** (called *multiplicative seasonality*), we apply a **logarithm transformation**:</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>$$\log(Y_t)$$</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>Taking the log "compresses" the big values and makes the variance more constant. After this, the additive model can be used.</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>**Additive vs Multiplicative — quick reminder:**</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Type <span class="pp">|</span> When to use <span class="pp">|</span> Formula <span class="pp">|</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------|--------------------------------|-----------------------|</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Additive <span class="pp">|</span> Seasonality is constant <span class="pp">|</span> $Y_t = S_t + T_t + R_t$ <span class="pp">|</span></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Multiplicative <span class="pp">|</span> Seasonality grows over time <span class="pp">|</span> $Y_t = S_t \times T_t \times R_t$ <span class="pp">|</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>Taking the log converts a multiplicative model into an additive one.</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a><span class="fu">## White Noise</span></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>**White noise** is the simplest possible time series. It is completely **random** — there is no pattern, no trend, no seasonality.</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>Properties of white noise:</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Mean = 0 (constant)</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Variance is constant</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>No correlation between any two observations — they are **independent**</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>White noise is important because it is our **target**. When we build an ARIMA model:</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"We want the leftover errors (residuals) of the model to look like white noise — because that means we have captured all the useful information."*</span></span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>If the residuals still show patterns, the model is not complete.</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Random Walk</span></span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>A **random walk** is a very common type of non-stationary time series. The equation is:</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>$$Y_t = Y_{t-1} + \varepsilon_t$$</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>where $\varepsilon_t$ is white noise (a random error).</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>This means: **"My value today equals my value yesterday, plus a random shock."**</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>Think of it like a person walking randomly — each step is in a random direction, but their position depends on where they were before.</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>**Visual shape of a random walk:** You will see "trends" and "jumps" — sudden rises and falls that look like a trend but are actually random.</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key property of a random walk</span></span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>If you take the **first difference** of a random walk, you get white noise:</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>$$Y_t - Y_{t-1} = \varepsilon_t \quad \text{(white noise)}$$</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>This tells us: to "fix" a random walk, take one difference.</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>::: callout-warning</span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>**Random walk vs Autoregressive (AR) process:** These two look very similar on a plot! Both show trends and jumps. The difference is that in an AR process, the relationship with the past has a *weight* (a parameter $\phi$) that is less than 1. In a random walk, that weight equals exactly 1.</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction to ARIMA</span></span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>**ARIMA** stands for:</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Letter <span class="pp">|</span> Name           <span class="pp">|</span> Meaning                                           <span class="pp">|</span></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------------------------|-------------------|----------------------------|</span></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AR** <span class="pp">|</span> Autoregressive <span class="pp">|</span> How $Y_t$ relates to its *past values*            <span class="pp">|</span></span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **I**  <span class="pp">|</span> Integrated     <span class="pp">|</span> The *differencing* needed to make data stationary <span class="pp">|</span></span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MA** <span class="pp">|</span> Moving Average <span class="pp">|</span> How $Y_t$ relates to *past errors* (residuals)    <span class="pp">|</span></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>The model is written as **ARIMA(p, d, q)** where:</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**p** = number of past values used (AR order)</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**d** = number of differences taken (to remove trend)</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**q** = number of past errors used (MA order)</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a><span class="fu">### The AR part — Autoregressive</span></span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>In an **AR(p)** model, the current value depends on the **p most recent past values**:</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>$$Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \cdots + \phi_p Y_{t-p} + \varepsilon_t$$</span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\phi$ (phi) = the weight given to each past value</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\varepsilon_t$ = white noise error</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>**Example:** In AR(1), today's sales depend only on yesterday's sales.</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a><span class="fu">### The I part — Integrated (Differencing)</span></span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>The **"I"** part records how many times we needed to **difference** the data to make it stationary.</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If $d = 1$: we took one difference (removed a linear trend)</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If $d = 2$: we took two differences (removed a curved trend)</span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### The MA part — Moving Average</span></span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>In an **MA(q)** model, the current value depends on **past errors** (residuals):</span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>$$Y_t = \varepsilon_t + \theta_1 \varepsilon_{t-1} + \theta_2 \varepsilon_{t-2} + \cdots + \theta_q \varepsilon_{t-q}$$</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\theta$ (theta) = weight for each past error</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>This is **different** from the "Moving Average" method used earlier for smoothing trends — do not confuse them!</span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a><span class="fu">### SARIMA — Seasonal ARIMA</span></span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>When the data also has **seasonality**, we extend the model to **SARIMA(p, d, q)(P, D, Q)s**:</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Lowercase (p, d, q):** Non-seasonal part</span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Uppercase (P, D, Q):** Seasonal part</span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**s:** The seasonal period (e.g., 12 for monthly data)</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>**Example:** If we take one seasonal difference with period 12: $D = 1$, $s = 12$.</span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a><span class="fu">## ACF and PACF — Reading the Correlograms</span></span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>To identify which ARIMA model is best (what values of p and q to use), we use two important tools:</span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a><span class="fu">### ACF — Autocorrelation Function</span></span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>The **ACF** shows the correlation between $Y_t$ and $Y_{t-k}$ for different values of $k$ (called *lags*).</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Lag 1 = correlation with yesterday's value</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Lag 12 = correlation with the value 12 periods ago</span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a><span class="fu">### PACF — Partial Autocorrelation Function</span></span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a>The **PACF** shows the "direct" correlation between $Y_t$ and $Y_{t-k}$, **after removing the effect of everything in between**.</span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a><span class="fu">### The significance lines (dashed blue lines)</span></span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a>On a correlogram plot, you will see **dashed blue lines** at approximately:</span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>$$\pm \frac{1.96}{\sqrt{n}}$$</span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a>where $n$ is the number of observations.</span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Values **inside** the lines: not significant (can be due to chance)</span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Values **outside** the lines: significant — there is a real pattern</span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a><span class="fu">### How to use ACF and PACF to identify the model</span></span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Pattern you see <span class="pp">|</span> What it means <span class="pp">|</span></span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------------------------------------|----------------------------------|</span></span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> ACF: **slow decay**, PACF: drops after lag 1 <span class="pp">|</span> Autoregressive process AR(1) <span class="pp">|</span></span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> ACF: drops after lag q, PACF: slow decay <span class="pp">|</span> Moving Average process MA(q) <span class="pp">|</span></span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Both decay slowly <span class="pp">|</span> Mixed ARMA(p, q) model <span class="pp">|</span></span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> ACF and PACF: all values inside lines <span class="pp">|</span> White noise — no model needed <span class="pp">|</span></span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Seasonal spikes at lag 12, 24... <span class="pp">|</span> Seasonal pattern present <span class="pp">|</span></span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>::: callout-tip</span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a>**Think of it this way:** The ACF and PACF are like "X-ray glasses" — they let you see the hidden structure (patterns and correlations) inside your data that you cannot see just by looking at the raw plot.</span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Equations and Formulas</span></span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a><span class="fu">### Stationarity check: three conditions</span></span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>$$E<span class="co">[</span><span class="ot">Y_t</span><span class="co">]</span> = \mu \quad \text{(constant mean)}$$</span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>$$\text{Var}(Y_t) = \sigma^2 \quad \text{(constant variance)}$$</span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>$$\text{Cov}(Y_t, Y_{t-k}) = \gamma_k \quad \text{(depends only on lag } k\text{, not on } t\text{)}$$</span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a><span class="fu">### First difference (to remove trend)</span></span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>$$\Delta Y_t = Y_t - Y_{t-1}$$</span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a><span class="fu">### Log transformation (to stabilise variance)</span></span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>$$\log(Y_t)$$</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a><span class="fu">### Random walk equation</span></span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a>$$Y_t = Y_{t-1} + \varepsilon_t$$</span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a><span class="fu">### AR(p) model</span></span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a>$$Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \cdots + \phi_p Y_{t-p} + \varepsilon_t$$</span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a><span class="fu">### MA(q) model</span></span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a>$$Y_t = \varepsilon_t + \theta_1 \varepsilon_{t-1} + \theta_2 \varepsilon_{t-2} + \cdots + \theta_q \varepsilon_{t-q}$$</span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a><span class="fu">### Significance bounds on ACF/PACF plots</span></span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>$$\pm \frac{1.96}{\sqrt{n}}$$</span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Examples in R</span></span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a>The following R code shows how to explore stationarity and plot correlograms:</span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a dataset (wine industry example used in class)</span></span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wineind)</span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the original series</span></span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wineind, <span class="at">main =</span> <span class="st">"Wine Industry Data"</span>)</span>
+<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 1: Check stationarity ---</span></span>
+<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a><span class="co"># Take the first difference to remove trend</span></span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a>diff_wine <span class="ot">&lt;-</span> <span class="fu">diff</span>(wineind)</span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(diff_wine, <span class="at">main =</span> <span class="st">"First Difference of Wine Data"</span>)</span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a><span class="co"># Take log to stabilise variance (if needed)</span></span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a>log_wine <span class="ot">&lt;-</span> <span class="fu">log</span>(wineind)</span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(log_wine, <span class="at">main =</span> <span class="st">"Log Transformation of Wine Data"</span>)</span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 2: Plot ACF and PACF ---</span></span>
+<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a><span class="co"># These help identify the p and q parameters</span></span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(diff_wine, <span class="at">main =</span> <span class="st">"ACF - Differenced Wine Data"</span>)</span>
+<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(diff_wine, <span class="at">main =</span> <span class="st">"PACF - Differenced Wine Data"</span>)</span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 3: Fit an ARIMA model ---</span></span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a><span class="co"># auto.arima() finds the best model automatically</span></span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(wineind)</span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 4: Check residuals (should look like white noise) ---</span></span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a><span class="fu">checkresiduals</span>(model)</span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a><span class="fu">### What to look for in the output:</span></span>
+<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>In the **ACF of residuals**: bars should be mostly inside the blue dashed lines</span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>In the **PACF of residuals**: same — no pattern should remain</span>
+<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If there is still a pattern → the model is not complete</span>
+<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practical Example: Interpreting ACF/PACF</span></span>
+<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Scenario <span class="pp">|</span> ACF behaviour <span class="pp">|</span> PACF behaviour <span class="pp">|</span> Suggested model <span class="pp">|</span></span>
+<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------------|-----------------|-------------------|--------------------|</span></span>
+<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> White noise <span class="pp">|</span> All bars inside lines <span class="pp">|</span> All bars inside lines <span class="pp">|</span> No model needed <span class="pp">|</span></span>
+<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> AR(1) <span class="pp">|</span> Slow, gradual decay <span class="pp">|</span> Only lag 1 is significant <span class="pp">|</span> AR(1) <span class="pp">|</span></span>
+<span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MA(1) <span class="pp">|</span> Only lag 1 is significant <span class="pp">|</span> Slow, gradual decay <span class="pp">|</span> MA(1) <span class="pp">|</span></span>
+<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Random walk <span class="pp">|</span> Very slow decay, all bars large <span class="pp">|</span> Only lag 1 is significant (≈1) <span class="pp">|</span> Take difference first <span class="pp">|</span></span>
+<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Seasonal (s=12) <span class="pp">|</span> Spikes at lags 12, 24, 36... <span class="pp">|</span> Spike at lag 12 <span class="pp">|</span> SARIMA with D=1, s=12 <span class="pp">|</span></span>
+<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-327"><a href="#cb2-327" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-329"><a href="#cb2-329" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb2-330"><a href="#cb2-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-331"><a href="#cb2-331" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Stationarity** is the most important condition for ARIMA models. The data must have constant mean, constant variance, and constant covariance.</span>
+<span id="cb2-332"><a href="#cb2-332" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If the data has a **trend**, take the **first difference** (or more differences if needed).</span>
+<span id="cb2-333"><a href="#cb2-333" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If the data has **increasing variance**, apply a **log transformation**.</span>
+<span id="cb2-334"><a href="#cb2-334" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**White noise** = fully random, no pattern — this is what we *want* our residuals to look like.</span>
+<span id="cb2-335"><a href="#cb2-335" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Random walk** = common non-stationary process; taking one difference turns it into white noise.</span>
+<span id="cb2-336"><a href="#cb2-336" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**ARIMA(p, d, q)**: p = AR order, d = number of differences, q = MA order.</span>
+<span id="cb2-337"><a href="#cb2-337" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**ACF** shows correlation with past values; **PACF** shows direct correlation after removing intermediate effects.</span>
+<span id="cb2-338"><a href="#cb2-338" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The **blue dashed lines** on ACF/PACF plots mark the 95% significance boundary ($\pm 1.96/\sqrt{n}$).</span>
+<span id="cb2-339"><a href="#cb2-339" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>To identify the model: look for slow decay in ACF → AR; slow decay in PACF → MA; both slow → ARMA.</span>
+<span id="cb2-340"><a href="#cb2-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-341"><a href="#cb2-341" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-342"><a href="#cb2-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-343"><a href="#cb2-343" aria-hidden="true" tabindex="-1"></a><span class="fu"># Space for Your Own Notes</span></span>
+<span id="cb2-344"><a href="#cb2-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-345"><a href="#cb2-345" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Add your own examples, questions, or extra explanations below:*</span></span>
+<span id="cb2-346"><a href="#cb2-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-347"><a href="#cb2-347" aria-hidden="true" tabindex="-1"></a>\vspace{3cm}</span>
+<span id="cb2-348"><a href="#cb2-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-349"><a href="#cb2-349" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-350"><a href="#cb2-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-351"><a href="#cb2-351" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *What parts of this topic are still unclear to you?*</span></span>
+<span id="cb2-352"><a href="#cb2-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-353"><a href="#cb2-353" aria-hidden="true" tabindex="-1"></a>\vspace{3cm}</span>
+<span id="cb2-354"><a href="#cb2-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-355"><a href="#cb2-355" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-356"><a href="#cb2-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-357"><a href="#cb2-357" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Write one real-world example where you would expect a non-stationary time series:*</span></span>
+<span id="cb2-358"><a href="#cb2-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-359"><a href="#cb2-359" aria-hidden="true" tabindex="-1"></a>\vspace{3cm}</span>
+<span id="cb2-360"><a href="#cb2-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-361"><a href="#cb2-361" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb2-362"><a href="#cb2-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-363"><a href="#cb2-363" aria-hidden="true" tabindex="-1"></a>*End of Week 6 Study Notes — STAT9005 Time Series Analysis*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

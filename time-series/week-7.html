@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>week-7 – Semester Notes</title>
+<title>Time Series – Week 7: Classical Models Analysis (Step-by-Step Template) – Semester Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,6 +107,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -120,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-7.html">Week 7 - empty</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-7.html">Week 7</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -338,6 +367,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Week 9</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/week-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 10</span></a>
+  </div>
+</li>
       </ul>
   </li>
           <li class="sidebar-item sidebar-item-section">
@@ -439,13 +474,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 6 - empty</span></a>
+ <span class="menu-text">Week 6</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-7.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Week 7 - empty</span></a>
+ <span class="menu-text">Week 7</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -522,6 +557,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../time-series/exam/Practical-Exam-Solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAT9005 — Time Series &amp; PCA: Practical Exam Solutions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../time-series/exam/quiz.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quiz Preparation</span></a>
   </div>
@@ -537,19 +578,648 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-topics-covered-this-week" id="toc-key-topics-covered-this-week" class="nav-link active" data-scroll-target="#key-topics-covered-this-week"><span class="header-section-number">1</span> Key Topics Covered This Week</a></li>
+  <li><a href="#core-explanations" id="toc-core-explanations" class="nav-link" data-scroll-target="#core-explanations"><span class="header-section-number">2</span> Core Explanations</a>
+  <ul class="collapse">
+  <li><a href="#the-analysis-template" id="toc-the-analysis-template" class="nav-link" data-scroll-target="#the-analysis-template"><span class="header-section-number">2.1</span> The Analysis Template</a></li>
+  <li><a href="#step-1-plot-and-identify-components" id="toc-step-1-plot-and-identify-components" class="nav-link" data-scroll-target="#step-1-plot-and-identify-components"><span class="header-section-number">2.2</span> Step 1 – Plot and Identify Components</a></li>
+  <li><a href="#step-2-decompose-the-time-series" id="toc-step-2-decompose-the-time-series" class="nav-link" data-scroll-target="#step-2-decompose-the-time-series"><span class="header-section-number">2.3</span> Step 2 – Decompose the Time Series</a></li>
+  <li><a href="#step-3-analyse-the-residuals" id="toc-step-3-analyse-the-residuals" class="nav-link" data-scroll-target="#step-3-analyse-the-residuals"><span class="header-section-number">2.4</span> Step 3 – Analyse the Residuals</a>
+  <ul class="collapse">
+  <li><a href="#standardising-the-residuals" id="toc-standardising-the-residuals" class="nav-link" data-scroll-target="#standardising-the-residuals"><span class="header-section-number">2.4.1</span> Standardising the Residuals</a></li>
+  </ul></li>
+  <li><a href="#step-4-fitting-classical-models" id="toc-step-4-fitting-classical-models" class="nav-link" data-scroll-target="#step-4-fitting-classical-models"><span class="header-section-number">2.5</span> Step 4 – Fitting Classical Models</a>
+  <ul class="collapse">
+  <li><a href="#overview-of-the-models" id="toc-overview-of-the-models" class="nav-link" data-scroll-target="#overview-of-the-models"><span class="header-section-number">2.5.1</span> Overview of the Models</a></li>
+  <li><a href="#using-ets-in-r-automatic-model-selection" id="toc-using-ets-in-r-automatic-model-selection" class="nav-link" data-scroll-target="#using-ets-in-r-automatic-model-selection"><span class="header-section-number">2.5.2</span> Using ETS in R (Automatic Model Selection)</a></li>
+  <li><a href="#fitting-holt-winters-manually" id="toc-fitting-holt-winters-manually" class="nav-link" data-scroll-target="#fitting-holt-winters-manually"><span class="header-section-number">2.5.3</span> Fitting Holt-Winters Manually</a></li>
+  </ul></li>
+  <li><a href="#step-5-comparing-models-goodness-of-fit" id="toc-step-5-comparing-models-goodness-of-fit" class="nav-link" data-scroll-target="#step-5-comparing-models-goodness-of-fit"><span class="header-section-number">2.6</span> Step 5 – Comparing Models (Goodness of Fit)</a>
+  <ul class="collapse">
+  <li><a href="#error-metrics" id="toc-error-metrics" class="nav-link" data-scroll-target="#error-metrics"><span class="header-section-number">2.6.1</span> Error Metrics</a></li>
+  <li><a href="#information-criteria" id="toc-information-criteria" class="nav-link" data-scroll-target="#information-criteria"><span class="header-section-number">2.6.2</span> Information Criteria</a></li>
+  <li><a href="#example-air-passengers-result" id="toc-example-air-passengers-result" class="nav-link" data-scroll-target="#example-air-passengers-result"><span class="header-section-number">2.6.3</span> Example – Air Passengers Result</a></li>
+  </ul></li>
+  <li><a href="#step-6-verify-final-model-residuals" id="toc-step-6-verify-final-model-residuals" class="nav-link" data-scroll-target="#step-6-verify-final-model-residuals"><span class="header-section-number">2.7</span> Step 6 – Verify Final Model Residuals</a></li>
+  <li><a href="#key-equations-and-formulas" id="toc-key-equations-and-formulas" class="nav-link" data-scroll-target="#key-equations-and-formulas"><span class="header-section-number">2.8</span> Key Equations and Formulas</a>
+  <ul class="collapse">
+  <li><a href="#standardisation-formula" id="toc-standardisation-formula" class="nav-link" data-scroll-target="#standardisation-formula"><span class="header-section-number">2.8.1</span> Standardisation Formula</a></li>
+  <li><a href="#additive-decomposition" id="toc-additive-decomposition" class="nav-link" data-scroll-target="#additive-decomposition"><span class="header-section-number">2.8.2</span> Additive Decomposition</a></li>
+  <li><a href="#multiplicative-decomposition" id="toc-multiplicative-decomposition" class="nav-link" data-scroll-target="#multiplicative-decomposition"><span class="header-section-number">2.8.3</span> Multiplicative Decomposition</a></li>
+  <li><a href="#ets-model-notation" id="toc-ets-model-notation" class="nav-link" data-scroll-target="#ets-model-notation"><span class="header-section-number">2.8.4</span> ETS Model Notation</a></li>
+  </ul></li>
+  <li><a href="#practical-examples-from-this-class" id="toc-practical-examples-from-this-class" class="nav-link" data-scroll-target="#practical-examples-from-this-class"><span class="header-section-number">2.9</span> Practical Examples from This Class</a>
+  <ul class="collapse">
+  <li><a href="#wine-industry-dataset" id="toc-wine-industry-dataset" class="nav-link" data-scroll-target="#wine-industry-dataset"><span class="header-section-number">2.9.1</span> Wine Industry Dataset</a></li>
+  <li><a href="#air-miles-dataset" id="toc-air-miles-dataset" class="nav-link" data-scroll-target="#air-miles-dataset"><span class="header-section-number">2.9.2</span> Air Miles Dataset</a></li>
+  <li><a href="#unemployment-dataset" id="toc-unemployment-dataset" class="nav-link" data-scroll-target="#unemployment-dataset"><span class="header-section-number">2.9.3</span> Unemployment Dataset</a></li>
+  <li><a href="#us-accidents-dataset-19731978" id="toc-us-accidents-dataset-19731978" class="nav-link" data-scroll-target="#us-accidents-dataset-19731978"><span class="header-section-number">2.9.4</span> US Accidents Dataset (1973–1978)</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#summary-points" id="toc-summary-points" class="nav-link" data-scroll-target="#summary-points"><span class="header-section-number">3</span> Summary Points</a></li>
+  <li><a href="#additional-notes-annotations" id="toc-additional-notes-annotations" class="nav-link" data-scroll-target="#additional-notes-annotations"><span class="header-section-number">4</span> Additional Notes / Annotations</a></li>
+  <li><a href="#r-code-summary" id="toc-r-code-summary" class="nav-link" data-scroll-target="#r-code-summary"><span class="header-section-number">5</span> R Code Summary</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-7.html">Week 7 - empty</a></li></ol></nav><h1 class="title display-7"></h1></header><div class="quarto-title-block"><div class="quarto-title-tools-only"><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-7.html">Week 7</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Time Series – Week 7: Classical Models Analysis (Step-by-Step Template)</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">STAT9005 – Study Guide</p>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>📝 <strong>Note for reviewer:</strong> These notes are based on the Week 7 lecture transcript. Leave comments or annotations in the sections marked with <code>&lt;!-- ADD MORE HERE --&gt;</code>.</p>
+</blockquote>
+<hr>
+<section id="key-topics-covered-this-week" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Key Topics Covered This Week</h1>
+<ul>
+<li>Step-by-step template for analysing a time series (Classical Models)</li>
+<li>How to identify components: <strong>trend</strong> and <strong>seasonality</strong></li>
+<li>Additive vs.&nbsp;Multiplicative decomposition</li>
+<li>How to analyse and standardise <strong>residuals</strong></li>
+<li>Fitting <strong>Exponential Smoothing</strong> models: SES, Holt, Holt-Winters</li>
+<li>Comparing models using <strong>goodness-of-fit metrics</strong> (MSE, AIC, BIC)</li>
+<li>Practical walkthroughs: Air Passengers, Wine Industry, Air Miles, Unemployment, US Accidents</li>
+</ul>
+<hr>
+</section>
+<section id="core-explanations" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Core Explanations</h1>
+<section id="the-analysis-template" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="the-analysis-template"><span class="header-section-number">2.1</span> The Analysis Template</h2>
+<p>The main goal of this week was to learn a <strong>reusable template</strong> — a series of steps you can follow for almost any univariate time series dataset. The steps are:</p>
+<ol type="1">
+<li><strong>Plot the data</strong> – Look at the time series visually.</li>
+<li><strong>Identify components</strong> – Does it have trend? Seasonality? Both?</li>
+<li><strong>Decompose the series</strong> – Separate it into its parts.</li>
+<li><strong>Analyse the residuals</strong> – Check if the “leftover” noise looks random and normal.</li>
+<li><strong>Fit models</strong> – Try different Exponential Smoothing models.</li>
+<li><strong>Compare models</strong> – Use error metrics and information criteria to choose the best.</li>
+<li><strong>Check final residuals</strong> – Make sure the chosen model’s errors are well-behaved.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Why use a template?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A template helps you stay consistent and not miss important steps. Most time series follow the same kind of analysis, so this checklist works for the majority of datasets.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-1-plot-and-identify-components" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="step-1-plot-and-identify-components"><span class="header-section-number">2.2</span> Step 1 – Plot and Identify Components</h2>
+<p>The first thing you do is <strong>plot your data</strong>. Ask yourself:</p>
+<ul>
+<li>Is there a <strong>trend</strong>? (Does the data go up or down over time?)</li>
+<li>Is there <strong>seasonality</strong>? (Does the pattern repeat at regular intervals, like every 12 months?)</li>
+<li>Is the seasonality <strong>additive</strong> (same size each year) or <strong>multiplicative</strong> (getting bigger each year)?</li>
+</ul>
+<p><strong>Example – Air Passengers dataset (1949–1960):</strong></p>
+<ul>
+<li>Clear <strong>increasing trend</strong> over time.</li>
+<li><strong>Seasonality</strong> present – repeating every 12 months (monthly data → periodicity = 12).</li>
+<li>The seasonal pattern gets <strong>bigger over time</strong> → this suggests <strong>multiplicative</strong> seasonality.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the dataset</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"AirPassengers"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the time series</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(AirPassengers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- ADD MORE HERE: Add your own observations from the plot -->
+<hr>
+</section>
+<section id="step-2-decompose-the-time-series" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="step-2-decompose-the-time-series"><span class="header-section-number">2.3</span> Step 2 – Decompose the Time Series</h2>
+<p><strong>Decomposition</strong> means separating the time series into its parts:</p>
+<ul>
+<li><strong>Trend</strong> component</li>
+<li><strong>Seasonal</strong> component</li>
+<li><strong>Residual</strong> (random) component</li>
+</ul>
+<p>You can do this two ways:</p>
+<ul>
+<li><strong>Additive decomposition</strong>: assumes seasonal effect is constant → <span class="math inline">\(Y_t = T_t + S_t + R_t\)</span></li>
+<li><strong>Multiplicative decomposition</strong>: assumes seasonal effect grows with the trend → <span class="math inline">\(Y_t = T_t \times S_t \times R_t\)</span></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Additive decomposition</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>decomposed_add <span class="ot">&lt;-</span> <span class="fu">decompose</span>(AirPassengers, <span class="at">type =</span> <span class="st">"additive"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(decomposed_add)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplicative decomposition</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>decomposed_mult <span class="ot">&lt;-</span> <span class="fu">decompose</span>(AirPassengers, <span class="at">type =</span> <span class="st">"multiplicative"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(decomposed_mult)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>How to choose: Additive or Multiplicative?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Look at the <strong>residual (random) component</strong>:</p>
+<ul>
+<li>You want residuals that look <strong>random</strong>, with <strong>no pattern</strong>, and with <strong>constant variance</strong>.</li>
+<li>If the multiplicative residuals look more random → use multiplicative.</li>
+<li>For Air Passengers: multiplicative was better because the seasonal variation grows over time.</li>
+</ul>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>📌 <strong>Missing values in decomposition:</strong> You will always see 6 missing values at the start and 6 at the end (for monthly data). This is normal — it happens because the moving average needs observations on both sides. Formula: missing values = periodicity / 2 = 12 / 2 = <strong>6</strong></p>
+</blockquote>
+<!-- ADD MORE HERE: Note any datasets where you noticed this -->
+<hr>
+</section>
+<section id="step-3-analyse-the-residuals" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="step-3-analyse-the-residuals"><span class="header-section-number">2.4</span> Step 3 – Analyse the Residuals</h2>
+<p>After decomposition, you need to check the <strong>residuals</strong> (the random part). Good residuals should:</p>
+<ol type="1">
+<li>Have a <strong>mean close to zero</strong></li>
+<li>Have <strong>constant variance</strong> (the spread doesn’t change over time)</li>
+<li>Look <strong>random</strong> (no visible pattern)</li>
+<li>Be approximately <strong>normally distributed</strong></li>
+</ol>
+<section id="standardising-the-residuals" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="standardising-the-residuals"><span class="header-section-number">2.4.1</span> Standardising the Residuals</h3>
+<p>To better understand and compare residuals, we <strong>standardise</strong> them. This means rescaling them so that:</p>
+<ul>
+<li>Mean = 0</li>
+<li>Standard deviation = 1</li>
+</ul>
+<p><span class="math display">\[z = \frac{x - \bar{x}}{s}\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(x\)</span> = your residual value</li>
+<li><span class="math inline">\(\bar{x}\)</span> = mean of all residuals</li>
+<li><span class="math inline">\(s\)</span> = standard deviation of all residuals</li>
+</ul>
+<p>After standardising, you can use the <strong>±2 rule</strong>: 95% of values in a normal distribution fall between -2 and +2. This makes it easy to spot outliers.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract residuals from multiplicative decomposition</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>residuals_mult <span class="ot">&lt;-</span> decomposed_mult<span class="sc">$</span>random</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardise the residuals</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>mean_res <span class="ot">&lt;-</span> <span class="fu">mean</span>(residuals_mult, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>sd_res   <span class="ot">&lt;-</span> <span class="fu">sd</span>(residuals_mult, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>std_res  <span class="ot">&lt;-</span> (residuals_mult <span class="sc">-</span> mean_res) <span class="sc">/</span> sd_res</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot: histogram, boxplot, QQ plot, scatter</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(std_res, <span class="at">main =</span> <span class="st">"Histogram of Standardised Residuals"</span>, <span class="at">xlab =</span> <span class="st">""</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(std_res, <span class="at">main =</span> <span class="st">"Boxplot"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(std_res); <span class="fu">qqline</span>(std_res, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(std_res, <span class="at">main =</span> <span class="st">"Scatter Plot of Residuals"</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Reading the residual plots
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Plot</th>
+<th>What you look for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Histogram</strong></td>
+<td>Roughly bell-shaped (normal curve)</td>
+</tr>
+<tr class="even">
+<td><strong>Boxplot</strong></td>
+<td>Symmetric around 0, not too many outliers outside ±2</td>
+</tr>
+<tr class="odd">
+<td><strong>QQ Plot</strong></td>
+<td>Points close to the red diagonal line (especially between ±2)</td>
+</tr>
+<tr class="even">
+<td><strong>Scatter</strong></td>
+<td>Random scatter, constant width band (no funnel shape)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- ADD MORE HERE: Your own observations from the residual plots -->
+<hr>
+</section>
+</section>
+<section id="step-4-fitting-classical-models" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="step-4-fitting-classical-models"><span class="header-section-number">2.5</span> Step 4 – Fitting Classical Models</h2>
+<section id="overview-of-the-models" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="overview-of-the-models"><span class="header-section-number">2.5.1</span> Overview of the Models</h3>
+<p>The three main classical models are:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 38%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Also called</th>
+<th>Components</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>SES</strong></td>
+<td>Single Exponential Smoothing</td>
+<td>Level only (no trend, no seasonality)</td>
+</tr>
+<tr class="even">
+<td><strong>Holt</strong></td>
+<td>Double Exponential Smoothing</td>
+<td>Level + Trend</td>
+</tr>
+<tr class="odd">
+<td><strong>Holt-Winters</strong></td>
+<td>Triple Exponential Smoothing</td>
+<td>Level + Trend + Seasonality</td>
+</tr>
+</tbody>
+</table>
+<p>For datasets with <strong>both trend and seasonality</strong> (like Air Passengers), you use <strong>Holt-Winters</strong>.</p>
+</section>
+<section id="using-ets-in-r-automatic-model-selection" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="using-ets-in-r-automatic-model-selection"><span class="header-section-number">2.5.2</span> Using ETS in R (Automatic Model Selection)</h3>
+<p>The <code>ets()</code> function in R automatically selects the best model:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Let R choose the best model automatically</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>best_model <span class="ot">&lt;-</span> <span class="fu">ets</span>(AirPassengers)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(best_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The output tells you:</p>
+<ul>
+<li><strong>Error type</strong>: Additive (A) or Multiplicative (M)</li>
+<li><strong>Trend type</strong>: None (N), Additive (A), Damped (Ad)</li>
+<li><strong>Seasonal type</strong>: None (N), Additive (A), Multiplicative (M)</li>
+</ul>
+<p>For Air Passengers, R suggested: <strong>M, Ad, M</strong> → Multiplicative error, Damped trend, Multiplicative seasonality.</p>
+</section>
+<section id="fitting-holt-winters-manually" class="level3" data-number="2.5.3">
+<h3 data-number="2.5.3" class="anchored" data-anchor-id="fitting-holt-winters-manually"><span class="header-section-number">2.5.3</span> Fitting Holt-Winters Manually</h3>
+<p>You can also try specific models yourself and compare them:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: Additive (expected to be worst for Air Passengers)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>hw_add <span class="ot">&lt;-</span> <span class="fu">hw</span>(AirPassengers, <span class="at">h =</span> <span class="dv">24</span>, <span class="at">seasonal =</span> <span class="st">"additive"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 2: Multiplicative, linear trend</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>hw_mult_lin <span class="ot">&lt;-</span> <span class="fu">hw</span>(AirPassengers, <span class="at">h =</span> <span class="dv">24</span>, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>, <span class="at">damped =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 3: Multiplicative, damped trend</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>hw_mult_damp <span class="ot">&lt;-</span> <span class="fu">hw</span>(AirPassengers, <span class="at">h =</span> <span class="dv">24</span>, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>, <span class="at">damped =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot all three for visual comparison</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(hw_add)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(hw_mult_lin)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(hw_mult_damp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- ADD MORE HERE: Your visual impressions of each model's forecast -->
+<hr>
+</section>
+</section>
+<section id="step-5-comparing-models-goodness-of-fit" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="step-5-comparing-models-goodness-of-fit"><span class="header-section-number">2.6</span> Step 5 – Comparing Models (Goodness of Fit)</h2>
+<p>Once you have multiple models, you need to decide which is the <strong>best</strong> one. You use these metrics:</p>
+<section id="error-metrics" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="error-metrics"><span class="header-section-number">2.6.1</span> Error Metrics</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 30%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Full name</th>
+<th>What it measures</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>MSE</strong></td>
+<td>Mean Squared Error</td>
+<td>Average of squared prediction errors</td>
+</tr>
+<tr class="even">
+<td><strong>RMSE</strong></td>
+<td>Root Mean Squared Error</td>
+<td>Square root of MSE – same units as data</td>
+</tr>
+<tr class="odd">
+<td><strong>MAE</strong></td>
+<td>Mean Absolute Error / Deviation</td>
+<td>Average of absolute errors (not penalised)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Why RMSE vs MAE?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>RMSE</strong> penalises large errors more than <strong>MAE</strong>, because it squares the distances first. This means a model with a few large mistakes will have a much higher RMSE than MAE. Prefer <strong>RMSE</strong> when big errors are especially bad.</p>
+</div>
+</div>
+</section>
+<section id="information-criteria" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="information-criteria"><span class="header-section-number">2.6.2</span> Information Criteria</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 44%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Full name</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>AIC</strong></td>
+<td>Akaike Information Criterion</td>
+<td>Balance between fit and complexity</td>
+</tr>
+<tr class="even">
+<td><strong>AICc</strong></td>
+<td>Corrected AIC</td>
+<td>Better for <strong>small samples</strong> (&lt; 30 obs)</td>
+</tr>
+<tr class="odd">
+<td><strong>BIC</strong></td>
+<td>Bayesian Information Criterion</td>
+<td>Similar to AIC, penalises complexity more</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lower AIC/BIC = better model</strong>. But AIC has a crucial interpretation:</p>
+<blockquote class="blockquote">
+<p><strong>AIC balances model fit and model complexity.</strong> If adding one more parameter (making the model more complex) reduces the errors only a little, the AIC will tell you it’s NOT worth the added complexity.</p>
+</blockquote>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare accuracy metrics for all three models</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(hw_add)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(hw_mult_lin)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(hw_mult_damp)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare AIC/BIC</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(hw_add<span class="sc">$</span>model)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(hw_mult_lin<span class="sc">$</span>model)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(hw_mult_damp<span class="sc">$</span>model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="example-air-passengers-result" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="example-air-passengers-result"><span class="header-section-number">2.6.3</span> Example – Air Passengers Result</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>RMSE</th>
+<th>AIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Additive</td>
+<td>highest</td>
+<td>highest</td>
+</tr>
+<tr class="even">
+<td>Multiplicative, Linear</td>
+<td>lower</td>
+<td><strong>lowest ✓</strong></td>
+</tr>
+<tr class="odd">
+<td>Multiplicative, Damped</td>
+<td>lowest RMSE</td>
+<td>slightly higher</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>According to <strong>AIC</strong>: Model 2 (multiplicative, linear) is best → simpler model, not worth adding the extra damping parameter.</li>
+<li>According to <strong>RMSE</strong>: Model 3 (damped) is best → smaller prediction errors.</li>
+<li><strong>Decision</strong>: Prefer the model with the <strong>lowest AIC</strong> (Model 2), because the improvement in RMSE from adding a 4th parameter is not worth the added complexity.</li>
+</ul>
+<!-- ADD MORE HERE: Your own model comparison results from the lab datasets -->
+<hr>
+</section>
+</section>
+<section id="step-6-verify-final-model-residuals" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="step-6-verify-final-model-residuals"><span class="header-section-number">2.7</span> Step 6 – Verify Final Model Residuals</h2>
+<p>Once you pick your best model, you must <strong>check its residuals</strong> one more time. The same rules apply:</p>
+<ul>
+<li>Residuals should be normally distributed, mean ≈ 0, constant variance, random pattern.</li>
+<li>If the residuals look good → you can <strong>trust your forecast</strong> and confidence intervals.</li>
+<li>If the residuals are not normal → your confidence intervals may not be reliable.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get residuals from chosen model</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>final_residuals <span class="ot">&lt;-</span> <span class="fu">residuals</span>(hw_mult_lin)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardise and plot</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>std_final <span class="ot">&lt;-</span> (final_residuals <span class="sc">-</span> <span class="fu">mean</span>(final_residuals)) <span class="sc">/</span> <span class="fu">sd</span>(final_residuals)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(std_final, <span class="at">main =</span> <span class="st">"Final Model Residuals"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(std_final)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(std_final); <span class="fu">qqline</span>(std_final, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(std_final); <span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="key-equations-and-formulas" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="key-equations-and-formulas"><span class="header-section-number">2.8</span> Key Equations and Formulas</h2>
+<section id="standardisation-formula" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="standardisation-formula"><span class="header-section-number">2.8.1</span> Standardisation Formula</h3>
+<p><span class="math display">\[z_t = \frac{r_t - \bar{r}}{s_r}\]</span></p>
+<p>Where <span class="math inline">\(r_t\)</span> is the residual at time <span class="math inline">\(t\)</span>, <span class="math inline">\(\bar{r}\)</span> is the mean, and <span class="math inline">\(s_r\)</span> is the standard deviation.</p>
+</section>
+<section id="additive-decomposition" class="level3" data-number="2.8.2">
+<h3 data-number="2.8.2" class="anchored" data-anchor-id="additive-decomposition"><span class="header-section-number">2.8.2</span> Additive Decomposition</h3>
+<p><span class="math display">\[Y_t = T_t + S_t + R_t\]</span></p>
+</section>
+<section id="multiplicative-decomposition" class="level3" data-number="2.8.3">
+<h3 data-number="2.8.3" class="anchored" data-anchor-id="multiplicative-decomposition"><span class="header-section-number">2.8.3</span> Multiplicative Decomposition</h3>
+<p><span class="math display">\[Y_t = T_t \times S_t \times R_t\]</span></p>
+</section>
+<section id="ets-model-notation" class="level3" data-number="2.8.4">
+<h3 data-number="2.8.4" class="anchored" data-anchor-id="ets-model-notation"><span class="header-section-number">2.8.4</span> ETS Model Notation</h3>
+<p><span class="math display">\[\text{ETS}(E, T, S)\]</span></p>
+<ul>
+<li><span class="math inline">\(E\)</span> = Error type: <strong>A</strong> (additive) or <strong>M</strong> (multiplicative)</li>
+<li><span class="math inline">\(T\)</span> = Trend: <strong>N</strong> (none), <strong>A</strong> (additive/linear), <strong>Ad</strong> (additive damped)</li>
+<li><span class="math inline">\(S\)</span> = Seasonality: <strong>N</strong> (none), <strong>A</strong> (additive), <strong>M</strong> (multiplicative)</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="practical-examples-from-this-class" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="practical-examples-from-this-class"><span class="header-section-number">2.9</span> Practical Examples from This Class</h2>
+<section id="wine-industry-dataset" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="wine-industry-dataset"><span class="header-section-number">2.9.1</span> Wine Industry Dataset</h3>
+<ul>
+<li><strong>Trend</strong>: present, possibly cyclical (hidden cycle)</li>
+<li><strong>Seasonality</strong>: present, periodicity = 12</li>
+<li><strong>Best model</strong>: Multiplicative seasonality + Damped trend (confirmed by AIC)</li>
+<li><strong>Key insight</strong>: AIC confirmed it was worth adding the damp parameter here (unlike Air Passengers)</li>
+</ul>
+</section>
+<section id="air-miles-dataset" class="level3" data-number="2.9.2">
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="air-miles-dataset"><span class="header-section-number">2.9.2</span> Air Miles Dataset</h3>
+<ul>
+<li><strong>Trend only</strong>: no seasonality (annual data, frequency = 1)</li>
+<li><strong>Models compared</strong>: Holt linear vs.&nbsp;Holt damped</li>
+<li><strong>Issue</strong>: Only 24 observations → small sample → residual plots will NOT look perfect. This is expected.</li>
+<li><strong>Best model</strong>: Linear trend model had lower AIC</li>
+</ul>
+</section>
+<section id="unemployment-dataset" class="level3" data-number="2.9.3">
+<h3 data-number="2.9.3" class="anchored" data-anchor-id="unemployment-dataset"><span class="header-section-number">2.9.3</span> Unemployment Dataset</h3>
+<ul>
+<li><strong>Negative trend</strong> (decreasing) + <strong>Seasonality</strong></li>
+<li><strong>Best model</strong>: Holt-Winters (all three components needed)</li>
+<li><strong>ETS result</strong>: Linear trend (no damping needed)</li>
+</ul>
+</section>
+<section id="us-accidents-dataset-19731978" class="level3" data-number="2.9.4">
+<h3 data-number="2.9.4" class="anchored" data-anchor-id="us-accidents-dataset-19731978"><span class="header-section-number">2.9.4</span> US Accidents Dataset (1973–1978)</h3>
+<ul>
+<li><strong>Seasonality</strong> present, periodicity = 12</li>
+<li><strong>Trend</strong>: unclear – could be no trend or a slight curve</li>
+<li><strong>Best model</strong>: Additive seasonality + Damped trend
+<ul>
+<li>AIC barely higher than the “no trend” version, but RMSE was <strong>much</strong> better</li>
+</ul></li>
+<li><strong>Key lesson</strong>: Sometimes you must weigh AIC vs.&nbsp;RMSE and use your judgment</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Euro Stock Market (Question 5)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This dataset was <strong>not</strong> analysed with classical methods this week. It will be covered with <strong>ARIMA models</strong> starting next week.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="summary-points" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Summary Points</h1>
+<ul>
+<li>🔍 <strong>Always start by plotting</strong> the data and identifying trend and seasonality visually.</li>
+<li>➕ or ✖️ <strong>Additive vs.&nbsp;Multiplicative</strong>: If seasonality grows over time → multiplicative. If constant → additive.</li>
+<li>📊 <strong>Decompose the series</strong> and check the residuals for randomness, normality, and constant variance.</li>
+<li>📏 <strong>Standardise residuals</strong> (mean=0, sd=1) so you can use the ±2 rule for the 95% boundary.</li>
+<li>🤖 Use <code>ets()</code> in R as a <strong>starting hint</strong>, then try other models manually.</li>
+<li>📉 <strong>AIC</strong> balances fit vs.&nbsp;complexity. Adding a parameter is only worth it if the error reduction is large.</li>
+<li>✅ After selecting a model, always <strong>verify the final residuals</strong> – good residuals = trustworthy forecasts.</li>
+<li>📝 The exam will ask you to apply this full pipeline to a dataset (open book).</li>
+</ul>
+<hr>
+</section>
+<section id="additional-notes-annotations" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Additional Notes / Annotations</h1>
+<blockquote class="blockquote">
+<p>✏️ <em>Use this section to add your own notes, questions, or things you want to clarify later.</em></p>
+</blockquote>
+<!-- ADD MORE HERE -->
+<hr>
+</section>
+<section id="r-code-summary" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> R Code Summary</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Load and plot</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>ts_data <span class="ot">&lt;-</span> AirPassengers</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(ts_data)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Decompose</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>dec_add  <span class="ot">&lt;-</span> <span class="fu">decompose</span>(ts_data, <span class="at">type =</span> <span class="st">"additive"</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>dec_mult <span class="ot">&lt;-</span> <span class="fu">decompose</span>(ts_data, <span class="at">type =</span> <span class="st">"multiplicative"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dec_add)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dec_mult)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Standardise and plot residuals</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> dec_mult<span class="sc">$</span>random</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>std_res <span class="ot">&lt;-</span> (res <span class="sc">-</span> <span class="fu">mean</span>(res, <span class="at">na.rm=</span><span class="cn">TRUE</span>)) <span class="sc">/</span> <span class="fu">sd</span>(res, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(std_res); <span class="fu">boxplot</span>(std_res)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(std_res); <span class="fu">qqline</span>(std_res, <span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(std_res); <span class="fu">abline</span>(<span class="at">h=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>), <span class="at">col=</span><span class="st">"blue"</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Auto ETS</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>best <span class="ot">&lt;-</span> <span class="fu">ets</span>(ts_data)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(best)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Holt-Winters models</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>hw1 <span class="ot">&lt;-</span> <span class="fu">hw</span>(ts_data, <span class="at">h=</span><span class="dv">24</span>, <span class="at">seasonal=</span><span class="st">"additive"</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>hw2 <span class="ot">&lt;-</span> <span class="fu">hw</span>(ts_data, <span class="at">h=</span><span class="dv">24</span>, <span class="at">seasonal=</span><span class="st">"multiplicative"</span>, <span class="at">damped=</span><span class="cn">FALSE</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>hw3 <span class="ot">&lt;-</span> <span class="fu">hw</span>(ts_data, <span class="at">h=</span><span class="dv">24</span>, <span class="at">seasonal=</span><span class="st">"multiplicative"</span>, <span class="at">damped=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Compare metrics</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(hw1); <span class="fu">accuracy</span>(hw2); <span class="fu">accuracy</span>(hw3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+<p><em>End of Week 7 Study Guide</em></p>
 
 
 <!-- -->
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1005,8 +1675,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../time-series/week-6.html" class="pagination-link" aria-label="Week 6 - empty">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 6 - empty</span>
+      <a href="../time-series/week-6.html" class="pagination-link" aria-label="Week 6">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 6</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -1015,7 +1685,437 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Time Series – Week 7: Classical Models Analysis (Step-by-Step Template)"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "STAT9005 – Study Guide"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📝 **Note for reviewer:** These notes are based on the Week 7 lecture transcript. Leave comments or annotations in the sections marked with </span><span class="in">`&lt;!-- ADD MORE HERE --&gt;`</span><span class="at">.</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Topics Covered This Week</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Step-by-step template for analysing a time series (Classical Models)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>How to identify components: **trend** and **seasonality**</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Additive vs. Multiplicative decomposition</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>How to analyse and standardise **residuals**</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Fitting **Exponential Smoothing** models: SES, Holt, Holt-Winters</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Comparing models using **goodness-of-fit metrics** (MSE, AIC, BIC)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Practical walkthroughs: Air Passengers, Wine Industry, Air Miles, Unemployment, US Accidents</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Explanations</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Analysis Template</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>The main goal of this week was to learn a **reusable template** — a series of steps you can follow for almost any univariate time series dataset. The steps are:</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Plot the data** – Look at the time series visually.</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Identify components** – Does it have trend? Seasonality? Both?</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Decompose the series** – Separate it into its parts.</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Analyse the residuals** – Check if the "leftover" noise looks random and normal.</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>**Fit models** – Try different Exponential Smoothing models.</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>**Compare models** – Use error metrics and information criteria to choose the best.</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="ss">7.  </span>**Check final residuals** – Make sure the chosen model's errors are well-behaved.</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>::: callout-tip</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why use a template?</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>A template helps you stay consistent and not miss important steps. Most time series follow the same kind of analysis, so this checklist works for the majority of datasets.</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 1 – Plot and Identify Components</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>The first thing you do is **plot your data**. Ask yourself:</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Is there a **trend**? (Does the data go up or down over time?)</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Is there **seasonality**? (Does the pattern repeat at regular intervals, like every 12 months?)</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Is the seasonality **additive** (same size each year) or **multiplicative** (getting bigger each year)?</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>**Example – Air Passengers dataset (1949–1960):**</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Clear **increasing trend** over time.</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Seasonality** present – repeating every 12 months (monthly data → periodicity = 12).</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The seasonal pattern gets **bigger over time** → this suggests **multiplicative** seasonality.</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the dataset</span></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"AirPassengers"</span>)</span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the time series</span></span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(AirPassengers)</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD MORE HERE: Add your own observations from the plot --&gt;</span></span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 2 – Decompose the Time Series</span></span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>**Decomposition** means separating the time series into its parts:</span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Trend** component</span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Seasonal** component</span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Residual** (random) component</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>You can do this two ways:</span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Additive decomposition**: assumes seasonal effect is constant → $Y_t = T_t + S_t + R_t$</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Multiplicative decomposition**: assumes seasonal effect grows with the trend → $Y_t = T_t \times S_t \times R_t$</span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Additive decomposition</span></span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a>decomposed_add <span class="ot">&lt;-</span> <span class="fu">decompose</span>(AirPassengers, <span class="at">type =</span> <span class="st">"additive"</span>)</span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(decomposed_add)</span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplicative decomposition</span></span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a>decomposed_mult <span class="ot">&lt;-</span> <span class="fu">decompose</span>(AirPassengers, <span class="at">type =</span> <span class="st">"multiplicative"</span>)</span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(decomposed_mult)</span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to choose: Additive or Multiplicative?</span></span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>Look at the **residual (random) component**:</span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>You want residuals that look **random**, with **no pattern**, and with **constant variance**.</span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If the multiplicative residuals look more random → use multiplicative.</span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>For Air Passengers: multiplicative was better because the seasonal variation grows over time.</span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 📌 **Missing values in decomposition:** You will always see 6 missing values at the start and 6 at the end (for monthly data). This is normal — it happens because the moving average needs observations on both sides. Formula: missing values = periodicity / 2 = 12 / 2 = **6**</span></span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD MORE HERE: Note any datasets where you noticed this --&gt;</span></span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 3 – Analyse the Residuals</span></span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a>After decomposition, you need to check the **residuals** (the random part). Good residuals should:</span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Have a **mean close to zero**</span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Have **constant variance** (the spread doesn't change over time)</span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Look **random** (no visible pattern)</span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Be approximately **normally distributed**</span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a><span class="fu">### Standardising the Residuals</span></span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a>To better understand and compare residuals, we **standardise** them. This means rescaling them so that:</span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Mean = 0</span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Standard deviation = 1</span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>$$z = \frac{x - \bar{x}}{s}$$</span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>Where:</span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$x$ = your residual value</span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\bar{x}$ = mean of all residuals</span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$s$ = standard deviation of all residuals</span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a>After standardising, you can use the **±2 rule**: 95% of values in a normal distribution fall between -2 and +2. This makes it easy to spot outliers.</span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract residuals from multiplicative decomposition</span></span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a>residuals_mult <span class="ot">&lt;-</span> decomposed_mult<span class="sc">$</span>random</span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardise the residuals</span></span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a>mean_res <span class="ot">&lt;-</span> <span class="fu">mean</span>(residuals_mult, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a>sd_res   <span class="ot">&lt;-</span> <span class="fu">sd</span>(residuals_mult, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a>std_res  <span class="ot">&lt;-</span> (residuals_mult <span class="sc">-</span> mean_res) <span class="sc">/</span> sd_res</span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot: histogram, boxplot, QQ plot, scatter</span></span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(std_res, <span class="at">main =</span> <span class="st">"Histogram of Standardised Residuals"</span>, <span class="at">xlab =</span> <span class="st">""</span>)</span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(std_res, <span class="at">main =</span> <span class="st">"Boxplot"</span>)</span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(std_res); <span class="fu">qqline</span>(std_res, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(std_res, <span class="at">main =</span> <span class="st">"Scatter Plot of Residuals"</span>)</span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a>::: callout-tip</span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reading the residual plots</span></span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Plot <span class="pp">|</span> What you look for <span class="pp">|</span></span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------|------------------------------------------------------|</span></span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Histogram** <span class="pp">|</span> Roughly bell-shaped (normal curve) <span class="pp">|</span></span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Boxplot** <span class="pp">|</span> Symmetric around 0, not too many outliers outside ±2 <span class="pp">|</span></span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **QQ Plot** <span class="pp">|</span> Points close to the red diagonal line (especially between ±2) <span class="pp">|</span></span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Scatter** <span class="pp">|</span> Random scatter, constant width band (no funnel shape) <span class="pp">|</span></span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD MORE HERE: Your own observations from the residual plots --&gt;</span></span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 4 – Fitting Classical Models</span></span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a><span class="fu">### Overview of the Models</span></span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a>The three main classical models are:</span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Model <span class="pp">|</span> Also called <span class="pp">|</span> Components <span class="pp">|</span></span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------|----------------------------|--------------------------|</span></span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **SES** <span class="pp">|</span> Single Exponential Smoothing <span class="pp">|</span> Level only (no trend, no seasonality) <span class="pp">|</span></span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt** <span class="pp">|</span> Double Exponential Smoothing <span class="pp">|</span> Level + Trend <span class="pp">|</span></span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt-Winters** <span class="pp">|</span> Triple Exponential Smoothing <span class="pp">|</span> Level + Trend + Seasonality <span class="pp">|</span></span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a>For datasets with **both trend and seasonality** (like Air Passengers), you use **Holt-Winters**.</span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a><span class="fu">### Using ETS in R (Automatic Model Selection)</span></span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a>The <span class="in">`ets()`</span> function in R automatically selects the best model:</span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a><span class="co"># Let R choose the best model automatically</span></span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a>best_model <span class="ot">&lt;-</span> <span class="fu">ets</span>(AirPassengers)</span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(best_model)</span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a>The output tells you:</span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Error type**: Additive (A) or Multiplicative (M)</span>
+<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Trend type**: None (N), Additive (A), Damped (Ad)</span>
+<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Seasonal type**: None (N), Additive (A), Multiplicative (M)</span>
+<span id="cb9-199"><a href="#cb9-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a>For Air Passengers, R suggested: **M, Ad, M** → Multiplicative error, Damped trend, Multiplicative seasonality.</span>
+<span id="cb9-201"><a href="#cb9-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-202"><a href="#cb9-202" aria-hidden="true" tabindex="-1"></a><span class="fu">### Fitting Holt-Winters Manually</span></span>
+<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a>You can also try specific models yourself and compare them:</span>
+<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: Additive (expected to be worst for Air Passengers)</span></span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a>hw_add <span class="ot">&lt;-</span> <span class="fu">hw</span>(AirPassengers, <span class="at">h =</span> <span class="dv">24</span>, <span class="at">seasonal =</span> <span class="st">"additive"</span>)</span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 2: Multiplicative, linear trend</span></span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a>hw_mult_lin <span class="ot">&lt;-</span> <span class="fu">hw</span>(AirPassengers, <span class="at">h =</span> <span class="dv">24</span>, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>, <span class="at">damped =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 3: Multiplicative, damped trend</span></span>
+<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a>hw_mult_damp <span class="ot">&lt;-</span> <span class="fu">hw</span>(AirPassengers, <span class="at">h =</span> <span class="dv">24</span>, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>, <span class="at">damped =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot all three for visual comparison</span></span>
+<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(hw_add)</span>
+<span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(hw_mult_lin)</span>
+<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(hw_mult_damp)</span>
+<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD MORE HERE: Your visual impressions of each model's forecast --&gt;</span></span>
+<span id="cb9-223"><a href="#cb9-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-224"><a href="#cb9-224" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 5 – Comparing Models (Goodness of Fit)</span></span>
+<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a>Once you have multiple models, you need to decide which is the **best** one. You use these metrics:</span>
+<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a><span class="fu">### Error Metrics</span></span>
+<span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Metric <span class="pp">|</span> Full name <span class="pp">|</span> What it measures <span class="pp">|</span></span>
+<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------|----------------------|---------------------------------|</span></span>
+<span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MSE** <span class="pp">|</span> Mean Squared Error <span class="pp">|</span> Average of squared prediction errors <span class="pp">|</span></span>
+<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **RMSE** <span class="pp">|</span> Root Mean Squared Error <span class="pp">|</span> Square root of MSE – same units as data <span class="pp">|</span></span>
+<span id="cb9-236"><a href="#cb9-236" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MAE** <span class="pp">|</span> Mean Absolute Error / Deviation <span class="pp">|</span> Average of absolute errors (not penalised) <span class="pp">|</span></span>
+<span id="cb9-237"><a href="#cb9-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-238"><a href="#cb9-238" aria-hidden="true" tabindex="-1"></a>::: callout-important</span>
+<span id="cb9-239"><a href="#cb9-239" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why RMSE vs MAE?</span></span>
+<span id="cb9-240"><a href="#cb9-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-241"><a href="#cb9-241" aria-hidden="true" tabindex="-1"></a>**RMSE** penalises large errors more than **MAE**, because it squares the distances first. This means a model with a few large mistakes will have a much higher RMSE than MAE. Prefer **RMSE** when big errors are especially bad.</span>
+<span id="cb9-242"><a href="#cb9-242" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-243"><a href="#cb9-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-244"><a href="#cb9-244" aria-hidden="true" tabindex="-1"></a><span class="fu">### Information Criteria</span></span>
+<span id="cb9-245"><a href="#cb9-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-246"><a href="#cb9-246" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Metric <span class="pp">|</span> Full name <span class="pp">|</span> Use <span class="pp">|</span></span>
+<span id="cb9-247"><a href="#cb9-247" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------------------|--------------------------------|-----------------|</span></span>
+<span id="cb9-248"><a href="#cb9-248" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AIC** <span class="pp">|</span> Akaike Information Criterion <span class="pp">|</span> Balance between fit and complexity <span class="pp">|</span></span>
+<span id="cb9-249"><a href="#cb9-249" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AICc** | Corrected AIC | Better for **small samples** (<span class="sc">\&lt;</span> 30 obs) <span class="pp">|</span></span>
+<span id="cb9-250"><a href="#cb9-250" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **BIC** <span class="pp">|</span> Bayesian Information Criterion <span class="pp">|</span> Similar to AIC, penalises complexity more <span class="pp">|</span></span>
+<span id="cb9-251"><a href="#cb9-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-252"><a href="#cb9-252" aria-hidden="true" tabindex="-1"></a>**Lower AIC/BIC = better model**. But AIC has a crucial interpretation:</span>
+<span id="cb9-253"><a href="#cb9-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-254"><a href="#cb9-254" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **AIC balances model fit and model complexity.** If adding one more parameter (making the model more complex) reduces the errors only a little, the AIC will tell you it's NOT worth the added complexity.</span></span>
+<span id="cb9-255"><a href="#cb9-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-256"><a href="#cb9-256" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb9-257"><a href="#cb9-257" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare accuracy metrics for all three models</span></span>
+<span id="cb9-258"><a href="#cb9-258" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(hw_add)</span>
+<span id="cb9-259"><a href="#cb9-259" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(hw_mult_lin)</span>
+<span id="cb9-260"><a href="#cb9-260" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(hw_mult_damp)</span>
+<span id="cb9-261"><a href="#cb9-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-262"><a href="#cb9-262" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare AIC/BIC</span></span>
+<span id="cb9-263"><a href="#cb9-263" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(hw_add<span class="sc">$</span>model)</span>
+<span id="cb9-264"><a href="#cb9-264" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(hw_mult_lin<span class="sc">$</span>model)</span>
+<span id="cb9-265"><a href="#cb9-265" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(hw_mult_damp<span class="sc">$</span>model)</span>
+<span id="cb9-266"><a href="#cb9-266" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-267"><a href="#cb9-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-268"><a href="#cb9-268" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example – Air Passengers Result</span></span>
+<span id="cb9-269"><a href="#cb9-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-270"><a href="#cb9-270" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Model                  <span class="pp">|</span> RMSE        <span class="pp">|</span> AIC             <span class="pp">|</span></span>
+<span id="cb9-271"><a href="#cb9-271" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|-------------|-----------------|</span></span>
+<span id="cb9-272"><a href="#cb9-272" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Additive               <span class="pp">|</span> highest     <span class="pp">|</span> highest         <span class="pp">|</span></span>
+<span id="cb9-273"><a href="#cb9-273" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Multiplicative, Linear <span class="pp">|</span> lower       <span class="pp">|</span> **lowest ✓**    <span class="pp">|</span></span>
+<span id="cb9-274"><a href="#cb9-274" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Multiplicative, Damped <span class="pp">|</span> lowest RMSE <span class="pp">|</span> slightly higher <span class="pp">|</span></span>
+<span id="cb9-275"><a href="#cb9-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-276"><a href="#cb9-276" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>According to **AIC**: Model 2 (multiplicative, linear) is best → simpler model, not worth adding the extra damping parameter.</span>
+<span id="cb9-277"><a href="#cb9-277" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>According to **RMSE**: Model 3 (damped) is best → smaller prediction errors.</span>
+<span id="cb9-278"><a href="#cb9-278" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Decision**: Prefer the model with the **lowest AIC** (Model 2), because the improvement in RMSE from adding a 4th parameter is not worth the added complexity.</span>
+<span id="cb9-279"><a href="#cb9-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-280"><a href="#cb9-280" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD MORE HERE: Your own model comparison results from the lab datasets --&gt;</span></span>
+<span id="cb9-281"><a href="#cb9-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-282"><a href="#cb9-282" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-283"><a href="#cb9-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-284"><a href="#cb9-284" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 6 – Verify Final Model Residuals</span></span>
+<span id="cb9-285"><a href="#cb9-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-286"><a href="#cb9-286" aria-hidden="true" tabindex="-1"></a>Once you pick your best model, you must **check its residuals** one more time. The same rules apply:</span>
+<span id="cb9-287"><a href="#cb9-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-288"><a href="#cb9-288" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Residuals should be normally distributed, mean ≈ 0, constant variance, random pattern.</span>
+<span id="cb9-289"><a href="#cb9-289" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If the residuals look good → you can **trust your forecast** and confidence intervals.</span>
+<span id="cb9-290"><a href="#cb9-290" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If the residuals are not normal → your confidence intervals may not be reliable.</span>
+<span id="cb9-291"><a href="#cb9-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-292"><a href="#cb9-292" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb9-293"><a href="#cb9-293" aria-hidden="true" tabindex="-1"></a><span class="co"># Get residuals from chosen model</span></span>
+<span id="cb9-294"><a href="#cb9-294" aria-hidden="true" tabindex="-1"></a>final_residuals <span class="ot">&lt;-</span> <span class="fu">residuals</span>(hw_mult_lin)</span>
+<span id="cb9-295"><a href="#cb9-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-296"><a href="#cb9-296" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardise and plot</span></span>
+<span id="cb9-297"><a href="#cb9-297" aria-hidden="true" tabindex="-1"></a>std_final <span class="ot">&lt;-</span> (final_residuals <span class="sc">-</span> <span class="fu">mean</span>(final_residuals)) <span class="sc">/</span> <span class="fu">sd</span>(final_residuals)</span>
+<span id="cb9-298"><a href="#cb9-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-299"><a href="#cb9-299" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb9-300"><a href="#cb9-300" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(std_final, <span class="at">main =</span> <span class="st">"Final Model Residuals"</span>)</span>
+<span id="cb9-301"><a href="#cb9-301" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(std_final)</span>
+<span id="cb9-302"><a href="#cb9-302" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(std_final); <span class="fu">qqline</span>(std_final, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb9-303"><a href="#cb9-303" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(std_final); <span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb9-304"><a href="#cb9-304" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-305"><a href="#cb9-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-306"><a href="#cb9-306" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-307"><a href="#cb9-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-308"><a href="#cb9-308" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Equations and Formulas</span></span>
+<span id="cb9-309"><a href="#cb9-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-310"><a href="#cb9-310" aria-hidden="true" tabindex="-1"></a><span class="fu">### Standardisation Formula</span></span>
+<span id="cb9-311"><a href="#cb9-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-312"><a href="#cb9-312" aria-hidden="true" tabindex="-1"></a>$$z_t = \frac{r_t - \bar{r}}{s_r}$$</span>
+<span id="cb9-313"><a href="#cb9-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-314"><a href="#cb9-314" aria-hidden="true" tabindex="-1"></a>Where $r_t$ is the residual at time $t$, $\bar{r}$ is the mean, and $s_r$ is the standard deviation.</span>
+<span id="cb9-315"><a href="#cb9-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-316"><a href="#cb9-316" aria-hidden="true" tabindex="-1"></a><span class="fu">### Additive Decomposition</span></span>
+<span id="cb9-317"><a href="#cb9-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-318"><a href="#cb9-318" aria-hidden="true" tabindex="-1"></a>$$Y_t = T_t + S_t + R_t$$</span>
+<span id="cb9-319"><a href="#cb9-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-320"><a href="#cb9-320" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multiplicative Decomposition</span></span>
+<span id="cb9-321"><a href="#cb9-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-322"><a href="#cb9-322" aria-hidden="true" tabindex="-1"></a>$$Y_t = T_t \times S_t \times R_t$$</span>
+<span id="cb9-323"><a href="#cb9-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-324"><a href="#cb9-324" aria-hidden="true" tabindex="-1"></a><span class="fu">### ETS Model Notation</span></span>
+<span id="cb9-325"><a href="#cb9-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-326"><a href="#cb9-326" aria-hidden="true" tabindex="-1"></a>$$\text{ETS}(E, T, S)$$</span>
+<span id="cb9-327"><a href="#cb9-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-328"><a href="#cb9-328" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$E$ = Error type: **A** (additive) or **M** (multiplicative)</span>
+<span id="cb9-329"><a href="#cb9-329" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$T$ = Trend: **N** (none), **A** (additive/linear), **Ad** (additive damped)</span>
+<span id="cb9-330"><a href="#cb9-330" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$S$ = Seasonality: **N** (none), **A** (additive), **M** (multiplicative)</span>
+<span id="cb9-331"><a href="#cb9-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-332"><a href="#cb9-332" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-333"><a href="#cb9-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-334"><a href="#cb9-334" aria-hidden="true" tabindex="-1"></a><span class="fu">## Practical Examples from This Class</span></span>
+<span id="cb9-335"><a href="#cb9-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-336"><a href="#cb9-336" aria-hidden="true" tabindex="-1"></a><span class="fu">### Wine Industry Dataset</span></span>
+<span id="cb9-337"><a href="#cb9-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-338"><a href="#cb9-338" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Trend**: present, possibly cyclical (hidden cycle)</span>
+<span id="cb9-339"><a href="#cb9-339" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Seasonality**: present, periodicity = 12</span>
+<span id="cb9-340"><a href="#cb9-340" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Best model**: Multiplicative seasonality + Damped trend (confirmed by AIC)</span>
+<span id="cb9-341"><a href="#cb9-341" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Key insight**: AIC confirmed it was worth adding the damp parameter here (unlike Air Passengers)</span>
+<span id="cb9-342"><a href="#cb9-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-343"><a href="#cb9-343" aria-hidden="true" tabindex="-1"></a><span class="fu">### Air Miles Dataset</span></span>
+<span id="cb9-344"><a href="#cb9-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-345"><a href="#cb9-345" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Trend only**: no seasonality (annual data, frequency = 1)</span>
+<span id="cb9-346"><a href="#cb9-346" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Models compared**: Holt linear vs. Holt damped</span>
+<span id="cb9-347"><a href="#cb9-347" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Issue**: Only 24 observations → small sample → residual plots will NOT look perfect. This is expected.</span>
+<span id="cb9-348"><a href="#cb9-348" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Best model**: Linear trend model had lower AIC</span>
+<span id="cb9-349"><a href="#cb9-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-350"><a href="#cb9-350" aria-hidden="true" tabindex="-1"></a><span class="fu">### Unemployment Dataset</span></span>
+<span id="cb9-351"><a href="#cb9-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-352"><a href="#cb9-352" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Negative trend** (decreasing) + **Seasonality**</span>
+<span id="cb9-353"><a href="#cb9-353" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Best model**: Holt-Winters (all three components needed)</span>
+<span id="cb9-354"><a href="#cb9-354" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**ETS result**: Linear trend (no damping needed)</span>
+<span id="cb9-355"><a href="#cb9-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-356"><a href="#cb9-356" aria-hidden="true" tabindex="-1"></a><span class="fu">### US Accidents Dataset (1973–1978)</span></span>
+<span id="cb9-357"><a href="#cb9-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-358"><a href="#cb9-358" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Seasonality** present, periodicity = 12</span>
+<span id="cb9-359"><a href="#cb9-359" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Trend**: unclear – could be no trend or a slight curve</span>
+<span id="cb9-360"><a href="#cb9-360" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Best model**: Additive seasonality + Damped trend</span>
+<span id="cb9-361"><a href="#cb9-361" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>AIC barely higher than the "no trend" version, but RMSE was **much** better</span>
+<span id="cb9-362"><a href="#cb9-362" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Key lesson**: Sometimes you must weigh AIC vs. RMSE and use your judgment</span>
+<span id="cb9-363"><a href="#cb9-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-364"><a href="#cb9-364" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb9-365"><a href="#cb9-365" aria-hidden="true" tabindex="-1"></a><span class="fu">## Euro Stock Market (Question 5)</span></span>
+<span id="cb9-366"><a href="#cb9-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-367"><a href="#cb9-367" aria-hidden="true" tabindex="-1"></a>This dataset was **not** analysed with classical methods this week. It will be covered with **ARIMA models** starting next week.</span>
+<span id="cb9-368"><a href="#cb9-368" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-369"><a href="#cb9-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-370"><a href="#cb9-370" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-371"><a href="#cb9-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-372"><a href="#cb9-372" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Points</span></span>
+<span id="cb9-373"><a href="#cb9-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-374"><a href="#cb9-374" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>🔍 **Always start by plotting** the data and identifying trend and seasonality visually.</span>
+<span id="cb9-375"><a href="#cb9-375" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>➕ or ✖️ **Additive vs. Multiplicative**: If seasonality grows over time → multiplicative. If constant → additive.</span>
+<span id="cb9-376"><a href="#cb9-376" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>📊 **Decompose the series** and check the residuals for randomness, normality, and constant variance.</span>
+<span id="cb9-377"><a href="#cb9-377" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>📏 **Standardise residuals** (mean=0, sd=1) so you can use the ±2 rule for the 95% boundary.</span>
+<span id="cb9-378"><a href="#cb9-378" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>🤖 Use <span class="in">`ets()`</span> in R as a **starting hint**, then try other models manually.</span>
+<span id="cb9-379"><a href="#cb9-379" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>📉 **AIC** balances fit vs. complexity. Adding a parameter is only worth it if the error reduction is large.</span>
+<span id="cb9-380"><a href="#cb9-380" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>✅ After selecting a model, always **verify the final residuals** – good residuals = trustworthy forecasts.</span>
+<span id="cb9-381"><a href="#cb9-381" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>📝 The exam will ask you to apply this full pipeline to a dataset (open book).</span>
+<span id="cb9-382"><a href="#cb9-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-383"><a href="#cb9-383" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-384"><a href="#cb9-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-385"><a href="#cb9-385" aria-hidden="true" tabindex="-1"></a><span class="fu"># Additional Notes / Annotations</span></span>
+<span id="cb9-386"><a href="#cb9-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-387"><a href="#cb9-387" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ✏️ *Use this section to add your own notes, questions, or things you want to clarify later.*</span></span>
+<span id="cb9-388"><a href="#cb9-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-389"><a href="#cb9-389" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ADD MORE HERE --&gt;</span></span>
+<span id="cb9-390"><a href="#cb9-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-391"><a href="#cb9-391" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-392"><a href="#cb9-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-393"><a href="#cb9-393" aria-hidden="true" tabindex="-1"></a><span class="fu"># R Code Summary</span></span>
+<span id="cb9-394"><a href="#cb9-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-395"><a href="#cb9-395" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb9-396"><a href="#cb9-396" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb9-397"><a href="#cb9-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-398"><a href="#cb9-398" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Load and plot</span></span>
+<span id="cb9-399"><a href="#cb9-399" aria-hidden="true" tabindex="-1"></a>ts_data <span class="ot">&lt;-</span> AirPassengers</span>
+<span id="cb9-400"><a href="#cb9-400" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(ts_data)</span>
+<span id="cb9-401"><a href="#cb9-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-402"><a href="#cb9-402" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Decompose</span></span>
+<span id="cb9-403"><a href="#cb9-403" aria-hidden="true" tabindex="-1"></a>dec_add  <span class="ot">&lt;-</span> <span class="fu">decompose</span>(ts_data, <span class="at">type =</span> <span class="st">"additive"</span>)</span>
+<span id="cb9-404"><a href="#cb9-404" aria-hidden="true" tabindex="-1"></a>dec_mult <span class="ot">&lt;-</span> <span class="fu">decompose</span>(ts_data, <span class="at">type =</span> <span class="st">"multiplicative"</span>)</span>
+<span id="cb9-405"><a href="#cb9-405" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dec_add)</span>
+<span id="cb9-406"><a href="#cb9-406" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dec_mult)</span>
+<span id="cb9-407"><a href="#cb9-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-408"><a href="#cb9-408" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Standardise and plot residuals</span></span>
+<span id="cb9-409"><a href="#cb9-409" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> dec_mult<span class="sc">$</span>random</span>
+<span id="cb9-410"><a href="#cb9-410" aria-hidden="true" tabindex="-1"></a>std_res <span class="ot">&lt;-</span> (res <span class="sc">-</span> <span class="fu">mean</span>(res, <span class="at">na.rm=</span><span class="cn">TRUE</span>)) <span class="sc">/</span> <span class="fu">sd</span>(res, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb9-411"><a href="#cb9-411" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb9-412"><a href="#cb9-412" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(std_res); <span class="fu">boxplot</span>(std_res)</span>
+<span id="cb9-413"><a href="#cb9-413" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(std_res); <span class="fu">qqline</span>(std_res, <span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb9-414"><a href="#cb9-414" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(std_res); <span class="fu">abline</span>(<span class="at">h=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>), <span class="at">col=</span><span class="st">"blue"</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb9-415"><a href="#cb9-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-416"><a href="#cb9-416" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Auto ETS</span></span>
+<span id="cb9-417"><a href="#cb9-417" aria-hidden="true" tabindex="-1"></a>best <span class="ot">&lt;-</span> <span class="fu">ets</span>(ts_data)</span>
+<span id="cb9-418"><a href="#cb9-418" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(best)</span>
+<span id="cb9-419"><a href="#cb9-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-420"><a href="#cb9-420" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Holt-Winters models</span></span>
+<span id="cb9-421"><a href="#cb9-421" aria-hidden="true" tabindex="-1"></a>hw1 <span class="ot">&lt;-</span> <span class="fu">hw</span>(ts_data, <span class="at">h=</span><span class="dv">24</span>, <span class="at">seasonal=</span><span class="st">"additive"</span>)</span>
+<span id="cb9-422"><a href="#cb9-422" aria-hidden="true" tabindex="-1"></a>hw2 <span class="ot">&lt;-</span> <span class="fu">hw</span>(ts_data, <span class="at">h=</span><span class="dv">24</span>, <span class="at">seasonal=</span><span class="st">"multiplicative"</span>, <span class="at">damped=</span><span class="cn">FALSE</span>)</span>
+<span id="cb9-423"><a href="#cb9-423" aria-hidden="true" tabindex="-1"></a>hw3 <span class="ot">&lt;-</span> <span class="fu">hw</span>(ts_data, <span class="at">h=</span><span class="dv">24</span>, <span class="at">seasonal=</span><span class="st">"multiplicative"</span>, <span class="at">damped=</span><span class="cn">TRUE</span>)</span>
+<span id="cb9-424"><a href="#cb9-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-425"><a href="#cb9-425" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Compare metrics</span></span>
+<span id="cb9-426"><a href="#cb9-426" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(hw1); <span class="fu">accuracy</span>(hw2); <span class="fu">accuracy</span>(hw3)</span>
+<span id="cb9-427"><a href="#cb9-427" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-428"><a href="#cb9-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-429"><a href="#cb9-429" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb9-430"><a href="#cb9-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-431"><a href="#cb9-431" aria-hidden="true" tabindex="-1"></a>*End of Week 7 Study Guide*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

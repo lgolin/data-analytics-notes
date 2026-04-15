@@ -1263,7 +1263,7 @@
     "href": "regression-analysis/week-10.html",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
     "section": "",
-    "text": "📝 Study Guide Notes — These notes are designed to be beginner-friendly. Leave space below each section to add your own annotations and examples as you review.",
+    "text": "Important⚠️ Assessment Reminders\n\n\n\n\nLab Exam — Week 13, approximately 6th of May. Professor said: “When you’re prepping for the lab exam, you’re also prepping for the final exam.”\nFinal Exam — timetable to be confirmed by the exams office. Check Canvas and your email.\nCoursework (25%) — Group critique assignment, due Week 7.\nEnd of Module Exam (50%) — covers all topics including ANCOVA.\n\n\n💡 Review the past exam paper (STAT9004_Exam_19.pdf) on Canvas — the Professor confirmed exam questions follow the same format as the R output exercises in these notes.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1275,7 +1275,7 @@
     "href": "regression-analysis/week-10.html#the-big-picture",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
     "section": "2.1 The Big Picture",
-    "text": "2.1 The Big Picture\nANCOVA stands for Analysis of Covariance. The Professor put it very simply in class:\n\n“It’s ANOVA with a C — and the C stands for Covariance.”\n\nThink of it this way:\n\nANOVA = you have a categorical explanatory variable (like treatment groups)\nLinear Regression = you have a continuous (quantitative) explanatory variable\nANCOVA = you have both at the same time\n\nANCOVA is the right tool when:\n\nYou have one main categorical variable you care about most (e.g., grazed vs ungrazed)\nYou also have a continuous variable that influences the outcome but isn’t your main focus — this is called the covariate",
+    "text": "2.1 The Big Picture\nANCOVA stands for Analysis of Covariance. The Professor put it simply in class:\n\n\n\n\n\n\nNote💬 Professor’s Note\n\n\n\n“It’s ANOVA with a C — and the C stands for Covariance. That’s a perfect way to describe it.”\n\n\nThink of it as a combination of the two methods you already know:\n\n\n\nMethod\nExplanatory Variable Type\n\n\n\n\nANOVA\nCategorical only (e.g. treatment groups)\n\n\nLinear Regression\nContinuous only (e.g. size, temperature)\n\n\nANCOVA\nBoth at the same time\n\n\n\nANCOVA is the right tool when you have one main categorical variable you care most about, plus a continuous variable that also influences the outcome but isn’t your main focus.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1287,7 +1287,7 @@
     "href": "regression-analysis/week-10.html#what-is-a-covariate",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
     "section": "2.2 What is a Covariate?",
-    "text": "2.2 What is a Covariate?\nA covariate is a continuous (quantitative) variable that:\n\nYou’re not primarily interested in, but\nYou include in the model to control for its effect on the response variable\n\n\nWhy include it if we don’t care about it?\nBecause ignoring it would give you misleading results. The covariate “adjusts” the comparison between your groups, making it fairer.",
+    "text": "2.2 What is a Covariate?\nA covariate is a continuous (quantitative) variable that:\n\nYou are not primarily interested in, but\nYou include in the model to control for its effect on the response variable\n\n\n\n\n\n\n\nNote💡 Analogy — Why Include Something You Don’t Care About?\n\n\n\nThink of a race where you want to compare two training programmes. But some runners are naturally faster. If you ignore natural speed when comparing programmes, your results will be unfair. The covariate (natural speed) is included to level the playing field and make the comparison between the two programmes fair.\n\n\n\n\n\n\n\n\nNote💬 Professor’s Note\n\n\n\n“The categorical explanatory variables are of major interest. The continuous variable is of lesser interest — but it’s included to control for its effect on the response variable.”",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1299,7 +1299,7 @@
     "href": "regression-analysis/week-10.html#the-experiment",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
     "section": "3.1 The Experiment",
-    "text": "3.1 The Experiment\nThis is the main example used throughout the lecture. Make sure you understand it well — the Professor said exam questions will give you R output like this and ask you to interpret it.\nSetup:\n\n40 plants were split into two groups:\n\nGrazed — exposed to rabbits for the first two weeks of growth\nUngrazed — left alone\n\nAt the end of the season, fruit production (dry weight in mg) was recorded\n\nThe Variables:\n\n\n\n\n\n\n\n\nVariable\nType\nRole\n\n\n\n\nFruit\nContinuous\nResponse variable (what we’re measuring)\n\n\nGrazing\nCategorical (2 levels: Grazed / Ungrazed)\nMain explanatory variable\n\n\nRoot\nContinuous\nCovariate (initial plant size — diameter of rootstock)",
+    "text": "3.1 The Experiment\nThis is the central example for Week 10. The Professor confirmed the exam format mirrors this kind of analysis — you will be given R output and asked to interpret it.\nSetup:\n\n40 plants split into two groups:\n\nGrazed — exposed to rabbits for the first two weeks of stem growth\nUngrazed — left alone, then fenced\n\nAt the end of the growing season, fruit production (dry weight in mg) was recorded\n\nThe three variables:\n\n\n\n\n\n\n\n\nVariable\nType\nRole in Model\n\n\n\n\nFruit\nContinuous (mg)\nResponse variable — what we are measuring\n\n\nGrazing\nCategorical (2 levels)\nMain explanatory variable — what we care about\n\n\nRoot\nContinuous\nCovariate — initial plant size (diameter of rootstock)",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1311,7 +1311,7 @@
     "href": "regression-analysis/week-10.html#why-not-just-do-a-t-test",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
     "section": "3.2 Why Not Just Do a t-test?",
-    "text": "3.2 Why Not Just Do a t-test?\nYour first instinct might be: “Just compare grazed vs ungrazed fruit production with a t-test.”\nThis is wrong — and the Professor emphasized this.\nThe problem is: the initial plant size (Root) also affects fruit production. Ignoring this means your comparison between grazed and ungrazed is not fair — larger plants will produce more fruit regardless of grazing.\n\n⚠️ Exam tip: If asked “why not use a t-test here?” — your answer is that the amount of fruit produced may also depend on the initial plant size, so we must control for it.",
+    "text": "3.2 Why Not Just Do a t-test?\n\n\n\n\n\n\nWarning⚠️ Common Mistake — Using a t-test When You Shouldn’t\n\n\n\nYour first instinct might be: “Just split the data into grazed and ungrazed and run a t-test.”\nThis is wrong. The Professor emphasised this in class.\nThe problem: the amount of fruit produced also depends on the initial size of the plant. A bigger plant will produce more fruit regardless of grazing. Ignoring root size makes the group comparison unfair.\n\n\n\n\n\n\n\n\nNote💬 Professor’s Note\n\n\n\n“This is not the correct way to proceed, since the amount of fruit produced may also depend on the initial size of the plant.”",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1323,7 +1323,7 @@
     "href": "regression-analysis/week-10.html#the-counter-intuitive-result",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
     "section": "3.3 The Counter-Intuitive Result",
-    "text": "3.3 The Counter-Intuitive Result\nWithout ANCOVA, a simple t-test suggests that grazed plants produce MORE fruit than ungrazed. This seems wrong! Rabbits eating the plants shouldn’t increase fruit production.\nThis misleading result happens because the grazed plants happened to be larger to begin with. ANCOVA corrects for this by accounting for initial size.",
+    "text": "3.3 The Counter-Intuitive Result\nWithout ANCOVA, a t-test shows that grazed plants produce significantly MORE fruit. This seems biologically wrong — rabbits eating plants shouldn’t increase fruit production!\nThe reason this happens: the grazed plants happened to be larger to begin with. Once ANCOVA adjusts for initial size (Root), the misleading signal disappears. This is exactly why the covariate matters.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1331,11 +1331,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-10.html#key-design-terminology",
-    "href": "regression-analysis/week-10.html#key-design-terminology",
+    "objectID": "regression-analysis/week-10.html#design-components-what-to-identify",
+    "href": "regression-analysis/week-10.html#design-components-what-to-identify",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "4.1 Key Design Terminology",
-    "text": "4.1 Key Design Terminology\nExperimental units = the individual plants (40 of them)\nFactor = Grazing (the independent variable)\nLevels of the factor = Grazed and Ungrazed (2 levels = 2 treatments)\nCovariate = Initial plant size (Root) — this is continuous\nResponse variable = Fruit production (continuous)",
+    "section": "4.1 Design Components — What to Identify",
+    "text": "4.1 Design Components — What to Identify\nFor any experiment, ask yourself these questions:\n\n\n\n\n\n\n\nQuestion\nAnswer for This Example\n\n\n\n\nWhat are the experimental units?\nThe 40 plants\n\n\nHow many factors?\nOne — Grazing\n\n\nWhat are the levels of each factor?\nGrazed and Ungrazed (2 levels)\n\n\nWhat are the treatments?\nGrazed and Ungrazed\n\n\nIs there a covariate?\nYes — Root (initial plant size)\n\n\nWhat is the response variable?\nFruit production (mg)",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1347,7 +1347,7 @@
     "href": "regression-analysis/week-10.html#design-classification",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
     "section": "4.2 Design Classification",
-    "text": "4.2 Design Classification\nThis experiment is:\n\nA Single-Factor Design — only one factor (Grazing)\nA Completely Randomized Design (CRD) — each plant has an equal chance of being assigned to either treatment\n\n\nWhat is Completely Randomized? It means each experimental unit (plant) has the same chance of receiving any treatment. The treatment is assigned at random — no pattern or structure.",
+    "text": "4.2 Design Classification\nThis experiment is:\n\nA Single-Factor Design — only one independent variable (Grazing)\nA Completely Randomized Design (CRD) — each plant has an equal probability of being assigned to either treatment\n\n\n\n\n\n\n\nNote💡 What Does “Completely Randomized” Mean?\n\n\n\nIt means that the treatment (grazed or ungrazed) is assigned to each plant at random — like flipping a fair coin for each one. No plant is more likely to end up in one group than the other. This is the simplest and most common experimental design.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1355,11 +1355,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-10.html#what-would-make-this-a-factorial-design",
-    "href": "regression-analysis/week-10.html#what-would-make-this-a-factorial-design",
+    "objectID": "regression-analysis/week-10.html#factorial-design-what-would-change",
+    "href": "regression-analysis/week-10.html#factorial-design-what-would-change",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "4.3 What Would Make This a Factorial Design?",
-    "text": "4.3 What Would Make This a Factorial Design?\nThe Professor discussed this as a comparison point:\n\n\n\n\n\n\n\nDesign\nWhat it requires\n\n\n\n\nSingle-factor\n1 factor with 2+ levels\n\n\nFactorial\n2+ factors, each with 2+ levels\n\n\nFull Factorial\nTests all possible combinations of factor levels (all main effects + all interaction effects)\n\n\n\n\n⚠️ Exam tip: Be able to identify what type of design is being used, and what would need to change to make it a different type.",
+    "section": "4.3 Factorial Design — What Would Change?",
+    "text": "4.3 Factorial Design — What Would Change?\n\n\n\n\n\n\n\nDesign Type\nWhat It Requires\n\n\n\n\nSingle-Factor\n1 factor, 2+ levels\n\n\nFactorial\n2+ factors, each with 2+ levels\n\n\nFull Factorial\nAll possible combinations of factor levels tested (all main effects + all interactions)\n\n\n\n\nExample: To make this a full factorial design, you could add a second factor like Soil Type (e.g. Sandy / Clay). Then all combinations — Grazed+Sandy, Grazed+Clay, Ungrazed+Sandy, Ungrazed+Clay — would be tested.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1367,11 +1367,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-10.html#independence",
-    "href": "regression-analysis/week-10.html#independence",
+    "objectID": "regression-analysis/week-10.html#independence-of-errors",
+    "href": "regression-analysis/week-10.html#independence-of-errors",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "5.1 1. Independence",
-    "text": "5.1 1. Independence\n\nErrors (residuals) must be independent of each other\nHow to check: Plot residuals in time order — positive correlation = violation\nHow to ensure: Proper randomisation at the start of the experiment",
+    "section": "5.1 1. Independence of Errors",
+    "text": "5.1 1. Independence of Errors\n\nEach observation must be independent — one result must not influence another\nHow to check: Plot residuals in time order of data collection — a positive pattern = violation\nHow to ensure: Proper randomisation before the experiment begins",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1379,11 +1379,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-10.html#normality",
-    "href": "regression-analysis/week-10.html#normality",
+    "objectID": "regression-analysis/week-10.html#normality-of-errors",
+    "href": "regression-analysis/week-10.html#normality-of-errors",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "5.2 2. Normality",
-    "text": "5.2 2. Normality\n\nThe errors should follow a normal distribution\nHow to check:\n\nQQ plot (quantile-quantile plot) — should show a straight line\nHistogram of residuals — should show a bell-shaped curve\nStatistical tests: Kolmogorov-Smirnov or Shapiro-Wilk tests\n\n\n\n💡 The histogram is better for large datasets. The QQ plot is commonly used and you should be able to interpret it.",
+    "section": "5.2 2. Normality of Errors",
+    "text": "5.2 2. Normality of Errors\n\nThe errors (residuals) must follow a normal distribution\nHow to check:\n\n\n\n\n\n\n\n\nTool\nWhat to Look For\n\n\n\n\nQQ plot\nPoints should fall on a straight diagonal line\n\n\nHistogram of residuals\nShould look like a bell curve\n\n\nShapiro-Wilk test\np-value &gt; 0.05 → no evidence against normality\n\n\nKolmogorov-Smirnov test\nAlternative normality test\n\n\n\n\n\n\n\n\n\nNote💡 Which Tool to Use?\n\n\n\nThe histogram is better for large datasets (you can see the shape clearly). The QQ plot is useful at any sample size. A useful guide for interpreting QQ plots is linked in the worksheet: http://seankross.com/2016/02/29/A-Q-Q-Plot-Dissection-Kit.html",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1395,7 +1395,7 @@
     "href": "regression-analysis/week-10.html#homogeneity-of-variance-equal-variance",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
     "section": "5.3 3. Homogeneity of Variance (Equal Variance)",
-    "text": "5.3 3. Homogeneity of Variance (Equal Variance)\n\nThe variance of residuals should be equal across groups\nHow to check:\n\nLevene’s test (statistical test)\nResiduals vs Fitted values plot — should show no pattern, centred around zero\n\n\n\n⚠️ Exam tip: The Professor said “make sure you’re able to interpret diagnostic plots from R.” Specifically: QQ plots, residuals vs fitted, and histograms.",
+    "text": "5.3 3. Homogeneity of Variance (Equal Variance)\n\nThe spread (variance) of residuals should be the same across all groups and fitted values\nHow to check:\n\n\n\n\n\n\n\n\nTool\nWhat to Look For\n\n\n\n\nLevene’s Test\np-value &gt; 0.05 → equal variances\n\n\nResiduals vs Fitted plot\nNo pattern; points scattered randomly around zero",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1406,8 +1406,8 @@
     "objectID": "regression-analysis/week-10.html#full-model-with-interaction",
     "href": "regression-analysis/week-10.html#full-model-with-interaction",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "6.1 Full Model (with Interaction)",
-    "text": "6.1 Full Model (with Interaction)\n\\[Y = \\beta_0 + \\beta_1 X + \\beta_2 Z + \\beta_3 XZ + e\\]\nWhere:\n\n\n\n\n\n\n\nSymbol\nMeaning\n\n\n\n\n\\(Y\\)\nResponse variable (Fruit production)\n\n\n\\(X\\)\nContinuous explanatory variable (Root size)\n\n\n\\(Z\\)\nDummy variable for the categorical factor (0 = Grazed, 1 = Ungrazed)\n\n\n\\(XZ\\)\nInteraction term between Root and Grazing\n\n\n\\(e\\)\nError term",
+    "section": "6.1 Full Model (With Interaction)",
+    "text": "6.1 Full Model (With Interaction)\n\\[Y = \\beta_0 + \\beta_1 X + \\beta_2 Z + \\beta_3 XZ + e\\]\n\n\n\nSymbol\nMeaning in This Example\n\n\n\n\n\\(Y\\)\nFruit production (response)\n\n\n\\(X\\)\nRoot size — the continuous covariate\n\n\n\\(Z\\)\nDummy variable: 0 = Grazed, 1 = Ungrazed\n\n\n\\(XZ\\)\nInteraction between Root and Grazing\n\n\n\\(e\\)\nError (residual) term\n\n\n\n\n\n\n\n\n\nNote💬 Professor’s Note\n\n\n\n“Zero is grazed — that’s your reference group. The same as the previous models you’ve run with ANOVA, you have one reference group.”",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1415,11 +1415,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-10.html#interpreting-each-coefficient",
-    "href": "regression-analysis/week-10.html#interpreting-each-coefficient",
+    "objectID": "regression-analysis/week-10.html#what-each-coefficient-means",
+    "href": "regression-analysis/week-10.html#what-each-coefficient-means",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "6.2 Interpreting Each Coefficient",
-    "text": "6.2 Interpreting Each Coefficient\n\n\n\n\n\n\n\nCoefficient\nMeaning\n\n\n\n\n\\(\\beta_0\\)\nIntercept for the reference group (Grazed plants, since Z=0)\n\n\n\\(\\beta_1\\)\nEffect of a 1-unit increase in Root on Fruit, for Grazed plants\n\n\n\\(\\beta_2\\)\nChange in intercept when switching from Grazed → Ungrazed\n\n\n\\(\\beta_3\\)\nChange in slope when switching from Grazed → Ungrazed (the interaction effect)",
+    "section": "6.2 What Each Coefficient Means",
+    "text": "6.2 What Each Coefficient Means\n\n\n\n\n\n\n\nCoefficient\nPlain-English Meaning\n\n\n\n\n\\(\\beta_0\\)\nExpected Fruit when Root = 0, for Grazed plants (the reference group)\n\n\n\\(\\beta_1\\)\nFor every 1-unit increase in Root, Fruit increases by \\(\\beta_1\\) — for Grazed plants\n\n\n\\(\\beta_2\\)\nDifference in intercept when switching from Grazed → Ungrazed\n\n\n\\(\\beta_3\\)\nDifference in slope when switching from Grazed → Ungrazed (the interaction)",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1427,11 +1427,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-10.html#what-the-model-looks-like-for-each-group",
-    "href": "regression-analysis/week-10.html#what-the-model-looks-like-for-each-group",
+    "objectID": "regression-analysis/week-10.html#model-equations-for-each-group",
+    "href": "regression-analysis/week-10.html#model-equations-for-each-group",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "6.3 What the Model Looks Like for Each Group",
-    "text": "6.3 What the Model Looks Like for Each Group\nFor Grazed plants (Z = 0):\n\\[\\text{Fruit} = \\beta_0 + \\beta_1 \\cdot \\text{Root} + e\\]\nFor Ungrazed plants (Z = 1):\n\\[\\text{Fruit} = (\\beta_0 + \\beta_2) + (\\beta_1 + \\beta_3) \\cdot \\text{Root} + e\\]\n\n💡 Plain English: Grazed is the reference group. For ungrazed plants, both the intercept and the slope are adjusted by adding \\(\\beta_2\\) and \\(\\beta_3\\) respectively.",
+    "section": "6.3 Model Equations for Each Group",
+    "text": "6.3 Model Equations for Each Group\nThe power of ANCOVA is that it gives you a separate regression line for each group, derived from one model.\nFor Grazed plants (Z = 0 — the reference group):\n\\[\\text{Fruit} = \\beta_0 + \\beta_1 \\cdot \\text{Root} + e\\]\nFor Ungrazed plants (Z = 1):\n\\[\\text{Fruit} = (\\beta_0 + \\beta_2) + (\\beta_1 + \\beta_3) \\cdot \\text{Root} + e\\]\n\n\n\n\n\n\nNote💡 How to Remember This\n\n\n\nWhen Z = 0 (Grazed), the \\(\\beta_2\\) and \\(\\beta_3\\) terms both drop out (multiplied by 0).\nWhen Z = 1 (Ungrazed), they stay in and adjust both the intercept and the slope.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1439,11 +1439,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-10.html#full-model-with-interaction-1",
-    "href": "regression-analysis/week-10.html#full-model-with-interaction-1",
+    "objectID": "regression-analysis/week-10.html#full-model-with-interaction-lmfruit-root-grazing",
+    "href": "regression-analysis/week-10.html#full-model-with-interaction-lmfruit-root-grazing",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "7.1 Full Model (with Interaction)",
-    "text": "7.1 Full Model (with Interaction)\nHere is the R output from running lm(Fruit ~ Root * Grazing, data = fruit):\nCoefficients:\n                    Estimate Std. Error t value Pr(&gt;|t|)\n(Intercept)         -125.173    12.811   -9.771  1.15e-11 ***\nRoot                  23.240     1.531   15.182  &lt; 2e-16 ***\nGrazingUngrazed       30.806    16.842    1.829   0.0757 .\nRoot:GrazingUngrazed   0.756     2.354    0.321   0.7500\n\nResidual standard error: 6.831 on 36 degrees of freedom\nMultiple R-squared:  0.9293,    Adjusted R-squared:  0.9234\nF-statistic: 157.6 on 3 and 36 DF,  p-value: &lt; 2.2e-16\n\n7.1.1 Step-by-Step Interpretation\n\n⚠️ The Professor’s key advice on how to read output — this is exam-critical:\n\nStep 1 — Overall model (F-statistic at the bottom): The p-value is &lt; 2.2e-16, which is much less than 0.05. The overall model is statistically significant. This means at least one predictor has an effect.\nStep 2 — Interaction term first: Look at Root:GrazingUngrazed. The p-value is 0.75 — not significant (&gt; 0.05). This means the slopes for grazed and ungrazed plants are not different from each other (the lines are parallel).\n\n💡 The interaction term tells us: does the effect of Root on Fruit CHANGE depending on whether the plant is grazed or not? If not significant → it doesn’t change → the lines are parallel.\n\nStep 3 — Main effects: - Root: p &lt; 2e-16 → highly significant ✅ - GrazingUngrazed: p = 0.0757 → not significant at the 5% level ❌ (close, but over 0.05)",
+    "section": "7.1 Full Model (With Interaction): lm(Fruit ~ Root * Grazing)",
+    "text": "7.1 Full Model (With Interaction): lm(Fruit ~ Root * Grazing)\nlm(formula = Fruit ~ Root * Grazing, data = fruit)\n\nCoefficients:\n                     Estimate Std. Error t value Pr(&gt;|t|)\n(Intercept)          -125.173    12.811   -9.771  1.15e-11 ***\nRoot                   23.240     1.531   15.182  &lt; 2e-16 ***\nGrazingUngrazed        30.806    16.842    1.829   0.0757 .\nRoot:GrazingUngrazed    0.756     2.354    0.321   0.7500\n\nResidual standard error: 6.831 on 36 degrees of freedom\nMultiple R-squared:  0.9293,    Adjusted R-squared:  0.9234\nF-statistic: 157.6 on 3 and 36 DF,  p-value: &lt; 2.2e-16\n\n7.1.1 Step-by-Step Interpretation\nStep 1 — Overall model (F-statistic, bottom line):\np-value &lt; 2.2e-16 → much less than 0.05 → the overall model is statistically significant. At least one predictor has an effect on fruit production.\nStep 2 — Interaction term (Root:GrazingUngrazed):\np-value = 0.75 → much greater than 0.05 → not significant. The slopes for grazed and ungrazed plants are not different. The two regression lines are parallel.\nStep 3 — Main effects:\n\n\n\n\n\n\n\n\n\n\nTerm\nEstimate\np-value\nSignificant?\nInterpretation\n\n\n\n\n(Intercept)\n−125.173\n1.15e-11\n✅ Yes\nExpected Fruit when Root = 0, for Grazed plants. Not scientifically meaningful (Root = 0 doesn’t exist).\n\n\nRoot\n23.240\n&lt; 2e-16\n✅ Yes\nFor every 1-unit increase in Root, Fruit increases by 23.24 mg — for Grazed plants\n\n\nGrazingUngrazed\n30.806\n0.0757\n❌ No (at 5%)\nUngrazed plants produce ~31 mg more fruit than Grazed plants — but this is not significant in this model\n\n\nRoot:GrazingUngrazed\n0.756\n0.7500\n❌ No\nThe effect of Root on Fruit does NOT differ between Grazed and Ungrazed",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1451,11 +1451,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-10.html#the-fitted-equations",
-    "href": "regression-analysis/week-10.html#the-fitted-equations",
+    "objectID": "regression-analysis/week-10.html#fitted-equations-from-this-model",
+    "href": "regression-analysis/week-10.html#fitted-equations-from-this-model",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "7.2 The Fitted Equations",
-    "text": "7.2 The Fitted Equations\nOverall model: \\[\\hat{\\text{Fruit}} = -125.173 + 23.24 \\cdot \\text{Root} + 30.806 \\cdot Z + 0.756 \\cdot Z \\cdot \\text{Root}\\]\nGrazed plants (Z = 0): \\[\\hat{\\text{Fruit}} = -125.173 + 23.24 \\cdot \\text{Root}\\]\nUngrazed plants (Z = 1): \\[\\hat{\\text{Fruit}} = -94.367 + 23.996 \\cdot \\text{Root}\\]\n(The intercept becomes −125.173 + 30.806 = −94.367, and the slope becomes 23.24 + 0.756 = 23.996)",
+    "section": "7.2 Fitted Equations From This Model",
+    "text": "7.2 Fitted Equations From This Model\nOverall: \\[\\hat{\\text{Fruit}} = -125.173 + 23.24 \\cdot \\text{Root} + 30.806 \\cdot Z + 0.756 \\cdot Z \\cdot \\text{Root}\\]\nGrazed (Z = 0): \\[\\hat{\\text{Fruit}} = -125.173 + 23.24 \\cdot \\text{Root}\\]\nUngrazed (Z = 1): \\[\\hat{\\text{Fruit}} = (-125.173 + 30.806) + (23.24 + 0.756) \\cdot \\text{Root} = -94.367 + 23.996 \\cdot \\text{Root}\\]",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1463,11 +1463,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-10.html#hypotheses-you-need-to-know",
-    "href": "regression-analysis/week-10.html#hypotheses-you-need-to-know",
+    "objectID": "regression-analysis/week-10.html#all-hypotheses-you-need-to-know",
+    "href": "regression-analysis/week-10.html#all-hypotheses-you-need-to-know",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "8.1 Hypotheses You Need to Know",
-    "text": "8.1 Hypotheses You Need to Know\n\n8.1.1 1. Overall Model\n\\[H_0: \\beta_1 = \\beta_2 = \\beta_3 = 0 \\quad \\text{(no predictor has an effect)}\\] \\[H_A: \\text{at least one coefficient} \\neq 0\\]\n\n\n8.1.2 2. Interaction Term (Test for parallel slopes)\n\\[H_0: \\beta_3 = 0 \\quad \\text{(slopes are the same — lines are parallel)}\\] \\[H_A: \\beta_3 \\neq 0 \\quad \\text{(slopes differ)}\\]\n\n\n8.1.3 3. Root (Covariate)\n\\[H_0: \\beta_{\\text{Root}} = 0 \\quad \\text{(Root has no effect)}\\] \\[H_A: \\beta_{\\text{Root}} \\neq 0\\]\n\n\n8.1.4 4. Grazing (Factor)\n\\[H_0: \\beta_{\\text{Grazing}} = 0 \\quad \\text{(Grazing has no effect on the intercept)}\\] \\[H_A: \\beta_{\\text{Grazing}} \\neq 0\\]\n\n\n8.1.5 5. Do the two regression lines coincide? (same slope AND intercept)\n\\[H_0: \\beta_2 = \\beta_3 = 0\\] \\[H_A: \\beta_2 \\neq 0 \\text{ or } \\beta_3 \\neq 0\\]\n\n💡 Plain English on the interaction test: Testing \\(H_0: \\beta_3 = 0\\) is the same as asking “Are the two regression lines parallel?” If we fail to reject \\(H_0\\), it means we cannot say the slopes are different — they are effectively parallel.",
+    "section": "8.1 All Hypotheses You Need to Know",
+    "text": "8.1 All Hypotheses You Need to Know\n\n8.1.1 Test 1 — Overall Model (Global F-test)\n\\[H_0: \\beta_1 = \\beta_2 = \\beta_3 = 0 \\quad \\text{(no predictor has any effect)}\\] \\[H_A: \\text{at least one } \\beta_i \\neq 0\\]\nHow to find it in R output: The F-statistic and p-value at the very bottom of summary().\n\n\n8.1.2 Test 2 — Interaction Term (Are the slopes the same?)\n\\[H_0: \\beta_3 = 0 \\quad \\text{(lines are parallel — same slope)}\\] \\[H_A: \\beta_3 \\neq 0 \\quad \\text{(lines have different slopes)}\\]\n\n\n\n\n\n\nNote💡 Plain English\n\n\n\nThis test asks: does the effect of Root on Fruit change depending on whether a plant is grazed or not?\nIf \\(H_0\\) is not rejected → the effect is the same → the lines are parallel.\n\n\n\n\n8.1.3 Test 3 — Root (Covariate)\n\\[H_0: \\beta_{\\text{Root}} = 0 \\quad \\text{(Root has no effect on Fruit)}\\] \\[H_A: \\beta_{\\text{Root}} \\neq 0\\]\n\n\n8.1.4 Test 4 — Grazing (Main Factor)\n\\[H_0: \\beta_{\\text{Grazing}} = 0 \\quad \\text{(Grazing has no effect on the intercept)}\\] \\[H_A: \\beta_{\\text{Grazing}} \\neq 0\\]\n\n\n8.1.5 Test 5 — Do the Lines Coincide? (Same slope AND same intercept)\n\\[H_0: \\beta_2 = \\beta_3 = 0\\] \\[H_A: \\beta_2 \\neq 0 \\text{ or } \\beta_3 \\neq 0\\]",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1479,7 +1479,7 @@
     "href": "regression-analysis/week-10.html#what-it-means",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
     "section": "9.1 What It Means",
-    "text": "9.1 What It Means\n\n“If we have two or more possible models, each of which fit the data adequately, the one with the fewest explanatory variables is preferred.” — Prof. Harrison\n\nIn simple terms: simpler is better, as long as the simpler model fits the data just as well.",
+    "text": "9.1 What It Means\n\n\n\n\n\n\nNote💬 Professor’s Note\n\n\n\n“If we have two or more possible models, each of which fit the data adequately, the one with the fewest explanatory variables is preferred.”\n\n\nSimpler is better — as long as the simpler model fits the data just as well.\n\n\n\n\n\n\nWarning⚠️ Important Nuance\n\n\n\nThe Professor highlighted: “This isn’t always the case. You may actually want to keep non-significant terms in your model, depending on whether they’re of scientific interest.” This is a principle, not a rule.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1487,11 +1487,11 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-10.html#when-to-drop-a-term",
-    "href": "regression-analysis/week-10.html#when-to-drop-a-term",
+    "objectID": "regression-analysis/week-10.html#how-to-drop-terms",
+    "href": "regression-analysis/week-10.html#how-to-drop-terms",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "9.2 When to Drop a Term",
-    "text": "9.2 When to Drop a Term\n\nWhen a term is not statistically significant, it may not be contributing to the model\nDrop terms starting with the one with the highest p-value (most insignificant)\nAfter dropping, rerun the model and reassess\n\n\n⚠️ Important nuance the Professor highlighted: This isn’t a hard rule. If you have a scientific reason to keep a term, you can keep it even if it’s not significant. It depends on the context.",
+    "section": "9.2 How to Drop Terms",
+    "text": "9.2 How to Drop Terms\n\nIdentify all non-significant terms (p-value &gt; 0.05)\nStart by dropping the term with the highest p-value (most insignificant)\nRerun the model and check again\nContinue until all remaining terms are significant (or you have a reason to stop)\n\nIn our example: Root:GrazingUngrazed has p = 0.75 — the highest p-value. Drop it first.",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1503,7 +1503,7 @@
     "href": "regression-analysis/week-10.html#comparing-r²-and-adjusted-r²",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
     "section": "9.3 Comparing R² and Adjusted R²",
-    "text": "9.3 Comparing R² and Adjusted R²\nAfter removing the interaction term, compare the two models:\n\n\n\nMetric\nWith Interaction\nWithout Interaction\n\n\n\n\nR²\n0.9293\n0.9291\n\n\nAdjusted R²\n0.9234\n0.9252\n\n\n\nKey insight:\n\nR² always decreases when you drop a term — even if the term was useless\nAdjusted R² accounts for the number of predictors — it goes up when you drop an unhelpful term\nA small increase in Adjusted R² after dropping confirms the term wasn’t contributing\n\n\n💡 The Professor said: “The adjusted R-squared is more appropriate here as it takes into account the number of terms in the model.”\n⚠️ Exam tip: Be able to explain why Adjusted R² is preferred when comparing models with different numbers of predictors.",
+    "text": "9.3 Comparing R² and Adjusted R²\nAfter removing the interaction term:\n\n\n\nMetric\nWith Interaction\nWithout Interaction\nChange\n\n\n\n\nR²\n0.9293\n0.9291\nDecreased ↓\n\n\nAdjusted R²\n0.9234\n0.9252\nIncreased ↑ ✅\n\n\n\n\n\n\n\n\n\nImportant⭐ Key Exam Concept — R² vs Adjusted R²\n\n\n\n\nR² always decreases when you remove a term — even if that term was completely useless. Do not use R² alone to compare models of different sizes.\nAdjusted R² penalises for adding extra terms. It goes up when you drop a term that wasn’t helping.\nA small increase in Adjusted R² after removing a term confirms the term was not contributing to the model.\n\nThe Professor: “The adjusted R-squared is more appropriate here as it takes into account the number of terms in the model.”",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",
@@ -1511,11 +1511,47 @@
     ]
   },
   {
-    "objectID": "regression-analysis/week-10.html#the-simpler-final-model",
-    "href": "regression-analysis/week-10.html#the-simpler-final-model",
+    "objectID": "regression-analysis/week-10.html#the-simpler-final-model-lmfruit-root-grazing",
+    "href": "regression-analysis/week-10.html#the-simpler-final-model-lmfruit-root-grazing",
     "title": "Week 10 – ANCOVA (Analysis of Covariance)",
-    "section": "9.4 The Simpler (Final) Model",
-    "text": "9.4 The Simpler (Final) Model\nAfter dropping the interaction term (Root:GrazingUngrazed), we run lm(Fruit ~ Root + Grazing, data = fruit):\nCoefficients:\n                 Estimate Std. Error t value Pr(&gt;|t|)\n(Intercept)      -127.829      9.664  -13.23  1.35e-15 ***\nRoot               23.560      1.149   20.51  &lt; 2e-16 ***\nGrazingUngrazed    36.103      3.357   10.75  6.11e-13 ***\n\nResidual standard error: 6.747 on 37 degrees of freedom\nMultiple R-squared:  0.9291,    Adjusted R-squared:  0.9252\nF-statistic: 242.3 on 2 and 37 DF,  p-value: &lt; 2.2e-16\nAll terms are now significant. The final model equations become:\nGrazed plants (Z = 0): \\[\\hat{\\text{Fruit}} = -127.829 + 23.56 \\cdot \\text{Root}\\]\nUngrazed plants (Z = 1): \\[\\hat{\\text{Fruit}} = -91.726 + 23.56 \\cdot \\text{Root}\\]\n(Intercept for ungrazed = −127.829 + 36.103 = −91.726. The slope is the same for both groups!)\n\n💡 In the final model, both lines have the same slope (23.56) but different intercepts. Ungrazed plants have a higher intercept, meaning they produce more fruit at any given root size, when holding grazing constant.",
+    "section": "9.4 The Simpler (Final) Model: lm(Fruit ~ Root + Grazing)",
+    "text": "9.4 The Simpler (Final) Model: lm(Fruit ~ Root + Grazing)\nlm(formula = Fruit ~ Root + Grazing, data = fruit)\n\nCoefficients:\n                Estimate Std. Error t value Pr(&gt;|t|)\n(Intercept)     -127.829      9.664  -13.23  1.35e-15 ***\nRoot              23.560      1.149   20.51  &lt; 2e-16 ***\nGrazingUngrazed   36.103      3.357   10.75  6.11e-13 ***\n\nResidual standard error: 6.747 on 37 degrees of freedom\nMultiple R-squared:  0.9291,    Adjusted R-squared:  0.9252\nF-statistic: 242.3 on 2 and 37 DF,  p-value: &lt; 2.2e-16\nAll three terms are now significant. The final fitted equations are:\nGrazed (Z = 0): \\[\\hat{\\text{Fruit}} = -127.829 + 23.56 \\cdot \\text{Root}\\]\nUngrazed (Z = 1): \\[\\hat{\\text{Fruit}} = (-127.829 + 36.103) + 23.56 \\cdot \\text{Root} = -91.726 + 23.56 \\cdot \\text{Root}\\]\n\n\n\n\n\n\nNote💡 Key Observation\n\n\n\nIn the final model, both lines have the same slope (23.56) — they are parallel. The only difference is the intercept. Ungrazed plants produce approximately 36.1 mg more fruit than Grazed plants, at any given root size.",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 10"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-10.html#background",
+    "href": "regression-analysis/week-10.html#background",
+    "title": "Week 10 – ANCOVA (Analysis of Covariance)",
+    "section": "11.1 Background",
+    "text": "11.1 Background\nThe Birds.txt dataset records bird population densities in 56 forest patches in south-eastern Victoria, Australia. The goal is to identify which habitat variables affect bird abundance (ABUND).",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 10"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-10.html#variables",
+    "href": "regression-analysis/week-10.html#variables",
+    "title": "Week 10 – ANCOVA (Analysis of Covariance)",
+    "section": "11.2 Variables",
+    "text": "11.2 Variables\n\n\n\n\n\n\n\n\nVariable\nType\nDescription\n\n\n\n\nABUND\nContinuous\nBird population density — response variable\n\n\nAREA\nContinuous\nSize of the forest patch\n\n\nDIST\nContinuous\nDistance to the nearest patch\n\n\nLDIST\nContinuous\nDistance to the nearest larger patch\n\n\nALT\nContinuous\nMean altitude of the patch\n\n\nYR.ISOL\nContinuous\nYear of isolation by land clearing\n\n\nGRAZE\nCategorical (1–5)\nGrazing intensity: 1 = light, 5 = intensive",
+    "crumbs": [
+      "Regression Analysis",
+      "Weekly Notes",
+      "Week 10"
+    ]
+  },
+  {
+    "objectID": "regression-analysis/week-10.html#step-by-step-worksheet-questions",
+    "href": "regression-analysis/week-10.html#step-by-step-worksheet-questions",
+    "title": "Week 10 – ANCOVA (Analysis of Covariance)",
+    "section": "11.3 Step-by-Step Worksheet Questions",
+    "text": "11.3 Step-by-Step Worksheet Questions\n\n11.3.1 Step 1 — Exploratory Data Analysis\n\nMake boxplots and histograms for all variables\nUse a pairs plot to examine relationships between variables and check for correlations\nComment on the shape of distributions — are any variables skewed?\n\n\n\nCode\nBirds &lt;- read.table(\"Birds.txt\", header = TRUE)\nBirds$GRAZE &lt;- as.factor(Birds$GRAZE)\n\n# Summary statistics\nsummary(Birds)\n\n# Boxplots\npar(mfrow = c(2, 3))\nboxplot(Birds$ABUND, main = \"Abundance\")\nboxplot(Birds$AREA,  main = \"Area\")\nboxplot(Birds$DIST,  main = \"Distance\")\nboxplot(Birds$LDIST, main = \"L Distance\")\nboxplot(Birds$YR.ISOL, main = \"Year Isolated\")\nboxplot(Birds$ALT,  main = \"Altitude\")\n\n# Histograms\npar(mfrow = c(2, 3))\nhist(Birds$ABUND, main = \"Abundance\")\nhist(Birds$AREA,  main = \"Area\")       # Note: likely right-skewed\nhist(Birds$DIST,  main = \"Distance\")   # Note: likely right-skewed\nhist(Birds$LDIST, main = \"L Distance\") # Note: likely right-skewed\nhist(Birds$YR.ISOL, main = \"Year\")\nhist(Birds$ALT,  main = \"Altitude\")\n\n\n\n\n11.3.2 Step 2 — Transformations\n\n\n\n\n\n\nNote💬 Professor’s Note\n\n\n\n“With this dataset, with this exercise, you’ll have to do some data transformations — the log of area, the log of distance.”\n\n\nAREA, DIST, and LDIST are right-skewed (many small values, a few very large ones). Log transformation makes them more symmetric and improves model fit.\n\n\nCode\n# Apply log transformations\nBirds$LOGAREA  &lt;- log10(Birds$AREA)\nBirds$LOGDIST  &lt;- log10(Birds$DIST)\nBirds$LOGLDIST &lt;- log(Birds$LDIST)\n\n# Check histograms after transformation\npar(mfrow = c(1, 3))\nhist(Birds$LOGAREA,  main = \"log10(Area)\")\nhist(Birds$LOGDIST,  main = \"log10(Distance)\")\nhist(Birds$LOGLDIST, main = \"log(LDistance)\")\n\n\n\n\n11.3.3 Step 3 — Fit the Full ANCOVA Model\nThe model to fit is:\n\\[y = \\beta_0 + \\beta_1\\log(\\text{AREA}) + \\beta_2\\log(\\text{DIST}) + \\beta_3\\log(\\text{LDIST}) + \\beta_4\\text{ALT} + \\beta_5\\text{YR.ISOL} + \\beta_6 G_2 + \\beta_7 G_3 + \\beta_8 G_4 + \\beta_9 G_5 + e\\]\nwhere \\(G_2, G_3, G_4, G_5\\) are dummy variables for GRAZE levels 2–5 (GRAZE = 1 is the reference group).\n\n\nCode\nmodel1 &lt;- lm(ABUND ~ LOGAREA + LOGDIST + LOGLDIST + YR.ISOL + ALT + GRAZE,\n             data = Birds)\nsummary(model1)\n\n\n\n\n11.3.4 Step 4 — Worksheet Questions to Answer\n\n\n\n\n\n\nImportant⭐ Practice Questions (Worksheet 8)\n\n\n\nWork through these questions — they are the same style as exam questions.\nQ1. Write down the equation of the fitted regression model using the estimated coefficients from R.\nQ2. Interpret the coefficient for log(AREA). Is it positive or negative? What does that mean for bird abundance?\nQ3. Test the overall model: \\[H_0: \\beta_1 = \\beta_2 = \\cdots = \\beta_9 = 0\\] \\[H_A: \\text{at least one } \\beta_i \\neq 0\\] What do the results imply?\nQ4. Test the hypothesis for log(LDIST): \\[H_0: \\beta_3 = 0 \\qquad H_A: \\beta_3 \\neq 0\\] What do the results imply for the model?\nQ5. Calculate Variance Inflation Factors (VIFs) for the model. What do they tell you about collinearity?\nlibrary(car)\nvif(model1)\nQ6. Run diagnostic plots (plot(model1)). Check all three assumptions: - Residuals vs Fitted — any pattern? - QQ plot — do residuals follow a straight line? - Scale-Location — is variance constant?\nQ7. Fit the simpler model with only LOGAREA and GRAZE. Plot the five regression lines (one per grazing level). Are the lines parallel? What does that tell you?\nmodel2 &lt;- lm(ABUND ~ LOGAREA + GRAZE, data = Birds)\nsummary(model2)",
     "crumbs": [
       "Regression Analysis",
       "Weekly Notes",

@@ -1,7 +1,6 @@
 ---
 title: "Week 2: Statistical Inference"
 subtitle: "STAT9004 — Regression Analysis"
-date: today
 format:
   html:
     toc: true

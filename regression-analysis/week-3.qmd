@@ -1,66 +1,112 @@
 ---
-title: "Week 3 Study Guide: Missing Data & Power Analysis"
-subtitle: "Statistical Modelling"
+title: "Week 3: Missing Data & Power Analysis"
+subtitle: "STAT9004 — Statistical Modelling"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+    code-fold: true
+    code-tools: true
+    highlight-style: github
+---
+
+---
+
+::: {.callout-important}
+## ⭐ Assessment Reminders
+
+| Assessment | Weight | Due Date | Format |
+|---|---|---|---|
+| Part 1 — Critique Guidelines + Report | 10% | **8th March** (Week ~5) | Written report, max 1,000 words + checklist |
+| Part 2 — Group Presentation | 15% | **5th April** (Week 10) | Pre-recorded voiceover presentation, submitted on Canvas |
+| Lab Project | TBC | Week 11 or 12 | TBC |
+| Final Exam | TBC | End of semester | **On campus** (not Canvas) |
+
+**Assessment 1 details:**
+
+- Create a checklist of criteria for evaluating predictive statistical models.
+- Write a report (max 1,000 words) explaining and justifying each checklist item with references.
+- Apply that checklist to a published study that develops and validates a statistical model.
+- Submit: checklist, report, slides, recorded presentation, and a PDF of the chosen study.
+- One submission per group — all group members receive the same mark.
+- Record using Microsoft PowerPoint voiceover (or similar). No need to present live in class.
+
+*Professor's note: "If you have any kind of questions, you can email me before the class so I can actually find the solutions to the questions."*
+:::
+
 ---
 
 # Key Topics
 
-- Identifying and handling **missing data** in R
-- Visualising missing data patterns using the **VIM** and **summarytools** packages
-- Strategies for dealing with missing data: removal vs. imputation
-- Iterative imputation with **MICE** and **irmi()**
-- What **statistical power** means and why it matters
+This week covers two major themes:
+
+- Identifying missing values in R with `is.na()`, `which()`, `complete.cases()`, `na.omit()`
+- Summarising datasets and spotting missingness with the **summarytools** package
+- Visualising missing data patterns using the **VIM** package (`aggr`, `barMiss`, `histMiss`, `marginplot`)
+- Handling missing data: complete case analysis vs imputation
+- Iterative imputation with **`irmi()`** (VIM package)
+- Multiple imputation with the **MICE** package using predictive mean matching
+- The definition and meaning of **statistical power** (1 − β)
 - The four interconnected quantities in power analysis: sample size, effect size, α, and power
-- Calculating power manually for a Z-test
-- Using power analysis to determine required **sample size**
+- Calculating power manually for a one-sample Z-test
 - Linking power analysis to **confidence intervals** and **margins of error**
+- Deriving and applying the **sample size formula**
 
 ---
 
 # Part 1: Missing Data
 
-## Core Explanation
+## What Is Missing Data?
 
-### What Is Missing Data?
+In real-world datasets, it is very common to find that some values are not recorded. These are called **missing values**. In R, missing values are stored as `NA` — short for "Not Available."
 
-In real-world datasets, it is very common to find that some values are simply not recorded — these are called **missing values**, represented in R as `NA` (Not Available). Missing data can arise for many reasons: a participant dropped out of a study, a sensor failed to record, or a question was left blank on a survey.
+Missing data can happen for many reasons:
 
-Before doing any analysis, it is important to understand *how much* data is missing and *where* it is missing from, because this can significantly affect your results.
+- A survey participant skipped a question
+- A sensor failed to record a reading
+- A patient dropped out of a clinical trial
 
-### The Sleep Dataset
+**Why does this matter?** Because if you ignore missing data without thinking about it, your results may be wrong. Some methods in R quietly remove missing values — you need to understand when that is happening and whether it is safe to do so.
 
-The examples in this week's class used the **sleep dataset** — a study of sleep patterns across 39 mammal species (62 observations, 10 variables). This dataset was chosen because it has a realistic spread of missing values across several columns.
+::: {.callout-note}
+## 🧠 Analogy
 
-The variables in the dataset are:
+Think of a missing value like a blank in an exam paper. If you calculate the average score for the class and some students left questions blank, you need to decide: do you treat the blank as zero, skip that question entirely, or estimate what the student might have written? Each choice leads to a different average — and some choices are more honest than others.
+:::
 
-| Variable | Description |
-|----------|-------------|
-| `BodyWgt` | Body weight (kg) |
-| `BrainWgt` | Brain weight (kg) |
-| `NonD` | Non-dream sleep (hours/day) |
-| `Dream` | Dream sleep (hours/day) |
-| `Sleep` | Total sleep (NonD + Dream) |
-| `Span` | Max life span (years) |
-| `Gest` | Gestation time (days) |
-| `Pred` | Predation index (danger from predators) |
-| `Exp` | Sleep exposure index |
-| `Danger` | Overall danger index (1 = least, 5 = most) |
+---
 
-### Basic R Functions for Missing Data
+## R Functions for Missing Data
 
-When you only have a few missing values and no obvious patterns, R provides several straightforward tools:
+### Basic Functions
 
-```r
-is.na(x)               # Returns TRUE/FALSE for each value — is it missing?
-which(is.na(x))        # Tells you the *position* (index) of the NAs
-na.rm = TRUE           # Used inside functions like mean() to ignore NAs
-complete.cases(x)      # Returns TRUE for rows with no missing values
-na.omit(x)             # Removes all rows that contain any NA
+These functions are useful when you have **only a few missing values** and you know there is no systematic pattern to which values are missing.
+
+```{r}
+#| eval: false
+
+is.na(x)             # Returns TRUE/FALSE for each value — is it missing?
+which(is.na(x))      # Tells you the *position* (index number) of each NA
+na.rm = TRUE         # Used inside functions like mean() to skip NAs
+complete.cases(x)    # Returns TRUE for rows where all values are present
+na.omit(x)           # Removes all rows that contain at least one NA
 ```
 
-**Removing rows based on conditions:**
+::: {.callout-important}
+## ⭐ Professor's Note on These Functions
 
-```r
+*"These functions are useful when you only have a few missing data values. If your dataset is small enough, and you know that you only have a few missing values, or that you know that there's no missing data patterns within your dataset, then these functions can be useful."*
+
+— Paula Harrison
+:::
+
+### Removing Rows with Conditions
+
+```{r}
+#| eval: false
+
 # Remove rows where a specific column has NA
 df <- df[!is.na(df$specific_column), ]
 
@@ -68,305 +114,626 @@ df <- df[!is.na(df$specific_column), ]
 df <- df[!(is.na(df$col1) | is.na(df$col2)), ]
 ```
 
-### Summarising Your Data with `summarytools`
+::: {.callout-warning}
+## ⚠️ Common Mistake
 
-The `summarytools` package provides a quick way to see the distribution of each variable and spot where values are missing. It produces a **Data Frame Summary** table showing the mean, standard deviation, min/max, and the number of distinct valid values for each column.
+Beginners often just run `na.omit(df)` without checking what they are losing. If a column has 55% of its values missing, removing all rows with any NA in that column could dramatically shrink your dataset. Always check how many complete cases remain after removal.
 
-```r
+*Professor's note: "By eliminating Column 3 [which had 55% missing], we went from only 5 subjects with complete data to 12. So just by removing one column, we changed the completeness of the dataset — but we also changed the sample size. You would have to investigate the extent to which data is missing and make sure the data you have left is enough to be a truly representative sample."*
+:::
+
+---
+
+## The Sleep Dataset
+
+The examples this week use the **sleep dataset** — a classic study of sleep patterns across 39 mammal species (62 observations, 10 variables). This dataset is built into the VIM package and is a good example because it has a realistic spread of missing values.
+
+| Variable | Type | Description |
+|---|---|---|
+| `BodyWgt` | Continuous | Body weight (kg) |
+| `BrainWgt` | Continuous | Brain weight (kg) |
+| `NonD` | Continuous | Non-dream sleep (hours/day) |
+| `Dream` | Continuous | Dream sleep (hours/day) |
+| `Sleep` | Continuous | Total sleep = NonD + Dream (hours/day) |
+| `Span` | Continuous | Maximum life span (years) |
+| `Gest` | Continuous | Gestation time (days) |
+| `Pred` | Categorical | Predation index (danger from predators) |
+| `Exp` | Categorical | Sleep exposure index |
+| `Danger` | Categorical | Overall danger (1 = least, 5 = most) |
+
+*Reference: Allison & Chichetti (1976), Science 194(4266), 732–734.*
+
+::: {.callout-note}
+## 💡 Why NonD + Dream = Sleep?
+
+The `Sleep` variable is just the sum of `NonD` and `Dream`. This means if either of those two is missing, then `Sleep` will also be missing. This is an example of **structured** missing data — missingness in one variable causes missingness in another. The combination plot from `aggr()` reveals this pattern clearly.
+:::
+
+---
+
+## Summarising Data with `summarytools`
+
+The `summarytools` package provides a quick, readable summary of your entire dataset. It shows you the mean, standard deviation, min, max, distinct values, and number of valid (non-missing) observations for each column.
+
+```{r}
+#| eval: false
+
 library(summarytools)
 dfSummary(sleep)
 ```
 
-This is a good first step — it gives you a bird's-eye view of the entire dataset, including which variables have fewer valid values (a sign of missingness).
+This is a good **first step** in any analysis. If a column has fewer valid values than the total number of rows, that tells you there are missing values in that column.
+
+*Professor's note: "It's a useful package if you want to just quickly summarise your dataset — useful for seeing if it's skewed or normal, how many distinct values there are, the mean, standard deviation, median, max, IQR, coefficient of variance."*
 
 ---
 
-## Visualising Missing Data
+## Visualising Missing Data (VIM Package)
 
-The **VIM** package provides powerful tools specifically for exploring missing data visually. The key principle is that **red = missing** and **blue = complete** across all VIM plots.
+The **VIM** package provides specialised plots for exploring missing data. The key colour convention across all VIM plots is:
 
-### `aggr()` — Count and Plot Missingness
+- 🔴 **Red = Missing**
+- 🔵 **Blue = Complete**
 
-```r
+### `aggr()` — Count and Show Patterns of Missingness
+
+```{r}
+#| eval: false
+
 library(VIM)
 aggr(sleep, numbers = TRUE, prop = FALSE)
 ```
 
-This produces two plots:
-1. A **bar chart** showing how many values are missing per variable (e.g., `NonD` had ~14 missing values in the sleep dataset).
-2. A **combination plot** showing which *combinations* of variables tend to be missing together. For example, rows 31 and 62 both had `NonD`, `Dream`, and `Sleep` missing simultaneously — which makes sense because `Sleep = NonD + Dream`.
+This produces two plots side by side:
+
+**Left plot (bar chart):** How many values are missing in each variable. In the sleep data, `NonD` had ~14 missing values — the most of any variable.
+
+**Right plot (combination matrix):** Which variables tend to be missing **at the same time**. For example, the combination matrix showed that rows 31 and 62 both had `NonD`, `Dream`, and `Sleep` missing simultaneously. This makes sense because `Sleep = NonD + Dream`.
+
+::: {.callout-important}
+## ⭐ Always Double-Check Your Plots
+
+*Professor's note: "Don't assume that the results are correct. Just if you can, try to test to see if the results are correct. So I've taken this combination showing NonD, Dream and Sleep missing together — we know we have two rows where those three variables are missing at the same time, and I went back to the dataset and had a look to make sure that was correct."*
+
+Always verify surprising patterns by inspecting the actual rows in your data (e.g., `sleep[c(31, 62), ]`).
+:::
+
+---
 
 ### `barMiss()` — Missingness by a Categorical Variable
 
-```r
+Use this when you want to explore whether missingness in one variable is related to the **values** of a categorical variable.
+
+```{r}
+#| eval: false
+
 barMiss(sleep[, c("Exp", "Sleep")])
 ```
 
-Use this when you want to see whether missingness in one variable is related to the *values* of another variable. For the sleep data, `Sleep` had 4 missing values: 1 occurred when `Exp = 1`, and 3 occurred when `Exp = 5`. `Exp` itself had no missing values.
+**How to read this plot:** The x-axis shows categories of `Exp` (the exposure index). Each bar shows the total count of `Sleep` observations in that category. Red sections show how many `Sleep` values are missing within that category.
+
+**Findings for sleep data:**
+- `Sleep` had 4 missing values in total
+- 1 missing when `Exp = 1`
+- 3 missing when `Exp = 5`
+- `Exp` itself had **no missing values**
+
+The last column ("missing") shows how many `Exp` observations were missing — in this case, zero.
+
+---
 
 ### `histMiss()` — Missingness by a Continuous Variable
 
-```r
+This is the same idea as `barMiss()`, but for **continuous variables**, where a histogram is more appropriate than a bar chart.
+
+```{r}
+#| eval: false
+
 histMiss(sleep[, c("Span", "Sleep")])
 ```
 
-This is the same idea as `barMiss()` but for continuous variables, where a **histogram** is more appropriate. For the sleep data, the 4 missing `Sleep` values appeared in cases where `Span` was between 10–20 years and 20–30 years.
+**Findings for sleep data:**
+- `Sleep` had 4 missing values
+- 2 occurred when `Span` was between 10 and 20 years
+- 2 occurred when `Span` was between 20 and 30 years
+- `Span` itself had 4 missing values (shown in the separate "missing" bar on the right)
+
+---
 
 ### `marginplot()` — Comparing Distributions With and Without Missingness
 
-```r
+This is the most informative VIM plot. It shows a **scatterplot** of two variables, with extra boxplots added in the margins.
+
+```{r}
+#| eval: false
+
 marginplot(sleep[, c("Span", "Sleep")])
 ```
 
-This is one of the most informative plots. It shows a **scatter plot** of two variables, with extra boxplots in the margins:
+**How to read this plot:**
 
-- The **red boxplot** shows the distribution of `Sleep` *for cases where `Span` is missing* — i.e., what does `Sleep` look like when we don't know `Span`?
-- The **blue boxplot** shows the distribution of `Sleep` *for cases where `Span` is observed*.
+| Element | What it shows |
+|---|---|
+| 🔴 Red dots (bottom margin) | Number of missing observations in `Span` |
+| 🔴 Red dots (left margin) | Number of missing observations in `Sleep` |
+| 🔴 Red boxplot (left margin) | Distribution of `Sleep` **where `Span` is missing** |
+| 🔵 Blue boxplot (left margin) | Distribution of `Sleep` **where `Span` is observed** |
+| 🔴 Red boxplot (bottom margin) | Distribution of `Span` **where `Sleep` is missing** |
+| 🔵 Blue boxplot (bottom margin) | Distribution of `Span` **where `Sleep` is observed** |
+| Centre scatterplot | All observations with complete data for both variables |
 
-If the red and blue boxplots look very similar, it suggests the data may be **Missing At Random (MAR)** — the missingness is not related to the unobserved values. If they look very different, the missing data pattern may be informative.
+**Key question to ask:** Are the red and blue boxplots similar or different?
 
-> **Annotation space:** *How did the red and blue boxplots compare in the sleep example? What might that suggest about the missing data mechanism?*
+- If **similar** → the missingness of `Span` is not related to the values of `Sleep`. This is consistent with **Missing At Random (MAR)**.
+- If **different** → the missingness pattern may be informative, which could bias your analysis if you simply delete the missing rows.
+
+*Professor's note: "Blue is not missing, red is missing — and in the centre is just your standard scatterplot."*
 
 ---
 
 ## Dealing with Missing Data
 
-### Option 1: Complete Case Analysis (Listwise Deletion)
+### Option 1: Complete Case Analysis (Deleting Missing Rows)
 
-The simplest approach is to just remove any row that contains a missing value. In R's `lm()` function, this is actually the **default behaviour** — it automatically uses only complete cases.
+The simplest approach is to remove any row that contains a missing value and perform your analysis on only the complete rows.
 
-```r
-# These two are equivalent for linear regression:
+In R's `lm()` function, this is the **default behaviour** — it automatically uses only complete cases.
+
+```{r}
+#| eval: false
+
+# These two models give identical results:
 lm(Sleep ~ BodyWgt, data = sleep)
 lm(Sleep ~ BodyWgt, data = na.omit(sleep))
 ```
 
-Other related options:
+**Other related functions:**
 
-```r
-na.fail()     # Throws an error if any NAs are present — forces you to address it
-na.exclude()  # Like na.omit() but keeps NA slots in predictions
+```{r}
+#| eval: false
+
+na.fail()     # Throws an error if any NAs are present — forces you to address the issue
+na.exclude()  # Like na.omit() but keeps empty slots for NA predictions
 ```
 
-**When is this acceptable?** Only when the amount of missing data is small and there is no systematic pattern to *which* cases are missing. If certain types of cases are more likely to be missing, removing them can **bias** your results.
+::: {.callout-warning}
+## ⚠️ When is Complete Case Analysis Acceptable?
 
-### Option 2: Imputation with `irmi()` (VIM Package)
+Only when:
 
-**Imputation** means filling in the missing values with estimated values, rather than throwing the data away.
+1. The amount of missing data is **small**
+2. There is **no systematic pattern** to which cases are missing (i.e., the data is Missing Completely At Random, MCAR)
 
-The `irmi()` function uses **Iterative Robust Model-based Imputation**:
+If certain types of cases are more likely to be missing (e.g., sicker patients dropping out of a study), removing them introduces **bias** — your remaining sample no longer represents the full population.
 
-```r
+*Professor's note: "When you ask 'is it okay just to remove the data?' — it depends on your analysis, and if there is no missing data patterns. But you can see with this dataset how the complete cases improve by just removing one column. You would have to investigate the extent to which data is missing."*
+:::
+
+---
+
+### Option 2: Imputation with `irmi()` — Iterative Robust Model-Based Imputation
+
+**Imputation** means filling in missing values with estimated values — rather than discarding incomplete rows.
+
+The `irmi()` function in the **VIM package** does this through a series of regression models.
+
+```{r}
+#| eval: false
+
 library(VIM)
 imputed_sleep <- irmi(sleep)
 ```
 
-**How it works:**
-1. Take one variable (e.g., `NonD`) as the *response* variable.
-2. Use all other variables as *predictors* in a regression model.
-3. Use the predicted values from that model to fill in the missing `NonD` values.
-4. Repeat this process, cycling through each variable that has missing values.
-5. Continue iterating until the imputed values stabilise.
+**How `irmi()` works (step by step):**
 
-After imputation, you should **compare** linear model results before and after imputation to see how much the coefficients changed. In the sleep example, the intercept was slightly larger and the slope slightly less negative after imputation.
+1. Pick one variable (e.g., `NonD`) to be the **response** (outcome) variable.
+2. Use all other variables as **predictors** in a regression model.
+3. Where `NonD` is missing, use the predicted value from the regression as the imputed value.
+4. Move on to the next variable with missing values, and repeat.
+5. Keep cycling through all variables until the imputed values stabilise (i.e., stop changing much between iterations).
+
+*"Irmi — that is, Iterative Robust Model-Based Imputation. It basically runs iterative regression analysis in which each iteration uses one variable as the response variable and the remaining variables as the explanatory variables."*
+— Paula Harrison
+
+**After imputation, compare your models:**
+
+```{r}
+#| eval: false
+
+# Before imputation — uses complete cases only (42 of 62 rows)
+model_before <- lm(Sleep ~ BodyWgt, data = sleep)
+
+# After imputation — uses all 62 rows
+model_after  <- lm(Sleep ~ BodyWgt, data = imputed_sleep)
+
+summary(model_before)
+summary(model_after)
+```
+
+**Expected findings:** The intercept will be slightly larger for the imputed model, and the slope slightly less negative — because the imputed model now uses all 62 rows, not just the 42 complete cases.
+
+---
 
 ### Option 3: Multiple Imputation with MICE
 
-The **MICE** package (Multiple Imputation by Chained Equations) is a more sophisticated approach. Instead of imputing once, it creates **multiple** complete datasets (e.g., 5), fits a model to each one, and then **pools** the results.
+The **MICE** package (Multiple Imputation by Chained Equations) is more sophisticated. Instead of creating one imputed dataset, it creates **multiple** datasets (e.g., 5), fits a model to each one separately, and then **pools** (averages) the results.
 
-```r
+```{r}
+#| eval: false
+
 library(mice)
-imputed <- mice(sleep, m = 5, method = "pmm")  # pmm = predictive mean matching
+
+# Step 1: Create 5 imputed datasets using predictive mean matching
+imputed <- mice(sleep, m = 5, method = "pmm")
+
+# Step 2: Fit a linear model to each of the 5 datasets
 models  <- with(imputed, lm(Sleep ~ BodyWgt))
+
+# Step 3: Pool (average) the results across all 5 models
 pooled  <- pool(models)
 summary(pooled)
 ```
 
-**Predictive Mean Matching (PMM)** works by finding observed values that are close to the predicted value and using one of those as the imputed value. This keeps imputed values realistic (they come from real observed data).
+**What is predictive mean matching (PMM)?**
 
-The **predictor matrix** in MICE output tells you which variables were used to predict the missing values in each column.
+PMM works by:
+1. Predicting a value for the missing observation using a regression model.
+2. Finding a small set of **real observed values** that are closest to that prediction.
+3. Randomly choosing one of those real values as the imputed value.
 
-**Why does the pooled model have larger standard errors?** Because pooling across 5 datasets accounts for the *extra uncertainty* introduced by the fact that we don't truly know what the missing values are. This is actually more honest than a single imputation.
+This means imputed values are always **real values from your dataset** — they will never be unrealistically extreme.
 
-> **Annotation space:** *When would you choose MICE over irmi()? Think about dataset size, the proportion of missing data, and how much you care about uncertainty quantification.*
+::: {.callout-important}
+## ⭐ Why Are MICE Standard Errors Always Larger?
+
+*Professor's note: "The standard error is larger for the pooled model — it's always going to be larger — because it's including the extra uncertainty that we have created in our dataset due to the imputation values."*
+
+When we impute missing data, we are making an educated guess. The pooled standard errors are **larger** than those from a single imputed model because they account for the uncertainty introduced by not knowing the true values. This is more statistically **honest** than pretending our imputed values are perfectly correct.
+:::
+
+::: {.callout-note}
+## 💡 MICE vs irmi() — When to Use Which?
+
+| | `irmi()` | MICE |
+|---|---|---|
+| Number of imputed datasets | 1 | Multiple (default = 5) |
+| Accounts for imputation uncertainty? | No | Yes |
+| Pooled standard errors | Not available | Available |
+| Complexity | Simpler | More complex |
+| Best used when | Quick analysis, small data | Publication-quality results, large missing proportion |
+:::
 
 ---
 
 # Part 2: Power Analysis
 
-## Core Explanation
+## What Is Statistical Power?
 
-### What Is Statistical Power?
+When you run a hypothesis test, there are four possible outcomes — two correct decisions and two types of error:
 
-When you run a hypothesis test, there are two ways you can be wrong:
+| | H₀ is **True** | H₀ is **False** |
+|---|---|---|
+| **Reject H₀** | ❌ Type I error (probability = α) | ✅ Correct! (probability = **power** = 1 − β) |
+| **Fail to reject H₀** | ✅ Correct! (probability = 1 − α) | ❌ Type II error (probability = β) |
 
-| Decision | H₀ is True | H₀ is False |
-|----------|------------|-------------|
-| **Reject H₀** | Type I error (probability = α) | ✅ Correct! (probability = power = 1 − β) |
-| **Fail to reject H₀** | ✅ Correct! (probability = 1 − α) | Type II error (probability = β) |
-
-**Statistical power** is defined as:
+**Statistical power** is the probability that your test will **correctly detect a real effect** when one truly exists:
 
 $$\text{Power} = 1 - \beta = P(\text{reject } H_0 \mid H_0 \text{ is false})$$
 
-In plain English: power is the probability that your test will correctly detect a real effect when one actually exists. A higher power means a better, more sensitive test.
+In plain English: if there is a real difference, how likely is your test to find it?
 
-### The Four Interconnected Quantities
+::: {.callout-note}
+## 🧠 Analogy
 
-Power analysis is built on the relationship between four quantities. **If you know any three, you can calculate the fourth:**
+Think of power like the sensitivity of a metal detector on a beach. A low-power detector might only find a large coin buried 2 cm deep. A high-power detector will find a small earring buried 30 cm deep. If you want to detect small or subtle effects, you need a high-power test — and that usually means a larger sample.
+:::
 
-1. **Sample size** $n$ — larger samples give more power
-2. **Effect size** — the size of the difference you're trying to detect (larger effects are easier to detect)
-3. **Significance level** $\alpha$ — the threshold for rejecting $H_0$ (typically 0.05)
-4. **Power** $1 - \beta$ — typically you aim for at least 0.80 (80%)
-
-> **Important caveat:** In practice, you cannot know the *true* effect size — if you already knew the true difference, there would be no need to test! Instead, you define the **minimum effect size of practical importance** (the smallest difference that would actually matter for your application).
+*Professor's note: "The statistical power of the hypothesis test is defined to be the probability of rejecting the null hypothesis when it is false. So 1 minus beta. So basically, to get the correct result."*
 
 ---
 
-## Key Equations / Formulas
+## The Four Interconnected Quantities
 
-### Z-Test Statistic (known population standard deviation)
+Power analysis is built on the relationship between four quantities. **If you know any three, you can calculate the fourth:**
 
-$$Z_{stat} = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}}$$
+| Quantity | Symbol | Typical default |
+|---|---|---|
+| Sample size | n | Chosen based on budget/feasibility |
+| Effect size | δ | The minimum meaningful difference |
+| Significance level (Type I error rate) | α | 0.05 |
+| Power (1 − Type II error rate) | 1 − β | ≥ 0.80 |
 
-### Minimum Sample Mean to Reject $H_0$
+::: {.callout-important}
+## ⭐ You Cannot Know the True Effect Size
 
-$$\bar{X}_{crit} = \mu + \frac{\sigma}{\sqrt{n}} \times Z_{crit}$$
+*Professor's note: "In reality, it's not possible to know the true effect size. Because we don't generally know the true population mean. So we don't know what the true difference is that we're looking for. So what we are going to choose instead is to have a minimum effect size — what is the minimum difference in means that we're willing to accept as a practical difference?"*
 
-### Power Calculation
+In practice, you define the **minimum effect size of practical importance** — the smallest difference that would actually matter for your application. This comes from prior research, expert knowledge, or clinical guidelines.
+:::
 
-Once you have $\bar{X}_{crit}$, calculate the probability of exceeding it under the alternative hypothesis:
+---
+
+## Clinical vs Statistical Significance
+
+**Statistical significance** means your test produced a p-value below α — the result is unlikely to be due to random chance.
+
+**Clinical (or practical) significance** means the size of the effect is large enough to matter in the real world.
+
+::: {.callout-note}
+## 💡 The Fethney (2010) Example
+
+This paper (available on Canvas) gives a real example of defining a minimum effect size.
+
+Premature infants were randomly assigned to one of two treatment groups across four weight-gain interventions. Group A received the intervention; Group B received standard treatment. Weights were compared using the Mann-Whitney U-test.
+
+The researchers decided in advance that **a weight gain difference of 500 grams or more** would be clinically significant. A negative lower confidence interval limit would indicate weight loss.
+
+*Professor's note: "They have decided, based on previous research and knowledge, that the minimum difference that they want is 500 grams. So 500 grams is the minimum that we need in order for us to reject the null hypothesis."*
+
+**Key lesson:** Before collecting data, you should define what size of difference you actually care about detecting.
+:::
+
+---
+
+## Key Formulas
+
+### Z-Test Statistic (Population Standard Deviation Known)
+
+$$Z_{stat} = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}}$$
+
+- $\bar{x}$ = sample mean
+- $\mu_0$ = the null hypothesis value of the population mean
+- $\sigma$ = known population standard deviation
+- $n$ = sample size
+
+### Critical Sample Mean (Threshold for Rejecting H₀)
+
+$$\bar{X}_{crit} = \mu_0 + \frac{\sigma}{\sqrt{n}} \times Z_{crit}$$
+
+If the sample mean exceeds $\bar{X}_{crit}$, we reject H₀.
+
+### Calculating β (Probability of Type II Error)
+
+Once you have $\bar{X}_{crit}$, calculate the probability that the sample mean falls below it **under the alternative hypothesis** (i.e., assuming the true mean is $\mu_A$):
 
 $$\beta = P\left(\bar{X} < \bar{X}_{crit} \mid \mu = \mu_A\right) = P\left(Z < \frac{\bar{X}_{crit} - \mu_A}{\sigma / \sqrt{n}}\right)$$
 
 $$\text{Power} = 1 - \beta$$
 
-### Sample Size Formula (known σ, from margin of error)
+### Sample Size Formula — Known σ (from Confidence Interval Margin of Error)
 
-$$n = \left(\frac{Z_{\alpha/2} \times \sigma}{ME}\right)^2$$
+$$ME = Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}} \quad \Rightarrow \quad n = \left(\frac{Z_{\alpha/2} \times \sigma}{ME}\right)^2$$
 
-### Sample Size Formula (unknown σ, using t-distribution)
+::: {.callout-warning}
+## ⚠️ Always Round Sample Size **Up**
+
+If your formula gives n = 77.8, your sample size is **78**, not 77. You cannot sample a fraction of a person (or resistor, or container). Always round up to the next whole number.
+
+*Professor's note: "You can't sample 77.8 units, so what is the sample size that you need? 78 — you would always go one up, yeah. Just round up."*
+:::
+
+### Sample Size Formula — Unknown σ (t-Distribution)
+
+When the population standard deviation is unknown, use the sample standard deviation $s$ and the t-distribution:
 
 $$n = \left(\frac{t_{\alpha/2,\, n-1} \times s}{ME}\right)^2$$
 
-*(Note: this requires iteration since $t$ depends on $n$)*
+Note: this requires **iteration** because $t_{n-1}$ depends on $n$ — start with an initial estimate, then recalculate.
 
 ---
 
-## Practical Example — Chemical Company
+## Worked Example — Chemical Company
 
 ### Problem Setup
 
-A chemical company claims their product contains on average **μ = 4.0 ml** of caustic material per litre. A government inspector tests a sample of **n = 30** containers and finds:
+A chemical company claims their product contains on average **μ₀ = 4.0 ml** of caustic material per litre. If the true mean exceeds 4.0, the product is dangerous.
+
+A government inspector tests **n = 30** containers and finds:
 - Sample mean: $\bar{x} = 4.3$ ml
-- Known population standard deviation: $\sigma = 1.3$
+- Known population standard deviation: $\sigma = 1.3$ ml
 
 ### Step 1: State the Hypotheses
 
-Since the product is only dangerous if it contains *more* than 4.0 ml, this is a **one-tailed test**:
+The product is only dangerous if it contains **more than** 4.0 ml — so this is a **one-tailed test** (right-tailed):
 
-$$H_0: \mu = 4.0 \quad \text{vs.} \quad H_A: \mu > 4.0$$
+$$H_0: \mu = 4.0 \qquad H_A: \mu > 4.0$$
 
-### Step 2: Type I and Type II Errors in Context
+### Step 2: Identify the Error Types in Context
 
-- **Type I error:** Concluding the mean *is* greater than 4 ml when it actually isn't — falsely accusing the company.
-- **Type II error:** Concluding the mean is *not* greater than 4 ml when it actually is — missing a genuine danger.
+- **Type I error (α):** Concluding the mean is greater than 4.0 ml when it actually is not. The inspector falsely accuses the company.
+- **Type II error (β):** Concluding the mean is not greater than 4.0 ml when it actually is. The inspector misses a genuine danger.
 
-### Step 3: Conduct the Test (α = 0.05)
+*Professor's note: "You can never say that the null hypothesis is true — it's just that we haven't disproved the null hypothesis. And we can't say that the alternative hypothesis is true either. We can just say that it's more likely."*
+
+### Step 3: Conduct the Hypothesis Test (α = 0.05)
 
 $$Z_{stat} = \frac{4.3 - 4.0}{1.3 / \sqrt{30}} = \frac{0.3}{0.2374} = 1.264$$
 
-- Critical value for a one-tailed test at α = 0.05: $Z_{crit} = 1.645$
-- Since $Z_{stat} = 1.264 < 1.645$, we **fail to reject $H_0$**
-- The p-value is 0.103 > 0.05, confirming this conclusion
-- 95% lower bound: 3.910 (we are 95% confident the true mean is above 3.910 ml)
+For a one-tailed test at α = 0.05, the critical value is $Z_{crit} = 1.645$.
 
-**Conclusion:** The data does not provide sufficient evidence that the mean caustic level exceeds 4 ml/litre.
+Since $Z_{stat} = 1.264 < 1.645$, we **fail to reject H₀**.
+
+The p-value is 0.103 > 0.05, confirming this decision.
+
+**Conclusion:** The data does not provide sufficient evidence to conclude that the mean level of caustic material exceeds 4 ml per litre.
+
+The 95% lower bound is 3.910 — we are 95% confident that the true mean is greater than 3.910 ml.
+
+::: {.callout-important}
+## ⭐ Professor's Decision Rule (Critical Value Method)
+
+*"If the test statistic is greater than the critical value, we reject. If it's less than, we fail to reject the critical value. So if the Z score is less than 1.645, which it is in this case, then our decision is that we fail to reject the null hypothesis."*
+
+**Summary:**
+- $Z_{stat} > Z_{crit}$ → Reject H₀
+- $Z_{stat} < Z_{crit}$ → Fail to reject H₀
+:::
 
 ### Step 4: Calculate the Power of the Test
 
-Now ask: *Was our sample large enough to detect a meaningful difference?*
+The test did not find a significant result — but **was the sample large enough to detect a real difference?**
 
-Suppose we define a difference of **0.35 ml/litre** as practically significant — i.e., we want to detect if the true mean is **μ_A = 4.35**.
+Suppose a difference of **0.35 ml/litre** is practically important — i.e., we want to detect if the true mean is $\mu_A = 4.35$.
 
-**Find the critical sample mean (threshold for rejection):**
+**Find the critical sample mean (rejection threshold):**
 
 $$\bar{X}_{crit} = 4.0 + \frac{1.3}{\sqrt{30}} \times 1.645 = 4.0 + 0.39 = 4.39$$
 
-So we only reject $H_0$ if the sample mean exceeds 4.39.
+We only reject H₀ if the sample mean exceeds **4.39 ml**.
 
-**Calculate β (probability of Type II error):**
+**Calculate β (probability of Type II error under μ_A = 4.35):**
 
 $$\beta = P(\bar{X} < 4.39 \mid \mu = 4.35) = P\left(Z < \frac{4.39 - 4.35}{1.3/\sqrt{30}}\right) = P(Z < 0.17) = 0.5675$$
 
 **Power:**
 
-$$\text{Power} = 1 - 0.5675 = \mathbf{0.4325}$$
+$$\text{Power} = 1 - 0.5675 = \mathbf{0.4325} \approx 43.25\%$$
 
-**Interpretation:** There is only a **43.25% chance** of correctly detecting a 0.35 ml difference with n = 30. This is quite low — the test is underpowered. We would ideally want power ≥ 0.80.
+**Interpretation:** There is only a 43% chance of correctly detecting a 0.35 ml difference with n = 30. This is quite low — the test is **underpowered**. We would ideally want power ≥ 0.80.
 
-> **Annotation space:** *What would you recommend the inspector do? Collect a larger sample? Define a larger minimum effect size? Both options involve trade-offs.*
+::: {.callout-important}
+## ⭐ What Low Power Means
+
+*Professor's note: "There's a greater chance that we're going to commit a Type 2 error. The probability is higher for committing a Type 2 error over a Type 1 error. And that could be because the sample size is small. Maybe it's to do with the difference that we are looking to see — the 0.35 could be to do with that."*
+
+A test result of "fail to reject" is **not the same as proof that there is no effect**. It might just mean your sample was too small to detect the effect you were looking for.
+:::
 
 ---
 
 ## Sample Size from Margin of Error
 
-Power analysis is closely linked to **confidence intervals**. The margin of error (ME) in a confidence interval is:
+Power analysis connects directly to confidence interval precision. The margin of error (ME) in a confidence interval is:
 
 $$ME = Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}$$
 
-Rearranging to find the required sample size for a desired ME:
+Rearranging to solve for the required sample size:
 
 $$n = \left(\frac{Z_{\alpha/2} \times \sigma}{ME}\right)^2$$
 
-**Example:** An analyst wants to estimate mean voltage (σ = 22.5 volts) with a margin of error of **5 volts** at 95% confidence:
+### Worked Example: Resistor Voltage
 
-$$n = \left(\frac{1.96 \times 22.5}{5}\right)^2 = (8.82)^2 \approx 78 \text{ observations}$$
+An analyst wants to estimate the mean voltage of resistors. The population standard deviation is **σ = 22.5 volts**. What sample size is needed to achieve a margin of error of **5 volts** at a **95% confidence level** (two-sided)?
 
-When $\sigma$ is **unknown**, replace $Z$ with the $t$-distribution critical value and $\sigma$ with the sample standard deviation $s$.
-
----
-
-# Summary Points
-
-- **Missing data** is common in real datasets — before removing or imputing, always visualise and understand the pattern.
-- The **VIM** package functions (`aggr`, `barMiss`, `histMiss`, `marginplot`) help you explore *where* and *why* data is missing.
-- **Complete case analysis** (`na.omit`) is simple but can bias results if the missing data is not random.
-- **`irmi()`** performs iterative regression-based imputation; **MICE** performs multiple imputation and is more robust for uncertainty quantification.
-- **Statistical power** (1 − β) is the probability of correctly detecting a real effect — aim for at least 0.80.
-- Power depends on **four quantities**: sample size, effect size, α, and power (1 − β). Know three, find the fourth.
-- Low power (like 43% in the example) means a test may fail to detect a real, meaningful difference — the sample was simply too small.
-- You can use the **margin of error** formula to calculate the minimum sample size needed for a given precision, whether σ is known (Z-formula) or unknown (t-formula).
+$$n = \left(\frac{1.96 \times 22.5}{5}\right)^2 = \left(\frac{44.1}{5}\right)^2 = (8.82)^2 = 77.8 \approx \mathbf{78}$$
 
 ---
 
-# Exercises to Try
+# Exercise Sheet Integration
 
-1. Recalculate the power of the caustic material test if the minimum detectable increase is **0.1 ml** instead of 0.35 ml. *(Answer: 0.1112)*
-2. An analyst wants to estimate mean voltage (σ = 22.5 volts). What sample size achieves a margin of error of **5 volts** at 95% confidence for a two-sided CI? *(Answer: n = 78)*
-3. In the sleep dataset, which variable had the most missing values? Use `aggr()` to verify.
-4. Why does the pooled MICE model have **larger standard errors** than the individual imputed models?
+| Scenario | Key Concept | Formula / Method |
+|---|---|---|
+| Inspector tests caustic material (n = 30, σ known) | One-sample Z-test, Type I and II errors | $Z_{stat} = (\bar{x} - \mu) / (\sigma/\sqrt{n})$ |
+| Recalculate power for 0.1 ml increase | Low effect size → lower power | $\beta = P(Z < (4.39 - 4.10)/(1.3/\sqrt{30}))$ → power = 0.1112 |
+| Estimate mean voltage with ME = 5 volts | Sample size from margin of error | $n = (Z_{\alpha/2} \times \sigma / ME)^2 = 78$ |
+| σ unknown, need sample size | t-distribution formula | $n = (t_{\alpha/2,n-1} \times s / ME)^2$ (iterative) |
+| Sleep data with `aggr()` | Identify most missing variable | NonD had the most missing values (~14) |
+| Pool 5 MICE models | Why are SEs larger? | Extra uncertainty from imputation |
 
 ---
 
-<!-- 
-  ============================================================
-  ADDITIONAL NOTES SPACE
-  Use this section to add your own reflections, links to 
-  further reading, or questions to ask in the next class.
-  ============================================================
+# Practice Questions with Answers
 
-  My notes:
-  
-  
-  
-  Questions for class:
-  
-  
-  
-  Links / references:
-  
-  
-  ============================================================
--->
+::: {.callout-important}
+## ⭐ Practice Question 1
+
+Recalculate the power of the caustic material test if the minimum detectable increase is **0.1 ml** instead of 0.35 ml.
+
+**Answer:**
+
+1. $\bar{X}_{crit} = 4.39$ (unchanged — same H₀, n, σ, α)
+2. $\mu_A = 4.0 + 0.1 = 4.10$
+3. $Z = (4.39 - 4.10) / (1.3/\sqrt{30}) = 0.29 / 0.2374 = 1.22$
+4. $\beta = P(Z < 1.22) = 0.8888$
+5. Power $= 1 - 0.8888 = \mathbf{0.1112}$ ≈ 11.1%
+
+This is even lower than before — because we are trying to detect a smaller difference (0.1 ml vs 0.35 ml) with the same small sample.
+:::
+
+::: {.callout-important}
+## ⭐ Practice Question 2
+
+An analyst wants to estimate the mean voltage of resistors (σ = 22.5 volts). What sample size achieves a margin of error of 5 volts at 95% confidence for a two-sided CI?
+
+**Answer:** n = (1.96 × 22.5 / 5)² = 77.8 → rounded up to **n = 78**
+:::
+
+---
+
+# Summary Checklist
+
+- ✅ Missing values in R are stored as `NA`. Use `is.na()`, `which()`, `complete.cases()`, and `na.omit()` to locate and remove them.
+- ✅ Always visualise missing data before deciding how to handle it. The VIM functions `aggr()`, `barMiss()`, `histMiss()`, and `marginplot()` are your main tools.
+- ✅ Red = missing, Blue = complete in all VIM plots.
+- ✅ Complete case analysis (`na.omit`) is the default in `lm()`. It is only safe when data is missing completely at random and the proportion is small.
+- ✅ `irmi()` does iterative regression-based imputation. It creates one complete dataset.
+- ✅ MICE creates multiple imputed datasets, fits models to each, and pools results. The pooled standard errors are always larger — this is correct, not a mistake.
+- ✅ **Statistical power = 1 − β** = probability of correctly detecting a real effect. Aim for ≥ 0.80.
+- ✅ The four quantities in power analysis are: sample size (n), effect size, α, and power. Know three, find the fourth.
+- ✅ In practice, you cannot know the true effect size. Define the **minimum practically important effect size** instead.
+- ✅ Low power (like 43% in the caustic example) means the test may fail to detect a real, meaningful difference — usually because n is too small.
+- ✅ Sample size formula (known σ): $n = (Z_{\alpha/2} \times \sigma / ME)^2$. Always round **up**.
+- ✅ If σ is unknown, use the t-distribution formula: $n = (t_{\alpha/2,n-1} \times s / ME)^2$ (requires iteration).
+- ✅ The final exam is **on campus**, not on Canvas.
+
+---
+
+# Pre-Topic Checklist
+
+Before moving to Week 4, you should be able to:
+
+- [ ] Explain what an `NA` is in R and name three functions to handle missing values
+- [ ] Use `summarytools::dfSummary()` to summarise a dataset and identify which columns have missing values
+- [ ] Use `VIM::aggr()` to count missing values and identify which variable has the most
+- [ ] Read a combination matrix and identify which variables are missing simultaneously
+- [ ] Choose between `barMiss()` and `histMiss()` based on whether the grouping variable is categorical or continuous
+- [ ] Interpret a `marginplot()` and explain what the red and blue boxplots represent
+- [ ] Decide when complete case analysis is and is not appropriate
+- [ ] Explain how `irmi()` works (iterative regression imputation)
+- [ ] Explain what MICE does differently from `irmi()` and why its standard errors are larger
+- [ ] Define statistical power in plain English
+- [ ] Name the four interconnected quantities in power analysis
+- [ ] Explain why we use a minimum effect size of practical importance (not the true effect size)
+- [ ] Calculate $Z_{stat}$ for a one-sample Z-test and make a reject/fail-to-reject decision
+- [ ] Calculate the power of a Z-test given μ₀, μ_A, σ, n, and α
+- [ ] Calculate the required sample size for a given margin of error (known σ, Z formula)
+- [ ] Explain why sample size answers must always be rounded **up**
+
+---
+
+# Additional Resources
+
+| Resource | Where to Find It |
+|---|---|
+| Fethney (2010) — statistical vs clinical significance | Canvas |
+| R script for missing data (VIM, summarytools, mice) | Canvas |
+| R script for power analysis | Canvas |
+| Standard normal (Z) tables — two versions | Canvas |
+| The sleep dataset | Built into the VIM package in R |
+
+---
+
+# Annotation Space
+
+```
+============================================================
+MY NOTES — Week 3
+============================================================
+
+Questions from this week:
+
+
+
+
+Key things I want to remember:
+
+
+
+
+Things to review before the exam:
+
+
+
+
+============================================================
+```

@@ -1,0 +1,404 @@
+---
+title: "STAT9013 — Week 9 Study Guide"
+subtitle: "Data Mining and Visualisation"
+---
+
+> 📝 **How to use this guide:** Read each section slowly. Important words are in **bold**. Code examples are in grey boxes. Leave space after each section to add your own notes!
+
+---
+
+# Key Topics This Week
+
+- **Review from Week 8** — Collaborative filtering recap, dimensionality reduction (PCA), outlier detection, graph analytics
+- **Linear Discriminant Analysis (LDA)** — A supervised method to separate classes using a straight line
+- **Quadratic Discriminant Analysis (QDA)** — Like LDA but uses curved boundaries
+- **Ridge Regression** — Regression with a penalty to reduce large coefficients
+- **Lasso Regression** — Like Ridge but can remove variables completely
+- **Productionising Machine Learning** — How to bring your model into the real world
+
+---
+
+# Part 1: Review from Week 8
+
+## Collaborative Filtering (Recap)
+
+**Collaborative filtering** is a method used to recommend items (like movies, products) to users. It works by comparing similar users or similar items.
+
+There are two main types:
+
+- **User-based collaborative filtering** — If two users have rated the same movies similarly, we can predict what one user would think of a movie the other has seen.
+- **Item-based collaborative filtering** — If two movies have similar ratings from users, we can predict a user's rating for a new movie based on how they rated similar ones.
+
+### Sparse Matrix
+
+The movie dataset has 943 users and 1,664 movies. But most users have only watched a small number of movies. This means most cells in the data table are empty (zero). This is called a **sparse matrix**.
+
+> 💡 **Why does this matter?** Storing all those empty cells wastes memory. A sparse matrix only stores the cells that have actual values, saving a lot of space.
+
+### Normalising Ratings
+
+Different people rate things differently. Some people only give 4 or 5 stars for everything. Others give low ratings for most things. To make comparisons fair, we **normalise** the ratings so that everyone's average score becomes 0, with positive values meaning "liked it" and negative values meaning "did not like it."
+
+### Accuracy Metrics
+
+We measure how good the recommendation engine is using:
+
+- **MAE (Mean Absolute Error)** — The average difference between predicted and actual rating. A value of ~0.98 means predictions are off by about 1 star on a 1–5 scale.
+- **RMSE (Root Mean Squared Error)** — Similar to MAE but penalises bigger mistakes more.
+
+> 📝 *Your notes here:*
+
+---
+
+## Dimensionality Reduction and PCA (Recap)
+
+**Dimensionality reduction** means taking a dataset with many columns and creating a new, smaller version that still keeps most of the important information.
+
+**PCA (Principal Component Analysis)** is the most common way to do this. It creates new columns called **principal components** that are combinations of the original columns. Each new component is **orthogonal** (at 90 degrees) to the previous one, meaning they each capture different information.
+
+### The MNIST Dataset
+
+This is a famous dataset of 70,000 handwritten digit images (0–9), each stored as a 28×28 pixel grid. That gives 784 numbers (columns) per image.
+
+By applying PCA and keeping only the first **96 principal components**, we can represent the data with **only 15% of the original columns** while keeping **80% of the information**.
+
+Then we can run a classification model (like logistic regression) on this reduced data and still get ~**97% accuracy** classifying digits 5 vs. 6.
+
+> 💡 **Key rule:** Always apply PCA to the *training data only*, then use that same PCA transformation on the test data. Never apply PCA to the full dataset before splitting!
+
+> 📝 *Your notes here:*
+
+---
+
+# Part 2: Linear Discriminant Analysis (LDA)
+
+## What is LDA?
+
+**Linear Discriminant Analysis (LDA)** is a **supervised** machine learning method used for **classification**. This is different from PCA, which is *unsupervised* (it does not use labels).
+
+LDA looks at the labels (the classes) and tries to find a new way to represent the data that:
+
+1. **Maximises the separation between different classes** (makes them as far apart as possible)
+2. **Minimises the variation within each class** (keeps each group tightly packed)
+
+> 💡 **Think of it like K-means clustering**, which also tries to maximise separation between groups and minimise spread within each group — but LDA does this using the known labels.
+
+## When Does LDA Work Best?
+
+LDA has certain **assumptions** (conditions it needs to work well):
+
+- The predictor variables should be **continuous** (numbers, not categories)
+- The data should be **approximately normally distributed** within each class
+- All classes should share a **similar covariance matrix** (similar spread)
+
+## LDA Output
+
+When you run LDA in R, you get:
+
+- **Discriminant functions (LD1, LD2, ...)** — These are like the principal components of PCA, but they use the class labels. LD1 explains the most separation between classes.
+- **Scaling coefficients** — These tell you how important each variable is to each discriminant function.
+- **Posterior probabilities** — For each prediction, LDA tells you how confident it is (e.g., 95% sure this is class A).
+
+## R Code Example
+
+```r
+library(MASS)
+
+# Train/test split (90% train, 10% test)
+set.seed(42)
+iris <- iris[sample(nrow(iris), nrow(iris)), ]
+trainIndex <- 1:round(0.9 * nrow(iris))
+trainData  <- iris[trainIndex, ]
+testData   <- iris[-trainIndex, ]
+
+# Fit the LDA model
+lda_model <- lda(Species ~ ., data = trainData)
+lda_model  # View output: scaling, group means, etc.
+
+# Predict on test data
+predictions <- predict(lda_model, testData)
+table(predictions$class, testData$Species)  # Confusion matrix
+```
+
+> 📝 *Your notes here:*
+
+---
+
+# Part 3: Quadratic Discriminant Analysis (QDA)
+
+## What is QDA?
+
+**Quadratic Discriminant Analysis (QDA)** is very similar to LDA, but with one important difference:
+
+| | LDA | QDA |
+|---|---|---|
+| Covariance matrix | **Shared** across all classes | **Separate** for each class |
+| Decision boundary | Straight line (**linear**) | Curved (**quadratic**) |
+| Flexibility | Lower | Higher |
+| Risk of overfitting | Lower | Higher |
+| Data needed | Less | More |
+
+Because QDA fits a separate covariance matrix for each class, its decision boundaries can take on curves. This means it can capture more complex patterns in the data.
+
+## When to Use QDA vs. LDA?
+
+Use **QDA** when:
+- The decision boundaries between classes are clearly **not straight lines**
+- The different classes have **different spreads** (covariance matrices)
+- You have a **large dataset** (more data is needed to avoid overfitting)
+
+Use **LDA** when:
+- Classes have **similar spreads**
+- You have **less data**
+- You want a **simpler, safer model**
+
+> 💡 **Practical tip:** Always run *both* LDA and QDA. If their accuracy is similar, choose LDA — it is simpler and less likely to overfit. Only choose QDA if it clearly performs better.
+
+## Bias–Variance Connection
+
+This connects back to the **bias–variance trade-off** from Week 4:
+
+- **LDA** = lower flexibility = higher bias (may underfit), lower variance
+- **QDA** = higher flexibility = lower bias, higher variance (may overfit)
+
+## R Code Example
+
+```r
+# Fit QDA model (only change is qda() instead of lda())
+qda_model <- qda(Species ~ ., data = trainData)
+qda_model  # Now shows separate covariance for each class
+
+# Predict
+pred_qda <- predict(qda_model, testData)
+table(pred_qda$class, testData$Species)
+```
+
+> 📝 *Your notes here:*
+
+---
+
+# Part 4: Ridge Regression
+
+## The Problem: Correlated Predictors
+
+In regular linear or logistic regression, if two or more predictor variables are **correlated** with each other (they carry similar information), the model's coefficients can become very large and **unstable**. This makes predictions unreliable.
+
+**Ridge Regression** solves this by adding a **penalty** to the model that discourages large coefficients.
+
+## How Ridge Regression Works
+
+Instead of only minimising the **residual sum of squares (RSS)** like regular regression, Ridge also adds a penalty:
+
+```
+Ridge Loss = RSS + λ × (sum of squared coefficients)
+```
+
+- **λ (lambda)** — Controls how strong the penalty is. A higher lambda = more shrinkage.
+- Because coefficients are squared in the penalty, large coefficients are penalised much more strongly.
+- Ridge **shrinks** coefficients towards zero but **never sets them exactly to zero**. All variables remain in the model.
+
+> 💡 **Key difference from Lasso:** Ridge keeps all variables. Lasso can completely remove variables (set them to zero).
+
+## Finding the Best Lambda
+
+We use **cross-validation** to find the best lambda value — this is done automatically with `cv.glmnet()` in R.
+
+## R Code Example (Titanic Dataset)
+
+```r
+library(glmnet)
+
+# Convert data to matrix format (required by glmnet)
+x_train <- model.matrix(Survived ~ ., data = trainData)[, -1]
+x_test  <- model.matrix(Survived ~ ., data = testData)[, -1]
+y_train <- trainData$Survived
+
+# alpha = 0 means Ridge Regression
+cv_ridge <- cv.glmnet(x_train, y_train, alpha = 0, family = "binomial")
+
+# Best lambda value
+lambda_min <- cv_ridge$lambda.min
+
+# View coefficients
+coef(cv_ridge, s = "lambda.min")
+
+# Predict on test data
+pred_prob  <- predict(cv_ridge, x_test, s = "lambda.min", type = "response")
+pred_class <- ifelse(pred_prob > 0.5, 1, 0)
+
+# Confusion matrix and accuracy
+table(pred_class, testData$Survived)
+```
+
+> ⚠️ **Important note:** The `model.matrix()` function automatically converts categorical variables (like sex, embarked) into **numeric dummy variables** using one-hot encoding. Make sure categorical columns are set as `factor` before this step!
+
+> 📝 *Your notes here:*
+
+---
+
+# Part 5: Lasso Regression
+
+## How Lasso Is Different from Ridge
+
+**Lasso Regression** (Least Absolute Shrinkage and Selection Operator) is very similar to Ridge, but uses a different penalty:
+
+```
+Lasso Loss = RSS + λ × (sum of absolute values of coefficients)
+```
+
+The key difference:
+
+| | Ridge | Lasso |
+|---|---|---|
+| Penalty type | L2 (squares coefficients) | L1 (absolute value) |
+| Effect on coefficients | Shrinks toward zero | Can set exactly to zero |
+| Variable selection | **No** — keeps all variables | **Yes** — removes variables |
+| Best when | Many correlated predictors | Many irrelevant predictors |
+
+> 💡 **Think of Lasso as automatic variable selection.** If a variable is not useful, Lasso can eliminate it from the model entirely by setting its coefficient to exactly zero.
+
+## R Code Example
+
+```r
+# alpha = 1 means Lasso Regression (only change from Ridge!)
+cv_lasso <- cv.glmnet(x_train, y_train, alpha = 1, family = "binomial")
+
+lambda_min_lasso <- cv_lasso$lambda.min
+
+# Coefficients — some will be exactly 0 (those variables removed)
+coef(cv_lasso, s = "lambda.min")
+
+# Predict
+pred_lasso <- predict(cv_lasso, x_test, s = "lambda.min", type = "response")
+pred_class_lasso <- ifelse(pred_lasso > 0.5, 1, 0)
+
+table(pred_class_lasso, testData$Survived)
+```
+
+> 📝 *Your notes here:*
+
+---
+
+# Part 6: Productionising Machine Learning
+
+## What Does "Productionising" Mean?
+
+**Productionising** a machine learning model means taking a model you built and making it available for real use inside a company or application. This is much more than just building a good model — it involves engineering, operations, and careful planning.
+
+> 💡 Studies show that **80–90% of machine learning models that are developed are never used in production.** Understanding how to deploy models is a critical skill.
+
+## Levels of Deployment (from Simple to Complex)
+
+### Level 1: Exploratory Data Analysis Report
+
+The simplest output. You give someone a **PowerPoint presentation or PDF report** with your analysis and visualisations. This is passive — you create it once and give it to someone.
+
+> 💡 **Real-world lesson:** If you notice that the data has serious problems (like many missing values for an important variable), do NOT just accept it! Go back and ask the data owners why the data is incomplete. In academia you work with the data you are given, but in industry you should always ask questions.
+
+### Level 2: Dashboard or Scheduled Report
+
+A **dashboard** (like in R Shiny) allows users to interact with the data. A **scheduled report** is automatically regenerated daily or weekly with updated data and sent by email.
+
+> 💡 **Important:** Dashboards are often more trusted by executives than machine learning models, because dashboards have been around longer and people rely on them for decisions. If your model says one thing and the dashboard says another, people will often believe the dashboard. So always understand what dashboards already exist in a company!
+
+### Level 3: Batch Predictions in a Database
+
+The model runs on a schedule (e.g., every night or every hour), generates predictions, and **stores them in a database**. When a user opens a website, the recommendation they see was already calculated and stored in the database — it is not calculated live.
+
+> 💡 **Why not calculate in real time?** Studies show that a delay of just **0.1 seconds** in a web page loading causes users to click away. Amazon and other e-commerce sites pre-calculate their recommendations in batch so pages load instantly.
+
+### Level 4: Real-Time API (Web Service)
+
+The model is wrapped in a **web service (API)**. Other programs can send a request and get a prediction back in real time. This is more complex because you need to ensure the service is:
+
+- Always available (24/7)
+- Fault-tolerant (does not break)
+- Scalable (can handle sudden increases in traffic)
+
+> ⚠️ **Warning:** If your real-time ML service goes down, it could break the entire website that depends on it. This level of deployment requires significant engineering support.
+
+### Level 5: Large-Scale Real-Time Systems
+
+Used by companies like Google, Netflix, or high-frequency trading firms. These systems handle millions of predictions per minute, scale automatically with demand, and run 24/7.
+
+---
+
+## MLOps: Machine Learning Operations
+
+**MLOps** (Machine Learning Operations) is a new discipline, inspired by **DevOps** in software engineering. The key idea: the person who **builds** the model should also be **responsible** for how it runs in production.
+
+Key challenges unique to ML in production:
+
+- **Model drift** — Over time, real-world data changes. A model trained on old data may make worse predictions on new data. You must monitor performance and retrain periodically.
+- **Feedback delay** — Sometimes you cannot know if a prediction was correct for months or years (e.g., predicting loan defaults that happen 10 years later).
+- **Data collection** — You must ensure that the live system collects the same information (features) that your model was trained on, for future model retraining.
+- **Version control** — When you update the model, how do you decide when to replace the old one? How do you roll back if the new one is worse?
+
+> 📝 *Your notes here:*
+
+---
+
+## Working with Big Data
+
+If your dataset is very large, there are several options:
+
+**Option 1: Sample the data**
+You do not always need all the data. Working with 100,000 records from a dataset of 1 million often gives the same accuracy. Sampling also allows you to test more algorithms faster.
+
+> ⚠️ When sampling from a database using SQL, do **not** just use `SELECT TOP n`. This returns the first rows, which are usually the oldest records. Use a random method, such as a **modulo function on the primary key** (e.g., `WHERE id % 11 = 1` picks every 11th record at random).
+
+**Option 2: Cloud Computing**
+Use cloud services (AWS, Azure, Google Cloud) to rent large machines with hundreds of GB of RAM or specialised GPUs. This is very cost-effective — you only pay for what you use.
+
+**Option 3: Distributed Computing**
+- **Apache Spark / PySpark** — A system for processing very large datasets across many computers at the same time
+- **H2O.ai** — An open-source machine learning platform built for large-scale distributed computation, with an interface for R
+
+> 💡 **Career advice from the lecturer:** If you want to stand out as a data scientist, learn **SQL** and **Cloud computing** in addition to the topics in this course. These two skills, combined with your data analysis abilities, will make you immediately valuable to any company.
+
+> 📝 *Your notes here:*
+
+---
+
+# Summary Points
+
+- **LDA** is a supervised classification method that finds a **linear** decision boundary to separate classes. It works best when classes share similar spreads and data is normally distributed.
+- **QDA** is more flexible than LDA because it uses a **curved** decision boundary. But it needs more data and risks overfitting.
+- When results from LDA and QDA are similar, always choose the **simpler model (LDA)**.
+- **Ridge Regression** adds a penalty to shrink large coefficients but keeps all variables. Use it when predictors are correlated.
+- **Lasso Regression** can shrink coefficients all the way to zero, effectively **removing variables** from the model. Use it when you suspect many predictors are irrelevant.
+- Both Ridge and Lasso use a parameter **λ (lambda)** to control the strength of the penalty. Use **cross-validation** to find the best value.
+- In production, most ML predictions are pre-calculated in **batch** (not in real time) and stored in databases for fast access.
+- **MLOps** is the practice of managing ML models in production — monitoring, updating, and maintaining them over time.
+- More data does **not always** mean better accuracy for tabular data. Sampling wisely can save time and allow you to test more models.
+
+---
+
+# Key Terms Glossary
+
+| Term | Simple Definition |
+|---|---|
+| **LDA** | Linear Discriminant Analysis — classification using straight boundaries |
+| **QDA** | Quadratic Discriminant Analysis — classification using curved boundaries |
+| **Ridge Regression** | Regression with L2 penalty — shrinks but keeps all variables |
+| **Lasso Regression** | Regression with L1 penalty — can remove variables |
+| **Lambda (λ)** | Controls how strong the penalty is in Ridge/Lasso |
+| **Sparse matrix** | A table where most values are empty/zero |
+| **Normalisation** | Adjusting values so they are on a comparable scale |
+| **Productionising** | Making a model available for real use in a company |
+| **MLOps** | Managing ML models in production (monitoring, updating) |
+| **Batch prediction** | Running predictions on a schedule and storing results in a database |
+| **API** | A web service that other programs can call to get predictions |
+| **Modulo function** | Mathematical trick used to randomly sample rows from a database |
+| **DevOps** | Software practice where builders are also responsible for operations |
+| **Model drift** | When a model's performance decreases because the real world has changed |
+
+---
+
+> ✏️ **Space for your own notes and questions:**
+>
+>
+>
+>
+>
+>

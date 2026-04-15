@@ -1,0 +1,452 @@
+---
+title: "Week 10 – ANCOVA (Analysis of Covariance)"
+subtitle: "STAT9004: Regression Analysis"
+---
+
+> 📝 **Study Guide Notes** — These notes are designed to be beginner-friendly.
+> Leave space below each section to add your own annotations and examples as you review.
+
+---
+
+# Key Topics Covered This Week
+
+- What ANCOVA is and why we use it
+- The difference between a **covariate** and a **factor**
+- The ANCOVA model formula (with and without interaction)
+- How to identify the **experimental design** in a question
+- Model **assumptions** (independence, normality, equal variance)
+- How to **interpret R output** from an ANCOVA model
+- Hypothesis testing for each term in the model
+- The **Parsimony Principle** — dropping non-significant terms
+- Comparing **R²** vs **Adjusted R²**
+
+---
+
+# What is ANCOVA?
+
+## The Big Picture
+
+**ANCOVA** stands for **Analysis of Covariance**. The Professor put it very simply in class:
+
+> *"It's ANOVA with a C — and the C stands for Covariance."*
+
+Think of it this way:
+
+- **ANOVA** = you have a **categorical** explanatory variable (like treatment groups)
+- **Linear Regression** = you have a **continuous** (quantitative) explanatory variable
+- **ANCOVA** = you have **both at the same time**
+
+ANCOVA is the right tool when:
+
+- You have **one main categorical variable** you care about most (e.g., grazed vs ungrazed)
+- You also have a **continuous variable** that influences the outcome but isn't your main focus — this is called the **covariate**
+
+## What is a Covariate?
+
+A **covariate** is a continuous (quantitative) variable that:
+
+- You're **not primarily interested in**, but
+- You **include in the model** to **control for its effect** on the response variable
+
+> **Why include it if we don't care about it?**  
+> Because ignoring it would give you misleading results. The covariate "adjusts" the comparison between your groups, making it fairer.
+
+---
+
+# The Fruit & Grazing Example
+
+## The Experiment
+
+This is the main example used throughout the lecture. Make sure you understand it well — the Professor said exam questions will give you R output like this and ask you to interpret it.
+
+**Setup:**
+
+- 40 plants were split into two groups:
+  - **Grazed** — exposed to rabbits for the first two weeks of growth
+  - **Ungrazed** — left alone
+- At the end of the season, **fruit production** (dry weight in mg) was recorded
+
+**The Variables:**
+
+| Variable | Type | Role |
+|----------|------|------|
+| `Fruit` | Continuous | **Response variable** (what we're measuring) |
+| `Grazing` | Categorical (2 levels: Grazed / Ungrazed) | **Main explanatory variable** |
+| `Root` | Continuous | **Covariate** (initial plant size — diameter of rootstock) |
+
+## Why Not Just Do a t-test?
+
+Your first instinct might be: *"Just compare grazed vs ungrazed fruit production with a t-test."*
+
+**This is wrong** — and the Professor emphasized this.
+
+The problem is: **the initial plant size (Root) also affects fruit production**. Ignoring this means your comparison between grazed and ungrazed is not fair — larger plants will produce more fruit regardless of grazing.
+
+> ⚠️ **Exam tip:** If asked "why not use a t-test here?" — your answer is that the amount of fruit produced may also depend on the initial plant size, so we must control for it.
+
+## The Counter-Intuitive Result
+
+Without ANCOVA, a simple t-test suggests that **grazed plants produce MORE fruit** than ungrazed. This seems wrong! Rabbits eating the plants shouldn't increase fruit production.
+
+This misleading result happens because the **grazed plants happened to be larger** to begin with. ANCOVA corrects for this by accounting for initial size.
+
+---
+
+# The Experimental Design
+
+The Professor asked students to identify the experimental design — this is an **exam-style question**.
+
+## Key Design Terminology
+
+**Experimental units** = the individual plants (40 of them)
+
+**Factor** = Grazing (the independent variable)
+
+**Levels of the factor** = Grazed and Ungrazed (2 levels = 2 treatments)
+
+**Covariate** = Initial plant size (Root) — this is continuous
+
+**Response variable** = Fruit production (continuous)
+
+## Design Classification
+
+This experiment is:
+
+- A **Single-Factor Design** — only one factor (Grazing)
+- A **Completely Randomized Design (CRD)** — each plant has an equal chance of being assigned to either treatment
+
+> **What is Completely Randomized?** It means each experimental unit (plant) has the same chance of receiving any treatment. The treatment is assigned at random — no pattern or structure.
+
+## What Would Make This a Factorial Design?
+
+The Professor discussed this as a comparison point:
+
+| Design | What it requires |
+|--------|-----------------|
+| Single-factor | 1 factor with 2+ levels |
+| Factorial | 2+ factors, each with 2+ levels |
+| Full Factorial | Tests **all possible combinations** of factor levels (all main effects + all interaction effects) |
+
+> ⚠️ **Exam tip:** Be able to identify what type of design is being used, and what would need to change to make it a different type.
+
+---
+
+# Assumptions
+
+These assumptions apply to ANCOVA (same as other linear models). The Professor said:
+
+> *"Ensuring these assumptions are valid is an extremely important part of the design of the experiment."*
+
+## 1. Independence
+
+- Errors (residuals) must be independent of each other
+- **How to check:** Plot residuals in time order — positive correlation = violation
+- **How to ensure:** Proper **randomisation** at the start of the experiment
+
+## 2. Normality
+
+- The errors should follow a normal distribution
+- **How to check:**
+  - **QQ plot** (quantile-quantile plot) — should show a straight line
+  - **Histogram** of residuals — should show a bell-shaped curve
+  - **Statistical tests:** Kolmogorov-Smirnov or Shapiro-Wilk tests
+
+> 💡 The histogram is better for large datasets. The QQ plot is commonly used and you should be able to interpret it.
+
+## 3. Homogeneity of Variance (Equal Variance)
+
+- The variance of residuals should be equal across groups
+- **How to check:**
+  - **Levene's test** (statistical test)
+  - **Residuals vs Fitted values plot** — should show no pattern, centred around zero
+
+> ⚠️ **Exam tip:** The Professor said *"make sure you're able to interpret diagnostic plots from R."* Specifically: QQ plots, residuals vs fitted, and histograms.
+
+---
+
+# The ANCOVA Model
+
+## Full Model (with Interaction)
+
+$$Y = \beta_0 + \beta_1 X + \beta_2 Z + \beta_3 XZ + e$$
+
+Where:
+
+| Symbol | Meaning |
+|--------|---------|
+| $Y$ | Response variable (Fruit production) |
+| $X$ | **Continuous** explanatory variable (Root size) |
+| $Z$ | **Dummy variable** for the categorical factor (0 = Grazed, 1 = Ungrazed) |
+| $XZ$ | **Interaction term** between Root and Grazing |
+| $e$ | Error term |
+
+## Interpreting Each Coefficient
+
+| Coefficient | Meaning |
+|-------------|---------|
+| $\beta_0$ | Intercept for the **reference group** (Grazed plants, since Z=0) |
+| $\beta_1$ | Effect of a 1-unit increase in Root on Fruit, **for Grazed plants** |
+| $\beta_2$ | Change in intercept when switching from **Grazed → Ungrazed** |
+| $\beta_3$ | Change in **slope** when switching from Grazed → Ungrazed (the interaction effect) |
+
+## What the Model Looks Like for Each Group
+
+**For Grazed plants** (Z = 0):
+
+$$\text{Fruit} = \beta_0 + \beta_1 \cdot \text{Root} + e$$
+
+**For Ungrazed plants** (Z = 1):
+
+$$\text{Fruit} = (\beta_0 + \beta_2) + (\beta_1 + \beta_3) \cdot \text{Root} + e$$
+
+> 💡 **Plain English:** Grazed is the reference group. For ungrazed plants, both the intercept and the slope are adjusted by adding $\beta_2$ and $\beta_3$ respectively.
+
+---
+
+# Reading the R Output
+
+## Full Model (with Interaction)
+
+Here is the R output from running `lm(Fruit ~ Root * Grazing, data = fruit)`:
+
+```
+Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)
+(Intercept)         -125.173    12.811   -9.771  1.15e-11 ***
+Root                  23.240     1.531   15.182  < 2e-16 ***
+GrazingUngrazed       30.806    16.842    1.829   0.0757 .
+Root:GrazingUngrazed   0.756     2.354    0.321   0.7500
+
+Residual standard error: 6.831 on 36 degrees of freedom
+Multiple R-squared:  0.9293,    Adjusted R-squared:  0.9234
+F-statistic: 157.6 on 3 and 36 DF,  p-value: < 2.2e-16
+```
+
+### Step-by-Step Interpretation
+
+> ⚠️ **The Professor's key advice on how to read output — this is exam-critical:**
+
+**Step 1 — Overall model (F-statistic at the bottom):**
+The p-value is < 2.2e-16, which is much less than 0.05. The **overall model is statistically significant**. This means at least one predictor has an effect.
+
+**Step 2 — Interaction term first:**
+Look at `Root:GrazingUngrazed`. The p-value is 0.75 — **not significant** (> 0.05). This means the slopes for grazed and ungrazed plants are **not different** from each other (the lines are parallel).
+
+> 💡 The interaction term tells us: *does the effect of Root on Fruit CHANGE depending on whether the plant is grazed or not?* If not significant → it doesn't change → the lines are parallel.
+
+**Step 3 — Main effects:**
+- `Root`: p < 2e-16 → **highly significant** ✅
+- `GrazingUngrazed`: p = 0.0757 → **not significant** at the 5% level ❌ (close, but over 0.05)
+
+## The Fitted Equations
+
+**Overall model:**
+$$\hat{\text{Fruit}} = -125.173 + 23.24 \cdot \text{Root} + 30.806 \cdot Z + 0.756 \cdot Z \cdot \text{Root}$$
+
+**Grazed plants** (Z = 0):
+$$\hat{\text{Fruit}} = -125.173 + 23.24 \cdot \text{Root}$$
+
+**Ungrazed plants** (Z = 1):
+$$\hat{\text{Fruit}} = -94.367 + 23.996 \cdot \text{Root}$$
+
+*(The intercept becomes −125.173 + 30.806 = −94.367, and the slope becomes 23.24 + 0.756 = 23.996)*
+
+---
+
+# Hypothesis Tests
+
+The Professor emphasised this: *"In a lot of exam questions, they will ask you to state the model and state the hypotheses."*
+
+## Hypotheses You Need to Know
+
+### 1. Overall Model
+$$H_0: \beta_1 = \beta_2 = \beta_3 = 0 \quad \text{(no predictor has an effect)}$$
+$$H_A: \text{at least one coefficient} \neq 0$$
+
+### 2. Interaction Term (Test for parallel slopes)
+$$H_0: \beta_3 = 0 \quad \text{(slopes are the same — lines are parallel)}$$
+$$H_A: \beta_3 \neq 0 \quad \text{(slopes differ)}$$
+
+### 3. Root (Covariate)
+$$H_0: \beta_{\text{Root}} = 0 \quad \text{(Root has no effect)}$$
+$$H_A: \beta_{\text{Root}} \neq 0$$
+
+### 4. Grazing (Factor)
+$$H_0: \beta_{\text{Grazing}} = 0 \quad \text{(Grazing has no effect on the intercept)}$$
+$$H_A: \beta_{\text{Grazing}} \neq 0$$
+
+### 5. Do the two regression lines coincide? (same slope AND intercept)
+$$H_0: \beta_2 = \beta_3 = 0$$
+$$H_A: \beta_2 \neq 0 \text{ or } \beta_3 \neq 0$$
+
+> 💡 **Plain English on the interaction test:** Testing $H_0: \beta_3 = 0$ is the same as asking *"Are the two regression lines parallel?"* If we fail to reject $H_0$, it means we cannot say the slopes are different — they are effectively parallel.
+
+---
+
+# The Parsimony Principle
+
+## What It Means
+
+> *"If we have two or more possible models, each of which fit the data adequately, the one with the fewest explanatory variables is preferred."* — Prof. Harrison
+
+In simple terms: **simpler is better**, as long as the simpler model fits the data just as well.
+
+## When to Drop a Term
+
+- When a term is **not statistically significant**, it may not be contributing to the model
+- Drop terms starting with the one with the **highest p-value** (most insignificant)
+- After dropping, rerun the model and reassess
+
+> ⚠️ **Important nuance the Professor highlighted:** This isn't a hard rule. If you have a scientific reason to keep a term, you can keep it even if it's not significant. It depends on the context.
+
+## Comparing R² and Adjusted R²
+
+After removing the interaction term, compare the two models:
+
+| Metric | With Interaction | Without Interaction |
+|--------|-----------------|---------------------|
+| R² | 0.9293 | 0.9291 |
+| Adjusted R² | 0.9234 | **0.9252** |
+
+**Key insight:**
+
+- **R²** always decreases when you drop a term — even if the term was useless
+- **Adjusted R²** accounts for the number of predictors — it goes **up** when you drop an unhelpful term
+- A small *increase* in Adjusted R² after dropping confirms the term wasn't contributing
+
+> 💡 The Professor said: *"The adjusted R-squared is more appropriate here as it takes into account the number of terms in the model."*
+> 
+> ⚠️ **Exam tip:** Be able to explain why Adjusted R² is preferred when comparing models with different numbers of predictors.
+
+## The Simpler (Final) Model
+
+After dropping the interaction term (`Root:GrazingUngrazed`), we run `lm(Fruit ~ Root + Grazing, data = fruit)`:
+
+```
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)
+(Intercept)      -127.829      9.664  -13.23  1.35e-15 ***
+Root               23.560      1.149   20.51  < 2e-16 ***
+GrazingUngrazed    36.103      3.357   10.75  6.11e-13 ***
+
+Residual standard error: 6.747 on 37 degrees of freedom
+Multiple R-squared:  0.9291,    Adjusted R-squared:  0.9252
+F-statistic: 242.3 on 2 and 37 DF,  p-value: < 2.2e-16
+```
+
+All terms are now significant. The final model equations become:
+
+**Grazed plants** (Z = 0):
+$$\hat{\text{Fruit}} = -127.829 + 23.56 \cdot \text{Root}$$
+
+**Ungrazed plants** (Z = 1):
+$$\hat{\text{Fruit}} = -91.726 + 23.56 \cdot \text{Root}$$
+
+*(Intercept for ungrazed = −127.829 + 36.103 = −91.726. The **slope is the same** for both groups!)*
+
+> 💡 In the final model, both lines have the **same slope (23.56)** but different intercepts. Ungrazed plants have a higher intercept, meaning they produce more fruit at any given root size, when holding grazing constant.
+
+---
+
+# Professor's Exam Tips (From the Lecture Transcript)
+
+The Professor explicitly mentioned what types of questions appear in exams. Here is a summary:
+
+> 🎯 **From the transcript (direct exam guidance):**
+
+1. **State the model** — Given a scenario or R output, write down the ANCOVA model equation using correct notation ($\beta_0 + \beta_1 X + ...$)
+
+2. **Interpret coefficients** — For each coefficient: is it significant? Is it positive or negative? What does that mean in plain language (e.g., "for every one unit increase in Root, Fruit increases by 23.56 units, for grazed plants")?
+
+3. **State the hypotheses** — Write out $H_0$ and $H_A$ for: the overall model, the interaction term, each main effect
+
+4. **Know when to test the interaction first** — *"The first term you need to look at is the interaction term. Then, if it's not significant, you can interpret the main effects."*
+
+5. **Remove the interaction term and rerun** — Know how to compare models using Adjusted R²
+
+6. **Identify the experimental design** — Given an experiment description, identify: experimental units, factors, levels, treatments, covariate, response variable, and design type (CRD, single-factor, factorial, etc.)
+
+7. **Interpret diagnostic plots** — Understand QQ plots, residuals vs fitted plots, and histograms of residuals
+
+8. **Know R² vs Adjusted R²** — R² always decreases when you drop a term; Adjusted R² is what to look at when comparing models
+
+> 💬 The Professor also said: *"If you look back at the past papers, you generally get the R output that you have looked at in R, and you have to put together the model or interpret the outputs."*
+>
+> **Action: Review the 2019 past exam paper (`STAT9004_Exam_19.pdf`) on Canvas.**
+
+---
+
+# Practical R Code Summary
+
+Here is the key R code used in this analysis, which you'll replicate in the lab worksheet:
+
+```r
+# Load data
+fruit <- read.table("fruit.txt", header = TRUE)
+
+# Exploratory scatter plot
+library(ggplot2)
+ggplot(fruit, aes(x = Root, y = Fruit, colour = factor(Grazing))) +
+  geom_point()
+
+# Full ANCOVA model (with interaction)
+model1 <- lm(Fruit ~ Root * Grazing, data = fruit)
+summary(model1)
+
+# Simpler model (without interaction)
+model2 <- lm(Fruit ~ Root + Grazing, data = fruit)
+summary(model2)
+
+# Diagnostic plots
+plot(model2)
+
+# Check model assumptions
+library(car)
+leveneTest(Fruit ~ Grazing, data = fruit)  # homogeneity of variance
+shapiro.test(residuals(model2))             # normality of residuals
+```
+
+> ⚠️ In the lab worksheet, you also work with the **Birds dataset** which requires **log transformations** (`log(AREA)`, `log(DIST)`). The Professor noted: *"With this exercise, you'll have to do some data transformations."*
+
+---
+
+# Summary Points
+
+- **ANCOVA = ANOVA + a continuous covariate.** It handles models with both categorical and continuous predictors.
+- The **categorical variable is the main interest**; the covariate is included to **control for** its effect on the response.
+- The ANCOVA model is: $Y = \beta_0 + \beta_1 X + \beta_2 Z + \beta_3 XZ + e$, where X is continuous, Z is the dummy variable, and XZ is their interaction.
+- **Always look at the interaction term first.** If it's not significant (p > 0.05), the slopes are parallel — consider removing it.
+- The **Parsimony Principle** says simpler models are preferred when they fit equally well. Drop terms starting with the highest p-value.
+- **R² always decreases when you drop a term** — use **Adjusted R²** to fairly compare models with different numbers of predictors.
+- An *increase* in Adjusted R² after dropping a term is evidence that the term wasn't contributing.
+- Assumptions are: **independence of errors, normality of errors, and equal variance.**
+- In the exam: be ready to **state the model, interpret coefficients, write hypotheses, and compare models** from R output.
+
+---
+
+# Annotations Space
+
+*Use this section to add your own notes, questions, and examples as you study.*
+
+---
+
+**My questions / things to clarify:**
+
+\vspace{3cm}
+
+---
+
+**Additional examples I found helpful:**
+
+\vspace{3cm}
+
+---
+
+**Things I need to review from earlier weeks (linked concepts):**
+
+- One-Way ANOVA (Week 5)
+- Two-Way ANOVA with interaction (Week 6/7)
+- Simple Linear Regression (Week 8)
+- Multiple Regression (Week 9)
+
+\vspace{2cm}

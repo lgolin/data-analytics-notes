@@ -1,22 +1,50 @@
 ---
 title: "Week 1: Data Analysis Protocol"
-subject: "Regression Analysis"
+subtitle: "STAT9004 – Regression Analysis"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "Contents"
+    theme: cosmo
+    highlight-style: github
+    code-fold: true
+    number-sections: true
+---
+
+> 📌 **Beginner-friendly notes for Week 1.** Every concept is explained simply. Space is left at the end of each section for your own annotations.
+
 ---
 
 ## Key Topics
 
--   **Research Question & Hypothesis Development**: Formulating clear, testable research questions
--   **Study Planning & Design**: Designing studies with proper sampling and measurement strategies
--   **Data Measurement Scales**: Understanding continuous vs categorical variables
--   **Measurement Quality**: Precision and accuracy in data collection
--   **Initial Data Analysis (EDA)**: Exploratory techniques for understanding data
--   **Data Visualization**: Using graphs to uncover patterns and anomalies
--   **Missing Data**: Identifying, understanding, and handling missing values
--   **Outliers**: Detection and classification of unusual observations
--   **Model Assumptions**: Testing whether data meets statistical requirements
--   **Data Transformation**: Modifying data when assumptions are violated
+- **Research Question & Hypothesis Development**: Formulating clear, testable research questions
+- **Study Planning & Design**: Designing studies with proper sampling and measurement strategies
+- **Data Measurement Scales**: Understanding continuous vs categorical variables
+- **Measurement Quality**: Precision and accuracy in data collection
+- **Initial Data Analysis (EDA)**: Exploratory techniques for understanding data
+- **Data Visualization**: Using graphs to uncover patterns and anomalies
+- **Missing Data**: Identifying, understanding, and handling missing values
+- **Outliers**: Detection and classification of unusual observations
+- **Model Assumptions**: Testing whether data meets statistical requirements
+- **Data Transformation**: Modifying data when assumptions are violated
 
-------------------------------------------------------------------------
+---
+
+## Assessment Reminders
+
+::: {.callout-important}
+## ⭐ Know your assessments
+| Assessment | Weight | Due |
+|-----------|--------|-----|
+| **Assessment 1** — Group project: critique a published research paper's statistical methods + presentation (pre-recorded) | 25% | Week 7–8 (check Canvas) |
+| **Lab Exam** | 25% | ~Week 10 |
+| **Final Exam** (on campus) | 50% | End of semester |
+
+The Professor said: *"Look at the learning outcomes and try to identify which question is ticking which box"* when reviewing the 2019 past paper on Canvas.
+:::
+
+---
 
 # Part 1: Defining the Research Problem
 
@@ -24,21 +52,42 @@ subject: "Regression Analysis"
 
 Before any data analysis can begin, you must start with a **clear research question**. This is the foundation of your entire study.
 
-### What is a Good Research Question?
+::: {.callout-note}
+**Simple analogy:** Before you cook a meal, you decide *what* you want to make. The research question is your "meal". You cannot collect data before you know what question you are answering.
+:::
+
+### What Makes a Good Research Question?
 
 A good research question has three essential characteristics:
 
-**1. Simple** - Contains **one predictor variable** and **one outcome variable** - More complex hypotheses with multiple predictors or outcomes should be broken into **multiple simple hypotheses** - For example, instead of studying "different types of smoking," simplify to "smoking vs non-smoking"
+**1. Simple**
 
-**2. Specific** - Leaves **no ambiguity** about the subjects or variables being studied - Clearly defines **how statistical significance will be tested** - Uses **precise operational definitions** that summarize: - The nature and source of the subjects - How variables will be measured - Whether variables are **continuous** or **categorical**
+- Contains **one predictor variable** and **one outcome variable**
+- More complex hypotheses with multiple predictors or outcomes should be broken into **multiple simple hypotheses**
+- Example: instead of studying all types of smoking (vape, cigarette, cigar, pipe), simplify to one variable — **"smoking status"** (smoker vs. non-smoker). This is called a **combined predictor variable**.
 
-**3. Stated in Advance** - The hypothesis must be determined **before** examining the data - Prevents the temptation to test multiple hypotheses after seeing results - Minimizes the opportunity to "fish" for significant findings
+**2. Specific**
 
-### Why Being Specific Matters
+- Leaves **no ambiguity** about the subjects or variables being studied
+- Clearly defines **how statistical significance will be tested**
+- Uses **precise operational definitions** that summarize:
+  - The nature and source of the subjects
+  - How variables will be measured
+  - Whether variables are **continuous** or **categorical**
 
-When your hypothesis is specific, you: - Communicate the study clearly to others - Minimize the chance of testing something different once you see the data - Avoid **substituting different measurements** of variables after the fact - Establish clear **variable types** (continuous vs categorical) upfront
+> **Professor's note:** *"If you're studying deep sea fisheries, you need to define what exactly is a deep sea fish — it might mean something different to different people."*
 
-------------------------------------------------------------------------
+**3. Stated in Advance**
+
+- The hypothesis must be determined **before** examining the data
+- Prevents the temptation to test multiple hypotheses after seeing results
+- Minimizes the opportunity to "fish" for significant findings
+
+::: {.callout-warning}
+**Why this matters in practice:** If your results are not significant, your supervisor might ask you to test something different. Being specific about your objectives *before* the study protects you from this. The Professor said: *"Being clear about your objectives before you do a study is very important."*
+:::
+
+---
 
 ## Study Planning
 
@@ -46,34 +95,51 @@ When your hypothesis is specific, you: - Communicate the study clearly to others
 
 Your research plan should document:
 
-1.  **Study Design**: How will data be collected? (observational vs experimental)
-2.  **Target Population**: Who or what will you study?
-3.  **Sample Size**: How many subjects will you need?
-4.  **Predictor and Outcome Variables**: What are you measuring and why?
+1. **Study Design**: How will data be collected? (observational vs experimental)
+2. **Target Population**: Who or what will you study?
+3. **Sample Size**: How many subjects will you need?
+4. **Predictor and Outcome Variables**: What are you measuring and why?
+
+::: {.callout-note}
+**Observational vs Experimental data** (asked in class):
+
+- **Observational** — you watch what happens without changing anything (e.g., observing what food people choose in a canteen)
+- **Experimental** — you manipulate something and measure the effect (e.g., giving one group a drug and another a placebo)
+:::
 
 ### Conceptualizing the Target Population
 
-Before collecting data: - Define the **specific population** you're interested in - Establish **inclusion criteria**: What characteristics define who belongs in your study? - Establish **exclusion criteria**: Who should NOT be included?
+Before collecting data:
 
-For example, if studying heart disease in adults, you might include: - Inclusion: Adults aged 40-65 with no previous heart conditions - Exclusion: Pregnant women, individuals with genetic heart disease
+- Define the **specific population** you are interested in
+- Establish **inclusion criteria**: what characteristics define who belongs in your study?
+- Establish **exclusion criteria**: who should NOT be included?
+
+> **Professor's example:** *"All second-year students in MTU that are male, that smoke, and that have diabetes — that is your target population. You have to be as specific as possible."*
 
 ### Sampling Strategy
 
 Once you define your population, decide how to select subjects:
 
-**Probability Sampling** (preferred for statistical inference) - Every member of the population has an equal chance of being selected - Allows you to generalize findings to the larger population
+**Probability Sampling** (preferred for statistical inference)
 
-**Non-Probability Sampling** - Subjects are selected based on convenience or specific criteria - Makes it harder to generalize results
+- Every member of the population has an equal chance of being selected
+- Allows you to generalize findings to the larger population
 
-------------------------------------------------------------------------
+**Non-Probability Sampling**
+
+- Subjects are selected based on convenience or specific criteria
+- Makes it harder to generalize results
+
+---
 
 ## Statistical Design Concepts
 
 When designing your study, understand these key concepts:
 
 | Concept | Definition |
-|--------------------------------|---------------------------------------|
-| **Response Variable** | The outcome you're measuring (what you want to explain) |
+|---|---|
+| **Response Variable** | The outcome you are measuring (what you want to explain) |
 | **Factor** | An independent variable in your study |
 | **Level** | The different values or categories of a factor |
 | **Treatment** | The specific condition applied to subjects |
@@ -84,25 +150,52 @@ When designing your study, understand these key concepts:
 | **Main Effect** | The effect of one factor on the response |
 | **Interaction Effect** | How one factor's effect depends on another factor |
 
-------------------------------------------------------------------------
+> **Professor's example of interaction:** *"If you had gender and treatment as two factors, the main effects are gender and treatment individually. The interaction effect is: does gender change the effect of treatment?"*
+
+---
 
 # Part 2: Measuring Variables
 
 ## Measurement Scales
 
-### Why Measurement Matters
+::: {.callout-important}
+## ⭐ EXAM TIP — Know the 4 measurement scales!
+The Professor asked students about this in class. It appears in exercises and exams.
+:::
 
-The **type of measurement scale** you use affects: - How precise your data is - What statistical tests you can perform - The statistical power of your analysis - Your ability to answer the research question
+The **type of measurement scale** you use affects:
 
-### Continuous vs Categorical Variables
+- How precise your data is
+- What statistical tests you can perform
+- The statistical power of your analysis
+- Your ability to answer the research question
 
-**Continuous Variables** (Preferred) - Can take any value within a range - Contain more information than categorical variables - Improve statistical **power** (ability to detect true effects) - Allow for smaller sample sizes - Examples: Age (years), Income (dollars), Blood pressure (mmHg)
+### The 4 Types of Variable
 
-**Categorical Variables** - Fall into distinct categories - Contain less information - Require larger sample sizes for same power - Examples: Smoking status (yes/no), Gender (M/F), Education level (HS/College/Grad)
+```
+DATA
+├── Categorical (groups / labels)
+│   ├── Nominal   → unordered groups     e.g. gender, blood type
+│   └── Ordinal   → ordered groups       e.g. pain level: low / medium / high
+└── Numerical (numbers)
+    ├── Discrete  → counted values        e.g. number of children: 0, 1, 2 ...
+    └── Continuous → measured values      e.g. height, weight, temperature
+```
 
-**Key Principle**: Always collect data as **continuous** if possible, even if you might later categorize it. This preserves information and gives you more analytical flexibility.
+| Variable type | Best graph | Best statistics | Information content |
+|---|---|---|---|
+| Nominal | Bar chart, frequency table | Mode, proportions | Low |
+| Ordinal | Bar chart | Median, mode | Low–Medium |
+| Discrete | Bar chart, table | Counts, frequencies | Medium |
+| **Continuous** | Histogram, boxplot, scatterplot | **Mean, standard deviation** | **High** |
 
-------------------------------------------------------------------------
+### Why Continuous Variables Are Preferred
+
+> **Professor's exact words:** *"Continuous variables are preferred. They contain more information, which improves efficiency. The result is a study with more power and a smaller sample size."*
+
+**Key principle:** Always collect data as **continuous** if possible, even if you might later categorize it. For example, collect exact age (continuous) rather than age groups (categorical) — you can always group later, but you cannot "un-group" data.
+
+---
 
 ## Measurement Quality: Precision and Accuracy
 
@@ -110,355 +203,471 @@ These two concepts are **not the same** and are equally important for valid rese
 
 ### Precision
 
-**Definition**: How consistently a measurement produces the same value when repeated.
+**Definition:** How consistently a measurement produces the same value when repeated.
 
--   Reflects **reproducibility, reliability, and consistency**
--   Affected by **random error** (chance variation)
--   Determines the **statistical power** of your study
--   Greater precision = greater power to detect effects at the same sample size
+- Reflects **reproducibility, reliability, and consistency**
+- Affected by **random error** (chance variation)
+- Determines the **statistical power** of your study
+- Greater precision → greater power to detect effects at the same sample size
 
-**Sources of Random Error** (Reduces Precision):
+**3 sources of random error (reduce precision):**
 
-1.  **Observer Variability**: Differences in how observers take measurements
-    -   Different observers have different skill levels
-    -   Same observer may measure differently on different occasions
-2.  **Instrument Variability**: Measurement tools are not perfect
-    -   Environmental factors (temperature, humidity)
-    -   Mechanical drift or wear in instruments
-    -   Calibration issues
-3.  **Subject Variability**: Natural variation within subjects
-    -   Biological fluctuations (heart rate changes throughout the day)
-    -   Behavioral variation (mood, fatigue)
+1. **Observer variability** — differences in how observers take measurements (skills, technique)
+2. **Instrument variability** — equipment affected by temperature, mechanical wear, calibration
+3. **Subject variability** — natural variation within subjects (e.g., heart rate changes throughout the day)
+
+**How to reduce random error:** Repeat the experiment multiple times and average the results.
 
 ### Accuracy
 
-**Definition**: The degree to which a measurement actually represents what it's **supposed to measure**.
+**Definition:** The degree to which a measurement actually represents what it is **supposed to measure**.
 
--   Reflects the **validity** of the measurement
--   Determined by **systematic error** (consistent bias)
--   Critical for the validity and generalizability of your findings
--   Accuracy and precision are **not necessarily linked**
+- Reflects the **validity** of the measurement
+- Determined by **systematic error** (consistent bias in one direction)
+- Accuracy and precision are **not necessarily linked**
 
-**Important**: You can have: - ✓ High precision AND high accuracy (ideal) - ✗ High precision but low accuracy (measurements are consistent but wrong) - ✗ Low precision but high accuracy (scattered measurements but correct on average)
+**How to reduce systematic error:** Calibrate instruments regularly; use controls.
 
 ### The Relationship Between Precision and Accuracy
 
-Think of archery or darts:
+Think of throwing darts at a target:
 
--   **Accurate but imprecise**: All shots hit the target area on average, but they're spread out
--   **Precise but inaccurate**: All shots cluster together, but far from the bullseye
--   **Both**: All shots cluster in the bullseye
+| Situation | Meaning |
+|---|---|
+| 🎯 All darts near centre, spread out | Accurate but **not precise** |
+| 🎯 All darts clustered together, far from centre | Precise but **not accurate** |
+| 🎯 All darts clustered at the centre | **Both** — the ideal! |
 
-------------------------------------------------------------------------
+::: {.callout-note}
+## Practice Quiz (from class exercise)
+Match each statement to either **Precision** or **Accuracy**:
 
-# Part 3: Initial Data Analysis (Exploratory Data Analysis)
+1. The degree to which a variable represents what it is supposed to represent → ***Accuracy***
+2. The degree to which a variable has almost the same value when measured repeatedly → ***Precision***
+3. Increases validity of conclusions → ***Accuracy***
+4. Threatened by systematic error → ***Accuracy***
+5. Threatened by random error → ***Precision***
+6. Assessed using repeated measures → ***Precision***
+:::
+
+---
+
+# Part 3: Initial Data Analysis (EDA)
 
 ## What is EDA?
 
-**Exploratory Data Analysis (EDA)** is the critical first step after data collection. You examine your data to:
+**Exploratory Data Analysis (EDA)** is the critical first step after data collection. It includes:
 
--   **Summarize** the main characteristics
--   **Identify** patterns, trends, and relationships
--   **Discover** anomalies and outliers
--   **Visualize** the distribution of variables
--   **Check** for missing data
--   **Assess** whether data violates statistical assumptions
+- **Summarising and visualising** data (graphs, tables)
+- **Univariate profiling** — examine each variable one at a time
+- **Bivariate profiling** — examine pairs of variables together
+- **Missing data** — are there gaps in the data?
+- **Outliers** — are there unusual values?
+- **Check model assumptions** — does the data meet model requirements?
+- **Variable transformations** — does the data need to be transformed?
 
-### The Anscombe's Quartet Lesson
+---
 
-**Why Visualization Matters**
+## The Anscombe's Quartet Lesson
 
-Anscombe's quartet demonstrates why you **must visualize** your data before analyzing it.
+::: {.callout-important}
+## ⭐ EXAM TIP — Classic exam topic. Know the lesson.
+The Professor said: *"You can see the differences [between datasets] only when you visualize them as a scatterplot."* Numbers alone can be deeply misleading.
+:::
 
-This dataset consists of four different datasets that have: - **Identical means** (9.00 for x variables; 7.50 for y variables) - **Identical standard deviations** (3.16 for x; 1.94 for y) - **Identical correlation coefficients** (r = 0.82 for all pairs) - **Identical regression lines**
+Anscombe's quartet is a famous example with **4 datasets** that have nearly **identical summary statistics**:
 
-**However**, when plotted as scatterplots, the four datasets look **completely different**:
+| Statistic | All 4 datasets |
+|---|---|
+| Mean of X | 9.00 |
+| Mean of Y | 7.50 |
+| Standard deviation of X | 3.16 |
+| Standard deviation of Y | 1.94 |
+| Correlation coefficient (r) | **0.82** |
 
-1.  A perfect linear relationship
-2.  A curved (non-linear) relationship
-3.  A perfect linear relationship with one outlier
-4.  No relationship in the data, but a single extreme point drives the correlation
+You would think they are the same dataset. **But they are not.** When plotted as scatterplots:
 
-**The Lesson**: Summary statistics alone can be **deeply misleading**. Always create graphs to visualize your data.
+1. **Dataset I** → Normal linear relationship ✓
+2. **Dataset II** → Curved (non-linear) relationship
+3. **Dataset III** → Linear with one extreme outlier
+4. **Dataset IV** → Vertical cluster — one point drives the whole correlation
 
-------------------------------------------------------------------------
+::: {.callout-warning}
+**Critical lesson about the correlation coefficient:**
+
+The correlation coefficient only tells you **two things**:
+
+1. The **direction** of the relationship (positive or negative)
+2. The **strength** of the relationship (0 = none, 1 = perfect)
+
+It **cannot** tell you if the relationship is linear. Only a graph can show that.
+
+> **Professor's exact words:** *"A lot of people just say 'oh yeah, it's linear', but you can't see if it's linear because you can't see it. You have to see it on a graph."*
+:::
+
+---
 
 ## Components of Initial Data Analysis
 
-### 1. Summarizing and Visualizing Data
+### 1. Summarising and Visualising Data
 
-**Numerical Summaries** - Mean, median, standard deviation - Percentiles and quartiles - Min and max values
+**Numerical summaries:**
 
-**Visual Methods** - Histograms (show distribution shape) - Box plots (show median, quartiles, outliers) - Scatter plots (show relationships) - Line plots (show trends over time)
+- Mean, median, standard deviation
+- Percentiles and quartiles
+- Min and max values
+
+**Visual methods:**
+
+- Histograms (distribution shape)
+- Box plots (median, quartiles, outliers — *"two for the price of one"* said the Professor)
+- Scatter plots (relationships between variables)
 
 ### 2. Univariate Profiling
 
-Examining each variable **individually**: - What is the distribution shape? - Are there outliers? - Is the variable skewed? - What is the range of values?
+Examining each variable **individually**:
+
+- What is the distribution shape?
+- Are there outliers?
+- Is the variable skewed?
+- What is the range of values?
 
 ### 3. Bivariate Profiling
 
-Examining relationships **between pairs** of variables: - Scatter plots for continuous variables - Cross-tabulations for categorical variables - Correlations between continuous variables
+Examining relationships **between pairs** of variables:
+
+- Scatter plots for continuous variables
+- Cross-tabulations for categorical variables
+- Correlations between continuous variables
 
 ### 4. Data Quality Checks
 
--   **Missing data** extent and patterns
--   **Outliers** and unusual values
--   **Data entry errors**
--   **Inconsistencies** in the data
+- **Missing data** extent and patterns
+- **Outliers** and unusual values
+- **Data entry errors**
+- **Inconsistencies** in the data
 
-------------------------------------------------------------------------
+---
 
 # Part 4: Missing Data
 
+::: {.callout-important}
+## ⭐ EXAM TIP — This is a major topic. Exercise Sheet 1 is almost entirely about missing data.
+Know the 4 steps and the 3 types (MCAR, MAR, MNAR) with examples. The Professor said he will add extra notes to Canvas.
+:::
+
 ## Understanding Missing Data
 
-**Definition**: Missing data occurs when values are not recorded for some variables in some observations.
+**Missing data** occurs when values are not recorded for some variables in some observations. In R, missing values appear as `NA`.
 
 ### Why Data Goes Missing
 
-Missing data can result from: - Experimental or procedural errors - Data entry mistakes - Survey respondents skipping questions - Equipment malfunction - Subject dropout (in longitudinal studies)
+- Experimental or procedural errors
+- Data entry mistakes (very common when going from paper to digital)
+- Survey respondents skipping questions
+- Equipment malfunction
+- Subject dropout in longitudinal studies
 
 ### Why Missing Data Is a Problem
 
-1.  **Reduces sample size** - Fewer observations means less power
-2.  **Can introduce bias** - If missingness is related to the values
-3.  **Complicates analysis** - Many statistical tests cannot handle missing values
-4.  **Violates assumptions** - Listwise deletion can change the nature of your sample
+1. **Reduces sample size** — fewer observations means less statistical power
+2. **Can introduce bias** — if missingness is related to the values themselves
+3. **Complicates analysis** — many statistical tests cannot handle missing values
+4. **May require remediation** before any analysis can proceed
 
-------------------------------------------------------------------------
+> **Professor's note:** *"Missing data is part of the data cleaning process. Before you even look at your means and graphs, you should look at missing data first."*
 
-## Identifying Missing Data Patterns
+---
 
-### Types of Missing Data
+## 4 Steps to Address Missing Data
 
-**Ignorable Missing Data** - **Expected** and part of the research design - **No action** is necessary - Example: Surveys where certain questions only apply to some respondents (e.g., "Describe your pregnancy" is ignorable for non-pregnant respondents)
+### Step 1: Determine the TYPE of missing data
 
-**Non-Ignorable Missing Data** - Results from either a **known** or **unknown** missing data process - Due to **procedural or experimental factors** - Requires investigation and action
+| Type | Description |
+|---|---|
+| **Ignorable** | Expected — part of the study design. No action needed. |
+| **Not ignorable** | Caused by some known or unknown process. Action required. |
 
-### Three Mechanisms of Missingness
+**Example of ignorable missing data:** A questionnaire has a section only for parents. For households without children, this section will be blank — this is *expected and ignorable*.
 
-Understanding **why** data is missing is crucial for choosing the right solution:
+---
 
-**1. Missing Completely at Random (MCAR)** - The probability of missingness is **the same for all units** - Causes of missing data are **unrelated to the data itself** - Example: A survey respondent randomly decides whether to answer each question by flipping a coin - **Implication**: Simple deletion of missing values is acceptable (though it reduces power)
+### Step 2: Determine the EXTENT of missing data
 
-**2. Missing at Random (MAR)** - Missingness depends on **observed variables**, not the missing value itself - The probability of missingness **varies by group** but is predictable from other data - Example: Older respondents are more likely to skip the "earnings" question, but this depends only on age (which you observe) - **Implication**: Imputation methods that use other variables can produce valid estimates
+- How much data is missing for **each variable**?
+- How many **complete cases** are there?
+- Is the amount small enough not to affect results?
 
-**3. Not Missing at Random (MNAR)** - Missingness depends on the **missing value itself** - The probability of being missing is related to what the value would have been - Example: People with higher incomes are less likely to report their earnings - **Implication**: This is the most problematic situation; bias is hard to correct
+**Rule of thumb:**
 
-------------------------------------------------------------------------
+- **< 5% per variable** → Simple deletion is acceptable
+- **5–30% per variable** → Consider imputation
+- **> 30% per variable** → Consider removing the variable entirely
+- **≥ 50% per variable** → Remove the variable from analysis
 
-## Steps to Address Missing Data
+---
 
-### Step 1: Determine the Type
+### Step 3: Diagnose the RANDOMNESS of missing data
 
-Is the missing data **ignorable** (part of study design) or **not ignorable** (unexpected)?
+::: {.callout-important}
+## ⭐ Know these 3 types with definitions AND examples
+:::
 
-### Step 2: Determine the Extent
+**MCAR — Missing Completely At Random**
 
--   How much data is missing for **each variable**?
--   How many **complete cases** are there?
--   Is the amount small enough to not affect results?
+- The probability of missingness is the **same for all observations**
+- Causes of missing data are **completely unrelated** to the data
+- ✅ Easiest to handle: use complete cases or simple imputation
 
-### Step 3: Diagnose the Randomness
+**MAR — Missing At Random**
 
-Assess whether missingness is MCAR, MAR, or MNAR by examining: - Patterns across variables - Relationships with other observed variables - Domain knowledge about why data might be missing
+- Missingness depends on **another observed variable**, not the missing value itself
+- Example: Older respondents are more likely to skip the earnings question, but this depends only on *age* (which you observe)
+- ✅ Manageable: use imputation methods that borrow information from other variables
 
-### Step 4: Select an Imputation Method
+**MNAR — Not Missing At Random** (also called Informative Missing)
 
-**If Ignorable or Minimal Missing Data** - **Deletion**: Remove observations with missing values (acceptable if MCAR)
+- Missingness depends on the **missing value itself**
+- Example: People with very high income are less likely to report it
+- ❌ Hardest to handle: bias is very difficult to correct; must report it
 
-**If More Substantial Missing Data**
+| Type | What causes missingness? | Detectable from data? | Recommended approach |
+|---|---|---|---|
+| **MCAR** | Pure chance | Only by checking patterns | Complete cases or impute |
+| **MAR** | Another observed variable | Yes — compare groups | Impute using other variables |
+| **MNAR** | The missing value itself | No — needs external knowledge | Report it; use domain knowledge |
 
-1.  **Mean Imputation**: Replace missing values with the **variable mean**
-    -   Advantage: Simple
-    -   Disadvantage: Distorts the distribution, underestimates variance
-2.  **Regression Imputation**: Use regression to **predict** missing values
-    -   Advantage: Uses relationships with other variables
-    -   Disadvantage: Creates artificially perfect predictions
-3.  **Stochastic Regression Imputation**: Regression + random noise
-    -   Advantage: Preserves variability
-    -   Better than deterministic imputation
-4.  **Prediction Methods**: Use k-Nearest Neighbors or other algorithms
-    -   Find similar cases and use their values
-5.  **Last Observation Carried Forward (LOCF)**: For longitudinal data
-    -   Use previous measurement value
-    -   Conservative (tends to underestimate change)
-6.  **Multiple Imputation**: Create multiple complete datasets
-    -   Most sophisticated approach
-    -   Accounts for uncertainty in imputed values
+---
 
-------------------------------------------------------------------------
+### Step 4: Select the IMPUTATION METHOD
 
-## Practical Implementation
+**Imputation** = estimating (filling in) a missing value using other information you have.
 
-### In R
+| Method | How it works | Limitation |
+|---|---|---|
+| **Mean imputation** | Replace with the variable's average | Can distort the distribution |
+| **Regression imputation** | Predict using a regression model | May underestimate variability |
+| **Stochastic regression** | Regression + random noise | Better than deterministic |
+| **k-Nearest Neighbours (kNN)** | Borrow value from similar observations | More complex |
+| **LOCF** (Last Observation Carried Forward) | Use previous measurement (longitudinal data) | Conservative — underestimates change |
+| **Multiple imputation** | Create multiple complete datasets | Most sophisticated; accounts for uncertainty |
+| **Listwise deletion** | Remove all rows with any missing value | Reduces sample size |
+| **Pairwise deletion** | Use all available data per calculation | Can cause inconsistency |
 
-``` r
+---
+
+## Practical Implementation in R
+
+```r
 # Check for missing values
-is.na(x)                    # TRUE if x is missing
-sum(is.na(x))              # Count missing values
+is.na(x)                         # TRUE if x is missing
+sum(is.na(x))                    # Count missing values in x
 
-# Remove missing data
-mean(x, na.rm=TRUE)        # Calculate mean, ignoring NAs
-complete.cases(df)         # Identify complete rows
-na.omit(df)               # Remove rows with ANY missing values
-df <- df[complete.cases(df), ]  # Keep only complete cases
+# Remove / work with missing data
+mean(x, na.rm = TRUE)            # Calculate mean, ignoring NAs
+complete.cases(df)               # Identify rows with NO missing values
+na.omit(df)                      # Remove rows with ANY missing values
+df <- df[complete.cases(df), ]   # Keep only complete cases
+
+# VIM package for visualisation and imputation
+# library(VIM)
+# histMiss(df)       # Histogram showing missing vs observed (red = missing)
+# marginplot(df)     # Scatterplot with missing data patterns on margins
+# irmi(df)           # Iterative robust model-based imputation
 ```
 
-### Decision Tree
+---
 
-1.  **Is data ignorable?** → NO ACTION needed
-2.  **How much is missing?**
-    -   **\< 5% per variable** → Simple deletion acceptable
-    -   **5-30% per variable** → Consider imputation
-    -   **\> 30% per variable** → Consider removing variable entirely
-3.  **Is it MCAR, MAR, or MNAR?**
-    -   **MCAR** → Deletion or simple imputation acceptable
-    -   **MAR** → Use regression or predictive imputation
-    -   **MNAR** → Advanced methods, or acknowledge bias
+## Missing Data Scenarios — Exercise Sheet 1
 
-------------------------------------------------------------------------
+::: {.callout-tip}
+**These exact scenarios appeared in Exercise Sheet 1. Know them for the exam.**
+:::
+
+| Scenario | Classification | Reason |
+|---|---|---|
+| Census: section only for parents (no children = blank) | **Ignorable / MAR** | Missingness depends on whether children are in the household |
+| Electoral poll: half chosen at random for extra questions | **MCAR** | Random selection — pure chance |
+| Plants die from high pesticide — leaf concentration not recorded | **MAR** | Depends on treatment group (High), which is known |
+| Weighing scale fails for items over 5 kg | **MNAR** | Missingness depends on the weight value itself |
+| Fitbit battery dies at completely random times | **MCAR** | Pure chance |
+| Fitbit battery dies more often in the evening | **MAR** | Depends on time of day (an observed variable) |
+| Person is unwell and does not wear fitbit | **MNAR** | Low activity *causes* the missingness |
+
+---
 
 # Part 5: Outliers
 
 ## What Are Outliers?
 
-**Definition**: Outliers are observations with **unusual combinations of characteristics** that make them distinctly different from other observations.
+**Definition:** Outliers are observations with **unusual combinations of characteristics** that make them distinctly different from other observations. Typically, an observation with an unusually high or low value on a variable.
 
-An outlier typically has: - An **unusually high or low value** on a single variable, OR - A **unique combination of values** across multiple variables
+::: {.callout-warning}
+**Do NOT automatically delete outliers!**
+The Professor said: *"Just don't go 'oh yeah, it's an outlier, we'll get rid of that'. You have to ask yourself, why is it there? Maybe it's a valid outlier."*
+:::
 
-### Example
-
-In a dataset of student test scores: - A score of 5/100 is an outlier (very low) - A student with high math AND low reading scores might be an outlier (unusual combination)
-
-------------------------------------------------------------------------
+---
 
 ## Classifying Outliers
 
-### Sources of Outliers
+**3 types of outliers:**
 
-**1. Procedural Error** - **Cause**: Measurement error, data entry mistake, equipment malfunction - **Action**: Investigate and correct if possible; delete if unfixable - **Example**: A blood pressure reading recorded as "2000 mmHg" (clearly impossible)
+| Type | What it means | What to do |
+|---|---|---|
+| **Procedural error** | A data entry mistake or equipment malfunction (e.g., blood pressure recorded as 2000 mmHg) | Investigate and correct; delete if unfixable |
+| **Extraordinary event** | A real but exceptional circumstance (e.g., a Christmas sales spike) | Keep it, but note it in your report |
+| **Extraordinary observation** | A valid but genuinely unusual data point — no clear explanation | Investigate; may keep; requires domain expertise |
 
-**2. Extraordinary Event** - **Cause**: Real but exceptional circumstance during data collection - **Action**: Decide whether to keep based on research context - **Example**: A patient's extremely low blood pressure during a severe medical crisis
-
-**3. Extraordinary Observation** - **Cause**: The subject is genuinely unusual or represents a rare population segment - **Action**: May keep but note; requires domain expertise - **Example**: An exceptionally tall person in a height study (biologically valid but extreme)
-
-------------------------------------------------------------------------
+---
 
 ## Handling Outliers
 
-**Important**: Outliers should be considered **within the context** of your analysis.
+Before taking any action:
 
-### Before Taking Action
+1. **Verify the value** — is it a real measurement or an error?
+2. **Understand the cause** — why is this observation unusual?
+3. **Check implications** — does removing it change your conclusions?
+4. **Consider domain knowledge** — is this observation valid in your field?
 
-1.  **Verify the value** - Is it a real measurement or an error?
-2.  **Understand the cause** - Why is this observation unusual?
-3.  **Check implications** - Does removing it change your conclusions significantly?
-4.  **Consider domain knowledge** - Is this observation valid in your field?
+**Options:**
 
-### Options
+- **Keep** — if it represents a real, valid observation
+- **Investigate and correct** — if it is a measurement or data entry error
+- **Remove** — only if it is a confirmed error with no way to verify
+- **Analyse with and without** — run both analyses and report the difference
 
--   **Keep**: If it represents a real, valid observation
--   **Investigate & Correct**: If it's a measurement or data entry error
--   **Remove**: If it's a true error with no way to verify
--   **Analyze With and Without**: Report both analyses to show sensitivity
-
-------------------------------------------------------------------------
+---
 
 # Part 6: Testing Model Assumptions
 
 ## Why Assumptions Matter
 
-Before fitting a statistical model, you must verify that your data **satisfies the model's assumptions**. Different models have different requirements.
+Before fitting a statistical model, the data must **satisfy the model's assumptions**. Some models are less affected by violations — this is called **robustness**.
 
 ### Key Assumptions for Linear Models
 
-**1. Linearity** - The relationship between predictor (x) and outcome (y) is **linear** - Check: Scatter plot should show a linear pattern - Violation: Use transformation or non-linear models
+::: {.callout-important}
+## ⭐ EXAM TIP — Know these 4 assumptions
+:::
 
-**2. Independence** - Observations are **independent** of each other - Violations commonly occur in: time series, repeated measures, clustered data - Check: Study design (randomization, no confounding)
+**1. Linearity**
 
-**3. Homoscedasticity (Constant Variance)** - The **variance of errors is constant** across all levels of the predictor - Check: Scatter plot around regression line should have consistent spread - Violation: Variance increases/decreases with predictor values
+- The relationship between predictor (X) and outcome (Y) is **linear** (a straight line)
+- Check with: scatter plot
+- Violation fix: transformation or non-linear models
 
-**4. Normality** - The **errors (residuals)** are normally distributed - Check: Q-Q plot (quantile-quantile plot) or histogram of residuals - Note: Large sample sizes make violation less problematic due to Central Limit Theorem - Violation: Use transformation, non-parametric tests, or larger sample
+**2. Independence**
 
-------------------------------------------------------------------------
+- Observations are **independent** of each other
+- Common violations: time series, repeated measures, paired data
+- Check with: study design review
+
+**3. Homoscedasticity** (constant variance)
+
+- The **variance of errors is constant** across all levels of the predictor
+- Check with: scatter plot of residuals — spread should be uniform
+- Violation fix: transformation
+
+**4. Normality**
+
+- The **errors (residuals)** follow a normal distribution
+- Check with: **Q-Q plot** (quantile-quantile plot) or histogram of residuals
+- Note: large sample sizes make this less critical (Central Limit Theorem)
+- Violation fix: transformation or non-parametric tests
+
+> **Professor's note:** *"Some models are less affected by violating certain assumptions — this is called robustness. For example, if equal variance is not met in a t-test, you can still do the t-test — it is just modified to account for unequal variance."*
+
+---
 
 ## Data Transformation
 
-### When to Transform
-
-If your data **violates assumptions**, transformation can sometimes help by: - Stabilizing variance - Making distributions more normal - Making relationships more linear
+If your data **violates assumptions**, transformation can help by stabilising variance, making distributions more normal, or making relationships more linear.
 
 ### Common Transformations
 
-**For Skewed Data**
+| Transformation | Use when | R code |
+|---|---|---|
+| **Standardise** (Z-score) | Normalising variables | `(x - mean(x)) / sd(x)` |
+| **Square root** | Mild right skew | `sqrt(x)` |
+| **Log** | Moderate–strong right skew, positive data | `log(x)` or `log10(x)` |
+| **Square** | Non-linear (curved) relationship | `x^2` |
+| **Reciprocal** | Severe right skew | `1/x` |
+| **Box-Cox** | Optimal transformation unknown | `MASS::boxcox()` |
 
-| Transformation | Use When | Effect |
-|----|----|----|
-| **Square root** | Mild skewness | Gentle transformation |
-| **Log** | Moderate skewness, positive data | Strong transformation |
-| **Reciprocal (1/x)** | Severe skewness | Very strong transformation |
-| **Box-Cox** | Optimal transformation unknown | Data-driven selection |
+::: {.callout-important}
+**Back-transformation is essential.** When you transform data, your results are in the *transformed* scale. You must convert them back to the original units for interpretation.
 
-**For Other Issues**
-
--   **Standardizing**: Convert to mean=0, SD=1
--   **Squaring**: If relationship is non-linear
--   **Combinations**: First transform, then analyze
+**Example from class:** Variance (σ²) is in squared units — hard to interpret. Taking the square root gives you standard deviation (σ), which is back in the original units. *That is a back-transformation.*
+:::
 
 ### Important Considerations
 
-1.  **Interpretation changes**: After transformation, you interpret results on transformed scale
-2.  **Assumptions still apply**: Transformation must result in assumptions being met
-3.  **Not always possible**: Some violations cannot be fixed by transformation alone
-4.  **Alternative approaches**: Non-parametric tests or robust methods may be better
+1. **Interpretation changes** — after transformation, you interpret results on the transformed scale
+2. **Assumptions still apply** — the transformation must result in assumptions being met
+3. **Try trial and error** — if one transformation does not work, try another
+4. **Alternative approaches** — non-parametric tests or robust methods may be better
 
-------------------------------------------------------------------------
+---
 
 # Summary Points
 
-## Key Takeaways
+::: {.callout-important}
+## ⭐ Review these before the exam
+:::
 
--   **Define clearly**: Your research question must be simple, specific, and stated in advance
--   **Plan carefully**: Study design includes population definition, sampling, measurement, and sample size
--   **Measure well**: Collect data as continuous when possible; ensure both precision (consistency) and accuracy (validity)
--   **Explore first**: Always visualize and summarize before modeling (Anscombe's quartet lesson!)
--   **Handle missing data**: Identify type and mechanism; choose appropriate method (deletion vs imputation)
--   **Check assumptions**: Verify linearity, independence, homoscedasticity, and normality before modeling
--   **Transform if needed**: Use transformations (log, square root) to fix violations
--   **Use domain expertise**: All decisions about outliers, missing data, and transformations should be informed by subject matter knowledge
+- ✅ Data analysis always follows **5 steps**: Define → EDA → Fit → Interpret → Validate
+- ✅ A good hypothesis is **simple, specific, and stated in advance**
+- ✅ **Continuous variables are always preferred** — more information, more power, smaller sample needed
+- ✅ **Precision** = same value every time (affected by *random* error; increases *power*)
+- ✅ **Accuracy** = correct value (affected by *systematic* error; increases *validity*)
+- ✅ **ALWAYS plot your data first** — Anscombe's Quartet proves that numbers alone can be deeply misleading
+- ✅ The **correlation coefficient** only tells you *direction* and *strength* — NOT whether the relationship is linear
+- ✅ Missing data has **3 types**: MCAR, MAR, MNAR — each needs a different approach
+- ✅ **Do not just delete missing data** — understand *why* it is missing first
+- ✅ **Do not just delete outliers** — understand *why* they exist first
+- ✅ Check **4 assumptions** for linear models: Linearity, Independence, Homoscedasticity, Normality
+- ✅ If assumptions fail → try a **data transformation** (log, square root, etc.) and back-transform results
 
-------------------------------------------------------------------------
+---
 
-# Checklist for Week 1
+# Pre-Modelling Checklist
 
-Before moving to model fitting, ensure you have:
+Before moving to model fitting, make sure you have:
 
--   [ ] Formulated a clear, testable research question
--   [ ] Defined target population and sampling strategy
--   [ ] Planned measurements and established measurement quality
--   [ ] Created visualizations (histograms, scatter plots, box plots)
--   [ ] Identified and documented missing data patterns
--   [ ] Identified potential outliers and understood their source
--   [ ] Tested model assumptions
--   [ ] Applied transformations if needed
--   [ ] Documented all decisions made during data cleaning
+- [ ] Formulated a clear, testable research question
+- [ ] Defined target population and sampling strategy
+- [ ] Planned measurements and established measurement quality
+- [ ] Identified all variable types (continuous, categorical, etc.)
+- [ ] Created visualisations (histograms, scatter plots, box plots)
+- [ ] Identified and documented missing data patterns (MCAR / MAR / MNAR)
+- [ ] Applied an appropriate missing data strategy
+- [ ] Identified potential outliers and understood their source
+- [ ] Tested the 4 model assumptions
+- [ ] Applied transformations if needed and back-transformed results
+- [ ] Documented all decisions made during data cleaning
 
-------------------------------------------------------------------------
+---
 
 # Additional Resources
 
-## References for Further Learning
+- **Missing Data Concepts (MCAR, MAR, MNAR):** <https://stefvanbuuren.name/fimd/sec-MCAR.html>
+- **Missing Data Solutions:** <https://stefvanbuuren.name/fimd/sec-simplesolutions.html>
 
--   **Missing Data Concepts**: <https://stefvanbuuren.name/fimd/sec-MCAR.html>
--   **Missing Data Solutions**: <https://stefvanbuuren.name/fimd/sec-simplesolutions.html>
+---
 
-## Next Week
+## Space for Your Own Notes
 
-Week 2 will cover: - **Model Fitting**: Selecting and fitting appropriate statistical models - **Model Interpretation**: Understanding model coefficients and predictions - **Model Validation**: Assessing how well your model works
+*Add your personal annotations, questions, and additional examples below:*
 
-------------------------------------------------------------------------
+&nbsp;
 
-*End of Week 1 Study Guide*
+&nbsp;
 
-*Note: This guide is a living document. Leave space for annotations, additional examples, and clarifications as discussed in lectures.*
+&nbsp;
+
+&nbsp;
+
+---
+
+*Notes compiled from: Data Analysis Protocol slides (Week 1), class transcript (Aula 1), and Exercise Sheet 1 — STAT9004 Regression Analysis.*

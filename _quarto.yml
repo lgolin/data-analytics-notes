@@ -40,7 +40,7 @@ website:
         contents:
           - file: regression-analysis/index.qmd
           - section: "Weekly Notes"
-            contents:
+            contents: 
               - text: "Week 1"
                 file: regression-analysis/week-1.qmd
               - text: "Week 2"
@@ -59,6 +59,8 @@ website:
                 file: regression-analysis/week-8.qmd
               - text: "Week 9"
                 file: regression-analysis/week-9.qmd
+              - text: "Week 10"
+                file: regression-analysis/week-10.qmd
           - section: "Labs"
             contents: regression-analysis/labs/
 

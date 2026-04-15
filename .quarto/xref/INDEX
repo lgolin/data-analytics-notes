@@ -149,5 +149,11 @@
   },
   "time-series/exam/Practical-Exam-Solutions.qmd": {
     "Practical-Exam-Solutions.html": "13afb371"
+  },
+  "data-mining/week-9.qmd": {
+    "week-9.html": "0a3f579b"
+  },
+  "regression-analysis/week-10.qmd": {
+    "week-10.html": "59bf7ca6"
   }
 }

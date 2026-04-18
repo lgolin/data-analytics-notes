@@ -1,0 +1,666 @@
+---
+title: "Q&A Assessment Preparation: Weeks 1–6"
+subtitle: "STAT9013 — Data Mining"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    number-sections: true
+    code-fold: true
+    code-tools: true
+    embed-resources: true
+---
+
+::: {.callout-important}
+## ⭐ Assessment Reminder — Tuesday Q&A
+
+- **Format**: 1-to-1 breakout room with the lecturer (Mark Hodnett)
+- **Length**: 3–5 questions per student, verbal answers only
+- **Coverage**: All material up to and including **Week 6**
+- **Rules**: Video must be ON. No Google, no AI assistance allowed
+- **Examples given by lecturer**:
+  1. *"Explain data leakage"*
+  2. *"Explain the random forest algorithm, and how it is different from decision trees"*
+- **Lecturer's note**: *"The questions won't be difficult"* — he wants to see you understand the core ideas and can explain them in your own words
+
+**Preparation strategy**: practise saying each topic out loud in 30–60 seconds, as if teaching it to a friend. No notes in front of you — that's the skill being tested.
+:::
+
+# How to Use This Guide
+
+This guide is organised around the **topics you are most likely to be asked about**. Every section has:
+
+1. A **"Say it in 30 seconds"** box — the short verbal answer
+2. A **full explanation** in plain English
+3. An **analogy** to help you remember
+4. **Anticipated follow-up questions** so you are ready for them
+
+Read each topic, then close the guide and say the answer out loud. That is how you will actually perform on Tuesday.
+
+# Key Topics You Must Be Able to Explain
+
+The topics below are drawn directly from weeks 1–6. **Bold** ones are the most likely Q&A targets based on lecturer emphasis and the two example questions given.
+
+| # | Topic | Week | Likelihood |
+|---|-------|------|------------|
+| 1 | **Data leakage** | 6 | ⭐⭐⭐ Given as example |
+| 2 | **Random Forest vs Decision Trees** | 4 | ⭐⭐⭐ Given as example |
+| 3 | **Decision trees** (how they work) | 3 | ⭐⭐⭐ |
+| 4 | **Confusion matrix, precision, recall, accuracy, F1** | 3–4 | ⭐⭐⭐ |
+| 5 | **Overfitting vs underfitting / Bias-Variance** | 4 | ⭐⭐⭐ |
+| 6 | **Imbalanced data & how to handle it** | 6 | ⭐⭐⭐ |
+| 7 | **Cross-validation** | 6 | ⭐⭐⭐ |
+| 8 | **Logistic regression** | 4 | ⭐⭐ |
+| 9 | **SVM (Support Vector Machines)** | 5 | ⭐⭐ |
+| 10 | **Naive Bayes** | 5 | ⭐⭐ |
+| 11 | **Neural networks (briefly)** | 5 | ⭐⭐ |
+| 12 | **Gradient Boosted Machines (GBM)** | 6 | ⭐⭐ |
+| 13 | **CRISP-DM process** | 1–2 | ⭐⭐ |
+| 14 | **One-hot encoding** | 5 | ⭐⭐ |
+| 15 | **Bagging & sampling with replacement** | 4–6 | ⭐⭐ |
+| 16 | **Linear regression & its assumptions** | 5 | ⭐ |
+| 17 | **Supervised vs Unsupervised learning** | 1 | ⭐ |
+| 18 | **ROC / AUC curve** | 4 | ⭐ |
+| 19 | **Missing data handling** | 3 | ⭐ |
+| 20 | **ML metric vs Business metric** | 3 | ⭐ |
+
+---
+
+# Topic 1: Data Leakage ⭐ (example question given)
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+**Data leakage** is when the training data contains information about the target that would **not be available at the time of prediction in the real world**. The model looks great in testing but fails in production. It usually happens when a predictor was recorded *after* the target event, or is a direct consequence of it. Classic examples: a "customer cancelled card" field used to predict credit card fraud, or a "taking anti-viral drug" field used to predict who has cancer. Also: computing a mean on the **whole dataset** before splitting into train/test.
+:::
+
+## Full explanation
+
+**Data leakage** happens when your model accidentally learns from information it would never have at prediction time.
+
+Imagine you are trying to predict if someone will get sick next year. If your training data accidentally includes a column called "prescribed cancer medication," your model will look incredibly accurate — but only because that column is basically telling it the answer. In the real world, at the moment you actually need to predict, that information doesn't exist yet.
+
+### The two main types
+
+| Type | What happens | Example |
+|------|--------------|---------|
+| **Target leakage** | A predictor is recorded *after* the event you're trying to predict, or is caused by it | "Customer cancelled credit card" used to predict fraud (you only cancel the card *after* the fraud) |
+| **Preparation leakage** | You use the whole dataset (including test set) to compute something like a mean, then fill missing values with it | Computing mean age on all 891 rows, then imputing, *then* splitting into train/test |
+
+### How to spot it
+
+1. **Ask yourself**: *"Would this column actually exist at the moment I need to make the prediction?"*
+2. **Be suspicious if one feature gives near-perfect accuracy** — that is almost always a leak.
+3. **Always split the data first, then compute imputation statistics on the training set only.**
+
+::: {.callout-note}
+## 🎯 Analogy — the exam cheat
+Imagine training for an exam, but someone slips you the answer key mixed into your study notes. You ace every practice test. But in the real exam, the answer key is gone — and you fail. That's data leakage. The model "studied" with information it won't have on the day.
+:::
+
+::: {.callout-warning}
+## Professor's note — the Carpathia example
+> *"If you build a model, you should always look at the best predictors and ask if data leakage could have occurred."*
+
+In class we added a fake **Carpathia** field to the Titanic dataset (Carpathia was the rescue ship that picked up survivors). The decision tree immediately used Carpathia as its top split and got crazy-high accuracy. But Carpathia could not possibly have been known *before* the ship sank — so it's a leak. **If one variable dominates the model, be suspicious.**
+:::
+
+### Anticipated follow-ups
+
+- **"Why is it a problem?"** → Because the model looks great in evaluation but collapses in production, which damages trust and causes real business losses.
+- **"How do you fix the missing-value type of leakage?"** → Split the data first (e.g. 90/10), compute the mean **only on the training set**, and apply that value to impute both training and test sets.
+- **"Give another example"** → In credit card fraud detection, a "card cancelled" flag, because cards are usually cancelled *after* fraud is detected.
+
+---
+
+# Topic 2: Random Forest vs Decision Trees ⭐ (example question given)
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+A **decision tree** is a single tree that splits the data step-by-step using the best feature at each node. It is easy to understand but tends to **overfit** and is not very accurate on its own. A **random forest** is an **ensemble**: it builds hundreds of decision trees, each trained on a different random sample of rows (**bagging** = sampling with replacement) and a random subset of features, then takes the **majority vote**. This makes it much more accurate and robust, and it rarely overfits.
+:::
+
+## Full explanation
+
+### Decision tree (single tree)
+
+A decision tree picks the **best splitting feature** at each step using a measure of "purity" — typically **entropy** or the **Gini index**. At each node it asks a yes/no question (e.g. "Is Sex = male?") and splits the data into two branches. It keeps splitting until the leaves are pure or a stopping rule is hit.
+
+- **Strengths**: easy to interpret, handles non-linear data, works with categorical and continuous variables, can act as a data-exploration tool.
+- **Weaknesses**: not very accurate on its own, tends to **overfit**, can grow too deep and need pruning, struggles with missing data.
+
+### Random Forest (ensemble of trees)
+
+Random Forest fixes decision trees' weaknesses by building **many trees together** and combining their votes. But it can't just build the same tree 500 times — that would give the same answer 500 times. So it introduces **variation**:
+
+| Change | What it does | Why |
+|--------|--------------|-----|
+| **Bagging** (Bootstrap aggregating) | Each tree is trained on a random sample of rows, sampled **with replacement** | Each tree sees a different slice of the data (~63% unique rows) |
+| **Random feature subset** | At each split, only a random subset of features is considered (e.g. √columns) | Prevents one dominant feature (e.g. Sex in Titanic) from always being the top split |
+| **Shallow trees** | Trees are often kept small (depth 1–2 in some cases) | Base trees deliberately "underperform" so the ensemble averages them out |
+| **Majority vote** | Final prediction is the most common class across all trees | Combines diverse opinions into a stable answer |
+
+::: {.callout-note}
+## 🎯 Analogy — the marble jar
+Imagine a jar of marbles and you ask people to guess how many it contains. Any single person is probably off by 20–30%. But if you collect 500 independent guesses and take the average, you end up within 1–2% of the real number. That is **Random Forest**: hundreds of "guessers" (trees), each looking at slightly different evidence, voting together.
+:::
+
+### The critical difference summary
+
+| Feature | Decision Tree | Random Forest |
+|---------|---------------|---------------|
+| Number of trees | 1 | Hundreds (default 500) |
+| Rows used | All training data | Random sample with replacement |
+| Features at each split | All | Random subset |
+| Accuracy | Moderate | Usually high |
+| Overfitting | Very prone | Much more resistant |
+| Interpretability | High (you can draw it) | Lower (but feature importance is available) |
+| Speed | Fast | Slower (but trees can run in parallel) |
+
+::: {.callout-warning}
+## Professor's note
+> *"Random forest typically outperforms most of the other models."*
+
+> *"All of the decision trees that are created are created independently. So when I create the seventh decision tree, it has nothing to do with the six that happened beforehand."*
+
+This independence is the key contrast with GBM — in GBM, each tree depends on the errors of the previous tree.
+:::
+
+### Anticipated follow-ups
+
+- **"What is bagging?"** → Bootstrap Aggregating. Sampling rows from the dataset *with replacement*, so each tree gets a different training set and about 63% of rows are unique.
+- **"Why random subset of features?"** → To force variety. Otherwise every tree would start with the same dominant feature (e.g. Sex in Titanic) and all trees would look similar.
+- **"What is the default number of trees?"** → 500.
+- **"How does it prevent overfitting?"** → Individual trees might overfit their sample, but averaging hundreds of trees smooths out the noise.
+
+---
+
+# Topic 3: Decision Trees (detailed)
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+A decision tree splits the data at each node using the feature that best separates the classes. It uses **entropy** or **Gini** to measure impurity, and the split that gives the biggest **information gain** is chosen. It is easy to interpret and can handle mixed data types, but tends to overfit and is not the most accurate algorithm.
+:::
+
+## Key formulas
+
+$$\text{Entropy}(t) = -\sum_{i=0}^{c-1} p(i|t) \log_2 p(i|t)$$
+
+$$\text{Gini}(t) = 1 - \sum_{i=0}^{c-1} [p(i|t)]^2$$
+
+Where $c$ = number of categories and $p$ = probability of being in that class.
+The **information gain** is the drop in impurity from parent to child nodes.
+
+### Pros and cons
+
+| Advantages | Disadvantages |
+|------------|---------------|
+| Easy to interpret (you can draw the tree) | Not the most accurate |
+| Handles categorical and numeric data | Prone to overfitting |
+| Can be used as a data-exploration tool | Can grow too large (needs pruning) |
+| Handles non-linear patterns | Doesn't handle missing data well |
+
+---
+
+# Topic 4: Confusion Matrix, Precision, Recall, Accuracy, F1 ⭐
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+A **confusion matrix** is a table showing predicted vs actual classes with four cells: True Positive, True Negative, False Positive, False Negative.
+**Accuracy** = how many we got right overall.
+**Precision** = of the ones we *predicted positive*, how many actually are? (looks at the predicted column).
+**Recall** = of the ones that are *actually positive*, how many did we catch? (looks at the actual column).
+**F1** = harmonic mean of precision and recall, useful when data is imbalanced.
+:::
+
+## The four cells
+
+|  | Actual Positive | Actual Negative |
+|--|----------------|-----------------|
+| **Predicted Positive** | True Positive (TP) | False Positive (FP) |
+| **Predicted Negative** | False Negative (FN) | True Negative (TN) |
+
+## The formulas
+
+$$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
+
+$$\text{Precision} = \frac{TP}{TP + FP}$$
+
+$$\text{Recall} = \frac{TP}{TP + FN}$$
+
+$$F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
+
+::: {.callout-note}
+## 🎯 Analogy — the professor's tip for remembering
+> *"Recall just looks at the actual values, and precision looks at the predicted values."*
+
+- **Recall** = "Of all the people who are actually sick, how many did we catch?"
+- **Precision** = "Of all the people we said are sick, how many actually are?"
+:::
+
+## The precision/recall trade-off
+
+If you lower the cut-off (e.g. from 0.5 to 0.1), you predict "positive" more often → **recall goes up**, but **precision goes down**. You catch more of the truly sick people, but you also misdiagnose more healthy ones as sick.
+
+::: {.callout-warning}
+## Professor's note — why accuracy can lie
+> *"If only 1% of people who get tested actually have the disease, then a machine learning algorithm can get 99% accuracy by just declaring that nobody has the disease."*
+
+This is why **accuracy is useless on imbalanced data**. Use F1, precision, or recall instead.
+:::
+
+### Anticipated follow-ups
+
+- **"When should you not use accuracy?"** → When the classes are imbalanced (e.g. fraud, rare disease).
+- **"What's more important in medical diagnosis, precision or recall?"** → Usually **recall**, because missing a sick patient (false negative) is worse than falsely alarming a healthy one.
+- **"How do you change the trade-off?"** → Move the probability cut-off away from 0.5.
+
+---
+
+# Topic 5: Overfitting, Underfitting, Bias-Variance Trade-off ⭐
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+**Underfitting (high bias)**: the model is too simple, performs badly on *both* training and test data.
+**Overfitting (high variance)**: the model memorises the training data, performs great on training but badly on test data.
+The **bias-variance trade-off** is finding the sweet spot: a model complex enough to capture the real pattern, but not so complex that it chases random noise.
+:::
+
+## Full explanation
+
+| Concept | What happens | Sign |
+|---------|--------------|------|
+| **Underfitting (high bias)** | Model too simple (e.g. a straight line through curved data) | Bad on training AND test |
+| **Good fit** | Model captures the trend without chasing noise | Training and test scores close |
+| **Overfitting (high variance)** | Model memorises every wiggle in the training data | Great on training, bad on test |
+
+::: {.callout-note}
+## 🎯 Analogy — the dartboard
+- **High bias (underfit)**: darts spread all over the board, far from the bullseye — consistently wrong in the same wrong direction.
+- **High variance (overfit)**: darts scattered around the bullseye but very spread out — inconsistent.
+- **Good fit**: darts tightly clustered on the bullseye.
+:::
+
+::: {.callout-note}
+## 🎯 Analogy — studying for an exam
+- **Underfit**: You barely studied. You do poorly on practice tests and poorly on the real exam.
+- **Overfit**: You memorised the exact practice questions. You ace practice but fail the real exam because it asks different questions.
+- **Good fit**: You understood the concepts. You do well on both.
+:::
+
+### How to detect it
+
+| Symptom | Diagnosis |
+|---------|-----------|
+| Training accuracy 60%, test accuracy 60% | Underfitting |
+| Training accuracy 99%, test accuracy 65% | Overfitting |
+| Training accuracy 85%, test accuracy 82% | Probably good fit |
+
+### Anticipated follow-ups
+
+- **"How do you fix underfitting?"** → Use a more complex model, add features, train longer.
+- **"How do you fix overfitting?"** → Simplify the model, regularise, use more training data, prune the tree, use ensemble methods like Random Forest, or use cross-validation.
+
+---
+
+# Topic 6: Imbalanced Data ⭐
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+Imbalanced data is when one class is much rarer than the other (e.g. 1% fraud, 99% legitimate). Most ML algorithms default to predicting the majority class, so **accuracy becomes misleading** (a "predict everyone is healthy" model gets 99% accuracy but is useless). You fix it by: (1) using **F1/precision/recall** instead of accuracy, (2) adjusting the **probability threshold**, (3) **upsampling** the minority class or **downsampling** the majority, or (4) using **SMOTE** to create synthetic minority examples.
+:::
+
+## Why it matters
+
+If 99% of transactions are legitimate and 1% are fraud, a model that always predicts "legitimate" gets **99% accuracy** — but catches zero fraud. That makes accuracy a **worthless business metric** here.
+
+## Ways to handle it
+
+| Technique | What it does |
+|-----------|--------------|
+| Use F1 / precision / recall | Better metrics than accuracy |
+| Change the probability threshold | Lower it from 0.5 to e.g. 0.3 to predict positive more often |
+| Upsample the minority class | Duplicate minority rows until balanced |
+| Downsample the majority class | Remove majority rows until balanced |
+| Use SMOTE | Generate **synthetic** minority examples by interpolating between real ones |
+| Weight the loss function | Penalise false negatives more than false positives |
+
+::: {.callout-warning}
+## Professor's note
+> *"When data is imbalanced, the person is focused on recall, not accuracy. They want a model with high recall, even if it has low precision."*
+
+And on SMOTE:
+> *"SMOTE stands for Synthetic Minority Over-sampling Technique... it creates synthetic data, not just copies the existing records."*
+:::
+
+### Anticipated follow-ups
+
+- **"What does SMOTE stand for?"** → Synthetic Minority Over-sampling Technique.
+- **"Why not just duplicate minority rows?"** → Duplicating can cause overfitting on those exact rows. SMOTE creates new synthetic examples by interpolating between real minority-class neighbours, giving more variety.
+
+---
+
+# Topic 7: Cross-Validation ⭐
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+**Cross-validation** splits the training data into **k folds** (typically 5 or 10). The model is trained on k−1 folds and evaluated on the remaining one, rotating through all folds. The results are averaged. This gives a much more reliable estimate of model performance than a single train/test split, especially on small datasets. You still keep a separate test set for the final unbiased evaluation.
+:::
+
+## How 5-fold cross-validation works
+
+1. Split training data into 5 equal folds.
+2. Train on folds 1–4, test on fold 5.
+3. Train on folds 1–3 and 5, test on fold 4.
+4. Continue until each fold has been the test fold once.
+5. Average the 5 scores for the final estimate.
+
+::: {.callout-note}
+## 🎯 Analogy — rotating judges
+Imagine judging a baking contest with 5 bakers. Instead of 1 judge scoring all 5 (biased), you have 5 rounds where each baker's cake is scored by 4 judges while the 5th baker judges. Over 5 rounds, every baker's cake is evaluated and every judge gets a turn. Averaging the scores gives a fairer, less volatile estimate.
+:::
+
+### Why it matters
+
+A single 90/10 split can give accuracy anywhere from 73% to 81% depending on which rows land in the test set — especially on small datasets like Titanic. Cross-validation gives a **stable** estimate by using every row for both training and evaluation (across different folds).
+
+::: {.callout-warning}
+## Professor's note
+> *"Cross-validation allows you, with a small data set, to use all your rows within your model training and all your rows to evaluate the model, so it should give you a better, unbiased estimate of the model accuracy."*
+:::
+
+### Anticipated follow-ups
+
+- **"What is k?"** → The number of folds, usually 5 or 10.
+- **"Should you still have a test set?"** → Yes. Cross-validation uses only the training data. A separate test set gives the final unbiased estimate.
+
+---
+
+# Topic 8: Logistic Regression
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+**Logistic regression** is a classification algorithm (despite its name) that predicts the **probability** of a binary outcome using a **sigmoid function** applied to a linear combination of features. Outputs are between 0 and 1, and we typically use 0.5 as the cut-off. Its biggest advantage is **interpretability** — the coefficients tell you which features push the prediction up (positive) or down (negative).
+:::
+
+## The idea
+
+Linear regression: $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ...$
+Logistic regression wraps this in a sigmoid so the output is a probability between 0 and 1.
+
+### Interpreting coefficients (Titanic example)
+
+- **Sex = male**: large negative coefficient → being male *decreases* survival probability.
+- **Pclass**: negative coefficient → higher class number (3rd class) *decreases* survival probability.
+
+### Limitations
+
+- Assumes a linear relationship between predictors and the log-odds.
+- Cannot handle categorical data directly — needs **one-hot encoding** (though R's `glm` does it automatically).
+
+---
+
+# Topic 9: Support Vector Machines (SVM)
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+SVMs find the **decision boundary that maximises the margin** between classes. They use only the data points closest to the boundary (the **support vectors**), making them robust to outliers. When data isn't linearly separable, SVMs use the **kernel trick** to map it into a higher-dimensional space where it becomes separable. Good off-the-shelf accuracy, but **doesn't scale well** to huge datasets.
+:::
+
+## Two key ideas
+
+1. **Maximum margin**: find the widest gap between the two classes.
+2. **Kernel trick**: implicitly project data into higher dimensions (e.g. via polynomial, radial, or sigmoid kernels) to handle non-linear patterns without actually computing the higher-dimensional features.
+
+### Pros and cons
+
+| Pros | Cons |
+|------|------|
+| Good accuracy with little tuning | Doesn't scale to very large datasets |
+| Robust to outliers | Harder to interpret than logistic regression |
+| Strong statistical foundation | Must choose a kernel |
+
+---
+
+# Topic 10: Naive Bayes
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+**Naive Bayes** is a probabilistic classifier based on Bayes' theorem. It calculates P(class | features) using P(features | class) × P(class). It assumes all features are **independent** given the class — that's the "naive" part. Despite this unrealistic assumption, it often works surprisingly well, especially for text classification. It's fast and works well with small data.
+:::
+
+## Bayes' theorem
+
+$$P(\text{class} \mid \text{features}) = \frac{P(\text{features} \mid \text{class}) \times P(\text{class})}{P(\text{features})}$$
+
+::: {.callout-note}
+## 🎯 Analogy — the doctor's diagnosis
+A doctor estimates: "Given that a patient has a fever AND a cough, how likely is it they have flu?" Naive Bayes multiplies the probability of each symptom occurring with flu, assuming the symptoms are independent — which isn't quite true, but it usually still works.
+:::
+
+---
+
+# Topic 11: Neural Networks (briefly)
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+Neural networks are layered networks of nodes ("neurons"), loosely inspired by the brain. Each node performs a small mathematical function on its inputs and passes the result to the next layer. Stacking layers creates **non-linear** decision boundaries. They require numeric input (need one-hot encoding for categorical data) and are usually overkill for tabular data — other algorithms like Random Forest, GBM, and SVM are typically better for tabular problems.
+:::
+
+::: {.callout-warning}
+## Professor's note
+> *"Neural networks are not something that is typically used for tabular data. For tabular data, the most powerful algorithms I've had experience with are SVMs, Random Forest, and Gradient Boosted Machines."*
+:::
+
+---
+
+# Topic 12: Gradient Boosted Machines (GBM)
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+**GBMs** are an ensemble method that builds decision trees **sequentially**. Each new tree focuses on the **errors** made by the previous trees. This is different from Random Forest, where all trees are built **independently**. GBMs are usually very accurate but are harder to interpret, computationally expensive (can't parallelise tree building), and require numeric input.
+:::
+
+## GBM vs Random Forest — the key distinction
+
+| Feature | Random Forest | GBM |
+|---------|---------------|-----|
+| Tree building | Parallel (independent) | Sequential (each depends on previous) |
+| What each tree sees | Random sample of rows/features | Errors of the previous trees |
+| Computation | Can parallelise | Cannot parallelise |
+| Interpretability | Feature importance easy | Much harder to interpret |
+| Input data | Handles categorical | Needs numeric (one-hot encoded) |
+
+::: {.callout-note}
+## 🎯 Analogy — marble jar guessers, round 2
+- **Random Forest**: 500 people guess independently; you take the average.
+- **GBM**: The first person guesses. You tell the second "the previous one was 200 too high" and they focus on correcting it. The third corrects the remaining error. Each guesser depends on the previous one's mistakes.
+:::
+
+---
+
+# Topic 13: CRISP-DM Process
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+**CRISP-DM** (CRoss-Industry Standard Process for Data Mining) is a 6-phase iterative framework for data science projects: **Business Understanding → Data Understanding → Data Preparation → Modeling → Evaluation → Deployment**. It is agile: you move back and forth between phases. Crucially, there are **two data phases** (understanding and preparation) before modelling.
+:::
+
+## The six phases
+
+| Phase | Question it answers |
+|-------|--------------------|
+| Business Understanding | What does the business need? |
+| Data Understanding | What data do we have? Is it clean? |
+| Data Preparation | How do we organise the data for modelling? |
+| Modeling | What techniques should we apply? |
+| Evaluation | Which model best meets the business objectives? |
+| Deployment | How do stakeholders access the results? |
+
+::: {.callout-warning}
+## Professor's note
+> *"The sequence of the phases is not rigid. Moving back and forth between different phases is always required."*
+:::
+
+---
+
+# Topic 14: One-Hot Encoding
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+One-hot encoding turns a categorical variable into several binary (0/1) columns — one per category. For example, "Embarked" with values C, Q, S becomes three columns EmbarkedC, EmbarkedQ, EmbarkedS, each 0 or 1. It's needed because many ML algorithms (like logistic regression, GBM, neural networks) cannot handle text/categorical data directly.
+:::
+
+### Example
+
+| id | gender |  | gender_female | gender_male |
+|----|--------|--|---------------|-------------|
+| 1 | male | → | 0 | 1 |
+| 2 | female | → | 1 | 0 |
+
+---
+
+# Topic 15: Bagging & Sampling with Replacement
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+**Bagging** = Bootstrap Aggregating. You sample rows from the dataset **with replacement**, meaning the same row can be picked multiple times. If you draw 100 rows from 100 with replacement, about **63% will be unique** and the rest are duplicates. This is how Random Forest gives each tree a different "view" of the data.
+:::
+
+### Sampling with vs without replacement
+
+| Method | Example | Used in |
+|--------|---------|---------|
+| Without replacement | Bingo — once a number is called, it's out | Standard train/test split |
+| With replacement | Pick a marble, note it, **put it back** | Bagging in Random Forest |
+
+---
+
+# Topic 16: Linear Regression & Assumptions
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+Linear regression fits a straight line to predict a numeric target. Its assumptions are: (1) **linear relationship** between predictors and target, (2) **homoscedasticity** (constant variance of residuals), (3) **independent observations**, and (4) **normally distributed residuals**. **R-squared** measures how much of the variance the model explains (0 = none, 1 = all).
+:::
+
+---
+
+# Topic 17: Supervised vs Unsupervised Learning
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+**Supervised learning**: you have a labelled target (classification or regression). Examples: decision trees, logistic regression, Random Forest. **Unsupervised learning**: no target — you're finding structure in the data. Examples: clustering, PCA. **Reinforcement learning**: an agent learns by getting rewards/penalties for actions (e.g. game-playing AI).
+:::
+
+---
+
+# Topic 18: ROC / AUC Curve
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+The **ROC curve** plots True Positive Rate against False Positive Rate as you vary the probability threshold. **AUC** (Area Under the Curve) is a single number between 0.5 (random guessing) and 1.0 (perfect classifier). Higher is better. A good visual check of a classifier's quality.
+:::
+
+---
+
+# Topic 19: Handling Missing Data
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+Three options: (1) **drop rows** with missing values (fine if few), (2) **drop the column** (if most values are missing, like Cabin in Titanic), or (3) **impute** — fill in with the mean, median, or a smarter calculation. Always compute imputation values on the **training set only** to avoid data leakage.
+:::
+
+### Titanic example
+
+- **Age** (177 missing): impute with mean calculated on training data — but better still, by gender + title, to distinguish children from adults.
+- **Cabin** (mostly missing): drop the column.
+- **Embarked** (2 missing): fill with the mode ("S").
+
+---
+
+# Topic 20: ML Metric vs Business Metric
+
+::: {.callout-important}
+## ⭐ Say it in 30 seconds
+A **machine learning metric** (like accuracy) measures how good the model is statistically. A **business metric** measures how much value it creates (e.g. money saved, customers retained). A model can have great ML metrics but be useless for the business — e.g. 99.999% accurate fraud detection that never catches any fraud. You must translate ML metrics into business language (cost-benefit analysis in euros, customers saved, etc.).
+:::
+
+::: {.callout-warning}
+## Professor's note
+> *"A machine learning metric of just judging something on accuracy is a worthless business metric."*
+
+The Week 7 marketing model exercise was all about translating recall/precision into a specific figure like "incremental spend of €11,648."
+:::
+
+---
+
+# Exercise-Sheet / Lab Integration
+
+| Lab | Topic | Key question it tests |
+|-----|-------|----------------------|
+| Lab 3 | Decision trees | Build a tree, get accuracy, spot overfitting signs |
+| Lab 4a | Logistic regression, ROC, precision vs recall | Move the threshold and see precision/recall change |
+| Lab 4b | Bias vs variance | Fit linear, good, and overfit models to the same data |
+| Lab 5 | Naive Bayes, SVM, Random Forest, Neural Networks | Run each algorithm on Titanic and compare |
+| Week 6 Lab | GBM, data leakage, cross-validation, imbalanced data | Spot the Carpathia leak; upsample minority class |
+
+---
+
+# 🔑 Pre-Assessment Checklist
+
+Before Tuesday, tick each of these. If you cannot explain the topic out loud without looking at notes, go back and re-read that section.
+
+- [ ] I can explain **data leakage** with an example
+- [ ] I can explain **how Random Forest differs from Decision Trees**
+- [ ] I can explain what **bagging** is
+- [ ] I can define **precision**, **recall**, **accuracy**, and **F1**
+- [ ] I can explain **when accuracy is misleading**
+- [ ] I can explain **overfitting vs underfitting** with an analogy
+- [ ] I can explain **bias-variance trade-off**
+- [ ] I can explain **k-fold cross-validation**
+- [ ] I can explain **how to handle imbalanced data** (upsampling, SMOTE, threshold change)
+- [ ] I can explain what **SMOTE** stands for and roughly how it works
+- [ ] I can explain **how GBM differs from Random Forest**
+- [ ] I can name the **six phases of CRISP-DM**
+- [ ] I can explain **one-hot encoding**
+- [ ] I can explain **logistic regression** and how to interpret its coefficients
+- [ ] I can explain the **kernel trick** in SVM at a high level
+- [ ] I can explain **how to handle missing data**
+- [ ] I can explain the difference between an **ML metric and a business metric**
+- [ ] I have **practised saying each answer out loud** without reading
+
+---
+
+# ✅ Summary — The Big Picture
+
+- ✅ A model that is too accurate is usually **leaking** — be suspicious.
+- ✅ **Accuracy lies** when data is imbalanced — use F1, precision, recall instead.
+- ✅ **Random Forest** beats a single decision tree by averaging many diverse trees (bagging + random features + majority vote).
+- ✅ **GBM** builds trees sequentially, each correcting the last tree's errors.
+- ✅ **Cross-validation** gives a reliable accuracy estimate on small datasets.
+- ✅ **Always split first, impute later** — prevents preparation leakage.
+- ✅ The **bias-variance trade-off**: too simple underfits, too complex overfits.
+- ✅ **Business metrics** matter more than ML metrics — translate your model into money, customers, or lives saved.
+
+---
+
+# 🗣️ Final Tip — Verbal Performance on the Day
+
+1. **Take a breath before answering.** Silence is fine for 2–3 seconds.
+2. **Start with a one-sentence definition**, then expand.
+3. **Use an analogy** if you have one — the dartboard, the marble jar, the exam cheat.
+4. **Give a concrete example** (Titanic, fraud detection, medical diagnosis).
+5. **Signal structure**: "There are three main points..." / "Random Forest differs from decision trees in three ways..."
+6. **It's OK to say "I think"** — it's better than guessing confidently wrong.
+7. **If you get stuck**, say *"Let me think about that for a second"* — it buys time and sounds confident.
+
+---
+
+# Annotation Space
+
+Use the space below for your own notes, questions, and additional examples you come up with while studying.
+
+---
+
+*(Blank — write here)*

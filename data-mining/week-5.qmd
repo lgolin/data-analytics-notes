@@ -1,420 +1,735 @@
 ---
-title: "Data Mining - Class 5 Notes"
-subtitle: "Linear Regression, Logistic Regression, Categorical Encoding & Feature Engineering"
+title: "Week 5: Linear & Logistic Regression, Categorical Encoding and Feature Engineering"
+subtitle: "STAT9013 – Data Mining"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    theme: cosmo
+    number-sections: true
+    code-fold: true
+    code-tools: true
+    df-print: paged
+    embed-resources: true
+execute:
+  eval: false
+  warning: false
+  message: false
+---
+
+::: {.callout-tip appearance="simple"}
+## How to use this guide
+
+This guide is organised the same way the class was taught. Read in order. **Every green ⭐ callout is an exam-relevant idea** the professor emphasised, often more than once. Code blocks are set to `eval: false` so the document renders quickly — you can switch them on locally to experiment.
+:::
+
+## 📋 Assessment Reminders {.unnumbered}
+
+::: {.callout-important}
+### Exam-relevant signals from class
+
+The professor did not announce a new formal assessment in the Week 5 recording. Carry forward the general principles stated in earlier weeks:
+
+- **Concepts to be exam-ready on this week**: precision vs recall, linear vs logistic regression, log transformation, one-hot encoding, factor vs numeric variables, sigmoid function, interpreting GLM output (coefficients + significance), stepwise feature removal, and feature engineering on the Titanic dataset.
+- **Homework set in class**: Read **Chapter 3** of *An Introduction to Statistical Learning* (ISLR). The professor said "**try to do the labs if possible**" from that book.
+- **Next class note**: The class two weeks after Week 5 falls on St Patrick's Day (a bank holiday in Ireland). The professor said he would pre-record that session rather than run it live.
+:::
+
+## 🎯 Key Topics Covered {.unnumbered}
+
+- **Precision & recall recap** — why translating metrics into business language matters
+- **Linear regression** — formula, coefficients, assumptions and diagnostic plots
+- **Data transformation** — using `log()` to fix non-linear relationships
+- **One-hot encoding** — converting categorical text to numeric columns
+- **Factor vs numeric** — why `Pclass` must be a factor in R
+- **Logistic regression** — linear regression + sigmoid = classification probability
+- **Reference categories** — what is absorbed into the intercept and why
+- **Statistical significance** — reading p-values and the `***` significance codes
+- **Stepwise feature removal** — removing one insignificant variable at a time
+- **Feature engineering** — extracting `Title` from names, smarter age imputation, binary flags
+- **Manual prediction** — reproducing `predict()` output using the coefficients + sigmoid
+
 ---
 
 ## Recap: Precision and Recall
 
-Before diving into new material, this class revisited precision and recall — two key evaluation metrics for classification problems.
+The class opened with a recap of last week's classification metrics because the professor felt they were central enough to revisit.
 
-### What Are They?
+### The four outcomes of a binary classifier
 
-When a model makes predictions on a binary classification problem (e.g., survived/not survived, fraud/not fraud), there are four possible outcomes:
+When a model predicts a yes/no outcome (survived/not survived, fraud/not fraud, sick/healthy), there are four possible results. Two are correct and two are wrong:
 
--   **True Positive (TP):** Model predicted positive, and it was actually positive.
--   **True Negative (TN):** Model predicted negative, and it was actually negative.
--   **False Positive (FP):** Model predicted positive, but it was actually negative.
--   **False Negative (FN):** Model predicted negative, but it was actually positive.
+| Outcome | Meaning |
+|---|---|
+| **True Positive (TP)** | Model said *yes*, reality was *yes* — ✅ correct |
+| **True Negative (TN)** | Model said *no*, reality was *no* — ✅ correct |
+| **False Positive (FP)** | Model said *yes*, reality was *no* — ❌ false alarm |
+| **False Negative (FN)** | Model said *no*, reality was *yes* — ❌ missed case |
 
-From these, we define:
-
-$$
-\text{Recall} = \frac{TP}{TP + FN}
-$$
-
-**Recall** (also called sensitivity) answers: *"Of all the actual positive cases, how many did we find?"* Think of it as the model's ability to **capture** the positive cases.
+### Recall and precision — formulas and intuition
 
 $$
-\text{Precision} = \frac{TP}{TP + FP}
+\text{Recall} = \frac{TP}{TP + FN} \qquad \text{Precision} = \frac{TP}{TP + FP}
 $$
 
-**Precision** answers: *"Of all the cases we predicted as positive, how many were actually positive?"* Think of it as the **quality** of the positive predictions.
+| Metric | Question it answers | Memory hook |
+|---|---|---|
+| **Recall** (a.k.a. *sensitivity*) | *Of the actual positive cases, how many did we **find**?* | "Did we **re**-**call** (remember) all of them?" |
+| **Precision** | *Of the cases we **predicted** as positive, how many were **correct**?* | "How **precise** were our yes answers?" |
 
-### The Precision-Recall Trade-Off
+::: {.callout-note}
+### Analogy — the fishing net
+Imagine you're fishing in a lake that contains 100 trout.
 
-You typically cannot maximise both at the same time. By lowering the classification threshold (e.g., from 0.5 to 0.2), you capture more positive cases (higher recall), but you also incorrectly flag more negative cases as positive (lower precision).
+- **Recall** = how many of the 100 trout you actually caught. If you caught 60, recall is 60%.
+- **Precision** = of everything in your net (trout, boots, bottles), how much was actually trout. If your net contains 60 trout and 40 pieces of rubbish, precision is 60%.
 
--   **High recall + low precision:** You catch most positive cases, but many flagged cases are false alarms. Useful when missing a positive case is very costly (e.g., cancer screening), but you need a secondary filter to handle the false positives.
--   **Low recall + high precision:** You miss many positive cases, but the ones you do flag are almost certainly correct. This is less useful when missing positives has serious consequences.
+A wide net catches more trout (high recall) but also more rubbish (low precision). A small, targeted net catches only trout (high precision) but misses many (low recall).
+:::
 
-### Translating Metrics into Business Language
+### The precision–recall trade-off
 
-A key lesson: most stakeholders don't understand "precision" and "recall" directly. You should translate them into domain-specific language. For example, in a medical context:
+You can't usually max both at once. Lowering the classification threshold (from 0.5 → 0.2) flags more cases as positive, which raises recall but drops precision.
 
--   *Recall of 50%* → "Of those who are sick, the model found 50% of them."
--   *Precision of 82%* → "Of those the model predicted as sick, 82% actually were."
+| Scenario | When it's useful | Watch out for |
+|---|---|---|
+| **High recall, low precision** | Cancer screening, fraud detection — missing a positive is very costly | Many false alarms → need a **secondary filter** (e.g., a human reviewer) |
+| **High precision, low recall** | When false positives carry a big cost and missing some positives is acceptable | You leave many real cases undetected |
 
-Your job as a data scientist is to present these metrics clearly so decision-makers can judge whether the model is fit for purpose.
+::: {.callout-important icon="⭐"}
+### Exam tip ⭐ — Error asymmetry drives the metric
+The professor returned to this theme throughout class:
+
+> *"The cost of a false negative in this case is much higher than the cost of a false positive."* — Professor Hodnett
+
+When the two types of error have **different costs** (medical diagnosis, fraud detection), **accuracy is not a good enough metric**. You must consider precision and recall — and often prioritise recall when missing a positive is catastrophic.
+:::
+
+### Translating metrics into business language
+
+One of the professor's repeated points: **most stakeholders don't understand precision and recall**. Your job is to translate.
+
+*Professor's note (on the medical diagnosis example):*
+
+> *"Recall of 50% says that of those that are sick, the model found 50% of those cases. So if a person is sick, it's a 50/50 chance whether this test will confirm the person is sick or not. On the other hand, 82% of those the model predicted to be sick were actually sick."*
+
+*Professor's note (on the role of a data scientist):*
+
+> *"It is your job to help [stakeholders] to make the decision whether they decide it's a good model or not. It's not your job to decide yes, this is the best model out there."*
+
+::: {.callout-important icon="⭐"}
+### Exam tip ⭐ — The breast check scandal
+The professor gave this real-world Irish example to illustrate why recall matters in medical screening. A screening programme that misses positive cases (low recall) can have terminal consequences because **people classified as healthy are not followed up**. Expect a question where you must justify the choice of recall over precision (or vice versa) for a specific domain.
+:::
+
+---
 
 ## Linear Regression
 
-### What Is It?
+### What linear regression does
 
-Linear regression is one of the oldest and still most widely used machine learning algorithms. It predicts a **continuous numeric value** (y) as a linear combination of one or more input variables (x).
+**Linear regression** is one of the oldest machine learning algorithms and still the most widely used. It predicts a **continuous numeric value** (y) as a weighted sum of one or more input variables (x).
 
-In its simplest form with one predictor:
+*Professor's note:*
 
+> *"Regression (linear and logistic) is a family of machine learning algorithms. It is probably the oldest and still the most used machine learning algorithm used today."*
+
+**Simplest form** — one predictor:
 $$
 y = \beta_0 + \beta_1 x
 $$
 
-Where:
-
--   $\beta_0$ is the **intercept** (the value of y when x = 0)
--   $\beta_1$ is the **slope** (how much y changes for each unit increase in x)
-
-With multiple predictors, the formula extends to:
-
+**Multiple predictors:**
 $$
 y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_n x_n
 $$
 
-### How Are the Coefficients Calculated?
+| Symbol | Name | Meaning in plain language |
+|---|---|---|
+| $y$ | **Predicted value** | What we want to forecast (body weight, price, etc.) |
+| $\beta_0$ | **Intercept** | The value of $y$ when every $x$ is zero — it's the "starting point" |
+| $\beta_1, \beta_2, ...$ | **Coefficients** (a.k.a. **betas**, **slopes**, **weights**) | How much $y$ changes for a one-unit change in that $x$ |
+| $x_1, x_2, ...$ | **Predictors** (a.k.a. **features**, **inputs**) | The information we feed into the model |
 
-The "best" line is the one that **minimises the residuals** — the vertical distances between the actual data points and the predicted values on the line. The formulas for a simple (one-variable) case are:
+### How the coefficients are found — minimising residuals
+
+The *best* line is the one that **minimises the residuals** — the vertical distances between the actual data points and the regression line. **Residuals = errors = actual − predicted.**
+
+::: {.callout-note}
+### Analogy — the tightrope walker
+Imagine trying to stretch a tightrope across a field of people throwing darts at the ceiling. Every dart's string hangs down a certain distance from the rope. Regression finds the position of the rope that makes the **total stretched-string length as short as possible**. Each string is a residual.
+:::
+
+The formulas (for one predictor) are:
 
 $$
-\beta_1 = \frac{\sum_i (x_i - \bar{x})(y_i - \bar{y})}{\sum_i (x_i - \bar{x})^2}
+\beta_1 = \frac{\sum_{i} (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i} (x_i - \bar{x})^2}, \qquad \beta_0 = \bar{y} - \beta_1 \bar{x}
 $$
 
-$$
-\beta_0 = \bar{y} - \beta_1 \bar{x}
-$$
+In R, you never compute this by hand in real work — `lm()` does it:
 
-In R, the `lm()` function handles this automatically:
-
-```{r}
-#| eval: false
+```r
 library(openintro)
 data(mammals)
 model1 <- lm(body_wt ~ brain_wt, data = mammals)
 print(model1$coefficients)
-```
+#> (Intercept)    brain_wt 
+#>  -56.855545   0.902913
 
-You can also verify by computing the coefficients manually:
-
-```{r}
-#| eval: false
+# Manual verification — same answer
 mean_x <- mean(mammals$brain_wt)
 mean_y <- mean(mammals$body_wt)
-numerator <- sum((mammals$brain_wt - mean_x) * (mammals$body_wt - mean_y))
+numerator   <- sum((mammals$brain_wt - mean_x) * (mammals$body_wt - mean_y))
 denominator <- sum((mammals$brain_wt - mean_x) ^ 2)
 b1 <- numerator / denominator
 b0 <- mean_y - (b1 * mean_x)
 sprintf("b0=%.2f, b1=%.2f", b0, b1)
+#> "b0=-56.86, b1=0.90"
 ```
 
-Both approaches give the same result, confirming that regression is essentially a mathematical (matrix) calculation.
+*Professor's note:*
 
-### Assumptions of Linear Regression
+> *"This shows that regression is actually a mathematical function that can actually be calculated, usually through matrix multiplications."*
 
-Linear regression relies on several assumptions. If these are violated, the model may give misleading results:
+### The four assumptions of linear regression
 
-1.  **Linearity:** There is a linear relationship between predictors and the outcome. If not, you can apply transformations (e.g., log) or use polynomial terms.
-2.  **Homoscedasticity:** The spread (variance) of the residuals should be roughly constant across all levels of the predictor. In simple terms, the model should not be much more "wrong" for large values than for small values.
-3.  **Independence:** Each observation should be independent of the others. This can be violated with time-series data, where today's value depends on yesterday's.
-4.  **Normality:** The residuals (errors) should follow a roughly normal distribution.
+::: {.callout-important icon="⭐"}
+### Exam tip ⭐ — Memorise these four assumptions
 
-### Diagnostic Plots
+| # | Assumption | What it means (plain language) | How to fix if violated |
+|---|---|---|---|
+| 1 | **Linearity** | The relationship between each x and y should be a straight line | Apply a **log** transformation, square/cube the variable, or use polynomial regression |
+| 2 | **Homoscedasticity** *(constant variance)* | Errors should be about the **same size** for small and large predicted values | Transform y (often log); check residuals-vs-fitted plot |
+| 3 | **Independence** | Each row must be independent of the others (no time dependency) | Use a time-series model instead for seasonal/trended data |
+| 4 | **Normality** | Residuals should follow a bell curve | Transform y; check the Q-Q plot |
 
-After building a linear regression model, you should examine diagnostic plots to check the assumptions:
+The professor admitted *"I never pronounce this word, so not even going to try"* about **homoscedasticity** — you won't need to say it aloud, just recognise it.
+:::
 
-**Residuals vs Fitted plot:**
+### Diagnostic plots — did the model behave?
 
--   The x-axis shows predicted values; the y-axis shows errors (actual − predicted).
--   You want to see a **random scatter with no pattern**. A visible pattern (e.g., a funnel shape) suggests the model has problems.
--   The trend line should be approximately flat.
+After fitting a linear model you should always look at two plots.
 
-**Normal Q-Q plot:**
-
--   This checks whether residuals are normally distributed.
--   Points should fall along a straight diagonal line from bottom-left to top-right.
--   Deviations at the ends suggest non-normality or a non-linear relationship.
-
-```{r}
-#| eval: false
+```r
 par(mfrow = c(1, 2))
 plot(model1, which = 1, col = "blue")  # Residuals vs Fitted
 plot(model1, which = 2, col = "blue")  # Normal Q-Q
 par(mfrow = c(1, 1))
 ```
 
-### The Power of Data Transformation
+| Plot | What you want to see (good model) | What a bad model looks like |
+|---|---|---|
+| **Residuals vs Fitted** | Random scatter around 0, flat red trend line, no visible pattern | A clear funnel, curve, or tilt → pattern in errors, assumptions violated |
+| **Normal Q-Q** | Points fall on the diagonal line from bottom-left to top-right | Points bend away from the line at the ends → residuals not normal |
 
-Using the mammals dataset, the raw data (body weight vs brain weight) produces poor diagnostic plots because a few very large animals (elephants) dominate the data. The residuals show a clear pattern, and the Q-Q plot deviates badly.
+### Data transformation — `log()` as a lifesaver
 
-By applying a **log transformation** to both variables, we get much better diagnostic plots — random residuals and a near-diagonal Q-Q plot. The R-squared also improves from 0.87 to 0.92 (a 35% reduction in error).
+Recall from Week 2: the raw mammals dataset has a few huge animals (elephants) that dominate everything. The raw-data model is a **"poor" model**: diagnostic plots show a clear pattern and the Q-Q is badly curved.
 
-```{r}
-#| eval: false
-mammals$log_body_wt <- log(mammals$body_wt)
+Transforming with `log()` fixes this almost magically:
+
+```r
+mammals$log_body_wt  <- log(mammals$body_wt)
 mammals$log_brain_wt <- log(mammals$brain_wt)
 model2 <- lm(log_body_wt ~ log_brain_wt, data = mammals)
 summary(model2)
 ```
 
-**Key takeaway:** Always examine your data distributions during exploratory analysis. If a variable is heavily skewed, a log transformation can dramatically improve your model.
+| Model | R² | Diagnostic plots |
+|---|---|---|
+| Raw (`body_wt ~ brain_wt`) | 0.87 | **Poor** — clear pattern, curved Q-Q |
+| Log (`log_body_wt ~ log_brain_wt`) | 0.92 | **Good** — random residuals, diagonal Q-Q |
+
+::: {.callout-important icon="⭐"}
+### Exam tip ⭐ — Why this matters
+Going from R² = 0.87 to 0.92 is a **35% reduction in error term**. The professor's direct quote:
+
+> *"By just doing that mathematical transformation on the actual data, we decrease the error term by 35%."*
+
+Always do exploratory analysis (histograms, scatterplots) **before** building models. If a variable is heavily skewed, a log transform often dramatically improves the fit.
+:::
+
+::: {.callout-warning}
+### Common mistake
+Don't assume a high R² means a good model. The raw mammals model had R² = 0.87 but **failed the diagnostic plots**. Accuracy metrics alone are not enough — you must check assumptions.
+:::
+
+---
 
 ## Categorical Variables and One-Hot Encoding
 
-### The Problem
+### The problem
 
-Many machine learning algorithms (including regression) work only with **numeric** data. But datasets often contain categorical (text/factor) variables like gender, ticket class, or embarkation port. We need a way to convert these into numbers.
+Most ML algorithms (including regression) can only work with **numbers**. Datasets often contain categorical text like `gender`, `mood`, `Embarked`. We need a way to convert these to numbers — **without** accidentally implying that "female" and "male" have some numeric relationship.
 
-### What Is One-Hot Encoding?
+### What is one-hot encoding?
 
-One-hot encoding creates a **new binary column for each unique value** in a categorical variable. For each row, one of these new columns gets a 1 (the value that applies), and all others get 0.
+One-hot encoding creates a **new binary column for each unique value** in a categorical variable. Each row gets a `1` in the column that matches its value and `0` everywhere else.
 
-**Example:**
+**Before:**
 
-| id  | gender | mood  | outcome |
-|-----|--------|-------|---------|
-| 1   | male   | happy | 1       |
-| 2   | female | sad   | 1       |
-| 3   | female | happy | 0       |
+| id | gender | mood  | outcome |
+|---|--------|-------|---------|
+| 1 | male   | happy | 1 |
+| 2 | female | sad   | 1 |
+| 3 | female | happy | 0 |
 
-After one-hot encoding becomes:
+**After one-hot encoding:**
 
-| id  | gender.female | gender.male | mood.happy | mood.sad | outcome |
-|-----|---------------|-------------|------------|----------|---------|
-| 1   | 0             | 1           | 1          | 0        | 1       |
-| 2   | 1             | 0           | 0          | 1        | 1       |
-| 3   | 1             | 0           | 1          | 0        | 0       |
+| id | gender.female | gender.male | mood.happy | mood.sad | outcome |
+|---|:-:|:-:|:-:|:-:|:-:|
+| 1 | 0 | 1 | 1 | 0 | 1 |
+| 2 | 1 | 0 | 0 | 1 | 1 |
+| 3 | 1 | 0 | 1 | 0 | 0 |
 
-In R, you can do this with the `caret` package:
+In R with `caret`:
 
-```{r}
-#| eval: false
+```r
 library(caret)
 customers <- data.frame(
-  id = c(1, 2, 3, 4, 5),
-  gender = c('male', 'female', 'female', 'male', 'female'),
-  mood = c('happy', 'sad', 'happy', 'sad', 'happy'),
-  outcome = c(1, 1, 0, 0, 0))
-
-dmy <- dummyVars(" ~ .", data = customers)
+  id      = c(1, 2, 3, 4, 5),
+  gender  = c('male', 'female', 'female', 'male', 'female'),
+  mood    = c('happy', 'sad',    'happy',  'sad',  'happy'),
+  outcome = c(1, 1, 0, 0, 0)
+)
+dmy  <- dummyVars(" ~ .", data = customers)
 trsf <- data.frame(predict(dmy, newdata = customers))
 head(trsf)
 ```
 
-### How R Handles It Automatically in GLM
+### What `glm()` does automatically
 
-When you pass a factor or character variable to `glm()` in R, it **automatically does one-hot encoding behind the scenes**. It creates N−1 dummy variables (one fewer than the number of unique values), and the "missing" category becomes the **reference category**, absorbed into the intercept.
+::: {.callout-important icon="⭐"}
+### Exam tip ⭐ — `glm()` one-hot encodes behind the scenes
+When you pass a **character** or **factor** column to `glm()`, R automatically one-hot encodes it. Importantly, R creates **N − 1 columns** (not N). The "missing" column becomes the **reference category** and is **absorbed into the intercept**.
 
-For example, with Pclass (1, 2, 3): R creates Pclass2 and Pclass3. First class becomes the reference, absorbed into the intercept.
+**Example with `Pclass` (values 1, 2, 3):** R creates `Pclass2` and `Pclass3`. The 1st class (`Pclass1`) is the reference — its effect is baked into the intercept.
+:::
 
-### Factor vs Numeric: Why It Matters
+### Factor vs numeric — the *ticket class* trap
 
-A critical point: **Pclass** is coded as 1, 2, 3 — but it is NOT a numeric variable. You cannot meaningfully subtract a 3rd class ticket from a 2nd class ticket to get a 1st class ticket. It is a **categorical** variable.
+`Pclass` is stored as `1, 2, 3` in the Titanic dataset. It **looks numeric**, but it's actually a category. This is one of the **most important lessons** of the class.
 
-The test: *Can you do meaningful arithmetic on the values?* If not, treat it as a factor.
+::: {.callout-important icon="⭐"}
+### Exam tip ⭐ — The arithmetic test
+Professor Hodnett's exact test for whether a variable should be a factor:
 
-```{r}
-#| eval: false
+> *"Can you do multiplication or addition on the variable to transform it into another format? I can't subtract a third class passenger from a second class passenger to get a first class passenger. It makes no sense. So we should have changed it into a factor variable."*
+
+**The rule:** if the arithmetic is meaningless, make it a factor.
+
+```r
 titanic_train$Pclass <- as.factor(titanic_train$Pclass)
 ```
+:::
 
-Without this conversion, R treats Pclass as a single numeric predictor (implying that the difference between 1st and 2nd class is the same as between 2nd and 3rd), which is incorrect.
+If you leave `Pclass` as numeric, R builds a single `Pclass` coefficient — implying the difference between 1st and 2nd class is identical to the difference between 2nd and 3rd. That is a **wrong** assumption.
+
+A **factor variable** in R is like an `enum` in programming: it can only hold values from a fixed set of **levels**. Assigning "unknown" to a factor whose levels are `(female, male)` will be rejected.
+
+### The reference category — what sits inside the intercept
+
+The first level of a factor (alphabetically or numerically) becomes the **reference**. In the final Titanic model, the intercept represents a **1st-class female passenger who embarked at Cherbourg** — because `Pclass1`, `Sexfemale`, and `EmbarkedC` are all absorbed.
+
+---
 
 ## Logistic Regression
 
-### From Numbers to Categories
+### From linear regression to classification
 
-Linear regression predicts a continuous number. But for classification (survived/not survived), we need to predict a **probability** between 0 and 1. This is where logistic regression comes in.
+Linear regression predicts a number. For classification (survived / not survived) we need a **probability between 0 and 1**. Logistic regression is built in two steps.
 
-### Step 1: Calculate the Log Odds
+### Step 1 — Calculate the log odds (linear part)
 
-First, logistic regression computes a linear combination of the features, just like linear regression:
+First, do the same linear combination as linear regression:
 
 $$
 \text{log\_odds} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_n x_n
 $$
 
-This value can range from $-\infty$ to $+\infty$.
+This output can range from $-\infty$ to $+\infty$.
 
-### Step 2: Apply the Sigmoid Function
-
-To convert the log odds into a probability between 0 and 1, we apply the **sigmoid function**:
+### Step 2 — Apply the sigmoid function
 
 $$
 p = \frac{1}{1 + e^{-\text{log\_odds}}}
 $$
 
-This function has an S-shape:
+This squashes any real number to a value between 0 and 1:
 
--   Very negative inputs → probability near 0
--   Input of 0 → probability of exactly 0.5
--   Very positive inputs → probability near 1
+| Input to sigmoid | Output (probability) |
+|---|:-:|
+| Very negative (−5) | Close to 0 |
+| 0 | Exactly 0.5 |
+| Very positive (+5) | Close to 1 |
 
-```{r}
-#| eval: false
+```r
 x <- seq(-5, 5, by = 0.01)
 y <- 1 / (1 + exp(-x))
 plot(x, y, main = "Sigmoid function", col = "blue")
 ```
 
-### Step 3: Apply a Threshold
+::: {.callout-note}
+### Analogy — the squash ball
+Imagine a huge rubber band stretching from minus infinity to plus infinity. The sigmoid is a machine that **squashes** the whole band into the narrow space between 0 and 1. The middle of the band (0) gets placed at 0.5. Anything much above 0 is pushed toward 1; anything much below 0 is pushed toward 0.
+:::
 
-Once you have a probability, you apply a **threshold** (typically 0.5) to classify:
+### Step 3 — Apply a threshold (default 0.5)
 
--   Probability \> 0.5 → predict class 1 (survived)
--   Probability ≤ 0.5 → predict class 0 (not survived)
+| Probability | Predicted class |
+|---|---|
+| > 0.5 | 1 (e.g., survived) |
+| ≤ 0.5 | 0 (e.g., not survived) |
 
-You can adjust this threshold to trade off precision and recall as discussed earlier.
+You can change this threshold to trade off precision and recall (from the opening recap).
 
-### Building a Logistic Regression Model in R
+### Building a logistic regression model on Titanic
 
-```{r}
-#| eval: false
+```r
 library(titanic)
 data(titanic_train)
-titanic_train$Pclass <- as.factor(titanic_train$Pclass)
+titanic_train$Pclass <- as.factor(titanic_train$Pclass)  # critical!
 
 set.seed(42)
-nobs <- nrow(titanic_train)
+nobs  <- nrow(titanic_train)
 train <- sample(nobs, 0.9 * nobs)
-test <- setdiff(seq_len(nobs), train)
+test  <- setdiff(seq_len(nobs), train)
 
-target <- "Survived"
-colsToIgnore <- c("PassengerId", "Name", "Cabin", "Ticket", "Age", "Parch", "Embarked")
-input <- setdiff(names(titanic_train), c(target, colsToIgnore))
+target       <- "Survived"
+colsToIgnore <- c("PassengerId", "Name", "Cabin", "Ticket",
+                  "Age", "Parch", "Embarked")
+input        <- setdiff(names(titanic_train), c(target, colsToIgnore))
 
 train_data <- titanic_train[train, c(input, target)]
-test_data <- titanic_train[test, c(input, target)]
+test_data  <- titanic_train[test,  c(input, target)]
 
-logistic_model <- glm(formula = Survived ~ .,
-                      family = binomial(link = "logit"),
+logistic_model <- glm(Survived ~ ., family = binomial(link = "logit"),
                       data = train_data)
 
 pr <- predict(logistic_model, newdata = test_data, type = "response")
 pr <- ifelse(pr > 0.5, 1, 0)
 ```
 
-### Interpreting the Coefficients
+### Reading the `summary()` output — coefficients and significance
 
-The `summary()` output gives you:
+The summary has two critical columns:
 
--   **Estimate (coefficients):** The $\beta$ values. A **positive** coefficient means higher values of that feature increase the probability of the positive class (survival). A **negative** coefficient decreases it.
--   **Pr(\>\|z\|) (p-values):** The statistical significance. You want these to be as **low as possible**. The significance codes (`***`, `**`, `*`, `.`) give a quick visual guide.
+| Column | What it tells you |
+|---|---|
+| **Estimate** (coefficient, β) | **Sign** = direction of effect on the log-odds. **Magnitude** = strength (but depends on the scale of the variable — cannot directly compare) |
+| **Pr(>\|z\|)** (p-value) | Statistical significance. **Lower is better.** |
 
-**Important nuances:**
+**Significance codes** (the little stars):
 
--   The **intercept** absorbs the reference categories of all factor variables (e.g., female, 1st class).
--   You **cannot directly compare** coefficient magnitudes across features unless the features are scaled, because they depend on the unit of measurement. For instance, Sexmale ranges 0–1 while Fare ranges 0–500+.
--   Variables with **low statistical significance** and **small coefficients** (like Fare in this model) are candidates for removal — their effect is likely captured by other variables (like Pclass).
+| Code | Meaning |
+|:-:|---|
+| `***` | p < 0.001 — very highly significant |
+| `**`  | p < 0.01 — highly significant |
+| `*`   | p < 0.05 — significant |
+| `.`   | p < 0.1 — borderline |
+| (blank) | not significant |
 
-### Verifying Predictions Manually
+::: {.callout-important icon="⭐"}
+### Exam tip ⭐ — Interpreting coefficients
 
-One of the great advantages of logistic regression is that you can **reproduce predictions without the predict function**, just by plugging coefficients into the formula and applying the sigmoid:
+- **Positive coefficient** → feature increases the probability of class 1 (survival).
+- **Negative coefficient** → feature decreases it.
+- **You cannot directly compare magnitudes** across features unless the features are scaled. The professor's example: `Sexmale` is only 0 or 1, but `Fare` ranges 0–500+. A small Fare coefficient multiplied by 500 can still have a large effect.
 
-```{r}
-#| eval: false
+> *"You can't just make an assumption here that the absolute values here are related to each other, because it depends on the unit of measurement."* — Professor Hodnett
+:::
+
+### Collinearity — why a variable can appear "unimportant"
+
+If `Fare` has a low significance, that **does not mean it's unrelated to survival**. It likely means its information is already captured by `Pclass` (high-class tickets cost more).
+
+*Professor's note:*
+
+> *"This does not mean that Fare is not related to Survived. It is, but its effect is captured more accurately by other fields, e.g. Pclass. If we removed these fields from the regression model, Fare would become more statistically significant."*
+
+This is called **multicollinearity** — correlated predictors steal each other's apparent significance.
+
+### Manual prediction — the superpower of regression
+
+One of the most powerful features of logistic regression: you **don't need `predict()`**. You can reproduce predictions with just the coefficients + sigmoid, which means you can deploy the model **in SQL, JavaScript, Python, Excel, or any language**.
+
+```r
 coeff <- logistic_model$coefficients
 
-# Calculate log odds manually
+# 1) Encode male as 1/0 manually
+test_data$genderMale <- ifelse(test_data$Sex == "male", 1, 0)
+
+# 2) Compute log odds (linear part)
 test_data$log_odds <- coeff[1] +
-  coeff[2] * ifelse(test_data$Sex == "male", 1, 0) +
+  coeff[2] * test_data$genderMale +
   coeff[3] * test_data$SibSp +
   coeff[4] * test_data$Fare +
-  coeff[5] * ifelse(test_data$Pclass == "2", 1, 0) +
-  coeff[6] * ifelse(test_data$Pclass == "3", 1, 0)
+  coeff[5] * test_data$TicketClass2 +
+  coeff[6] * test_data$TicketClass3
 
-# Apply sigmoid
-test_data$probability <- 1 / (1 + exp(-test_data$log_odds))
+# 3) Apply the sigmoid to get a probability
+test_data$pr_manual <- 1 / (1 + exp(-test_data$log_odds))
+
+# Verify: same as predict()
+pr_auto <- predict(logistic_model, newdata = test_data, type = "response")
+all.equal(pr_auto, test_data$pr_manual)   # TRUE
 ```
 
-This is practical because it means you can **deploy a logistic regression model in any environment** (SQL, JavaScript, Python, etc.) without needing R's predict function.
+::: {.callout-important icon="⭐"}
+### Exam tip ⭐ — Why manual prediction matters
+Professor Hodnett emphasised this twice:
 
-## Feature Engineering (Lab Work)
+> *"You can have a nice system where you use R to actually do the analysis and create your models, but then when it comes time to implement your model, you can implement it using any programming language or any web framework or any other environment you want, because you can calculate the prediction values manually."*
 
-Feature engineering is the process of creating, transforming, or selecting features to improve model performance. This was the main hands-on activity of the lab.
+Be ready to **calculate a prediction by hand** from a given set of coefficients + feature values.
+:::
 
-### The Iterative Process
+### Visualising the model — log odds plot
 
-The approach followed in class was:
+```r
+library(ggplot2)
+test_data$Survived <- as.factor(test_data$Survived)
+ggplot(test_data, aes(x = log_odds, y = pr_manual, colour = Survived)) +
+  geom_hline(yintercept = 0.5, col = "blue") +
+  geom_point() + ylim(0, 1) +
+  geom_text(x = -3, y = 0.75, label = "predict=1", col = "green") +
+  geom_text(x = -3, y = 0.25, label = "predict=0", col = "red")
+```
 
-1.  Build a baseline model with available features.
-2.  Examine the `summary()` output — look at coefficients and p-values.
-3.  Remove the **single least significant** variable (highest p-value).
-4.  Rebuild the model and check if accuracy holds or improves.
-5.  Repeat until all remaining features are statistically significant.
-6.  Then explore whether new features can be engineered from existing data.
+**How to read this plot:**
 
-**Important rule:** Only remove one variable at a time, because removing one can change the significance of others (due to collinearity).
+| What you see | What it means |
+|---|---|
+| Green dot **above** 0.5 line | Correctly predicted survivor ✅ |
+| Red dot **below** 0.5 line | Correctly predicted non-survivor ✅ |
+| Green dot **below** 0.5 line | Missed survivor (false negative) ❌ |
+| Red dot **above** 0.5 line | False alarm (false positive) ❌ |
 
-This process is sometimes called **stepwise regression**.
+---
 
-### Handling Missing Values: Mean Imputation
+## Worked Example: Titanic Stepwise Feature Engineering (Lab 5)
 
-The Age variable had missing values. Initially, these were filled with the overall mean age:
+This is the hands-on part of the class. The professor demonstrated an **iterative process** that is almost certainly exam-relevant.
 
-```{r}
-#| eval: false
+### The `BuildAndEvaluateModel()` helper function
+
+The professor wrote a reusable function to avoid copy-pasting code during experiments:
+
+```r
+BuildAndEvaluateModel <- function(train_data, test_data, actuals) {
+  logistic_model <- glm(Survived ~ ., family = binomial(link = "logit"),
+                        data = train_data)
+  pr <- predict(logistic_model, newdata = test_data, type = "response")
+  pr <- ifelse(pr > 0.5, 1, 0)
+  pr <- factor(pr, levels = c(1, 0))
+  tab <- table(pr, actuals)
+  accuracy <- 100 * sum(diag(tab) / sum(tab))
+  print(paste("accuracy=", round(accuracy, 2), "%"))
+  return(logistic_model)
+}
+```
+
+### The stepwise process — remove one variable at a time
+
+::: {.callout-important icon="⭐"}
+### Exam tip ⭐ — The stepwise regression workflow
+
+1. Build a baseline model with all available features.
+2. Look at `summary()` — find the feature with the **highest p-value** (least significant).
+3. Remove **only that one feature**.
+4. Rebuild and check accuracy.
+5. Repeat until every remaining feature is significant.
+6. Then try feature engineering (extract new features).
+
+*Professor's note:*
+
+> *"Only remove one feature at a time, because there might be collinearity that you need to account for. You don't remove them all together."*
+
+This technique is called **stepwise regression** (the professor also called it **"regression"** and half-jokingly **"aggression"** when trying to remember the name).
+:::
+
+### The actual experiments performed in Lab 5
+
+| Step | What was tried | Accuracy | Outcome |
+|---|---|---|---|
+| 1 | Baseline (all variables, mean age imputation) | 74.44% | `Parch`, `Fare`, `Embarked` look insignificant |
+| 2 | Remove `Parch` | 74.44% | Same accuracy, model cleaner |
+| 3 | Also remove `Fare` | 74.44% | Still fine |
+| 4 | Also remove `Embarked` | **~76%** | ✅ **Improved** — simpler *and* more accurate |
+| 5 | Replace `Age` with `AgeOver15` flag | ~74% | ❌ No improvement, reverted |
+| 6 | Replace `SibSp`/`Parch` with `SibSpYes`/`ParchYes` flags | ~73% | ❌ Worse, reverted |
+| 7 | Extract `Deck` (first letter of `Cabin`) | ~75.5% | ❌ Deck levels not significant, reverted |
+| 8 | Extract `Title` from `Name`, rationalise to 4 groups | ~75.5% | ❌ Not significant (gender/age capture it), reverted |
+| 9 | Use `Title × Pclass` to **smart-impute** missing ages | 75.5% | ✅ **Improved** — better Age values |
+| 10 | Re-try `AgeOver15` on smart-imputed data | Similar | `AgeOver15` becomes highly significant |
+| 11 | Cap `Fare` at 100, re-add | Similar | `Fare` slightly significant but no accuracy gain → dropped |
+
+**Final model features:** `Pclass`, `Sex`, `SibSp`, `AgeOver15` — ~75.5% accuracy, every feature statistically significant.
+
+### Key feature-engineering snippets
+
+**Mean age imputation (starter):**
+```r
 meanAge <- mean(train_data$Age, na.rm = TRUE)
+titanic_train$OrigAge <- titanic_train$Age
 titanic_train[is.na(titanic_train$Age), ]$Age <- meanAge
 ```
 
-Later, a **smarter imputation** was developed using title and ticket class (see below).
-
-### Feature Engineering Experiments
-
-Several experiments were tried on the Titanic dataset:
-
-**Removing insignificant variables (Parch, Fare, Embarked):** Removing these one by one actually improved accuracy from \~73% to \~76%. Simpler models with only significant features often perform better.
-
-**Converting Age to a binary flag (AgeOver15):** Testing whether being a child matters more than exact age. The flag was significant, but didn't improve accuracy compared to using raw age.
-
-**Extracting Deck from Cabin:** The first letter of the Cabin field represents the deck. This was extracted and tested, but none of the deck categories were statistically significant, so it was dropped.
-
-**Extracting Title from Name:** The Name field contains titles (Mr., Mrs., Miss, Master, etc.). These were extracted using a regular expression and rationalised into four categories: Mr, Mrs, Miss, and Master (xMaster).
-
-```{r}
-#| eval: false
-# Extract title from name
+**Extract title from name (regex):**
+```r
 titanic_train$Title <- gsub('(.*, )|(\\..*)', '', titanic_train$Name)
 
 # Rationalise rare titles
 titanic_train$Title[titanic_train$Title %in% c("Mlle", "Ms")] <- "Miss"
-titanic_train$Title[titanic_train$Title %in% c("Mme")] <- "Mrs"
-titanic_train$Title[titanic_train$Title %in% c("Capt", "Rev", "Col",
-  "Don", "Major", "Sir", "Dr", "Jonkheer")] <- "Mr"
-titanic_train$Title[titanic_train$Title == "the Countess"] <- "Mrs"
-titanic_train$Title[titanic_train$Title == "Lady"] <- "Mrs"
+titanic_train$Title[titanic_train$Title %in% c("Mme", "Lady",
+                                               "the Countess")] <- "Mrs"
+titanic_train$Title[titanic_train$Title %in% c("Capt", "Rev", "Col", "Don",
+                                               "Major", "Sir", "Dr",
+                                               "Jonkheer")] <- "Mr"
+titanic_train$Title[titanic_train$Title == "Master"] <- "XMaster"  # see note
 ```
 
-**Smarter Age Imputation using Title and Pclass:** Instead of filling missing ages with the global mean, the mean age was calculated per group (Title × Pclass). This means a missing age for a "Master" in 3rd class gets a value around 5 (child), while a missing "Mr." in 1st class gets around 42. This improved the model's accuracy.
+::: {.callout-note}
+### Why rename `Master` to `XMaster`?
+Alphabetically, `Master` would come first and get absorbed into the intercept. The professor wanted **`Miss`** to be the reference and **`Master` visible as a coefficient** (because it usefully identifies young boys). Prefixing with `X` pushes it to the end of the alphabet so `Miss` becomes the reference instead.
+:::
 
-### Final Model
+**Smart age imputation using Title × Pclass groups:**
+```r
+library(tidyverse)
+ageGroups <- titanic_train[!is.na(titanic_train$Age), ] %>%
+  group_by(Pclass, Title) %>%
+  summarize(GroupAge = mean(Age))
 
-After all the feature engineering, the final model used: **Pclass, Sex, SibSp, and AgeOver15** (or Age), achieving approximately 75.5% accuracy with all features statistically significant.
+titanic_train <- merge(titanic_train, ageGroups, all.x = TRUE)
+titanic_train <- titanic_train[order(titanic_train$PassengerId), ]  # restore order!
+titanic_train$Age <- ifelse(is.na(titanic_train$Age),
+                            titanic_train$GroupAge,
+                            titanic_train$Age)
+```
 
-**Key lesson:** Feature engineering often matters more than choosing a fancier algorithm. Understanding your data and creating meaningful features from existing information is one of the most valuable skills in data science.
+Sample group ages produced:
 
-## Summary
+| Pclass | Title | Mean Age |
+|---|---|---|
+| 1 | Miss | 29.7 |
+| 1 | Mr | 42.4 |
+| 1 | Mrs | 40.4 |
+| 1 | XMaster | 5.31 |
 
-This class covered:
+This is much smarter than filling every missing age with a single overall mean of ~30 — a 5-year-old missing-age passenger titled "Master" in 3rd class gets ~5, not 30.
 
-| Topic | Key Idea |
-|------------------------------|------------------------------------------|
-| Precision & Recall | Trade-off between catching all positives vs quality of positive predictions |
-| Linear Regression | Predict a number as a weighted sum of inputs; check assumptions with diagnostic plots |
-| Data Transformation | Log transforms can fix non-linear relationships and improve models dramatically |
-| One-Hot Encoding | Convert categorical variables to numeric binary columns for regression models |
-| Factor Variables | Numeric-looking variables (like Pclass) may need to be treated as factors, not numbers |
-| Logistic Regression | Linear regression + sigmoid function = probability-based classification |
-| Sigmoid Function | Maps any number to a probability between 0 and 1 |
-| Interpreting Coefficients | Sign = direction of effect; magnitude depends on scale; p-value = significance |
-| Stepwise Feature Removal | Remove least significant features one at a time to simplify and improve models |
-| Feature Engineering | Extract hidden information (titles from names), improve imputations, create new variables |
+::: {.callout-important icon="⭐"}
+### Exam tip ⭐ — Feature engineering matters more than algorithm choice
 
-## Recommended Reading
+> *"I started out with looking at all the variables. I removed the variables that were not statistically significant, one by one... Finally I looked at the Name column, extracted out the title, and then tried to calculate the age of somebody based on the ticket class and their title. My original logistic regression algorithm had an accuracy of 73%, and now it has an accuracy of 75%. Also my algorithm is much simpler as well."* — Professor Hodnett
 
--   **"An Introduction to Statistical Learning"** (ISLR) — Chapter 3 on Linear Regression. Freely available at: <https://www.statlearning.com/>
+**Know the takeaway:** Simpler models with well-engineered features often beat complex models on raw data.
+:::
 
-## My Notes
+::: {.callout-warning}
+### Common mistakes during feature engineering
 
-::: callout-note
-### Space for your own notes
+- Removing multiple variables at once instead of one at a time (hides collinearity effects).
+- Forgetting to apply the same transformation to both **train and test** data.
+- Leaving `Survived` in the input list (R tries to predict `Survived` from itself → fails).
+- Losing row order after `merge()` — always re-sort by the ID before splitting back into train/test.
+- Forgetting `as.factor()` on numeric-looking categoricals like `Pclass`.
+:::
 
-Add your own observations, questions, and additional insights here as you review the material.
+---
+
+## Exercise-to-Concept Mapping
+
+Use this table to navigate which concepts are covered in which lab exercise or slide example:
+
+| Class activity / Lab step | Concepts tested |
+|---|---|
+| `model1 <- lm(body_wt ~ brain_wt, ...)` on raw mammals | Linear regression, `lm()`, R² interpretation |
+| Manual calculation of β₀ and β₁ for mammals | Regression formulas, matrix intuition |
+| Diagnostic plots for raw vs log mammals | Homoscedasticity, Q-Q plot, log transformation |
+| `dummyVars()` on `customers` dataframe | One-hot encoding concept |
+| Running `glm()` with `Pclass` as numeric vs factor | Factor-variable trap, reference categories |
+| Manually creating `TicketClass2`/`TicketClass3` | Showing `glm()`'s hidden one-hot encoding |
+| Sigmoid plot `1/(1+exp(-x))` | Sigmoid shape, probability mapping |
+| Manual calculation of `log_odds` and `pr_manual` | Coefficients × features + sigmoid |
+| `BuildAndEvaluateModel()` + iterative variable removal | Stepwise regression workflow |
+| `titanic_train$Title <- gsub(...)` | Feature extraction (regex), rationalisation |
+| `group_by(Pclass, Title) %>% summarize(mean(Age))` | Smart imputation by group |
+| `AgeOver15 <- ifelse(Age > 15, 1, 0)` | Binary flag feature engineering |
+| Capping `Fare` at 100 | Outlier treatment for regression |
+
+---
+
+## Summary Points — Pre-Exam Checklist {.unnumbered}
+
+- ✅ Recall = captured positives; Precision = correct positive predictions — translate both into domain language.
+- ✅ In medical/fraud contexts, recall usually outweighs precision; adjust the threshold to prioritise it.
+- ✅ Linear regression formula: $y = \beta_0 + \beta_1 x_1 + \dots + \beta_n x_n$; best line minimises residuals.
+- ✅ Four assumptions: **Linearity, Homoscedasticity, Independence, Normality** (LHIN).
+- ✅ Check residuals-vs-fitted (no pattern) and Q-Q (diagonal line).
+- ✅ A log transform can fix non-linear relationships and improve R² dramatically.
+- ✅ One-hot encoding turns categorical text into N binary columns — needed for regression.
+- ✅ R's `glm()` auto one-hot encodes character/factor variables, creating N − 1 dummies.
+- ✅ Numeric-looking categoricals (e.g. `Pclass`) **must** be converted via `as.factor()`.
+- ✅ The first level of a factor is the reference category, absorbed into the intercept.
+- ✅ Sigmoid: $p = 1 / (1 + e^{-x})$ — squashes any number to [0, 1].
+- ✅ Logistic regression = linear part → sigmoid → threshold at 0.5.
+- ✅ Coefficient sign = direction of effect; magnitude cannot be compared across unscaled features.
+- ✅ Low p-value = statistically significant. Significance codes: `***`, `**`, `*`, `.`, (blank).
+- ✅ Stepwise removal: drop the **least significant** variable **one at a time**.
+- ✅ A feature with a low p-value may still be important — its signal can be captured by a correlated feature.
+- ✅ Feature engineering (titles from names, smarter imputation) can beat algorithm tuning.
+- ✅ You can deploy a logistic model without `predict()` — just coefficients + sigmoid.
+
+---
+
+## Pre-Topic Checklist — Before Next Class
+
+Before moving on, you should be able to:
+
+- [ ] Explain recall and precision **in plain business language** for a medical and a fraud scenario.
+- [ ] Write the multi-variable linear regression equation from memory.
+- [ ] Name the four assumptions of linear regression.
+- [ ] Describe what a good vs bad residuals-vs-fitted plot looks like.
+- [ ] Recognise when to apply a log transformation.
+- [ ] One-hot encode a toy categorical variable by hand on paper.
+- [ ] Decide whether a variable should be a factor using the *"can I do arithmetic on it"* test.
+- [ ] State which categories are absorbed into the intercept for a given model summary.
+- [ ] Sketch the sigmoid function and state values at x = −∞, 0, +∞.
+- [ ] Given coefficients and feature values, **calculate a prediction by hand**.
+- [ ] Read a `summary()` output and identify the least significant feature.
+- [ ] Apply the stepwise removal workflow to a new dataset in your head.
+- [ ] Extract a title from a name field using regex.
+- [ ] Explain why group-based imputation is better than global mean imputation.
+- [ ] Work through the Lab 5 script end-to-end and reproduce all accuracies.
+
+---
+
+## Additional Resources {.unnumbered}
+
+- **An Introduction to Statistical Learning** (ISLR) by James, Witten, Hastie, Tibshirani — **Chapter 3** on Linear Regression is this week's recommended reading.
+  - Free PDF and companion resources: <https://www.statlearning.com/>
+  - The professor emphasised that this is a **legitimately free** resource made available by the authors.
+- The ISLR video lecture series accompanying the book (linked from the site above).
+- R documentation for core functions used this week: `?lm`, `?glm`, `?predict.glm`, `?gsub`, `?caret::dummyVars`.
+
+---
+
+## Annotation Space {.unnumbered}
+
+::: {.callout-note}
+### My own notes and questions
+
+Use this space to record:
+
+- Things that clicked for you this week
+- Things still fuzzy — revisit or ask in next class
+- Any extra examples you worked through on your own
+- Connections to other modules
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+
 :::

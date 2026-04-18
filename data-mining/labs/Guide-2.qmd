@@ -1,0 +1,489 @@
+---
+title: "Your Q&A Speaking Coach"
+subtitle: "A tutor's guide for STAT9013 — designed for ESL students"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    theme: cosmo
+    number-sections: false
+    code-fold: true
+    embed-resources: true
+---
+
+# 👋 Hello, let me be your tutor
+
+I want you to do well on Tuesday. So I am going to teach you **differently** from a normal study guide.
+
+This is not a textbook. This is a **speaking coach**.
+
+My job is to make sure that when your professor asks a question, the right English sentences come out of your mouth easily — without you having to translate in your head. That's the secret.
+
+Here is how we will do it together:
+
+1. You learn **3 simple survival phrases** for English first (these save you if you panic)
+2. You learn a **3-sentence pattern** for every answer (so your brain knows the shape)
+3. For each topic, I give you a **ready-to-say script** (memorise this, not the theory)
+4. You practise **out loud, every day, for 15 minutes**
+
+That's it. No textbook memorisation. Just speaking practice.
+
+---
+
+# 🆘 Part 1: Your 3 English Survival Phrases
+
+**Memorise these three sentences perfectly.** Not almost — perfectly. They are your safety net. They will save you if you freeze, if you don't understand, or if you need a moment to think.
+
+Say each one out loud **ten times right now** before you read anything else.
+
+---
+
+### Phrase 1: When you need time to think (most important!)
+
+> **"That's a good question. Let me think for a moment."**
+
+Say this **any time** you need 5 seconds to find the words. It sounds calm and professional. Professors love it because it shows you are thinking carefully, not guessing.
+
+Practise: say it slowly. *"That's... a good question. Let me think... for a moment."*
+
+### Phrase 2: When you don't understand the question
+
+> **"Sorry, could you repeat the question, please?"**
+
+Do not guess what was asked. Ask. This is normal and polite. Native speakers do this too.
+
+### Phrase 3: When you are not 100% sure
+
+> **"I think... but I'm not completely sure."**
+
+This is much better than guessing with confidence and being wrong. It shows honesty. Teachers respect this.
+
+::: {.callout-important}
+## ⭐ Golden rule
+
+**Silence is your friend.** In English, taking 2–3 seconds before answering sounds **thoughtful**, not slow. Do not rush. Breathe. Then speak.
+:::
+
+---
+
+# 🗣️ Part 2: The "3-Sentence Sandwich" — your magic pattern
+
+Every answer you give should follow this simple shape. This is the single most important thing in this guide.
+
+| Sentence | What it does | Example words |
+|----------|--------------|---------------|
+| **1. Definition** | Say what the thing IS in one line | *"Data leakage is when..."* |
+| **2. Explanation** | Explain HOW or WHY | *"This happens because..."* |
+| **3. Example** | Give a real-world example | *"For example, in the Titanic dataset..."* |
+
+That's it. Three sentences. Short. Clear. Done.
+
+If the professor wants more, he will ask. Do not try to say everything at once. **Short is strong.**
+
+::: {.callout-note}
+## 🎯 Why this works for ESL speakers
+
+Long sentences in a second language get tangled. Grammar breaks. You get lost.
+
+Short sentences are safe. Your grammar stays correct. You sound confident.
+
+**Three short sentences beat one long confused sentence. Every time.**
+:::
+
+---
+
+# 🔤 Part 3: Tricky words — pronunciation help
+
+Some technical words are hard to pronounce. Let's fix that now. Practise each one out loud **five times**.
+
+| Word | How to say it | Memory trick |
+|------|---------------|--------------|
+| **Leakage** | LEEK-idge | Like the vegetable "leek" + "idge" |
+| **Overfitting** | OH-ver-FIT-ing | "Over" + "fitting" (like clothes) |
+| **Underfitting** | UN-der-FIT-ing | "Under" + "fitting" |
+| **Bias** | BYE-us | Like saying "bye" + "us" |
+| **Variance** | VAIR-ee-unce | Rhymes with "various" |
+| **Ensemble** | on-SOM-bul | French word! "On-som-bul" |
+| **Bagging** | BAG-ing | Like a shopping bag |
+| **Precision** | pre-SISH-un | "Pre" + "sish" + "un" |
+| **Recall** | ree-CALL | Like "re" + "call" |
+| **Threshold** | THRESH-hold | Like the word "thresh" + "hold" |
+| **Imbalanced** | im-BAL-unst | "im" + "balanced" |
+| **Bayes** (Naive Bayes) | BAYZ | Rhymes with "maze" |
+| **SVM kernel** | KER-nel | Like corn kernel |
+| **Hyperparameter** | HI-per-pa-RAM-et-er | Break it into 5 pieces |
+
+::: {.callout-warning}
+## Common traps
+
+- **Algorithm** = AL-go-rith-um (4 syllables, the 'th' is soft)
+- **Gradient** = GRAY-dee-ent
+- **Stochastic** = sto-KAS-tik (sounds scary, but you probably won't need it)
+:::
+
+---
+
+# 📚 Part 4: The Topics — Ready-to-Say Scripts
+
+For each topic I will give you:
+
+- 🎯 **The script** — exact words to memorise (the 3-sentence sandwich)
+- 💡 **Simple meaning** — what it really means in normal English
+- 🔍 **If they ask more** — one more sentence you can add
+
+Memorise the **script**. Understand the meaning. That's all you need.
+
+---
+
+## Topic 1 ⭐ — Data Leakage *(example question the professor gave)*
+
+### 🎯 Your script (memorise this)
+
+> **"Data leakage is when the training data contains information that would not be available at the time of prediction in the real world. This makes the model look very accurate during testing, but it performs badly in production. A classic example is the Carpathia field we added to the Titanic dataset — the rescue ship — which could not be known before the Titanic sank."**
+
+### 💡 Simple meaning
+
+The model "cheats" by seeing information from the future. It looks great on paper, but it fails in real life.
+
+### 🔍 If they ask for more
+
+> *"Another example is the 'customer cancelled card' field in credit card fraud detection. A customer usually cancels the card after the fraud happens, so this field would not exist at the time we need to predict."*
+
+### 🔍 If they ask: "How do you fix it?"
+
+> *"You should always split the data first, and then calculate things like the mean age only on the training set, not on the whole dataset."*
+
+---
+
+## Topic 2 ⭐⭐⭐ — Random Forest vs Decision Trees *(the other example question!)*
+
+### 🎯 Your script (memorise this)
+
+> **"A decision tree is a single tree that splits the data step by step using the best feature at each point. A random forest is an ensemble — it builds hundreds of decision trees and takes a majority vote from them. Random forest is much more accurate because each tree sees slightly different data, so their combined vote is more reliable than any single tree."**
+
+### 💡 Simple meaning
+
+**One tree = one opinion.** It can be wrong.
+**Many trees = many opinions.** The average is usually right.
+
+Like asking one friend for advice versus asking 100 friends and taking the most common answer.
+
+### 🔍 If they ask: "How are the trees made different?"
+
+> *"Random forest uses two tricks. First, bagging — each tree gets a random sample of rows, with replacement. Second, at each split, only a random subset of features is considered. This forces variety between the trees."*
+
+### 🔍 If they ask: "What is bagging?"
+
+> *"Bagging means Bootstrap Aggregating. It means sampling rows with replacement, so the same row can be picked more than once. About 63% of rows end up unique in each sample."*
+
+### 🔍 Memory aid — the marble jar
+
+Imagine a jar of marbles. One person guessing how many marbles is usually wrong. But if 500 people guess independently, the average is almost perfect. **That is random forest.**
+
+---
+
+## Topic 3 ⭐⭐ — Confusion Matrix, Precision, Recall
+
+### 🎯 Your script
+
+> **"A confusion matrix is a table with four boxes that shows predicted versus actual classes. Precision looks at the predicted column — of the ones we predicted positive, how many are really positive? Recall looks at the actual column — of the ones that are really positive, how many did we catch?"**
+
+### 💡 Simple way to remember (tutor's tip!)
+
+**Professor's own tip:**
+- **Recall** = looks at **real** values (both start with R!)
+- **Precision** = looks at **predicted** values (both start with P!)
+
+Memorise: **R with R, P with P.** 
+
+### 🔍 Medical example (easy to remember)
+
+> *"For example, in medical diagnosis, recall means: of all the sick people, how many did we find? Precision means: of all the people we said are sick, how many actually are sick?"*
+
+### 🔍 If they ask: "When is accuracy bad?"
+
+> *"Accuracy is bad when data is imbalanced. For example, if only 1% of people have a disease, a model that predicts 'healthy' for everyone gets 99% accuracy but catches nobody. In that case, we use F1 score or recall instead."*
+
+---
+
+## Topic 4 ⭐⭐ — Overfitting and Underfitting
+
+### 🎯 Your script
+
+> **"Overfitting is when the model memorises the training data but fails on new data. Underfitting is when the model is too simple and fails on both training and test data. The goal is a good fit in the middle — a model that learns the real pattern without chasing random noise."**
+
+### 💡 Simple meaning — the exam analogy
+
+- **Underfitting**: you did not study. You fail practice tests AND the real exam.
+- **Overfitting**: you memorised the practice test answers. You pass practice but fail the real exam.
+- **Good fit**: you understood the ideas. You pass both.
+
+### 🔍 If they ask: "How do you detect overfitting?"
+
+> *"If training accuracy is 99% but test accuracy is only 65%, the model is overfitting. The big gap between training and test is the warning sign."*
+
+---
+
+## Topic 5 ⭐⭐ — Bias-Variance Trade-off
+
+### 🎯 Your script
+
+> **"Bias and variance are two types of error. High bias means the model is too simple and makes the same mistakes consistently — this is underfitting. High variance means the model is too sensitive to small changes and does not generalise — this is overfitting. The trade-off is finding a balance between the two."**
+
+### 💡 The dartboard picture
+
+- **High bias** = all darts hit the same wrong spot (consistently wrong)
+- **High variance** = darts scattered around the bullseye (inconsistent)
+- **Good model** = darts clustered on the bullseye
+
+---
+
+## Topic 6 ⭐⭐ — Imbalanced Data
+
+### 🎯 Your script
+
+> **"Imbalanced data means one class is much rarer than the other, like fraud detection where 99% of transactions are normal and 1% are fraud. The problem is that most algorithms will just predict the majority class, so accuracy looks high but the model is useless. We can fix this by using F1 or recall instead of accuracy, by changing the probability threshold, or by upsampling the minority class."**
+
+### 🔍 If they ask: "What is SMOTE?"
+
+> *"SMOTE stands for Synthetic Minority Over-sampling Technique. It creates new, synthetic examples of the minority class by interpolating between real minority examples. This is better than simply copying rows because it adds variety."*
+
+---
+
+## Topic 7 ⭐⭐ — Cross-Validation
+
+### 🎯 Your script
+
+> **"Cross-validation is a method to test a model more reliably. We split the training data into five folds. We train the model five times, each time using four folds for training and one for testing. Then we average the five results. This gives a more stable estimate of accuracy, especially on small datasets."**
+
+### 💡 Simple meaning
+
+Instead of trusting **one** train-test split that might be lucky or unlucky, we try **five different splits** and average them. More fair, more trustworthy.
+
+---
+
+## Topic 8 ⭐ — Logistic Regression
+
+### 🎯 Your script
+
+> **"Logistic regression is a classification algorithm, even though it has 'regression' in the name. It predicts the probability of a binary outcome, like survived or not survived, using a sigmoid function. Its advantage is interpretability — the coefficients tell us which features push the prediction up or down."**
+
+### 🔍 If they ask: "How do you interpret the coefficients?"
+
+> *"A positive coefficient means the feature increases the probability of the positive class. A negative coefficient means it decreases the probability. For example, in the Titanic model, the coefficient for 'sex = male' was very negative, meaning being male reduced the chance of survival."*
+
+---
+
+## Topic 9 ⭐ — Support Vector Machines (SVM)
+
+### 🎯 Your script
+
+> **"SVM finds the line — or in higher dimensions, the boundary — that best separates two classes with the largest margin. It only uses the data points closest to the boundary, which are called support vectors. For non-linear data, it uses the kernel trick to project the data into a higher dimensional space where separation becomes possible."**
+
+### 💡 Simple meaning
+
+Imagine two groups of people standing in a field. SVM draws a line between them that is as far as possible from both groups. If the groups are mixed together, SVM rearranges them in space until they can be separated.
+
+---
+
+## Topic 10 ⭐ — Naive Bayes
+
+### 🎯 Your script
+
+> **"Naive Bayes is a probabilistic algorithm based on Bayes' theorem. It calculates the probability of a class given the features, assuming the features are independent from each other. This assumption is called 'naive' because in reality features are often related, but the algorithm still works surprisingly well, especially for text classification."**
+
+---
+
+## Topic 11 ⭐ — Gradient Boosted Machines (GBM)
+
+### 🎯 Your script
+
+> **"GBM is another ensemble method like Random Forest, but with a key difference. Random Forest builds trees independently, in parallel. GBM builds trees sequentially — each new tree focuses on the errors of the previous tree. This usually gives higher accuracy, but GBM is slower to train and harder to interpret."**
+
+### 🔍 The guessing game analogy
+
+> *"It is like guessing a number. In Random Forest, 500 people guess independently and we take the average. In GBM, the first person guesses, then the second tries to correct their mistake, then the third corrects what is left, and so on."*
+
+---
+
+## Topic 12 ⭐ — CRISP-DM
+
+### 🎯 Your script
+
+> **"CRISP-DM stands for Cross-Industry Standard Process for Data Mining. It has six phases: Business Understanding, Data Understanding, Data Preparation, Modeling, Evaluation, and Deployment. It is an iterative process — you move back and forth between phases, not only forward."**
+
+### 🧠 Memory trick — the 6 words in order
+
+**B**usiness → **D**ata → **P**reparation → **M**odel → **E**valuation → **D**eployment
+
+Say them out loud in a rhythm: "Bu-si-ness... Da-ta... Pre-pa-ra-tion... Mo-del... E-val-u-a-tion... De-ploy-ment."
+
+---
+
+## Topic 13 ⭐ — One-Hot Encoding
+
+### 🎯 Your script
+
+> **"One-hot encoding converts a categorical variable into several binary columns — one for each category. For example, the 'Embarked' variable with values C, Q, and S becomes three new columns. If the person embarked at C, that column has 1, and the others have 0. This is needed because most machine learning algorithms require numeric input."**
+
+---
+
+## Topic 14 ⭐ — Missing Data
+
+### 🎯 Your script
+
+> **"There are three ways to handle missing data. First, we can drop the rows with missing values if they are few. Second, we can drop the whole column if most of its values are missing, like the Cabin field in Titanic. Third, we can impute the missing values using the mean or the median — but we must calculate this on the training data only, to avoid data leakage."**
+
+---
+
+## Topic 15 ⭐ — ML Metric vs Business Metric
+
+### 🎯 Your script
+
+> **"A machine learning metric measures the model itself, like accuracy or F1 score. A business metric measures the real-world value, like money saved or customers kept. A model can have great ML metrics but no business value. For example, a fraud detector that predicts 'not fraud' for everyone has 99.9% accuracy but zero business value because it catches no fraud."**
+
+---
+
+# 🧠 Part 5: When you don't know the answer
+
+This **will probably happen at least once**. Prepare for it. Do not panic.
+
+### The honest escape
+
+> **"I remember we covered this, but I can't recall the details clearly right now. I know it is related to [something you DO remember]..."**
+
+This is much better than inventing a wrong answer. The professor will either help you, move on, or accept your partial answer.
+
+### Things NOT to say
+
+- ❌ *"I don't know"* (too final, sounds like giving up)
+- ❌ Making up confident wrong answers (much worse than saying you're unsure)
+- ❌ *"I forgot"* (sounds careless)
+
+### Things TO say
+
+- ✅ *"I remember the general idea, but I'm not sure about the details."*
+- ✅ *"Let me try to explain what I remember..."*
+- ✅ *"I think it's related to... but I would need to check."*
+
+---
+
+# 📅 Part 6: Your 4-Day Practice Schedule
+
+Tuesday is your exam. Here is exactly what to do each day.
+
+### 🗓️ Saturday (today) — Setup day
+
+- [ ] Memorise the **3 survival phrases** (Part 1)
+- [ ] Practise **pronunciation** of the tricky words (Part 3)
+- [ ] Read through all topic scripts **once**
+
+### 🗓️ Sunday — Speaking day 1
+
+- [ ] Read each script **out loud** 3 times
+- [ ] Focus on Topics 1 and 2 (the example questions) — say them from memory, closing the guide
+- [ ] Record yourself on your phone saying Topic 1 and Topic 2. Listen back. Fix weak spots.
+
+### 🗓️ Monday — Speaking day 2
+
+- [ ] Close the guide. Imagine a professor asking each topic. Say your script from memory.
+- [ ] Ask a friend (even a non-technical friend) to ask you random topics from the list. Answer them out loud.
+- [ ] If you stumble on a topic, re-read the script 3 times, then try again.
+
+### 🗓️ Tuesday morning — Exam day
+
+- [ ] Do **not** try to learn new material
+- [ ] Read the **3 survival phrases** one more time
+- [ ] Eat breakfast. Drink water.
+- [ ] Review only Topics 1 and 2 (the example questions)
+- [ ] Log in 5 minutes early
+
+---
+
+# 💪 Part 7: On the day — your exam performance plan
+
+### Before the session
+
+1. Test your camera and microphone **30 minutes before**
+2. Have a glass of water next to you
+3. Sit up straight. Good posture = better voice
+4. Smile when you greet the professor
+
+### When the question is asked
+
+**STEP 1 — Breathe.** Do not start speaking immediately.
+
+**STEP 2 — Say a thinking phrase:**
+- *"That's a good question. Let me think for a moment."*
+- or just: *"OK, so..."*
+
+**STEP 3 — Deliver your 3-sentence sandwich.** Definition → Explanation → Example.
+
+**STEP 4 — Stop.** Do not keep talking to fill silence. If they want more, they will ask.
+
+### If you don't understand the question
+
+> *"Sorry, could you repeat the question, please?"*
+
+This is normal. It is not a weakness. Professors ask this to each other all the time.
+
+### If you freeze completely
+
+Say: *"I'm a bit nervous, can I have a moment?"*
+
+This is **completely acceptable**. Professors are human. They understand.
+
+---
+
+# 🌟 Part 8: Final words from your tutor
+
+Listen — I know you are worried. That is normal. Every student is worried before an oral exam, especially in a second language.
+
+But here is the truth:
+
+**You have already done the hard work.**
+
+You have been in the class. You have the notes. You understand the concepts. The only thing left is to **practise saying the words out loud in English** so they come out naturally on Tuesday.
+
+Fifteen minutes of **speaking practice** each day for the next three days is worth more than **three hours of reading**. Please trust me on this.
+
+Your professor is not trying to catch you out. He gave you two example questions because he wants you to succeed. The questions will be simple and fair. You just need to say what you already know — clearly, in short sentences, without panicking.
+
+You can do this.
+
+---
+
+# ✅ The final checklist — print this and tick as you go
+
+## Must memorise (non-negotiable)
+- [ ] The 3 survival phrases
+- [ ] The 3-sentence sandwich pattern
+- [ ] Topic 1 script (Data leakage)
+- [ ] Topic 2 script (Random Forest vs Decision Trees)
+
+## Should memorise (very likely)
+- [ ] Topic 3 (Precision/Recall)
+- [ ] Topic 4 (Overfitting)
+- [ ] Topic 6 (Imbalanced data)
+- [ ] Topic 7 (Cross-validation)
+
+## Good to know (possible)
+- [ ] Topic 5 (Bias-variance)
+- [ ] Topic 8 (Logistic regression)
+- [ ] Topic 9 (SVM)
+- [ ] Topic 11 (GBM)
+
+## Practice goals
+- [ ] Said each script out loud at least 5 times
+- [ ] Recorded myself on phone and listened back
+- [ ] Can answer without looking at the guide
+- [ ] Practised with a friend asking random questions
+
+---
+
+# 📝 My notes and extra questions
+
+*(Use this space for your own notes, Portuguese translations of tricky words, or questions you want to ask the professor.)*
+
+---

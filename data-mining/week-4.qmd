@@ -1,6 +1,7 @@
 ---
-title: "Data Mining — Week 4 Notes"
-subtitle: "STAT9013 — Evaluation Metrics, Logistic Regression, Bias vs Variance, and ML Algorithms"
+title: "Week 4: Evaluation Metrics, Logistic Regression & ML Algorithm Survey"
+subtitle: "STAT9013 — Data Mining"
+date: today
 format:
   html:
     toc: true
@@ -9,394 +10,850 @@ format:
     theme: cosmo
     code-fold: true
     code-tools: true
+    highlight-style: github
 ---
+
+::: {.callout-important icon=true}
+## ⭐ Assessment Reminders
+
+The professor did **not announce specific new assessment dates** in the Week 4 class. However, he did mention an important scheduling change:
+
+- **March 17 (Tuesday) is a bank holiday** in Ireland. The professor said he would **pre-record** that week's class rather than cancel it, so the week is not lost.
+- Slides from previous weeks are uploaded into the **Discussions** section on Canvas.
+- The professor can be contacted through **Canvas** or at **mark.hodnett@mtu.ie**.
+
+*Check Canvas for continuous assessment deadlines and confirm submission formats with the lecturer.*
+:::
 
 ## Overview
 
-This week covers several important topics in data mining and machine learning:
+This week is a big one. It covers **how we judge whether a machine learning model is actually any good** (evaluation metrics), introduces **logistic regression** as a classification method, explains the **bias–variance trade-off** (the single most important concept for understanding why models fail), and gives a **high-level tour of other popular algorithms** — Naive Bayes, SVM, Neural Networks, and Random Forest.
 
--   **Evaluation metrics** for classification (beyond accuracy): precision, recall, F1 score, ROC/AUC
--   **Logistic regression** as a classification algorithm
--   **Precision/Recall trade-off** and how to manipulate the decision threshold
--   **Evaluation metrics for regression**: MAE, MSE, RMSE, R²
--   **Bias-Variance trade-off**: underfitting vs overfitting
--   **Survey of ML algorithms**: Naive Bayes, Support Vector Machines, Neural Networks, Random Forests
+::: {.callout-note}
+The professor emphasised that this week covers a lot of material and that he deliberately gave a "helicopter view" of some algorithms (Naive Bayes, SVM, Neural Networks) because they are covered in other modules. He said: *"If you feel that we should go into any of those algorithms in more detail, then it's certainly worth it. What I would say is the ones that are really interesting are Support Vector Machines and Random Forests."*
+:::
 
-------------------------------------------------------------------------
+## Key Topics
 
-## Evaluation Metrics for Classification
+- Why **accuracy alone is misleading** (imbalanced data & unequal error costs)
+- **Confusion matrix**: TP, FP, FN, TN
+- **Precision**, **Recall**, and the **F1 score**
+- **ROC curve** and **AUC** (Area Under the Curve)
+- The **precision / recall trade-off** via threshold tuning
+- **Logistic regression** — how it works, its strengths, and its weakness (no missing data)
+- **Regression evaluation metrics**: MAE, MSE, RMSE, R²
+- **Bias vs Variance** — underfitting vs overfitting
+- **Polynomial regression** as a demonstration of the trade-off
+- Survey of other algorithms: **Naive Bayes**, **SVM**, **Neural Networks**, **Random Forest**
+- **Bagging** and **sampling with/without replacement**
+- **Communicating model performance in plain English** to non-technical people
 
-### Why Accuracy Alone Is Not Enough
+---
 
-Accuracy is the simplest metric: it measures the percentage of predictions that are correct.
+# Part 1 — Why Accuracy Alone Is Not Enough
 
-$$\text{Accuracy} = \frac{\text{Correct Predictions}}{\text{Total Predictions}}$$
+## The Problem With Accuracy
 
-However, accuracy can be **misleading** in two important situations:
+Accuracy is the most obvious measure: the percentage of predictions that were correct.
 
-1.  **When the cost of errors is not equal across classes.** In medical diagnosis, predicting a sick person as healthy (false negative) is far more dangerous than predicting a healthy person as sick (false positive). Accuracy treats both errors the same.
+$$\text{Accuracy} = \frac{\text{Correct Predictions}}{\text{Total Predictions}} = \frac{TP + TN}{TP + TN + FP + FN}$$
 
-2.  **When the dataset is imbalanced.** If only 1% of credit card transactions are fraudulent, a model that simply says "no fraud" for every transaction achieves 99% accuracy — but catches zero actual fraud. The accuracy looks great, but the model is useless for the task it was designed for.
+It is easy to understand — 100% means every prediction was right. But there are **two situations where accuracy can fool you badly**.
 
-### The Confusion Matrix
+### Situation 1 — Unequal Cost of Errors
 
-A confusion matrix is a table that breaks down all predictions into four categories. For a binary problem where we call one class "Positive" (the thing we're trying to detect — e.g., survived, sick, fraudulent) and the other "Negative":
+In many real-world problems, the two types of errors are not equally bad.
 
-|                        | **Actual Positive** | **Actual Negative** |
-|------------------------|:-------------------:|:-------------------:|
-| **Predicted Positive** | True Positive (TP)  | False Positive (FP) |
-| **Predicted Negative** | False Negative (FN) | True Negative (TN)  |
+::: {.callout-note icon=true}
+## Example — Medical Diagnosis
 
--   **True Positive (TP):** The model correctly predicted Positive. (e.g., patient is sick and model said sick)
--   **True Negative (TN):** The model correctly predicted Negative. (e.g., patient is healthy and model said healthy)
--   **False Positive (FP):** The model incorrectly predicted Positive. (e.g., patient is healthy but model said sick)
--   **False Negative (FN):** The model incorrectly predicted Negative. (e.g., patient is sick but model said healthy)
+- A **false positive** (predicting "sick" when the person is healthy) is **upsetting but not life-threatening** — the patient might get further tests and eventually be cleared.
+- A **false negative** (predicting "healthy" when the person is actually sick) can be **fatal**, because treatment is delayed.
 
-**Titanic example from class:** With Survived=1 as our positive class:
+These two errors are *not* the same, but accuracy treats them as identical.
+:::
 
-```         
-         Actual
-Predicted  1   0
-       1  18   4    ← Model predicted survived
-       0  18  50    ← Model predicted did not survive
+::: {.callout-important icon=true}
+## ⭐ Professor's real-world example — The Irish BreastCheck scandal
+
+*Professor's note:* **"We had a scandal in the medical industry for our BreastCheck, which was an early screening programme to detect cancers... it probably managed to diagnose correctly whether a person was sick or healthy 95, 98, 99%. But it missed a number of people who had cancerous tumours and subsequently missed out on treatment, and by the time their cases progressed and they got the treatment, their cancers had spread, and the number of people unfortunately died from it."**
+
+The professor's point: *"It doesn't really matter... whether you're 99% accurate or not. It's the number of people that are diagnosed as healthy but in fact they're sick. That's the only metric that you're worried about."*
+
+**This kind of story is exactly the type of thing the professor uses to build an exam question around — be ready to explain why recall matters more than accuracy in medical screening.**
+:::
+
+### Situation 2 — Imbalanced Datasets
+
+When one class is much more common than the other, a lazy model can score very high on accuracy while being useless.
+
+::: {.callout-warning icon=true}
+## Common Mistake
+
+If 1% of transactions are fraudulent, a model that predicts "not fraud" for every transaction is **99% accurate** — and **catches zero fraud cases**. Accuracy looks great; the model is worthless.
+
+*Professor's note:* **"A machine learning model could just turn on and basically say, 100% everyone's healthy, and I wouldn't catch those records. So in a lot of cases, accuracy is actually a misleading evaluation metric to use."**
+:::
+
+Real examples of imbalanced data the professor mentioned:
+
+| Domain | Positive class (what we want to catch) | Typical prevalence |
+|:---|:---|:---|
+| Credit card fraud | Fraudulent transactions | < 0.1% |
+| Medical screening (cancer) | Person has disease | ~5% |
+| Spam filtering | Spam emails | Varies, often a minority |
+| Manufacturing defects | Defective items | < 1% |
+
+---
+
+# Part 2 — The Confusion Matrix
+
+A **confusion matrix** is a 2×2 table that breaks predictions into four categories. It is the foundation of every other classification metric.
+
+## The Four Outcomes
+
+We always pick one class to call **Positive** (the thing we are trying to detect). The other is **Negative**.
+
+|   | **Actual Positive (1)** | **Actual Negative (0)** |
+|---|:---:|:---:|
+| **Predicted Positive (1)** | True Positive (TP) ✅ | False Positive (FP) ❌ |
+| **Predicted Negative (0)** | False Negative (FN) ❌ | True Negative (TN) ✅ |
+
+::: {.callout-note icon=true}
+## How to Remember "True" and "False"
+
+- Words that **start with "True"** → the model was **correct**.
+- Words that **start with "False"** → the model was **wrong**.
+- The second word (Positive/Negative) tells you **what the model predicted**.
+
+So "False Negative" = the model predicted Negative, but was wrong (i.e. the actual answer was Positive).
+:::
+
+## The Titanic Example (Used Throughout Class)
+
+The decision tree model from Week 3 produced this confusion matrix (with `Survived = 1` as the Positive class, after re-ordering):
+
+```
+         actuals
+pr         1    0
+   1      17    4      ← Model predicted SURVIVED
+   0      19   50      ← Model predicted DID NOT SURVIVE
 ```
 
-So: TP=18, FP=4, FN=18, TN=50.
+Reading this:
 
-### Precision
+| Cell | Count | Meaning |
+|:---|:---:|:---|
+| TP | 17 | Did survive **AND** the model said they survived ✅ |
+| FP | 4 | Did **not** survive, but the model said they did ❌ |
+| FN | 19 | Did survive, but the model said they didn't ❌ |
+| TN | 50 | Did **not** survive **AND** the model agreed ✅ |
 
-**Precision** answers the question: *"Of all the cases the model predicted as Positive, how many actually were Positive?"*
+**Total accuracy** = (17 + 50) / 90 = 74.4%
+
+::: {.callout-important icon=true}
+## ⭐ Exam-Critical Detail — The R Default vs. The "Standard" Layout
+
+R by default puts the class labelled `0` in the first row/column. Most textbooks and Python libraries put the **Positive class (1) first**, because that is the class we care most about.
+
+*Professor's note:* **"Unfortunately R kind of reverses your confusion matrix... so we're going to reverse that, because we want to treat our first class, or class where it's equal to 1, as a primary class for calculating other metrics."**
+
+The R code to flip the matrix is:
+```r
+actuals <- factor(test_data$Survived, levels=c(1,0))
+pr      <- factor(pr, levels=c(1,0))
+tab     <- table(pr, actuals)
+```
+
+If you are ever asked to calculate precision and recall from an R confusion matrix, **check which class is the positive one first**.
+:::
+
+---
+
+# Part 3 — Precision, Recall, and F1
+
+Three metrics to memorise. Each one answers a different question.
+
+## Precision — "When the model says YES, how often is it right?"
 
 $$\text{Precision} = \frac{TP}{TP + FP}$$
 
-In plain English (using disease example): "Of the people the model said were sick, what percentage actually were sick?"
+Precision looks at the **predicted** column. Of all the cases the model flagged as Positive, what fraction actually were Positive?
 
-Titanic example: Precision = 18 / (18 + 4) = **0.82** (82%)
+**Titanic example:** Precision = 17 / (17 + 4) = **0.81**
 
-High precision means that when the model says "Positive," you can trust it — there are few false alarms.
+::: {.callout-note icon=true}
+## Plain-English Analogy — Precision is like a fishing net's "keep rate"
 
-### Recall (Sensitivity)
+If you cast a net and pull in 100 things, and 81 of them are fish (the rest are seaweed), your **precision is 81%**. The net is quite clean — when it catches something, it's usually a fish.
+:::
 
-**Recall** answers the question: *"Of all the cases that actually were Positive, how many did the model find?"*
+## Recall (Sensitivity) — "Of all the real YES cases, how many did the model find?"
 
 $$\text{Recall} = \frac{TP}{TP + FN}$$
 
-In plain English: "Of the people who were actually sick, what percentage did the model identify?"
+Recall looks at the **actual** column. Of all the cases that truly were Positive, what fraction did the model catch?
 
-Titanic example: Recall = 18 / (18 + 18) = **0.50** (50%)
+**Titanic example:** Recall = 17 / (17 + 19) = **0.47**
 
-High recall means the model catches most of the actual positive cases — it doesn't miss many.
+::: {.callout-note icon=true}
+## Plain-English Analogy — Recall is like a search party's "find rate"
 
-**Tip from the lecturer to remember the difference:** Recall looks at the *actual* values (the column in the confusion matrix). Precision looks at the *predicted* values (the row in the confusion matrix).
+If 100 people are lost in a forest and the search party brings back 47 of them, the **recall is 47%**. It doesn't matter how many false alarms there were — only how many of the real lost people they found.
+:::
 
-### F1 Score
+::: {.callout-important icon=true}
+## ⭐ Mnemonic the Professor Gave for the Exam
 
-The **F1 score** is the harmonic mean of precision and recall. It balances both metrics into a single number.
+*Professor's note:* **"Precision and recall are two things that a lot of people have a bit of confusion about, and it can be hard to remember the definitions. The way I try and remember recall is: recall just looks at the actual values, and precision looks at the predicted values."**
 
-$$F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
+- **Recall** → look at the **row where the Actual = 1** (focus on actuals)
+- **Precision** → look at the **row where the Predicted = 1** (focus on predictions)
 
-Why the harmonic mean instead of a simple average? Because the harmonic mean **punishes extreme values**. A model with Precision = 1.0 and Recall = 0.0 has a simple average of 0.5, but an F1 of **0.0**. This makes F1 a fairer metric — it forces both precision and recall to be reasonably good.
+Expect to calculate both by hand from a confusion matrix on the exam.
+:::
 
-Titanic example: F1 = 2 × (0.82 × 0.50) / (0.82 + 0.50) ≈ **0.62**
+## F1 Score — The Balanced Summary
 
-### Communicating Metrics to Non-Technical People
+$$F_1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
 
-This was strongly emphasised in class: **business people and domain experts will not understand F1, precision, and recall by name.** You need to translate these into plain language:
+F1 is the **harmonic mean** of precision and recall. It gives a single number that only gets high when **both** precision and recall are high.
 
--   Instead of "Recall is 0.50" → "Of those who are sick, the model finds 50% of the cases."
--   Instead of "Precision is 0.82" → "Of those the model predicts as sick, 82% actually are sick."
+**Titanic example:** F1 = 2 × (0.81 × 0.47) / (0.81 + 0.47) ≈ **0.60**
 
-Whether a model is "good enough" depends entirely on the **context** and the **consequences of errors**. For a serious disease screening, low recall (missing sick patients) is unacceptable. For a less serious screening tool, decent precision might be sufficient.
+::: {.callout-warning icon=true}
+## Why Harmonic Mean and Not Simple Average?
 
-------------------------------------------------------------------------
+Because the harmonic mean **punishes extreme imbalance**. Consider a model with Precision = 1.0 and Recall = 0.0:
 
-## ROC Curve and AUC
+- Simple average: 0.5 (looks okay)
+- F1 score: **0.0** (correctly shows the model is broken)
 
-### What Is the ROC Curve?
+*Professor's note:* **"If precision is 0.99 but the recall is 0.01, it just doesn't take an average, call it 50% and call it done. It basically will allocate a very low F1 score on that."**
+:::
 
-A **Receiver Operating Characteristic (ROC)** curve is a plot that shows how a binary classifier performs across all possible decision thresholds. Originally developed for military radar operators in World War II.
+## Quick Reference Table
 
--   **Y-axis:** Sensitivity (same as Recall) — the true positive rate
--   **X-axis:** 1 − Specificity — the false positive rate, where Specificity = TN / (TN + FP)
+| Metric | Formula | Answers the question | When it matters most |
+|:---|:---|:---|:---|
+| **Accuracy** | (TP+TN)/Total | "Overall, how often right?" | Balanced data, equal costs |
+| **Precision** | TP/(TP+FP) | "When I say YES, am I right?" | When false alarms are expensive |
+| **Recall** | TP/(TP+FN) | "Did I catch all the real YES cases?" | When missing a case is expensive |
+| **F1** | Harmonic mean of P & R | "Are both P and R good?" | Imbalanced data, both errors matter |
 
-A perfect classifier would have a curve that goes straight up from (0,0) to (0,1) and then across to (1,1), covering the entire top-left area.
+---
 
-### Area Under the Curve (AUC)
+# Part 4 — Communicating Metrics in Plain English
 
-The **AUC** is the area under the ROC curve, ranging from 0 to 1. A higher AUC indicates better model performance:
+::: {.callout-important icon=true}
+## ⭐ This Is One of the Professor's Biggest Points — Highly Likely to Appear in the Exam
 
--   AUC = 1.0 → perfect classifier
--   AUC = 0.5 → no better than random guessing (the diagonal line)
--   AUC \< 0.5 → worse than random (predictions are inverted)
+*Professor's note:* **"I can't highlight this enough... very early on in my career, when I had finished my master's in data science, I had all these tools and all these knowledge, and I wanted to demonstrate these, and I put things like F1 scores inside in presentations... and my presentation basically fell flat. Too many data scientists cannot converse with the people that are the decision makers, and if they want their models to get into production, they need to find a way to communicate what their model will actually do."**
 
-In the Titanic example, the decision tree model had an AUC of **0.764**.
+The professor's point: **a model is only useful if the business understands what it does.** Do not walk into a meeting talking about F1 scores.
+:::
 
-------------------------------------------------------------------------
+## How to Translate Each Metric for a Business Audience
 
-## Precision / Recall Trade-Off
+Imagine the Titanic model is actually a disease-screening model (1 = sick, 0 = healthy). Its precision is 0.81 and recall is 0.47.
 
-### Using Probabilities Instead of Hard Classes
+| Technical statement | Plain-English translation |
+|:---|:---|
+| "Recall is 0.47" | "Of the people who are actually sick, the model finds 47% of them." |
+| "Precision is 0.81" | "Of the people the model says are sick, 81% really are sick." |
+| "F1 is 0.60" | (Don't use F1 with business — use precision and recall separately.) |
 
-Most ML models don't just output "0" or "1" — they output a **probability**. For example, a model might say a passenger has a 0.63 probability of surviving and a 0.37 probability of not surviving.
+## Is This a "Good" Model?
 
-We typically use a **threshold of 0.5**: if the probability of the positive class ≥ 0.5, predict Positive; otherwise, predict Negative.
+Depends entirely on **context**:
 
-### Changing the Threshold
+- **Serious disease** (like cancer): missing sick patients is unacceptable → **recall is king** → this model is bad (only 47%).
+- **Quick screening tool** (e.g., COVID thermometer gun at the door): high precision with some missed cases may be acceptable → *"better than nothing"* says the professor.
 
-But there's nothing magical about 0.5. By changing the threshold, we can shift the balance between precision and recall:
+---
 
--   **Lower the threshold** (e.g., 0.1): The model predicts "Positive" more easily → **higher recall** (catches more true positives), but **lower precision** (more false positives). Good when you need to find as many positive cases as possible (e.g., fraud detection, disease screening).
+# Part 5 — ROC Curve and AUC
 
--   **Raise the threshold** (e.g., 0.9): The model only predicts "Positive" when very confident → **higher precision** (fewer false alarms), but **lower recall** (misses more true positives). Good when you need high confidence in positive predictions.
+## What Is the ROC Curve?
 
-**Example from the lab (logistic regression on Titanic):**
+The **Receiver Operating Characteristic (ROC)** curve is a plot that shows how well a classifier can distinguish between the two classes **across all possible thresholds**.
 
-| Threshold | Accuracy | Precision | Recall |
-|:---------:|:--------:|:---------:|:------:|
-|    0.5    |   73%    |   0.73    |  0.53  |
-|    0.1    |   65%    |   0.54    |  0.92  |
-|    0.9    |   64%    |   1.00    |  0.11  |
+::: {.callout-note icon=true}
+## Fun Historical Analogy
 
-This is the fundamental **precision/recall trade-off**: improving one generally comes at the expense of the other.
+The ROC curve was invented for **radar operators in World War II** who had to decide whether a blip on the screen was a real enemy plane or just noise. That's why it's called "Receiver Operating Characteristic."
+:::
 
-------------------------------------------------------------------------
+- **Y-axis:** Sensitivity = Recall = TP / (TP + FN)
+- **X-axis:** 1 − Specificity = FP / (FP + TN) = False Positive Rate
 
-## Logistic Regression
+A perfect model would go straight up the left side and across the top — 100% recall with 0% false positives.
 
-### What Is It?
+## AUC — Area Under the Curve
 
-Logistic regression is a **classification algorithm** (despite having "regression" in the name). It uses the mathematical framework of linear regression but adapts it for binary classification using the logistic (sigmoid) function.
+**AUC** is a single number summarising the ROC curve.
 
-The formula is: $\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_n x_n$
+| AUC value | Interpretation |
+|:---:|:---|
+| 1.0 | Perfect classifier |
+| 0.9 – 1.0 | Excellent |
+| 0.8 – 0.9 | Good |
+| 0.7 – 0.8 | Fair |
+| 0.5 | No better than random guessing |
+| < 0.5 | Worse than random (predictions inverted) |
 
-The result is passed through a sigmoid function to produce a probability between 0 and 1.
+**Titanic decision tree AUC:** 0.764 (decent but not great)
 
-### Key Points from Class
+```r
+library(tidymodels)
+test_data$predicted <- pr[,2]
+test_data$Survived <- factor(test_data$Survived, levels=c(1,0))
+autoplot(roc_curve(test_data, Survived, predicted))
+roc_auc(test_data, Survived, predicted)
+```
 
--   **Coefficients are interpretable:** Negative coefficients mean higher values of that feature decrease the probability of the positive class. For example, a negative coefficient for `Sexmale` means being male decreases the chance of survival.
+---
 
--   **Does not handle missing values:** Unlike decision trees, logistic regression cannot process rows with `NA` values. If you include a column with missing data (like Age in the Titanic dataset), the `predict()` function returns `NA` for those rows. You must either drop those rows or impute the missing values (e.g., mean imputation).
+# Part 6 — The Precision / Recall Trade-Off
 
--   **Statistical significance of features:** The `summary()` output shows p-values and significance codes (stars) for each feature. Features with no stars (high p-values) may not be contributing to the model and can be considered for removal.
+## The 0.5 Threshold Is Not Sacred
 
--   **Occam's Razor in ML:** A simpler model (fewer features) is preferable if it achieves comparable accuracy. In the lab, removing Embarked, Parch, and Fare actually improved accuracy slightly (from 73% to 74%), because those variables were either not significant or were correlated with other features already in the model.
+Most classifiers output a **probability** between 0 and 1. By default we convert this to a class using:
+
+> If `prob >= 0.5` → predict Positive  
+> Else → predict Negative
+
+But **0.5 is just a convention**. By moving the threshold, we can prioritise precision or recall.
+
+::: {.callout-note icon=true}
+## Threshold as a Volume Knob
+
+Think of the threshold as a volume knob for how eager the model is to say "Positive":
+
+- **Low threshold (e.g., 0.1)** — the model shouts "Positive!" at almost everything. Catches most real positives (**high recall**) but also raises lots of false alarms (**low precision**).
+- **High threshold (e.g., 0.9)** — the model only says "Positive" when 90%+ sure. Rarely wrong when it does (**high precision**) but misses many real cases (**low recall**).
+:::
+
+## Actual Results from Lab 4a (Logistic Regression on Titanic)
+
+| Threshold | Accuracy | Precision | Recall | Character |
+|:---:|:---:|:---:|:---:|:---|
+| 0.1 | ~65% | 0.54 | 0.92 | "Paranoid" — catches almost everyone, lots of false alarms |
+| **0.5** | ~73% | 0.73 | 0.53 | Balanced default |
+| 0.9 | ~64% | 1.00 | 0.11 | "Cautious" — only when very sure |
+
+**You cannot push up both precision AND recall** — improving one almost always costs the other.
+
+::: {.callout-important icon=true}
+## ⭐ Exam Application
+
+If the exam describes a scenario, you should be able to recommend a threshold:
+
+| Scenario | Prioritise | Move threshold... |
+|:---|:---:|:---:|
+| Cancer screening — don't miss a case | Recall | **Lower** |
+| Spam filter — don't send real email to junk | Precision | **Higher** |
+| Fraud detection — catch as many as possible | Recall | **Lower** |
+| Legal evidence — must be certain | Precision | **Higher** |
+:::
+
+---
+
+# Part 7 — Logistic Regression
+
+## What Is It?
+
+**Logistic regression** is a **classification** algorithm (despite "regression" in the name). It takes the framework of linear regression but maps the output through a **sigmoid (logistic) function** so the result is a probability between 0 and 1.
+
+Linear regression formula:
+$$z = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_n x_n$$
+
+Sigmoid transformation:
+$$P(y = 1) = \frac{1}{1 + e^{-z}}$$
+
+The output is the probability that the observation belongs to the positive class.
+
+## Why It Is Popular
+
+- **Interpretable coefficients** — each $\beta$ tells you how the variable affects the probability.
+- **Fast** to train, even on large data.
+- **Statistical significance** is reported via p-values.
+- A good **baseline** before trying fancy algorithms.
+
+## Key Points From Class
+
+### Interpreting the Coefficients
+
+- **Negative coefficient** → higher values of that feature **decrease** the probability of survival.
+- **Positive coefficient** → higher values **increase** the probability of survival.
+
+*Professor's note:* **"If you look at the way the formula for logistic regression is ... if the coefficient is negative, that means that a higher value is an indication that the person did not survive. So in this case, Pclass is negative, which means the higher value for Pclass, the less likely somebody survived."**
 
 ### Handling Categorical Variables
 
-When logistic regression encounters a categorical variable (like Sex with values "male" and "female"), it automatically creates indicator variables. One category is absorbed into the intercept — in R, this is typically the first alphabetical value. So `Sexmale` appears as a coefficient, while the effect of being female is captured in the intercept.
+When R sees a categorical variable like `Sex`:
 
-### Correlated Variables
+- It creates **indicator variables** (`Sexmale` = 0 or 1).
+- One category is **absorbed into the intercept** — typically the alphabetically first value.
+- So `Sexfemale` has **no explicit coefficient** — it's wrapped into the intercept.
 
-A variable like Embarked may appear statistically insignificant not because it has no relationship with survival, but because its effect is already explained by other variables (like Pclass). This is called **multicollinearity**. When variables are correlated, the model says "I already have this information from another feature."
+::: {.callout-note icon=true}
+## Why the Intercept Is So Large
 
-### Lab 4a — R Code Summary
+The intercept effectively represents the "baseline person" — in the Titanic case, a **female passenger who embarked at Cherbourg**. Both conditions are associated with higher survival, so the intercept comes out large and positive.
+:::
 
-``` r
-# Logistic regression on Titanic
+### The Missing-Data Problem
+
+::: {.callout-warning icon=true}
+## ⚠️ Common Mistake — Don't Forget to Handle NA's!
+
+Logistic regression **cannot handle missing values**. If you train a model using a column with NAs (like `Age` in Titanic), the `predict()` function will return **NA** for those rows — and you'll get a broken confusion matrix.
+
+**Two options:**
+
+1. **Drop the column** entirely (quick fix)
+2. **Impute the missing values** (better: use the **mean of the training set only**, never the full dataset)
+
+*Professor's note:* **"We only calculate the average of the age across the [training] split of the records... We don't take the average over all of them, because that would mean that we're leaking data into the [model]."**
+:::
+
+### Occam's Razor — Simpler Is Often Better
+
+In the lab, removing `Embarked`, `Parch`, and `Fare` (all statistically insignificant) **improved** accuracy slightly — from 73% to 74%.
+
+**Why?** These variables added noise without adding signal. Correlated features (like `Fare` and `Pclass`) don't both need to be in the model.
+
+::: {.callout-important icon=true}
+## ⭐ The Concept of Multicollinearity
+
+A variable may appear "insignificant" in the summary **not because it has no relationship with the outcome, but because another variable in the model already captures the same information**.
+
+Example: `Embarked` looks insignificant because `Pclass` already explains most of its predictive power (people from Cherbourg were more likely to be first class).
+:::
+
+## Lab 4a — Core Code
+
+```r
+# Fit the model
 logistic_model <- glm(formula = Survived ~ .,
                       family = binomial(link = "logit"),
                       data = train_data)
-summary(logistic_model)
+summary(logistic_model)   # p-values, coefficients, significance stars
 
-# Get probabilities
+# Get probabilities (NOT classes)
 pr <- predict(logistic_model, newdata = test_data, type = "response")
 
-# Convert to classes using threshold
+# Convert to classes at threshold 0.5
 pr <- ifelse(pr > 0.5, 1, 0)
+
+# Evaluate
+actuals <- factor(test_data$Survived, levels = c(1,0))
+pr      <- factor(pr, levels = c(1,0))
+tab     <- table(pr, actuals)
+accuracy <- 100 * sum(diag(tab) / sum(tab))
 ```
 
-------------------------------------------------------------------------
+---
 
-## Evaluation Metrics for Regression
+# Part 8 — Evaluation Metrics for Regression
 
-When the target variable is numeric (not a category), we use different metrics:
+For numerical targets (predicting a price, a temperature, a spend) we use different metrics.
 
-### Mean Absolute Error (MAE)
+## The Four Regression Metrics
+
+| Metric | Formula | Units | Key property |
+|:---|:---|:---|:---|
+| **MAE** | $\frac{1}{n}\sum \lvert y_i - \hat{y}_i \rvert$ | Same as y | Easy to explain, treats all errors equally |
+| **MSE** | $\frac{1}{n}\sum (y_i - \hat{y}_i)^2$ | y² | Penalises big errors heavily |
+| **RMSE** | $\sqrt{\text{MSE}}$ | Same as y | Penalises big errors, yet still interpretable |
+| **R²** | Correlation(y, ŷ)² | Unitless 0–1 | Proportion of variance explained |
+
+## MAE — Mean Absolute Error
 
 $$\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$
 
-The average absolute difference between predicted and actual values. **Easy to interpret** — if MAE is 15 and you're predicting spending in euros, then predictions are off by €15 on average.
+::: {.callout-note icon=true}
+## Professor's Example — Customer Spending Model
 
-### Mean Squared Error (MSE)
+*Professor's note:* **"If we said that we had a model that was trying to predict how much a person was going to spend in our store in the next month, and if it basically said that the mean absolute error was 15, then the model is accurate plus or minus 15 euros."**
+
+MAE's big advantage: it is in the **same units** as the target. Easy to communicate to business.
+:::
+
+## MSE — Mean Squared Error
 
 $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
 
-Squares the errors before averaging. **Penalises large errors more heavily** than MAE, because squaring amplifies big differences (an error of 5 contributes 25, while an error of 2 contributes only 4).
+Squaring has two effects:
 
-### Root Mean Squared Error (RMSE)
+1. Removes negatives (a -5 error and a +5 error both contribute 25).
+2. **Big errors are punished more** than small ones (2² = 4 vs 5² = 25).
+
+Good for models where you **really don't want huge misses**.
+
+## RMSE — Root Mean Squared Error
 
 $$\text{RMSE} = \sqrt{\text{MSE}}$$
 
-Takes the square root of MSE to bring the error back into the **same units** as the original values. RMSE will always be ≥ MAE. Preferred in many applications because it penalises large errors while remaining interpretable.
+Squaring puts the error back in the same units as `y`, but RMSE still penalises large errors more than MAE does. In practice, **RMSE ≥ MAE always**.
 
-### R-Squared (R²)
+## R² — Coefficient of Determination
 
-$$R^2 = (\text{Correlation}(y, \hat{y}))^2$$
+Tells you what **fraction of the variance** in the target is explained by the model.
 
-Measures how much of the variability in the target can be explained by the model. Ranges from 0 to 1:
+- R² = 1 → perfect fit
+- R² = 0 → model is no better than just predicting the mean
+- R² < 0 → model is worse than just predicting the mean (yes, this can happen on test data!)
 
--   R² = 1 → model explains all variability (perfect fit)
--   R² = 0 → model explains none of the variability
+**For most regression tasks, R² and RMSE are the preferred metrics.**
 
-**For regression tasks, R² and RMSE are usually the preferred metrics.**
+---
 
-------------------------------------------------------------------------
+# Part 9 — The Bias–Variance Trade-Off
 
-## The Bias-Variance Trade-Off
+This is **the single most important concept** in the week. The professor came back to it many times.
 
-This is one of the most fundamental concepts in machine learning.
+## The Two Evils
 
-### Bias (Underfitting)
+| Concept | What it means | Training error | Test error | Also called |
+|:---|:---|:---:|:---:|:---|
+| **Bias** | Model too simple; misses the pattern | High | High | Underfitting |
+| **Variance** | Model too complex; memorises noise | Low | **High** | Overfitting |
 
-**Bias** is the error from a model that is too simple — it cannot capture the underlying pattern in the data. A high-bias model performs poorly on **both** training and test data.
+::: {.callout-note icon=true}
+## Analogy — The Student Studying for an Exam
 
-Think of it as a straight line trying to fit curved data — it's too rigid and misses the pattern entirely.
+- **High bias (underfit)** — the student only skimmed the textbook. They don't know the material. They do badly on the practice exam **and** the real exam.
+- **Good fit** — the student studied properly and understands the concepts. They do well on both practice and real exams.
+- **High variance (overfit)** — the student memorised every word of the practice exam answers. On the practice exam they score 100%. On the real exam (with slightly different questions) they score badly because they never learned the underlying concepts.
+:::
 
-### Variance (Overfitting)
+## Visualising It (from Lab 4b)
 
-**Variance** is the error from a model that is too complex — it learns the noise and random fluctuations in the training data, not just the real pattern. A high-variance model performs **well on training data** but **poorly on test data**.
+Using synthetic data, three polynomial regression models were fitted:
 
-Think of it as a wiggly line that passes through every training point but goes wildly off-track for new data.
+| Model | Formula | R² (training) | MAE (training) | Real-world behaviour |
+|:---:|:---|:---:|:---:|:---|
+| 1 | $y = \beta_0 + \beta_1 x$ | 0.17 | 3.45 | **Underfits** — a straight line cannot capture the curve. |
+| 2 | $y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3$ | 0.79 | 1.54 | **Good fit** — captures the general shape. |
+| 3 | Degree 6 polynomial | 0.97 | 0.62 | **Overfits** — hits every training point but oscillates wildly outside the training range. |
 
-### The Trade-Off
+::: {.callout-warning icon=true}
+## ⚠️ The Deceptive "Best" Model
 
-You cannot minimise both bias and variance simultaneously. Making a model more complex reduces bias but increases variance. Making it simpler increases bias but reduces variance. The goal is to find the **sweet spot** — a model complex enough to capture the real pattern but not so complex that it memorises noise.
+Model 3 has the **best training metrics** (R² = 0.97, lowest MAE). It looks like the winner. **But it would fail catastrophically on new data**, because it has memorised the random noise in the training set, not the underlying relationship.
 
-### Polynomial Regression Example (Lab 4b)
+**This is the most common failure mode in applied machine learning.** Never trust training metrics alone.
+:::
 
-The lab demonstrated this trade-off using polynomial regression on synthetic data:
+## How to Detect Overfitting
 
-| Model | Formula | R² | MAE | Behaviour |
-|:------------:|:-------------|:------------:|:------------:|:-----------------|
-| 1 | $y = \beta_0 + \beta_1 x$ | 0.17 | 3.45 | **Underfits** — straight line misses all patterns |
-| 2 | $y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3$ | 0.79 | 1.54 | **Good fit** — captures the general trend |
-| 3 | $y = \beta_0 + \beta_1 x + \dots + \beta_6 x^6$ | 0.97 | 0.62 | **Overfits** — looks great on training data but oscillates wildly outside the training range |
+Three practical tests:
 
-Model 3 has the best metrics on training data, but it would perform terribly on new data because it has memorised the training noise.
+1. **Compare training vs test performance.** A big gap (great on training, mediocre on test) means the model overfit.
+2. **Change the random seed** and refit. If results vary wildly, the model is unstable.
+3. **Use cross-validation** (covered in a later class) for a systematic check.
 
-### How to Detect Overfitting
+---
 
--   Compare performance on training data vs test data. If training performance is much better, the model is likely overfitting.
--   Change the random seed and rebuild the model. If accuracy varies wildly across different train/test splits, the model is not generalising well.
--   Cross-validation (covered in a future class) is a more systematic approach to this.
+# Part 10 — Survey of Other ML Algorithms
 
-------------------------------------------------------------------------
+The professor gave a high-level tour of four more algorithms. Each uses a different "philosophy" to make predictions. All were tested on the Titanic data.
 
-## Survey of Other ML Algorithms
+## Summary Comparison Table
 
-### Naive Bayes
+| Algorithm | Core idea | Titanic accuracy | Strengths | Weaknesses |
+|:---|:---|:---:|:---|:---|
+| **Naive Bayes** | Update beliefs with evidence using Bayes' theorem | ~72% | Very fast, scalable, great baseline | Assumes features are independent (rarely true) |
+| **SVM** | Draw the widest possible gap between classes | ~76% | Robust to outliers, good default | Slow on large datasets |
+| **Neural Network** | Network of nodes learning non-linear patterns | ~75–78% | Approximates any function | Needs huge data, hard to interpret |
+| **Random Forest** | Average the votes of 100+ decision trees | **~78%** | Best out-of-the-box on tabular data | Less interpretable than a single tree |
 
-**Based on:** Bayesian statistics — updating beliefs with new evidence.
+## Naive Bayes
 
-**Core idea:** Start with a prior belief (e.g., 38% of passengers survived), then update it with each piece of evidence (e.g., the passenger is female → higher survival probability, the passenger is 1st class → even higher probability).
+### The Big Idea
+
+Start with a **prior belief**, then **update** it each time new evidence arrives.
 
 $$\text{Posterior} = \frac{\text{Prior} \times \text{Likelihood}}{\text{Prior} \times \text{Likelihood} + (1 - \text{Prior}) \times (1 - \text{Likelihood})}$$
 
-**"Naive" because:** It assumes all features are independent of each other, which is rarely true in practice (e.g., ticket class and fare are obviously related).
+### The Professor's Soccer Analogy
 
-**Advantages:** Very fast and scalable — probabilities for each feature can be precomputed. Good as a baseline model.
+::: {.callout-note icon=true}
+## Bayesian Updating in Sport
 
-**Disadvantages:** Rarely produces the best results because the independence assumption doesn't hold in real data.
+*Professor's note:* **"Two player teams are playing a knockout match... the home team in the league usually wins 60% of the matches. So in Bayesian statistics, you call this a prior belief..."**
 
-**Titanic accuracy:** \~72%
+- **Starting belief (prior):** Home team wins 60% of matches.
+- **New evidence:** Team A has a star striker who scores a lot — when he plays, the team wins 70%.
+- **Updated belief (posterior):** 0.78 (78% chance of winning).
+- **More evidence:** Key defender is injured — alone this suggests only 45% chance of winning.
+- **Final updated belief:** 0.74 (74% chance of winning).
 
-### Support Vector Machines (SVM)
-
-**Core idea:** Find the best boundary (hyperplane) that separates two classes with the **maximum margin** — the widest gap between the closest points of each class.
-
-**Two key elements:**
-
-1.  **Margin maximisation:** Instead of just drawing any separating line, SVM finds the one that creates the widest possible gap between classes. The data points closest to the boundary are called **support vectors**.
-
-2.  **The kernel trick:** Maps data into a higher-dimensional space using kernel functions (similar in spirit to polynomial regression), allowing SVM to find non-linear boundaries.
-
-**Advantages:** Good results without much tuning, robust to outliers (because the model only depends on support vectors near the boundary, not distant points).
-
-**Disadvantages:** Does not scale well to very large datasets — can be very slow.
-
-**Titanic accuracy:** \~76%
-
-### Neural Networks
-
-**Core idea:** A network of interconnected nodes (neurons) organised in layers. Each node performs a simple mathematical function, and an activation function introduces non-linearity.
-
-**How training works:**
-
-1.  **Forward propagation:** Input values pass through the network layer by layer, multiplied by weights, until they reach the output.
-2.  **Cost function:** The difference between the predicted output and the actual values is calculated.
-3.  **Backward propagation:** The weights are adjusted slightly, working backwards from the output, to reduce the error.
-4.  This cycle repeats hundreds or thousands of times until the error stops improving.
-
-**Important considerations:**
-
--   Neural networks require **numeric and scaled inputs**. Categorical variables must be one-hot encoded, and numeric variables should be scaled to a 0–1 range.
--   They need **a lot of data** to perform well.
--   For standard tabular data, they typically don't outperform simpler models like Random Forest or SVM. Their strength is in domains like computer vision and natural language processing.
-
-**Titanic accuracy:** \~75–78%
-
-### Random Forest (Ensemble Method)
-
-**Core idea:** Instead of building one decision tree, build hundreds of them, each trained on slightly different data and features, then take a **majority vote**.
-
-This is grounded in the **Central Limit Theorem**: the average of many independent (even imperfect) estimates tends to be very accurate. Like asking 100 people to guess the number of marbles in a jar — individual guesses may be off by 20–30%, but the average is typically within 1–2%.
-
-**Three techniques to create diversity among the trees:**
-
-1.  **Bagging (Bootstrap Aggregating):** Each tree is trained on a random sample of rows drawn *with replacement*. About 63% of rows are unique in each sample; the rest are duplicates. The \~37% of rows not included are called "out-of-bag" (OOB) samples and can be used to estimate error.
-
-2.  **Random feature selection:** At each split in each tree, only a small random subset of features is considered. This prevents one dominant feature (e.g., gender in Titanic) from always being chosen first.
-
-3.  **Shallow trees:** Individual trees are kept small (depth 1–2) to avoid overfitting.
-
-**Why intentionally weaken the base models?** Because we want diverse viewpoints on the data. If a few trees are poor, they get outvoted by the majority.
-
-**Advantages:** Generally provides very good results without much tuning. Corrects for decision trees' tendency to overfit. Provides feature importance rankings.
-
-**Disadvantages:** Less interpretable than a single decision tree.
-
-**Titanic accuracy:** \~78% (best among the models tested)
-
-**Feature importance from the Titanic Random Forest:** Sex \> Fare \> Age \> Pclass \> SibSp \> Parch \> Embarked
-
-------------------------------------------------------------------------
-
-## Sampling: With vs Without Replacement
-
-This concept is important for understanding how Random Forest works.
-
-**Without replacement** (default): Once an item is selected, it cannot be selected again. Like drawing lottery numbers — each number is unique.
-
-``` r
-tmp <- sample(100, 90)           # Select 90 from 1:100
-length(unique(tmp))              # All 90 are unique
-```
-
-**With replacement**: Items can be selected more than once. Like drawing a marble, noting it, putting it back, and drawing again.
-
-``` r
-tmp <- sample(90, 90, replace = TRUE)   # Select 90 from 1:90
-length(unique(tmp))                      # ~57 unique (≈63%)
-```
-
-When sampling *n* items from *n* with replacement, approximately **63%** will be unique. This is the basis of bagging in Random Forest.
-
-------------------------------------------------------------------------
-
-## Key Takeaways
-
-1.  **Accuracy is misleading** for imbalanced data or when error costs are unequal. Use precision, recall, and F1 instead.
-2.  **Precision vs Recall** is a trade-off — you can shift the balance by adjusting the probability threshold.
-3.  **Always translate metrics into plain language** when communicating with non-technical stakeholders.
-4.  **Logistic regression** is interpretable, fast, and a good baseline for classification — but cannot handle missing data.
-5.  **Bias = underfitting** (model too simple); **Variance = overfitting** (model too complex). The goal is the right balance.
-6.  **Random Forest** is typically one of the best-performing algorithms for tabular data out of the box.
-7.  **Feature engineering** (creating derived features) can improve models, but too much can cause overfitting.
-
-------------------------------------------------------------------------
-
-## Personal Notes
-
-::: callout-note
-*Add your own notes, questions, and observations here after reviewing the material.*
+Bayesian thinking = combining independent pieces of evidence sequentially.
 :::
+
+### Why "Naive"?
+
+It assumes every feature is **independent** of every other feature — which is almost never true in practice. In the Titanic data, `Fare` and `Pclass` are obviously correlated, but Naive Bayes pretends they aren't.
+
+```r
+library(e1071)
+nb_model <- naiveBayes(Survived ~ ., data = train_data)
+pr <- predict(nb_model, newdata = test_data, type = "raw")
+```
+
+## Support Vector Machines (SVM)
+
+### The Big Idea
+
+Find the **best-separating boundary** between two classes — specifically, the one that leaves the **widest possible gap** (margin) between the closest points of each class.
+
+### Two Key Concepts
+
+1. **Maximum margin** — among all possible separating lines, pick the one furthest from any point. The points closest to the boundary are called **support vectors**.
+2. **The kernel trick** — map the data into a **higher-dimensional space** so that patterns that aren't linearly separable in 2D become separable in higher dimensions. Conceptually similar to polynomial regression.
+
+::: {.callout-note icon=true}
+## Why SVM Is Robust to Outliers
+
+*Professor's note:* **"It really only is going to focus on [the support vectors at the boundary]. They really are the rows that are going to determine how it's going to separate the data."**
+
+Points far from the boundary don't influence the model at all. So one or two wild outliers have no effect — unlike logistic regression, where every point contributes.
+:::
+
+```r
+library(kernlab)
+svm_model <- ksvm(Survived ~ ., data = train_data,
+                  kernel = "rbfdot", prob.model = TRUE)
+```
+
+## Neural Networks
+
+### The Big Idea
+
+A **network of nodes** arranged in **layers**. Each node does a small mathematical calculation (weighted sum + nonlinear activation function) and passes its result to the next layer. By stacking many layers, the network can approximate almost any function.
+
+### How Training Works
+
+| Step | What happens |
+|:---:|:---|
+| 1. Forward pass | Inputs flow through the layers, producing a prediction. |
+| 2. Calculate error | Compare prediction to actual value using a **cost function**. |
+| 3. Backpropagation | Adjust every weight slightly, working backwards, to reduce the error. |
+| 4. Repeat | Loop forward + backward hundreds or thousands of times. |
+
+### Practical Constraints
+
+- **Requires numeric input** — categorical variables must be **one-hot encoded**.
+- **Requires scaling** — all numeric features should be mapped to a 0–1 range.
+- **Slow and unstable** on small datasets.
+
+::: {.callout-warning icon=true}
+## ⚠️ The Professor's Warning
+
+*Professor's note:* **"In practice, what I basically say about neural networks is: don't use neural networks typically... I hardly ever use them outside of this class. I don't think I've ever touched neural networks on tabular data unless you have a large amount of data, or it is something that is designed like a computer vision problem or [NLP] problem."**
+
+For tabular data, Random Forest and SVM almost always outperform neural networks unless you have millions of rows. Save neural networks for image/text data.
+:::
+
+## Random Forest (Ensemble Method)
+
+### The Big Idea
+
+Rather than building one decision tree, build **hundreds of trees** — each trained on slightly different data and features — and **take the majority vote**.
+
+### The Statistical Foundation — Central Limit Theorem
+
+::: {.callout-note icon=true}
+## Analogy — Guessing Marbles in a Jar
+
+*Professor's note:* **"If I ask everyone here in this class how many marbles are in the jar, you could be off by 20 or 30%. If I asked 100 people their guess on how many marbles are in the jar, and I took the average of that, it would be within 1 or 2% of the actual value."**
+
+The average of many imperfect guesses is almost always better than any individual guess — the **Central Limit Theorem**. Random Forest exploits this by averaging many mediocre decision trees.
+:::
+
+### How Random Forest Creates Diverse Trees
+
+If every tree saw the same data and features, they'd all be identical and the vote would be pointless. Random Forest uses **three tricks** to force diversity:
+
+| Trick | What it does | Why |
+|:---|:---|:---|
+| **Bagging** (Bootstrap Aggregating) | Each tree gets a **random sample of rows, with replacement** (~63% unique) | Different rows = different trees |
+| **Random feature selection** | At each split, only a **random subset of features** is considered | Stops one dominant feature (like gender) being chosen every time |
+| **Shallow trees** | Each tree is kept small (depth 1–2) | Prevents any single tree from overfitting |
+
+::: {.callout-note icon=true}
+## Why Intentionally Weaken the Base Models?
+
+*Professor's note:* **"If a few base models are very poor, then they will just be outvoted by the other base models."**
+
+Each individual tree is kind of useless — but together, they make a very strong ensemble. Think wisdom of crowds.
+:::
+
+### Random Forest Feature Importance (Titanic)
+
+The Random Forest also tells you which features matter most:
+
+**Sex > Fare > Age > Pclass > SibSp > Parch > Embarked**
+
+::: {.callout-warning icon=true}
+## ⚠️ Different Algorithms, Different Opinions
+
+*Professor's note:* **"For Random Forest, it's gender, fair, age are the three most important variables, just going to show that different algorithms have different ways of deciding which are the most important features within your data set. When you have highly correlated variables like fair and ticket class, one algorithm might prioritise one of those columns over the others."**
+
+Logistic regression put `Pclass` ahead of `Fare`; Random Forest does the opposite. **Feature importance is algorithm-specific — don't treat it as absolute truth.**
+:::
+
+```r
+library(randomForest)
+rf_model <- randomForest(as.factor(Survived) ~ ., data = train_data)
+plot(rf_model, main = "Error Rates Random Forest")
+varImpPlot(rf_model, type = 2)
+```
+
+---
+
+# Part 11 — Sampling: With vs Without Replacement
+
+An important supporting concept for understanding bagging.
+
+## Without Replacement (The Default)
+
+Like drawing bingo balls: once a number is called, it's set aside and can't come up again. All selected items are unique.
+
+```r
+# Select 90 values from 1..100 WITHOUT replacement
+tmp <- sample(100, 90)
+length(unique(tmp))   # 90 — all unique
+```
+
+## With Replacement
+
+Like drawing a marble, noting its number, and putting it **back** before the next draw. Items can repeat.
+
+```r
+# Select 90 values from 1..90 WITH replacement
+tmp <- sample(90, 90, replace = TRUE)
+length(unique(tmp))   # approximately 57 unique (~63%)
+```
+
+::: {.callout-important icon=true}
+## ⭐ Key Number to Remember — The 63% Rule
+
+When sampling **n items from n with replacement**, approximately **63% will be unique** and ~37% will be duplicates. This is the mathematical basis of bagging in Random Forest.
+
+The ~37% that get left out are called **out-of-bag (OOB)** samples and can be used to estimate error without needing a separate validation set.
+:::
+
+---
+
+# Part 12 — The Exercise Sheet Perspective (Concept Mapping Table)
+
+Based on the lab exercises and material covered, here are the scenario → concept mappings most likely to appear on the exam:
+
+| Scenario / Question | Correct concept |
+|:---|:---|
+| Medical screening where missing sick patients is dangerous | Maximise **Recall**; lower threshold |
+| Spam filter — don't accidentally junk real email | Maximise **Precision**; higher threshold |
+| 99% of transactions are legitimate, 1% fraud | Imbalanced data → **don't use accuracy**, use F1 or recall |
+| Straight line fit on clearly curved data | **High Bias** / Underfitting |
+| Degree-6 polynomial, perfect on training but fails on test | **High Variance** / Overfitting |
+| Logistic regression gives NA predictions | Column contains missing values → impute with training mean |
+| Two correlated features (e.g., Fare & Pclass) | **Multicollinearity** — only one may appear significant |
+| Which is best for tabular data out-of-the-box? | **Random Forest** |
+| Which has the kernel trick? | **SVM** |
+| Which uses prior × likelihood updating? | **Naive Bayes** |
+| Average error of €15 in a spending model | **MAE** (interpretable in original units) |
+| Want to punish big errors | **MSE** or **RMSE** |
+| Want a unitless goodness-of-fit | **R²** |
+| Sample 100 from 100 with replacement → ~63 unique | **Bagging** / Bootstrap |
+
+---
+
+# Part 13 — Summary Points (Checklist)
+
+The most important takeaways from Week 4:
+
+- ✅ **Accuracy is misleading** for imbalanced data and when error costs differ — use precision, recall, and F1 instead.
+- ✅ **Confusion matrix** — know how to read TP, FP, FN, TN and compute metrics by hand.
+- ✅ **Precision looks at predicted, Recall looks at actuals.** Remember the professor's mnemonic.
+- ✅ **F1 = harmonic mean** of precision and recall — punishes extreme imbalance.
+- ✅ **ROC/AUC** summarise classifier performance across all thresholds.
+- ✅ **Threshold is not fixed at 0.5** — move it to prioritise precision or recall.
+- ✅ **Translate every metric into plain English** for business audiences. Don't say "F1" in a meeting.
+- ✅ **Logistic regression is interpretable** via coefficients — negative = decreases probability.
+- ✅ **Logistic regression does NOT handle missing values** — impute using **training data only**.
+- ✅ **Occam's Razor** — a simpler model may generalise better than a complex one.
+- ✅ **Regression metrics**: MAE (interpretable), MSE (penalises big errors), RMSE (both), R² (variance explained).
+- ✅ **Bias = underfitting; Variance = overfitting.** Sweet spot is a model complex enough but not too complex.
+- ✅ **Random Forest** is the best default for tabular data, thanks to bagging + feature sampling.
+- ✅ **Bagging ≈ 63% unique rows** per tree; ~37% become out-of-bag (OOB) samples.
+- ✅ **Feature importance** differs across algorithms — don't treat any one ranking as truth.
+- ✅ **Neural networks** are overkill for most tabular problems — stick to Random Forest or SVM.
+
+---
+
+# Part 14 — Pre-Topic Checklist (Before Moving to Week 5)
+
+Before moving on, confirm you can do each of these:
+
+- [ ] Read a confusion matrix and correctly label TP, FP, FN, TN.
+- [ ] Compute precision, recall, and F1 from a confusion matrix by hand.
+- [ ] Explain in plain English what precision = 0.80 and recall = 0.40 mean for a medical model.
+- [ ] Identify when to prioritise precision vs recall given a business scenario.
+- [ ] Interpret the sign of logistic regression coefficients.
+- [ ] Diagnose the missing-values problem in logistic regression and impute correctly.
+- [ ] Recognise underfitting and overfitting from training vs test metrics.
+- [ ] Explain why a degree-6 polynomial might have perfect training R² but fail in practice.
+- [ ] State the four regression metrics (MAE, MSE, RMSE, R²) and explain when each is preferred.
+- [ ] Describe in one sentence how Naive Bayes, SVM, Neural Networks, and Random Forest each work.
+- [ ] Explain the three tricks Random Forest uses to make trees diverse.
+- [ ] Explain why sampling 100 from 100 with replacement gives ~63% unique values.
+- [ ] Write the R code to (a) split data, (b) fit a logistic regression, (c) compute a confusion matrix.
+
+---
+
+# Part 15 — Additional Resources
+
+Links and materials mentioned by the professor or appearing in the slides:
+
+- **Precision and Recall** — [https://en.wikipedia.org/wiki/Precision_and_recall](https://en.wikipedia.org/wiki/Precision_and_recall)
+- **ROC curves** — [https://en.wikipedia.org/wiki/Receiver_operating_characteristic](https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
+- **Central Limit Theorem** — [https://en.wikipedia.org/wiki/Central_limit_theorem](https://en.wikipedia.org/wiki/Central_limit_theorem)
+- **Out-of-bag error** — [https://en.wikipedia.org/wiki/Out-of-bag_error](https://en.wikipedia.org/wiki/Out-of-bag_error)
+- **Bayes calculator** (the professor mentioned this for practising posterior calculations) — [http://psych.fullerton.edu/mbirnbaum/bayes/BayesCalc.htm](http://psych.fullerton.edu/mbirnbaum/bayes/BayesCalc.htm)
+- **Homework — Titanic example in R** — [http://rstudio-pubs-static.s3.amazonaws.com/293588_4760eaa5cbdc47508168830a89883cfd.html](http://rstudio-pubs-static.s3.amazonaws.com/293588_4760eaa5cbdc47508168830a89883cfd.html)
+- **Kaggle Titanic notebooks** — [https://www.kaggle.com/c/titanic/notebooks](https://www.kaggle.com/c/titanic/notebooks)
+
+---
+
+# Part 16 — Annotation Space
+
+::: {.callout-note}
+## Your Personal Notes
+
+*Use this space for your own observations, exam practice, and questions to raise in class.*
+
+**Questions to ask:**
+
+- 
+
+**Points I'm not sure about:**
+
+- 
+
+**Worked examples I've done:**
+
+- 
+
+**Concepts to revise again:**
+
+- 
+
+:::
+
+---
+
+*End of Week 4 study guide. Next up — Week 5 introduces cross-validation, hyperparameter tuning, and deeper feature engineering.*

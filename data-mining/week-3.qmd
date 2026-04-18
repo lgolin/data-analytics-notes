@@ -1,454 +1,792 @@
 ---
-title: "Data Mining – Class 3 Notes"
-subtitle: "STAT9013 | Data Exploration, Classification & Decision Trees"
+title: "Week 3: Classification & Decision Trees"
+subtitle: "STAT9013 – Data Mining"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-title: "📚 Contents"
+    theme: cosmo
+    number-sections: true
+    code-fold: true
+    code-tools: true
+    smooth-scroll: true
+    embed-resources: true
 ---
 
-> **Note to self:** These are summary notes from Class 3. Add your own observations, questions, and extra examples as you review the material.
+::: {.callout-important}
+## ⭐ Assessment Reminders
 
-------------------------------------------------------------------------
+- The professor left an **exam-style thinking question** at the end of this class (see the [Thought Question](#sec-thought-question) section). Be ready to answer it in Week 4.
+- Next week covers **machine learning metrics beyond accuracy** (precision, recall, F1, ROC) and **logistic regression** — Week 3 is the foundation.
+- Homework: *"Review the lab code in detail — understand every single line."* The professor emphasised this **explicitly**.
+- Slide 33 (the "minimum amount of code to run a classification task") is the template that will reappear for every algorithm this semester — memorise its structure.
+:::
 
-# Recap from Class 2
+---
 
-Before diving into the new material, here is a brief recap of what was covered in the previous class, as it forms the foundation for this week.
+# Key Topics Covered
 
--   **Basic statistics in R**: means, medians, quartiles, and interquartile range (IQR)
--   **Visualisations**: histograms, density plots, and box plots
--   **Skewed data**: understanding why skewness matters and how log transformations can help normalise data
--   **The Iris dataset**: a classic dataset with 150 records across 3 species of flower, used to demonstrate classification concepts
--   **Data exploration**: using plots and summary statistics to understand a dataset before modelling
+- The Titanic dataset and why it is the canonical classification example
+- Data exploration before modelling (counts vs. proportions, derived variables, cross-checking predictors)
+- The difference between signal strength and effect size
+- Handling missing values (imputation with the mode / mean)
+- Numeric vs. factor (categorical) variables — why `Pclass` must be converted
+- Supervised learning and the main classification algorithms
+- Train/test split and reproducible data science (`set.seed`)
+- Overfitting, overtraining, data drift and model drift
+- Data leakage — a subtle and dangerous modelling mistake
+- Decision trees: structure, how splits are chosen, entropy and Gini, information gain
+- The greedy-algorithm limitation of decision trees
+- Pruning
+- Confusion matrix: TP, TN, FP, FN, accuracy
+- Why accuracy alone can be misleading (the cancer-model question)
 
-**Key idea from last week:** The *median* is often more useful than the *mean* for skewed data, because it describes the "typical" value rather than being pulled by extreme outliers (e.g. if a billionaire enters a room, the mean salary shoots up dramatically, but the median barely changes).
+---
 
-------------------------------------------------------------------------
+# Recap From Week 2 {#sec-recap}
 
-# Today's Class Overview
+The class opened with a recap of Week 2, because Week 2's ideas are the foundation for Week 3.
 
-This class has two halves:
+| Week 2 idea | Why it matters this week |
+|---|---|
+| **Univariate vs. multivariate analysis** | Data exploration in Week 3 mixes both — single-column histograms plus two-column plots like `Fare` vs. `Pclass`. |
+| **Means vs. medians on skewed data** | The Titanic `Fare` column is very skewed — the median is more meaningful than the mean. |
+| **Log transformation** on the mammals dataset | Same logic applies whenever a numeric column has extreme outliers. |
+| **Bimodal distributions are a red flag** | A bimodal histogram indicates two subgroups mixed in one variable (e.g. `Petal.Length` in iris — Setosa separates cleanly from the other two species). |
+| **Horizontal/vertical separating line ⇒ IF-statement works** | If two classes can be separated by a horizontal or vertical line in a scatter plot, a simple condition classifies them (this is the intuition behind a **decision tree**). If separation requires a sloped line, a regression-style model is needed. |
 
-1.  **Theory**: Exploring the Titanic dataset and introducing Classification & Decision Trees
-2.  **Lab**: Hands-on practice with Decision Trees in R
+> *Professor's note:* *"If I can draw a horizontal or vertical line, I can write an if-statement to separate the classes. If I can only draw a sloped line, I need a regression analysis."*
 
-------------------------------------------------------------------------
+::: {.callout-note}
+## 💡 Analogy — the billionaire in the room
+
+If everyone in a room earns €30,000–€100,000, the **mean** and **median** salary are almost the same. If a billionaire walks in, the mean jumps to ~€200 million but the median barely moves. This is why the **median is better for skewed data** — it describes a *typical* person, not a mathematical average distorted by outliers.
+:::
+
+---
 
 # The Titanic Dataset
 
-## What is it?
+## The question we are trying to answer
 
-The Titanic dataset is one of the most well-known datasets in machine learning. It records information about passengers aboard the RMS Titanic, which sank in April 1912. The central question is:
+> **Can we use machine learning to predict which passengers survived the Titanic shipwreck, based only on information known about them before the ship sank?**
 
-> **Can we build a model that predicts which passengers survived the Titanic disaster?**
+This is a **binary classification** problem — for every passenger, the model outputs one of two classes: `1` (survived) or `0` (did not survive).
 
-This is a **binary classification** problem — for each passenger, the model must predict one of two outcomes: survived (1) or did not survive (0).
+## The variables
 
-## Variables in the Dataset
+| Variable | Meaning | Type | Missing? | Professor's first-pass verdict |
+|---|---|---|---|---|
+| `PassengerId` | Unique row ID | int | 0 | **Drop** — unique per row, has no predictive meaning |
+| `Survived` | 0 = no, 1 = yes | int → factor | 0 | **Target variable** |
+| `Pclass` | Ticket class (1, 2, 3) | int → factor | 0 | **Keep** — very important, *must convert to factor* |
+| `Name` | Passenger name | chr | 0 | **Drop** — unique per row |
+| `Sex` | Gender | chr | 0 | **Keep** — strongest predictor |
+| `Age` | Age in years | num | **177** | **Keep**, but needs imputation |
+| `SibSp` | # siblings / spouses aboard | int | 0 | Combine into `family` |
+| `Parch` | # parents / children aboard | int | 0 | Combine into `family` |
+| `Ticket` | Ticket number | chr | 0 | **Drop** — too many unique values |
+| `Fare` | Passenger fare | num | 0 | Keep, but may duplicate `Pclass` |
+| `Cabin` | Cabin number | chr | **687** | **Drop** — too many missing |
+| `Embarked` | Port of embarkation (C/Q/S) | chr | 2 | Needs fixing, then keep |
 
-| Variable | Description | Notes |
-|------------------------|------------------------------|------------------|
-| `PassengerId` | Unique ID for each passenger | Not useful for prediction |
-| `Survived` | 0 = No, 1 = Yes | **Target variable** |
-| `Pclass` | Ticket class: 1 = 1st, 2 = 2nd, 3 = 3rd | Very important predictor |
-| `Name` | Passenger's full name | Unique — drop it |
-| `Sex` | Gender | Very strong predictor |
-| `Age` | Age in years | Has many missing values |
-| `SibSp` | \# of siblings/spouses aboard | Combined with Parch |
-| `Parch` | \# of parents/children aboard | Combined with SibSp |
-| `Ticket` | Ticket number | Likely not useful as-is |
-| `Fare` | Price paid for the ticket | Correlated with Pclass |
-| `Cabin` | Cabin number | Lots of missing values |
-| `Embarked` | Port of embarkation: C, Q, or S | Some predictive signal |
+## Loading the data
 
-## Loading the Data in R
-
-``` r
+```r
 library(tidyverse)
 library(psych)
 
-# Install the titanic package if not available
 if (!require("titanic"))
   devtools::install_github("paulhendricks/titanic")
 library("titanic")
 
 data(titanic_train)
-str(titanic_train)
+str(titanic_train)     # structure of the data frame
 ```
 
-------------------------------------------------------------------------
+::: {.callout-important}
+## ⭐ Exam tip — always profile a dataset before modelling
 
-# Data Exploration
+Run these two checks **on every dataset**, before you plot or model anything:
 
-## Why Explore Data Before Modelling?
-
-Data exploration is a critical step before building any machine learning model. It helps you:
-
--   Understand what the data looks like
--   Identify missing values and decide how to handle them
--   Spot variables that are likely to be useful predictors
--   Detect relationships *between* predictor variables (not just between each variable and the target)
--   Avoid mistakes that would silently damage your model's quality
-
-> **Rule of thumb:** Always know your data before you model it. A model built on poorly understood data will produce unreliable results.
-
-## Checking Unique Values and Missing Data
-
-``` r
-# Count unique values per column
+```r
+# 1. Count unique values per column
 uniq_len <- function(x) { length(unique(x)) }
 sapply(titanic_train, uniq_len)
 
-# Count missing values (NAs or empty strings)
+# 2. Count blanks (NA or empty string) per column
 countBlank <- function(x) { sum(is.na(x) | x == "") }
 sapply(titanic_train, countBlank)
 ```
 
-**What to look for:**
+Look for:
 
--   **Columns with as many unique values as rows** (e.g. `PassengerId`, `Name`) → These are IDs, not features. Drop them.
--   **Columns with too many missing values** (e.g. `Cabin` has 687 missing out of 891) → Consider dropping or imputing.
--   **Unexpected number of unique values** (e.g. `Embarked` shows 4 unique values when only 3 are expected) → Signals there are blank/null entries that need fixing.
+- Columns where `unique count == nrow` → IDs, drop them
+- Columns with a high blank count → impute or drop
+- Columns where the unique count is **one more than expected** (e.g. `Embarked` shows 4 when it should be 3) → hidden blank entries
+:::
 
-## Key Findings from the Titanic Data
+---
 
-### Family Size vs. Survival
+# Data Exploration — Survival Patterns
 
-A new variable `family` is created by adding `SibSp + Parch` to represent total family members travelling together.
+The professor worked through each variable methodically. Every finding below came from a plot, and every plot had **both a count view and a proportion view** side by side.
 
-``` r
-titanic_train$family <- titanic_train$SibSp + titanic_train$Parch
+## Why plot counts AND proportions?
+
+This is one of the most emphasised ideas of the class. It appears again in Week 4 and is likely exam material.
+
+| | What it tells you | Without it, you risk… |
+|---|---|---|
+| **Count plot** | How many records fall into each group — the **effect size** | Being fooled by strong signals in tiny groups |
+| **Proportion plot** | How different the group's survival rate is from the overall 38% baseline — the **signal strength** | Missing a real pattern because the group is small |
+
+> *Professor's note:* *"If I had a ticket class four where the signal was very strong — 90/10 — but it only applied to 10 or 12 records, the signal is strong but the effect is small because it only applies to a small number of records."*
+
+::: {.callout-warning}
+## ⚠️ Common mistake
+
+Reporting a proportion without reporting the count. A 90% survival rate in a group of 8 passengers is statistically meaningless.
+:::
+
+## Family size vs. survival
+
+A derived variable `family = SibSp + Parch` was created:
+
+```r
+titanic_train$family   <- titanic_train$SibSp + titanic_train$Parch
 titanic_train$Survived <- factor(titanic_train$Survived)
 
-ggplot(titanic_train, aes(x = family, fill = factor(Survived))) +
+ggplot(titanic_train, aes(x = family, fill = Survived)) +
   geom_bar(stat = 'count', position = 'dodge') +
-  labs(x = 'Family Size') +
-  ggtitle("Family size v Survived")
+  scale_x_continuous(breaks = min(titanic_train$family):max(titanic_train$family)) +
+  labs(x = 'Family Size', title = 'Family size vs Survived')
 ```
 
-**Finding:** Solo travellers had the lowest survival rate. Passengers in small family groups (1–3 others) had noticeably higher survival rates. Very large families (6+) had very few records, so conclusions there are not reliable.
+**Finding:** Solo travellers had the worst survival rate. Families of 1–3 extra members had the best. Very large families (6+) had too few records to draw conclusions from.
 
-**Interpretation:** Being in a family likely means children were present, and children were given priority in lifeboats.
+**Interpretation:** Family travel correlates with children being present, and children were prioritised for lifeboats.
 
-### Ticket Class vs. Survival
+## Ticket class vs. survival
 
-``` r
-p01 <- ggplot(titanic_train, aes(Pclass, fill = Survived)) +
-  geom_bar(position = "stack") + ggtitle("By counts")
+| Class | Approximate survival rate |
+|---|---|
+| 1st (Pclass = 1) | ~63% |
+| 2nd (Pclass = 2) | ~47% |
+| 3rd (Pclass = 3) | ~24% |
 
-p02 <- ggplot(titanic_train, aes(Pclass, fill = Survived)) +
-  geom_bar(position = "fill") +
-  scale_y_continuous(labels = scales::percent) + ggtitle("By proportion")
+**Baseline:** 38% of all passengers survived.
 
-gridExtra::grid.arrange(p01, p02, nrow = 1, top = 'Survived by Class')
-```
+## Gender vs. survival
 
-**Finding:**
+| Sex | Survival rate |
+|---|---|
+| Female | ~74% |
+| Male | ~19% |
 
--   1st class: \~63% survived
--   2nd class: \~47% survived
--   3rd class: \~24% survived
+> *Professor's note:* *"Gender is even more strongly predictive than ticket class. I fully expect that whatever machine learning model I use, gender will be its most important feature."*
 
-**Important tip — plot both counts AND proportions:**
+## Fixing `Embarked`
 
--   **Counts** tell you how many passengers are in each group (the *effect size*)
--   **Proportions** tell you how different the survival rate is from the baseline of 38% (the *signal strength*)
+Two passengers have blank `Embarked`. Because only two records are involved and Southampton is by far the dominant port, the blanks are assigned `S`:
 
-Both matter. A strong signal (e.g. 90% survival) in a group with only 10 records is not very useful — it barely affects the overall model.
+```r
+table(titanic_train$Embarked)
+#   C   Q   S
+# 2 168  77 644       # the "2" is the blank category
 
-### Gender vs. Survival
-
-**Finding:**
-
--   Female passengers: \~74% survived
--   Male passengers: \~19% survived
-
-**Gender is the single strongest predictor in this dataset.** This aligns with the historical "women and children first" policy used when loading lifeboats.
-
-### Fixing the `Embarked` Variable
-
-Two passengers had blank values for `Embarked`. Since Southampton was by far the most common embarkation port, those blanks were reassigned to `S`.
-
-``` r
 titanic_train[titanic_train$Embarked == "", ]$Embarked <- 'S'
 ```
 
-**Why not create a new "Unknown" category?** Because with only 2 records, assigning them a unique value `X` could cause the model to over-fit on that tiny group. The safer choice is to merge them into the most common category.
+::: {.callout-warning}
+## ⚠️ Why not create a new "Unknown" category?
 
-### Fare vs. Survival
+With only 2 records, the algorithm might **memorise** them — if both survived, the model would learn "blank `Embarked` ⇒ survive." This is a **hallucinated pattern** — 2 records cannot support a real signal. The safe choice is to merge them into the majority class (the **mode**).
 
-A box plot of `Fare` by `Survived` shows that passengers who paid higher fares had a somewhat higher survival rate. However, fare is closely correlated with ticket class — they carry overlapping information.
+If there were 20+ missing records, treating them as their own category (`"Unknown"`) would be more defensible.
+:::
 
-### Age vs. Survival — Creating a Derived Variable
+## Fare vs. survival
 
-A simple box plot of `Age` vs. `Survived` doesn't show a strong difference. This is because the real signal is not about age in general, but specifically about *children*.
+A box plot of `Fare` by `Survived` shows that survivors paid somewhat higher fares — but this is almost entirely a proxy for `Pclass`. Higher class = higher fare.
 
-``` r
+## Age vs. survival — why the raw variable hides the signal
+
+A plain box plot of `Age` vs. `Survived` shows **almost no difference** in the median age of survivors vs. non-survivors. The signal is **not** "older = less likely to survive" — it is "under ~13 = more likely to survive."
+
+**Fix:** create a derived binary variable `is_child`:
+
+```r
 temp <- titanic_train[!is.na(titanic_train$Age), ]
 temp$is_child <- ifelse(temp$Age < 17, 1, 0)
 ```
 
-**Children (under 17) had roughly a 50% survival rate vs. about 35% for adults.** Creating a binary `is_child` variable helps the machine learning algorithm pick up on this threshold effect.
+::: {.callout-important}
+## ⭐ Key concept — derived variables
 
-> **Key concept — derived variables:** Sometimes the raw variable is not as useful as a transformed or binned version of it. Think about what *threshold* or *transformation* would best capture the relationship with the target.
+If a numeric variable has a **threshold effect** (the relationship changes sharply at some point), the raw value may hide the signal. Transform it:
 
-### Pairs Plot
+- Age → `is_child` (binary)
+- Income → quartiles or log-transformed income
+- Date → day-of-week, month-of-year
 
-``` r
+This helps the algorithm "see" a pattern that would otherwise be diluted across a continuous range.
+:::
+
+## Investigating relationships *between* predictors
+
+The Cherbourg passengers had an unusually high survival rate. Professor's theory: maybe more first-class passengers boarded there. To test this, plot `Embarked` against `Pclass` (target variable ignored):
+
+```r
+titanic_train$Pclass <- as.factor(titanic_train$Pclass)
+
+ggplot(titanic_train, aes(Embarked, fill = Pclass)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  ggtitle("Ticket class by Embarkation")
+```
+
+**Result (confirmed):** About 50% of Cherbourg passengers were first class. Almost 100% of Queenstown passengers were third class.
+
+> *Professor's note:* *"Whether you survived the Titanic or not should have nothing to do with where you got on the boat. `Embarked` is a proxy for `Pclass`. I would strongly consider removing `Embarked` from my model entirely."*
+
+::: {.callout-important}
+## ⭐ Exam tip — proxy variables
+
+A variable that appears predictive may actually be a **proxy** for another variable that is already in the model. Cross-check pairs of predictors, not just predictor-vs-target relationships. This is an example of **collinearity**.
+:::
+
+## Pairs plot — correlation between predictors
+
+```r
 columns <- c("Pclass", "Age", "Fare", "family")
 pairs.panels(titanic_train[, columns], method = "pearson",
              hist.col = "#00AFBB", density = TRUE, ellipses = FALSE)
 ```
 
-**Finding:** The strongest correlation among predictors is between `Pclass` and `Fare` (–0.55), which makes sense — first class passengers paid much more.
+Strongest correlation: `Pclass` vs. `Fare` = **−0.55** (higher class = lower number = higher fare).
 
-**Why this matters:** If two predictor variables are highly correlated, they carry redundant information. The model may just pick one of them and largely ignore the other.
+---
 
-### Embarkation and Ticket Class
+# Numeric vs. Factor — A Subtle But Critical Point
 
-A deeper investigation reveals *why* passengers from Cherbourg (C) had a higher survival rate: **a much higher proportion of first-class passengers boarded at Cherbourg** compared to Queenstown or Southampton. The survival signal from `Embarked` is largely *already captured* by `Pclass`.
+`Pclass` stores the values `1`, `2`, `3`. To a human they are categories. To a machine learning algorithm they look numeric.
 
-This is an example of a variable that *appears* predictive but is actually a proxy for another variable. Including such variables in a model can be misleading.
+::: {.callout-note}
+## 💡 Analogy — money vs. ticket class
 
-------------------------------------------------------------------------
+If you pay **€2** and I pay **€4**, it is true that I paid 100% more than you.
+If you are in **ticket class 2** and I am in **ticket class 1**, it is **not** true that I am "100% more first-class than you." These are **categories with ordering**, not mathematical amounts.
 
-# Supervised Learning — Classification
+Treating categories as numbers lets algorithms do nonsense arithmetic on them.
+:::
 
-## What is it?
+**Rule of thumb:** If a column uses numbers to encode categories, convert it:
 
-**Supervised learning** means training a model on data where we already know the correct answers (the labels), so the model learns to predict those labels for new, unseen data.
+```r
+titanic_train$Pclass   <- as.factor(titanic_train$Pclass)
+titanic_train$Survived <- as.factor(titanic_train$Survived)
+```
 
-**Classification** is a type of supervised learning where the output is a *category* (e.g. survived / not survived, spam / not spam, cat / dog).
+---
 
--   **Binary classification**: two possible outcomes (like Titanic survived yes/no)
--   **Multi-class classification**: three or more outcomes (like Iris species: setosa / versicolor / virginica)
+# Supervised Learning & Classification
 
-## Common Classification Algorithms
+## Definitions
 
-| Algorithm                   | Key Characteristic                       |
-|-----------------------------|------------------------------------------|
-| **Decision Trees**          | Simple, interpretable, easy to visualise |
-| **Logistic Regression**     | Probabilistic, good baseline model       |
-| **Support Vector Machines** | Strong with high-dimensional data        |
-| **Naive Bayes**             | Fast, works well with text               |
-| **Random Forests**          | Ensemble of trees, very powerful         |
-| **Gradient Boosted Trees**  | Often best on tabular data               |
-| **Deep Learning**           | Best for images, text, audio             |
+| Term | Meaning |
+|---|---|
+| **Supervised learning** | Training a model on labelled historical data so it can predict labels for new data. |
+| **Classification** | Predicting a **category** (e.g. survived / not survived). |
+| **Binary classification** | Two possible outcomes. |
+| **Multi-class classification** | 3+ outcomes (e.g. iris species). |
+| **Regression** | Predicting a **continuous number** (next week's topic). |
 
-------------------------------------------------------------------------
+## Popular classification algorithms
 
-# Building a Classification Model in R
+| Algorithm | Strength |
+|---|---|
+| Decision Tree | Interpretable, good for exploration |
+| Logistic Regression | Probabilistic, simple baseline (Week 4) |
+| Naive Bayes | Fast, works well with text |
+| Support Vector Machines (SVM) | Strong in high dimensions |
+| Random Forest | Ensemble of trees, handles interactions |
+| Gradient Boosted Trees (GBM) | Often best on tabular data |
+| Deep Learning | Best for images, text, audio |
 
-## The Core Workflow
+## The classification workflow
 
-``` r
+1. Collect a **historical dataset** where the outcome is already known.
+2. Apply a **machine learning algorithm**.
+3. Produce a **model**.
+4. In the future, feed new data (predictors only) to the model and get a **prediction**.
+
+::: {.callout-important}
+## ⭐ Data leakage — critical exam concept
+
+**All predictor variables must be available at the moment the prediction is made.** A field that only becomes known *after* the outcome has happened cannot be a predictor — that is **data leakage**.
+
+**Example from the lecture:** using "credit card cancelled?" to predict "is this transaction fraudulent?" The cancellation typically happens *because* of the fraud, so including it leaks the answer.
+
+Data leakage produces models that look amazing on paper and fail disastrously in production.
+:::
+
+---
+
+# Building a Model — The Minimum Template
+
+This is the pattern **every** classification task in this module will follow. The only lines that change between algorithms are the ones marked ⚠️.
+
+```r
+# (1) Load package and data
 library(rpart)
 data(iris)
 
-# 1. Set a random seed for reproducibility
+# (2) Reproducibility — set the random seed
 set.seed(1987)
 
-# 2. Split data into training (90%) and test (10%)
-nobs <- nrow(iris)
+# (3) Train/test split (90/10 here)
+nobs  <- nrow(iris)
 train <- sample(nobs, 0.9 * nobs)
-test <- setdiff(seq_len(nobs), train)
+test  <- setdiff(seq_len(nobs), train)
 
-# 3. Train the model on training data ONLY
-rpart_model <- rpart(Species ~ ., data = iris[train, ], method = "class")
+# (4) ⚠️ Fit the model (this line changes per algorithm)
+rpart <- rpart(Species ~ ., data = iris[train, ], method = "class")
 
-# 4. Get predictions on the test set
-pr <- predict(rpart_model, newdata = iris[test, ], type = "class")
+# (5) ⚠️ Predict on the TEST set (this line may change per algorithm)
+pr <- predict(rpart, newdata = iris[test, ], type = "class")
 
-# 5. Evaluate performance
-tab <- table(pr, iris[test, ]$Species, dnn = c("predicted", "actual"))
+# (6) Confusion matrix + accuracy
+tab <- table(pr, iris[test, ]$Species, dnn = c("Predicted", "Actual"))
 print(tab)
 
 accuracy <- 100 * sum(diag(tab)) / sum(tab)
-print(paste('Model accuracy on test data =', round(accuracy, 2)))
+sprintf("Model accuracy on test data = %.1f%%", accuracy)
 ```
 
-## Why Split Into Train and Test?
+> *Professor's note:* *"The only two lines that will change for GBM, random forest, or logistic regression are the two I've marked. Everything else is boilerplate."*
 
-A model will *always* look better on data it was trained on, because it has already "seen" that data. Evaluating on training data is like giving someone an exam with the answer sheet in front of them — it tells you nothing about how well they actually understand the material.
+## Why `set.seed`?
 
-The **test set** must be:
+`set.seed(1987)` fixes the random number generator. Without it, `sample()` returns different rows every time the script runs, so the train/test split changes and the accuracy changes.
 
--   Created *before* building the model
--   Completely separate from the training set (no overlap)
--   Representative of data the model will see in the real world
+With it, **anyone running the script on any machine gets identical results** — this is the principle of **reproducible data science**.
 
-> **Important:** The evaluation metrics you report should come from the *test set*, not the training set.
+> *Professor's note:* *"If scientific papers report statistically significant results but other people cannot reproduce their analysis, then there is a question mark over the paper itself."*
 
-## Reproducible Data Science
+## Train / test split — the absolute rules
 
-``` r
-set.seed(1987)  # Always set this before any random operations
-```
+::: {.callout-important}
+## ⭐ The non-negotiable rules of a train/test split
 
-Setting a random seed ensures that every time the code is run (on any machine), it produces the exact same train/test split. This is essential for **reproducible data science** — other people must be able to reproduce your results exactly, or your findings cannot be trusted.
+1. **No row appears in both sets.**
+2. **Every row appears in exactly one set.**
+3. The model is **fitted only on the train set**.
+4. Evaluation metrics are **computed only on the test set**.
+5. Any transformation (imputation, scaling) is **calculated from the train set** and then applied to both sets.
+:::
 
-## What is Overfitting / Overtraining?
+## Optional: stratified sampling
 
-**Overfitting** happens when a model learns the training data *too well* — including its noise and quirks — and fails to generalise to new data.
+When classes are imbalanced, a random split may put too few of the minority class into the test set. **Stratified sampling** fixes this by splitting within each class.
 
-**Example:** If the model memorises that the 2 passengers with a blank `Embarked` value both survived, it will predict survival for any future record with a blank embarkation. This is not a real pattern, just noise — and the model will perform poorly on new data.
+In iris (50/50/50) and Titanic (~38% survived) it is not critical. In something like image classification with 1,000 classes where some classes have only 10 images, it is essential.
 
-## Model Drift and Data Drift
+## Overfitting vs. generalisation
 
--   **Data drift**: The distribution of real-world data changes over time, so the model (trained on older data) becomes less accurate.
--   **Model drift**: The relationship between the input variables and the target variable changes over time.
+| Term | What it means |
+|---|---|
+| **Generalisation** | The model performs well on data it has never seen. |
+| **Overfitting / overtraining** | The model has *memorised* the training data — including its noise — instead of learning the true pattern. |
+| **Symptom** | Very high accuracy on train, much lower on test. |
 
-Both of these mean that machine learning models need to be monitored and periodically retrained.
+## Model drift and data drift
 
-------------------------------------------------------------------------
+| Term | Meaning | Mitigation |
+|---|---|---|
+| **Data drift** | The distribution of the input data changes over time (e.g. new customers look different from old ones). | Retrain periodically on fresh data. |
+| **Model drift** | The *relationship* between inputs and the target changes over time. | Retrain periodically on fresh data. |
+
+> *Professor's example:* *"Facial recognition systems trained on under-representative datasets performed poorly in production for women and minorities. That is data drift — the data distribution in production was significantly different from the training distribution."*
+
+---
 
 # Decision Trees
 
-## What is a Decision Tree?
+## What they are
 
-A decision tree is one of the simplest and most intuitive machine learning algorithms. It works by splitting the data into groups based on a series of yes/no questions (conditions).
+A **decision tree** is a flowchart of yes/no questions. Each internal node asks a question about one variable, and the record moves to the left branch if the answer is true and to the right branch if false. The **leaf nodes** give the final predicted class.
 
-**Analogy:** Imagine a game of 20 questions. Each question splits the possibilities in two, and you keep narrowing down until you reach a final answer.
+::: {.callout-note}
+## 💡 Analogy — 20 Questions
 
-## How it Works
+A decision tree is like the game *20 Questions*. Each question ("Is it an animal?", "Does it fly?") narrows down the possibilities. A good player asks the most informative question first — exactly what a decision tree algorithm does.
+:::
 
-1.  Start with all the training data at the **root node**
-2.  Find the best attribute (column) and the best split point that separates the data into more "pure" groups
-3.  Create two branches (left = condition is true, right = condition is false)
-4.  Repeat for each sub-group (node) until:
-    -   All records in a node belong to the same class (it becomes a **leaf node**), or
-    -   There are no more useful attributes to split on
+## How the tree is built
 
-## How to Choose the Best Split?
+```text
+Start with all training data at the ROOT.
+Repeat:
+    1. Find the best column and best split condition.
+    2. Split the data into two branches.
+    3. For each branch: if all samples have the same class, make it a LEAF.
+       Otherwise, repeat step 1 on that branch.
+Stop when:
+    - All leaves are pure, OR
+    - No useful column remains to split on, OR
+    - A heuristic stopping rule fires (e.g. too few rows, too little gain).
+```
 
-The algorithm uses a measure of **impurity** to decide which split is best. The goal is always to reduce impurity — i.e. to create groups that are as "pure" (dominated by a single class) as possible.
+## Choosing the best split — entropy, Gini, information gain
 
-Two common impurity measures:
+At each node, the algorithm asks: *"Which column-and-condition produces the purest child nodes?"* It scores every candidate split using an **impurity measure**.
 
-$$\text{Entropy}(t) = -\sum_{i=0}^{c-1} p(i|t) \log_2 p(i|t)$$
+**Entropy** — measures disorder (0 = pure, 1 = perfectly mixed in a binary problem):
 
-$$\text{Gini}(t) = 1 - \sum_{i=0}^{c-1} [p(i|t)]^2$$
+$$\text{Entropy}(t) \;=\; -\sum_{i=0}^{c-1} p(i \mid t) \log_2 p(i \mid t)$$
 
-Where `c` is the number of classes and `p(i|t)` is the probability that a record at node `t` belongs to class `i`.
+**Gini index** — same idea, slightly different formula:
 
-**Information Gain** is calculated by comparing the impurity of the parent node to the weighted average impurity of the child nodes after the split. The split with the highest information gain is chosen.
+$$\text{Gini}(t) \;=\; 1 - \sum_{i=0}^{c-1} \big[ p(i \mid t) \big]^2$$
 
-**Intuition:** A node where 50% of records are class 0 and 50% are class 1 is maximally impure (entropy = 1). A node where 100% of records are the same class is perfectly pure (entropy = 0).
+Where `c` = number of classes and `p(i|t)` = probability that a record at node `t` belongs to class `i`.
 
-## Advantages and Disadvantages
+**Information gain** = impurity of the parent − weighted average impurity of the children. The split with the **highest information gain** is chosen.
 
-| Advantages | Disadvantages |
-|-------------------------------|-----------------------------------------|
-| Easy to understand and visualise | Other algorithms usually outperform it |
-| Can deal with non-linear data | Tends to overfit (especially deep trees) |
-| No need to normalise data | Sensitive to small changes in data |
-| Can be expressed as if/then rules | Does not handle missing data well |
+::: {.callout-note}
+## 💡 Intuition — entropy at a glance
 
-## Handling Numeric Data
+| Node composition | Entropy | Purity |
+|---|---|---|
+| 100% class A, 0% class B | 0 | Perfect |
+| 80% class A, 20% class B | 0.72 | Fairly pure |
+| 50% class A, 50% class B | 1.0 | Maximum impurity |
+:::
 
-Since every node is a yes/no condition, numeric variables are handled by splitting on a **threshold value** (e.g. `Age >= 13`, `Fare >= 23`). The algorithm finds the best threshold automatically.
+## Handling numeric variables
+
+Decision trees only understand yes/no questions, so a numeric variable like `Age` is split on a **threshold** the algorithm chooses automatically, e.g. `Age >= 13`.
 
 ## Pruning
 
-Decision trees can grow very large and complex, overfitting the training data. **Pruning** means cutting off some of the lower branches to simplify the tree and improve generalisation.
+A deep tree will eventually memorise the training set — classic overfitting. **Pruning** cuts off some lower branches to force the tree to generalise.
 
-## Example — Titanic Decision Tree
+## Advantages and disadvantages
 
-The decision tree built on the Titanic dataset finds the following key splits (starting from the root):
+| Advantages | Disadvantages |
+|---|---|
+| Highly interpretable — can be drawn and explained | Usually beaten by random forests / GBMs in accuracy |
+| Can be written as IF-THEN rules for any language | Prone to overfitting — needs pruning |
+| Handles both categorical and numeric data | Handles missing data poorly |
+| No need to scale or normalise variables | **Greedy** — poor at capturing variable *interactions* |
+| Great as an exploratory tool | Sensitive to small changes in the training data |
 
-1.  **Sex = male?** → Most important split. Males generally did not survive.
-2.  For males: **Age \>= 13?** → Younger boys had better survival odds
-3.  For females: **Pclass \>= 3?** → 3rd class females had lower survival rates
-4.  Further splits on **Fare** and **SibSp**
+::: {.callout-important}
+## ⭐ The "greedy algorithm" limitation
 
-This mirrors exactly what we expected from the exploratory analysis: gender is the most important predictor, followed by ticket class and age.
+A decision tree picks the **single best column at each node**. Once it splits on `Sex = male`, the algorithm can never again consider combinations like "female AND 3rd class AND paid high fare" as one decision — each branch is handled in isolation.
 
-------------------------------------------------------------------------
+This is why **Random Forest** (many trees, some trained on column subsets) and **GBM** (sequential trees correcting each other) outperform single decision trees on most real problems.
+:::
 
-# Model Evaluation — The Confusion Matrix
+## Why use decision trees in real life?
 
-## What is a Confusion Matrix?
+> *Professor's note:* *"I always consider decision trees and logistic regression at the start of a project — not as the final model, but as a form of data exploration. If the tree shows me something surprising or a red flag, I go back and fix my data."*
 
-After building a model, we compare its predictions against the actual values on the test set. The results are displayed in a **confusion matrix**.
+Decision trees are chosen over more accurate models when **explainability is legally or ethically required**:
 
-For a binary classification problem (survived = 1, not survived = 0):
+- Credit scoring / loan approval (you must be able to tell a rejected applicant *why*)
+- Medical decision support
+- Anywhere a regulator or court could demand a justification
 
-|                  | **Actual: 0**       | **Actual: 1**       |
-|------------------|---------------------|---------------------|
-| **Predicted: 0** | True Negative (TN)  | False Negative (FN) |
-| **Predicted: 1** | False Positive (FP) | True Positive (TP)  |
+---
 
-## Titanic Example
-
-```         
-          Actual
-Predicted  0   1
-        0  50  19   ← Predicted "not survived"
-        1   4  17   ← Predicted "survived"
-```
-
--   **TN = 50**: Correctly predicted "did not survive"
--   **FN = 19**: Person survived, but model predicted they didn't (missed survivors)
--   **FP = 4**: Person didn't survive, but model predicted they did
--   **TP = 17**: Correctly predicted "survived"
-
-## Accuracy
-
-$$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{17 + 50}{90} \approx 74\%$$
-
-> **Note to self:** Accuracy is not always the best metric — it can be misleading when classes are imbalanced. For example, if only 5% of passengers survived, a model that always predicts "not survived" would be 95% accurate but completely useless. More metrics (precision, recall, F1) will be covered in future classes.
-
-------------------------------------------------------------------------
-
-# Key Takeaways from Class 3
-
-1.  **Data exploration is not optional** — always understand your data before modelling.
-2.  **Plot both counts and proportions** when comparing a variable to the target.
-3.  **Create derived variables** when a threshold or transformation captures the signal better than the raw value (e.g. `is_child` from `Age`).
-4.  **Check relationships between predictor variables** — not just between each predictor and the target. Correlated predictors carry redundant information.
-5.  **Always split into train and test before building a model.** Never evaluate a model on data it was trained on.
-6.  **Set a random seed** for reproducibility.
-7.  **Decision trees are interpretable** — use them as an exploratory tool, not just a final model.
-8.  **Overfitting** is when a model memorises the training data instead of learning general patterns.
-
-------------------------------------------------------------------------
-
-# Lab 3 — Decision Trees in R
+# The Lab — Titanic Decision Tree
 
 ## Setup
 
-``` r
+```r
 library(rpart)
 library(rpart.plot)
-library(tidyverse)
-
-if (!require("titanic"))
-  devtools::install_github("paulhendricks/titanic")
-library("titanic")
+library(GGally)
+library(titanic)
 
 data(titanic_train)
-set.seed(1987)
+set.seed(42)                     # note: lab uses 42, not 1987
+
+nobs  <- nrow(titanic_train)
+train <- sample(nobs, 0.9 * nobs)    # 801 rows
+test  <- setdiff(seq_len(nobs), train) # 90 rows
+
+target <- "Survived"
 ```
 
-## Tasks Covered in the Lab
+## What happens if you leave `Ticket` in?
 
-1.  Build a Decision Tree on the Iris dataset (species prediction)
-2.  Build a Decision Tree on the Titanic dataset (survival prediction)
-3.  Plot the decision tree using `rpart.plot`
-4.  Evaluate the model using a confusion matrix
-5.  Calculate accuracy from the confusion matrix
+The professor **deliberately leaves `Ticket` in** to show how decision trees fail spectacularly when given high-cardinality columns.
 
-> **Review the lab code (`week3_stat9013c.R`) after class — this is the best way to consolidate what was covered.**
+```r
+colsToIgnore <- c("Name")     # intentionally does NOT drop Ticket, Cabin, PassengerId
+input <- setdiff(names(titanic_train), c(target, colsToIgnore))
 
-------------------------------------------------------------------------
+rpart_bad <- rpart(Survived ~ .,
+                   data = titanic_train[train, c(input, target)],
+                   method = "class")
+rpart.plot(rpart_bad)    # tree is a mess of ticket-number splits
 
-# What's Coming Next
+# Predicting fails with:
+#   Error: factor Ticket has new levels 110564, 111369, 111427, ...
+pr <- predict(rpart_bad, newdata = titanic_train[test, c(input, target)], type = "class")
+```
 
--   **Next class:** More classification algorithms — **Logistic Regression**
--   **Plus:** Machine learning metrics beyond accuracy (precision, recall, F1 score, ROC)
+::: {.callout-warning}
+## ⚠️ Common mistake — two failure modes at once
 
-------------------------------------------------------------------------
+1. **Memorisation**: the tree splits on individual ticket numbers — pure overfitting.
+2. **Unseen-category crash**: when the test set contains a ticket number the model has never seen, `predict()` throws an error: *"factor Ticket has new levels …"*
+
+This is why high-cardinality ID-like columns (`Ticket`, `Cabin`, `Name`, `PassengerId`) **must be dropped before fitting**.
+:::
+
+## The correct setup
+
+```r
+colsToIgnore <- c("PassengerId", "Name", "Ticket", "Cabin")
+input <- setdiff(names(titanic_train), c(target, colsToIgnore))
+
+rpart_model <- rpart(Survived ~ .,
+                     data = titanic_train[train, c(input, target)],
+                     method = "class")
+rpart.plot(rpart_model, main = "Decision Tree titanic_train $ Survived")
+```
+
+## Reading the tree
+
+The top splits match exactly what the exploratory analysis predicted:
+
+1. **Sex = male?** — the most informative first question. Most males did not survive.
+2. Down the *male* branch: **Age ≥ 13?** Younger boys had better odds. Further split on **SibSp ≥ 3**.
+3. Down the *female* branch: **Pclass ≥ 3?** Third-class women had a mixed outcome; 1st- and 2nd-class women almost all survived.
+4. Further splits on **Fare** inside the 3rd-class-female branch.
+
+> *Professor's note:* *"I don't see any red flags. There's nothing in this graph that is a surprise given the data exploration I already did. That is exactly what I want."*
+
+## Predicting and evaluating
+
+```r
+pr <- predict(rpart_model,
+              newdata = titanic_train[test, c(input, target)],
+              type = "class")
+
+tab <- table(pr, titanic_train[test, ]$Survived,
+             dnn = c("Predicted", "Actual"))
+print(tab)
+#            Actual
+# Predicted   0   1
+#         0  50  19
+#         1   4  17
+
+accuracy <- 100 * sum(diag(tab)) / sum(tab)
+sprintf("Accuracy = %.1f%%", accuracy)
+# "Accuracy = 74.4%"
+```
+
+---
+
+# The Confusion Matrix
+
+For binary classification, the four possible outcomes are:
+
+|  | **Actual = 0** (did NOT survive) | **Actual = 1** (DID survive) |
+|---|---|---|
+| **Predicted = 0** | True Negative (**TN**) | False Negative (**FN**) |
+| **Predicted = 1** | False Positive (**FP**) | True Positive (**TP**) |
+
+For the Titanic model above:
+
+| Cell | Value | Meaning |
+|---|---|---|
+| TN | 50 | Correctly said "did not survive" |
+| FN | 19 | Said "did not survive" but they actually did |
+| FP | 4 | Said "survived" but they actually didn't |
+| TP | 17 | Correctly said "survived" |
+
+## The accuracy formula
+
+$$\text{Accuracy} \;=\; \frac{TP + TN}{TP + TN + FP + FN} \;=\; \frac{17 + 50}{17 + 50 + 4 + 19} \;=\; \frac{67}{90} \;\approx\; 74\%$$
+
+## Computing TN/FP/FN/TP in R
+
+```r
+testData <- titanic_train[test, ]
+testData$pr <- pr
+
+TN <- sum(testData$Survived == 0 & testData$pr == 0)
+FP <- sum(testData$Survived == 0 & testData$pr == 1)
+FN <- sum(testData$Survived == 1 & testData$pr == 0)
+TP <- sum(testData$Survived == 1 & testData$pr == 1)
+```
+
+## Class-wise performance
+
+Look at the confusion matrix by row and column:
+
+| | Did NOT survive (Actual = 0) | DID survive (Actual = 1) |
+|---|---|---|
+| Total in test set | 54 | 36 |
+| Correctly classified | 50 (93%) | 17 (47%) |
+
+**The model is much better at spotting non-survivors than survivors.** Overall accuracy of 74% hides this imbalance.
+
+::: {.callout-important}
+## ⭐ Exam-style thought question — carry this into Week 4 {#sec-thought-question}
+
+> *Professor's question (paraphrased):* *"Suppose someone builds a model to predict whether a patient has cancer, and reports 90% overall accuracy. Is this a good model? Would you put it in production?"*
+
+**Hint — think about the base rate.** If only 1 in 100 people in the screening population actually has cancer, a model that **always says "no cancer"** will be 99% accurate and **miss every single sick person**. Accuracy alone is dangerous when classes are imbalanced.
+
+Week 4 introduces **precision, recall, and F1** — the metrics that expose this problem.
+:::
+
+---
+
+# Handling Missing Values
+
+`Age` has 177 missing values (~20% of the column). Three reasonable options:
+
+| Option | When to use it | Downside |
+|---|---|---|
+| **Drop the column** | The column is not important and has lots of missing values | Lose a potentially useful predictor |
+| **Drop the rows with missing values** | Very few rows affected | Loses data; fails for new rows with missing values at prediction time |
+| **Impute (fill in) the missing values** | Default choice for important columns | Imputed values carry no real information, just keep the row usable |
+
+For Titanic's `Age`, imputation is correct.
+
+## Mean imputation — done correctly
+
+::: {.callout-important}
+## ⭐ Exam-critical detail
+
+The mean **must be calculated on the training set only**, then applied to both train and test sets.
+
+Calculating the mean on the full dataset (train + test combined) is a form of **data leakage** — information from the test set has bled into the training process.
+:::
+
+```r
+# Correct: mean is computed from TRAIN only (na.rm = TRUE ignores NAs)
+meanAge <- mean(titanic_train[train, ]$Age, na.rm = TRUE)
+meanAge
+# 29.725 (approximately)
+
+# Apply to the WHOLE dataset — so both train and test rows have Age filled in
+titanic_train[is.na(titanic_train$Age), ]$Age <- meanAge
+```
+
+After imputation, the Titanic decision tree's accuracy improves from **74.4% to 75.5%** — a small but real gain, and far more important for algorithms like logistic regression that refuse to run with NAs.
+
+## Mode imputation for categorical columns
+
+For the 2 blank `Embarked` values, the same principle applies — use the **mode** (most common category) of the training set:
+
+```r
+titanic_train[titanic_train$Embarked == "", ]$Embarked <- 'S'
+```
+
+---
+
+# Scenario → Concept Reference Table
+
+Exam-style situations and what to do about them:
+
+| Scenario | Correct action | Reason |
+|---|---|---|
+| A column has a unique value for every row (e.g. `PassengerId`, `Name`, `Ticket`) | Drop it | No generalisable pattern — tree will memorise |
+| A column has 5–10% missing values and is important | Impute (mean for numeric, mode for categorical) on **train only** | Preserves rows; avoids data leakage |
+| A column has ~70% missing values (e.g. `Cabin`) | Drop it | Too little real information left |
+| Categorical variable encoded as numbers (`Pclass` = 1, 2, 3) | Convert with `as.factor()` | Stop the algorithm doing arithmetic on categories |
+| Numeric variable with a threshold effect (e.g. age and children) | Create a derived binary variable | Makes the threshold visible to the algorithm |
+| Two predictors are highly correlated (e.g. `Pclass` and `Fare`) | Consider dropping one | Redundant information; algorithm will pick one and ignore the other |
+| `Embarked` shows a strong signal but seems implausible | Cross-check against other predictors | Usually it is a proxy for the real cause |
+| Test accuracy ≫ training accuracy on a tree | Suspicious — could indicate a buggy split | Rare; investigate before trusting |
+| Training accuracy ≫ test accuracy | **Overfitting** — prune the tree or use a simpler model | Classic symptom |
+| New categorical values appear at prediction time that weren't in training | Pipeline error — usually means the variable shouldn't have been used | Decision tree cannot handle unseen categories |
+| Predictor includes a field only known after the target event (e.g. "card cancelled" when predicting fraud) | Remove it immediately | **Data leakage** — model will be useless in production |
+
+---
+
+# Summary Points — Week 3 Takeaways
+
+- ✅ **Always profile a dataset before modelling**: count unique values and blanks in every column.
+- ✅ **Plot counts AND proportions** when comparing a predictor to the target.
+- ✅ **Counts show effect size; proportions show signal strength.** You need both.
+- ✅ **Create derived variables** (`is_child`, `family`) when raw variables have threshold effects.
+- ✅ **Cross-check predictors against each other**, not just against the target. Watch for proxy variables.
+- ✅ **Convert ordinal/categorical numeric codes to factors** with `as.factor()`.
+- ✅ **Always set a random seed** for reproducible data science.
+- ✅ **Split into train and test before anything else.** No row in both. No exceptions.
+- ✅ **Fit the model on train only. Evaluate on test only.**
+- ✅ **Compute imputation values from the train set only**, then apply to both sets.
+- ✅ **Watch for data leakage** — any predictor that would not be available at prediction time must be removed.
+- ✅ **Drop ID-like columns** (`PassengerId`, `Ticket`, `Name`, `Cabin`) before fitting a decision tree.
+- ✅ **Decision trees are greedy** — they are great for interpretation and poor at capturing variable interactions.
+- ✅ **Overall accuracy can mislead.** Always look at the full confusion matrix, especially with imbalanced classes.
+
+---
+
+# Pre-Topic Checklist — Are You Ready for Week 4?
+
+Before moving on to logistic regression and ML metrics, make sure you can:
+
+- [ ] Load the Titanic dataset in R and summarise its structure with `str()` and `summary()`.
+- [ ] Write the `uniq_len` and `countBlank` helpers from scratch.
+- [ ] Explain why counts and proportions must be plotted side by side.
+- [ ] Produce a count plot and a proportion plot for a categorical predictor using `ggplot2`.
+- [ ] Explain the difference between signal strength and effect size.
+- [ ] Create a derived variable like `is_child` and justify why it helps.
+- [ ] Convert a numeric categorical column to a factor and explain why.
+- [ ] Perform a 90/10 train/test split reproducibly using `set.seed` and `sample`.
+- [ ] State the three non-negotiable rules of a train/test split.
+- [ ] Explain overfitting, data drift, and model drift — and give an example of each.
+- [ ] Explain what data leakage is and give an example from outside the lecture.
+- [ ] Fit a decision tree with `rpart()` and plot it with `rpart.plot()`.
+- [ ] Describe how a decision tree decides which column to split on (entropy, Gini, information gain).
+- [ ] Explain why a decision tree is "greedy" and what that limitation costs.
+- [ ] Read a confusion matrix and identify TP, TN, FP, FN.
+- [ ] Compute accuracy from a confusion matrix by hand.
+- [ ] Explain why 90% accuracy on a cancer-screening model can be **bad**.
+- [ ] Impute a missing numeric column with the training-set mean, **without** leaking test data.
+- [ ] Explain why leaving `Ticket` in the Titanic model causes `predict()` to error out.
+
+---
+
+# Additional Resources
+
+- Kaggle Titanic competition — [https://www.kaggle.com/c/titanic](https://www.kaggle.com/c/titanic) (includes public R notebooks to learn from)
+- `rpart` documentation — [https://cran.r-project.org/package=rpart](https://cran.r-project.org/package=rpart)
+- `rpart.plot` — [https://cran.r-project.org/package=rpart.plot](https://cran.r-project.org/package=rpart.plot)
+- The `titanic` package source — [https://github.com/paulhendricks/titanic](https://github.com/paulhendricks/titanic)
+
+---
+
+# What's Coming Next Week
+
+- **Logistic regression** — a smarter classifier that outputs probabilities.
+- **Machine learning metrics beyond accuracy** — precision, recall, F1, ROC.
+- The answer to the **cancer-model thought question** above.
+- More on **overfitting and underfitting**, with worked examples.
+- A brief tour of other classical algorithms (Naive Bayes, SVM, Random Forest) to frame the comparisons that come later.
+
+---
 
 # My Notes & Questions
 
-*Use this space to add your own observations, things to follow up, or questions for the lecturer.*
+*Use this space for your own observations, follow-up questions, and things to revise.*
 
--   [ ] ...
--   [ ] ...
--   [ ] ...
+- [ ] ...
+- [ ] ...
+- [ ] ...
+- [ ] ...
+- [ ] ...

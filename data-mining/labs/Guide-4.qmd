@@ -1,0 +1,829 @@
+---
+title: "Understanding Guide: Weeks 1–6"
+subtitle: "STAT9013 — Deep Understanding for the Q&A Assessment"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    theme: cosmo
+    number-sections: false
+    code-fold: true
+    embed-resources: true
+---
+
+# 📖 How to use this guide
+
+This guide has one purpose: to help you **truly understand** the topics, not just memorise them.
+
+When you understand something, you can explain it even if the professor asks the question in an unexpected way. Scripts fail. Understanding does not.
+
+Read each section like a story. Ask yourself after every topic:
+
+> *"Can I explain this to a friend who knows nothing about data mining — in my own words, without looking at this guide?"*
+
+If yes → move on.
+If no → re-read and try again.
+
+**How this guide is structured:**
+
+Every topic explains:
+
+1. **The problem** — why does this topic exist? What were we trying to solve?
+2. **The idea** — what is the solution?
+3. **How it works** — the mechanism, simply explained
+4. **Why it matters** — the real-world consequence
+5. **A story or analogy** — something to make it stick in memory
+
+---
+
+# 🗺️ Part 1: The big picture — see the whole map first
+
+Before any algorithm, you need to see **where everything fits**. This is the most important page in this guide. If you understand this map, you will never be confused about where a topic belongs.
+
+## The one question that data mining answers
+
+> **"What can I learn from this data?"**
+
+There are two completely different answers to that question:
+
+**Answer 1 — I want to PREDICT something.**
+Will this customer leave? Is this email spam? Will this patient survive?
+→ This is called **Supervised Learning** because the data has a "correct answer" (a target) that supervises the training.
+
+**Answer 2 — I want to FIND PATTERNS or GROUPS.**
+What types of customers do I have? Which products are bought together?
+→ This is called **Unsupervised Learning** because there is no target. The algorithm finds structure on its own.
+
+## The complete map of what you learned in Weeks 1–6
+
+```
+DATA MINING (Weeks 1–6)
+│
+├── SUPERVISED LEARNING — we know the answer, we want to predict it
+│   │
+│   ├── CLASSIFICATION — predict a category (yes/no, fraud/not fraud)
+│   │   ├── Decision Trees              (Week 3)
+│   │   ├── Logistic Regression         (Week 4)
+│   │   ├── Naive Bayes                 (Week 5)
+│   │   ├── Support Vector Machines     (Week 5)
+│   │   ├── Random Forest               (Week 4–5)
+│   │   ├── Gradient Boosted Machines   (Week 6)
+│   │   └── Neural Networks             (Week 5 — brief)
+│   │
+│   └── REGRESSION — predict a number (price, salary, age)
+│       └── Linear Regression           (Week 5)
+│
+└── UNSUPERVISED LEARNING — no target, find patterns
+    └── (Covered in Week 7 — not in this guide)
+```
+
+**Practice:** close this guide and draw this map from memory on a piece of paper. If you can do that, you know the structure of the whole course.
+
+## The workflow: CRISP-DM
+
+Every data mining project follows the same 6 steps. Think of it as a recipe:
+
+| Step | Question | Analogy |
+|------|----------|---------|
+| **1. Business Understanding** | What does the business need? | What meal do we want to cook? |
+| **2. Data Understanding** | What data do we have? Is it clean? | What ingredients are in the kitchen? |
+| **3. Data Preparation** | How do we organise the data? | Wash, cut, and season the ingredients |
+| **4. Modeling** | What algorithm should we use? | Cook the meal |
+| **5. Evaluation** | Does the model meet the business goal? | Taste the meal |
+| **6. Deployment** | How do stakeholders access the results? | Serve the meal |
+
+Two things your professor emphasised about CRISP-DM:
+
+1. **It is iterative — not linear.** You move back and forth between phases. For example, after modeling you might discover a data problem and go back to Data Preparation.
+
+2. **Note there are TWO data phases** before modeling — Data Understanding AND Data Preparation. Most of the real work happens before the algorithm is ever called.
+
+---
+
+# 🔑 Part 2: Three foundations — understand these or everything else is confusing
+
+These three ideas appear in almost every question your professor could ask. If these three are solid, everything else makes more sense.
+
+## Foundation 1: What "training a model" actually means
+
+When we say we "train" a model, what is really happening?
+
+Think of teaching a child to recognise cats. You show them 1,000 pictures, saying *"cat... cat... not a cat... cat..."* The child slowly learns the **pattern** of what makes something a cat — whiskers, pointy ears, tail shape. Eventually, they can look at a completely new picture and say *"cat"* — even though they have never seen that specific cat before.
+
+A machine learning model does the same thing:
+
+| Word | Meaning |
+|------|---------|
+| **Training data** | The 1,000 labelled pictures |
+| **Training** | The process of finding the pattern |
+| **Model** | The learned pattern |
+| **Test data** | New pictures the model has never seen |
+| **Prediction** | The model saying "cat" or "not cat" on new data |
+
+**Why do we split into training and test sets?**
+
+Because if you only measure accuracy on training data, the model could simply **memorise** all 1,000 pictures without learning any real pattern. It would score 100% — but fail completely on new pictures.
+
+The test set is the honest check. It is data the model has never seen. If accuracy is still high on the test set, the model has genuinely learned something.
+
+**The rule:** always evaluate your model on data it was NOT trained on.
+
+---
+
+## Foundation 2: Overfitting and Underfitting (Bias-Variance Trade-off)
+
+This is one of the most important ideas in all of machine learning.
+
+### The core tension
+
+There is always a tension between a model being **too simple** and **too complex**:
+
+- **Too simple** → misses the real pattern. Fails on both training AND test data. Called **underfitting** (high bias).
+- **Too complex** → memorises random noise in the training data. Perfect on training, fails on test. Called **overfitting** (high variance).
+- **Just right** → captures the real pattern, ignores noise. Good on both.
+
+### The exam analogy (easy to remember)
+
+| Student | What they did | Training grade | Test (real exam) grade |
+|---------|--------------|----------------|------------------------|
+| Lazy student | Did not study | 40% | 40% — **Underfitting** |
+| Memorising student | Memorised practice test word for word | 100% | 50% — **Overfitting** |
+| Smart student | Understood the concepts | 85% | 82% — **Good fit** |
+
+The memorising student is overfitting. They will fail the real exam because it asks slightly different questions.
+
+### How to detect it in practice
+
+| What you see | Diagnosis |
+|-------------|-----------|
+| Training accuracy: 60%, Test accuracy: 60% | Underfitting |
+| Training accuracy: 99%, Test accuracy: 65% | Overfitting |
+| Training accuracy: 85%, Test accuracy: 82% | Good fit |
+
+**The warning sign for overfitting:** a large gap between training and test accuracy.
+
+### The dartboard analogy (your professor used this)
+
+- **High bias (underfit):** darts scattered all over the board — consistently far from the bullseye
+- **High variance (overfit):** darts clustered together but in the WRONG part of the board — consistent but wrong
+- **Good fit:** darts clustered near the bullseye
+
+---
+
+## Foundation 3: Why accuracy is not enough ⭐
+
+This one is critical. You already built this understanding yourself through our conversation, so these are your own words reflected back:
+
+### The problem
+
+Imagine 100 people. Only **5 are sick**. The other 95 are healthy.
+
+A model that predicts **"healthy" for everyone** — without looking at any data at all — gets **95% accuracy**.
+
+But it catches **zero sick people**. It is completely useless and potentially dangerous.
+
+### Why does this happen?
+
+Because accuracy measures **overall correctness**. It does not care whether the model is doing well on each class separately. When one class is rare (5% sick, 95% healthy), the model takes the easy path — predict the majority class always.
+
+This is called the **imbalanced data problem**.
+
+### What should we measure instead?
+
+| Metric | The question it answers | Memory trick |
+|--------|------------------------|--------------|
+| **Recall** | Of all the people who ARE sick, how many did the model find? | **R**ecall looks at **R**eal (actual) values |
+| **Precision** | Of all the people the model SAID are sick, how many actually are? | **P**recision looks at **P**redicted values |
+| **F1** | A balance of both precision and recall | Use when you need both |
+
+### When does each metric matter?
+
+**Recall matters more** when missing a positive case is dangerous:
+- Medical diagnosis — missing a sick person could cost their life
+- Fraud detection — missing fraud costs money
+
+**Precision matters more** when a false positive causes real problems:
+- Spam filter — sending an important email to spam causes real harm
+- Legal system — wrongly accusing an innocent person
+
+### The precision-recall trade-off
+
+These two metrics are in tension. If you lower the probability threshold (from 0.5 to 0.3), the model predicts "positive" more often:
+- **Recall goes UP** — you catch more truly sick people
+- **Precision goes DOWN** — but you also flag more healthy people as sick
+
+You cannot maximise both at the same time. You choose which matters more for your business problem.
+
+---
+
+# 🌳 Part 3: The algorithms — understanding each one
+
+Now we go through each algorithm. For every one, I explain **why it exists** (what problem it solves), **how it works** (simply), and **where it fits** compared to the others.
+
+---
+
+## Decision Trees — the simplest classifier
+
+### Why it exists
+
+We want a model that makes decisions by asking questions — like a doctor diagnosing a patient step by step. *"Does the patient have a fever? → Are they coughing? → Have they travelled recently?"* Each question narrows down the answer.
+
+### How it works
+
+A decision tree is a **flowchart of yes/no questions**. At each step, the algorithm finds the question (split) that best separates the data into pure groups.
+
+**How does it measure "best"?** Using **entropy** or **Gini impurity** — both measure how mixed a group is.
+
+- **Pure group** = all items belong to the same class (e.g. all survived) → entropy = 0
+- **Mixed group** = items belong to different classes equally → maximum entropy
+
+The algorithm picks the split that produces the biggest **drop in impurity** (called **information gain**). It keeps splitting until the groups are pure enough or a stopping rule is hit.
+
+### Why it is great
+
+- **Easy to interpret** — you can draw it and show it to anyone
+- **Handles mixed data types** — numbers and categories
+- **Works as an exploration tool** — tells you which features matter most
+- **No need for scaling** or one-hot encoding
+
+### Why it is not great
+
+- **Overfits easily** — a deep tree memorises the training data
+- **Not the most accurate** — other algorithms beat it
+- **Unstable** — small data changes can produce very different trees
+- **Greedy** — makes the locally best split at each step, not the globally best
+
+### The key insight
+
+One tree is like asking **one expert** for advice. They might be wrong. This is why Random Forest was invented.
+
+---
+
+## Random Forest — the power of many trees
+
+### Why it exists
+
+One decision tree is weak and unstable. What if we combined hundreds of trees and took a vote? Would that be more accurate and reliable?
+
+**Yes.** That is exactly what Random Forest does.
+
+### The marble jar analogy
+
+Imagine a jar full of marbles. Ask **one person** to guess how many — they might be 30% off.
+
+Ask **500 people** independently, take the average — you will be within 1–2% of the real number.
+
+The wisdom of a crowd of independent guessers beats any single guesser. Random Forest uses this same principle with decision trees.
+
+### How it creates diversity between trees
+
+Here is the key problem: if all 500 trees see the same data, they will all produce the same tree. Voting 500 identical trees gives the same answer as one tree. Useless.
+
+Random Forest solves this with **two types of randomness**:
+
+**1. Bagging (row randomness)**
+Each tree gets a random sample of rows, **with replacement**. This means the same row can be picked more than once. If you sample 100 rows from 100 rows with replacement, about **63% will be unique** — the rest are duplicates.
+
+This gives each tree a slightly different dataset to learn from.
+
+**2. Feature randomness**
+At each split, only a **random subset of features** is considered (typically √number of columns). This prevents one dominant feature (like Sex in Titanic) from always being the top split in every tree.
+
+### The result
+
+Each tree sees different rows AND different features at each split. So each tree learns a slightly different version of the pattern. When you combine their votes:
+- Individual errors cancel out
+- The true signal survives
+- The final model is much more accurate than any single tree
+
+### Why it rarely overfits
+
+Because the trees vote together. If one tree makes a mistake (overfits to some noise in its training sample), the other 499 trees outvote it.
+
+### What you gain over a single tree
+
+| Feature | Decision Tree | Random Forest |
+|---------|---------------|---------------|
+| Number of models | 1 | 500 (default) |
+| Accuracy | Moderate | Usually high |
+| Overfitting | Very prone | Much more resistant |
+| Interpretability | High — you can draw it | Lower — but feature importance available |
+| Training speed | Fast | Slower — but trees run in parallel |
+
+---
+
+## Gradient Boosted Machines — learning from mistakes
+
+### Why it exists
+
+Random Forest builds trees **independently**. What if instead, each new tree could specifically fix the errors of the previous trees? Would that be even more accurate?
+
+**Yes.** That is the idea behind GBM.
+
+### The guessing game analogy
+
+Random Forest = 500 people guess the number of marbles **independently**. Take the average.
+
+GBM = Person 1 guesses. You tell Person 2: *"They were 200 too high."* Person 2 adjusts. You tell Person 3 what's still wrong. Each person **corrects the mistakes of the previous one.**
+
+### How it works
+
+1. Train a small decision tree on the data
+2. Look at which rows the tree got wrong — these are the **errors** (called residuals)
+3. Train a **new** tree specifically on those errors
+4. Add this tree to the model
+5. Repeat — each new tree focuses on what the previous model still gets wrong
+
+### The critical difference from Random Forest
+
+| Feature | Random Forest | GBM |
+|---------|---------------|-----|
+| Trees built... | **independently, all at once** | **sequentially, one at a time** |
+| Each tree looks at... | random sample of rows | errors of the previous model |
+| Can parallelise? | **Yes** — trees are independent | **No** — each tree needs the previous one |
+| Accuracy | Very good | Usually even better |
+| Interpretability | Decent | Hard — each tree depends on all previous |
+| Input data | Handles categories | Needs numeric input (one-hot encoding required) |
+
+### Why GBM can be a problem
+
+- Because trees must be built sequentially, training is **slow**
+- It is powerful but can **overfit** if not tuned carefully
+- It is **hard to interpret** — you cannot easily explain why it made a decision
+
+---
+
+## Logistic Regression — the interpretable classifier
+
+### Why it exists
+
+We want to predict a yes/no outcome AND understand **which features drive the prediction** and by how much. Logistic regression gives both.
+
+### How it works
+
+Start with the linear regression formula:
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ...$$
+
+The problem: this can give any number from -∞ to +∞. We need a probability between 0 and 1.
+
+Solution: wrap the formula in a **sigmoid function** that squashes any number into a value between 0 and 1.
+
+- If output ≥ 0.5 → predict class 1 (e.g. survived)
+- If output < 0.5 → predict class 0 (e.g. not survived)
+
+### Why coefficients are valuable
+
+Because the formula is additive, each coefficient tells you how much that feature pushes the prediction up or down.
+
+**Titanic example:**
+- Coefficient for Sex=male is **very negative** → being male strongly reduces survival probability
+- Coefficient for Pclass is **negative** → higher class number (3rd class) reduces survival probability
+
+This is why logistic regression is still used in business — you can explain every prediction. *"Being male reduced survival probability by this amount."*
+
+### One-hot encoding connection
+
+Logistic regression cannot handle text/category data directly. It needs numbers. This is where **one-hot encoding** comes in — converting "male/female" into two binary columns (1/0). R's `glm` function does this automatically.
+
+### The probability threshold
+
+By default, we use 0.5 as the cut-off. But you can change it:
+- Lower the threshold → predict positive more often → **recall goes up, precision goes down**
+- Raise the threshold → predict positive less often → **precision goes up, recall goes down**
+
+This connects directly to Foundation 3 — you choose the threshold based on what matters for your business problem.
+
+---
+
+## Naive Bayes — the fast probabilistic classifier
+
+### Why it exists
+
+Can we use simple probability calculations to classify things quickly?
+
+### The idea
+
+It uses **Bayes' theorem** to ask: *"Given these features, what is the probability of each class?"*
+
+It "flips" the question: instead of P(class | features), it calculates P(features | class) × P(class) for each class and picks the highest.
+
+### Why it is called "naive"
+
+It assumes all features are **completely independent** of each other given the class. This is almost never true — fever and cough are correlated when someone has flu. But the algorithm pretends they are not.
+
+Despite this unrealistic assumption, Naive Bayes often works surprisingly well, especially for:
+- **Text classification** (spam detection, sentiment analysis)
+- **Small datasets** where complex models overfit
+- When you need something **very fast** to train and predict
+
+---
+
+## Support Vector Machines — the margin maximiser
+
+### Why it exists
+
+When two classes are not easily separable by a straight line, can we find a smarter boundary?
+
+### The two key ideas
+
+**Idea 1: Maximum margin**
+
+Don't just find any line that separates the classes. Find the line that is **as far as possible from both groups**. This gap is called the **margin**.
+
+The data points that sit exactly on the edge of the margin are called **support vectors**. The model only cares about these points — all other points can be removed and the boundary stays the same. This makes SVM **robust to outliers**.
+
+**Idea 2: The kernel trick**
+
+What if the data cannot be separated by a straight line in 2D? SVM secretly maps the data into a **higher-dimensional space** where a flat boundary CAN separate the classes.
+
+Imagine two groups of points arranged in concentric circles on a table. No straight line can separate them. But if you lift the inner circle UP into 3D, suddenly a flat surface can slice between them.
+
+The kernel trick does this mathematically — without actually computing the higher dimensions. It just applies a mathematical function (squaring, exponential, polynomial) that has the same effect.
+
+### Pros and cons
+
+| Pros | Cons |
+|------|------|
+| High accuracy with little tuning | Does not scale to very large datasets |
+| Robust to outliers | Must choose a kernel |
+| Strong statistical basis | Harder to interpret |
+
+---
+
+## Neural Networks — the complex pattern finder (brief)
+
+### Why it exists
+
+Some patterns are too complex for any of the above algorithms — especially patterns in images, speech, and text.
+
+### The basic idea
+
+Layers of computational units ("neurons") pass information through the network, each layer applying a small transformation. Deep networks of many layers can learn very complex, non-linear patterns.
+
+### Important context from your professor
+
+> *"Neural networks are not something typically used for tabular data. For tabular data, the most powerful algorithms are SVMs, Random Forest, and Gradient Boosted Machines."*
+
+For your Q&A, if asked: explain what neural networks are and then add that they work best on unstructured data (images, text, audio), not on tabular data like Titanic.
+
+---
+
+## Linear Regression — predicting numbers
+
+### Why it exists
+
+Sometimes we want to predict a **number**, not a category. How much will this house cost? What will this patient's blood pressure be? That is regression — predicting a continuous value.
+
+### How it works
+
+Fits a straight line (or a flat surface in multiple dimensions) through the data:
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ...$$
+
+The coefficients (β values) are calculated to minimise the total error — specifically, the **sum of squared differences** between predicted and actual values.
+
+### R-squared — the key evaluation metric
+
+R² measures how much of the variation in the target the model explains.
+
+- R² = 0 → model explains nothing, no better than guessing the average
+- R² = 1 → model explains everything perfectly
+- R² = 0.87 → model explains 87% of the variation
+
+### The four assumptions
+
+Linear regression only works well if these four conditions hold:
+
+1. **Linearity** — the relationship between features and target is actually linear
+2. **Homoscedasticity** — the spread of errors is constant across all values (no fan shape)
+3. **Independence** — observations don't influence each other (time series can violate this)
+4. **Normality** — the errors follow a normal distribution
+
+If these are violated, the model may give unreliable results. Solutions include transforming variables (e.g. taking the log).
+
+---
+
+# 🔧 Part 4: Techniques applied with the algorithms
+
+These are not algorithms — they are things you do **before, during, or after** training to make models work correctly.
+
+---
+
+## One-hot encoding — why we need it
+
+### The problem
+
+Most algorithms (logistic regression, SVM, GBM, neural networks) require **purely numeric input**. But real data has text: "male/female," "C/Q/S," "red/green/blue."
+
+### The solution
+
+Convert each category into its own **binary (0/1) column**. One column per category. Each row gets exactly one "1" — hence "one-hot."
+
+**Before:**
+
+| id | Embarked |
+|----|----------|
+| 1 | C |
+| 2 | S |
+| 3 | Q |
+
+**After one-hot encoding:**
+
+| id | Embarked_C | Embarked_S | Embarked_Q |
+|----|------------|------------|------------|
+| 1 | 1 | 0 | 0 |
+| 2 | 0 | 1 | 0 |
+| 3 | 0 | 0 | 1 |
+
+No information is lost. The data is now numeric. Algorithms can process it.
+
+**Note:** Decision trees handle categorical data natively — they do not need this. But logistic regression, GBM, neural networks, and SVM usually do.
+
+---
+
+## Bagging — why sampling with replacement matters
+
+**Bagging** = **B**ootstrap **AGG**regat**ING**
+
+### Sampling with replacement — the key concept
+
+Normally when you pick rows for a sample, you take a row and it is gone (sampling **without** replacement — like a lottery where each ball is removed after being drawn).
+
+Sampling **with replacement** means: you pick a row, note it, and **put it back**. So the same row can be picked again.
+
+If you sample 100 rows from 100 rows with replacement:
+- About **63% will be unique**
+- About 37% will be duplicates
+
+### Why this matters for Random Forest
+
+Random Forest uses bagging to give each tree a different training set. Each tree sees approximately 63% unique rows — a different 63%. This forces diversity between trees, which is what makes the ensemble work.
+
+---
+
+## Cross-validation — the fair evaluation method
+
+### The problem
+
+If you use a single 90/10 train/test split, your accuracy could be lucky or unlucky depending on which rows end up in the test set. On a small dataset like Titanic, changing the random seed can move accuracy from 73% to 81% — that is a huge range.
+
+Which number do you trust?
+
+### The solution — k-fold cross-validation
+
+Instead of one split, you make **k splits** (usually 5 or 10) and train k different models:
+
+- Round 1: train on folds 1,2,3,4 → test on fold 5
+- Round 2: train on folds 1,2,3,5 → test on fold 4
+- Round 3: train on folds 1,2,4,5 → test on fold 3
+- Round 4: train on folds 1,3,4,5 → test on fold 2
+- Round 5: train on folds 2,3,4,5 → test on fold 1
+
+Every row is used for testing exactly once. Average the 5 test scores.
+
+### Why this gives a better estimate
+
+Because every row gets a turn in the test set, the result is not affected by one lucky or unlucky split. The average is **stable and reliable**.
+
+### Important rule
+
+Cross-validation is done on the **training data only**. You still keep a completely separate test set for the final evaluation. Cross-validation helps you pick a good model — the separate test set tells you how it truly performs.
+
+---
+
+## Handling imbalanced data
+
+### The problem
+
+When one class is rare (fraud: 0.1%, sick: 1%), most algorithms default to predicting the majority class. Accuracy looks great — but the model catches nothing useful.
+
+### Five solutions
+
+**1. Use better metrics**
+F1, precision, recall instead of accuracy. These measure performance on the minority class.
+
+**2. Change the probability threshold**
+Lower it from 0.5 to 0.3. The model predicts "positive" more often. Recall goes up, precision goes down.
+
+**3. Upsample the minority class**
+Duplicate minority class rows until the dataset is balanced. Simple but risks overfitting to the same rows.
+
+**4. Downsample the majority class**
+Remove some majority class rows. Loses information but balances the data.
+
+**5. SMOTE** (Synthetic Minority Over-sampling Technique)
+Instead of copying minority rows, SMOTE **creates new synthetic rows** by interpolating between existing minority examples. This adds variety without exact duplication, reducing overfitting risk.
+
+### The key insight
+
+When a business person says *"I need the model to find as many fraudulent transactions as possible"* — they are describing **recall**. They want the minority class found. This tells you the right metric and the right technique to use.
+
+---
+
+## Handling missing data
+
+### Three options
+
+**1. Drop the rows** — if only a few rows have missing values, simply remove them. Works when the missing data is random and few.
+
+**2. Drop the column** — if most of the column is missing (like the Cabin field in Titanic, where ~77% are missing), the column provides little value. Remove it.
+
+**3. Impute** — fill in a reasonable value. The most common approach: fill with the **mean** (for normally distributed data) or **median** (for skewed data).
+
+**A smarter imputation (from Titanic):**
+Instead of filling all missing ages with the overall mean (29 years), use the mean age **by gender and title**:
+- Masters (young boys) get a much lower age
+- Mrs (adult women) get a different age
+- Mr (adult men) get yet another age
+
+This is better because it does not force everyone to look like a middle-aged adult.
+
+### The critical rule — avoiding leakage through imputation
+
+**Always calculate the imputation value on the training set only.**
+
+If you calculate the mean age on the whole dataset (training + test) and then split, the test set's values have influenced the training set. That is data leakage.
+
+Correct order:
+1. Split the data into training and test sets
+2. Calculate the mean age from the **training set only**
+3. Apply that mean to fill missing values in **both** training and test sets
+
+---
+
+## Data leakage — the accuracy that lies
+
+### What it is
+
+Data leakage happens when your training data contains information that **would not exist at the time of real-world prediction**. The model "cheats" — it achieves high accuracy in testing but fails completely when deployed.
+
+### The two types
+
+**Type 1 — Target leakage**
+
+A predictor was recorded **after** the target event, or is a direct consequence of it.
+
+*Titanic example:* your professor added a fake "Carpathia" field. Carpathia was the rescue ship that picked up Titanic survivors. But at the moment the Titanic sank, nobody knew which ship would save them — this information could not exist at prediction time. The model gets impossibly high accuracy. The feature is a leak.
+
+*Medical example:* predicting if someone has cancer, but including a field showing they are taking anti-cancer medication. The medication exists **because** they have cancer — it is a consequence, not a predictor.
+
+*Credit card example:* predicting fraud using a "card cancelled" flag. Cards are cancelled **after** fraud is discovered. The flag cannot exist at the moment you need to predict.
+
+**Type 2 — Preparation leakage**
+
+You use the whole dataset (including test data) to compute something like a mean, then split. The test set's information has leaked into the training process.
+
+### How to detect it
+
+1. **Suspiciously high accuracy** — if one feature gives near-perfect accuracy, be immediately suspicious
+2. **Ask:** *"Would this feature actually exist at the moment I need to make the prediction?"*
+3. **Ask:** *"Was this feature recorded before or after the target event?"*
+
+### How to fix it
+
+- Remove the leaking feature
+- Split data **first**, compute imputation values **second** (on training set only)
+
+---
+
+# 🧪 Part 5: Evaluation metrics — the full picture
+
+## For classification models
+
+You already built the understanding of accuracy, precision, and recall. Here is the complete picture:
+
+### The confusion matrix
+
+For any classification model, predictions fall into four categories:
+
+|  | **Actual: Positive** | **Actual: Negative** |
+|--|---------------------|---------------------|
+| **Predicted: Positive** | True Positive (TP) — correctly identified positive | False Positive (FP) — wrongly called positive |
+| **Predicted: Negative** | False Negative (FN) — missed a real positive | True Negative (TN) — correctly identified negative |
+
+**Rows = what the model predicted. Columns = what was actually true.**
+
+### The four metrics
+
+$$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
+
+$$\text{Precision} = \frac{TP}{TP + FP} \quad \leftarrow \text{looks at predicted positive column}$$
+
+$$\text{Recall} = \frac{TP}{TP + FN} \quad \leftarrow \text{looks at actual positive column}$$
+
+$$F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
+
+### When to use each
+
+| Metric | Use when... | Example |
+|--------|-------------|---------|
+| Accuracy | Classes are balanced | Predicting iris flower type |
+| Recall | Missing a positive case is costly | Medical diagnosis, fraud detection |
+| Precision | A false alarm causes real harm | Spam filter, legal decisions |
+| F1 | Both matter and data is imbalanced | Most real-world cases |
+
+### ROC curve and AUC
+
+The **ROC curve** plots True Positive Rate (recall) against False Positive Rate as you vary the probability threshold from 0 to 1.
+
+**AUC** (Area Under the Curve) summarises the ROC curve into one number:
+- AUC = 1.0 → perfect classifier
+- AUC = 0.5 → no better than random guessing
+- AUC = 0.81 (Titanic logistic regression result) → good classifier
+
+A higher AUC means the model is better at separating the two classes across all possible thresholds.
+
+## For regression models
+
+When predicting a number, accuracy does not apply. Use these instead:
+
+| Metric | What it measures | Notes |
+|--------|-----------------|-------|
+| **MAE** (Mean Absolute Error) | Average absolute difference between predicted and actual | Easy to interpret — same units as target |
+| **MSE** (Mean Squared Error) | Average squared difference | Penalises large errors more than small ones |
+| **RMSE** (Root Mean Squared Error) | Square root of MSE | Same units as target, like MAE but penalises large errors |
+| **R²** | How much of the variance the model explains | 0 to 1, higher is better |
+
+---
+
+# 🔗 Part 6: How the topics connect — the big connections
+
+One of the most impressive things you can do in a Q&A is show you see **connections between topics**. Here are the most important ones:
+
+### Connection 1: Data leakage → missing value imputation
+
+These two are directly linked. If you fill in missing values using the whole dataset before splitting, you commit **preparation leakage**. The fix is the same: split first, impute second.
+
+### Connection 2: Imbalanced data → precision/recall/F1
+
+Imbalanced data is exactly the situation where accuracy fails and you need precision, recall, or F1. These two topics always appear together.
+
+### Connection 3: Random Forest → Bagging → Decision Trees
+
+Random Forest is built from decision trees + bagging + feature randomness. You cannot explain Random Forest without explaining what a decision tree is and what bagging does.
+
+### Connection 4: GBM → Random Forest
+
+These are both ensemble methods using decision trees. The key difference: Random Forest builds trees **independently in parallel**, GBM builds trees **sequentially, each fixing the last one's errors**.
+
+### Connection 5: Overfitting → Cross-validation
+
+Cross-validation exists partly to detect and correct for overfitting. A model that overfits will show a big gap between its training score and its cross-validation score.
+
+### Connection 6: Threshold → Precision/Recall trade-off → Imbalanced data
+
+Lowering the probability threshold increases recall and decreases precision. This technique is specifically useful for imbalanced data, where you want higher recall on the minority class.
+
+### Connection 7: One-hot encoding → Logistic regression, GBM, Neural Networks
+
+These algorithms require numeric input. When you have categorical data (text), one-hot encoding is the bridge that makes the data usable.
+
+---
+
+# ✅ Part 7: The "explain it to a friend" test — Weeks 1–6
+
+For each topic, close the guide and explain it out loud in your own words. If you can do this naturally and clearly, you are ready.
+
+**Foundations:**
+- [ ] What does it mean to "train" a model?
+- [ ] What is overfitting? What is underfitting? How do you detect each?
+- [ ] Why is accuracy misleading on imbalanced data?
+- [ ] What is recall? What is precision? When does each matter?
+
+**Algorithms:**
+- [ ] How does a decision tree decide where to split?
+- [ ] Why is Random Forest more accurate than a single decision tree?
+- [ ] What is bagging and why does it create diversity?
+- [ ] How does GBM differ from Random Forest? (Two key differences)
+- [ ] What is logistic regression and what do the coefficients tell you?
+- [ ] What is the kernel trick in SVM?
+- [ ] Why is Naive Bayes called "naive"?
+
+**Techniques:**
+- [ ] Why do we need one-hot encoding?
+- [ ] What is cross-validation and why is it better than a single train/test split?
+- [ ] What are three ways to handle imbalanced data?
+- [ ] What is SMOTE and why is it better than simple upsampling?
+- [ ] What are the two types of data leakage?
+- [ ] How do you detect data leakage?
+- [ ] What are three ways to handle missing data?
+
+**Evaluation:**
+- [ ] What are the four cells of a confusion matrix?
+- [ ] What is F1 and when do you use it?
+- [ ] What does AUC measure?
+- [ ] What is R-squared?
+
+**Process:**
+- [ ] What are the 6 phases of CRISP-DM?
+- [ ] Why are there TWO data phases before modelling?
+
+---
+
+# 📝 My notes — what I still need to understand
+
+Use this space to write down topics that are not yet clear, questions you want to ask, or examples that help you remember things.
+
+---
+
+*(Write here)*

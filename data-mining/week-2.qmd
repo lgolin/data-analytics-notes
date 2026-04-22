@@ -306,6 +306,8 @@ The IQR is used by box plots to define the "normal" range and identify outliers.
 Key parameters:
 
 ```{r qplot-template}
+#| eval: false
+
 qplot(
   data,                        # the column / vector to plot
   geom = "histogram",          # "histogram", "density", "boxplot", "point"

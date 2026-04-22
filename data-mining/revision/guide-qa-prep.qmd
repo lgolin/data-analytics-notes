@@ -1,16 +1,6 @@
 ---
 title: "Q&A Assessment Preparation: Weeks 1–6"
 subtitle: "STAT9013 — Data Mining"
-date: today
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    theme: cosmo
-    number-sections: true
-    code-fold: true
-    code-tools: true
-    embed-resources: true
 ---
 
 ::: {.callout-important}

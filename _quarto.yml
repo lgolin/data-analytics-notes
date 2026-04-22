@@ -9,13 +9,16 @@ website:
     style: docked
     search: true
     contents:
+
       - text: "Home"
         file: index.qmd
 
+      # ── DATA MINING ──────────────────────────────────────────────────────────
       - section: "Data Mining"
         contents:
-          - file: data-mining/index.qmd        # ← needs a dash
-          - section: "Weekly Notes"            # ← needs a dash
+          - file: data-mining/index.qmd
+
+          - section: "Weekly Notes"
             contents:
               - text: "Week 1"
                 file: data-mining/week-1.qmd
@@ -33,14 +36,32 @@ website:
                 file: data-mining/week-7.qmd
               - text: "Week 8"
                 file: data-mining/week-8.qmd
-          - section: "Labs"                    # ← auto section
-            contents: data-mining/labs/
 
+          - section: "Labs"
+            contents:
+              - text: "Lab 3: Decision Trees in R"
+                file: data-mining/labs/lab-3.qmd
+              - text: "Lab 4a: Logistic Regression in R"
+                file: data-mining/labs/lab-4a.qmd
+
+          - section: "Revision"
+            contents:
+              - text: "Understanding Guide: Weeks 1–7"
+                file: data-mining/revision/guide-understanding.qmd
+              - text: "Q&A Assessment Prep"
+                file: data-mining/revision/guide-qa-prep.qmd
+              - text: "Q&A Speaking Coach"
+                file: data-mining/revision/guide-speaking-coach.qmd
+              - text: "Summary Cards: Weeks 1–6"
+                file: data-mining/revision/summary-cards.qmd
+
+      # ── REGRESSION ANALYSIS ──────────────────────────────────────────────────
       - section: "Regression Analysis"
         contents:
           - file: regression-analysis/index.qmd
+
           - section: "Weekly Notes"
-            contents: 
+            contents:
               - text: "Week 1"
                 file: regression-analysis/week-1.qmd
               - text: "Week 2"
@@ -61,12 +82,21 @@ website:
                 file: regression-analysis/week-9.qmd
               - text: "Week 10"
                 file: regression-analysis/week-10.qmd
-          - section: "Labs"
-            contents: regression-analysis/labs/
 
+          - section: "Labs"
+            contents:
+              - text: "Week 1 – Data Analysis Protocol"
+                file: regression-analysis/labs/lab-1.qmd
+              - text: "Week 2 – Study Guide"
+                file: regression-analysis/labs/lab-2.qmd
+              - text: "Exercise Sheet 3 – One-Way ANOVA"
+                file: regression-analysis/labs/lab-3.qmd
+
+      # ── TIME SERIES ──────────────────────────────────────────────────────────
       - section: "Time Series"
         contents:
           - file: time-series/index.qmd
+
           - section: "Weekly Notes"
             contents:
               - text: "Week 1"
@@ -83,14 +113,26 @@ website:
                 file: time-series/week-6.qmd
               - text: "Week 7"
                 file: time-series/week-7.qmd
-              - text: "Week 8 - empty"
-                file: time-series/week-8.qmd
-          - section: "Labs"
-            contents: time-series/labs/
-          - section: "Exam Prep"
-            contents: time-series/exam/
-            
 
+          - section: "Labs"
+            contents:
+              - text: "Lab 1 – Introduction"
+                file: time-series/labs/lab-1.qmd
+              - text: "Lab 2 – Seasonality & Decomposition"
+                file: time-series/labs/lab-2.qmd
+              - text: "Lab 3 – Classical Models"
+                file: time-series/labs/lab-3.qmd
+
+          - section: "Exam Prep"
+            contents:
+              - text: "Practical R Test"
+                file: time-series/exam/Practical_R.qmd
+              - text: "Practical Exam Solutions"
+                file: time-series/exam/Practical-Exam-Solutions.qmd
+              - text: "Quiz Preparation"
+                file: time-series/exam/quiz.qmd
+
+# ── FORMAT (global — applies to all pages) ───────────────────────────────────
 format:
   html:
     theme:
@@ -99,11 +141,12 @@ format:
     toc-depth: 3
     number-sections: true
     code-fold: true
-    highlight-style: github
-    code-overflow: wrap
     code-tools: true
+    code-overflow: wrap
+    highlight-style: github
     css: styles.css
 
+# ── EXECUTION (global) ────────────────────────────────────────────────────────
 execute:
   warning: false
   message: false

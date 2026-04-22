@@ -1,15 +1,6 @@
 ---
 title: "Week 1: Data Analysis Protocol"
 subtitle: "STAT9004 – Regression Analysis"
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    toc-title: "Contents"
-    theme: cosmo
-    highlight-style: github
-    code-fold: true
-    number-sections: true
 ---
 
 > 📌 **Beginner-friendly notes for Week 1.** Every concept is explained simply. Space is left at the end of each section for your own annotations.

@@ -1,24 +1,6 @@
 ---
 title: "Exercise Sheet 3 — One-Way ANOVA"
 subtitle: "Study Guide: Worked Solutions with Explanations"
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    toc-title: "Contents"
-    number-sections: true
-    theme: cosmo
-    code-fold: true
-    code-tools: true
-    highlight-style: github
-    df-print: paged
-  pdf:
-    toc: true
-    number-sections: true
-execute:
-  echo: true
-  warning: false
-  message: false
 ---
 
 > 📝 **How to use this guide:** Each question is answered step by step, with plain-English explanations *before* the formal answer. Code is shown so you can reproduce every result in R. Leave the annotation boxes empty — those are for your own notes later!

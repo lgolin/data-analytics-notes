@@ -1,15 +1,6 @@
 ---
 title: "Your Q&A Speaking Coach"
 subtitle: "A tutor's guide for STAT9013 — designed for ESL students"
-date: today
-format:
-  html:
-    toc: true
-    toc-depth: 2
-    theme: cosmo
-    number-sections: false
-    code-fold: true
-    embed-resources: true
 ---
 
 # 👋 Hello, let me be your tutor

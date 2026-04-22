@@ -1,16 +1,6 @@
 ---
 title: "Week 4: Evaluation Metrics, Logistic Regression & ML Algorithm Survey"
 subtitle: "STAT9013 — Data Mining"
-date: today
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    number-sections: true
-    theme: cosmo
-    code-fold: true
-    code-tools: true
-    highlight-style: github
 ---
 
 ::: {.callout-important icon=true}

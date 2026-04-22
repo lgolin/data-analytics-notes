@@ -1,7 +1,6 @@
 ---
 title: "Week 5 – One-Way ANOVA"
 subtitle: "STAT9004 – Regression Analysis"
-date: today
 ---
 
 > 📝 **Study Notes** — These notes are designed to be reviewed and expanded. Use the comment spaces and `<!-- TODO -->` markers to add your own annotations as you revisit this material.

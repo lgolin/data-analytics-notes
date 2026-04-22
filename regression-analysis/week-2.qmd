@@ -1,14 +1,6 @@
 ---
 title: "Week 2: Statistical Inference"
 subtitle: "STAT9004 — Regression Analysis"
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    number-sections: true
-    theme: cosmo
-    code-fold: true
-    code-summary: "Show R code"
 ---
 
 ```{r setup, include=FALSE}

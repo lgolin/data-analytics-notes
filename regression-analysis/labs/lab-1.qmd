@@ -1,20 +1,6 @@
 ---
 title: "Week 1 – Data Analysis Protocol"
 subtitle: "Predictive Analytics / Regression Analysis"
-author: "Study Guide"
-date: today
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    toc-title: "Contents"
-    code-fold: false
-    theme: cosmo
-    highlight-style: github
-execute:
-  echo: true
-  warning: false
-  message: false
 ---
 
 > 📝 **Note to self:** These notes are a living document. Add your own annotations, extra examples, and corrections as you go through the course.

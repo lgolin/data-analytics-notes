@@ -1,22 +1,6 @@
 ---
 title: "STAT9004 – Week 2 Study Guide"
 subtitle: "Statistical Inference: Sampling, Hypothesis Testing & Power"
-author: "Study Notes"
-date: today
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    toc-title: "Contents"
-    number-sections: true
-    theme: cosmo
-    highlight-style: github
-    code-fold: false
-    embed-resources: true
-execute:
-  echo: true
-  warning: false
-  message: false
 ---
 
 > 📌 **How to use these notes:** Read the concept explanations first, then work through each exercise with the solution. Spaces marked *[Your notes here]* are for you to add your own annotations later.

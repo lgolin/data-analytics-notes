@@ -1,17 +1,7 @@
 ---
 title: "My Summary Cards — Weeks 1 to 6"
 subtitle: "STAT9013 — Read these out loud before your exam"
-date: today
-format:
-  html:
-    toc: true
-    toc-depth: 2
-    theme: cosmo
-    number-sections: false
-    code-fold: false
-    embed-resources: true
 ---
-
 # 📖 How to use these cards
 
 Read each card **out loud** — not in your head. Out loud.

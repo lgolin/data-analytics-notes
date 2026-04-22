@@ -1,18 +1,6 @@
 ---
 title: "Week 3: Classification & Decision Trees"
 subtitle: "STAT9013 – Data Mining"
-date: today
-format:
-  html:
-    toc: true
-    toc-depth: 4
-    toc-title: "📚 Contents"
-    theme: cosmo
-    number-sections: true
-    code-fold: true
-    code-tools: true
-    smooth-scroll: true
-    embed-resources: true
 ---
 
 ::: {.callout-important}

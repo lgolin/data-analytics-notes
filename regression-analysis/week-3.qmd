@@ -1,15 +1,6 @@
 ---
 title: "Week 3: Missing Data & Power Analysis"
 subtitle: "STAT9004 — Statistical Modelling"
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    number-sections: true
-    theme: cosmo
-    code-fold: true
-    code-tools: true
-    highlight-style: github
 ---
 
 ---

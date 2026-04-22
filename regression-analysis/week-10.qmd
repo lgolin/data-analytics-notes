@@ -1,20 +1,6 @@
 ---
 title: "Week 10 – ANCOVA (Analysis of Covariance)"
 subtitle: "STAT9004: Regression Analysis"
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    toc-title: "Contents"
-    number-sections: true
-    theme: cosmo
-    highlight-style: github
-    code-fold: true
-    code-tools: true
-    self-contained: true
-execute:
-  warning: false
-  message: false
 ---
 
 ::: {.callout-important}

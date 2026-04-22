@@ -1,19 +1,6 @@
 ---
 title: "Week 1: Introduction to Data Mining & Machine Learning"
 subtitle: "STAT9013 — Data Mining & Machine Learning"
-date: today
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    toc-title: "📚 Contents"
-    number-sections: true
-    theme: cosmo
-    code-fold: true
-    code-summary: "Show R code"
-    highlight-style: github
-    smooth-scroll: true
-    df-print: paged
 ---
 
 ---

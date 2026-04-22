@@ -1,14 +1,6 @@
 ---
 title: "Week 4: Design of Experiments"
 subtitle: "STAT9004 — Statistical Methods"
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    number-sections: true
-    theme: cosmo
-    code-fold: true
-    code-summary: "Show R Code"
 ---
 
 ```{=html}

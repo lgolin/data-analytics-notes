@@ -1,29 +1,6 @@
 ---
 title: "Week 2: Basic Statistics, Visualisations in R, and Data Exploration"
 subtitle: "STAT9013 — Data Mining and Machine Learning"
-author: "Comprehensive Study Guide — v2"
-date: today
-format:
-  html:
-    toc: true
-    toc-depth: 4
-    toc-title: "📚 Contents"
-    number-sections: true
-    theme: cosmo
-    code-fold: true
-    code-tools: true
-    highlight-style: github
-    df-print: paged
-    self-contained: true
-    css: |
-      body { font-size: 1.05em; line-height: 1.7; }
-      h1, h2, h3 { margin-top: 1.8em; }
-      .callout { margin: 1.2em 0; }
-      code { font-size: 0.93em; }
-execute:
-  eval: false
-  warning: false
-  message: false
 ---
 
 ```{r setup, include=FALSE}

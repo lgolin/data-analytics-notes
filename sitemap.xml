@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://lgolin.github.io/data-analytics-notes/data-mining/revision/guide-understanding.html</loc>
+    <lastmod>2026-04-22T19:32:50.003Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lgolin.github.io/data-analytics-notes/data-mining/revision/guide-speaking-coach.html</loc>
+    <lastmod>2026-04-22T19:33:01.312Z</lastmod>
+  </url>
+  <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/week-8.html</loc>
     <lastmod>2026-03-30T07:50:52.528Z</lastmod>
   </url>
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/week-2.html</loc>
-    <lastmod>2026-04-17T22:04:02.268Z</lastmod>
+    <lastmod>2026-04-22T19:43:31.158Z</lastmod>
   </url>
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/week-3.html</loc>
-    <lastmod>2026-04-18T07:06:52.663Z</lastmod>
+    <lastmod>2026-04-22T19:29:31.597Z</lastmod>
   </url>
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/labs.html</loc>
@@ -22,67 +30,55 @@
   </url>
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/week-7.html</loc>
-    <lastmod>2026-03-30T08:39:47.110Z</lastmod>
+    <lastmod>2026-04-22T19:30:02.510Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/data-mining/labs/Guide-4.html</loc>
-    <lastmod>2026-04-19T13:57:27.632Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/data-mining/labs/lab-4a.html</loc>
+    <lastmod>2026-03-31T16:24:13.224Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/data-mining/labs/Guide-1.html</loc>
-    <lastmod>2026-04-18T19:43:46.014Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-8.html</loc>
+    <lastmod>2026-03-30T19:27:45.352Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/data-mining/labs/Guide-2.html</loc>
-    <lastmod>2026-04-18T14:33:29.282Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-10.html</loc>
+    <lastmod>2026-04-22T19:30:44.392Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/data-mining/labs/Summary-Cards-1-6.html</loc>
-    <lastmod>2026-04-21T15:56:29.163Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/index.html</loc>
+    <lastmod>2026-04-03T11:16:02.042Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-9.html</loc>
-    <lastmod>2026-03-30T09:49:07.488Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-1.html</loc>
+    <lastmod>2026-04-22T19:31:14.612Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-2.html</loc>
-    <lastmod>2026-04-15T21:03:53.918Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-4.html</loc>
+    <lastmod>2026-04-22T19:31:00.446Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-3.html</loc>
-    <lastmod>2026-04-15T20:22:11.155Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-5.html</loc>
+    <lastmod>2026-04-22T19:30:54.860Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/labs.html</loc>
-    <lastmod>2026-03-27T16:36:32.178Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-6.html</loc>
+    <lastmod>2026-03-30T19:26:48.224Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/revision.html</loc>
-    <lastmod>2026-03-27T16:36:32.178Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/labs/lab-3.html</loc>
+    <lastmod>2026-04-22T19:31:37.587Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-7.html</loc>
-    <lastmod>2026-03-30T19:27:16.336Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/about.html</loc>
+    <lastmod>2026-03-27T16:36:32.176Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/labs/lab-1.html</loc>
-    <lastmod>2026-04-02T09:17:46.877Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/time-series/exam/Practical_R.html</loc>
+    <lastmod>2026-04-03T09:59:34.763Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/labs/lab-2.html</loc>
-    <lastmod>2026-04-02T09:26:08.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/index.html</loc>
-    <lastmod>2026-03-28T08:58:37.673Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/time-series/exam/quiz.html</loc>
-    <lastmod>2026-04-03T09:59:07.066Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/time-series/week-8.html</loc>
-    <lastmod>2026-03-30T19:03:00.815Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/time-series/exam/Practical-Exam-Solutions.html</loc>
+    <lastmod>2026-04-13T20:04:12.598Z</lastmod>
   </url>
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/time-series/index.html</loc>
@@ -133,60 +129,48 @@
     <lastmod>2026-03-30T10:14:54.267Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/time-series/exam/Practical-Exam-Solutions.html</loc>
-    <lastmod>2026-04-13T20:04:12.598Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/time-series/exam/quiz.html</loc>
+    <lastmod>2026-04-03T09:59:07.066Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/time-series/exam/Practical_R.html</loc>
-    <lastmod>2026-04-03T09:59:34.763Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/index.html</loc>
+    <lastmod>2026-03-28T08:58:37.673Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/about.html</loc>
-    <lastmod>2026-03-27T16:36:32.176Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/labs/lab-2.html</loc>
+    <lastmod>2026-04-22T19:31:32.630Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/labs/lab-3.html</loc>
-    <lastmod>2026-04-02T09:35:30.149Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/labs/lab-1.html</loc>
+    <lastmod>2026-04-22T19:31:27.437Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-6.html</loc>
-    <lastmod>2026-03-30T19:26:48.224Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-7.html</loc>
+    <lastmod>2026-03-30T19:27:16.336Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-5.html</loc>
-    <lastmod>2026-03-30T19:26:12.983Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/revision.html</loc>
+    <lastmod>2026-03-27T16:36:32.178Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-4.html</loc>
-    <lastmod>2026-04-15T20:51:29.818Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/labs.html</loc>
+    <lastmod>2026-03-27T16:36:32.178Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-1.html</loc>
-    <lastmod>2026-04-15T20:06:07.826Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-3.html</loc>
+    <lastmod>2026-04-22T19:31:05.584Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/index.html</loc>
-    <lastmod>2026-04-03T11:16:02.042Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-2.html</loc>
+    <lastmod>2026-04-22T19:31:11.888Z</lastmod>
   </url>
   <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-10.html</loc>
-    <lastmod>2026-04-15T21:05:52.015Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-8.html</loc>
-    <lastmod>2026-03-30T19:27:45.352Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/data-mining/labs/Guide-3.html</loc>
-    <lastmod>2026-04-18T19:40:05.636Z</lastmod>
+    <loc>https://lgolin.github.io/data-analytics-notes/regression-analysis/week-9.html</loc>
+    <lastmod>2026-03-30T09:49:07.488Z</lastmod>
   </url>
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/labs/lab-3.html</loc>
     <lastmod>2026-03-30T19:50:37.791Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lgolin.github.io/data-analytics-notes/data-mining/labs/lab-4a.html</loc>
-    <lastmod>2026-03-31T16:24:13.224Z</lastmod>
   </url>
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/week-6.html</loc>
@@ -194,15 +178,15 @@
   </url>
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/week-5.html</loc>
-    <lastmod>2026-04-18T14:31:13.570Z</lastmod>
+    <lastmod>2026-04-22T19:30:09.079Z</lastmod>
   </url>
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/week-4.html</loc>
-    <lastmod>2026-04-18T07:44:56.243Z</lastmod>
+    <lastmod>2026-04-22T19:29:43.869Z</lastmod>
   </url>
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/week-1.html</loc>
-    <lastmod>2026-04-17T21:37:34.613Z</lastmod>
+    <lastmod>2026-04-22T19:29:13.948Z</lastmod>
   </url>
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/index.html</loc>
@@ -211,5 +195,13 @@
   <url>
     <loc>https://lgolin.github.io/data-analytics-notes/data-mining/week-9.html</loc>
     <lastmod>2026-04-15T11:15:54.028Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lgolin.github.io/data-analytics-notes/data-mining/revision/summary-cards.html</loc>
+    <lastmod>2026-04-22T19:32:39.122Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lgolin.github.io/data-analytics-notes/data-mining/revision/guide-qa-prep.html</loc>
+    <lastmod>2026-04-22T19:32:55.568Z</lastmod>
   </url>
 </urlset>

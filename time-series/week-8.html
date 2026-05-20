@@ -2,13 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-05-20">
 
-<title>week-8 – Semester Notes</title>
+<title>Week 8: Model Comparison &amp; Goodness of Fit – Semester Notes</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -65,20 +69,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../time-series/labs/lab-1.html" rel="next">
+<link href="../time-series/week-10.html" rel="next">
 <link href="../time-series/week-7.html" rel="prev">
 <link href="../favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-40f6d5bc9ec0060ad4ef5286ed89aadf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -107,6 +110,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -120,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-8.html">Week 8 - empty</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-8.html">Week 8</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -134,8 +166,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
-      <a href="../index.html" class="sidebar-logo-link">
-      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Semester Notes</a> 
+    </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -233,39 +266,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
- <span class="menu-text">Labs</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../data-mining/labs/Guide-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Q&amp;A Assessment Preparation: Weeks 1–6</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../data-mining/labs/Guide-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Your Q&amp;A Speaking Coach</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../data-mining/labs/Guide-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Understanding Guide: Weeks 1–7</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../data-mining/labs/Guide-4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Understanding Guide: Weeks 1–6</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../data-mining/labs/lab-3.html" class="sidebar-item-text sidebar-link">
@@ -278,14 +278,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Lab 4a: Logistic Regression in R</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../data-mining/labs/Summary-Cards-1-6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">My Summary Cards — Weeks 1 to 6</span></a>
-  </div>
-</li>
       </ul>
   </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Revision</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/revision/guide-understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Understanding Guide: Weeks 1–7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/revision/guide-qa-prep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Q&amp;A Assessment Prep</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/revision/guide-speaking-coach.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Q&amp;A Speaking Coach</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/revision/summary-cards.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Summary Cards: Weeks 1–6</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -385,15 +412,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
- <span class="menu-text">Labs</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../regression-analysis/labs/lab-1.html" class="sidebar-item-text sidebar-link">
@@ -403,17 +421,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../regression-analysis/labs/lab-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">STAT9004 – Week 2 Study Guide</span></a>
+ <span class="menu-text">Week 2 – Study Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../regression-analysis/labs/lab-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Exercise Sheet 3 — One-Way ANOVA</span></a>
+ <span class="menu-text">Exercise Sheet 3 – One-Way ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/labs/lab-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercise Sheet 9 – Logistic Regression</span></a>
   </div>
 </li>
       </ul>
   </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Revision</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/revision/exam-transcript-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exam Tips from Transcripts</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -487,7 +526,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-8.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Week 8 - empty</span></a>
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+ <span class="menu-text">Week 9 - MCQ</span>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/week-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 10</span></a>
   </div>
 </li>
       </ul>
@@ -501,55 +549,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
- <span class="menu-text">Labs</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/labs/lab-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">STAT9005 – Time Series Analysis</span></a>
+ <span class="menu-text">Lab 1 – Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/labs/lab-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 2 – Seasonality, Decomposition &amp; Moving Averages</span></a>
+ <span class="menu-text">Lab 2 – Seasonality &amp; Decomposition</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/labs/lab-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Time Series: Classical Models Lab</span></a>
+ <span class="menu-text">Lab 3 – Classical Models</span></a>
   </div>
 </li>
       </ul>
   </li>
-      </ul>
-  </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
  <span class="menu-text">Exam Prep</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
- <span class="menu-text">Exam</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth3 ">  
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/exam/Practical_R.html" class="sidebar-item-text sidebar-link">
@@ -559,7 +587,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/exam/Practical-Exam-Solutions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">STAT9005 — Time Series &amp; PCA: Practical Exam Solutions</span></a>
+ <span class="menu-text">Practical Exam Solutions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -572,26 +600,966 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
       </ul>
   </li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-this-week-is-about" id="toc-what-this-week-is-about" class="nav-link active" data-scroll-target="#what-this-week-is-about"><span class="header-section-number">1</span> What This Week Is About</a></li>
+  <li><a href="#recap-the-two-families-of-models" id="toc-recap-the-two-families-of-models" class="nav-link" data-scroll-target="#recap-the-two-families-of-models"><span class="header-section-number">2</span> Recap: The Two Families of Models</a></li>
+  <li><a href="#goodness-of-fit-the-measurement-toolkit" id="toc-goodness-of-fit-the-measurement-toolkit" class="nav-link" data-scroll-target="#goodness-of-fit-the-measurement-toolkit"><span class="header-section-number">3</span> Goodness of Fit — The Measurement Toolkit</a>
+  <ul class="collapse">
+  <li><a href="#error-measures" id="toc-error-measures" class="nav-link" data-scroll-target="#error-measures"><span class="header-section-number">3.1</span> Error Measures</a></li>
+  <li><a href="#aic-and-bic-the-complexity-penalty" id="toc-aic-and-bic-the-complexity-penalty" class="nav-link" data-scroll-target="#aic-and-bic-the-complexity-penalty"><span class="header-section-number">3.2</span> AIC and BIC — The Complexity Penalty</a>
+  <ul class="collapse">
+  <li><a href="#aic-vs-aicc" id="toc-aic-vs-aicc" class="nav-link" data-scroll-target="#aic-vs-aicc"><span class="header-section-number">3.2.1</span> AIC vs AICc</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#the-model-comparison-process" id="toc-the-model-comparison-process" class="nav-link" data-scroll-target="#the-model-comparison-process"><span class="header-section-number">4</span> The Model Comparison Process</a></li>
+  <li><a href="#comparing-models-in-r-practical-code" id="toc-comparing-models-in-r-practical-code" class="nav-link" data-scroll-target="#comparing-models-in-r-practical-code"><span class="header-section-number">5</span> Comparing Models in R — Practical Code</a>
+  <ul class="collapse">
+  <li><a href="#fitting-multiple-holt-winters-models" id="toc-fitting-multiple-holt-winters-models" class="nav-link" data-scroll-target="#fitting-multiple-holt-winters-models"><span class="header-section-number">5.1</span> Fitting Multiple Holt-Winters Models</a></li>
+  <li><a href="#building-a-gof-comparison-table" id="toc-building-a-gof-comparison-table" class="nav-link" data-scroll-target="#building-a-gof-comparison-table"><span class="header-section-number">5.2</span> Building a GOF Comparison Table</a></li>
+  <li><a href="#using-ets-for-automatic-model-selection" id="toc-using-ets-for-automatic-model-selection" class="nav-link" data-scroll-target="#using-ets-for-automatic-model-selection"><span class="header-section-number">5.3</span> Using ETS for Automatic Model Selection</a></li>
+  </ul></li>
+  <li><a href="#real-dataset-examples-from-class" id="toc-real-dataset-examples-from-class" class="nav-link" data-scroll-target="#real-dataset-examples-from-class"><span class="header-section-number">6</span> Real Dataset Examples from Class</a>
+  <ul class="collapse">
+  <li><a href="#example-1-holt-winters-with-three-models" id="toc-example-1-holt-winters-with-three-models" class="nav-link" data-scroll-target="#example-1-holt-winters-with-three-models"><span class="header-section-number">6.1</span> Example 1: Holt-Winters with Three Models</a></li>
+  <li><a href="#example-2-us-accidents-dataset" id="toc-example-2-us-accidents-dataset" class="nav-link" data-scroll-target="#example-2-us-accidents-dataset"><span class="header-section-number">6.2</span> Example 2: US Accidents Dataset</a></li>
+  </ul></li>
+  <li><a href="#stationarity-a-bridge-to-arima" id="toc-stationarity-a-bridge-to-arima" class="nav-link" data-scroll-target="#stationarity-a-bridge-to-arima"><span class="header-section-number">7</span> Stationarity — A Bridge to ARIMA</a>
+  <ul class="collapse">
+  <li><a href="#what-is-stationarity" id="toc-what-is-stationarity" class="nav-link" data-scroll-target="#what-is-stationarity"><span class="header-section-number">7.1</span> What Is Stationarity?</a></li>
+  <li><a href="#why-non-stationarity-happens" id="toc-why-non-stationarity-happens" class="nav-link" data-scroll-target="#why-non-stationarity-happens"><span class="header-section-number">7.2</span> Why Non-Stationarity Happens</a></li>
+  <li><a href="#fixing-non-stationarity" id="toc-fixing-non-stationarity" class="nav-link" data-scroll-target="#fixing-non-stationarity"><span class="header-section-number">7.3</span> Fixing Non-Stationarity</a>
+  <ul class="collapse">
+  <li><a href="#differencing-removes-trend" id="toc-differencing-removes-trend" class="nav-link" data-scroll-target="#differencing-removes-trend"><span class="header-section-number">7.3.1</span> Differencing (removes trend)</a></li>
+  <li><a href="#log-transformation-stabilises-variance" id="toc-log-transformation-stabilises-variance" class="nav-link" data-scroll-target="#log-transformation-stabilises-variance"><span class="header-section-number">7.3.2</span> Log Transformation (stabilises variance)</a></li>
+  </ul></li>
+  <li><a href="#the-adf-and-kpss-tests" id="toc-the-adf-and-kpss-tests" class="nav-link" data-scroll-target="#the-adf-and-kpss-tests"><span class="header-section-number">7.4</span> The ADF and KPSS Tests</a></li>
+  </ul></li>
+  <li><a href="#residual-diagnostics" id="toc-residual-diagnostics" class="nav-link" data-scroll-target="#residual-diagnostics"><span class="header-section-number">8</span> Residual Diagnostics</a>
+  <ul class="collapse">
+  <li><a href="#the-four-residual-checks" id="toc-the-four-residual-checks" class="nav-link" data-scroll-target="#the-four-residual-checks"><span class="header-section-number">8.1</span> The Four Residual Checks</a></li>
+  <li><a href="#the-ljung-box-test-formal-residual-check" id="toc-the-ljung-box-test-formal-residual-check" class="nav-link" data-scroll-target="#the-ljung-box-test-formal-residual-check"><span class="header-section-number">8.2</span> The Ljung-Box Test (Formal Residual Check)</a></li>
+  </ul></li>
+  <li><a href="#working-with-the-stock-price-dataset" id="toc-working-with-the-stock-price-dataset" class="nav-link" data-scroll-target="#working-with-the-stock-price-dataset"><span class="header-section-number">9</span> Working with the Stock Price Dataset</a></li>
+  <li><a href="#working-with-the-unemployment-dataset" id="toc-working-with-the-unemployment-dataset" class="nav-link" data-scroll-target="#working-with-the-unemployment-dataset"><span class="header-section-number">10</span> Working with the Unemployment Dataset</a></li>
+  <li><a href="#summary-checklist" id="toc-summary-checklist" class="nav-link" data-scroll-target="#summary-checklist"><span class="header-section-number">11</span> Summary Checklist</a></li>
+  <li><a href="#pre-topic-checklist" id="toc-pre-topic-checklist" class="nav-link" data-scroll-target="#pre-topic-checklist"><span class="header-section-number">12</span> Pre-Topic Checklist</a></li>
+  <li><a href="#practice-questions" id="toc-practice-questions" class="nav-link" data-scroll-target="#practice-questions"><span class="header-section-number">13</span> Practice Questions</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">14</span> Additional Resources</a></li>
+  <li><a href="#annotations-space" id="toc-annotations-space" class="nav-link" data-scroll-target="#annotations-space"><span class="header-section-number">15</span> Annotations Space</a>
+  <ul class="collapse">
+  <li><a href="#my-notes-on-gof-measures" id="toc-my-notes-on-gof-measures" class="nav-link" data-scroll-target="#my-notes-on-gof-measures"><span class="header-section-number">15.1</span> My notes on GOF measures:</a></li>
+  <li><a href="#my-notes-on-stationarity" id="toc-my-notes-on-stationarity" class="nav-link" data-scroll-target="#my-notes-on-stationarity"><span class="header-section-number">15.2</span> My notes on stationarity:</a></li>
+  <li><a href="#questions-i-still-have" id="toc-questions-i-still-have" class="nav-link" data-scroll-target="#questions-i-still-have"><span class="header-section-number">15.3</span> Questions I still have:</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-8.html">Week 8 - empty</a></li></ol></nav><h1 class="title display-7"></h1></header><div class="quarto-title-block"><div class="quarto-title-tools-only"><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../time-series/index.html">Time Series</a></li><li class="breadcrumb-item"><a href="../time-series/week-1.html">Weekly Notes</a></li><li class="breadcrumb-item"><a href="../time-series/week-8.html">Week 8</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 8: Model Comparison &amp; Goodness of Fit</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<p class="subtitle lead">STAT9005 — Time Series Analysis</p>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 20, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📌 How to use this guide
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read each section carefully. Every concept is explained in plain language first, then the formula or code follows. Sections end with a self-check question — try to answer it in your own words before moving on.</p>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>⭐ Assessment Reminders
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Written test (MCQ / Short Answer) — 20%</strong> — Week 10/11 — 45 minutes, ~20–25 questions, <strong>−0.25 penalty per wrong answer</strong></li>
+<li><strong>Practical test (R/RStudio lab) — 40%</strong> — Week 11/12 — open book, you will have access to all R scripts</li>
+<li><strong>Project &amp; Presentation — 40%</strong> — Report due <strong>18 May 2026 at 23:59</strong></li>
+</ul>
+<p><em>Professor’s note: “All the questions, all the answers to the questions are in the lecture notes. You can find them in Canvas, and we have discussed them during the sessions.”</em></p>
+</div>
+</div>
+<hr>
+<section id="what-this-week-is-about" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> What This Week Is About</h1>
+<p>Week 8 bridges the two halves of the module. You have now seen how to <strong>build</strong> models (exponential smoothing in Weeks 2–4, ARIMA introduced in Weeks 5–7). The question now becomes: <strong>how do you decide which model is best?</strong></p>
+<p>This week covers two things:</p>
+<ol type="1">
+<li><strong>Goodness of Fit (GOF) measurements</strong> — numbers that tell you how well a model fits your data</li>
+<li><strong>The full analysis process revisited</strong> — how to apply the complete workflow to real datasets using R</li>
+</ol>
+<hr>
+</section>
+<section id="recap-the-two-families-of-models" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Recap: The Two Families of Models</h1>
+<p>Before comparing models, it helps to remember what you are choosing between.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Family</th>
+<th>Models</th>
+<th>What it captures</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Classical (ETS)</strong></td>
+<td>SES, Holt, Holt-Winters</td>
+<td>Trend and seasonality patterns</td>
+</tr>
+<tr class="even">
+<td><strong>Stochastic (ARIMA)</strong></td>
+<td>AR, MA, ARMA, ARIMA, SARIMA</td>
+<td>Autocorrelation structure</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔁 The professor’s key point
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>“The modelling is different, but the process is going to be very similar.”</em></p>
+<p>Whether you are working with Holt-Winters or ARIMA, the steps are the same: plot → identify → fit → compare → check residuals → forecast.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="goodness-of-fit-the-measurement-toolkit" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Goodness of Fit — The Measurement Toolkit</h1>
+<p><strong>Goodness of Fit (GOF)</strong> refers to how closely a model’s predictions match the actual data. You measure this using <strong>error statistics</strong>.</p>
+<p>Think of it like this: if you forecast that tomorrow will be 20°C and it turns out to be 23°C, your error is 3°C. These measurements take all the errors across your whole dataset and summarise them into one number.</p>
+<section id="error-measures" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="error-measures"><span class="header-section-number">3.1</span> Error Measures</h2>
+<p>Let <span class="math inline">\(y_t\)</span> = actual value, <span class="math inline">\(\hat{y}_t\)</span> = forecasted value, and <span class="math inline">\(e_t = y_t - \hat{y}_t\)</span> = the error at time <span class="math inline">\(t\)</span>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Measure</th>
+<th>Formula</th>
+<th>What it tells you</th>
+<th>Key feature</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>MAE</strong> (Mean Absolute Error)</td>
+<td><span class="math inline">\(\frac{1}{n}\sum |e_t|\)</span></td>
+<td>Average size of errors, ignoring direction</td>
+<td>Simple, intuitive</td>
+</tr>
+<tr class="even">
+<td><strong>RMSE</strong> (Root Mean Square Error)</td>
+<td><span class="math inline">\(\sqrt{\frac{1}{n}\sum e_t^2}\)</span></td>
+<td>Average error with extra penalty for large mistakes</td>
+<td>Preferred — penalises outliers</td>
+</tr>
+<tr class="odd">
+<td><strong>MAPE</strong> (Mean Absolute % Error)</td>
+<td><span class="math inline">\(\frac{100}{n}\sum \left|\frac{e_t}{y_t}\right|\)</span></td>
+<td>Error as a percentage of the actual value</td>
+<td>Good for comparing across different datasets</td>
+</tr>
+<tr class="even">
+<td><strong>AIC</strong> (Akaike Information Criterion)</td>
+<td>—</td>
+<td>Balance between accuracy and complexity</td>
+<td><strong>Lower = better</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>BIC</strong> (Bayesian Information Criterion)</td>
+<td>—</td>
+<td>Stricter version of AIC (penalises extra parameters more)</td>
+<td><strong>Lower = better</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>⭐ Exam tip: Why RMSE is preferred over MAE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>RMSE <strong>squares</strong> the errors before averaging them, which means a large error of 10 is penalised much more than ten small errors of 1. This is important when you want your model to avoid big mistakes.</p>
+<p><em>Professor’s note: “The root mean square errors are preferred because they penalise the distance. If we have a prediction, the real value supposed to be somewhere here — there is a penalisation for this distance. Because of this penalisation, this value is expected to be higher than the MAE, because they are squaring these penalties, squaring these distances.”</em></p>
+</div>
+</div>
+</section>
+<section id="aic-and-bic-the-complexity-penalty" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="aic-and-bic-the-complexity-penalty"><span class="header-section-number">3.2</span> AIC and BIC — The Complexity Penalty</h2>
+<p>AIC and BIC are special: they measure not just how well the model fits, but also <strong>how complex the model is</strong>. A model with more parameters will always fit better — but at some point, adding more complexity is not worth it.</p>
+<p><strong>The analogy:</strong> Imagine you are drawing a line through 10 data points. A perfectly wiggly line that touches every single point is not a good model — it has memorised the data, not understood it. AIC and BIC help you find the right balance.</p>
+<p><span class="math display">\[AIC = 2k - 2\ln(\hat{L})\]</span></p>
+<p>Where <span class="math inline">\(k\)</span> = number of parameters in the model, and <span class="math inline">\(\hat{L}\)</span> = maximum likelihood of the model.</p>
+<p>In plain English: <strong>AIC = (penalty for complexity) + (reward for fitting well)</strong>. When you compare two models, the one with the <strong>lower AIC</strong> is better.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>⭐ Exam tip: How to read AIC when comparing models
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Professor’s note: “AIC is telling me: if I have three variables, three parameters — this is the minimum point in the balance between variance of the residuals and complexity. If I add an extra parameter, if I add phi, it’s not worth it making the model more complex for this small reduction in the mean square error.”</em></p>
+<p>The key question is: <strong>does the improvement in fit justify the added complexity?</strong> If adding a new parameter (like <code>damped = TRUE</code>) barely reduces your errors, AIC will penalise you — and the simpler model wins.</p>
+</div>
+</div>
+<section id="aic-vs-aicc" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="aic-vs-aicc"><span class="header-section-number">3.2.1</span> AIC vs AICc</h3>
+<p>You may see two versions in R output:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Version</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>AIC</strong></td>
+<td>Large datasets (n &gt; 40)</td>
+</tr>
+<tr class="even">
+<td><strong>AICc</strong></td>
+<td>Small datasets (n &lt; 40) — AICc is adjusted for small sample size</td>
+</tr>
+</tbody>
+</table>
+<p><em>Professor’s note: “AICc is a correction for small data sets. When we have small samples — like when we had 20-something observations — AICc will provide a better measurement than the AIC.”</em></p>
+<hr>
+</section>
+</section>
+</section>
+<section id="the-model-comparison-process" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> The Model Comparison Process</h1>
+<p>The professor walked through this process repeatedly across several datasets. It always follows the same sequence:</p>
+<pre><code>Step 1: PLOT the data
+        → Identify trend, seasonality, and whether variance is growing
+
+Step 2: IDENTIFY possible models
+        → Additive or multiplicative?
+        → Linear or damped trend?
+        → Seasonal or non-seasonal?
+
+Step 3: FIT multiple candidate models
+
+Step 4: VISUAL comparison
+        → Plot forecasts from each model together
+        → Look for differences in trend direction, seasonality shape,
+          confidence interval width
+
+Step 5: QUANTITATIVE comparison (GOF)
+        → Compare RMSE, MAE, AIC, BIC in a table
+        → Lower = better for all measures
+
+Step 6: CHECK residuals of the best model
+        → Histogram, Q-Q plot, time plot, Ljung-Box test
+
+Step 7: FORECAST
+        → Use the chosen model to produce predictions</code></pre>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>⭐ This is the exam workflow
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Professor’s note: “You have a dataset — you plot the dataset, identify the components, analyse the residuals, identify problems, and then go for the possible models. You compare visually, compare in goodness of fit, and decide which model is better.”</em></p>
+<p>The practical exam will give you a dataset and ask you to go through exactly these steps. The process itself is the answer.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="comparing-models-in-r-practical-code" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Comparing Models in R — Practical Code</h1>
+<section id="fitting-multiple-holt-winters-models" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="fitting-multiple-holt-winters-models"><span class="header-section-number">5.1</span> Fitting Multiple Holt-Winters Models</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit three candidate models</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>hw1 <span class="ot">&lt;-</span> <span class="fu">hw</span>(mydata, <span class="at">seasonal =</span> <span class="st">"additive"</span>, <span class="at">h =</span> <span class="dv">12</span>)          <span class="co"># Additive</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>hw2 <span class="ot">&lt;-</span> <span class="fu">hw</span>(mydata, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>, <span class="at">h =</span> <span class="dv">12</span>)    <span class="co"># Multiplicative (linear trend)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>hw3 <span class="ot">&lt;-</span> <span class="fu">hw</span>(mydata, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>,            <span class="co"># Multiplicative (damped trend)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">damped =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">12</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Visual comparison — plot all three together</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(hw1) <span class="sc">+</span> <span class="fu">autolayer</span>(hw2) <span class="sc">+</span> <span class="fu">autolayer</span>(hw3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="building-a-gof-comparison-table" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="building-a-gof-comparison-table"><span class="header-section-number">5.2</span> Building a GOF Comparison Table</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get accuracy metrics for each model</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>acc1 <span class="ot">&lt;-</span> <span class="fu">accuracy</span>(hw1)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>acc2 <span class="ot">&lt;-</span> <span class="fu">accuracy</span>(hw2)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>acc3 <span class="ot">&lt;-</span> <span class="fu">accuracy</span>(hw3)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into a table for easy comparison</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>comparison_table <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">additive        =</span> acc1,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">multiplicative  =</span> acc2,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">mult_damped     =</span> acc3</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(comparison_table)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare AIC values</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AIC Model 1:"</span>, hw1<span class="sc">$</span>model<span class="sc">$</span>aic, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AIC Model 2:"</span>, hw2<span class="sc">$</span>model<span class="sc">$</span>aic, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AIC Model 3:"</span>, hw3<span class="sc">$</span>model<span class="sc">$</span>aic, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💡 What to look for in the comparison table
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Focus on these columns:</p>
+<ul>
+<li><strong>RMSE</strong> — the error with the harshest penalty for large mistakes; lower is better</li>
+<li><strong>MAE</strong> — the plain average error; lower is better</li>
+<li><strong>MAPE</strong> — the percentage error; useful when comparing datasets of different scales</li>
+</ul>
+<p>Then check AIC: does the model with lower RMSE also have lower AIC? If yes — easy choice. If one model has lower RMSE but higher AIC, you have a trade-off (more accurate but more complex).</p>
+</div>
+</div>
+</section>
+<section id="using-ets-for-automatic-model-selection" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="using-ets-for-automatic-model-selection"><span class="header-section-number">5.3</span> Using ETS for Automatic Model Selection</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let R choose the best ETS model automatically</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>best_ets <span class="ot">&lt;-</span> <span class="fu">ets</span>(mydata)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(best_ets)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The output will tell you: ETS(Error, Trend, Seasonality)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># For example: ETS(M,Ad,M) means:</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   M = Multiplicative error</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   Ad = Additive damped trend</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   M = Multiplicative seasonality</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Forecast from the best model</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">forecast</span>(best_ets, <span class="at">h =</span> <span class="dv">12</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">forecast</span>(best_ets, <span class="at">h =</span> <span class="dv">12</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📌 What ETS does automatically
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>ets()</code> tries all valid combinations of Error (A or M), Trend (N, A, Ad, M), and Seasonality (N, A, M) and picks the one with the <strong>lowest AICc</strong>. Use this as a starting point — but always check if the automatically chosen model makes sense visually.</p>
+<p><em>Professor’s note: “ETS, by default, provides the best model according to AICc. You can use this to use it as a hint — to see what R thinks for the dataset. And we are going to do this now by hand, using Holt-Winters.”</em></p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="real-dataset-examples-from-class" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Real Dataset Examples from Class</h1>
+<section id="example-1-holt-winters-with-three-models" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="example-1-holt-winters-with-three-models"><span class="header-section-number">6.1</span> Example 1: Holt-Winters with Three Models</h2>
+<p>The professor compared three models on a seasonal dataset:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Parameters</th>
+<th>RMSE</th>
+<th>MAE</th>
+<th>AIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Holt-Winters Additive</td>
+<td>α, β, γ</td>
+<td>Highest</td>
+<td>Highest</td>
+<td>Highest</td>
+</tr>
+<tr class="even">
+<td>Holt-Winters Multiplicative (linear)</td>
+<td>α, β, γ</td>
+<td>Lower</td>
+<td>Lower</td>
+<td><strong>Lowest</strong> ✅</td>
+</tr>
+<tr class="odd">
+<td>Holt-Winters Multiplicative (damped)</td>
+<td>α, β, γ, φ</td>
+<td><strong>Lowest</strong></td>
+<td><strong>Lowest</strong></td>
+<td>Higher</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What does this tell us?</strong></p>
+<ul>
+<li>The <strong>additive</strong> model was clearly worst — the data had growing seasonal swings, so additive (which assumes constant seasonal size) didn’t fit well.</li>
+<li>The <strong>multiplicative damped</strong> had the lowest RMSE, meaning it fit the training data better.</li>
+<li>But the <strong>multiplicative linear</strong> had the lowest AIC — meaning the extra parameter (φ for damping) was not worth the complexity.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>⭐ The key insight about this trade-off
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Professor’s note: “The third model, with four parameters, is reducing the mean square errors. But this improvement in the model is not worth it — the complexity is not worth it. The AIC is confirming that this model is good enough. I don’t have to make it more complex, because the balance is not worth it.”</em></p>
+<p><strong>The answer:</strong> Choose Model 2 (multiplicative, linear). AIC confirms it is the best balance between fit quality and model simplicity.</p>
+</div>
+</div>
+</section>
+<section id="example-2-us-accidents-dataset" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="example-2-us-accidents-dataset"><span class="header-section-number">6.2</span> Example 2: US Accidents Dataset</h2>
+<p>For a dataset with clear seasonality but uncertain trend direction, the professor used <code>ets()</code> automatically. R selected <strong>ETS(A,N,A)</strong> — additive error, no trend, additive seasonality. This was compared against:</p>
+<ul>
+<li>Multiplicative seasonality variant</li>
+<li>Damped trend variant</li>
+<li>No trend variant (forced manually)</li>
+</ul>
+<p>The manually forced models showed that when you <strong>incorrectly assume a trend that isn’t there</strong>, the forecast diverges from reality — this is visible in the plots as the forecast going up when the data stays flat.</p>
+<hr>
+</section>
+</section>
+<section id="stationarity-a-bridge-to-arima" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Stationarity — A Bridge to ARIMA</h1>
+<p>Week 8 also introduces the key concept needed for ARIMA models: <strong>stationarity</strong>.</p>
+<section id="what-is-stationarity" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="what-is-stationarity"><span class="header-section-number">7.1</span> What Is Stationarity?</h2>
+<p>A time series is <strong>stationary</strong> if three properties stay constant over time:</p>
+<ol type="1">
+<li><strong>Constant mean</strong> — the average does not drift up or down</li>
+<li><strong>Constant variance</strong> — the spread of the data stays the same</li>
+<li><strong>Constant covariance</strong> — the correlation between observations at any two lags is the same throughout the series</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🧭 The visual test for stationarity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cover different sections of your time series plot with your hand. If every section looks roughly the same — same level, same spread — the series is likely stationary. If one section is higher or the wiggles get larger, it is not stationary.</p>
+</div>
+</div>
+</section>
+<section id="why-non-stationarity-happens" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="why-non-stationarity-happens"><span class="header-section-number">7.2</span> Why Non-Stationarity Happens</h2>
+<p>Most real-world data is <strong>not</strong> stationary. Here are the common violations:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Problem</th>
+<th>What you see in the plot</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Non-constant mean (trend)</td>
+<td>Data drifts up or down over time</td>
+<td><strong>Differencing</strong></td>
+</tr>
+<tr class="even">
+<td>Non-constant variance</td>
+<td>The wiggles get bigger over time</td>
+<td><strong>Log transformation</strong></td>
+</tr>
+<tr class="odd">
+<td>Both</td>
+<td>Growing trend AND growing variability</td>
+<td><strong>Log first, then difference</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="fixing-non-stationarity" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="fixing-non-stationarity"><span class="header-section-number">7.3</span> Fixing Non-Stationarity</h2>
+<section id="differencing-removes-trend" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="differencing-removes-trend"><span class="header-section-number">7.3.1</span> Differencing (removes trend)</h3>
+<p><strong>First difference:</strong> subtract the previous value from the current value.</p>
+<p><span class="math display">\[\Delta y_t = y_t - y_{t-1}\]</span></p>
+<p>This makes the data “flat” — you are now modelling the <em>changes</em> rather than the <em>levels</em>.</p>
+<p><em>Professor’s note: “We have a dataset that has shown changes. What happened here is we take differences — the Google dataset minus the Google dataset in a previous time, T−1. What happened is that we have made this dataset flat. We took differences, we have a new dataset that has met the first condition for stationarity.”</em></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First difference</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>diff_series <span class="ot">&lt;-</span> <span class="fu">diff</span>(mydata)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(diff_series)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Second difference (if first is not enough)</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>diff2_series <span class="ot">&lt;-</span> <span class="fu">diff</span>(mydata, <span class="at">differences =</span> <span class="dv">2</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of times you difference = d in ARIMA(p, d, q)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="log-transformation-stabilises-variance" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="log-transformation-stabilises-variance"><span class="header-section-number">7.3.2</span> Log Transformation (stabilises variance)</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Log transformation to stabilise variance</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>log_series <span class="ot">&lt;-</span> <span class="fu">log</span>(mydata)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(log_series)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Then difference the log to get both fixes at once</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>log_diff_series <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(mydata))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+</section>
+<section id="the-adf-and-kpss-tests" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="the-adf-and-kpss-tests"><span class="header-section-number">7.4</span> The ADF and KPSS Tests</h2>
+<p>Visual inspection is a starting point. For a <strong>formal statistical test</strong>, use:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Test</th>
+<th>H₀ (null hypothesis)</th>
+<th>Good result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>ADF</strong> (Augmented Dickey-Fuller)</td>
+<td>Series is <strong>non-stationary</strong></td>
+<td>p-value &lt; 0.05 → stationary ✅</td>
+</tr>
+<tr class="even">
+<td><strong>KPSS</strong></td>
+<td>Series is <strong>stationary</strong></td>
+<td>p-value &gt; 0.05 → stationary ✅</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>⚠️ Common confusion — ADF vs KPSS hypotheses are opposite!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The two tests have <strong>opposite null hypotheses</strong>. For ADF, you <em>want</em> to reject H₀ (p &lt; 0.05 means stationary). For KPSS, you <em>want to fail to reject</em> H₀ (p &gt; 0.05 means stationary).</p>
+<p><em>Professor’s note: “One of the tests will tell you that this is not stationary, and the other one will tell you that it is stationary. The reason is because one is looking at the trend, the other is identifying the unit roots.”</em></p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ADF test — H0: non-stationary</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># p &lt; 0.05 → reject H0 → series IS stationary</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">adf.test</span>(mydata)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># KPSS test — H0: stationary  </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># p &gt; 0.05 → fail to reject H0 → series IS stationary</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kpss.test</span>(mydata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<hr>
+</section>
+</section>
+<section id="residual-diagnostics" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Residual Diagnostics</h1>
+<p>After selecting your best model, you must <strong>verify the residuals</strong>. If your model is good, the leftover errors (residuals) should look like pure random noise — no pattern, no structure.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>⭐ Why residuals matter for predictions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Professor’s note: “If my residuals are not normal, what happened is that I cannot trust in my prediction. I cannot trust in my confidence intervals.”</em></p>
+<p>A model with poor residuals gives unreliable forecasts. Always check residuals before presenting results.</p>
+</div>
+</div>
+<section id="the-four-residual-checks" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="the-four-residual-checks"><span class="header-section-number">8.1</span> The Four Residual Checks</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Histogram — should look like a normal bell curve</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(best_model), <span class="at">main =</span> <span class="st">"Residual Histogram"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Boxplot — should be symmetric, centred near zero</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">residuals</span>(best_model), <span class="at">main =</span> <span class="st">"Residual Boxplot"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Q-Q Plot — points should follow the diagonal line</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(best_model))</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(best_model), <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Time plot — should look random with no pattern</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(best_model), <span class="at">main =</span> <span class="st">"Residuals over Time"</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Plot</th>
+<th>What good looks like</th>
+<th>What bad looks like</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Histogram</td>
+<td>Symmetric bell curve</td>
+<td>Skewed or heavy tails</td>
+</tr>
+<tr class="even">
+<td>Boxplot</td>
+<td>Symmetric, median near 0</td>
+<td>Asymmetric, many outliers</td>
+</tr>
+<tr class="odd">
+<td>Q-Q Plot</td>
+<td>Points follow the diagonal line</td>
+<td>Points curve away at the ends</td>
+</tr>
+<tr class="even">
+<td>Time plot</td>
+<td>Random scatter around zero</td>
+<td>Visible trend, waves, or clusters</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-ljung-box-test-formal-residual-check" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="the-ljung-box-test-formal-residual-check"><span class="header-section-number">8.2</span> The Ljung-Box Test (Formal Residual Check)</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># checkresiduals() does everything in one call (preferred for ARIMA)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">checkresiduals</span>(best_model)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual Ljung-Box test</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(<span class="fu">residuals</span>(best_model), <span class="at">lag =</span> <span class="dv">20</span>, <span class="at">type =</span> <span class="st">"Ljung-Box"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># p &gt; 0.05 → residuals are random → good model ✅</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># p &lt; 0.05 → residuals still have structure → model needs improvement ❌</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><em>Professor’s note: “Random, not correlated, normal, independent — this is a good model. There’s our model, so I have a model that I can use for prediction.”</em></p>
+<hr>
+</section>
+</section>
+<section id="working-with-the-stock-price-dataset" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Working with the Stock Price Dataset</h1>
+<p>The stock price dataset is a good example of data that <strong>fails all three stationarity conditions</strong>:</p>
+<ul>
+<li><strong>Non-constant mean</strong> — the price trends upward</li>
+<li><strong>Non-constant variance</strong> — the volatility grows as price grows</li>
+<li><strong>Non-constant covariance</strong> — the autocorrelation structure changes over time</li>
+</ul>
+<p>The fix:</p>
+<ol type="1">
+<li><strong>Log transformation</strong> first — to stabilise the variance</li>
+<li><strong>Differencing</strong> second — to remove the trend (makes it flat)</li>
+</ol>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the stock price data</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>stock <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"stock_price.txt"</span>, <span class="at">skip =</span> <span class="dv">2</span>, <span class="at">dec =</span> <span class="st">","</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>stock_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(stock)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the problem</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stock_ts)       <span class="co"># Clear upward trend</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(stock_ts))  <span class="co"># Log removes variance growth</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Take first difference of the log</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>stock_stationary <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(stock_ts))</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stock_stationary)  <span class="co"># Should look flat and stationary</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm with ADF test</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">adf.test</span>(stock_stationary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><em>Professor’s note: “To make this dataset stationary: first of all, I have to take logs — remove the variance. Second of all, I have to take differences — remove the trend. And from this point, we’ll see how this dataset looks like.”</em></p>
+<hr>
+</section>
+<section id="working-with-the-unemployment-dataset" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Working with the Unemployment Dataset</h1>
+<p>The unemployment dataset (from the Federal Reserve Bank of St Louis) is available in Canvas. It has a different profile:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load unemployment data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>unemployment <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"unemployment.csv"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>unemp_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(unemployment<span class="sc">$</span>Unemployment, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1948</span>, <span class="dv">1</span>), </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot and decompose</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unemp_ts)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">decompose</span>(unemp_ts))</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check stationarity</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="fu">adf.test</span>(unemp_ts)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">kpss.test</span>(unemp_ts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The key observation with unemployment data: there is a <strong>visible trend</strong> and possible seasonal pattern. You would need to decide: is differencing enough, or do you also need a log transformation?</p>
+<hr>
+</section>
+<section id="summary-checklist" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Summary Checklist</h1>
+<ul>
+<li>✅ I understand what goodness of fit measures (MAE, RMSE, MAPE, AIC, BIC) tell me</li>
+<li>✅ I know why RMSE is preferred over MAE (penalises large errors more)</li>
+<li>✅ I know that <strong>lower AIC/BIC = better model</strong> and that AIC penalises complexity</li>
+<li>✅ I know AICc is the version to use for small datasets (n &lt; 40)</li>
+<li>✅ I can read a GOF comparison table and identify the best model</li>
+<li>✅ I understand that AIC and RMSE may disagree — and how to handle that trade-off</li>
+<li>✅ I know the three conditions for stationarity: constant mean, variance, covariance</li>
+<li>✅ I know that differencing fixes a non-constant mean, and log transformation fixes non-constant variance</li>
+<li>✅ I know the ADF test H₀ is <strong>non-stationary</strong> (want p &lt; 0.05)</li>
+<li>✅ I know the KPSS test H₀ is <strong>stationary</strong> (want p &gt; 0.05)</li>
+<li>✅ I can run the four residual checks and interpret each one</li>
+<li>✅ I understand the Ljung-Box test (want p &gt; 0.05 = residuals are random)</li>
+<li>✅ I can follow the complete model comparison workflow from start to finish</li>
+</ul>
+<hr>
+</section>
+<section id="pre-topic-checklist" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Pre-Topic Checklist</h1>
+<p>Before moving on to Week 9 (Markov Chains) or Week 10 (ACF/PACF), make sure you can:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Explain in plain words what AIC is balancing</label></li>
+<li><label><input type="checkbox">Look at a comparison table of RMSE and AIC values and pick a winner — and justify your choice when they disagree</label></li>
+<li><label><input type="checkbox">Run <code>ets()</code>, <code>hw()</code>, and <code>accuracy()</code> in R and interpret the output</label></li>
+<li><label><input type="checkbox">Look at a time series plot and identify whether the three stationarity conditions are met</label></li>
+<li><label><input type="checkbox">Apply the correct transformation (log, diff, or both) for a non-stationary series</label></li>
+<li><label><input type="checkbox">Interpret the p-value of an ADF test correctly</label></li>
+<li><label><input type="checkbox">Look at a set of four residual plots and say whether the model is acceptable</label></li>
+</ul>
+<hr>
+</section>
+<section id="practice-questions" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Practice Questions</h1>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>⭐ Q1 — AIC trade-off
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You compare two Holt-Winters models:</p>
+<ul>
+<li><strong>Model A:</strong> Multiplicative seasonality, linear trend — RMSE = 12.4, AIC = 1405</li>
+<li><strong>Model B:</strong> Multiplicative seasonality, damped trend — RMSE = 11.9, AIC = 1419</li>
+</ul>
+<p>Which model would you choose and why?</p>
+<p><strong>Answer:</strong> Model A. Although Model B has a slightly lower RMSE (better raw fit), its AIC is higher. The AIC is telling us that the improvement from adding the damping parameter (φ) does not justify the extra complexity. The simpler model (A) is preferred.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>⭐ Q2 — Stationarity diagnosis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You plot a time series and observe: the data starts low, grows steadily, and the fluctuations around the trend get larger over time. Is this series stationary? What transformations would you apply?</p>
+<p><strong>Answer:</strong> No — it fails two stationarity conditions: the mean is not constant (it grows → trend) and the variance is not constant (fluctuations grow). Apply <strong>log transformation first</strong> to stabilise the variance, then <strong>differencing</strong> to remove the trend. Then re-check with ADF test.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>⭐ Q3 — ADF vs KPSS
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You run both tests on a dataset. The ADF test returns p = 0.03. The KPSS test returns p = 0.08. Is the series stationary?</p>
+<p><strong>Answer:</strong> Both tests agree it is stationary. ADF: p = 0.03 &lt; 0.05 → reject H₀ (non-stationary) → series IS stationary. KPSS: p = 0.08 &gt; 0.05 → fail to reject H₀ (stationary) → series IS stationary. When both agree, you can be confident.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="additional-resources" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> Additional Resources</h1>
+<ul>
+<li>📘 <a href="https://otexts.com/fpp3/expsmooth.html">Forecasting: Principles and Practice — Chapter 5 (ETS models)</a></li>
+<li>📘 <a href="https://otexts.com/fpp3/arima.html">Forecasting: Principles and Practice — Chapter 9 (ARIMA models)</a></li>
+<li>📘 <a href="https://otexts.com/fpp3/stationarity.html">Forecasting: Principles and Practice — Chapter 8 (Stationarity)</a></li>
+</ul>
+<hr>
+</section>
+<section id="annotations-space" class="level1" data-number="15">
+<h1 data-number="15"><span class="header-section-number">15</span> Annotations Space</h1>
+<p><em>Use this space for your own notes as you work through the material.</em></p>
+<hr>
+<section id="my-notes-on-gof-measures" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="my-notes-on-gof-measures"><span class="header-section-number">15.1</span> My notes on GOF measures:</h2>
+<blockquote class="blockquote">
+<p><em>Write here after reviewing the comparison table examples…</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="my-notes-on-stationarity" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="my-notes-on-stationarity"><span class="header-section-number">15.2</span> My notes on stationarity:</h2>
+<blockquote class="blockquote">
+<p><em>After running the ADF test on a real dataset, note what you observed…</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="questions-i-still-have" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="questions-i-still-have"><span class="header-section-number">15.3</span> Questions I still have:</h2>
+<blockquote class="blockquote">
+<p><em>…</em></p>
+</blockquote>
+<hr>
+<p><em>End of Week 8 Study Guide — STAT9005 Time Series Analysis</em></p>
 
 
 <!-- -->
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1052,12 +2020,617 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../time-series/labs/lab-1.html" class="pagination-link" aria-label="STAT9005 – Time Series Analysis">
-        <span class="nav-page-text">STAT9005 – Time Series Analysis</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../time-series/week-10.html" class="pagination-link" aria-label="Week 10">
+        <span class="nav-page-text">Week 10</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 8: Model Comparison &amp; Goodness of Fit"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "STAT9005 — Time Series Analysis"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="fu">## 📌 How to use this guide</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>Read each section carefully. Every concept is explained in plain language first, then the formula or code follows. Sections end with a self-check question — try to answer it in your own words before moving on.</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⭐ Assessment Reminders</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Written test (MCQ / Short Answer) — 20%** — Week 10/11 — 45 minutes, ~20–25 questions, **−0.25 penalty per wrong answer**</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Practical test (R/RStudio lab) — 40%** — Week 11/12 — open book, you will have access to all R scripts</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Project &amp; Presentation — 40%** — Report due **18 May 2026 at 23:59**</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>*Professor's note: "All the questions, all the answers to the questions are in the lecture notes. You can find them in Canvas, and we have discussed them during the sessions."*</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="fu"># What This Week Is About</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>Week 8 bridges the two halves of the module. You have now seen how to **build** models (exponential smoothing in Weeks 2–4, ARIMA introduced in Weeks 5–7). The question now becomes: **how do you decide which model is best?**</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>This week covers two things:</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Goodness of Fit (GOF) measurements** — numbers that tell you how well a model fits your data</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The full analysis process revisited** — how to apply the complete workflow to real datasets using R</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="fu"># Recap: The Two Families of Models</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>Before comparing models, it helps to remember what you are choosing between.</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Family <span class="pp">|</span> Models <span class="pp">|</span> What it captures <span class="pp">|</span></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Classical (ETS)** <span class="pp">|</span> SES, Holt, Holt-Winters <span class="pp">|</span> Trend and seasonality patterns <span class="pp">|</span></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Stochastic (ARIMA)** <span class="pp">|</span> AR, MA, ARMA, ARIMA, SARIMA <span class="pp">|</span> Autocorrelation structure <span class="pp">|</span></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🔁 The professor's key point</span></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>*"The modelling is different, but the process is going to be very similar."*</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>Whether you are working with Holt-Winters or ARIMA, the steps are the same: plot → identify → fit → compare → check residuals → forecast.</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a><span class="fu"># Goodness of Fit — The Measurement Toolkit</span></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>**Goodness of Fit (GOF)** refers to how closely a model's predictions match the actual data. You measure this using **error statistics**.</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>Think of it like this: if you forecast that tomorrow will be 20°C and it turns out to be 23°C, your error is 3°C. These measurements take all the errors across your whole dataset and summarise them into one number.</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a><span class="fu">## Error Measures</span></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>Let $y_t$ = actual value, $\hat{y}_t$ = forecasted value, and $e_t = y_t - \hat{y}_t$ = the error at time $t$.</span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Measure <span class="pp">|</span> Formula <span class="pp">|</span> What it tells you <span class="pp">|</span> Key feature <span class="pp">|</span></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|</span></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MAE** (Mean Absolute Error) <span class="pp">|</span> $\frac{1}{n}\sum <span class="pp">|</span>e_t<span class="pp">|</span>$ <span class="pp">|</span> Average size of errors, ignoring direction <span class="pp">|</span> Simple, intuitive <span class="pp">|</span></span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **RMSE** (Root Mean Square Error) <span class="pp">|</span> $\sqrt{\frac{1}{n}\sum e_t^2}$ <span class="pp">|</span> Average error with extra penalty for large mistakes <span class="pp">|</span> Preferred — penalises outliers <span class="pp">|</span></span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MAPE** (Mean Absolute % Error) <span class="pp">|</span> $\frac{100}{n}\sum \left<span class="pp">|</span>\frac{e_t}{y_t}\right<span class="pp">|</span>$ <span class="pp">|</span> Error as a percentage of the actual value <span class="pp">|</span> Good for comparing across different datasets <span class="pp">|</span></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AIC** (Akaike Information Criterion) | — | Balance between accuracy and complexity | **Lower = better** <span class="pp">|</span></span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **BIC** (Bayesian Information Criterion) | — | Stricter version of AIC (penalises extra parameters more) | **Lower = better** <span class="pp">|</span></span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⭐ Exam tip: Why RMSE is preferred over MAE</span></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>RMSE **squares** the errors before averaging them, which means a large error of 10 is penalised much more than ten small errors of 1. This is important when you want your model to avoid big mistakes.</span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>*Professor's note: "The root mean square errors are preferred because they penalise the distance. If we have a prediction, the real value supposed to be somewhere here — there is a penalisation for this distance. Because of this penalisation, this value is expected to be higher than the MAE, because they are squaring these penalties, squaring these distances."*</span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a><span class="fu">## AIC and BIC — The Complexity Penalty</span></span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>AIC and BIC are special: they measure not just how well the model fits, but also **how complex the model is**. A model with more parameters will always fit better — but at some point, adding more complexity is not worth it.</span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>**The analogy:** Imagine you are drawing a line through 10 data points. A perfectly wiggly line that touches every single point is not a good model — it has memorised the data, not understood it. AIC and BIC help you find the right balance.</span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>$$AIC = 2k - 2\ln(\hat{L})$$</span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>Where $k$ = number of parameters in the model, and $\hat{L}$ = maximum likelihood of the model.</span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>In plain English: **AIC = (penalty for complexity) + (reward for fitting well)**. When you compare two models, the one with the **lower AIC** is better.</span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⭐ Exam tip: How to read AIC when comparing models</span></span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>*Professor's note: "AIC is telling me: if I have three variables, three parameters — this is the minimum point in the balance between variance of the residuals and complexity. If I add an extra parameter, if I add phi, it's not worth it making the model more complex for this small reduction in the mean square error."*</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a>The key question is: **does the improvement in fit justify the added complexity?** If adding a new parameter (like <span class="in">`damped = TRUE`</span>) barely reduces your errors, AIC will penalise you — and the simpler model wins.</span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a><span class="fu">### AIC vs AICc</span></span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a>You may see two versions in R output:</span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Version <span class="pp">|</span> When to use <span class="pp">|</span></span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AIC** <span class="pp">|</span> Large datasets (n &gt; 40) <span class="pp">|</span></span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AICc** <span class="pp">|</span> Small datasets (n &lt; 40) — AICc is adjusted for small sample size <span class="pp">|</span></span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-119"><a href="#cb12-119" aria-hidden="true" tabindex="-1"></a>*Professor's note: "AICc is a correction for small data sets. When we have small samples — like when we had 20-something observations — AICc will provide a better measurement than the AIC."*</span>
+<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a><span class="fu"># The Model Comparison Process</span></span>
+<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a>The professor walked through this process repeatedly across several datasets. It always follows the same sequence:</span>
+<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a><span class="in">Step 1: PLOT the data</span></span>
+<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a><span class="in">        → Identify trend, seasonality, and whether variance is growing</span></span>
+<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a><span class="in">Step 2: IDENTIFY possible models</span></span>
+<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a><span class="in">        → Additive or multiplicative?</span></span>
+<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a><span class="in">        → Linear or damped trend?</span></span>
+<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a><span class="in">        → Seasonal or non-seasonal?</span></span>
+<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-136"><a href="#cb12-136" aria-hidden="true" tabindex="-1"></a><span class="in">Step 3: FIT multiple candidate models</span></span>
+<span id="cb12-137"><a href="#cb12-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a><span class="in">Step 4: VISUAL comparison</span></span>
+<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a><span class="in">        → Plot forecasts from each model together</span></span>
+<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a><span class="in">        → Look for differences in trend direction, seasonality shape,</span></span>
+<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a><span class="in">          confidence interval width</span></span>
+<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a><span class="in">Step 5: QUANTITATIVE comparison (GOF)</span></span>
+<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a><span class="in">        → Compare RMSE, MAE, AIC, BIC in a table</span></span>
+<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a><span class="in">        → Lower = better for all measures</span></span>
+<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a><span class="in">Step 6: CHECK residuals of the best model</span></span>
+<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a><span class="in">        → Histogram, Q-Q plot, time plot, Ljung-Box test</span></span>
+<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a><span class="in">Step 7: FORECAST</span></span>
+<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a><span class="in">        → Use the chosen model to produce predictions</span></span>
+<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-153"><a href="#cb12-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-154"><a href="#cb12-154" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⭐ This is the exam workflow</span></span>
+<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a>*Professor's note: "You have a dataset — you plot the dataset, identify the components, analyse the residuals, identify problems, and then go for the possible models. You compare visually, compare in goodness of fit, and decide which model is better."*</span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a>The practical exam will give you a dataset and ask you to go through exactly these steps. The process itself is the answer.</span>
+<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-163"><a href="#cb12-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-164"><a href="#cb12-164" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comparing Models in R — Practical Code</span></span>
+<span id="cb12-165"><a href="#cb12-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-166"><a href="#cb12-166" aria-hidden="true" tabindex="-1"></a><span class="fu">## Fitting Multiple Holt-Winters Models</span></span>
+<span id="cb12-167"><a href="#cb12-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-170"><a href="#cb12-170" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-171"><a href="#cb12-171" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb12-172"><a href="#cb12-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-173"><a href="#cb12-173" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb12-174"><a href="#cb12-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-175"><a href="#cb12-175" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit three candidate models</span></span>
+<span id="cb12-176"><a href="#cb12-176" aria-hidden="true" tabindex="-1"></a>hw1 <span class="ot">&lt;-</span> <span class="fu">hw</span>(mydata, <span class="at">seasonal =</span> <span class="st">"additive"</span>, <span class="at">h =</span> <span class="dv">12</span>)          <span class="co"># Additive</span></span>
+<span id="cb12-177"><a href="#cb12-177" aria-hidden="true" tabindex="-1"></a>hw2 <span class="ot">&lt;-</span> <span class="fu">hw</span>(mydata, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>, <span class="at">h =</span> <span class="dv">12</span>)    <span class="co"># Multiplicative (linear trend)</span></span>
+<span id="cb12-178"><a href="#cb12-178" aria-hidden="true" tabindex="-1"></a>hw3 <span class="ot">&lt;-</span> <span class="fu">hw</span>(mydata, <span class="at">seasonal =</span> <span class="st">"multiplicative"</span>,            <span class="co"># Multiplicative (damped trend)</span></span>
+<span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a>          <span class="at">damped =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">12</span>)</span>
+<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a><span class="co"># Visual comparison — plot all three together</span></span>
+<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(hw1) <span class="sc">+</span> <span class="fu">autolayer</span>(hw2) <span class="sc">+</span> <span class="fu">autolayer</span>(hw3)</span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Building a GOF Comparison Table</span></span>
+<span id="cb12-186"><a href="#cb12-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-189"><a href="#cb12-189" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-190"><a href="#cb12-190" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb12-191"><a href="#cb12-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-192"><a href="#cb12-192" aria-hidden="true" tabindex="-1"></a><span class="co"># Get accuracy metrics for each model</span></span>
+<span id="cb12-193"><a href="#cb12-193" aria-hidden="true" tabindex="-1"></a>acc1 <span class="ot">&lt;-</span> <span class="fu">accuracy</span>(hw1)</span>
+<span id="cb12-194"><a href="#cb12-194" aria-hidden="true" tabindex="-1"></a>acc2 <span class="ot">&lt;-</span> <span class="fu">accuracy</span>(hw2)</span>
+<span id="cb12-195"><a href="#cb12-195" aria-hidden="true" tabindex="-1"></a>acc3 <span class="ot">&lt;-</span> <span class="fu">accuracy</span>(hw3)</span>
+<span id="cb12-196"><a href="#cb12-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-197"><a href="#cb12-197" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into a table for easy comparison</span></span>
+<span id="cb12-198"><a href="#cb12-198" aria-hidden="true" tabindex="-1"></a>comparison_table <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb12-199"><a href="#cb12-199" aria-hidden="true" tabindex="-1"></a>  <span class="at">additive        =</span> acc1,</span>
+<span id="cb12-200"><a href="#cb12-200" aria-hidden="true" tabindex="-1"></a>  <span class="at">multiplicative  =</span> acc2,</span>
+<span id="cb12-201"><a href="#cb12-201" aria-hidden="true" tabindex="-1"></a>  <span class="at">mult_damped     =</span> acc3</span>
+<span id="cb12-202"><a href="#cb12-202" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-203"><a href="#cb12-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-204"><a href="#cb12-204" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(comparison_table)</span>
+<span id="cb12-205"><a href="#cb12-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-206"><a href="#cb12-206" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare AIC values</span></span>
+<span id="cb12-207"><a href="#cb12-207" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AIC Model 1:"</span>, hw1<span class="sc">$</span>model<span class="sc">$</span>aic, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-208"><a href="#cb12-208" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AIC Model 2:"</span>, hw2<span class="sc">$</span>model<span class="sc">$</span>aic, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-209"><a href="#cb12-209" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AIC Model 3:"</span>, hw3<span class="sc">$</span>model<span class="sc">$</span>aic, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-210"><a href="#cb12-210" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-211"><a href="#cb12-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-212"><a href="#cb12-212" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb12-213"><a href="#cb12-213" aria-hidden="true" tabindex="-1"></a><span class="fu">## 💡 What to look for in the comparison table</span></span>
+<span id="cb12-214"><a href="#cb12-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-215"><a href="#cb12-215" aria-hidden="true" tabindex="-1"></a>Focus on these columns:</span>
+<span id="cb12-216"><a href="#cb12-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-217"><a href="#cb12-217" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RMSE** — the error with the harshest penalty for large mistakes; lower is better</span>
+<span id="cb12-218"><a href="#cb12-218" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MAE** — the plain average error; lower is better</span>
+<span id="cb12-219"><a href="#cb12-219" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MAPE** — the percentage error; useful when comparing datasets of different scales</span>
+<span id="cb12-220"><a href="#cb12-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-221"><a href="#cb12-221" aria-hidden="true" tabindex="-1"></a>Then check AIC: does the model with lower RMSE also have lower AIC? If yes — easy choice. If one model has lower RMSE but higher AIC, you have a trade-off (more accurate but more complex).</span>
+<span id="cb12-222"><a href="#cb12-222" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-223"><a href="#cb12-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-224"><a href="#cb12-224" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using ETS for Automatic Model Selection</span></span>
+<span id="cb12-225"><a href="#cb12-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-228"><a href="#cb12-228" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-229"><a href="#cb12-229" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb12-230"><a href="#cb12-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-231"><a href="#cb12-231" aria-hidden="true" tabindex="-1"></a><span class="co"># Let R choose the best ETS model automatically</span></span>
+<span id="cb12-232"><a href="#cb12-232" aria-hidden="true" tabindex="-1"></a>best_ets <span class="ot">&lt;-</span> <span class="fu">ets</span>(mydata)</span>
+<span id="cb12-233"><a href="#cb12-233" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(best_ets)</span>
+<span id="cb12-234"><a href="#cb12-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-235"><a href="#cb12-235" aria-hidden="true" tabindex="-1"></a><span class="co"># The output will tell you: ETS(Error, Trend, Seasonality)</span></span>
+<span id="cb12-236"><a href="#cb12-236" aria-hidden="true" tabindex="-1"></a><span class="co"># For example: ETS(M,Ad,M) means:</span></span>
+<span id="cb12-237"><a href="#cb12-237" aria-hidden="true" tabindex="-1"></a><span class="co">#   M = Multiplicative error</span></span>
+<span id="cb12-238"><a href="#cb12-238" aria-hidden="true" tabindex="-1"></a><span class="co">#   Ad = Additive damped trend</span></span>
+<span id="cb12-239"><a href="#cb12-239" aria-hidden="true" tabindex="-1"></a><span class="co">#   M = Multiplicative seasonality</span></span>
+<span id="cb12-240"><a href="#cb12-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-241"><a href="#cb12-241" aria-hidden="true" tabindex="-1"></a><span class="co"># Forecast from the best model</span></span>
+<span id="cb12-242"><a href="#cb12-242" aria-hidden="true" tabindex="-1"></a><span class="fu">forecast</span>(best_ets, <span class="at">h =</span> <span class="dv">12</span>)</span>
+<span id="cb12-243"><a href="#cb12-243" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">forecast</span>(best_ets, <span class="at">h =</span> <span class="dv">12</span>))</span>
+<span id="cb12-244"><a href="#cb12-244" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-245"><a href="#cb12-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-246"><a href="#cb12-246" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb12-247"><a href="#cb12-247" aria-hidden="true" tabindex="-1"></a><span class="fu">## 📌 What ETS does automatically</span></span>
+<span id="cb12-248"><a href="#cb12-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-249"><a href="#cb12-249" aria-hidden="true" tabindex="-1"></a><span class="in">`ets()`</span> tries all valid combinations of Error (A or M), Trend (N, A, Ad, M), and Seasonality (N, A, M) and picks the one with the **lowest AICc**. Use this as a starting point — but always check if the automatically chosen model makes sense visually.</span>
+<span id="cb12-250"><a href="#cb12-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-251"><a href="#cb12-251" aria-hidden="true" tabindex="-1"></a>*Professor's note: "ETS, by default, provides the best model according to AICc. You can use this to use it as a hint — to see what R thinks for the dataset. And we are going to do this now by hand, using Holt-Winters."*</span>
+<span id="cb12-252"><a href="#cb12-252" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-253"><a href="#cb12-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-254"><a href="#cb12-254" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-255"><a href="#cb12-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-256"><a href="#cb12-256" aria-hidden="true" tabindex="-1"></a><span class="fu"># Real Dataset Examples from Class</span></span>
+<span id="cb12-257"><a href="#cb12-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-258"><a href="#cb12-258" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 1: Holt-Winters with Three Models</span></span>
+<span id="cb12-259"><a href="#cb12-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-260"><a href="#cb12-260" aria-hidden="true" tabindex="-1"></a>The professor compared three models on a seasonal dataset:</span>
+<span id="cb12-261"><a href="#cb12-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-262"><a href="#cb12-262" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Model <span class="pp">|</span> Parameters <span class="pp">|</span> RMSE <span class="pp">|</span> MAE <span class="pp">|</span> AIC <span class="pp">|</span></span>
+<span id="cb12-263"><a href="#cb12-263" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|---|</span></span>
+<span id="cb12-264"><a href="#cb12-264" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Holt-Winters Additive <span class="pp">|</span> α, β, γ <span class="pp">|</span> Highest <span class="pp">|</span> Highest <span class="pp">|</span> Highest <span class="pp">|</span></span>
+<span id="cb12-265"><a href="#cb12-265" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Holt-Winters Multiplicative (linear) <span class="pp">|</span> α, β, γ <span class="pp">|</span> Lower <span class="pp">|</span> Lower <span class="pp">|</span> **Lowest** ✅ <span class="pp">|</span></span>
+<span id="cb12-266"><a href="#cb12-266" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Holt-Winters Multiplicative (damped) <span class="pp">|</span> α, β, γ, φ <span class="pp">|</span> **Lowest** | **Lowest** <span class="pp">|</span> Higher <span class="pp">|</span></span>
+<span id="cb12-267"><a href="#cb12-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-268"><a href="#cb12-268" aria-hidden="true" tabindex="-1"></a>**What does this tell us?**</span>
+<span id="cb12-269"><a href="#cb12-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-270"><a href="#cb12-270" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **additive** model was clearly worst — the data had growing seasonal swings, so additive (which assumes constant seasonal size) didn't fit well.</span>
+<span id="cb12-271"><a href="#cb12-271" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **multiplicative damped** had the lowest RMSE, meaning it fit the training data better.</span>
+<span id="cb12-272"><a href="#cb12-272" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>But the **multiplicative linear** had the lowest AIC — meaning the extra parameter (φ for damping) was not worth the complexity.</span>
+<span id="cb12-273"><a href="#cb12-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-274"><a href="#cb12-274" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb12-275"><a href="#cb12-275" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⭐ The key insight about this trade-off</span></span>
+<span id="cb12-276"><a href="#cb12-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-277"><a href="#cb12-277" aria-hidden="true" tabindex="-1"></a>*Professor's note: "The third model, with four parameters, is reducing the mean square errors. But this improvement in the model is not worth it — the complexity is not worth it. The AIC is confirming that this model is good enough. I don't have to make it more complex, because the balance is not worth it."*</span>
+<span id="cb12-278"><a href="#cb12-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-279"><a href="#cb12-279" aria-hidden="true" tabindex="-1"></a>**The answer:** Choose Model 2 (multiplicative, linear). AIC confirms it is the best balance between fit quality and model simplicity.</span>
+<span id="cb12-280"><a href="#cb12-280" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-281"><a href="#cb12-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-282"><a href="#cb12-282" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 2: US Accidents Dataset</span></span>
+<span id="cb12-283"><a href="#cb12-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-284"><a href="#cb12-284" aria-hidden="true" tabindex="-1"></a>For a dataset with clear seasonality but uncertain trend direction, the professor used <span class="in">`ets()`</span> automatically. R selected **ETS(A,N,A)** — additive error, no trend, additive seasonality. This was compared against:</span>
+<span id="cb12-285"><a href="#cb12-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-286"><a href="#cb12-286" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Multiplicative seasonality variant</span>
+<span id="cb12-287"><a href="#cb12-287" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Damped trend variant</span>
+<span id="cb12-288"><a href="#cb12-288" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No trend variant (forced manually)</span>
+<span id="cb12-289"><a href="#cb12-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-290"><a href="#cb12-290" aria-hidden="true" tabindex="-1"></a>The manually forced models showed that when you **incorrectly assume a trend that isn't there**, the forecast diverges from reality — this is visible in the plots as the forecast going up when the data stays flat.</span>
+<span id="cb12-291"><a href="#cb12-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-292"><a href="#cb12-292" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-293"><a href="#cb12-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-294"><a href="#cb12-294" aria-hidden="true" tabindex="-1"></a><span class="fu"># Stationarity — A Bridge to ARIMA</span></span>
+<span id="cb12-295"><a href="#cb12-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-296"><a href="#cb12-296" aria-hidden="true" tabindex="-1"></a>Week 8 also introduces the key concept needed for ARIMA models: **stationarity**.</span>
+<span id="cb12-297"><a href="#cb12-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-298"><a href="#cb12-298" aria-hidden="true" tabindex="-1"></a><span class="fu">## What Is Stationarity?</span></span>
+<span id="cb12-299"><a href="#cb12-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-300"><a href="#cb12-300" aria-hidden="true" tabindex="-1"></a>A time series is **stationary** if three properties stay constant over time:</span>
+<span id="cb12-301"><a href="#cb12-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-302"><a href="#cb12-302" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Constant mean** — the average does not drift up or down</span>
+<span id="cb12-303"><a href="#cb12-303" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Constant variance** — the spread of the data stays the same</span>
+<span id="cb12-304"><a href="#cb12-304" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Constant covariance** — the correlation between observations at any two lags is the same throughout the series</span>
+<span id="cb12-305"><a href="#cb12-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-306"><a href="#cb12-306" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb12-307"><a href="#cb12-307" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🧭 The visual test for stationarity</span></span>
+<span id="cb12-308"><a href="#cb12-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-309"><a href="#cb12-309" aria-hidden="true" tabindex="-1"></a>Cover different sections of your time series plot with your hand. If every section looks roughly the same — same level, same spread — the series is likely stationary. If one section is higher or the wiggles get larger, it is not stationary.</span>
+<span id="cb12-310"><a href="#cb12-310" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-311"><a href="#cb12-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-312"><a href="#cb12-312" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why Non-Stationarity Happens</span></span>
+<span id="cb12-313"><a href="#cb12-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-314"><a href="#cb12-314" aria-hidden="true" tabindex="-1"></a>Most real-world data is **not** stationary. Here are the common violations:</span>
+<span id="cb12-315"><a href="#cb12-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-316"><a href="#cb12-316" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Problem <span class="pp">|</span> What you see in the plot <span class="pp">|</span> Solution <span class="pp">|</span></span>
+<span id="cb12-317"><a href="#cb12-317" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb12-318"><a href="#cb12-318" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Non-constant mean (trend) <span class="pp">|</span> Data drifts up or down over time <span class="pp">|</span> **Differencing** <span class="pp">|</span></span>
+<span id="cb12-319"><a href="#cb12-319" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Non-constant variance <span class="pp">|</span> The wiggles get bigger over time <span class="pp">|</span> **Log transformation** <span class="pp">|</span></span>
+<span id="cb12-320"><a href="#cb12-320" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Both <span class="pp">|</span> Growing trend AND growing variability <span class="pp">|</span> **Log first, then difference** <span class="pp">|</span></span>
+<span id="cb12-321"><a href="#cb12-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-322"><a href="#cb12-322" aria-hidden="true" tabindex="-1"></a><span class="fu">## Fixing Non-Stationarity</span></span>
+<span id="cb12-323"><a href="#cb12-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-324"><a href="#cb12-324" aria-hidden="true" tabindex="-1"></a><span class="fu">### Differencing (removes trend)</span></span>
+<span id="cb12-325"><a href="#cb12-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-326"><a href="#cb12-326" aria-hidden="true" tabindex="-1"></a>**First difference:** subtract the previous value from the current value.</span>
+<span id="cb12-327"><a href="#cb12-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-328"><a href="#cb12-328" aria-hidden="true" tabindex="-1"></a>$$\Delta y_t = y_t - y_{t-1}$$</span>
+<span id="cb12-329"><a href="#cb12-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-330"><a href="#cb12-330" aria-hidden="true" tabindex="-1"></a>This makes the data "flat" — you are now modelling the *changes* rather than the *levels*.</span>
+<span id="cb12-331"><a href="#cb12-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-332"><a href="#cb12-332" aria-hidden="true" tabindex="-1"></a>*Professor's note: "We have a dataset that has shown changes. What happened here is we take differences — the Google dataset minus the Google dataset in a previous time, T−1. What happened is that we have made this dataset flat. We took differences, we have a new dataset that has met the first condition for stationarity."*</span>
+<span id="cb12-333"><a href="#cb12-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-336"><a href="#cb12-336" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-337"><a href="#cb12-337" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb12-338"><a href="#cb12-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-339"><a href="#cb12-339" aria-hidden="true" tabindex="-1"></a><span class="co"># First difference</span></span>
+<span id="cb12-340"><a href="#cb12-340" aria-hidden="true" tabindex="-1"></a>diff_series <span class="ot">&lt;-</span> <span class="fu">diff</span>(mydata)</span>
+<span id="cb12-341"><a href="#cb12-341" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(diff_series)</span>
+<span id="cb12-342"><a href="#cb12-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-343"><a href="#cb12-343" aria-hidden="true" tabindex="-1"></a><span class="co"># Second difference (if first is not enough)</span></span>
+<span id="cb12-344"><a href="#cb12-344" aria-hidden="true" tabindex="-1"></a>diff2_series <span class="ot">&lt;-</span> <span class="fu">diff</span>(mydata, <span class="at">differences =</span> <span class="dv">2</span>)</span>
+<span id="cb12-345"><a href="#cb12-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-346"><a href="#cb12-346" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of times you difference = d in ARIMA(p, d, q)</span></span>
+<span id="cb12-347"><a href="#cb12-347" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-348"><a href="#cb12-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-349"><a href="#cb12-349" aria-hidden="true" tabindex="-1"></a><span class="fu">### Log Transformation (stabilises variance)</span></span>
+<span id="cb12-350"><a href="#cb12-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-353"><a href="#cb12-353" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-354"><a href="#cb12-354" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb12-355"><a href="#cb12-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-356"><a href="#cb12-356" aria-hidden="true" tabindex="-1"></a><span class="co"># Log transformation to stabilise variance</span></span>
+<span id="cb12-357"><a href="#cb12-357" aria-hidden="true" tabindex="-1"></a>log_series <span class="ot">&lt;-</span> <span class="fu">log</span>(mydata)</span>
+<span id="cb12-358"><a href="#cb12-358" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(log_series)</span>
+<span id="cb12-359"><a href="#cb12-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-360"><a href="#cb12-360" aria-hidden="true" tabindex="-1"></a><span class="co"># Then difference the log to get both fixes at once</span></span>
+<span id="cb12-361"><a href="#cb12-361" aria-hidden="true" tabindex="-1"></a>log_diff_series <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(mydata))</span>
+<span id="cb12-362"><a href="#cb12-362" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-363"><a href="#cb12-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-364"><a href="#cb12-364" aria-hidden="true" tabindex="-1"></a><span class="fu">## The ADF and KPSS Tests</span></span>
+<span id="cb12-365"><a href="#cb12-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-366"><a href="#cb12-366" aria-hidden="true" tabindex="-1"></a>Visual inspection is a starting point. For a **formal statistical test**, use:</span>
+<span id="cb12-367"><a href="#cb12-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-368"><a href="#cb12-368" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Test <span class="pp">|</span> H₀ (null hypothesis) <span class="pp">|</span> Good result <span class="pp">|</span></span>
+<span id="cb12-369"><a href="#cb12-369" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb12-370"><a href="#cb12-370" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **ADF** (Augmented Dickey-Fuller) | Series is **non-stationary** <span class="pp">|</span> p-value &lt; 0.05 → stationary ✅ <span class="pp">|</span></span>
+<span id="cb12-371"><a href="#cb12-371" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **KPSS** | Series is **stationary** <span class="pp">|</span> p-value &gt; 0.05 → stationary ✅ <span class="pp">|</span></span>
+<span id="cb12-372"><a href="#cb12-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-373"><a href="#cb12-373" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb12-374"><a href="#cb12-374" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚠️ Common confusion — ADF vs KPSS hypotheses are opposite!</span></span>
+<span id="cb12-375"><a href="#cb12-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-376"><a href="#cb12-376" aria-hidden="true" tabindex="-1"></a>The two tests have **opposite null hypotheses**. For ADF, you *want* to reject H₀ (p &lt; 0.05 means stationary). For KPSS, you *want to fail to reject* H₀ (p &gt; 0.05 means stationary).</span>
+<span id="cb12-377"><a href="#cb12-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-378"><a href="#cb12-378" aria-hidden="true" tabindex="-1"></a>*Professor's note: "One of the tests will tell you that this is not stationary, and the other one will tell you that it is stationary. The reason is because one is looking at the trend, the other is identifying the unit roots."*</span>
+<span id="cb12-379"><a href="#cb12-379" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-380"><a href="#cb12-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-383"><a href="#cb12-383" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-384"><a href="#cb12-384" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb12-385"><a href="#cb12-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-386"><a href="#cb12-386" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
+<span id="cb12-387"><a href="#cb12-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-388"><a href="#cb12-388" aria-hidden="true" tabindex="-1"></a><span class="co"># ADF test — H0: non-stationary</span></span>
+<span id="cb12-389"><a href="#cb12-389" aria-hidden="true" tabindex="-1"></a><span class="co"># p &lt; 0.05 → reject H0 → series IS stationary</span></span>
+<span id="cb12-390"><a href="#cb12-390" aria-hidden="true" tabindex="-1"></a><span class="fu">adf.test</span>(mydata)</span>
+<span id="cb12-391"><a href="#cb12-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-392"><a href="#cb12-392" aria-hidden="true" tabindex="-1"></a><span class="co"># KPSS test — H0: stationary  </span></span>
+<span id="cb12-393"><a href="#cb12-393" aria-hidden="true" tabindex="-1"></a><span class="co"># p &gt; 0.05 → fail to reject H0 → series IS stationary</span></span>
+<span id="cb12-394"><a href="#cb12-394" aria-hidden="true" tabindex="-1"></a><span class="fu">kpss.test</span>(mydata)</span>
+<span id="cb12-395"><a href="#cb12-395" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-396"><a href="#cb12-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-397"><a href="#cb12-397" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-398"><a href="#cb12-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-399"><a href="#cb12-399" aria-hidden="true" tabindex="-1"></a><span class="fu"># Residual Diagnostics</span></span>
+<span id="cb12-400"><a href="#cb12-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-401"><a href="#cb12-401" aria-hidden="true" tabindex="-1"></a>After selecting your best model, you must **verify the residuals**. If your model is good, the leftover errors (residuals) should look like pure random noise — no pattern, no structure.</span>
+<span id="cb12-402"><a href="#cb12-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-403"><a href="#cb12-403" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb12-404"><a href="#cb12-404" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⭐ Why residuals matter for predictions</span></span>
+<span id="cb12-405"><a href="#cb12-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-406"><a href="#cb12-406" aria-hidden="true" tabindex="-1"></a>*Professor's note: "If my residuals are not normal, what happened is that I cannot trust in my prediction. I cannot trust in my confidence intervals."*</span>
+<span id="cb12-407"><a href="#cb12-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-408"><a href="#cb12-408" aria-hidden="true" tabindex="-1"></a>A model with poor residuals gives unreliable forecasts. Always check residuals before presenting results.</span>
+<span id="cb12-409"><a href="#cb12-409" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-410"><a href="#cb12-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-411"><a href="#cb12-411" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Four Residual Checks</span></span>
+<span id="cb12-412"><a href="#cb12-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-415"><a href="#cb12-415" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-416"><a href="#cb12-416" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb12-417"><a href="#cb12-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-418"><a href="#cb12-418" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb12-419"><a href="#cb12-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-420"><a href="#cb12-420" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Histogram — should look like a normal bell curve</span></span>
+<span id="cb12-421"><a href="#cb12-421" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(best_model), <span class="at">main =</span> <span class="st">"Residual Histogram"</span>)</span>
+<span id="cb12-422"><a href="#cb12-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-423"><a href="#cb12-423" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Boxplot — should be symmetric, centred near zero</span></span>
+<span id="cb12-424"><a href="#cb12-424" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">residuals</span>(best_model), <span class="at">main =</span> <span class="st">"Residual Boxplot"</span>)</span>
+<span id="cb12-425"><a href="#cb12-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-426"><a href="#cb12-426" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Q-Q Plot — points should follow the diagonal line</span></span>
+<span id="cb12-427"><a href="#cb12-427" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(best_model))</span>
+<span id="cb12-428"><a href="#cb12-428" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(best_model), <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb12-429"><a href="#cb12-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-430"><a href="#cb12-430" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Time plot — should look random with no pattern</span></span>
+<span id="cb12-431"><a href="#cb12-431" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(best_model), <span class="at">main =</span> <span class="st">"Residuals over Time"</span>)</span>
+<span id="cb12-432"><a href="#cb12-432" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb12-433"><a href="#cb12-433" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-434"><a href="#cb12-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-435"><a href="#cb12-435" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Plot <span class="pp">|</span> What good looks like <span class="pp">|</span> What bad looks like <span class="pp">|</span></span>
+<span id="cb12-436"><a href="#cb12-436" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb12-437"><a href="#cb12-437" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Histogram <span class="pp">|</span> Symmetric bell curve <span class="pp">|</span> Skewed or heavy tails <span class="pp">|</span></span>
+<span id="cb12-438"><a href="#cb12-438" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Boxplot <span class="pp">|</span> Symmetric, median near 0 <span class="pp">|</span> Asymmetric, many outliers <span class="pp">|</span></span>
+<span id="cb12-439"><a href="#cb12-439" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Q-Q Plot <span class="pp">|</span> Points follow the diagonal line <span class="pp">|</span> Points curve away at the ends <span class="pp">|</span></span>
+<span id="cb12-440"><a href="#cb12-440" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Time plot <span class="pp">|</span> Random scatter around zero <span class="pp">|</span> Visible trend, waves, or clusters <span class="pp">|</span></span>
+<span id="cb12-441"><a href="#cb12-441" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-442"><a href="#cb12-442" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Ljung-Box Test (Formal Residual Check)</span></span>
+<span id="cb12-443"><a href="#cb12-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-446"><a href="#cb12-446" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-447"><a href="#cb12-447" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb12-448"><a href="#cb12-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-449"><a href="#cb12-449" aria-hidden="true" tabindex="-1"></a><span class="co"># checkresiduals() does everything in one call (preferred for ARIMA)</span></span>
+<span id="cb12-450"><a href="#cb12-450" aria-hidden="true" tabindex="-1"></a><span class="fu">checkresiduals</span>(best_model)</span>
+<span id="cb12-451"><a href="#cb12-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-452"><a href="#cb12-452" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual Ljung-Box test</span></span>
+<span id="cb12-453"><a href="#cb12-453" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(<span class="fu">residuals</span>(best_model), <span class="at">lag =</span> <span class="dv">20</span>, <span class="at">type =</span> <span class="st">"Ljung-Box"</span>)</span>
+<span id="cb12-454"><a href="#cb12-454" aria-hidden="true" tabindex="-1"></a><span class="co"># p &gt; 0.05 → residuals are random → good model ✅</span></span>
+<span id="cb12-455"><a href="#cb12-455" aria-hidden="true" tabindex="-1"></a><span class="co"># p &lt; 0.05 → residuals still have structure → model needs improvement ❌</span></span>
+<span id="cb12-456"><a href="#cb12-456" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-457"><a href="#cb12-457" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-458"><a href="#cb12-458" aria-hidden="true" tabindex="-1"></a>*Professor's note: "Random, not correlated, normal, independent — this is a good model. There's our model, so I have a model that I can use for prediction."*</span>
+<span id="cb12-459"><a href="#cb12-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-460"><a href="#cb12-460" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-461"><a href="#cb12-461" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-462"><a href="#cb12-462" aria-hidden="true" tabindex="-1"></a><span class="fu"># Working with the Stock Price Dataset</span></span>
+<span id="cb12-463"><a href="#cb12-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-464"><a href="#cb12-464" aria-hidden="true" tabindex="-1"></a>The stock price dataset is a good example of data that **fails all three stationarity conditions**:</span>
+<span id="cb12-465"><a href="#cb12-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-466"><a href="#cb12-466" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Non-constant mean** — the price trends upward</span>
+<span id="cb12-467"><a href="#cb12-467" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Non-constant variance** — the volatility grows as price grows</span>
+<span id="cb12-468"><a href="#cb12-468" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Non-constant covariance** — the autocorrelation structure changes over time</span>
+<span id="cb12-469"><a href="#cb12-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-470"><a href="#cb12-470" aria-hidden="true" tabindex="-1"></a>The fix:</span>
+<span id="cb12-471"><a href="#cb12-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-472"><a href="#cb12-472" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Log transformation** first — to stabilise the variance</span>
+<span id="cb12-473"><a href="#cb12-473" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Differencing** second — to remove the trend (makes it flat)</span>
+<span id="cb12-474"><a href="#cb12-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-477"><a href="#cb12-477" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-478"><a href="#cb12-478" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb12-479"><a href="#cb12-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-480"><a href="#cb12-480" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the stock price data</span></span>
+<span id="cb12-481"><a href="#cb12-481" aria-hidden="true" tabindex="-1"></a>stock <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="st">"stock_price.txt"</span>, <span class="at">skip =</span> <span class="dv">2</span>, <span class="at">dec =</span> <span class="st">","</span>)</span>
+<span id="cb12-482"><a href="#cb12-482" aria-hidden="true" tabindex="-1"></a>stock_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(stock)</span>
+<span id="cb12-483"><a href="#cb12-483" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-484"><a href="#cb12-484" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the problem</span></span>
+<span id="cb12-485"><a href="#cb12-485" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stock_ts)       <span class="co"># Clear upward trend</span></span>
+<span id="cb12-486"><a href="#cb12-486" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(stock_ts))  <span class="co"># Log removes variance growth</span></span>
+<span id="cb12-487"><a href="#cb12-487" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-488"><a href="#cb12-488" aria-hidden="true" tabindex="-1"></a><span class="co"># Take first difference of the log</span></span>
+<span id="cb12-489"><a href="#cb12-489" aria-hidden="true" tabindex="-1"></a>stock_stationary <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(stock_ts))</span>
+<span id="cb12-490"><a href="#cb12-490" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stock_stationary)  <span class="co"># Should look flat and stationary</span></span>
+<span id="cb12-491"><a href="#cb12-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-492"><a href="#cb12-492" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm with ADF test</span></span>
+<span id="cb12-493"><a href="#cb12-493" aria-hidden="true" tabindex="-1"></a><span class="fu">adf.test</span>(stock_stationary)</span>
+<span id="cb12-494"><a href="#cb12-494" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-495"><a href="#cb12-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-496"><a href="#cb12-496" aria-hidden="true" tabindex="-1"></a>*Professor's note: "To make this dataset stationary: first of all, I have to take logs — remove the variance. Second of all, I have to take differences — remove the trend. And from this point, we'll see how this dataset looks like."*</span>
+<span id="cb12-497"><a href="#cb12-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-498"><a href="#cb12-498" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-499"><a href="#cb12-499" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-500"><a href="#cb12-500" aria-hidden="true" tabindex="-1"></a><span class="fu"># Working with the Unemployment Dataset</span></span>
+<span id="cb12-501"><a href="#cb12-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-502"><a href="#cb12-502" aria-hidden="true" tabindex="-1"></a>The unemployment dataset (from the Federal Reserve Bank of St Louis) is available in Canvas. It has a different profile:</span>
+<span id="cb12-503"><a href="#cb12-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-506"><a href="#cb12-506" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-507"><a href="#cb12-507" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb12-508"><a href="#cb12-508" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-509"><a href="#cb12-509" aria-hidden="true" tabindex="-1"></a><span class="co"># Load unemployment data</span></span>
+<span id="cb12-510"><a href="#cb12-510" aria-hidden="true" tabindex="-1"></a>unemployment <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"unemployment.csv"</span>)</span>
+<span id="cb12-511"><a href="#cb12-511" aria-hidden="true" tabindex="-1"></a>unemp_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(unemployment<span class="sc">$</span>Unemployment, </span>
+<span id="cb12-512"><a href="#cb12-512" aria-hidden="true" tabindex="-1"></a>               <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1948</span>, <span class="dv">1</span>), </span>
+<span id="cb12-513"><a href="#cb12-513" aria-hidden="true" tabindex="-1"></a>               <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb12-514"><a href="#cb12-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-515"><a href="#cb12-515" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot and decompose</span></span>
+<span id="cb12-516"><a href="#cb12-516" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unemp_ts)</span>
+<span id="cb12-517"><a href="#cb12-517" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">decompose</span>(unemp_ts))</span>
+<span id="cb12-518"><a href="#cb12-518" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-519"><a href="#cb12-519" aria-hidden="true" tabindex="-1"></a><span class="co"># Check stationarity</span></span>
+<span id="cb12-520"><a href="#cb12-520" aria-hidden="true" tabindex="-1"></a><span class="fu">adf.test</span>(unemp_ts)</span>
+<span id="cb12-521"><a href="#cb12-521" aria-hidden="true" tabindex="-1"></a><span class="fu">kpss.test</span>(unemp_ts)</span>
+<span id="cb12-522"><a href="#cb12-522" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-523"><a href="#cb12-523" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-524"><a href="#cb12-524" aria-hidden="true" tabindex="-1"></a>The key observation with unemployment data: there is a **visible trend** and possible seasonal pattern. You would need to decide: is differencing enough, or do you also need a log transformation?</span>
+<span id="cb12-525"><a href="#cb12-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-526"><a href="#cb12-526" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-527"><a href="#cb12-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-528"><a href="#cb12-528" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary Checklist</span></span>
+<span id="cb12-529"><a href="#cb12-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-530"><a href="#cb12-530" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I understand what goodness of fit measures (MAE, RMSE, MAPE, AIC, BIC) tell me</span>
+<span id="cb12-531"><a href="#cb12-531" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I know why RMSE is preferred over MAE (penalises large errors more)</span>
+<span id="cb12-532"><a href="#cb12-532" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I know that **lower AIC/BIC = better model** and that AIC penalises complexity</span>
+<span id="cb12-533"><a href="#cb12-533" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I know AICc is the version to use for small datasets (n &lt; 40)</span>
+<span id="cb12-534"><a href="#cb12-534" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I can read a GOF comparison table and identify the best model</span>
+<span id="cb12-535"><a href="#cb12-535" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I understand that AIC and RMSE may disagree — and how to handle that trade-off</span>
+<span id="cb12-536"><a href="#cb12-536" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I know the three conditions for stationarity: constant mean, variance, covariance</span>
+<span id="cb12-537"><a href="#cb12-537" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I know that differencing fixes a non-constant mean, and log transformation fixes non-constant variance</span>
+<span id="cb12-538"><a href="#cb12-538" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I know the ADF test H₀ is **non-stationary** (want p &lt; 0.05)</span>
+<span id="cb12-539"><a href="#cb12-539" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I know the KPSS test H₀ is **stationary** (want p &gt; 0.05)</span>
+<span id="cb12-540"><a href="#cb12-540" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I can run the four residual checks and interpret each one</span>
+<span id="cb12-541"><a href="#cb12-541" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I understand the Ljung-Box test (want p &gt; 0.05 = residuals are random)</span>
+<span id="cb12-542"><a href="#cb12-542" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>✅ I can follow the complete model comparison workflow from start to finish</span>
+<span id="cb12-543"><a href="#cb12-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-544"><a href="#cb12-544" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-545"><a href="#cb12-545" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-546"><a href="#cb12-546" aria-hidden="true" tabindex="-1"></a><span class="fu"># Pre-Topic Checklist</span></span>
+<span id="cb12-547"><a href="#cb12-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-548"><a href="#cb12-548" aria-hidden="true" tabindex="-1"></a>Before moving on to Week 9 (Markov Chains) or Week 10 (ACF/PACF), make sure you can:</span>
+<span id="cb12-549"><a href="#cb12-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-550"><a href="#cb12-550" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Explain in plain words what AIC is balancing</span>
+<span id="cb12-551"><a href="#cb12-551" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Look at a comparison table of RMSE and AIC values and pick a winner — and justify your choice when they disagree</span>
+<span id="cb12-552"><a href="#cb12-552" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Run <span class="in">`ets()`</span>, <span class="in">`hw()`</span>, and <span class="in">`accuracy()`</span> in R and interpret the output</span>
+<span id="cb12-553"><a href="#cb12-553" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Look at a time series plot and identify whether the three stationarity conditions are met</span>
+<span id="cb12-554"><a href="#cb12-554" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Apply the correct transformation (log, diff, or both) for a non-stationary series</span>
+<span id="cb12-555"><a href="#cb12-555" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Interpret the p-value of an ADF test correctly</span>
+<span id="cb12-556"><a href="#cb12-556" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Look at a set of four residual plots and say whether the model is acceptable</span>
+<span id="cb12-557"><a href="#cb12-557" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-558"><a href="#cb12-558" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-559"><a href="#cb12-559" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-560"><a href="#cb12-560" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practice Questions</span></span>
+<span id="cb12-561"><a href="#cb12-561" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-562"><a href="#cb12-562" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb12-563"><a href="#cb12-563" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⭐ Q1 — AIC trade-off</span></span>
+<span id="cb12-564"><a href="#cb12-564" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-565"><a href="#cb12-565" aria-hidden="true" tabindex="-1"></a>You compare two Holt-Winters models:</span>
+<span id="cb12-566"><a href="#cb12-566" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-567"><a href="#cb12-567" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Model A:** Multiplicative seasonality, linear trend — RMSE = 12.4, AIC = 1405</span>
+<span id="cb12-568"><a href="#cb12-568" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Model B:** Multiplicative seasonality, damped trend — RMSE = 11.9, AIC = 1419</span>
+<span id="cb12-569"><a href="#cb12-569" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-570"><a href="#cb12-570" aria-hidden="true" tabindex="-1"></a>Which model would you choose and why?</span>
+<span id="cb12-571"><a href="#cb12-571" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-572"><a href="#cb12-572" aria-hidden="true" tabindex="-1"></a>**Answer:** Model A. Although Model B has a slightly lower RMSE (better raw fit), its AIC is higher. The AIC is telling us that the improvement from adding the damping parameter (φ) does not justify the extra complexity. The simpler model (A) is preferred.</span>
+<span id="cb12-573"><a href="#cb12-573" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-574"><a href="#cb12-574" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-575"><a href="#cb12-575" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb12-576"><a href="#cb12-576" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⭐ Q2 — Stationarity diagnosis</span></span>
+<span id="cb12-577"><a href="#cb12-577" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-578"><a href="#cb12-578" aria-hidden="true" tabindex="-1"></a>You plot a time series and observe: the data starts low, grows steadily, and the fluctuations around the trend get larger over time. Is this series stationary? What transformations would you apply?</span>
+<span id="cb12-579"><a href="#cb12-579" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-580"><a href="#cb12-580" aria-hidden="true" tabindex="-1"></a>**Answer:** No — it fails two stationarity conditions: the mean is not constant (it grows → trend) and the variance is not constant (fluctuations grow). Apply **log transformation first** to stabilise the variance, then **differencing** to remove the trend. Then re-check with ADF test.</span>
+<span id="cb12-581"><a href="#cb12-581" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-582"><a href="#cb12-582" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-583"><a href="#cb12-583" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb12-584"><a href="#cb12-584" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⭐ Q3 — ADF vs KPSS</span></span>
+<span id="cb12-585"><a href="#cb12-585" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-586"><a href="#cb12-586" aria-hidden="true" tabindex="-1"></a>You run both tests on a dataset. The ADF test returns p = 0.03. The KPSS test returns p = 0.08. Is the series stationary?</span>
+<span id="cb12-587"><a href="#cb12-587" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-588"><a href="#cb12-588" aria-hidden="true" tabindex="-1"></a>**Answer:** Both tests agree it is stationary. ADF: p = 0.03 &lt; 0.05 → reject H₀ (non-stationary) → series IS stationary. KPSS: p = 0.08 &gt; 0.05 → fail to reject H₀ (stationary) → series IS stationary. When both agree, you can be confident.</span>
+<span id="cb12-589"><a href="#cb12-589" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-590"><a href="#cb12-590" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-591"><a href="#cb12-591" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-592"><a href="#cb12-592" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-593"><a href="#cb12-593" aria-hidden="true" tabindex="-1"></a><span class="fu"># Additional Resources</span></span>
+<span id="cb12-594"><a href="#cb12-594" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-595"><a href="#cb12-595" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>📘 <span class="co">[</span><span class="ot">Forecasting: Principles and Practice — Chapter 5 (ETS models)</span><span class="co">](https://otexts.com/fpp3/expsmooth.html)</span></span>
+<span id="cb12-596"><a href="#cb12-596" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>📘 <span class="co">[</span><span class="ot">Forecasting: Principles and Practice — Chapter 9 (ARIMA models)</span><span class="co">](https://otexts.com/fpp3/arima.html)</span></span>
+<span id="cb12-597"><a href="#cb12-597" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>📘 <span class="co">[</span><span class="ot">Forecasting: Principles and Practice — Chapter 8 (Stationarity)</span><span class="co">](https://otexts.com/fpp3/stationarity.html)</span></span>
+<span id="cb12-598"><a href="#cb12-598" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-599"><a href="#cb12-599" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-600"><a href="#cb12-600" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-601"><a href="#cb12-601" aria-hidden="true" tabindex="-1"></a><span class="fu"># Annotations Space</span></span>
+<span id="cb12-602"><a href="#cb12-602" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-603"><a href="#cb12-603" aria-hidden="true" tabindex="-1"></a>*Use this space for your own notes as you work through the material.*</span>
+<span id="cb12-604"><a href="#cb12-604" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-605"><a href="#cb12-605" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-606"><a href="#cb12-606" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-607"><a href="#cb12-607" aria-hidden="true" tabindex="-1"></a><span class="fu">## My notes on GOF measures:</span></span>
+<span id="cb12-608"><a href="#cb12-608" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-609"><a href="#cb12-609" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *Write here after reviewing the comparison table examples...*</span></span>
+<span id="cb12-610"><a href="#cb12-610" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-611"><a href="#cb12-611" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-612"><a href="#cb12-612" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-613"><a href="#cb12-613" aria-hidden="true" tabindex="-1"></a><span class="fu">## My notes on stationarity:</span></span>
+<span id="cb12-614"><a href="#cb12-614" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-615"><a href="#cb12-615" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *After running the ADF test on a real dataset, note what you observed...*</span></span>
+<span id="cb12-616"><a href="#cb12-616" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-617"><a href="#cb12-617" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-618"><a href="#cb12-618" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-619"><a href="#cb12-619" aria-hidden="true" tabindex="-1"></a><span class="fu">## Questions I still have:</span></span>
+<span id="cb12-620"><a href="#cb12-620" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-621"><a href="#cb12-621" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *...*</span></span>
+<span id="cb12-622"><a href="#cb12-622" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-623"><a href="#cb12-623" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-624"><a href="#cb12-624" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-625"><a href="#cb12-625" aria-hidden="true" tabindex="-1"></a>*End of Week 8 Study Guide — STAT9005 Time Series Analysis*</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

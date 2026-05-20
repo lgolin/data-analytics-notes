@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Time Series – Week 7: Classical Models Analysis (Step-by-Step Template) – Semester Notes</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -65,20 +68,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../time-series/week-8.html" rel="next">
+<link href="../time-series/labs/lab-1.html" rel="next">
 <link href="../time-series/week-6.html" rel="prev">
 <link href="../favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fa4349c024d095ba765cd2b8cae6e422.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-40f6d5bc9ec0060ad4ef5286ed89aadf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -108,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -163,8 +165,9 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
-      <a href="../index.html" class="sidebar-logo-link">
-      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Semester Notes</a> 
+    </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -262,39 +265,6 @@ window.Quarto = {
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
- <span class="menu-text">Labs</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../data-mining/labs/Guide-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Q&amp;A Assessment Preparation: Weeks 1–6</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../data-mining/labs/Guide-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Your Q&amp;A Speaking Coach</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../data-mining/labs/Guide-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Understanding Guide: Weeks 1–7</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../data-mining/labs/Guide-4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Understanding Guide: Weeks 1–6</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../data-mining/labs/lab-3.html" class="sidebar-item-text sidebar-link">
@@ -307,14 +277,41 @@ window.Quarto = {
  <span class="menu-text">Lab 4a: Logistic Regression in R</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../data-mining/labs/Summary-Cards-1-6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">My Summary Cards — Weeks 1 to 6</span></a>
-  </div>
-</li>
       </ul>
   </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Revision</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/revision/guide-understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Understanding Guide: Weeks 1–7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/revision/guide-qa-prep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Q&amp;A Assessment Prep</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/revision/guide-speaking-coach.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Q&amp;A Speaking Coach</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-mining/revision/summary-cards.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Summary Cards: Weeks 1–6</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -414,15 +411,6 @@ window.Quarto = {
           </a> 
       </div>
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
- <span class="menu-text">Labs</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../regression-analysis/labs/lab-1.html" class="sidebar-item-text sidebar-link">
@@ -432,30 +420,34 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../regression-analysis/labs/lab-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">STAT9004 – Week 2 Study Guide</span></a>
+ <span class="menu-text">Week 2 – Study Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../regression-analysis/labs/lab-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Exercise Sheet 3 — One-Way ANOVA</span></a>
+ <span class="menu-text">Exercise Sheet 3 – One-Way ANOVA</span></a>
   </div>
 </li>
-      </ul>
-  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regression-analysis/labs/lab-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercise Sheet 9 – Logistic Regression</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
  <span class="menu-text">Time Series</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/index.html" class="sidebar-item-text sidebar-link">
@@ -464,13 +456,13 @@ window.Quarto = {
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
  <span class="menu-text">Weekly Notes</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/week-1.html" class="sidebar-item-text sidebar-link">
@@ -513,10 +505,33 @@ window.Quarto = {
  <span class="menu-text">Week 7</span></a>
   </div>
 </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../time-series/week-8.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 8 - empty</span></a>
+  <a href="../time-series/labs/lab-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 1 – Introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/labs/lab-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 2 – Seasonality &amp; Decomposition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../time-series/labs/lab-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 3 – Classical Models</span></a>
   </div>
 </li>
       </ul>
@@ -524,61 +539,12 @@ window.Quarto = {
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
- <span class="menu-text">Labs</span></a>
+ <span class="menu-text">Exam Prep</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
- <span class="menu-text">Labs</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/labs/lab-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">STAT9005 – Time Series Analysis</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/labs/lab-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 2 – Seasonality, Decomposition &amp; Moving Averages</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../time-series/labs/lab-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Time Series: Classical Models Lab</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-      </ul>
-  </li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
- <span class="menu-text">Exam Prep</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
- <span class="menu-text">Exam</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/exam/Practical_R.html" class="sidebar-item-text sidebar-link">
@@ -588,7 +554,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../time-series/exam/Practical-Exam-Solutions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">STAT9005 — Time Series &amp; PCA: Practical Exam Solutions</span></a>
+ <span class="menu-text">Practical Exam Solutions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -597,8 +563,6 @@ window.Quarto = {
  <span class="menu-text">Quiz Preparation</span></a>
   </div>
 </li>
-      </ul>
-  </li>
       </ul>
   </li>
       </ul>
@@ -843,8 +807,8 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 75%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -884,9 +848,9 @@ window.Quarto = {
 <p>The three main classical models are:</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 38%">
-<col style="width: 36%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -958,9 +922,9 @@ window.Quarto = {
 <h3 data-number="2.6.1" class="anchored" data-anchor-id="error-metrics"><span class="header-section-number">2.6.1</span> Error Metrics</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 24%">
-<col style="width: 30%">
-<col style="width: 45%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1005,9 +969,9 @@ window.Quarto = {
 <h3 data-number="2.6.2" class="anchored" data-anchor-id="information-criteria"><span class="header-section-number">2.6.2</span> Information Criteria</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 31%">
-<col style="width: 44%">
-<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1376,7 +1340,7 @@ window.Quarto = {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/lgolin\.github\.io\/data-analytics-notes\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1710,8 +1674,8 @@ window.Quarto = {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../time-series/week-8.html" class="pagination-link" aria-label="Week 8 - empty">
-        <span class="nav-page-text">Week 8 - empty</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../time-series/labs/lab-1.html" class="pagination-link" aria-label="Lab 1 – Introduction">
+        <span class="nav-page-text">Lab 1 – Introduction</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
@@ -1871,7 +1835,7 @@ window.Quarto = {
 <span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reading the residual plots</span></span>
 <span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Plot <span class="pp">|</span> What you look for <span class="pp">|</span></span>
-<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------|------------------------------------------------------|</span></span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a><span class="pp">|----|----|</span></span>
 <span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Histogram** <span class="pp">|</span> Roughly bell-shaped (normal curve) <span class="pp">|</span></span>
 <span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Boxplot** <span class="pp">|</span> Symmetric around 0, not too many outliers outside ±2 <span class="pp">|</span></span>
 <span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **QQ Plot** <span class="pp">|</span> Points close to the red diagonal line (especially between ±2) <span class="pp">|</span></span>
@@ -1889,7 +1853,7 @@ window.Quarto = {
 <span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a>The three main classical models are:</span>
 <span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Model <span class="pp">|</span> Also called <span class="pp">|</span> Components <span class="pp">|</span></span>
-<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------|----------------------------|--------------------------|</span></span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a><span class="pp">|----|----|----|</span></span>
 <span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **SES** <span class="pp">|</span> Single Exponential Smoothing <span class="pp">|</span> Level only (no trend, no seasonality) <span class="pp">|</span></span>
 <span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt** <span class="pp">|</span> Double Exponential Smoothing <span class="pp">|</span> Level + Trend <span class="pp">|</span></span>
 <span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Holt-Winters** <span class="pp">|</span> Triple Exponential Smoothing <span class="pp">|</span> Level + Trend + Seasonality <span class="pp">|</span></span>
@@ -1947,7 +1911,7 @@ window.Quarto = {
 <span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a><span class="fu">### Error Metrics</span></span>
 <span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Metric <span class="pp">|</span> Full name <span class="pp">|</span> What it measures <span class="pp">|</span></span>
-<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------|----------------------|---------------------------------|</span></span>
+<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a><span class="pp">|----|----|----|</span></span>
 <span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MSE** <span class="pp">|</span> Mean Squared Error <span class="pp">|</span> Average of squared prediction errors <span class="pp">|</span></span>
 <span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **RMSE** <span class="pp">|</span> Root Mean Squared Error <span class="pp">|</span> Square root of MSE – same units as data <span class="pp">|</span></span>
 <span id="cb9-236"><a href="#cb9-236" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MAE** <span class="pp">|</span> Mean Absolute Error / Deviation <span class="pp">|</span> Average of absolute errors (not penalised) <span class="pp">|</span></span>
@@ -1961,7 +1925,7 @@ window.Quarto = {
 <span id="cb9-244"><a href="#cb9-244" aria-hidden="true" tabindex="-1"></a><span class="fu">### Information Criteria</span></span>
 <span id="cb9-245"><a href="#cb9-245" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-246"><a href="#cb9-246" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Metric <span class="pp">|</span> Full name <span class="pp">|</span> Use <span class="pp">|</span></span>
-<span id="cb9-247"><a href="#cb9-247" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------------------|--------------------------------|-----------------|</span></span>
+<span id="cb9-247"><a href="#cb9-247" aria-hidden="true" tabindex="-1"></a><span class="pp">|----|----|----|</span></span>
 <span id="cb9-248"><a href="#cb9-248" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AIC** <span class="pp">|</span> Akaike Information Criterion <span class="pp">|</span> Balance between fit and complexity <span class="pp">|</span></span>
 <span id="cb9-249"><a href="#cb9-249" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AICc** | Corrected AIC | Better for **small samples** (<span class="sc">\&lt;</span> 30 obs) <span class="pp">|</span></span>
 <span id="cb9-250"><a href="#cb9-250" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **BIC** <span class="pp">|</span> Bayesian Information Criterion <span class="pp">|</span> Similar to AIC, penalises complexity more <span class="pp">|</span></span>

@@ -1,0 +1,605 @@
+---
+title: "Week 8: Model Comparison & Goodness of Fit"
+subtitle: "STAT9005 — Time Series Analysis"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+    code-fold: true
+---
+
+---
+
+::: {.callout-note}
+## 📌 How to use this guide
+Read each section carefully. Every concept is explained in plain language first, then the formula or code follows. Sections end with a self-check question — try to answer it in your own words before moving on.
+:::
+
+---
+
+::: {.callout-important}
+## ⭐ Assessment Reminders
+
+- **Written test (MCQ / Short Answer) — 20%** — Week 10/11 — 45 minutes, ~20–25 questions, **−0.25 penalty per wrong answer**
+- **Practical test (R/RStudio lab) — 40%** — Week 11/12 — open book, you will have access to all R scripts
+- **Project & Presentation — 40%** — Report due **18 May 2026 at 23:59**
+
+*Professor's note: "All the questions, all the answers to the questions are in the lecture notes. You can find them in Canvas, and we have discussed them during the sessions."*
+:::
+
+---
+
+# What This Week Is About
+
+Week 8 bridges the two halves of the module. You have now seen how to **build** models (exponential smoothing in Weeks 2–4, ARIMA introduced in Weeks 5–7). The question now becomes: **how do you decide which model is best?**
+
+This week covers two things:
+
+1. **Goodness of Fit (GOF) measurements** — numbers that tell you how well a model fits your data
+2. **The full analysis process revisited** — how to apply the complete workflow to real datasets using R
+
+---
+
+# Recap: The Two Families of Models
+
+Before comparing models, it helps to remember what you are choosing between.
+
+| Family | Models | What it captures |
+|---|---|---|
+| **Classical (ETS)** | SES, Holt, Holt-Winters | Trend and seasonality patterns |
+| **Stochastic (ARIMA)** | AR, MA, ARMA, ARIMA, SARIMA | Autocorrelation structure |
+
+::: {.callout-note}
+## 🔁 The professor's key point
+*"The modelling is different, but the process is going to be very similar."*
+
+Whether you are working with Holt-Winters or ARIMA, the steps are the same: plot → identify → fit → compare → check residuals → forecast.
+:::
+
+---
+
+# Goodness of Fit — The Measurement Toolkit
+
+**Goodness of Fit (GOF)** refers to how closely a model's predictions match the actual data. You measure this using **error statistics**.
+
+Think of it like this: if you forecast that tomorrow will be 20°C and it turns out to be 23°C, your error is 3°C. These measurements take all the errors across your whole dataset and summarise them into one number.
+
+## Error Measures
+
+Let $y_t$ = actual value, $\hat{y}_t$ = forecasted value, and $e_t = y_t - \hat{y}_t$ = the error at time $t$.
+
+| Measure | Formula | What it tells you | Key feature |
+|---|---|---|---|
+| **MAE** (Mean Absolute Error) | $\frac{1}{n}\sum |e_t|$ | Average size of errors, ignoring direction | Simple, intuitive |
+| **RMSE** (Root Mean Square Error) | $\sqrt{\frac{1}{n}\sum e_t^2}$ | Average error with extra penalty for large mistakes | Preferred — penalises outliers |
+| **MAPE** (Mean Absolute % Error) | $\frac{100}{n}\sum \left|\frac{e_t}{y_t}\right|$ | Error as a percentage of the actual value | Good for comparing across different datasets |
+| **AIC** (Akaike Information Criterion) | — | Balance between accuracy and complexity | **Lower = better** |
+| **BIC** (Bayesian Information Criterion) | — | Stricter version of AIC (penalises extra parameters more) | **Lower = better** |
+
+::: {.callout-important}
+## ⭐ Exam tip: Why RMSE is preferred over MAE
+
+RMSE **squares** the errors before averaging them, which means a large error of 10 is penalised much more than ten small errors of 1. This is important when you want your model to avoid big mistakes.
+
+*Professor's note: "The root mean square errors are preferred because they penalise the distance. If we have a prediction, the real value supposed to be somewhere here — there is a penalisation for this distance. Because of this penalisation, this value is expected to be higher than the MAE, because they are squaring these penalties, squaring these distances."*
+:::
+
+## AIC and BIC — The Complexity Penalty
+
+AIC and BIC are special: they measure not just how well the model fits, but also **how complex the model is**. A model with more parameters will always fit better — but at some point, adding more complexity is not worth it.
+
+**The analogy:** Imagine you are drawing a line through 10 data points. A perfectly wiggly line that touches every single point is not a good model — it has memorised the data, not understood it. AIC and BIC help you find the right balance.
+
+$$AIC = 2k - 2\ln(\hat{L})$$
+
+Where $k$ = number of parameters in the model, and $\hat{L}$ = maximum likelihood of the model.
+
+In plain English: **AIC = (penalty for complexity) + (reward for fitting well)**. When you compare two models, the one with the **lower AIC** is better.
+
+::: {.callout-important}
+## ⭐ Exam tip: How to read AIC when comparing models
+
+*Professor's note: "AIC is telling me: if I have three variables, three parameters — this is the minimum point in the balance between variance of the residuals and complexity. If I add an extra parameter, if I add phi, it's not worth it making the model more complex for this small reduction in the mean square error."*
+
+The key question is: **does the improvement in fit justify the added complexity?** If adding a new parameter (like `damped = TRUE`) barely reduces your errors, AIC will penalise you — and the simpler model wins.
+:::
+
+### AIC vs AICc
+
+You may see two versions in R output:
+
+| Version | When to use |
+|---|---|
+| **AIC** | Large datasets (n > 40) |
+| **AICc** | Small datasets (n < 40) — AICc is adjusted for small sample size |
+
+*Professor's note: "AICc is a correction for small data sets. When we have small samples — like when we had 20-something observations — AICc will provide a better measurement than the AIC."*
+
+---
+
+# The Model Comparison Process
+
+The professor walked through this process repeatedly across several datasets. It always follows the same sequence:
+
+```
+Step 1: PLOT the data
+        → Identify trend, seasonality, and whether variance is growing
+
+Step 2: IDENTIFY possible models
+        → Additive or multiplicative?
+        → Linear or damped trend?
+        → Seasonal or non-seasonal?
+
+Step 3: FIT multiple candidate models
+
+Step 4: VISUAL comparison
+        → Plot forecasts from each model together
+        → Look for differences in trend direction, seasonality shape,
+          confidence interval width
+
+Step 5: QUANTITATIVE comparison (GOF)
+        → Compare RMSE, MAE, AIC, BIC in a table
+        → Lower = better for all measures
+
+Step 6: CHECK residuals of the best model
+        → Histogram, Q-Q plot, time plot, Ljung-Box test
+
+Step 7: FORECAST
+        → Use the chosen model to produce predictions
+```
+
+::: {.callout-important}
+## ⭐ This is the exam workflow
+
+*Professor's note: "You have a dataset — you plot the dataset, identify the components, analyse the residuals, identify problems, and then go for the possible models. You compare visually, compare in goodness of fit, and decide which model is better."*
+
+The practical exam will give you a dataset and ask you to go through exactly these steps. The process itself is the answer.
+:::
+
+---
+
+# Comparing Models in R — Practical Code
+
+## Fitting Multiple Holt-Winters Models
+
+```{r}
+#| eval: false
+
+library(forecast)
+
+# Fit three candidate models
+hw1 <- hw(mydata, seasonal = "additive", h = 12)          # Additive
+hw2 <- hw(mydata, seasonal = "multiplicative", h = 12)    # Multiplicative (linear trend)
+hw3 <- hw(mydata, seasonal = "multiplicative",            # Multiplicative (damped trend)
+          damped = TRUE, h = 12)
+
+# Visual comparison — plot all three together
+autoplot(hw1) + autolayer(hw2) + autolayer(hw3)
+```
+
+## Building a GOF Comparison Table
+
+```{r}
+#| eval: false
+
+# Get accuracy metrics for each model
+acc1 <- accuracy(hw1)
+acc2 <- accuracy(hw2)
+acc3 <- accuracy(hw3)
+
+# Combine into a table for easy comparison
+comparison_table <- rbind(
+  additive        = acc1,
+  multiplicative  = acc2,
+  mult_damped     = acc3
+)
+
+print(comparison_table)
+
+# Compare AIC values
+cat("AIC Model 1:", hw1$model$aic, "\n")
+cat("AIC Model 2:", hw2$model$aic, "\n")
+cat("AIC Model 3:", hw3$model$aic, "\n")
+```
+
+::: {.callout-tip}
+## 💡 What to look for in the comparison table
+
+Focus on these columns:
+
+- **RMSE** — the error with the harshest penalty for large mistakes; lower is better
+- **MAE** — the plain average error; lower is better
+- **MAPE** — the percentage error; useful when comparing datasets of different scales
+
+Then check AIC: does the model with lower RMSE also have lower AIC? If yes — easy choice. If one model has lower RMSE but higher AIC, you have a trade-off (more accurate but more complex).
+:::
+
+## Using ETS for Automatic Model Selection
+
+```{r}
+#| eval: false
+
+# Let R choose the best ETS model automatically
+best_ets <- ets(mydata)
+summary(best_ets)
+
+# The output will tell you: ETS(Error, Trend, Seasonality)
+# For example: ETS(M,Ad,M) means:
+#   M = Multiplicative error
+#   Ad = Additive damped trend
+#   M = Multiplicative seasonality
+
+# Forecast from the best model
+forecast(best_ets, h = 12)
+autoplot(forecast(best_ets, h = 12))
+```
+
+::: {.callout-note}
+## 📌 What ETS does automatically
+
+`ets()` tries all valid combinations of Error (A or M), Trend (N, A, Ad, M), and Seasonality (N, A, M) and picks the one with the **lowest AICc**. Use this as a starting point — but always check if the automatically chosen model makes sense visually.
+
+*Professor's note: "ETS, by default, provides the best model according to AICc. You can use this to use it as a hint — to see what R thinks for the dataset. And we are going to do this now by hand, using Holt-Winters."*
+:::
+
+---
+
+# Real Dataset Examples from Class
+
+## Example 1: Holt-Winters with Three Models
+
+The professor compared three models on a seasonal dataset:
+
+| Model | Parameters | RMSE | MAE | AIC |
+|---|---|---|---|---|
+| Holt-Winters Additive | α, β, γ | Highest | Highest | Highest |
+| Holt-Winters Multiplicative (linear) | α, β, γ | Lower | Lower | **Lowest** ✅ |
+| Holt-Winters Multiplicative (damped) | α, β, γ, φ | **Lowest** | **Lowest** | Higher |
+
+**What does this tell us?**
+
+- The **additive** model was clearly worst — the data had growing seasonal swings, so additive (which assumes constant seasonal size) didn't fit well.
+- The **multiplicative damped** had the lowest RMSE, meaning it fit the training data better.
+- But the **multiplicative linear** had the lowest AIC — meaning the extra parameter (φ for damping) was not worth the complexity.
+
+::: {.callout-important}
+## ⭐ The key insight about this trade-off
+
+*Professor's note: "The third model, with four parameters, is reducing the mean square errors. But this improvement in the model is not worth it — the complexity is not worth it. The AIC is confirming that this model is good enough. I don't have to make it more complex, because the balance is not worth it."*
+
+**The answer:** Choose Model 2 (multiplicative, linear). AIC confirms it is the best balance between fit quality and model simplicity.
+:::
+
+## Example 2: US Accidents Dataset
+
+For a dataset with clear seasonality but uncertain trend direction, the professor used `ets()` automatically. R selected **ETS(A,N,A)** — additive error, no trend, additive seasonality. This was compared against:
+
+- Multiplicative seasonality variant
+- Damped trend variant
+- No trend variant (forced manually)
+
+The manually forced models showed that when you **incorrectly assume a trend that isn't there**, the forecast diverges from reality — this is visible in the plots as the forecast going up when the data stays flat.
+
+---
+
+# Stationarity — A Bridge to ARIMA
+
+Week 8 also introduces the key concept needed for ARIMA models: **stationarity**.
+
+## What Is Stationarity?
+
+A time series is **stationary** if three properties stay constant over time:
+
+1. **Constant mean** — the average does not drift up or down
+2. **Constant variance** — the spread of the data stays the same
+3. **Constant covariance** — the correlation between observations at any two lags is the same throughout the series
+
+::: {.callout-note}
+## 🧭 The visual test for stationarity
+
+Cover different sections of your time series plot with your hand. If every section looks roughly the same — same level, same spread — the series is likely stationary. If one section is higher or the wiggles get larger, it is not stationary.
+:::
+
+## Why Non-Stationarity Happens
+
+Most real-world data is **not** stationary. Here are the common violations:
+
+| Problem | What you see in the plot | Solution |
+|---|---|---|
+| Non-constant mean (trend) | Data drifts up or down over time | **Differencing** |
+| Non-constant variance | The wiggles get bigger over time | **Log transformation** |
+| Both | Growing trend AND growing variability | **Log first, then difference** |
+
+## Fixing Non-Stationarity
+
+### Differencing (removes trend)
+
+**First difference:** subtract the previous value from the current value.
+
+$$\Delta y_t = y_t - y_{t-1}$$
+
+This makes the data "flat" — you are now modelling the *changes* rather than the *levels*.
+
+*Professor's note: "We have a dataset that has shown changes. What happened here is we take differences — the Google dataset minus the Google dataset in a previous time, T−1. What happened is that we have made this dataset flat. We took differences, we have a new dataset that has met the first condition for stationarity."*
+
+```{r}
+#| eval: false
+
+# First difference
+diff_series <- diff(mydata)
+plot(diff_series)
+
+# Second difference (if first is not enough)
+diff2_series <- diff(mydata, differences = 2)
+
+# The number of times you difference = d in ARIMA(p, d, q)
+```
+
+### Log Transformation (stabilises variance)
+
+```{r}
+#| eval: false
+
+# Log transformation to stabilise variance
+log_series <- log(mydata)
+plot(log_series)
+
+# Then difference the log to get both fixes at once
+log_diff_series <- diff(log(mydata))
+```
+
+## The ADF and KPSS Tests
+
+Visual inspection is a starting point. For a **formal statistical test**, use:
+
+| Test | H₀ (null hypothesis) | Good result |
+|---|---|---|
+| **ADF** (Augmented Dickey-Fuller) | Series is **non-stationary** | p-value < 0.05 → stationary ✅ |
+| **KPSS** | Series is **stationary** | p-value > 0.05 → stationary ✅ |
+
+::: {.callout-warning}
+## ⚠️ Common confusion — ADF vs KPSS hypotheses are opposite!
+
+The two tests have **opposite null hypotheses**. For ADF, you *want* to reject H₀ (p < 0.05 means stationary). For KPSS, you *want to fail to reject* H₀ (p > 0.05 means stationary).
+
+*Professor's note: "One of the tests will tell you that this is not stationary, and the other one will tell you that it is stationary. The reason is because one is looking at the trend, the other is identifying the unit roots."*
+:::
+
+```{r}
+#| eval: false
+
+library(tseries)
+
+# ADF test — H0: non-stationary
+# p < 0.05 → reject H0 → series IS stationary
+adf.test(mydata)
+
+# KPSS test — H0: stationary  
+# p > 0.05 → fail to reject H0 → series IS stationary
+kpss.test(mydata)
+```
+
+---
+
+# Residual Diagnostics
+
+After selecting your best model, you must **verify the residuals**. If your model is good, the leftover errors (residuals) should look like pure random noise — no pattern, no structure.
+
+::: {.callout-important}
+## ⭐ Why residuals matter for predictions
+
+*Professor's note: "If my residuals are not normal, what happened is that I cannot trust in my prediction. I cannot trust in my confidence intervals."*
+
+A model with poor residuals gives unreliable forecasts. Always check residuals before presenting results.
+:::
+
+## The Four Residual Checks
+
+```{r}
+#| eval: false
+
+par(mfrow = c(2, 2))
+
+# 1. Histogram — should look like a normal bell curve
+hist(residuals(best_model), main = "Residual Histogram")
+
+# 2. Boxplot — should be symmetric, centred near zero
+boxplot(residuals(best_model), main = "Residual Boxplot")
+
+# 3. Q-Q Plot — points should follow the diagonal line
+qqnorm(residuals(best_model))
+qqline(residuals(best_model), col = "red")
+
+# 4. Time plot — should look random with no pattern
+plot(residuals(best_model), main = "Residuals over Time")
+abline(h = 0, col = "red")
+```
+
+| Plot | What good looks like | What bad looks like |
+|---|---|---|
+| Histogram | Symmetric bell curve | Skewed or heavy tails |
+| Boxplot | Symmetric, median near 0 | Asymmetric, many outliers |
+| Q-Q Plot | Points follow the diagonal line | Points curve away at the ends |
+| Time plot | Random scatter around zero | Visible trend, waves, or clusters |
+
+## The Ljung-Box Test (Formal Residual Check)
+
+```{r}
+#| eval: false
+
+# checkresiduals() does everything in one call (preferred for ARIMA)
+checkresiduals(best_model)
+
+# Manual Ljung-Box test
+Box.test(residuals(best_model), lag = 20, type = "Ljung-Box")
+# p > 0.05 → residuals are random → good model ✅
+# p < 0.05 → residuals still have structure → model needs improvement ❌
+```
+
+*Professor's note: "Random, not correlated, normal, independent — this is a good model. There's our model, so I have a model that I can use for prediction."*
+
+---
+
+# Working with the Stock Price Dataset
+
+The stock price dataset is a good example of data that **fails all three stationarity conditions**:
+
+- **Non-constant mean** — the price trends upward
+- **Non-constant variance** — the volatility grows as price grows
+- **Non-constant covariance** — the autocorrelation structure changes over time
+
+The fix:
+
+1. **Log transformation** first — to stabilise the variance
+2. **Differencing** second — to remove the trend (makes it flat)
+
+```{r}
+#| eval: false
+
+# Read the stock price data
+stock <- scan("stock_price.txt", skip = 2, dec = ",")
+stock_ts <- ts(stock)
+
+# Check the problem
+plot(stock_ts)       # Clear upward trend
+plot(log(stock_ts))  # Log removes variance growth
+
+# Take first difference of the log
+stock_stationary <- diff(log(stock_ts))
+plot(stock_stationary)  # Should look flat and stationary
+
+# Confirm with ADF test
+adf.test(stock_stationary)
+```
+
+*Professor's note: "To make this dataset stationary: first of all, I have to take logs — remove the variance. Second of all, I have to take differences — remove the trend. And from this point, we'll see how this dataset looks like."*
+
+---
+
+# Working with the Unemployment Dataset
+
+The unemployment dataset (from the Federal Reserve Bank of St Louis) is available in Canvas. It has a different profile:
+
+```{r}
+#| eval: false
+
+# Load unemployment data
+unemployment <- read.csv("unemployment.csv")
+unemp_ts <- ts(unemployment$Unemployment, 
+               start = c(1948, 1), 
+               frequency = 12)
+
+# Plot and decompose
+plot(unemp_ts)
+plot(decompose(unemp_ts))
+
+# Check stationarity
+adf.test(unemp_ts)
+kpss.test(unemp_ts)
+```
+
+The key observation with unemployment data: there is a **visible trend** and possible seasonal pattern. You would need to decide: is differencing enough, or do you also need a log transformation?
+
+---
+
+# Summary Checklist
+
+- ✅ I understand what goodness of fit measures (MAE, RMSE, MAPE, AIC, BIC) tell me
+- ✅ I know why RMSE is preferred over MAE (penalises large errors more)
+- ✅ I know that **lower AIC/BIC = better model** and that AIC penalises complexity
+- ✅ I know AICc is the version to use for small datasets (n < 40)
+- ✅ I can read a GOF comparison table and identify the best model
+- ✅ I understand that AIC and RMSE may disagree — and how to handle that trade-off
+- ✅ I know the three conditions for stationarity: constant mean, variance, covariance
+- ✅ I know that differencing fixes a non-constant mean, and log transformation fixes non-constant variance
+- ✅ I know the ADF test H₀ is **non-stationary** (want p < 0.05)
+- ✅ I know the KPSS test H₀ is **stationary** (want p > 0.05)
+- ✅ I can run the four residual checks and interpret each one
+- ✅ I understand the Ljung-Box test (want p > 0.05 = residuals are random)
+- ✅ I can follow the complete model comparison workflow from start to finish
+
+---
+
+# Pre-Topic Checklist
+
+Before moving on to Week 9 (Markov Chains) or Week 10 (ACF/PACF), make sure you can:
+
+- [ ] Explain in plain words what AIC is balancing
+- [ ] Look at a comparison table of RMSE and AIC values and pick a winner — and justify your choice when they disagree
+- [ ] Run `ets()`, `hw()`, and `accuracy()` in R and interpret the output
+- [ ] Look at a time series plot and identify whether the three stationarity conditions are met
+- [ ] Apply the correct transformation (log, diff, or both) for a non-stationary series
+- [ ] Interpret the p-value of an ADF test correctly
+- [ ] Look at a set of four residual plots and say whether the model is acceptable
+
+---
+
+# Practice Questions
+
+::: {.callout-important}
+## ⭐ Q1 — AIC trade-off
+
+You compare two Holt-Winters models:
+
+- **Model A:** Multiplicative seasonality, linear trend — RMSE = 12.4, AIC = 1405
+- **Model B:** Multiplicative seasonality, damped trend — RMSE = 11.9, AIC = 1419
+
+Which model would you choose and why?
+
+**Answer:** Model A. Although Model B has a slightly lower RMSE (better raw fit), its AIC is higher. The AIC is telling us that the improvement from adding the damping parameter (φ) does not justify the extra complexity. The simpler model (A) is preferred.
+:::
+
+::: {.callout-important}
+## ⭐ Q2 — Stationarity diagnosis
+
+You plot a time series and observe: the data starts low, grows steadily, and the fluctuations around the trend get larger over time. Is this series stationary? What transformations would you apply?
+
+**Answer:** No — it fails two stationarity conditions: the mean is not constant (it grows → trend) and the variance is not constant (fluctuations grow). Apply **log transformation first** to stabilise the variance, then **differencing** to remove the trend. Then re-check with ADF test.
+:::
+
+::: {.callout-important}
+## ⭐ Q3 — ADF vs KPSS
+
+You run both tests on a dataset. The ADF test returns p = 0.03. The KPSS test returns p = 0.08. Is the series stationary?
+
+**Answer:** Both tests agree it is stationary. ADF: p = 0.03 < 0.05 → reject H₀ (non-stationary) → series IS stationary. KPSS: p = 0.08 > 0.05 → fail to reject H₀ (stationary) → series IS stationary. When both agree, you can be confident.
+:::
+
+---
+
+# Additional Resources
+
+- 📘 [Forecasting: Principles and Practice — Chapter 5 (ETS models)](https://otexts.com/fpp3/expsmooth.html)
+- 📘 [Forecasting: Principles and Practice — Chapter 9 (ARIMA models)](https://otexts.com/fpp3/arima.html)
+- 📘 [Forecasting: Principles and Practice — Chapter 8 (Stationarity)](https://otexts.com/fpp3/stationarity.html)
+
+---
+
+# Annotations Space
+
+*Use this space for your own notes as you work through the material.*
+
+---
+
+## My notes on GOF measures:
+
+> *Write here after reviewing the comparison table examples...*
+
+---
+
+## My notes on stationarity:
+
+> *After running the ADF test on a real dataset, note what you observed...*
+
+---
+
+## Questions I still have:
+
+> *...*
+
+---
+
+*End of Week 8 Study Guide — STAT9005 Time Series Analysis*

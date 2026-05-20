@@ -1,0 +1,483 @@
+---
+title: "STAT9004 Exam Tips from Class Transcripts"
+subtitle: "Regression Analysis - Simple survival notes"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+    code-fold: true
+    code-tools: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+::: callout-tip
+## How to use this page
+
+These notes collect the main exam signals from Paula's class transcripts and turn them into simple answer templates. They are written for quick revision: read the template, then practise using it on past-paper output.
+:::
+
+# Big Picture
+
+The repeated message from the classes is that the exam rewards interpretation. You should be able to:
+
+- choose the correct method,
+- state the hypotheses,
+- use the p-value correctly,
+- interpret coefficients and model output,
+- comment on assumptions using diagnostic plots,
+- write short conclusions in plain English.
+
+# Diagnostic Plots
+
+Paula explicitly said these plots come up again and again and are likely to appear in the terminal exam.
+
+## Residuals vs Fitted
+
+Use this plot to check whether the model has a suitable shape and whether the variance is roughly constant.
+
+Good sentence:
+
+> The residuals vs fitted plot shows no clear pattern and roughly constant spread, so the constant variance assumption appears reasonable.
+
+Warning signs:
+
+- curved pattern: possible non-linear relationship,
+- funnel shape: non-constant variance,
+- unusual points: possible outliers.
+
+## Q-Q Plot
+
+Use this plot to check whether residuals are approximately normal.
+
+Good sentence:
+
+> The points in the Q-Q plot lie approximately on a straight line, so the normality assumption appears reasonable.
+
+Warning sentence:
+
+> Strong departures from the line suggest that the residuals may not be normally distributed.
+
+## Leverage and Cook's Distance
+
+Use these to check influential observations.
+
+Good sentence:
+
+> Observations with high leverage and large residuals may be influential and should be investigated.
+
+Simple rule:
+
+```text
+High leverage + large residual = possible influential point
+```
+
+# Simple Linear Regression
+
+## Slope
+
+Paula said slope interpretation is very important.
+
+Template:
+
+> For each one-unit increase in X, the predicted value of Y changes by beta units on average.
+
+Example:
+
+```text
+Sales = 5.20 + 2.62 Training
+```
+
+Interpretation:
+
+> For each additional hour of training, predicted sales increase by 2.62 thousand euro on average.
+
+If the slope is negative:
+
+> For each one-unit increase in X, predicted Y decreases by beta units on average.
+
+## Testing the Slope
+
+Hypotheses:
+
+```text
+H0: beta1 = 0
+H1: beta1 != 0
+```
+
+Simple words:
+
+```text
+H0: X is not useful for predicting Y
+H1: X is useful for predicting Y
+```
+
+Conclusion template:
+
+> Since p < 0.05, we reject H0. There is evidence that X is useful for predicting Y.
+
+## R-squared
+
+R-squared means:
+
+> The proportion of variation in Y explained by the model.
+
+Example:
+
+```text
+R-squared = 0.61
+```
+
+Interpretation:
+
+> About 61% of the variation in sales is explained by the model.
+
+Remember:
+
+- p-value tells whether the relationship is statistically significant,
+- R-squared tells how much variation is explained.
+
+# One-Way ANOVA
+
+Use one-way ANOVA when you compare the mean of a continuous response across one categorical factor.
+
+Example:
+
+```text
+Response: crop yield
+Factor: soil type with 3 groups
+Method: one-way ANOVA
+```
+
+## Hypotheses
+
+```text
+H0: all group means are equal
+H1: at least one group mean is different
+```
+
+Simple answer:
+
+> H0 is that the mean response is the same for all groups. H1 is that at least one group has a different mean response.
+
+## P-value Conclusion
+
+If p < 0.05:
+
+> Since p < 0.05, we reject H0. There is evidence that at least one group mean is different.
+
+If p > 0.05:
+
+> Since p > 0.05, we fail to reject H0. There is not enough evidence that the group means differ.
+
+## Levene's Test
+
+Levene's test checks equal variances.
+
+If p > 0.05:
+
+> There is not enough evidence that the variances differ, so the equal variance assumption appears reasonable.
+
+If p < 0.05:
+
+> There is evidence that the variances differ, so the equal variance assumption may be violated.
+
+## Tukey's HSD
+
+Use Tukey's HSD after a significant ANOVA.
+
+Why?
+
+> ANOVA tells us that at least one group differs, but not which groups differ.
+
+Template:
+
+> Since the ANOVA is significant, Tukey's HSD should be used to identify which groups differ while controlling for multiple comparisons.
+
+If adjusted p < 0.05:
+
+> These two groups are significantly different.
+
+If adjusted p > 0.05:
+
+> There is not enough evidence that these two groups differ.
+
+# Effect Size
+
+Effect size tells how large or practically important an effect is.
+
+For ANOVA:
+
+```text
+eta squared = SS_factor / SS_total
+```
+
+Example:
+
+```text
+SS_factor = 120
+SS_residual = 160
+SS_total = 120 + 160 = 280
+eta squared = 120 / 280 = 0.43
+```
+
+Interpretation:
+
+> eta squared = 0.43, so the factor explains about 43% of the variation in the response.
+
+Important distinction:
+
+> The p-value tells whether the effect is statistically significant. The effect size tells how large the effect is.
+
+# Missing Data
+
+Paula emphasized looking for missing-data patterns.
+
+## MCAR
+
+Missing Completely At Random.
+
+Meaning:
+
+> Missingness is random and not related to the data.
+
+Example:
+
+> A lab assistant accidentally loses random samples.
+
+Exam sentence:
+
+> This is MCAR because missingness seems random and unrelated to the data. It reduces sample size and power, but is less likely to bias results.
+
+## MAR
+
+Missing At Random.
+
+Meaning:
+
+> Missingness depends on an observed variable.
+
+Example:
+
+> Income is missing more often for certain professions, and profession is recorded.
+
+Exam sentence:
+
+> This is MAR because missingness depends on an observed variable. Complete-case analysis may be biased, so imputation using the observed variable may help.
+
+## MNAR
+
+Missing Not At Random.
+
+Meaning:
+
+> Missingness depends on the missing value itself.
+
+Example:
+
+> People with very high income are less likely to report income.
+
+Exam sentence:
+
+> This is MNAR because missingness depends on the missing value itself. Results may be biased and simple imputation may not fix the problem.
+
+## Missing Data Plots
+
+When commenting on missing data plots:
+
+1. Say which variables have missing values.
+2. Say whether missingness looks random.
+3. Say whether missingness is related to another observed variable.
+
+Example:
+
+> Missing smoking status appears more common among younger patients. Since age is observed, this suggests missingness may be MAR.
+
+If no pattern is visible:
+
+> The missing values appear spread across the range, so there is no clear missing-data pattern.
+
+# ANCOVA
+
+ANCOVA is used when there is:
+
+- a continuous response,
+- a continuous predictor,
+- a categorical group variable.
+
+Example:
+
+```text
+Fruit = response
+Root = continuous predictor
+Grazing = categorical group
+```
+
+## Interaction Model
+
+```r
+Fruit ~ Root * Grazing
+```
+
+This tests whether the slopes are different between groups.
+
+If interaction p < 0.05:
+
+> The interaction is significant, so the regression lines are not parallel. The effect of Root on Fruit depends on Grazing.
+
+If interaction p > 0.05:
+
+> The interaction is not significant, so the regression lines can be treated as parallel. Use the additive model.
+
+## Additive Model
+
+```r
+Fruit ~ Root + Grazing
+```
+
+This gives parallel regression lines.
+
+Template:
+
+> After adjusting for Root, there is evidence that Grazing has a significant effect on Fruit.
+
+# Logistic Regression
+
+Use logistic regression when the response is binary:
+
+- yes/no,
+- 0/1,
+- success/failure.
+
+R code:
+
+```r
+glm(y ~ x, family = binomial)
+```
+
+Logistic equation:
+
+```text
+log(p / (1 - p)) = beta0 + beta1*x
+```
+
+Important facts:
+
+- coefficients are on the log-odds scale,
+- odds ratio = exp(coefficient),
+- probability = exp(eta) / (1 + exp(eta)).
+
+Template:
+
+> The coefficient is on the log-odds scale. The odds ratio is exp(beta). If beta is positive, the odds increase. If beta is negative, the odds decrease.
+
+# Power
+
+Power means:
+
+> The probability of detecting a real effect.
+
+Or:
+
+> The probability of rejecting H0 when H0 is false.
+
+Simple facts:
+
+- larger sample size increases power,
+- larger effect size increases power,
+- less variability increases power.
+
+Template:
+
+> Power is the chance that the test detects an effect if the effect really exists.
+
+# Type I and Type II Errors
+
+Type I error:
+
+> Rejecting H0 when H0 is true.
+
+Simple words:
+
+> Saying there is an effect when there is no real effect.
+
+Type II error:
+
+> Failing to reject H0 when H1 is true.
+
+Simple words:
+
+> Missing a real effect.
+
+# Experimental Design
+
+Response variable:
+
+> The outcome being measured.
+
+Factor:
+
+> A categorical explanatory variable.
+
+Levels:
+
+> The categories of a factor.
+
+Replication:
+
+> Repeated observations for each treatment.
+
+Randomisation:
+
+> Random assignment to treatments.
+
+Factorial design:
+
+> All combinations of factor levels are included.
+
+Interaction:
+
+> The effect of one factor depends on the level of another factor.
+
+Example:
+
+```text
+Filter has 3 levels and flow has 2 levels.
+Total treatment combinations = 3 x 2 = 6.
+```
+
+# Final Survival Sentences
+
+## P-value
+
+> Since p < 0.05, we reject H0. There is evidence of a significant effect.
+
+> Since p > 0.05, we fail to reject H0. There is not enough evidence of a significant effect.
+
+## Regression
+
+> For each one-unit increase in X, predicted Y changes by beta units on average.
+
+## ANOVA
+
+> There is evidence that at least one group mean is different.
+
+## Tukey
+
+> Tukey's HSD is used to identify which groups differ.
+
+## Diagnostics
+
+> The residual plots should show no clear pattern, approximately normal residuals, and no influential observations.
+
+## ANCOVA
+
+> A significant interaction means the regression lines are not parallel.
+
+## Logistic Regression
+
+> The odds ratio is exp(beta), and it describes the change in odds.

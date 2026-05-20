@@ -1,0 +1,241 @@
+---
+title: "Practical Exam Preparation Guide"
+subtitle: "STAT9005 — Time Series Analysis (Assessment 2)"
+author: "Study guide based on lecture notes and Zoom walkthrough (27 April)"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    number-sections: true
+    code-fold: show
+    code-tools: true
+---
+
+::: callout-important
+## ⭐ Exam logistics — confirmed in the Zoom call
+
+| Item | Detail |
+|------------------------------------|------------------------------------|
+| **Date** | Tuesday 5 May, 6:00 pm |
+| **Duration** | 75 minutes (Francisco mentioned **80–90 mins** in the call — confirm on the day) |
+| **Format** | Online, **camera ON** for the whole exam |
+| **Open book** | Yes — all Canvas materials, your notes, RStudio |
+| **Forbidden** | Email, phones, smartwatches, talking to anyone, internet (except Canvas) |
+| **Structure** | **2 questions**: Q1 = simulation, Q2 = data analysis |
+| **Submit** | Word doc (PDF on submission) + your `.R` script. **+5 mins to upload only.** |
+| **Coverage** | Chapter 1 (Intro to TS), Chapter 2 (Classical Models), Chapter 3 (ARIMA) |
+
+*Professor's note (Zoom, 27 April):* "I'm interested in you being able to **go through the analysis and interpret the results**, rather than writing the code yourself."
+:::
+
+::: callout-warning
+## ⚠️ Time is the main risk
+
+*Professor's note:* "I'm going to ask you to use the **auto.arima**, because it's quicker, and the main problem in the exam is going to be the time."
+
+**Translation:** don't waste time hand-identifying p and q from correlograms if you're stuck. Use `auto.arima()`, then justify why the result makes sense.
+:::
+
+------------------------------------------------------------------------
+
+# What the exam actually asks you to do
+
+The exam mirrors the workflow Francisco walked through with the `USAccDeaths` dataset. Every analysis follows the **same nine steps**, in the same order:
+
+| \# | Step | Why |
+|------------------------|------------------------|------------------------|
+| 1 | Load + confirm `class(AP) == "ts"` | A `ts` object is required for the time-series functions |
+| 2 | Plot the series | Spot trend, seasonality, changing variance by eye |
+| 3 | First correlogram (`acf2`) | Confirm seasonality and long memory |
+| 4 | Decomposition (additive vs multiplicative) | See trend + seasonal + residuals separately |
+| 5 | Stationarity tests (ADF + KPSS) | Statistical evidence for the mean |
+| 6 | Transformations: log → diff → seasonal diff | Make the series stationary |
+| 7 | Identify orders (p,d,q)(P,D,Q) from final correlogram | Build the ARIMA model |
+| 8 | `auto.arima()` + `checkresiduals()` + `sarima()` | Fit and validate |
+| 9 | Forecast `h = 2*p` ahead | Predict the next two cycles |
+
+::: callout-note
+## 🍎 Analogy — the workflow as cooking
+
+Think of stationarity as preparing ingredients before you can cook the ARIMA "dish": - **Variance problem** = ingredient is the wrong size → use `log()` to chop it down - **Trend problem** = ingredients are leaning to one side → use `diff()` to level them - **Seasonality** = the same flavour repeats every 12 portions → use `diff(lag=12)` to remove it
+
+Only when the ingredients are flat and uniform (white noise) can you cook the ARMA model on top.
+:::
+
+------------------------------------------------------------------------
+
+# The three stationarity conditions
+
+This is the single most important concept in the whole module.
+
+| \# | Condition | What it means | Fix | Where it goes in (p,d,q)(P,D,Q) |
+|---------------|---------------|---------------|---------------|---------------|
+| 1 | **Constant mean** | No trend up or down | `diff(Y)` (first difference) | `d = 1` |
+| 2 | **Constant variance** | Wobble size doesn't change over time | `log(Y)` | *Not in the model* — done **before** fitting |
+| 3 | **Constant covariance** | Relationship across periods is stable (no seasonality) | `diff(Y, lag = p)` | `D = 1` |
+
+::: callout-important
+## ⭐ The order matters
+
+*Professor's note (Zoom):* "The first thing we have to do in an analysis is **removing or stabilising the variance**, right? So that's why we are starting every time by taking logs."
+
+**Why?** ARIMA can fix mean and seasonality through differencing, but it **cannot fix variance**. You must help it with `log()` first.
+:::
+
+------------------------------------------------------------------------
+
+# ADF vs KPSS — don't confuse the hypotheses
+
+These two tests look similar but have **opposite** null hypotheses. Mixing them up loses easy marks.
+
+| Test | H₀ (null) | H₁ (alternative) | What you want for stationarity |
+|------------------|------------------|------------------|------------------|
+| **ADF** (`adf.test`) | Series is **NOT** stationary (has a unit root) | Series is stationary | **REJECT H₀** → p-value \< 0.05 |
+| **KPSS** (`kpss.test`) | Series **IS** stationary | Series is NOT stationary | **DO NOT REJECT H₀** → p-value \> 0.05 |
+
+::: callout-warning
+## ⚠️ Common trap
+
+A small p-value means **opposite things** in the two tests:
+
+- ADF small p-value → "stationary"
+- KPSS small p-value → "NOT stationary"
+
+Always read the printed `H0` line in the R output before concluding.
+:::
+
+::: callout-note
+## 🍎 Limitation Francisco emphasised
+
+Both tests focus mostly on the **mean** (constant trend). They can both say "stationary" even when there's a clear seasonal/covariance problem. **Always combine the tests with the plot and the correlogram.**
+:::
+
+------------------------------------------------------------------------
+
+# Reading correlograms — the cheat sheet
+
+After all transformations, look at `acf2(transformed_series)`. Apply these rules separately to the **normal part** (lags 1, 2, 3, …) and the **seasonal part** (lags p, 2p, 3p where p = 12 for monthly).
+
+| ACF | PACF | Model | Order |
+|------------------|------------------|------------------|------------------|
+| Drops sharp after lag k | Tails off slowly | **MA(k)** | q = k, p = 0 |
+| Tails off slowly | Drops sharp after lag k | **AR(k)** | p = k, q = 0 |
+| Tails off slowly | Tails off slowly | **ARMA(1,1)** | p = 1, q = 1 |
+| All bars inside blue band | All bars inside blue band | **White noise** ✅ | Done |
+
+::: callout-important
+## ⭐ Francisco's exam advice (verbatim from Zoom)
+
+*"In the exam, just **pick one**, right? If I'm asking you to identify a model, and you know that you have this — yes, select one, justify your answer. As long as you are able to justify with statistical thinking, the model that you are selecting is **fine**."*
+
+**Translation:** if both AR(1) and MA(1) look plausible, write down ONE and explain in 2 sentences why the ACF/PACF supports it. Do not freeze trying to choose.
+:::
+
+------------------------------------------------------------------------
+
+# Validating the model — what `checkresiduals()` and `sarima()` show
+
+A fitted model is only accepted if its **residuals look like white noise**. The residuals must be:
+
+- **Random** (no pattern in the time plot)
+- **Independent** (no spikes in the residual ACF)
+- **Normally distributed** (histogram is bell-shaped, Q-Q plot follows the diagonal)
+
+The **Ljung–Box test** at the bottom of `checkresiduals()` and `sarima()` gives the formal check:
+
+| Element | What it means | What you want |
+|------------------------|------------------------|------------------------|
+| H₀ | Residuals are independent (ρ = 0) | Accept H₀ |
+| p-value | Strength of evidence against H₀ | **p \> 0.05** ✅ |
+| Ljung-Box dots in `sarima()` | One dot per lag | **ALL dots ABOVE the blue line** |
+
+------------------------------------------------------------------------
+
+# Forecasting
+
+`forecast(fit_auto, h = 2 * p)` gives:
+
+- **Point forecast** (the dark line) — the model's best single guess
+- **80% prediction interval** (inner shaded band) — wider = more uncertain
+- **95% prediction interval** (outer shaded band)
+
+The bands always **widen** as you forecast further ahead — this is correct behaviour, not a problem.
+
+::: callout-warning
+## ⚠️ If you used log()
+
+You must back-transform with `exp()` before reporting the forecast in the original units. Forecasts in log scale are useless to the end user.
+:::
+
+------------------------------------------------------------------------
+
+# What to write in the Word doc
+
+For every R chunk you paste in, the marker wants to see **interpretation** below it. A good answer for one R output looks like this:
+
+> ```         
+> [paste plot or output here]
+> ```
+>
+> The ADF test gives a p-value of 0.02, which is below α = 0.05. Since H₀ for the ADF test is "non-stationary", we reject H₀ and conclude the series is stationary in the mean. However, the correlogram still shows seasonal spikes at lags 12 and 24, so we must also seasonally difference (D = 1).
+
+Notice the structure: **what the number is** → **which test/H₀ it relates to** → **the conclusion** → **what we do next**.
+
+------------------------------------------------------------------------
+
+# Likely exam shape (based on the practical exam Francisco walked through)
+
+## Question 1 — Simulation (smaller weight)
+
+You'll likely be asked to:
+
+1.  Simulate an AR or MA process with `arima.sim()`
+2.  Plot it and the correlograms
+3.  **Identify** which model it is by reading the ACF/PACF
+4.  Confirm with `auto.arima()`
+
+Practice this by re-running the simulation block at the end of the R template.
+
+## Question 2 — Full data analysis (larger weight)
+
+You'll get a real `ts` dataset and have to walk through **steps 1 → 9** above.
+
+You will be asked to:
+
+- Plot it and describe what you see
+- Decompose (additive vs multiplicative)
+- Test stationarity (ADF + KPSS)
+- Apply the transformations needed
+- Identify the model order from correlograms (or use `auto.arima`)
+- Validate the residuals
+- Forecast 2 cycles ahead
+
+------------------------------------------------------------------------
+
+# Pre-exam checklist
+
+- [ ] Open RStudio **before** 6 pm and confirm `tseries`, `forecast`, `astsa` all load
+- [ ] Have the **R template** open and ready to adapt
+- [ ] Have the **Word answer skeleton** open and ready to type into
+- [ ] Webcam tested and on
+- [ ] Phone away from the desk
+- [ ] Pen and paper for rough work
+- [ ] Save the Word doc every 10 minutes (Ctrl+S)
+- [ ] Submit the Word doc **as PDF** + the `.R` file before time expires
+- [ ] Use the +5 minutes ONLY for upload
+
+::: callout-important
+## ⭐ Three rules to repeat in your head during the exam
+
+1.  **Variance first** (log), then trend (diff), then seasonality (seasonal diff)
+2.  **`auto.arima()` is your friend** — Francisco said so himself
+3.  **Every R output needs ONE sentence of interpretation** — that's where the marks are
+:::
+
+------------------------------------------------------------------------
+
+# Annotation space
+
+*(Use this section to add any last-minute notes, formulas, or reminders before the exam.)*

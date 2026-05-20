@@ -90,7 +90,14 @@ website:
               - text: "Week 2 – Study Guide"
                 file: regression-analysis/labs/lab-2.qmd
               - text: "Exercise Sheet 3 – One-Way ANOVA"
+                file: regression-analysis/labs/lab-3.qmd              
+              - text: "Exercise Sheet 9 – Logistic Regression"
                 file: regression-analysis/labs/lab-3.qmd
+
+          - section: "Revision"
+            contents:
+              - text: "Exam Tips from Transcripts"
+                file: regression-analysis/revision/exam-transcript-tips.qmd
 
       # ── TIME SERIES ──────────────────────────────────────────────────────────
       - section: "Time Series"
@@ -113,6 +120,11 @@ website:
                 file: time-series/week-6.qmd
               - text: "Week 7"
                 file: time-series/week-7.qmd
+              - text: "Week 8"
+                file: time-series/week-8.qmd
+              - text: "Week 9 - MCQ"
+              - text: "Week 10"
+                file: time-series/week-10.qmd
 
           - section: "Labs"
             contents:

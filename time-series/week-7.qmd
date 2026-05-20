@@ -154,7 +154,7 @@ abline(h = c(-2, 2), col = "blue", lty = 2)
 ## Reading the residual plots
 
 | Plot | What you look for |
-|------------------|------------------------------------------------------|
+|----|----|
 | **Histogram** | Roughly bell-shaped (normal curve) |
 | **Boxplot** | Symmetric around 0, not too many outliers outside ±2 |
 | **QQ Plot** | Points close to the red diagonal line (especially between ±2) |
@@ -172,7 +172,7 @@ abline(h = c(-2, 2), col = "blue", lty = 2)
 The three main classical models are:
 
 | Model | Also called | Components |
-|------------------|----------------------------|--------------------------|
+|----|----|----|
 | **SES** | Single Exponential Smoothing | Level only (no trend, no seasonality) |
 | **Holt** | Double Exponential Smoothing | Level + Trend |
 | **Holt-Winters** | Triple Exponential Smoothing | Level + Trend + Seasonality |
@@ -230,7 +230,7 @@ Once you have multiple models, you need to decide which is the **best** one. You
 ### Error Metrics
 
 | Metric | Full name | What it measures |
-|------------------|----------------------|---------------------------------|
+|----|----|----|
 | **MSE** | Mean Squared Error | Average of squared prediction errors |
 | **RMSE** | Root Mean Squared Error | Square root of MSE – same units as data |
 | **MAE** | Mean Absolute Error / Deviation | Average of absolute errors (not penalised) |
@@ -244,7 +244,7 @@ Once you have multiple models, you need to decide which is the **best** one. You
 ### Information Criteria
 
 | Metric | Full name | Use |
-|-----------------------|--------------------------------|-----------------|
+|----|----|----|
 | **AIC** | Akaike Information Criterion | Balance between fit and complexity |
 | **AICc** | Corrected AIC | Better for **small samples** (\< 30 obs) |
 | **BIC** | Bayesian Information Criterion | Similar to AIC, penalises complexity more |

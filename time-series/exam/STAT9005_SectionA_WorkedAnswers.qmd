@@ -1,0 +1,463 @@
+---
+title: "STAT9005: Section A — MCQ & True/False Worked Answers"
+subtitle: "Time Series & PCA — Written Test Preparation"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+::: callout-important
+## ⭐ Assessment Reminders — Read Before You Study
+
+- **Section A** = 20% of your module grade (MCQ / True-or-False / Short Answer)
+- **Negative marking**: −0.25 per wrong answer. **Do NOT guess** unless you can eliminate at least 2 of 4 options.
+- **0 marks** for a blank — leaving a question empty is safer than a random guess.
+- **20–25 questions** in the real test. The 7 questions below are the exact sample Francisco walked through in Week 10.
+- Format will likely be on **Canvas Quiz** (click True/False and type your correction).
+- *Professor's note: "All the questions and all the answers to the questions are in the lecture notes. You can find them in Canvas, and we discussed them during the sessions."*
+:::
+
+------------------------------------------------------------------------
+
+# Key Topics Covered in Section A
+
+These are the concept areas that appear across the 7 sample questions:
+
+| Question | Topic Area |
+|----------------------------------|--------------------------------------|
+| Q1 | Time series components — deterministic vs. random |
+| Q2 | Additive vs. Multiplicative model identification from a plot |
+| Q3 | Periodicity (value of *p*) |
+| Q4 | Double Exponential Smoothing methods |
+| Q5 | Comparing component variability from a decomposition plot |
+| Q6 | Choosing Additive vs. Multiplicative using Holt-Winters decomposition |
+| Q7 | Identifying ARIMA model type from ACF and PACF plots |
+
+------------------------------------------------------------------------
+
+# Question 1 — TS Components: Deterministic vs. Random
+
+## The Question
+
+> *"The fluctuations that occur in a time series can be classified into 4 basic types of variation: Secular trend, Seasonal variation, Cyclical variation, and Residual variation. While the first three (trend, seasonal, and cyclical variation) are totally deterministic, the residual variation is known as the random component of the series."*
+>
+> **True or False?**
+
+## ✅ Answer: **TRUE**
+
+## Explanation
+
+A **time series** is any sequence of data measured over time — for example, monthly airline passengers, weekly sales figures, or daily temperatures.
+
+Every time series can be broken into four components:
+
+| Component | Symbol | Type | Description |
+|-------------------|----------------|----------------|----------------------|
+| **Trend** (Secular trend) | T | Deterministic | Long-term upward or downward movement in the data |
+| **Seasonal variation** | S | Deterministic | Patterns that repeat within each year (e.g., every quarter, every month) |
+| **Cyclical variation** | C | Deterministic | Longer waves over several years (e.g., economic cycles lasting 2+ years) |
+| **Residual / Irregular** | R | **Random** | Everything that cannot be explained by T, S, or C — pure noise |
+
+The word **deterministic** means "can be described by a mathematical formula." We can model trend with a regression line, and we can model seasonality with repeating equations. These are predictable.
+
+The **residual** (also called the error, irregular, or random component) is what remains after removing T, S, and C. It has no pattern — it is random and unpredictable.
+
+::: callout-important
+## ⭐ Exam Tip
+
+*Professor's note (Week 10): "The first three are deterministic, because we can find an equation that is providing me a unique trend, the unique seasonality, and the cyclical component. The residual is a random component."*
+
+The two model forms are:
+
+- **Additive**: `Y = T + S + C + R`
+- **Multiplicative**: `Y = T × S × C × R`
+
+You must know both formulas.
+:::
+
+::: callout-note
+## Analogy
+
+Think of your monthly electricity bill. There is a long-term trend (bills go up each year — that is trend). There is a seasonal pattern (bills are higher in winter — that is seasonality). There is an economic cycle (prices spike every few years — that is cyclical). And then some months the bill is slightly different for no obvious reason — that is the residual.
+:::
+
+------------------------------------------------------------------------
+
+# Question 2 — Additive vs. Multiplicative from a Plot
+
+## The Question
+
+> *"According to the following figure of a time series distribution, we can state that the series shows a seasonal pattern repeated every year following a typical additive model of the form A = T + S + C + R."*
+>
+> **True or False?**
+
+## ✅ Answer: **FALSE**
+
+## Correction
+
+The series **does** show a seasonal pattern repeated every year. However, the model is **Multiplicative**, not Additive.
+
+The correct statement is:\
+*"The series shows a seasonal pattern following a Multiplicative model of the form: Y = T × S × C × R."*
+
+## How to Tell the Difference
+
+The key visual clue is whether the **size of the seasonal swings grows over time**:
+
+| Model | What you see in the plot | Seasonal amplitude |
+|----------------|---------------------------------|------------------------|
+| **Additive** | Seasonal swings stay the **same size** throughout | Constant |
+| **Multiplicative** | Seasonal swings **get bigger** as the trend increases | Grows with trend |
+
+::: callout-important
+## ⭐ Exam Tip — The Most Important Visual Rule
+
+*Professor's note (Week 10): "This is false. It's true that we have a seasonal pattern. But the seasonal pattern doesn't follow an additive model. The seasonal pattern will follow a multiplicative model."*
+
+**Rule to memorise:**
+
+- **Constant seasonal variation** → Additive model
+- **Growing seasonal variation** (proportional to the level) → Multiplicative model
+
+If you apply `log()` to a multiplicative series, it becomes additive: `log(T × S) = log(T) + log(S)`.
+:::
+
+::: callout-warning
+## Common Mistake
+
+Students often say "True" because they correctly identify the seasonal pattern but miss the model type. Always check whether the seasonal peaks and troughs are getting **larger** over time.
+:::
+
+------------------------------------------------------------------------
+
+# Question 3 — Periodicity (*p*)
+
+## The Question
+
+> *Sales figures (in thousands of €) for 2009, 2010, 2011 are given by quarter.*
+>
+> *"Identify the value of p indicating the periodicity of the time series."*
+>
+> **A: p = 3 — B: p = 4 — C: p = 5 — D: The series has no periodicity**
+
+## ✅ Answer: **B — p = 4**
+
+## Explanation
+
+**Periodicity** (*p*) is the number of observations in one complete seasonal cycle. It answers the question: *"How many data points are in one full year of repeating pattern?"*
+
+The data is organised by **quarter** (Q1, Q2, Q3, Q4). Each year has 4 quarters. After 4 time periods, the seasonal pattern repeats.
+
+Therefore: **p = 4**
+
+::: callout-note
+## Common Values of *p*
+
+| Data frequency            | Periodicity (p) |
+|---------------------------|-----------------|
+| Monthly data              | p = 12          |
+| Quarterly data            | **p = 4**       |
+| Weekly data               | p = 52          |
+| Daily data (weekly cycle) | p = 7           |
+
+In R, *p* is the `frequency` argument when you create a time series object:
+
+``` r
+xts <- ts(data, start = c(2009, 1), frequency = 4)  # quarterly: p = 4
+```
+:::
+
+::: callout-warning
+## Common Mistake
+
+Do not confuse *p* (periodicity) with the number of **years** in the data (which is 3). The question asks for the number of periods per cycle — that is 4 quarters per year.
+:::
+
+------------------------------------------------------------------------
+
+# Question 4 — Double Exponential Smoothing Methods
+
+## The Question
+
+> *"Double exponential smoothing methods — Brown's, Holt's, and Damped methods — are an extension of the simpler smoothing methods to model the trend component of the time series."*
+>
+> **True or False?**
+
+## ✅ Answer: **TRUE**
+
+## Explanation
+
+The exponential smoothing family has three levels. Each level adds one more component:
+
+| Method | Components modelled | Key parameters |
+|-----------------|--------------------------------|-----------------------|
+| **SES** (Simple / Single) | Level only (no trend, no seasonality) | α (alpha) |
+| **Double ES** (Brown's, Holt's, Damped) | Level **+ Trend** | α, β (beta) |
+| **Triple ES** (Holt-Winters Additive / Multiplicative) | Level + Trend **+ Seasonality** | α, β, γ (gamma) |
+
+**Double exponential smoothing** is specifically designed for series that have a **trend but no seasonality**. It "doubles" the smoothing by applying it to both the level and the slope (trend).
+
+- **Brown's method**: Uses a single smoothing parameter α for both level and trend.
+- **Holt's method**: Uses separate parameters α (level) and β (trend) — more flexible.
+- **Damped method**: Adds a damping parameter φ to prevent the trend from going too far into the future.
+
+::: callout-important
+## ⭐ Exam Tip — Which Method for Which Data?
+
+Use this logic in the exam:
+
+```         
+Does the series have a trend?   NO  → Use SES
+                                YES → Does it have seasonality?
+                                        NO  → Use Double ES (Holt's/Brown's/Damped)
+                                        YES → Use Triple ES (Holt-Winters Additive or Multiplicative)
+```
+:::
+
+::: callout-note
+## R Commands to Remember
+
+``` r
+# Single Exponential Smoothing (level only)
+ses(data, h = 12)
+
+# Double Exponential Smoothing (level + trend)
+holt(data, h = 12)
+holt(data, damped = TRUE, h = 12)  # damped version
+
+# Triple Exponential Smoothing (level + trend + season)
+hw(data, seasonal = "additive", h = 12)
+hw(data, seasonal = "multiplicative", h = 12)
+
+# Automatic selection (fits best model by AICc)
+ets(data)
+```
+:::
+
+------------------------------------------------------------------------
+
+# Question 5 — Comparing Component Variability from a Decomposition Plot
+
+## The Question
+
+> *"According to the following decomposed time series, we can conclude that the seasonal component has a higher effect on the variability of the series than the trend component."*
+>
+> **True or False?**
+
+## ✅ Answer: **FALSE**
+
+## Explanation
+
+When R produces a `decompose()` plot, each component (data, trend, seasonal, remainder) is shown in its own panel. To compare the **relative importance** of each component, you must look at the **scale (y-axis) of each panel**, not just the shape of the curves.
+
+From the figure shown in the question, the **trend panel** has a larger range (approximately 2000–2400) than the **seasonal panel** (approximately −150 to +150). This means the trend explains more of the total variability in the data.
+
+**Therefore the statement is FALSE.** The **trend** component has a higher effect on variability than the seasonal component.
+
+::: callout-important
+## ⭐ Exam Tip — Reading Decomposition Plots
+
+**Rule:** The component with the **largest y-axis range** relative to the original data has the biggest impact.
+
+Steps to answer these questions: 1. Look at the y-axis scale of the original `data` panel. 2. Look at the y-axis scale of the `trend` panel — how much of the data range does it cover? 3. Look at the y-axis scale of the `seasonal` panel — same question. 4. The component with the larger range is more dominant.
+:::
+
+::: callout-note
+## R Code — How to Produce This Plot
+
+``` r
+# Additive decomposition
+dA <- decompose(mydata, type = "additive")
+plot(dA)
+
+# Or using autoplot (ggplot2 style)
+autoplot(decompose(mydata))
+
+# Check the range of each component manually
+range(dA$trend, na.rm = TRUE)
+range(dA$seasonal, na.rm = TRUE)
+```
+:::
+
+------------------------------------------------------------------------
+
+# Question 6 — Choosing Additive vs. Multiplicative from Holt-Winters Decomposition
+
+## The Question
+
+> *"After applying a triple exponential smoothing test, the following figure shows the decomposition of the parameters under the assumption of the time series following an 'Additive' or a 'Multiplicative' model."*
+>
+> *"Based on the figure, which model describes better the time series? Justify your answer."*
+>
+> **A. Additive — B. Multiplicative**
+
+## ✅ Answer: **B — Multiplicative**
+
+## Explanation and Justification
+
+When comparing Additive and Multiplicative Holt-Winters decompositions side by side, focus on the **seasonal component panel**:
+
+| Indicator | What to look for |
+|-----------------------------|-------------------------------------------|
+| **Additive seasonal** | Swings between roughly **constant positive and negative values** (e.g., −10 to +10) |
+| **Multiplicative seasonal** | Swings expressed as **ratios around 1.0** (e.g., 0.8 to 1.2), and they look **more stable / consistent** |
+
+In the figure from the question, the **Multiplicative seasonal panel** shows a more regular, consistent pattern compared to the Additive panel. The multiplicative model fits better when the seasonal variation is **proportional to the level of the series** — that is, when the series grows, the seasonal swings also grow.
+
+**Justification to write in the exam:**
+
+> *The multiplicative model is preferred because the seasonal component shows a more stable and consistent pattern over time in the multiplicative decomposition. This suggests that seasonal variation is proportional to the level of the trend, which is captured better by the multiplicative model (Y = T × S × R) than the additive model (Y = T + S + R).*
+
+::: callout-important
+## ⭐ Exam Tip
+
+*Professor's note (Week 10): "The multiplicative model has the right composition for this dataset, because it is able to catch the seasonality — that is a constant pattern."*
+
+You will always need to **justify** your choice. Acceptable justifications:
+
+1.  Visual: *"The seasonal swings grow with the level of the series, indicating a multiplicative relationship."*
+2.  GOF measures: *"The multiplicative model has a lower RMSE / AIC than the additive model."*
+3.  Decomposition: *"The residuals of the multiplicative model are more random / symmetric around zero."*
+:::
+
+::: callout-warning
+## Common Mistake
+
+Students choose Additive simply because the seasonal pattern looks "regular." Regularity alone does not determine the model. You must check whether the **amplitude of the seasonal swings changes** with the trend level.
+:::
+
+------------------------------------------------------------------------
+
+# Question 7 — Identifying the ARIMA Model from ACF and PACF
+
+## The Question
+
+> *"According to the following ACF and PACF of a time series, identify what type of ARIMA(p,d,q) process identifies that series."*
+>
+> **A. MA(1) — B. ARIMA(2,1,0) — C. AR(1) — D. AR(2)**
+
+## ✅ Answer: **C — AR(1)**
+
+## The Decision Table — How to Read ACF and PACF
+
+This is one of the most important skills for both Section A and the practical exam. Memorise this table:
+
+| Model | ACF pattern | PACF pattern |
+|-----------------|--------------------------|----------------------------|
+| **AR(p)** | Decays slowly / gradually (exponential or oscillating decay) | Cuts off sharply after lag *p* |
+| **MA(q)** | Cuts off sharply after lag *q* | Decays slowly / gradually |
+| **ARMA(p,q)** | Both decay gradually | Both decay gradually |
+| **ARIMA(p,d,q)** with d\>0 | Very slow decay (near unit root — trend present) | Sharp cut |
+| **White noise** | All near zero | All near zero |
+
+## Why NOT the Other Options?
+
+| Option | Why it's wrong |
+|------------------------|-----------------------------------------------|
+| **A: MA(1)** | For MA(1), ACF cuts off sharply at lag 1, and PACF decays slowly. The plot shows ACF decaying, not cutting. |
+| **B: ARIMA(2,1,0)** | This requires *d = 1*, meaning you need to **take a first difference** to achieve stationarity. The ACF of a non-stationary series shows very long, slow memory (bars stay high for many lags). The plot does not show this. |
+| **D: AR(2)** | For AR(2), the PACF cuts off after lag 2 (i.e., 2 significant bars). The PACF shown has only **1 significant bar** at lag 1. |
+
+## Why AR(1) is Correct
+
+- **ACF**: Shows a gradual, exponential decay — this is the hallmark of an autoregressive process.
+- **PACF**: Shows one significant bar at lag 1, then cuts off — this tells us p = 1.
+
+::: callout-important
+## ⭐ Exam Tip — The Golden Rule
+
+*Professor's note (Week 10): "Slow reduction in ACF — doesn't drop after one period — autoregressive. Moving average we will have a slow reduction in PACF and drop after 1. For ARIMA(2,1,0) we would need to take differences — if we observe trends, we observe very long memory."*
+
+**Memorise this shortcut:**
+
+```         
+ACF decays slowly + PACF cuts after p lags  →  AR(p)
+ACF cuts after q lags + PACF decays slowly  →  MA(q)
+Both decay                                   →  ARMA(p,q)
+ACF never dies (very long memory)            →  Non-stationary → need ARIMA (apply diff)
+```
+:::
+
+::: callout-note
+## R Code — How to Plot ACF and PACF Together
+
+``` r
+library(astsa)
+
+# Plot both ACF and PACF together (the command used in class)
+acf2(mydata)
+
+# Or separately
+acf(mydata, lag.max = 30)
+pacf(mydata, lag.max = 30)
+
+# Simulate to see what AR(1) looks like
+ar1 <- arima.sim(list(order = c(1, 0, 0), ar = 0.9), n = 200)
+acf2(ar1)
+# You will see: ACF decays slowly, PACF cuts off at lag 1
+```
+:::
+
+------------------------------------------------------------------------
+
+# Summary Checklist
+
+Use this before the exam to make sure you know everything:
+
+- ✅ Name the 4 components of a time series and state which are deterministic and which are random
+- ✅ Write both the Additive formula `Y = T + S + C + R` and Multiplicative formula `Y = T × S × C × R`
+- ✅ Identify Additive vs. Multiplicative from a plot (constant vs. growing seasonal amplitude)
+- ✅ Define periodicity *p* and give examples: monthly = 12, quarterly = 4
+- ✅ Know the 3 levels of exponential smoothing (SES → Double → Triple) and when to use each
+- ✅ Read a decomposition plot and compare component variability by looking at y-axis scales
+- ✅ Justify choice of Additive vs. Multiplicative using visual pattern OR GOF measures (RMSE, AIC)
+- ✅ Identify AR(p), MA(q), ARMA(p,q) from ACF and PACF using the decision table above
+- ✅ Explain why d \> 0 in ARIMA(p,d,q) means the series is non-stationary (needs differencing)
+- ✅ Know what `diff()` does in R and when to apply it (d=1 removes linear trend)
+
+------------------------------------------------------------------------
+
+# Pre-Topic Checklist
+
+Before moving to the practical test preparation, make sure you can do each of these:
+
+- [ ] Given a plot of a time series, identify which components are present (trend, seasonal, cyclical)
+- [ ] State whether a series is Additive or Multiplicative, with justification
+- [ ] Calculate the periodicity *p* from a table of data
+- [ ] Select the correct classical smoothing method (SES / Holt's / Holt-Winters) based on which components are present
+- [ ] Read a `decompose()` output and state which component explains more variance
+- [ ] Sketch what an AR(1) ACF and PACF look like vs. an MA(1)
+- [ ] Explain in one sentence why d=1 in ARIMA requires taking a first difference
+
+------------------------------------------------------------------------
+
+# Additional Resources
+
+- 📘 **Online textbook** (free): [Forecasting: Principles and Practice — otexts.com](https://otexts.com/fpp3/)
+  - Chapter 8: Exponential Smoothing (SES, Holt's, Holt-Winters)
+  - Chapter 9: ARIMA Models (ACF, PACF, identification)
+- 📊 Francisco's lecture PDFs on Canvas: *Lecture 2 — Classical Models 2026* and *ARIMA Part 1 & 2*
+- 🔬 Practice the Week 10 sample questions — Francisco confirmed these are the same format as the real test
+
+------------------------------------------------------------------------
+
+# Notes Space
+
+*Use this space for your own annotations, corrections, or additional examples:*
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 

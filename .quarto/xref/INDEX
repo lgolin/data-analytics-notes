@@ -176,5 +176,35 @@
   },
   "data-mining/labs/Summary-Cards-1-6.qmd": {
     "Summary-Cards-1-6.html": "b190f88a"
+  },
+  "data-mining/revision/summary-cards.qmd": {
+    "summary-cards.html": "5b90ee92"
+  },
+  "data-mining/revision/guide-speaking-coach.qmd": {
+    "guide-speaking-coach.html": "0204efe5"
+  },
+  "data-mining/revision/guide-qa-prep.qmd": {
+    "guide-qa-prep.html": "106011b0"
+  },
+  "data-mining/revision/guide-understanding.qmd": {
+    "guide-understanding.html": "d24cd2c0"
+  },
+  "regression-analysis/labs/lab-9.qmd": {
+    "lab-9.html": "4babf66d"
+  },
+  "time-series/exam/STAT9005_SectionA_WorkedAnswers.qmd": {
+    "STAT9005_SectionA_WorkedAnswers.html": "d421daa2"
+  },
+  "Exam_Study_Guide.qmd": {
+    "Exam_Study_Guide.html": "9263c593"
+  },
+  "time-series/exam/Exam_Answer_Template.md": {
+    "Exam_Answer_Template.html": "f9930073"
+  },
+  "time-series/exam/Exam_Study_Guide.qmd": {
+    "Exam_Study_Guide.html": "fb88c1a7"
+  },
+  "time-series/week-10.qmd": {
+    "week-10.html": "5c721812"
   }
 }

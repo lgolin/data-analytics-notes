@@ -1,0 +1,688 @@
+---
+title: "Week 9: Logistic Regression"
+subtitle: "STAT9004 — Statistical Analysis"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+    code-fold: true
+    code-tools: true
+---
+
+------------------------------------------------------------------------
+
+::: callout-note
+## 📋 What You Will Learn This Week
+
+By the end of this worksheet you should be able to:
+
+-   [ ] Explain what logistic regression is and when to use it
+-   [ ] Create a binary (0/1) response variable from raw count data
+-   [ ] Fit a logistic regression model using `glm()` in R
+-   [ ] Read and interpret the model summary output
+-   [ ] Write down the logistic regression equation from the output
+-   [ ] Plot the fitted logistic curve on top of the data
+-   [ ] Convert log-odds (the raw predictions) into probabilities
+-   [ ] Evaluate how well the model predicts using a confusion matrix
+-   [ ] Fit a proportional response model (Case B)
+-   [ ] Use chi-squared tests to compare nested models
+:::
+
+------------------------------------------------------------------------
+
+# Background: The Challenger Disaster
+
+In January 1986, the **Space Shuttle Challenger** exploded shortly after launch. The investigation found that **rubber O-ring seals** in the rocket boosters had failed. Cold temperatures make rubber brittle, so it seals less effectively.
+
+The question we want to answer with statistics is:
+
+> **Does a lower launch temperature increase the probability of O-ring damage?**
+
+In the 23 missions before the disaster, engineers recorded:
+
+-   How many of the **6 O-rings** showed damage
+-   The **launch temperature** (in °F)
+
+We will model this relationship using **logistic regression**.
+
+::: callout-note
+## 💡 Analogy: Why Not Just Use Linear Regression?
+
+Imagine you are trying to predict whether it will rain tomorrow (yes or no). If you used a straight line (linear regression), it could predict a "probability" of -0.3 or 1.8 — which is impossible. Probabilities must always be between 0 and 1.
+
+**Logistic regression** fixes this by bending the straight line into an S-shaped curve that always stays between 0 and 1.
+:::
+
+------------------------------------------------------------------------
+
+# Two Approaches (Case A and Case B)
+
+|   | **Case A** | **Case B** |
+|----|----|----|
+| **Response variable** | Binary: 0 (no damage) or 1 (any damage) | Proportion: how many of 6 O-rings damaged |
+| **What we model** | Did damage occur? (yes/no) | How much damage occurred? (out of 6) |
+| **Trials per observation** | n = 1 | n = 6 |
+| **Goodness-of-fit test** | Not valid (use confusion matrix instead) | Valid using chi-squared on deviance |
+
+------------------------------------------------------------------------
+
+# Case A — Binary Response
+
+## Step 1: Load the Data
+
+``` r
+# Install the package that contains the O-rings dataset
+# You only need to do this once
+install.packages("faraway")
+
+# Load the package so R can use its functions and data
+library(faraway)
+
+# Load the orings dataset into your workspace
+data(orings)
+
+# Copy it into a new object called orings
+# (good practice so the original is not accidentally changed)
+orings <- orings
+```
+
+The dataset has two columns:
+
+| Column   | Meaning                                         |
+|----------|-------------------------------------------------|
+| `temp`   | Launch temperature in °F                        |
+| `damage` | Number of O-rings (out of 6) that showed damage |
+
+------------------------------------------------------------------------
+
+## Step 2: Create the Binary Response Variable
+
+Right now, `damage` tells us *how many* O-rings were damaged (0, 1, 2, …, 6). But for **Case A** we only want to know: *was there any damage at all?*
+
+We create a new variable called `Binary`:
+
+-   **0** = no damage at all (all 6 O-rings fine)
+-   **1** = at least one O-ring was damaged
+
+``` r
+# Start by copying the damage column into a new variable called Binary
+Binary <- orings$damage
+
+# Any mission with zero damage stays as 0 (no change needed, but written for clarity)
+Binary[orings$damage == 0] <- 0
+
+# Any mission where damage is greater than 0 becomes 1
+# (even if 5 out of 6 were damaged, we just record "1" = damage occurred)
+Binary[orings$damage > 0] <- 1
+```
+
+::: callout-warning
+## ⚠️ Common Mistake: Confusing Count vs. Binary
+
+`orings$damage` can be 0, 1, 2, 3, 4, 5, or 6 — it is a **count**.
+
+`Binary` can only be 0 or 1 — it is a **binary variable**.
+
+These are different things! Make sure you use the right one at the right time.
+:::
+
+------------------------------------------------------------------------
+
+## Step 3: Plot the Data
+
+``` r
+# Plot Binary (y-axis) against launch temperature (x-axis)
+# xlim sets the x-axis range (40 to 90 degrees F)
+# ylim sets the y-axis range (0 to 1, since these are 0/1 values)
+# xlab and ylab are axis labels
+plot(Binary ~ orings$temp,
+     xlim = c(40, 90),
+     ylim = c(0, 1),
+     xlab = "Temperature (°F)",
+     ylab = "Probability of Damage (p)")
+```
+
+Each point on the plot is a shuttle mission. Points at the top (y = 1) had damage; points at the bottom (y = 0) had no damage.
+
+------------------------------------------------------------------------
+
+## Step 4: Fit the Logistic Regression Model
+
+### The `glm()` Function
+
+**GLM** stands for **Generalised Linear Model**. It is a flexible version of linear regression that can handle different types of response variables.
+
+``` r
+# Look at the help file for glm
+?glm
+
+# The basic structure of glm is:
+# glm(formula, family = gaussian)
+
+# formula: tells R the relationship, e.g., y ~ x means "model y as a function of x"
+# family:  tells R what type of response variable you have and which link function to use
+#          gaussian = normal distribution (ordinary linear regression)
+#          binomial = binary or proportional data (logistic regression)
+```
+
+### The `family` Argument — Which One to Use?
+
+| Situation                                    | `family` argument    |
+|----------------------------------------------|----------------------|
+| Response is continuous, normally distributed | `gaussian` (default) |
+| Response is binary (0/1) or a proportion     | `binomial`           |
+| Response is a count (0, 1, 2, …)             | `poisson`            |
+
+### Fit the Model
+
+``` r
+# Fit a logistic regression model
+# Binary is the response variable (what we are predicting)
+# orings$temp is the predictor variable (what we use to predict)
+# family = binomial tells R to use the logistic link function
+Ch_model_Binary <- glm(Binary ~ orings$temp, family = binomial)
+
+# Display the model summary
+summary(Ch_model_Binary)
+```
+
+------------------------------------------------------------------------
+
+## Step 5: Read the Model Summary Output
+
+When you run `summary(Ch_model_Binary)`, R prints something like this:
+
+```         
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)  
+(Intercept)   15.0429     7.3786   2.039   0.0415 *
+orings$temp   -0.2322     0.1082  -2.145   0.0320 *
+```
+
+Here is what each column means:
+
+| Column | Meaning |
+|----|----|
+| `Estimate` | The value of the coefficient (β₀ or β₁) |
+| `Std. Error` | How uncertain we are about that value (smaller = more certain) |
+| `z value` | Estimate ÷ Std. Error — how many standard errors away from zero |
+| `Pr(>|z|)` | The p-value — is this coefficient significantly different from zero? |
+
+::: callout-important
+## ⭐ Exam Tip: Writing the Model Equation
+
+From the output above, the logistic regression equation is:
+
+$$\log\left(\frac{\hat{\pi}}{1 - \hat{\pi}}\right) = 15.04 - 0.23 \times \text{temp}$$
+
+Where:
+
+-   $\hat{\pi}$ = the estimated probability of damage occurring
+-   **15.04** is the intercept ($\hat{\beta}_0$)
+-   **−0.23** is the slope ($\hat{\beta}_1$)
+
+**Interpretation of the slope:** The negative slope (−0.23) tells us that as temperature *increases*, the log-odds of damage *decreases*. In plain language: **higher temperature = lower probability of damage**.
+:::
+
+------------------------------------------------------------------------
+
+## Step 6: Add the Fitted Curve to the Plot
+
+``` r
+# First, re-draw the scatter plot
+plot(Binary ~ orings$temp,
+     xlim = c(40, 90),
+     ylim = c(0, 1),
+     xlab = "Temperature (°F)",
+     ylab = "Probability of Damage (p)")
+
+# Create a sequence of temperature values from 40 to 90, going up in steps of 1
+# This gives us x-values at which to calculate the predicted probability
+x <- seq(40, 90, 1)
+
+# Add the logistic curve to the plot
+# ilogit() is the inverse logit (logistic) function: exp(a) / (1 + exp(a))
+# We plug in our estimated equation: 15.04 - 0.23 * x
+lines(x, ilogit(15.04 - 0.23 * x), type = "l")
+```
+
+::: callout-note
+## 💡 What Is the ilogit Function?
+
+The **logit** function converts a probability (0 to 1) into the log-odds (−∞ to +∞):
+
+$$\text{logit}(\pi) = \log\left(\frac{\pi}{1-\pi}\right)$$
+
+The **inverse logit** (ilogit) does the opposite — it converts log-odds back into a probability:
+
+$$\text{ilogit}(z) = \frac{e^z}{1 + e^z}$$
+
+This is the **S-shaped (logistic) curve** that is drawn on the plot.
+:::
+
+::: callout-important
+## ⭐ Key Insight from the Plot
+
+From the worksheet:
+
+-   At **31°F** (the Challenger launch temperature): probability of damage approaches **1** (near certain damage)
+-   At **65°F**: probability of damage is approximately **0.5**
+-   Above **80°F**: probability of damage approaches **0**
+
+This strongly suggests the cold temperature was a critical risk factor.
+:::
+
+------------------------------------------------------------------------
+
+## Step 7: Diagnostic Plots
+
+``` r
+# Open a new graphics window (10 x 10 inches)
+# Use quartz() on Mac, windows() on Windows
+quartz(width = 10, height = 10)  # Mac
+# windows(10, 10)                  # Windows — uncomment this line if on Windows
+
+# Arrange the plots in a 2-by-2 grid
+par(mfrow = c(2, 2))
+
+# Plot the four standard diagnostic plots
+plot(Ch_model_Binary)
+```
+
+::: callout-warning
+## ⚠️ Important: Diagnostic Plots for Binary Data
+
+For binary data where each observation is a single trial (n = 1), the diagnostic plots **look strange** — you will see two distinct bands of points (one for the 0s and one for the 1s).
+
+**This does not mean the model is wrong.** It is just a feature of binary data.
+
+From the worksheet: *"the plot of residuals vs. fitted values shows a distinct pattern — this is because of the binary nature of the data and it does not indicate a lack of fit."*
+
+These plots are more useful when n \> 1 (like in Case B).
+:::
+
+------------------------------------------------------------------------
+
+## Step 8: Getting Predicted Values
+
+### The Raw Predictions Are Log-Odds, Not Probabilities!
+
+``` r
+# Get the predicted values from the model
+pred <- predict(Ch_model_Binary)
+
+# Look at the values — you will notice they are NOT between 0 and 1
+# These are log-odds: log(p / (1-p))
+pred
+```
+
+::: callout-warning
+## ⚠️ Common Confusion: Predicted Values Are Log-Odds
+
+When you call `predict()` on a logistic model *without* specifying a type, R returns the **log-odds**, not probabilities.
+
+Log-odds can be any number (positive or negative). They are **not probabilities**.
+
+To get probabilities, you must convert them.
+:::
+
+### Converting Log-Odds to Probabilities
+
+**Method 1: Manual formula**
+
+``` r
+# Convert log-odds to probabilities using the inverse logit formula:
+# probability = exp(log-odds) / (1 + exp(log-odds))
+pred_prob <- exp(pred) / (1 + exp(pred))
+```
+
+**Method 2: Use `type = "response"` (recommended)**
+
+``` r
+# Ask R to give us the predicted probabilities directly
+# type = "response" converts from log-odds to probability automatically
+pred <- predict(Ch_model_Binary, type = "response")
+
+# Alternative: fitted() also returns probabilities
+fitted(Ch_model_Binary)
+```
+
+The table below summarises the difference:
+
+| Command | What it returns |
+|----|----|
+| `predict(model)` | Log-odds (can be any number) |
+| `predict(model, type = "response")` | Probabilities (always between 0 and 1) |
+| `fitted(model)` | Same as `predict(model, type = "response")` |
+
+------------------------------------------------------------------------
+
+## Step 9: Assess Prediction Accuracy
+
+### Step 9a: Convert Probabilities to Binary Predictions
+
+We use a threshold of **0.5**:
+
+-   If predicted probability \> 0.5 → predict **1** (damage)
+-   If predicted probability \< 0.5 → predict **0** (no damage)
+
+``` r
+# Start with the predicted probabilities stored in pred_prob
+pred_binary <- pred_prob
+
+# Any probability below 0.5 is classified as 0 (predict no damage)
+pred_binary[pred_binary < 0.5] <- 0
+
+# Any probability above 0.5 is classified as 1 (predict damage)
+pred_binary[pred_binary > 0.5] <- 1
+```
+
+### Step 9b: Calculate Proportion Correctly Predicted
+
+``` r
+# Subtract predicted binary values from actual binary values
+# If they match, the difference is 0
+# If they don't match, the difference is 1 or -1
+diff <- Binary - pred_binary
+
+# Proportion correctly predicted:
+# abs(diff) = 1 for any wrong prediction, 0 for any correct prediction
+# sum(abs(diff)) = total number of wrong predictions
+# sum(abs(diff)) / length(pred_binary) = proportion wrong
+# 1 - (proportion wrong) = proportion correct
+1 - sum(abs(diff)) / length(pred_binary)
+```
+
+::: callout-note
+## 💡 Analogy: The Proportion Correct
+
+Think of it like a multiple-choice exam. If you answered 18 out of 23 questions correctly, your proportion correct would be 18/23 = 0.78 (78%).
+
+Here we do the same thing: how many missions did the model correctly classify as "damage" or "no damage"?
+:::
+
+### Step 9c: Confusion Matrix
+
+``` r
+# Install the regclass package (only once)
+install.packages("regclass")
+library(regclass)
+
+# The confusion matrix shows how many cases were correctly and incorrectly classified
+confusion_matrix(Ch_model_Binary)
+```
+
+::: callout-important
+## ⭐ Reading a Confusion Matrix
+
+A confusion matrix is a 2×2 table:
+
+|               | **Predicted: 0**       | **Predicted: 1**       |
+|---------------|------------------------|------------------------|
+| **Actual: 0** | True Negative (TN) ✅  | False Positive (FP) ❌ |
+| **Actual: 1** | False Negative (FN) ❌ | True Positive (TP) ✅  |
+
+-   **True Positive**: Model predicted damage AND damage actually occurred ✅
+-   **True Negative**: Model predicted no damage AND no damage occurred ✅
+-   **False Positive**: Model predicted damage but there was no damage ❌
+-   **False Negative**: Model predicted no damage but damage DID occur ❌ (dangerous in safety contexts!)
+:::
+
+------------------------------------------------------------------------
+
+# Case B — Proportional Response
+
+In Case B, instead of a binary 0/1 response, we model **how many out of 6 O-rings** were damaged. Now n = 6 per observation (instead of n = 1).
+
+## Creating the Response Matrix
+
+When the response is a proportion, R needs a **two-column matrix**:
+
+-   Column 1: number of successes (O-rings damaged)
+-   Column 2: number of failures (O-rings NOT damaged)
+
+``` r
+# cbind() combines two vectors side by side into a matrix
+# Column 1: number of damaged O-rings (the "successes")
+# Column 2: 6 minus the number damaged = number of undamaged O-rings (the "failures")
+y <- cbind(orings$damage, 6 - orings$damage)
+
+# Fit the logistic regression model using the proportional response
+# The model formula and family are the same — R handles the matrix automatically
+Ch_model_prom <- glm(y ~ orings$temp, family = binomial)
+```
+
+::: callout-note
+## 💡 Why a Two-Column Matrix?
+
+When we say "3 out of 6 O-rings were damaged", R needs to know **both** numbers (3 damaged and 3 undamaged) to calculate the proportion correctly.
+
+If we gave R just the proportion (3/6 = 0.5), it would not know how many observations that proportion was based on — and the sample size matters for calculating uncertainty.
+:::
+
+------------------------------------------------------------------------
+
+## Goodness-of-Fit Tests (Case B Only)
+
+When n \> 1 (as in Case B), we can use **chi-squared tests based on deviance** to assess model fit. These are also called **likelihood ratio tests**.
+
+### Test 1: Is the Model Better Than the Null Model?
+
+The **null model** is a model with no predictors — it just predicts the same probability for every observation. We compare our fitted model to it.
+
+``` r
+# pchisq() calculates the p-value from a chi-squared distribution
+# 71.1593 = null deviance (deviance of the null model)
+# 5.6739  = residual deviance (deviance of our fitted model)
+# 71.1593 - 5.6739 = the improvement in deviance due to adding temperature as a predictor
+# df = 1 (we added 1 predictor)
+# lower = FALSE means we want the upper-tail p-value (probability of getting a value this large or larger)
+pchisq(71.1593 - 5.6739, 1, lower = FALSE)
+```
+
+If the p-value is \< 0.05: our model is **significantly better** than the null model. Temperature explains a significant amount of the variation.
+
+### Test 2: Is the Fitted Model an Adequate Fit?
+
+We compare our fitted model to the **saturated model** (a perfect model with a parameter for every observation).
+
+``` r
+# 5.6739 = residual deviance of our model
+# df = 6 (degrees of freedom for residual deviance)
+# A non-significant p-value (> 0.05) means our model fits adequately
+pchisq(5.6739, 6, lower = FALSE)
+```
+
+| Test | What we compare | p-value interpretation |
+|----|----|----|
+| Null vs. Fitted | Does temperature help at all? | p \< 0.05 → Yes, model is useful |
+| Fitted vs. Saturated | Is the model a good enough fit? | p \> 0.05 → Yes, model is adequate |
+
+::: callout-important
+## ⭐ Exam Tip: Deviance and Likelihood Ratio Tests
+
+These chi-squared tests are special cases of the **likelihood ratio test (LRT)**:
+
+$$LR = 2 \left[ \ln L(m_2) - \ln L(m_1) \right]$$
+
+Where $m_1$ is the simpler (nested) model and $m_2$ is the more complex model.
+
+The key idea: you can compare **any two nested models** using this test. Model $m_1$ is nested in $m_2$ if $m_1$ is a simpler version of $m_2$ (e.g., $m_1$ has no predictors, $m_2$ has temperature as a predictor).
+:::
+
+------------------------------------------------------------------------
+
+# Complete Annotated Script
+
+Here is the full R script with every line explained:
+
+``` r
+# ============================================================
+# WEEK 9: LOGISTIC REGRESSION — O-Ring Challenger Data
+# ============================================================
+
+# --- Setup ---
+
+install.packages("faraway")   # Install package (once only)
+library(faraway)               # Load the package
+
+data(orings)                   # Load the built-in orings dataset
+orings <- orings               # Copy to workspace
+
+
+# --- CASE A: Binary Response ---
+
+# Create a binary variable: 0 = no damage, 1 = any damage
+Binary <- orings$damage
+Binary[orings$damage == 0] <- 0     # No damage → 0
+Binary[orings$damage > 0]  <- 1     # Any damage → 1
+
+# Fit the logistic regression model
+# Binary ~ orings$temp means: "model Binary as a function of temperature"
+# family = binomial tells R to use the logistic (sigmoid) link function
+Ch_model_Binary <- glm(Binary ~ orings$temp, family = binomial)
+
+# Display the model coefficients, standard errors, z-values, and p-values
+summary(Ch_model_Binary)
+# From the output, our equation is:
+# log(p / (1-p)) = 15.04 - 0.23 * temp
+
+
+# --- Plot data and fitted curve ---
+
+# Scatter plot of binary damage vs temperature
+plot(Binary ~ orings$temp,
+     xlim = c(40, 90),   # x-axis: temperatures from 40 to 90 F
+     ylim = c(0, 1),     # y-axis: 0 to 1 (binary values + probability scale)
+     xlab = "Temperature",
+     ylab = "p")
+
+# Create 51 temperature values from 40 to 90 for drawing the smooth curve
+x <- seq(40, 90, 1)
+
+# Overlay the logistic curve using our estimated coefficients
+# ilogit(z) = exp(z) / (1 + exp(z)) — converts log-odds to probability
+lines(x, ilogit(15.04 - 0.23 * x), type = "l")
+
+
+# --- Diagnostic plots ---
+
+quartz(width = 10, height = 10)   # Open a large graphics window (Mac)
+# windows(10, 10)                 # Use this instead on Windows
+par(mfrow = c(2, 2))              # Arrange 4 plots in a 2x2 grid
+plot(Ch_model_Binary)             # Draw the 4 standard diagnostic plots
+# Note: patterns in these plots are EXPECTED for binary data — not a problem!
+
+
+# --- Predicted Values ---
+
+# Default: returns log-odds (NOT probabilities — can be any number)
+pred <- predict(Ch_model_Binary)
+
+# Convert log-odds to probabilities manually
+# Formula: p = exp(log-odds) / (1 + exp(log-odds))
+pred_prob <- exp(pred) / (1 + exp(pred))
+
+# Better: ask R to return probabilities directly with type = "response"
+pred <- predict(Ch_model_Binary, type = "response")
+fitted(Ch_model_Binary)   # Alternative — same result as above
+
+
+# --- Assess Prediction Accuracy ---
+
+# Classify predictions: probability > 0.5 → predict 1, < 0.5 → predict 0
+pred_binary <- pred_prob
+pred_binary[pred_binary < 0.5] <- 0   # Round down
+pred_binary[pred_binary > 0.5] <- 1   # Round up
+
+# Compare predicted vs actual
+diff <- Binary - pred_binary
+
+# Calculate proportion correctly classified
+# sum(abs(diff)) = number of misclassifications
+# Dividing by length gives proportion wrong; subtract from 1 for proportion correct
+1 - sum(abs(diff)) / length(pred_binary)
+
+
+# --- Confusion Matrix ---
+
+install.packages("regclass")    # Install once
+library(regclass)
+
+# Print a confusion matrix showing correct/incorrect classifications
+confusion_matrix(Ch_model_Binary)
+
+
+# ============================================================
+# CASE B: Proportional Response
+# ============================================================
+
+# Create a 2-column matrix: [successes, failures]
+# Column 1: number of O-rings damaged
+# Column 2: number of O-rings NOT damaged (6 - damaged)
+y <- cbind(orings$damage, 6 - orings$damage)
+
+# Fit the logistic model using the proportion matrix
+# R automatically divides column 1 by the row total to get the proportion
+Ch_model_prom <- glm(y ~ orings$temp, family = binomial)
+
+
+# --- Goodness-of-Fit Tests (valid when n > 1) ---
+
+# Test 1: Is the fitted model better than the null model?
+# Compares null deviance (71.1593) to residual deviance (5.6739)
+# df = 1 because we added 1 predictor (temperature)
+# lower = FALSE → we want P(chi-squared > test statistic)
+pchisq(71.1593 - 5.6739, 1, lower = FALSE)
+# p < 0.05 → YES, the model with temperature is significantly better than the null
+
+# Test 2: Is the fitted model an adequate fit?
+# Compares fitted model to the saturated model
+# df = 6 (degrees of freedom of the residual deviance)
+pchisq(5.6739, 6, lower = FALSE)
+# p > 0.05 → YES, the model is an adequate fit (we cannot detect lack of fit)
+```
+
+------------------------------------------------------------------------
+
+# Summary Checklist
+
+-   ✅ Logistic regression is used when the response variable is binary (0/1) or a proportion
+-   ✅ Use `glm(y ~ x, family = binomial)` to fit a logistic regression model in R
+-   ✅ The model equation is: $\log\left(\frac{\pi}{1-\pi}\right) = \beta_0 + \beta_1 x$
+-   ✅ A negative slope means: as the predictor increases, the log-odds of the event decrease
+-   ✅ `predict(model)` gives log-odds; use `type = "response"` to get probabilities
+-   ✅ Convert log-odds to probabilities with: $p = \frac{e^z}{1 + e^z}$
+-   ✅ Classify predictions at threshold 0.5; compare to actual values for accuracy
+-   ✅ A confusion matrix shows how many cases are correctly and incorrectly classified
+-   ✅ For Case B (proportion response), use `cbind(successes, failures)` as the response
+-   ✅ Chi-squared tests on deviance are valid when n \> 1 per observation
+-   ✅ Two deviance tests: (1) fitted vs. null → is the model useful? (2) fitted vs. saturated → is the fit adequate?
+
+------------------------------------------------------------------------
+
+# Notes Space
+
+*Use this space to add your own notes, questions, or worked examples.*
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 

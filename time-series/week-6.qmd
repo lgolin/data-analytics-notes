@@ -81,7 +81,7 @@ Taking the log "compresses" the big values and makes the variance more constant.
 **Additive vs Multiplicative — quick reminder:**
 
 | Type | When to use | Formula |
-|------------------|--------------------------------|-----------------------|
+|----|----|----|
 | Additive | Seasonality is constant | $Y_t = S_t + T_t + R_t$ |
 | Multiplicative | Seasonality grows over time | $Y_t = S_t \times T_t \times R_t$ |
 
@@ -141,7 +141,7 @@ This tells us: to "fix" a random walk, take one difference.
 **ARIMA** stands for:
 
 | Letter | Name           | Meaning                                           |
-|-------------------------|-------------------|----------------------------|
+|--------|----------------|---------------------------------------------------|
 | **AR** | Autoregressive | How $Y_t$ relates to its *past values*            |
 | **I**  | Integrated     | The *differencing* needed to make data stationary |
 | **MA** | Moving Average | How $Y_t$ relates to *past errors* (residuals)    |
@@ -220,7 +220,7 @@ where $n$ is the number of observations.
 ### How to use ACF and PACF to identify the model
 
 | Pattern you see | What it means |
-|--------------------------------------|----------------------------------|
+|----|----|
 | ACF: **slow decay**, PACF: drops after lag 1 | Autoregressive process AR(1) |
 | ACF: drops after lag q, PACF: slow decay | Moving Average process MA(q) |
 | Both decay slowly | Mixed ARMA(p, q) model |
@@ -317,7 +317,7 @@ checkresiduals(model)
 # Practical Example: Interpreting ACF/PACF
 
 | Scenario | ACF behaviour | PACF behaviour | Suggested model |
-|-----------------|-----------------|-------------------|--------------------|
+|----|----|----|----|
 | White noise | All bars inside lines | All bars inside lines | No model needed |
 | AR(1) | Slow, gradual decay | Only lag 1 is significant | AR(1) |
 | MA(1) | Only lag 1 is significant | Slow, gradual decay | MA(1) |
